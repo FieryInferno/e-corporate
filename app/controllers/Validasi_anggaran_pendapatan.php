@@ -231,4 +231,25 @@ class Validasi_anggaran_pendapatan extends User_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
 	}
+
+	public function validasi($status = null, $id = null)
+	{
+		switch ($status) {
+			case 0:
+				$status_baru	= 1;
+				break;
+			case 1:
+				$status_baru	= 0;
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+		$this->db->where('id', $id);
+		$this->db->update('tanggaranpendapatan', [
+			'status'	=> $status_baru
+		]);
+		redirect('validasi_anggaran_pendapatan');
+	}
 }

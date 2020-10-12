@@ -101,10 +101,11 @@
 				render: function(data, type, row) {
 					if (data.status == 'Validate') {
 						var tombol_validasi	= `
-							<a class="dropdown-item" href="`+base_url+`validasi/1/`+data.id+`"><i class="fas fa-times"></i> Hapus Validasi</a>
-							<a href="javascript:deleteData('` + data.id + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>`;
+							<a class="dropdown-item" href="`+base_url+`validasi/1/`+data.id+`"><i class="fas fa-times"></i> Hapus Validasi</a>`;
 					} else {
-						var tombol_validasi	= `<a class="dropdown-item" href="`+base_url+`validasi/0/`+data.id+`"><i class="fas fa-check"></i> Validasi</a>`;
+						var tombol_validasi	= `
+							<a class="dropdown-item" href="`+base_url+`validasi/0/`+data.id+`"><i class="fas fa-check"></i> Validasi</a>
+							<a href="javascript:deleteData('` + data.id + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>`;
 					}
 					var aksi = `
 						<div class="list-icons"> 
@@ -122,34 +123,40 @@
 	});
 
 	function deleteData(id) {
-		var notice = new PNotify({
-			title: '<?php echo lang('confirm') ?>',
-			text: '<p><?php echo lang('confirm_delete') ?></p>',
-			hide: false,
-			type: 'warning',
-			confirm: {
-				confirm: true,
-				buttons: [{
-						text: 'Yes',
-						addClass: 'btn btn-sm btn-primary'
-					},
-					{
-						addClass: 'btn btn-sm btn-link'
-					}
-				]
+		swal("Anda yakin akan menghapus data?", {
+		buttons: {
+			cancel: "Batal",
+			catch: {
+			text: "Ya, Yakin",
+			value: "ya",
 			},
-			buttons: {
-				closer: false,
-				sticker: false
+		},
+		})
+		.then((value) => {
+			switch (value) {
+				case "ya":
+				$.ajax({
+					url: base_url + 'delete/'+id,
+					beforeSend: function() {
+						pageBlock();
+					},
+					afterSend: function() {
+						unpageBlock();
+					},
+					success: function(data) {
+					if(data.status == 'success') {
+						swal("Berhasil!", "Data Berhasil Dihapus!", "success");
+						setTimeout(function() { table.ajax.reload() }, 100);
+					} else {
+						swal("Gagal!", "Pikachu was caught!", "error");
+					}
+					},
+					error: function() {
+						swal("Gagal!", "Internal Server Error!", "error");
+					}
+				})
+				break;
 			}
-		})
-		notice.get().on('pnotify.confirm', function() {
-			$.ajax({
-				url: base_url + 'delete/' + id
-			})
-			setTimeout(function() {
-				table.ajax.reload()
-			}, 100);
-		})
+		});
 	}
 </script>

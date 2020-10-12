@@ -23,9 +23,9 @@
         <div class="row">
           <div class="col-12">         
             <div class="card">
-              <div class="card-header">
+              <!-- <div class="card-header">
 				<a href="{site_url}item/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-			</div>
+			</div> -->
               <div class="card-body">
                 <table class="table table-bordered table-striped index_datatable">
                   <thead>
@@ -88,25 +88,33 @@
 			}, {
 				data: 'status',
 				render: function(data) {
-        			if(data == 'Validate') return '<span class="badge badge-success"><?php echo lang('Validasi') ?></sapan>';
+        			if(data == 1) return '<span class="badge badge-success"><?php echo lang('Validasi') ?></sapan>';
         			else return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
 				}
 			}, 
 			{
-				data	: 'id',
+				data	: {
+					id		: 'id',
+					status	: 'status'
+				},
 				width: 50,
 				orderable: false,
 				render: function(data, type, row) {
+					if (data.status == 1) {
+						var tombol_validasi	= `
+							<a class="dropdown-item" href="`+base_url+`validasi/1/`+data.id+`"><i class="fas fa-times"></i> Hapus Validasi</a>`;
+					} else {
+						var tombol_validasi	= `
+							<a class="dropdown-item" href="`+base_url+`validasi/0/`+data.id+`"><i class="fas fa-check"></i> Validasi</a>
+							<a href="javascript:deleteData('` + data.id + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>`;
+					}
 					var aksi = `
 						<div class="list-icons"> 
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<a href="`+base_url+`printpdf/`+data+`" class="dropdown-item"><i class="fas fa-print"></i> <?php echo lang('print') ?></a>
-									<a class="dropdown-item" href="`+base_url+`validasi/0/`+data+`"><i class="fas fa-check"></i> Validasi</a> 
-									<a href="` + base_url + `edit/` + data + `" class="dropdown-item"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>
-									<a href="javascript:deleteData('` + data + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
-								</div> 
+									<a href="`+base_url+`printpdf/`+data+`" class="dropdown-item"><i class="fas fa-print"></i> <?php echo lang('print') ?></a>` + tombol_validasi +
+								`</div> 
 							</div> 
 						</div>`;
 					return aksi;
@@ -116,34 +124,40 @@
 	});
 
 	function deleteData(id) {
-		var notice = new PNotify({
-			title: '<?php echo lang('confirm') ?>',
-			text: '<p><?php echo lang('confirm_delete') ?></p>',
-			hide: false,
-			type: 'warning',
-			confirm: {
-				confirm: true,
-				buttons: [{
-						text: 'Yes',
-						addClass: 'btn btn-sm btn-primary'
-					},
-					{
-						addClass: 'btn btn-sm btn-link'
-					}
-				]
+		swal("Anda yakin akan menghapus data?", {
+		buttons: {
+			cancel: "Batal",
+			catch: {
+			text: "Ya, Yakin",
+			value: "ya",
 			},
-			buttons: {
-				closer: false,
-				sticker: false
+		},
+		})
+		.then((value) => {
+			switch (value) {
+				case "ya":
+				$.ajax({
+					url: base_url + 'delete/'+id,
+					beforeSend: function() {
+						pageBlock();
+					},
+					afterSend: function() {
+						unpageBlock();
+					},
+					success: function(data) {
+					if(data.status == 'success') {
+						swal("Berhasil!", "Data Berhasil Dihapus!", "success");
+						setTimeout(function() { table.ajax.reload() }, 100);
+					} else {
+						swal("Gagal!", "Pikachu was caught!", "error");
+					}
+					},
+					error: function() {
+						swal("Gagal!", "Internal Server Error!", "error");
+					}
+				})
+				break;
 			}
-		})
-		notice.get().on('pnotify.confirm', function() {
-			$.ajax({
-				url: base_url + 'delete/' + id
-			})
-			setTimeout(function() {
-				table.ajax.reload()
-			}, 100);
-		})
+		});
 	}
 </script>
