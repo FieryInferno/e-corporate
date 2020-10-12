@@ -74,7 +74,7 @@ class Utang extends User_Controller {
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Utang/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function index_datatable() {
