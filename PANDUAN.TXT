@@ -1,0 +1,12 @@
+1. EXTRACT ARCHIVE KE FOLDER HTDOCS
+2. BUAT DATABASE BARU
+3. KUNJUNGI http://localhost/nama_folder
+4. instalasi
+
+
+jika mengalami error !
+Silahkan merubah max_execution_time=100 di file php.ini
+
+Terimakasih Dev By Iyan Isyanto 
+kontak isyanto.id@gmail.com
+Nomor WA 085840557925

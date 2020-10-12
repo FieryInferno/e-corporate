@@ -1,0 +1,6 @@
+.login-container {
+    float: left;
+    width: 100%;
+    min-height: 100%;
+    background: url(../global/images/backgrounds/bg-login.jpg) left top repeat transparent;
+}
