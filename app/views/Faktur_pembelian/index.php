@@ -195,23 +195,40 @@
 	});
 
 	function deleteData(id) {
-	    var notice = new PNotify({
-	        title: '<?php echo lang('confirm') ?>',
-	        text: '<p><?php echo lang('confirm_delete') ?></p>',
-	        hide: false,
-	        type: 'warning',
-	        confirm: {
-	            confirm: true,
-	            buttons: [
-	                { text: 'Yes', addClass: 'btn btn-sm btn-primary' },
-	                { addClass: 'btn btn-sm btn-link' }
-	            ]
-	        },
-	        buttons: { closer: false, sticker: false }
-	    })
-	    notice.get().on('pnotify.confirm', function() {
-	    	$.ajax({ url: base_url + 'delete/'+id })
-	    	setTimeout(function() { table.ajax.reload() }, 100);
-	    })
+	    swal("Anda yakin akan menghapus data?", {
+			buttons: {
+				cancel: "Batal",
+				catch: {
+				text: "Ya, Yakin",
+				value: "ya",
+				},
+			},
+			})
+			.then((value) => {
+			switch (value) {
+				case "ya":
+				$.ajax({
+				url: base_url + 'delete/'+id,
+				beforeSend: function() {
+					pageBlock();
+				},
+				afterSend: function() {
+					unpageBlock();
+				},
+				success: function(data) {
+					if(data.status == 'success') {
+					swal("Berhasil!", data.message, "success");
+					setTimeout(function() { table.ajax.reload() }, 100);
+					} else {
+					swal("Gagal!", data.message, "error");
+					}
+				},
+				error: function() {
+					swal("Gagal!", "Internal Server Error!", "error");
+				}
+				})
+				break;
+			}
+		});
 	}
 </script>

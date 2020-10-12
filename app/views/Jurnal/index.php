@@ -15,46 +15,46 @@
           </div>
         </div>
         <div class="header-elements d-none">
-			<div class="d-flex justify-content-center">
-				<div class="btn-group">
-					<a href="{site_url}jurnal/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-					<?php $currentURL = current_url(); ?>
-					<?php $params = $_SERVER['QUERY_STRING']; ?>
-					<?php $fullURL = $currentURL . '/printpdf?' . $params; ?>
-					<?php $fullURLChange = $fullURL ?>
-					<?php if ($this->uri->segment(2)): ?>
-						<?php $fullURL = $currentURL . '?' . $params; ?>
-						<?php $fullURLChange = str_replace('index', 'printpdf', $fullURL) ?>
-					<?php endif ?>
-					<a href="<?php echo $fullURLChange ?>" target="_blank" class="btn btn-warning"><?php echo lang('print') ?></a>
-				</div>
-			</div>
-		</div>
+          <div class="d-flex justify-content-center">
+            <div class="btn-group">
+              <a href="{site_url}jurnal/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+              <?php $currentURL = current_url(); ?>
+              <?php $params = $_SERVER['QUERY_STRING']; ?>
+              <?php $fullURL = $currentURL . '/printpdf?' . $params; ?>
+              <?php $fullURLChange = $fullURL ?>
+              <?php if ($this->uri->segment(2)): ?>
+                <?php $fullURL = $currentURL . '?' . $params; ?>
+                <?php $fullURLChange = str_replace('index', 'printpdf', $fullURL) ?>
+              <?php endif ?>
+              <a href="<?php echo $fullURLChange ?>" target="_blank" class="btn btn-warning"><?php echo lang('print') ?></a>
+            </div>
+          </div>
+        </div>
         <div class="m-3">
-		<form action="{site_url}jurnal/index" id="form1" method="get">
-			<div class="row">
-				<div class="col-md-2">
-					<div class="form-group">
-						<label><?php echo lang('start_date') ?>:</label>
-						<input type="text" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
-					</div>
-				</div>
-				<div class="col-md-2">
-					<div class="form-group">
-						<label><?php echo lang('end_date') ?>:</label>
-						<input type="text" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div class="text-right">
-						<button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
+          <form action="{site_url}jurnal/index" id="form1" method="get">
+            <div class="row">
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label><?php echo lang('start_date') ?>:</label>
+                  <input type="text" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
+                </div>
+              </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label><?php echo lang('end_date') ?>:</label>
+                  <input type="text" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="text-right">
+                  <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
       </div><!-- /.container-fluid -->
     </section>
 

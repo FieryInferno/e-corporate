@@ -379,13 +379,13 @@
 				<li class="nav-item">
 					<a href="{site_url}buku_besar" class="nav-link <?php echo menu_is_active('buku_besar') ?>">
 						<i class="icon-notebook"></i>
-						<i class="far fa-circle nav-icon"></i><p><?php echo lang('ledger') ?> </p>
+						<i class="fas fa-journal-whills nav-icon"></i><p><?php echo lang('ledger') ?> </p>
 					</a>
 				</li>
 				<li class="nav-item">
 					<a href="{site_url}neraca_saldo" class="nav-link <?php echo menu_is_active('neraca_saldo') ?>">
 						<i class="icon-cash"></i>
-						<i class="far fa-circle nav-icon"></i><p><?php echo lang('trial_balance') ?> </p>
+						<i class="fas fa-donate nav-icon"></i><p><?php echo lang('trial_balance') ?> </p>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -397,29 +397,29 @@
 				<li class="nav-item">
 					<a href="{site_url}neraca_saldo_penyesuaian" class="nav-link <?php echo menu_is_active('neraca_saldo_penyesuaian') ?>">
 						<i class="icon-cash"></i>
-						<i class="far fa-circle nav-icon"></i><p><?php echo lang('adjusted_trial_balance') ?> </p>
+						<i class="fas fa-file-invoice nav-icon"></i><p><?php echo lang('adjusted_trial_balance') ?> </p>
 					</a>
 				</li>
 				<li class="nav-item">
 					<a href="{site_url}laba_rugi" class="nav-link <?php echo menu_is_active('laba_rugi') ?>">
 						<i class="icon-cash3"></i>
-						<i class="far fa-circle nav-icon"></i><p><?php echo lang('income_statement') ?> </p>
+						<i class="fas fa-chart-bar nav-icon"></i><p><?php echo lang('income_statement') ?> </p>
 					</a>
 				</li>
 				<li class="nav-item">
 					<a href="{site_url}perubahan_modal" class="nav-link <?php echo menu_is_active('perubahan_modal') ?>">
 						<i class="icon-cash3"></i>
-						<i class="far fa-circle nav-icon"></i><p><?php echo lang('Statement_of_Owner_Equity') ?> </p>
+						<i class="fas fa-sync-alt nav-icon"></i><p><?php echo lang('Statement_of_Owner_Equity') ?> </p>
 					</a>
 				</li>
 				<li class="nav-item">
 					<a href="{site_url}neraca" class="nav-link <?php echo menu_is_active('neraca') ?>"> <i class="icon-cash3"></i>
-					<i class="far fa-circle nav-icon"></i><p><?php echo lang('Balance_sheet') ?> </p>
+					<i class="fas fa-balance-scale nav-icon"></i><p><?php echo lang('Balance_sheet') ?> </p>
 					</a>
 				</li>
 				<li class="nav-item">
 					<a href="{site_url}metaakun" class="nav-link <?php echo menu_is_active('metaakun') ?>"> <i class="icon-gear"></i>
-					<i class="far fa-circle nav-icon"></i><p> Pemetaan Akun </p>
+					<i class="fas fa-search nav-icon"></i><p> Pemetaan Akun </p>
 					</a>
 				</li>
 

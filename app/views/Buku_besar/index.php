@@ -1,10 +1,20 @@
-<div class="page-header page-header-light">
-	<div class="page-header-content header-elements-md-inline">
-		<div class="page-title d-flex">
-			<h4><i class="icon-info22 mr-2"></i> <span class="font-weight-semibold">{title}</span></h4>
-			<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-		</div>
-		<div class="header-elements d-none">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{title}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">{title}</li>
+            </ol>
+          </div>
+        </div>
+        <div class="header-elements d-none">
 			<div class="d-flex justify-content-center">
 				<div class="btn-group">
 					<?php $currentURL = current_url(); ?>
@@ -19,132 +29,138 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<hr>
-	<div class="ml-3 mr-3 mt-3 mb-3">
-		<form action="{site_url}buku_besar/index" id="form1" method="get">
-			<div class="row">
-				<div class="col-md-2">
-					<div class="form-group">
-						<label><?php echo lang('start_date') ?>:</label>
-						<input type="text" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
-					</div>
-				</div>
-				<div class="col-md-2">
-					<div class="form-group">
-						<label><?php echo lang('end_date') ?>:</label>
-						<input type="text" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
-					</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-4">
-					<div class="text-right">
-						<button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
-					</div>
-				</div>
-			</div>
-		</form>
-	</div>
-</div>
-<div class="content">
-	<div class="card">
-		<div class="table-responsive">
-			<table class="table">
-				<thead class="{bg_header}">
-					<tr>
-						<th width="20%"><?php echo lang('date') ?></th>
-						<th><?php echo lang('note') ?></th>
-						<th class="text-right" width="15%"><?php echo lang('debet') ?></th>
-						<th class="text-right" width="15%"><?php echo lang('kredit') ?></th>
-						<th class="text-right" width="15%"><?php echo lang('balance') ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php if ($get_noakun): ?>
-						<?php foreach ($get_noakun as $row): ?>
-							<?php $totaldebet = 0 ?>
-							<?php $totalkredit = 0 ?>
-							<?php $totalsaldo = 0 ?>
+        <div class="ml-3 mr-3 mt-3 mb-3">
+            <form action="{site_url}buku_besar/index" id="form1" method="get">
+                <div class="row">
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label><?php echo lang('start_date') ?>:</label>
+                            <input type="text" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="form-group">
+                            <label><?php echo lang('end_date') ?>:</label>
+                            <input type="text" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="text-right">
+                            <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
 
-							<tr class="bg-grey-300">
-								<td colspan="2">
-									<?php $date = date('d/m/Y', strtotime($row['tanggal'])) ?> 
-									<span class="font-weight-bold">(<?php echo $row['noakun'] ?>) - </span> 
-									<span class="font-weight-bold"><?php echo $row['namaakun'] ?></span> 
-								</td>
-								<?php if ($row['stdebet'] == '1'): ?>
-									<td class="text-right font-weight-bold">
-										<?php $totaldebet = $this->model->get_jurnal_detail_saldoawal($row['noakun'], $tanggalawal) ?>
-										<?php echo number_format($totaldebet) ?>
-									</td>
-									<td class="text-right font-weight-bold">0</td>
-								<?php else: ?>
-									<td class="text-right font-weight-bold">0</td>
-									<td class="text-right font-weight-bold">
-										<?php $totalkredit = $this->model->get_jurnal_detail_saldoawal($row['noakun'], $tanggalawal) ?>
-										<?php echo number_format($totalkredit) ?>
-									</td>
-								<?php endif ?>
-								<td class="text-right font-weight-bold">
-									<?php $saldo = $this->model->get_jurnal_detail_saldoawal($row['noakun'], $tanggalawal) ?>
-									<?php echo number_format($saldo) ?>
-								</td>
-							</tr>
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">         
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead class="{bg_header}">
+                            <tr>
+                                <th width="20%"><?php echo lang('date') ?></th>
+                                <th><?php echo lang('note') ?></th>
+                                <th class="text-right" width="15%"><?php echo lang('debet') ?></th>
+                                <th class="text-right" width="15%"><?php echo lang('kredit') ?></th>
+                                <th class="text-right" width="15%"><?php echo lang('balance') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($get_noakun): ?>
+                                <?php foreach ($get_noakun as $row): ?>
+                                    <?php $totaldebet = 0 ?>
+                                    <?php $totalkredit = 0 ?>
+                                    <?php $totalsaldo = 0 ?>
 
-							<?php foreach ($this->model->get_jurnal_detail($row['noakun'], $tanggalawal, $tanggalakhir) as $det): ?>
-								<?php if ($row['stdebet'] == '1'): ?>
-									<?php $totaldebet = $totaldebet + $det['debet'] ?>
-									<?php $totalkredit = $totalkredit + $det['kredit'] ?>
-									<?php $saldo = $saldo + $det['debet'] - $det['kredit'] ?>
-								<?php else: ?>
-									<?php $totaldebet = $totaldebet + $det['debet'] ?>
-									<?php $totalkredit = $totalkredit + $det['kredit'] ?>
-									<?php $saldo = $saldo - $det['debet'] + $det['kredit'] ?>
-								<?php endif ?>
-								<?php $date = date('d/m/Y', strtotime($det['tanggal'])) ?>
-								<tr>
-									<td><?php echo $date ?></td>
-									<td><?php echo $det['keterangan'] ?></td>
-									<td class="text-right"><?php echo number_format($det['debet']) ?></td>
-									<td class="text-right"><?php echo number_format($det['kredit']) ?></td>
-									<?php if ($saldo < 0): ?>
-										<td class="text-right">(<?php echo number_format(abs($saldo)) ?>)</td>
-									<?php else: ?>
-										<td class="text-right"><?php echo number_format($saldo) ?></td>
-									<?php endif ?>
-								</tr>
-							<?php endforeach ?>
-							<tr class="bg-light font-weight-bold">
-								<?php $namasaldoakhir =  lang('ending_balance').' - ('.$row['noakun'].') '.$row['namaakun'] ?>
-								<td class="text-right" colspan="2"><?php echo $namasaldoakhir ?></td>
-								<td class="text-right"><?php echo number_format($totaldebet) ?></td>
-								<td class="text-right"><?php echo number_format($totalkredit) ?></td>
-								<td class="text-right">
-									<?php if ($saldo < 0): ?>
-										(<?php echo number_format(abs($saldo)) ?>)
-									<?php else: ?>
-										<?php echo number_format($saldo) ?>
-									<?php endif ?>
-								</td>
-							</tr>
-						<?php endforeach ?>
-					<?php else: ?>
-						<tr>
-							<td class="text-center" colspan="5"><?php echo lang('data_not_found') ?></td>
-						</tr>
-					<?php endif ?>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<div class="d-flex justify-content-center mt-3 mb-3">
-		<?php echo $pagination ?>
-	</div>
-</div>
-<script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script>
-<script src="{assets_path}global/js/plugins/tables/datatables/datatables.min.js"></script>
-<script type="text/javascript">
+                                    <tr class="bg-grey-300">
+                                        <td colspan="2">
+                                            <?php $date = date('d/m/Y', strtotime($row['tanggal'])) ?> 
+                                            <span class="font-weight-bold">(<?php echo $row['noakun'] ?>) - </span> 
+                                            <span class="font-weight-bold"><?php echo $row['namaakun'] ?></span> 
+                                        </td>
+                                        <?php if ($row['stdebet'] == '1'): ?>
+                                            <td class="text-right font-weight-bold">
+                                                <?php $totaldebet = $this->model->get_jurnal_detail_saldoawal($row['noakun'], $tanggalawal) ?>
+                                                <?php echo number_format($totaldebet) ?>
+                                            </td>
+                                            <td class="text-right font-weight-bold">0</td>
+                                        <?php else: ?>
+                                            <td class="text-right font-weight-bold">0</td>
+                                            <td class="text-right font-weight-bold">
+                                                <?php $totalkredit = $this->model->get_jurnal_detail_saldoawal($row['noakun'], $tanggalawal) ?>
+                                                <?php echo number_format($totalkredit) ?>
+                                            </td>
+                                        <?php endif ?>
+                                        <td class="text-right font-weight-bold">
+                                            <?php $saldo = $this->model->get_jurnal_detail_saldoawal($row['noakun'], $tanggalawal) ?>
+                                            <?php echo number_format($saldo) ?>
+                                        </td>
+                                    </tr>
+
+                                    <?php foreach ($this->model->get_jurnal_detail($row['noakun'], $tanggalawal, $tanggalakhir) as $det): ?>
+                                        <?php if ($row['stdebet'] == '1'): ?>
+                                            <?php $totaldebet = $totaldebet + $det['debet'] ?>
+                                            <?php $totalkredit = $totalkredit + $det['kredit'] ?>
+                                            <?php $saldo = $saldo + $det['debet'] - $det['kredit'] ?>
+                                        <?php else: ?>
+                                            <?php $totaldebet = $totaldebet + $det['debet'] ?>
+                                            <?php $totalkredit = $totalkredit + $det['kredit'] ?>
+                                            <?php $saldo = $saldo - $det['debet'] + $det['kredit'] ?>
+                                        <?php endif ?>
+                                        <?php $date = date('d/m/Y', strtotime($det['tanggal'])) ?>
+                                        <tr>
+                                            <td><?php echo $date ?></td>
+                                            <td><?php echo $det['keterangan'] ?></td>
+                                            <td class="text-right"><?php echo number_format($det['debet']) ?></td>
+                                            <td class="text-right"><?php echo number_format($det['kredit']) ?></td>
+                                            <?php if ($saldo < 0): ?>
+                                                <td class="text-right">(<?php echo number_format(abs($saldo)) ?>)</td>
+                                            <?php else: ?>
+                                                <td class="text-right"><?php echo number_format($saldo) ?></td>
+                                            <?php endif ?>
+                                        </tr>
+                                    <?php endforeach ?>
+                                    <tr class="bg-light font-weight-bold">
+                                        <?php $namasaldoakhir =  lang('ending_balance').' - ('.$row['noakun'].') '.$row['namaakun'] ?>
+                                        <td class="text-right" colspan="2"><?php echo $namasaldoakhir ?></td>
+                                        <td class="text-right"><?php echo number_format($totaldebet) ?></td>
+                                        <td class="text-right"><?php echo number_format($totalkredit) ?></td>
+                                        <td class="text-right">
+                                            <?php if ($saldo < 0): ?>
+                                                (<?php echo number_format(abs($saldo)) ?>)
+                                            <?php else: ?>
+                                                <?php echo number_format($saldo) ?>
+                                            <?php endif ?>
+                                        </td>
+                                    </tr>
+                                <?php endforeach ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td class="text-center" colspan="5"><?php echo lang('data_not_found') ?></td>
+                                </tr>
+                            <?php endif ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                <?php echo $pagination ?>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script type="text/javascript">
 	var base_url = '{site_url}buku_besar/';
 	var table = $('.index_datatable').DataTable({
 		ajax: {
@@ -179,23 +195,40 @@
 	});
 
 	function deleteData(id) {
-	    var notice = new PNotify({
-	        title: '<?php echo lang('confirm') ?>',
-	        text: '<p><?php echo lang('confirm_delete') ?></p>',
-	        hide: false,
-	        type: 'warning',
-	        confirm: {
-	            confirm: true,
-	            buttons: [
-	                { text: 'Yes', addClass: 'btn btn-sm btn-primary' },
-	                { addClass: 'btn btn-sm btn-link' }
-	            ]
-	        },
-	        buttons: { closer: false, sticker: false }
-	    })
-	    notice.get().on('pnotify.confirm', function() {
-	    	$.ajax({ url: base_url + 'delete/'+id })
-	    	setTimeout(function() { table.ajax.reload() }, 100);
-	    })
+	    swal("Anda yakin akan menghapus data?", {
+            buttons: {
+                cancel: "Batal",
+                catch: {
+                text: "Ya, Yakin",
+                value: "ya",
+                },
+            },
+            })
+            .then((value) => {
+            switch (value) {
+                case "ya":
+                $.ajax({
+                url: base_url + 'delete/'+id,
+                beforeSend: function() {
+                    pageBlock();
+                },
+                afterSend: function() {
+                    unpageBlock();
+                },
+                success: function(data) {
+                    if(data.status == 'success') {
+                    swal("Berhasil!", data.message, "success");
+                    setTimeout(function() { table.ajax.reload() }, 100);
+                    } else {
+                    swal("Gagal!", data.message, "error");
+                    }
+                },
+                error: function() {
+                    swal("Gagal!", "Internal Server Error!", "error");
+                }
+                })
+                break;
+            }
+        });
 	}
 </script>
