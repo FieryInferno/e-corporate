@@ -333,7 +333,7 @@
 					<?php endif?>
 					<a href="<?php echo $url ?>" class="nav-link <?php echo menu_is_active('saldo_awal') ?>">
 						<i class="icon-gear"></i>
-						<i class="nav-icon fas fa-tachometer-alt"></i><p> <?php echo lang('beginning_balance') ?> </p>
+						<i class="nav-icon fas fa-balance-scale-left"></i><p> <?php echo lang('beginning_balance') ?> </p>
 					</a>
 				</li>
 				<li class="nav-item">
@@ -391,7 +391,7 @@
 				<li class="nav-item">
 					<a href="{site_url}jurnal_penyesuaian" class="nav-link <?php echo menu_is_active('jurnal_penyesuaian') ?>">
 						<i class="icon-stack"></i>
-						<i class="far fa-circle nav-icon"></i><p><?php echo lang('adjusting_entries') ?> </p>
+						<i class="far fas fa-adjust nav-icon"></i><p><?php echo lang('adjusting_entries') ?> </p>
 					</a>
 				</li>
 				<li class="nav-item">
