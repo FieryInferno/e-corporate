@@ -65,20 +65,6 @@ class Validasi_anggaran_belanja extends User_Controller
 			$data['message'] = lang('update_error_message');
 		}
 		redirect(base_url('validasi_anggaran_belanja'));
-		// if ($id) {
-		// 	$data = get_by_id('id', $id, 'tanggaranbelanja');
-		// 	if ($data) {
-		// 		$data['title'] = lang('validasi_anggaran_belanja');
-		// 		$data['subtitle'] = lang('edit');
-		// 		$data['content'] = 'Validasi_anggaran_belanja/edit';
-		// 		$data = array_merge($data, path_info());
-		// 		$this->parser->parse('default', $data);
-		// 	} else {
-		// 		show_404();
-		// 	}
-		// } else {
-		// 	show_404();
-		// }
 	}
 
 	public function save($id)
@@ -236,5 +222,26 @@ class Validasi_anggaran_belanja extends User_Controller
 			$data = $this->db->get('mdepartemen')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
+	}
+
+	public function validasi($status = null, $id = null)
+	{
+		switch ($status) {
+			case 0:
+				$status_baru	= "Validate";
+				break;
+			case 1:
+				$status_baru	= "Belum Validate";
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+		$this->db->where('id', $id);
+		$this->db->update('tanggaranbelanja', [
+			'status'	=> $status_baru
+		]);
+		redirect('validasi_anggaran_belanja');
 	}
 }

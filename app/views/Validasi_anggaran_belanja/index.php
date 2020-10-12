@@ -23,9 +23,9 @@
         <div class="row">
           <div class="col-12">         
             <div class="card">
-              <div class="card-header">
-				<a href="{site_url}item/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-			</div>
+				<!-- <div class="card-header">
+					<a href="{site_url}item/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+				</div> -->
               <div class="card-body">
                 <table class="table table-bordered table-striped index_datatable">
                   <thead>
@@ -92,20 +92,27 @@
 				}
 			}, 
 			{
-				data	: 'id',
+				data	: {
+					id		: 'id',
+					status	: 'status'
+				},
 				width: 50,
 				orderable: false,
 				render: function(data, type, row) {
+					if (data.status == 'Validate') {
+						var tombol_validasi	= `
+							<a class="dropdown-item" href="`+base_url+`validasi/1/`+data.id+`"><i class="fas fa-times"></i> Hapus Validasi</a>
+							<a href="javascript:deleteData('` + data.id + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>`;
+					} else {
+						var tombol_validasi	= `<a class="dropdown-item" href="`+base_url+`validasi/0/`+data.id+`"><i class="fas fa-check"></i> Validasi</a>`;
+					}
 					var aksi = `
 						<div class="list-icons"> 
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<a href="`+base_url+`printpdf/`+data+`" class="dropdown-item"><i class="fas fa-print"></i> <?php echo lang('print') ?></a>
-									<a class="dropdown-item" href="`+base_url+`validasi/0/`+data+`"><i class="fas fa-check"></i> Validasi</a> 
-									<a href="` + base_url + `edit/` + data + `" class="dropdown-item"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>
-									<a href="javascript:deleteData('` + data + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
-								</div> 
+									<a href="`+base_url+`printpdf/`+data+`" class="dropdown-item"><i class="fas fa-print"></i> <?php echo lang('print') ?></a>` + tombol_validasi +
+								`</div> 
 							</div> 
 						</div>`;
 					return aksi;
