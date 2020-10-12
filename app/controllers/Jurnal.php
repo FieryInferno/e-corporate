@@ -67,7 +67,7 @@ class Jurnal extends User_Controller {
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Jurnal/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function detail($id = null) {

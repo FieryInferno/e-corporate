@@ -1,11 +1,20 @@
-<div class="page-header page-header-light">
-	<div class="page-header-content header-elements-md-inline">
-		<div class="page-title d-flex">
-			<h4><i class="icon-info22 mr-2"></i> <span class="font-weight-semibold">{title}</span></h4>
-			<a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-		</div>
-
-		<div class="header-elements d-none">
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{title}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">{title}</li>
+            </ol>
+          </div>
+        </div>
+        <div class="header-elements d-none">
 			<div class="d-flex justify-content-center">
 				<div class="btn-group">
 					<a href="{site_url}jurnal/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
@@ -21,9 +30,7 @@
 				</div>
 			</div>
 		</div>
-	</div>
-	<hr>
-	<div class="m-3">
+        <div class="m-3">
 		<form action="{site_url}jurnal/index" id="form1" method="get">
 			<div class="row">
 				<div class="col-md-2">
@@ -48,65 +55,75 @@
 			</div>
 		</form>
 	</div>
-</div>
-<div class="content">
-	<div class="card">
-		<div class="table-responsive">
-			<table class="table table-xs">
-				<thead class="{bg_header}">
-					<tr>
-						<th width="60%"><?php echo lang('account') ?></th>
-						<th class="text-right" width="20%"><?php echo lang('debet') ?></th>
-						<th class="text-right" width="20%"><?php echo lang('kredit') ?></th>
-					</tr>
-				</thead>
-				<tbody>
-					<?php if ($get_jurnal): ?>
-						<?php foreach ($get_jurnal as $row): ?>
-							<tr class="bg-grey-300">
-								<td>
-									<?php $date = date('d/m/Y', strtotime($row['tanggal'])) ?>
-									<span class="font-weight-bold"><?php echo $row['keterangan'] ?> - </span> 
-									<span class="font-weight-bold">( <?php echo $date ?> )</span> 
-								</td>
-								<td>&nbsp;</td>
-								<td>&nbsp;</td>
-							</tr>
-							<?php $totaldebet = 0 ?>
-							<?php $totalkredit = 0 ?>
-							<?php foreach ($this->model->get_jurnal_detail($row['id']) as $det): ?>
-								<?php $totaldebet = $totaldebet + $det['debet'] ?>
-								<?php $totalkredit = $totalkredit + $det['kredit'] ?>
-								<tr>
-									<td>
-										<a href="{site_url}noakun/detail/<?php echo $det['noakun'] ?>">
-											<?php if ($det['debet'] == 0): ?>
-												<?php echo str_repeat('&nbsp;', 20).'('.$det['noakun'] ?>) - <?php echo $det['namaakun'] ?> 
-											<?php else: ?>
-												(<?php echo $det['noakun'] ?>) - <?php echo $det['namaakun'] ?> 
-											<?php endif ?>
-										</a>
-									</td>
-									<td class="text-right"><?php echo number_format($det['debet']) ?></td>
-									<td class="text-right"><?php echo number_format($det['kredit']) ?></td>
-								</tr>
-							<?php endforeach ?>
-							<tr class="bg-light font-weight-bold">
-								<td class="text-right">Total</td>
-								<td class="text-right"><?php echo number_format($totaldebet) ?></td>
-								<td class="text-right"><?php echo number_format($totalkredit) ?></td>
-							</tr>
-						<?php endforeach ?>
-					<?php else: ?>
-						<tr>
-							<td class="text-center" colspan="3"><?php echo lang('data_not_found') ?></td>
-						</tr>
-					<?php endif ?>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<div class="d-flex justify-content-center mt-3 mb-3">
-		<?php echo $pagination ?>
-	</div>
-</div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-12">         
+            <div class="card">
+                <div class="table-responsive">
+                    <table class="table table-xs">
+                        <thead class="{bg_header}">
+                            <tr>
+                                <th width="60%"><?php echo lang('account') ?></th>
+                                <th class="text-right" width="20%"><?php echo lang('debet') ?></th>
+                                <th class="text-right" width="20%"><?php echo lang('kredit') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if ($get_jurnal): ?>
+                                <?php foreach ($get_jurnal as $row): ?>
+                                    <tr class="bg-grey-300">
+                                        <td>
+                                            <?php $date = date('d/m/Y', strtotime($row['tanggal'])) ?>
+                                            <span class="font-weight-bold"><?php echo $row['keterangan'] ?> - </span> 
+                                            <span class="font-weight-bold">( <?php echo $date ?> )</span> 
+                                        </td>
+                                        <td>&nbsp;</td>
+                                        <td>&nbsp;</td>
+                                    </tr>
+                                    <?php $totaldebet = 0 ?>
+                                    <?php $totalkredit = 0 ?>
+                                    <?php foreach ($this->model->get_jurnal_detail($row['id']) as $det): ?>
+                                        <?php $totaldebet = $totaldebet + $det['debet'] ?>
+                                        <?php $totalkredit = $totalkredit + $det['kredit'] ?>
+                                        <tr>
+                                            <td>
+                                                <a href="{site_url}noakun/detail/<?php echo $det['noakun'] ?>">
+                                                    <?php if ($det['debet'] == 0): ?>
+                                                        <?php echo str_repeat('&nbsp;', 20).'('.$det['noakun'] ?>) - <?php echo $det['namaakun'] ?> 
+                                                    <?php else: ?>
+                                                        (<?php echo $det['noakun'] ?>) - <?php echo $det['namaakun'] ?> 
+                                                    <?php endif ?>
+                                                </a>
+                                            </td>
+                                            <td class="text-right"><?php echo number_format($det['debet']) ?></td>
+                                            <td class="text-right"><?php echo number_format($det['kredit']) ?></td>
+                                        </tr>
+                                    <?php endforeach ?>
+                                    <tr class="bg-light font-weight-bold">
+                                        <td class="text-right">Total</td>
+                                        <td class="text-right"><?php echo number_format($totaldebet) ?></td>
+                                        <td class="text-right"><?php echo number_format($totalkredit) ?></td>
+                                    </tr>
+                                <?php endforeach ?>
+                            <?php else: ?>
+                                <tr>
+                                    <td class="text-center" colspan="3"><?php echo lang('data_not_found') ?></td>
+                                </tr>
+                            <?php endif ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center mt-3 mb-3">
+                <?php echo $pagination ?>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>

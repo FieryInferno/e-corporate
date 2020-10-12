@@ -373,7 +373,7 @@
         <li class="nav-item">
 					<a href="{site_url}jurnal" class="nav-link <?php echo menu_is_active('jurnal') ?>">
 						<i class="icon-stack"></i>
-						<i class="far fa-circle nav-icon"></i><p><?php echo lang('general_journal') ?> </p>
+						<i class="fas fa-book-open nav-icon"></i><p><?php echo lang('general_journal') ?> </p>
 					</a>
 				</li>
 				<li class="nav-item">
