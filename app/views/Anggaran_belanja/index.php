@@ -57,19 +57,6 @@
       </div>
     </section>
   </div>
-
-  
-<!-- jQuery -->
-<script src="<?= base_url('adminlte')?>/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<?= base_url('adminlte')?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables -->
-<script src="<?= base_url('adminlte')?>/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<!-- notifikasi -->
-<!-- <script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script> -->
 <script type="text/javascript">
 	var base_url = '{site_url}anggaran_belanja/';
 	var table = $('.index_datatable').DataTable({
@@ -108,14 +95,17 @@
 				orderable: false,
 				render: function(data, type, row) {
 					var aksi = `
-							<a class="btn btn-info btn-sm" href="`+base_url+`edit/`+data+`">
-								<i class="fas fa-pencil-alt"></i>                             
-							</a>
-							<a class="btn btn-danger btn-sm" href="javascript:deleteData('`+data+`')">
-								<i class="fas fa-trash"></i>                           
-							</a>               
-							`;
-					return aksi;
+						<div class="list-icons"> 
+							<div class="dropdown"> 
+								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+								<div class="dropdown-menu dropdown-menu-right"> 
+									<a class="btn btn-info btn-sm dropdown-item" href="`+base_url+`edit/`+data+`"><i class="fas fa-pencil-alt"></i> Edit</a>
+									<a class="btn btn-danger btn-sm dropdown-item" href="javascript:deleteData('`+data+`')"><i class="fas fa-trash"></i> Hapus</a>
+									<a class="btn btn-success btn-sm dropdown-item" href="javascript:printData('`+data+`')"><i class="fas fa-print"></i> Cetak</a>
+								</div> 
+							</div> 
+						</div>`;
+                    return aksi;
 				}
 			}
 		],
@@ -189,6 +179,25 @@
 				})
 				break;
 			}
+		});
+	}
+
+	function printData(id) {
+		swal("Pilih format?", {
+			buttons: {
+				cancel	: "Batal",
+				pdf		: {
+					text	: "PDF",
+					value	: "pdf",
+				},
+				excel	: {
+					text	: "Excel",
+					value	: "excel",
+				}
+			},
+		})
+		.then((value) => {
+			redirect(base_url + 'printpdf/' + value + '/' + id);
 		});
 	}
 </script>

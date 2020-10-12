@@ -32,6 +32,14 @@
         <div class="ml-3 mr-3 mt-3 mb-3">
             <form action="{site_url}buku_besar/index" id="form1" method="get">
                 <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Perusahaan:</label>
+                            <select class="form-control perusahaanid" name="perusahaanid"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             <label><?php echo lang('start_date') ?>:</label>
@@ -176,21 +184,21 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-        	{data: 'id', visible: false},
-        	{data: 'nama'},
-        	{
-        		data: 'id', width: 100, orderable: false,
-        		render: function(data,type,row) {
-        			var aksi = `<div class="list-icons"> 
-        			<div class="dropdown"> 
-        			<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="icon-menu9"></i> </a> 
-        			<div class="dropdown-menu dropdown-menu-right"> 
-        			<a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="icon-pencil"></i> <?php echo lang('edit') ?></a> 
-        			<a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="icon-trash"></i> <?php echo lang('delete') ?></a>`;
-        			aksi += `</div> </div> </div>`;
-        			return aksi;
-        		}
-        	}
+            {data: 'id', visible: false},
+            {data: 'nama'},
+            {
+                data: 'id', width: 100, orderable: false,
+                render: function(data,type,row) {
+                    var aksi = `<div class="list-icons"> 
+                    <div class="dropdown"> 
+                    <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                    <div class="dropdown-menu dropdown-menu-right"> 
+                    <a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="icon-pencil"></i> <?php echo lang('edit') ?></a> 
+                    <a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="icon-trash"></i> <?php echo lang('delete') ?></a>`;
+                    aksi += `</div> </div> </div>`;
+                    return aksi;
+                }
+            }
         ]
 	});
 
@@ -231,4 +239,12 @@
             }
         });
 	}
+
+    ajax_select({ 
+        id          : '.perusahaanid', 
+        url         : '{site_url}perusahaan/select2', 
+        selected    : { 
+            id: '{perusahaanid}' 
+        } 
+    });
 </script>

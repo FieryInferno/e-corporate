@@ -31,6 +31,14 @@
 		</div>
         <div class="m-3">
 		<form action="{site_url}neraca/index" id="form1" method="get">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>Perusahaan:</label>
+                        <select class="form-control perusahaanid" name="perusahaanid"></select>
+                    </div>
+                </div>
+            </div>
 			<div class="row">
 				<div class="col-md-4">
 					<div class="form-group">
@@ -195,3 +203,12 @@
       </div>
     </section>
   </div>
+<script type="text/javascript">
+    ajax_select({ 
+        id          : '.perusahaanid', 
+        url         : '{site_url}perusahaan/select2', 
+        selected    : { 
+            id: '{perusahaanid}' 
+        } 
+    });
+</script>

@@ -7,97 +7,76 @@
 </head>
 <body>
     <div class="float-left">
-    	<h3 class="text-danger m-1 font-weight-bold"><?php echo get_pengaturan('PT.') ?></h3>
+        <h3 class="m-1 font-weight-bold">ANGGARAN BELANJA</h3>
+        <h3 class="m-1 font-weight-bold">DAFTAR KEBUTUHAN OPERATIONAL</h3>
+        <h3 class="m-1 font-weight-bold">TAHUN 2020</h3>
+        <h3 class="m-1 font-weight-bold">REKAPITULASI ANGGARAN ALL DIVISI</h3>
+        <P class="m-1">(dalam ribuan rupiah)</P>
     </div>
     <div class="clearfix"></div>
-	<hr class="hr">
-    <div class="float-left">
-        <p class="font-weight-bold"><?php echo $title ?></p>
-    </div>
-    <div class="float-right">
-        <div class="w-25">
-            <table class="table table-sm">
-                <tbody>
-                    <tr>
-                        <td><?php echo lang('notrans') ?></td>
-                        <td class="font-weight-bold text-right"><?php echo $notrans ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('date') ?></td>
-                        <td class="font-weight-bold text-right"><?php echo formatdateslash($tanggal) ?></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="clearfix mb-5"></div>
-    <div class="w-25">
-        <table class="table table-sm">
-            <tbody>
-                <tr>
-                    <td><?php echo lang('to') ?></td>
-                    <td class="font-weight-bold"><?php echo $kontak['nama'] ?></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-
-    <div class="w-100">
-        <table class="table table-sm table-border-bottom">
-            <thead class="bg-light">
-                <tr>
-                    <th><?php echo lang('No') ?></th>
-                    <th class="text-right"><?php echo lang('departemen') ?></th>
-                    <th class="text-right"><?php echo lang('perusahaan') ?></th>
-                    <th class="text-right"><?php echo lang('nominal') ?></th>
-                    <!-- <th class="text-right"><?php echo lang('discount') ?></th>
-                    <th class="text-right"><?php echo lang('ppn') ?></th>
-                    <th class="text-right"><?php echo lang('total') ?></th> -->
-                </tr>
-            </thead>
-            <tbody>
-                <?php $grandtotal = 0; ?>
-                <?php foreach ($pemesanandetail as $row): ?>
-                    <?php $grandtotal = $row['total'] + $grandtotal ?>
-                    <tr>
-                        <td><?php echo $row['item'] ?></td>
-                        <td class="text-right"><?php echo number_format($row['harga']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['jumlah']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['subtotal']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                        <td class="text-right"><?php echo number_format($row['ppn']) ?>%</td>
-                        <td class="text-right"><?php echo number_format($row['total']) ?></td>
-                    </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="float-right w-25">
-        <table class="table table-sm">
-            <!-- <tbody>
-                <tr>
-                    <td><?php echo lang('subtotal') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($subtotal) ?></td>
-                </tr>
-                <tr>
-                    <td><?php echo lang('discount') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($diskon) ?></td>
-                </tr>
-                <tr>
-                    <td><?php echo lang('ppn') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($ppn) ?></td>
-                </tr>
-                <tr>
-                    <td><?php echo lang('total') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($total) ?></td>
-                </tr>
-            </tbody> -->
-        </table>    
-    </div>
-
-    <div class="footer"> </div>
+    <table class="table" border="1">
+        <thead>
+            <tr class="table-warning">
+                <th>No</th>
+                <th>Jenis Biaya</th>
+                <th>Volume</th>
+                <th>Tarif</th>
+                <th>Satuan</th>
+                <th>Jumlah</th>
+                <th>Keterangan</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-warning">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>NOMOR AKUN</td>
+                <td>(................................................harap isi sesuai kebutuhan masing2)</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <?php
+                $no = 0;
+                for ($i=0; $i < count($anggaranbelanja); $i++) { ?> 
+                    <?php if ($i == 0 || ($anggaranbelanja[$i]['koderekening'] !== $anggaranbelanja[$no]['koderekening'])) { ?>
+                        <tr>
+                            <td><?= $anggaranbelanja[$i]['koderekening']; ?></td>
+                            <td><?= $anggaranbelanja[$i]['namaakun']; ?></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td><?= "Rp " . number_format($anggaranbelanja[$i]['totalsemua'],2,',','.'); ?></td>
+                            <td></td>
+                        </tr>
+                        <?php for ($j=0; $j < count($anggaranbelanja); $j++) { 
+                            if ($anggaranbelanja[$j]['koderekening'] == $anggaranbelanja[$i]['koderekening']) { ?>
+                                <tr>
+                                    <td></td>
+                                    <td><?= $anggaranbelanja[$j]['namabarang']; ?></td>
+                                    <td><?= $anggaranbelanja[$j]['volume']; ?></td>
+                                    <td><?= "Rp " . number_format($anggaranbelanja[$j]['tarif'],2,',','.'); ?></td>
+                                    <td><?= $anggaranbelanja[$j]['satuan']; ?></td>
+                                    <td><?= "Rp " . number_format($anggaranbelanja[$j]['total'],2,',','.'); ?></td>
+                                    <td></td>
+                                </tr>
+                            <?php }
+                        }
+                        $no = $i;
+                    }
+                }
+            ?>
+        </tbody>
+    </table>
 </body>
 
 </html>

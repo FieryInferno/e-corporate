@@ -40,6 +40,14 @@
                     </div>
                 </div>
                 <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Perusahaan:</label>
+                            <select class="form-control perusahaanid" name="perusahaanid"></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
                             <label><?php echo lang('start_date') ?>:</label>
@@ -150,4 +158,11 @@
 <script type="text/javascript">
 	var base_url = '{site_url}utang/';
 	ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: '{kontakid}' } });
+    ajax_select({ 
+        id          : '.perusahaanid', 
+        url         : '{site_url}perusahaan/select2', 
+        selected    : { 
+            id: '{perusahaanid}' 
+        } 
+    });
 </script>

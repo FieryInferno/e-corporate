@@ -17,7 +17,7 @@ class Anggaran_belanja extends User_Controller
 		$data['content'] = 'Anggaran_belanja/index';
 		$data['total_nominal'] = $this->model->hitungJumlahNominal();	
 		$data = array_merge($data, path_info());
-		$this->parser->parse('default', $data);
+		$this->parser->parse('template', $data);
 	}
 
 	public function index_datatable()
@@ -68,11 +68,6 @@ class Anggaran_belanja extends User_Controller
 		$this->model->delete();
 	}
 
-	// additional
-	// additional
-
-	// Start: Ajax function
-
 	public function add_rekeningitem()
 	{
 
@@ -95,25 +90,6 @@ class Anggaran_belanja extends User_Controller
 			$this->db->update('tanggaranbelanja');
 		}	
 	}
-	// public function add_rekeningitem()
-	// {
-
-	// 	$this->db->select('id');
-	// 	$this->db->limit(1);
-	// 	$this->db->order_by('id', 'desc');
-	// 	$data = $this->db->get('tanggaranbelanja')->row_array();
-	// 	$items = $_POST['items'];
-	// 	$idanggaran = $data['id'];
-	// 	$nominal = 0;
-	// 	for ($i = 0; $i < count($items); $i++) {
-	// 		$this->db->set('idanggaran', $idanggaran);
-	// 		$this->db->insert('tanggaranbelanjadetail', $items[$i]);
-	// 		$nominal += $items[$i]['jumlah'];
-	// 	}
-	// 	$this->db->set('nominal', $nominal);
-	// 	$this->db->where('id', $idanggaran);
-	// 	$this->db->update('tanggaranbelanja');
-	// }
 
 	public function update_rekeningitem()
 	{
@@ -143,14 +119,6 @@ class Anggaran_belanja extends User_Controller
 		$data = $this->db->get('tanggaranbelanja')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
-	// public function get_rekitem($id)
-	// {
-	// 	$this->db->select('*');
-	// 	$this->db->where('idanggaran', $id);
-	// 	$this->db->order_by('koderekening', 'asc');
-	// 	$data = $this->db->get('tanggaranbelanjadetail')->result_array();
-	// 	$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	// }
 
 	public function get_rekeningbelanja()
 	{
@@ -193,60 +161,7 @@ class Anggaran_belanja extends User_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
 	}
-	// public function get_satuan(){	
-	// 	$this->db->select('mkategori.id, mkategori.nama as text');
-	// 	$this->db->limit(10);
-	// 	$data = $this->db->get('mkategori')->result_array();
-	// 	$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	// 	// if ($id) {
-	// 	// $this->db->select('mkategori.id as id, mkategori.nama as text');
-	// 	// $data = $this->db->where('id', $id)->get('mkategori')->row_array();
-	// 	// $this->output->set_content_type('application/json')->set_output(json_encode($data));
-	// 	// } else {
-	// 	// $this->db->select('mkategori.id as id, mkategori.nama as text');
-	// 	// $this->db->limit(10);
-	// 	// $data = $this->db->get('mkategori')->result_array();
-	// 	// $this->output->set_content_type('application/json')->set_output(json_encode($data));
-	// 	// }	
-	// }
-	// public function uraian($id = null)
-	// {
-	// 	$term = $this->input->get('q');
-	// 	if ($id) {
-	// 		$this->db->select('mitem.id, mitem.nama as text');
-	// 		$data = $this->db->where('id', $id)->get('mitem')->row_array();
-	// 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	// 	} else {
-	// 		$this->db->select('mitem.id, mitem.nama as text');
-	// 		$data = $this->db->where('id', $id)->get('mitem')->row_array();
-	// 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
-		
-	// 	}
-		// $term = $this->input->get('q');
-		// $this->db->select('mitem.id, mitem.nama as text');
-		// $this->db->where('mitem.noakunpersediaan', $id);
-		// // $this->db->limit(100);
-		// // if($term) $this->db->like('nama', $term);
-		// // if($id) $data = $this->db->where('id', $id)->get('mitem')->row_array();
-		// // else $data = $this->db->get('mitem')->result_array();
-		// $data = $this->db->get('mitem')->result_array();
-		// $this->output->set_content_type('application/json')->set_output(json_encode($data));
-		// // $this->db->select('*');		
-		// // // $this->db->like('mitem.noakuntop', '5', 'after');
-		// // $this->db->or_like('mnoakun.noakuntop', '1', 'after');
-		// $data = $this->db->get('mitem')->result_array();
-		// $this->output->set_content_type('application/json')->set_output(json_encode($data));
-	// }
-	// public function get_rekeningbelanja()
-	// {
-	// 	$this->db->select('*');
-	// 	$data = $this->db->get('mrekeningbelanja')->result_array();
-	// 	$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	// }
 
-	// End: Ajax function
-
-	// Start: Select Function
 	public function select2_mpegawaihakakses($id = null)
 	{
 		$term = $this->input->get('q');
@@ -320,21 +235,44 @@ class Anggaran_belanja extends User_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
 	}
-	public function printpdf($id = null) {
-	    $this->load->library('pdf');
-	    $pdf = $this->pdf;
-	    $data = get_by_id('id',$id,'tanggaranpendapatan');
-	    // $data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
-		// $data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
-		// $data['pemesanandetail'] = $this->model->pemesanandetail($data['id']);
-	    $data['title'] = lang('anggaran_pendapatan');
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Anggaran_pendapatan/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("pemesanan-pembelian-". $time, array("Attachment" => false));
+	public function printpdf($jenis = null, $id = null) {
+		switch ($jenis) {
+			case 'pdf':
+				$this->load->library('pdf');
+				$pdf						= $this->pdf;
+				$data['anggaranbelanja']	= $this->model->get_by_id($id);
+				$data['title'] 				= lang('anggaran_belanja');
+				$data['css'] 				= file_get_contents(FCPATH.'assets/css/print.min.css');
+				$data 						= array_merge($data,path_info());
+				$html 						= $this->load->view('Anggaran_belanja/printpdf', $data, TRUE);
+				$pdf->loadHtml($html);
+				$pdf->setPaper('A4', 'landscape');
+				$pdf->render();
+				$time = time();
+				$pdf->stream("anggaran-belanja-". $time, array("Attachment" => false));
+				break;
+
+			case 'excel':
+				$this->load->library('pdf');
+				$pdf = $this->pdf;
+				$data = get_by_id('id',$id,'tanggaranpendapatan');
+				// $data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
+				// $data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
+				// $data['pemesanandetail'] = $this->model->pemesanandetail($data['id']);
+				$data['title'] = lang('anggaran_pendapatan');
+				$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+				$data = array_merge($data,path_info());
+				$html = $this->load->view('Anggaran_pendapatan/printpdf', $data, TRUE);
+				$pdf->loadHtml($html);
+				$pdf->setPaper('A4', 'portrait');
+				$pdf->render();
+				$time = time();
+				$pdf->stream("pemesanan-pembelian-". $time, array("Attachment" => false));
+				break;
+			
+			default:
+				# code...
+				break;
+		}
 	}
 }

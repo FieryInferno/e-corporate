@@ -62,10 +62,10 @@ class Jurnal_penyesuaian extends User_Controller {
 		$this->pagination->initialize($config);
 
 		$data['pagination'] = $this->pagination->create_links();
-		$data['get_jurnal'] = $this->model->get_jurnal($per_page, $config['per_page'], $data['tanggalawal'], $data['tanggalakhir']);
-		$data['title'] = lang('adjusting_entries');
-		$data['subtitle'] = lang('list');
-		$data['content'] = 'Jurnal_penyesuaian/index';
+		$data['get_jurnal']	= $this->model->get_jurnal($per_page, $config['per_page'], $data['tanggalawal'], $data['tanggalakhir']);
+		$data['title']		= lang('adjusting_entries');
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'Jurnal_penyesuaian/index';
 		$data = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
