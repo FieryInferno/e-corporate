@@ -21,11 +21,10 @@ class Metaakun extends User_Controller {
 	}
 
 	public function index() {
-		$data['title'] = lang('item');
-		$data['subtitle'] = lang('list');
-		$data['content'] = 'Metaakun/index';
+		$data['title']		= "Pemetaan Akun";
+		$data['content']	= 'Metaakun/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function save() {
