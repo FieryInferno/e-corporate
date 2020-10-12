@@ -27,18 +27,18 @@ class Saldo_awal extends User_Controller {
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Saldo_awal/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 	
 	public function manage() {
 		$data = $this->db->get('tsaldoawal')->row_array();
 		if($data) {
-			$data['title'] = lang('beginning_balance');
-			$data['saldoawaldetail'] = $this->model->get_saldoawaldetail();
-			$data['subtitle'] = lang('add_new');
-			$data['content'] = 'Saldo_awal/manage';
-			$data = array_merge($data,path_info());
-			$this->parser->parse('default',$data);
+			$data['title'] 				= lang('beginning_balance');
+			$data['saldoawaldetail']	= $this->model->get_saldoawaldetail();
+			$data['subtitle']			= lang('add_new');
+			$data['content']			= 'Saldo_awal/manage';
+			$data						= array_merge($data,path_info());
+			$this->parser->parse('template',$data);
 		} else {
 			redirect('saldo_awal/index','refresh');
 		}
