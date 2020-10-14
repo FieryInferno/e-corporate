@@ -343,9 +343,9 @@
 					</a>
 				</li>
 				<li class="nav-item">
-					<a href="{site_url}pengeluaran_kas" class="nav-link <?php echo menu_is_active('pengeluaran_kas') ?>">
+					<a href="{site_url}SetUpJurnal" class="nav-link <?php echo menu_is_active('SetUpJurnal') ?>">
 						<i class="icon-cash"></i>
-						<i class="nav-icon fas fa-tachometer-alt"></i><p> <?php echo lang('Pengeluaran Kas') ?> </p>
+						<i class="nav-icon fas fa-cogs"></i><p>Set Up Jurnal</p>
 					</a>
                 </li>
                 
