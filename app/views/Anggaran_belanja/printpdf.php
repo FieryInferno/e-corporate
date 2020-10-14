@@ -55,7 +55,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td><?= "Rp " . number_format($anggaranbelanja[$i]['totalsemua'],2,',','.'); ?></td>
+                            <td><?= "Rp. " . number_format($anggaranbelanja[$i]['totalsemua'],2,',','.'); ?></td>
                             <td></td>
                         </tr>
                         <?php for ($j=0; $j < count($anggaranbelanja); $j++) { 
@@ -64,9 +64,9 @@
                                     <td></td>
                                     <td><?= $anggaranbelanja[$j]['namabarang']; ?></td>
                                     <td><?= $anggaranbelanja[$j]['volume']; ?></td>
-                                    <td><?= "Rp " . number_format($anggaranbelanja[$j]['tarif'],2,',','.'); ?></td>
+                                    <td><?= "Rp. " . number_format($anggaranbelanja[$j]['tarif'],2,',','.'); ?></td>
                                     <td><?= $anggaranbelanja[$j]['satuan']; ?></td>
-                                    <td><?= "Rp " . number_format($anggaranbelanja[$j]['total'],2,',','.'); ?></td>
+                                    <td><?= "Rp. " . number_format($anggaranbelanja[$j]['total'],2,',','.'); ?></td>
                                     <td></td>
                                 </tr>
                             <?php }

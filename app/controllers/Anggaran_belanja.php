@@ -1,9 +1,13 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
+require 'vendor/autoload.php';
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Anggaran_belanja extends User_Controller
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -236,6 +240,7 @@ class Anggaran_belanja extends User_Controller
 		}
 	}
 	public function printpdf($jenis = null, $id = null) {
+		$data['anggaranbelanja']	= $this->model->get_by_id($id);
 		switch ($jenis) {
 			case 'pdf':
 				$this->load->library('pdf');
@@ -253,21 +258,52 @@ class Anggaran_belanja extends User_Controller
 				break;
 
 			case 'excel':
-				$this->load->library('pdf');
-				$pdf = $this->pdf;
-				$data = get_by_id('id',$id,'tanggaranpendapatan');
-				// $data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
-				// $data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
-				// $data['pemesanandetail'] = $this->model->pemesanandetail($data['id']);
-				$data['title'] = lang('anggaran_pendapatan');
-				$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-				$data = array_merge($data,path_info());
-				$html = $this->load->view('Anggaran_pendapatan/printpdf', $data, TRUE);
-				$pdf->loadHtml($html);
-				$pdf->setPaper('A4', 'portrait');
-				$pdf->render();
-				$time = time();
-				$pdf->stream("pemesanan-pembelian-". $time, array("Attachment" => false));
+				$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Form Anggaran 2020.xls');
+				$worksheet		= $spreadsheet->getActiveSheet();
+
+				$no = 0;
+				$x	= 9;
+                for ($i=0; $i < count($data['anggaranbelanja']); $i++) { 
+                    if ($i == 0 || ($data['anggaranbelanja'][$i]['koderekening'] !== $data['anggaranbelanja'][$no]['koderekening'])) {
+						$worksheet->getCell('A' . $x)->setValue($data['anggaranbelanja'][$i]['koderekening']);
+						$worksheet->getCell('B' . $x)->setValue($data['anggaranbelanja'][$i]['namaakun']);
+						$worksheet->getCell('C' . $x)->setValue('');
+						$worksheet->getCell('D' . $x)->setValue('');
+						$worksheet->getCell('E' . $x)->setValue('');
+						$worksheet->getCell('F' . $x)->setValue('Rp. ' . number_format($data['anggaranbelanja'][$i]['totalsemua'],2,',','.'));
+						$worksheet->getCell('G' . $x)->setValue('');
+						$x++;
+                        for ($j=0; $j < count($data['anggaranbelanja']); $j++) { 
+                            if ($data['anggaranbelanja'][$j]['koderekening'] == $data['anggaranbelanja'][$i]['koderekening']) { 
+								$worksheet->getCell('A' . $x)->setValue('');
+								$worksheet->getCell('B' . $x)->setValue($data['anggaranbelanja'][$j]['namabarang']);
+								$worksheet->getCell('C' . $x)->setValue($data['anggaranbelanja'][$j]['volume']);
+								$worksheet->getCell('D' . $x)->setValue('Rp. ' . number_format($data['anggaranbelanja'][$j]['tarif'],2,',','.'));
+								$worksheet->getCell('E' . $x)->setValue($data['anggaranbelanja'][$j]['satuan']);
+								$worksheet->getCell('F' . $x)->setValue('Rp. ' . number_format($data['anggaranbelanja'][$j]['total'],2,',','.'));
+								$worksheet->getCell('G' . $x)->setValue('');
+
+								// $sheet->setCellValue('A' . $x , '');
+								// $sheet->setCellValue('B' . $x , $data['anggaranbelanja'][$j]['namabarang']);
+								// $sheet->setCellValue('C' . $x , $data['anggaranbelanja'][$j]['volume']);
+								// $sheet->setCellValue('D' . $x , 'Rp. ' . number_format($data['anggaranbelanja'][$j]['tarif'],2,',','.'));
+								// $sheet->setCellValue('E' . $x , $data['anggaranbelanja'][$j]['satuan']);
+								// $sheet->setCellValue('F' . $x , 'Rp. ' . number_format($data['anggaranbelanja'][$j]['total'],2,',','.'));
+								// $sheet->setCellValue('G' . $x , '');
+							}
+							$x++;
+                        }
+                        $no = $i;
+                    }
+                }
+				$writer = new Xlsx($spreadsheet);
+				$filename = 'laporan-anggaran-belanja';
+				
+				header('Content-Type: application/vnd.ms-excel');
+				header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+				header('Cache-Control: max-age=0');
+		
+				$writer->save('php://output');
 				break;
 			
 			default:
