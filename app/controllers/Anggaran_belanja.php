@@ -239,6 +239,7 @@ class Anggaran_belanja extends User_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
 	}
+	
 	public function printpdf($jenis = null, $id = null) {
 		$data['anggaranbelanja']	= $this->model->get_by_id($id);
 		switch ($jenis) {
@@ -282,14 +283,6 @@ class Anggaran_belanja extends User_Controller
 								$worksheet->getCell('E' . $x)->setValue($data['anggaranbelanja'][$j]['satuan']);
 								$worksheet->getCell('F' . $x)->setValue('Rp. ' . number_format($data['anggaranbelanja'][$j]['total'],2,',','.'));
 								$worksheet->getCell('G' . $x)->setValue('');
-
-								// $sheet->setCellValue('A' . $x , '');
-								// $sheet->setCellValue('B' . $x , $data['anggaranbelanja'][$j]['namabarang']);
-								// $sheet->setCellValue('C' . $x , $data['anggaranbelanja'][$j]['volume']);
-								// $sheet->setCellValue('D' . $x , 'Rp. ' . number_format($data['anggaranbelanja'][$j]['tarif'],2,',','.'));
-								// $sheet->setCellValue('E' . $x , $data['anggaranbelanja'][$j]['satuan']);
-								// $sheet->setCellValue('F' . $x , 'Rp. ' . number_format($data['anggaranbelanja'][$j]['total'],2,',','.'));
-								// $sheet->setCellValue('G' . $x , '');
 							}
 							$x++;
                         }

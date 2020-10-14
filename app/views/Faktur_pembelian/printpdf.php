@@ -4,210 +4,217 @@
 <head>
 	<title><?php echo $title ?></title>
 	<style type="text/css"> <?php echo $css ?> </style>
+    <style>
+        body {
+            font-size   : 12px;
+        }
+    </style>
 </head>
 <body>
-	<div class="header-logo">
-        <img src="./uploads/bintang-teknologi.jpeg">
-    </div>
-    <div class="header-map">
-        <h3 class="text-left">CV. BINTANG TEKNOLOGI</h3>
-        <p class="text-left">Jl. Sukawinatan No.5623, Sukajaya, Sukarame, Palembang 30151 Telp. 085366725222/08117817374</p>
-    </div>
-    <div class="clearfix"></div>
-    <hr class="hr">
-    <div class="float-left">
-        <h3 class="font-weight-bold"><?php echo $title ?></h3>
-    </div>
-    <div class="clearfix"></div>
+    <table>
+        <tr>
+            <td>
+                <div class="header-logo">
+                    <img src="<?= base_url(); ?>/uploads/bintang-teknologi.jpeg">
+                </div>
+            </td>
+            <td>
+                <table style="width:100%;">
+                    <tr>
+                        <th style="border-style:solid;border-width:1px;width:200px;" class="text-center"><?= $faktur['namaperusahaan']; ?></th>
+                    </tr>
+                    <tr>
+                        <td style="border-style:solid;border-width:1px;word-wrap:break-word;width:200px;" class="text-left">
+                            <?= $faktur['alamat']; ?>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td style="width:150px;">&nbsp;</td>
+            <td class="text-center" style="width:150px;font-size:20px;">
+                Purchase Invoice
+                <hr>
+            </td>
+        </tr>
+    </table>
 
-    
-    <div class="float-left">
-        <div class="w-40">
-            <table class="table table-sm">
-                <tbody>
+    <table>
+        <tr>
+            <td style="border-style:solid;border-width:1px;width:200px;" class="text-center">Vendor</td>
+            <td style="width:300px;">&nbsp;</td>
+            <td style="border-style:solid;border-width:1px;width:75px;" class="text-center">Invoice Date</td>
+            <td style="border-style:solid;border-width:1px;width:75px;" class="text-center">invoice No</td>
+        </tr>
+        <tr>
+            <td style="border-style:solid;border-width:1px;width:200px;" class="text-center">Refund Peserta</td>
+            <td style="width:300px;">&nbsp;</td>
+            <td style="border-style:solid;border-width:1px;width:75px;" class="text-center"><?= $faktur['tanggal']; ?></td>
+            <td style="border-style:solid;border-width:1px;width:75px;" class="text-center"><?= $faktur['notrans']; ?></td>
+        </tr>
+        <tr>
+            <td style="border-style:solid;border-width:1px;width:200px;" rowspan="3">&nbsp;</td>
+            <td style="width:300px;">&nbsp;</td>
+            <td style="border-style:solid;border-width:1px;width:75px;" class="text-center">Form No.</td>
+        </tr>
+        <tr>
+            <td style="width:300px;">&nbsp;</td>
+            <td style="border-style:solid;border-width:1px;width:75px;" class="text-center">64216</td>
+        </tr>
+    </table>
+    <br>
+    <table align="center" width="100%">
+        <tr>
+            <td>
+                <table border="1" align="center" width="100%">
                     <tr>
-                        <td><?php echo lang('No Faktur') ?></td>
-                        <td class="font-weight-bold">: <?php echo $notrans ?></td>
+                        <th class="text-center">Item</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-center">Unit Price</th>
+                        <th class="text-center">Disc</th>
+                        <th class="text-center">Tax</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Department</th>
                     </tr>
+                </table>
+                <table border="1" align="center" width="100%">
                     <tr>
-                        <td><?php echo lang('Tanggal Faktur') ?></td>
-                        <td class="font-weight-bold">: <?php echo formatdatemonthname($tanggal) ?></td>
+                        <th class="text-center" style="width:200px;">Account Name</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center" style="width:200px;">Notes</th>
+                        <th class="text-center">Department</th>
+                        <th class="text-center">Project</th>
                     </tr>
-                    <tr>
-                        <td><?php echo lang('Tanggal Tempo') ?></td>
-                        <td class="font-weight-bold">: <?php echo formatdatemonthname($tanggaltempo) ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Surat Jalan') ?></td>
-                        <td class="font-weight-bold">: <?php echo $nosj ?></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="float-right">
-        <div class="w-40">
-            <table class="table table-sm">
-                <tbody>
-                    <tr>
-                        <td><?php echo lang('Kepada') ?></td>
-                        <td class="font-weight-bold">: <?php echo $kontak ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Alamat') ?></td>
-                        <td class="font-weight-bold">: <?php echo $alamat ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Telepon') ?></td>
-                        <td class="font-weight-bold">: <?php echo $telepon ?></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="clearfix mb-5"></div>
-
-
-    <div class="w-100">
-        <table class="table table-sm table-border-bottom">
-            <thead class="bg-light">
-                <tr>
-                    <th><?php echo lang('item') ?></th>
-                    <th class="text-right"><?php echo lang('price') ?></th>
-                    <th class="text-right"><?php echo lang('qty') ?></th>
-                    <th class="text-right"><?php echo lang('subtotal') ?></th>
-                    <th class="text-right"><?php echo lang('discount') ?></th>
-                    <th class="text-right"><?php echo lang('ppn') ?></th>
-                    <th class="text-right"><?php echo lang('total') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $grandtotal = 0; ?>
-                <?php foreach ($fakturdetail as $row): ?>
-                    <?php $grandtotal = $row['total'] + $grandtotal ?>
-                    <tr>
-                        <td><?php echo $row['item'] ?></td>
-                        <td class="text-right"><?php echo number_format($row['harga']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['jumlah']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['subtotal']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                        <td class="text-right"><?php echo number_format($row['ppn']) ?>%</td>
-                        <td class="text-right"><?php echo number_format($row['total']) ?></td>
-                    </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-    </div>
-
-
-    <div class="float-left w-60">
-        <div class="box-penyebut">
-            <h3 class="text-center font-weight-bold">
-                <u><?php echo penyebut($total) ?> Rupiah</u>
-            </h3>
-        </div>
-    </div>
-    <div class="float-right w-40">
-        <table class="table table-sm">
-            <tbody>
-                <tr class="bg-light">
-                    <td><?php echo lang('subtotal') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($subtotal) ?></td>
-                </tr>
-                <tr class="bg-light">
-                    <td><?php echo lang('discount') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($diskon) ?></td>
-                </tr>
-                <tr class="bg-light">
-                    <td><?php echo lang('ppn') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($ppn) ?></td>
-                </tr>
-                <tr class="bg-light">
-                    <td><?php echo lang('total') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($total) ?></td>
-                </tr>
-                <?php if ($totalretur > 0): ?>
-                     <tr class="bg-light">
-                        <td><?php echo lang('Total_Retur') ?></td>
-                        <td class="text-right font-weight-bold">(<?php echo number_format($totalretur) ?>)</td>
-                    </tr>
-                <?php endif ?>
-                <tr class="bg-light">
-                    <td><?php echo lang('Sudah_Dibayar') ?></td>
-                    <td class="text-right font-weight-bold">(<?php echo number_format($totaldibayar) ?>)</td>
-                </tr>
-                <tr class="bg-light">
-                    <td><?php echo lang('Sisa_Tagihan') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($sisatagihan) ?></td>
-                </tr>
-                <?php if ($totaldebetmemo > 0): ?>
-                     <tr>
-                        <td class="font-weight-bold"><?php echo lang('Total_Debet_Memo') ?></td>
-                        <td class="text-right font-weight-bold"><?php echo number_format($totaldebetmemo) ?></td>
-                    </tr>
-                <?php endif ?>
-            </tbody>
-        </table>    
-    </div>
-
-    <div class="clearfix mb-5"></div>
-
-    <div class="float-left">
-        <div class="w-70">
-            <table class="table table-sm">
-                <tbody>
-                    <tr>
-                        <td><?php echo lang('Cara Bayar') ?></td>
-                        <?php if($carabayar == '1'): ?>
-                            <td class="font-weight-bold">: Tunai</td>
-                        <?php else: ?>
-                            <td class="font-weight-bold">: Kredit</td>
-                        <?php endif ?>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Bank') ?></td>
-                        <td class="font-weight-bold">: <?php echo $bank ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Rekening') ?></td>
-                        <td class="font-weight-bold">: <?php echo $norek ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Atas Nama') ?></td>
-                        <td class="font-weight-bold">: <?php echo $atasnama ?></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="float-right">
-        <div class="w-30">
-            <table class="table table-sm">
-                <tbody>
-                    <tr>
-                        <td class="text-center">Hormat Kami</td>
-                    </tr>
-                    <tr> <td class="text-center">&nbsp;</td> </tr>
-                    <tr> <td class="text-center">&nbsp;</td> </tr>
-                    <tr>
-                        <td class="text-center font-weight-bold">Heru Sukoco, S.Kom.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="clearfix mb-5"></div>
-
-    <div class="footer-note">
-        <p class="blue"> Harap Dicantumkan No. Invoice Dalam Payment Transfer </p>
-        <p class="font-weight-bold"> SPECIALIST IDENTITY OF PATIENTS & PVC CARD PRINTING </p>
-        <p class="small">
-            *** Hospital/Patient Card, Patient Wirstband, Labels Stiker & Ribbons, Thermal Desktop Printer (Label & ID), SIMRS etc *** <br>
-            ***Member Card, Discount Card, ID Card, Gift Card, Keycard Room, Parking Card, student Card etc*** 
-        </p>
-    </div>
-
+                    <?php
+                        $subtotal   = 0;
+                        $diskon     = 0;
+                        foreach ($faktur['detail'] as $key) { 
+                            $subtotal   += (integer) $key['subtotal']; 
+                            $diskon     += (integer) $key['diskon']; ?>
+                            <tr>
+                                <td><?= $key['namaakun']; ?></td>
+                                <td>Rp. <?= number_format($key['total'],2,',','.'); ?></td>
+                                <td><?= $key['catatan']; ?></td>
+                                <td><?= $key['departemen']; ?></td>
+                                <td></td>
+                            </tr>
+                        <?php }
+                    ?>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <td>Say</td>
+            <td rowspan="2" style="border:1px solid #000000;width:485px;"><?= penyebut($subtotal); ?> Rupiah</td>
+            <td class="text-right" style="border:1px solid #000000;width:100px;">Subtotal</td>
+            <td class="text-right" style="border:1px solid #000000;width:85px;">Rp. <?= number_format($subtotal,2,',','.'); ?></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td class="text-right" style="border:1px solid #000000;">Discount</td>
+            <td class="text-right" style="border:1px solid #000000;">Rp. <?= number_format($diskon,2,',','.'); ?></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td style="border:1px solid #000000;">Description</td>
+            <td class="text-right" style="border:1px solid #000000;">:</td>
+            <td class="text-right" style="border:1px solid #000000;">Rp. 0,00</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td rowspan="3" style="border:1px solid #000000;"></td>
+            <td class="text-right" style="border:1px solid #000000;">Total</td>
+            <td class="text-right" style="border:1px solid #000000;">Rp. <?= number_format(($subtotal + $diskon),2,',','.'); ?></td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td class="text-right" style="border:1px solid #000000;">Payment</td>
+            <td class="text-right" style="border:1px solid #000000;">Rp. 0,00</td>
+        </tr>
+        <tr>
+            <td>&nbsp;</td>
+            <td class="text-right" style="border:1px solid #000000;">Balance</td>
+            <td class="text-right" style="border:1px solid #000000;">Rp. 0,00</td>
+        </tr>
+    </table>
+    <br>
+    <table align="center" width="100%">
+        <tr>
+            <td class="text-center" style="border:1px solid #000000;width:14%">
+                <br>AP Staff,<br/>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <hr>
+                Date:
+            </td>
+            <td class="text-center" style="border:1px solid #000000;width:14%">
+                <br>Cost Control,<br/>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <hr>
+                Date:
+            </td>
+            <td class="text-center" style="border:1px solid #000000;width:14%">
+                <br>Accounting Head,<br/>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <hr>
+                Date:
+            </td>
+            <td class="text-center" style="border:1px solid #000000;width:14%">
+                <br>Finance Head,<br/>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <hr>
+                Date:
+            </td>
+            <td class="text-center" style="border:1px solid #000000;width:14%">
+                <br>FA Holding,<br/>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <hr>
+                Date:
+            </td>
+            <td class="text-center" style="border:1px solid #000000;width:14%">
+                <br>FA Director,<br/>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <hr>
+                Date:
+            </td>
+            <td class="text-center" style="border:1px solid #000000;width:14%">
+                <br>FA Controller,<br/>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <hr>
+                Date:
+            </td>
+        </tr>
+    </table>
 </body>
 
 </html>

@@ -168,5 +168,24 @@ class Faktur_pembelian_model extends CI_Model {
 		$get = $this->db->get('tfakturdetail');
 		return $get->row()->sisa;
 	}
+
+	public function get($id = null)
+	{
+		$this->db->select('tfaktur.id, tfaktur.notrans,  mperusahaan.nama_perusahaan as namaperusahaan,  tfaktur.tanggal, mkontak.nama as rekanan, mgudang.nama as gudang, mkontak.nama as supplier, tfaktur.biayapengiriman as biaya_pengiriman, tfaktur.total as total, tfaktur.status as status, tfaktur.ppn as pajak, tfaktur.biayapengiriman, mperusahaan.alamat');
+		$this->db->join('mkontak','tfaktur.kontakid = mkontak.id','left');
+		$this->db->join('mgudang','tfaktur.gudangid = mgudang.id','left');
+		$this->db->join('mperusahaan','tfaktur.perusahaanid = mperusahaan.idperusahaan','left');
+		$this->db->where('tfaktur.id', $id);
+		$data	= $this->db->get('tfaktur')->row_array();
+
+		$this->db->where('idfaktur', $data['id']);
+		$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
+		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+		$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.akunno');
+		$this->db->join('tpemesanan', 'tpemesanandetail.idpemesanan = tpemesanan.id'); 
+		$this->db->select('mnoakun.namaakun, tpemesanandetail.total, tpemesanan.catatan, tpemesanan.departemen, tpemesanandetail.subtotal, tpemesanandetail.diskon');
+		$data['detail']	= $this->db->get('tfakturdetail')->result_array();
+		return $data;
+	}
 }
 

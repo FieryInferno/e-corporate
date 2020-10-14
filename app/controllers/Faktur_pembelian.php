@@ -11,6 +11,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 * ================================================= 
 */
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Faktur_pembelian extends User_Controller {
 
 	public function __construct() {
@@ -59,48 +64,12 @@ class Faktur_pembelian extends User_Controller {
 	}
 
 	public function create() {
-		// $idpemesanan = $this->input->get('idpemesanan');
-		// $idpengiriman = $this->input->get('idpengiriman');
-		// if($idpemesanan && $idpengiriman) {
-		// 	show_404();
-		// }
-
-		// if($idpemesanan) {
-		// 	$detailpemesanan = get_by_id('id',$idpemesanan,'tpemesanan');
-		// 	if(!$detailpemesanan) {
-		// 		show_404();
-		// 	}
-		// 	$data['tanggal'] = date('Y-m-d');
-		// 	$data['pemesanandetail'] = $this->model->pemesanandetail($detailpemesanan['id']);
-		// 	$data['content'] = 'Faktur_pembelian/create_from_pemesanan';
-		// 	$data['title'] = lang('invoice');
-		// 	$data['subtitle'] = lang('add_new');
-		// 	$data = array_merge($data,path_info(),$detailpemesanan);
-		// 	$this->parser->parse('default',$data);
-		// } 
-		// if($idpengiriman) {
-		// 	$detailpengiriman = get_by_id('id',$idpengiriman,'tpengiriman');
-		// 	if(!$detailpengiriman) {
-		// 		show_404();
-		// 	}
-		// 	$data = $this->model->getpemesanan($detailpengiriman['pemesananid']);
-		// 	$data['tanggal'] = date('Y-m-d');
-		// 	$data['pengirimandetail'] = $this->model->pengirimandetail($detailpengiriman['id']);
-		// 	$data['content'] = 'Faktur_pembelian/create_from_pengiriman';
-		// 	$data['title'] = lang('invoice');
-		// 	$data['subtitle'] = lang('add_new');
-		// 	$data = array_merge($data,path_info(),$detailpengiriman);
-		// 	$this->parser->parse('default',$data);
-		// }
-		// if(!$idpengiriman && !$idpemesanan) {
-			$data['tanggal'] = date('Y-m-d');
-			$data['content'] = 'Faktur_pembelian/create';
-			$data['title'] = lang('invoice');
-			$data['subtitle'] = lang('add_new');
-			$data = array_merge($data,path_info());
-			$this->parser->parse('template',$data);			
-		// }
-
+		$data['tanggal'] = date('Y-m-d');
+		$data['content'] = 'Faktur_pembelian/create';
+		$data['title'] = lang('invoice');
+		$data['subtitle'] = lang('add_new');
+		$data = array_merge($data,path_info());
+		$this->parser->parse('template',$data);	
 	}
 
 	public function edit($id = null) {
@@ -191,23 +160,70 @@ class Faktur_pembelian extends User_Controller {
 		$this->model->get_detail_item();
 	}
 
+	public function printpdf($jenis = null, $id = null) {
+		switch ($jenis) {
+			case 'pdf':
+				$data = $this->model->getfaktur($id);
+				$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
+				$data['faktur']	= $this->model->get($id);
+				$data['title'] = 'FAKTUR PEMBELIAN';
+				$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+				$data = array_merge($data,path_info());
+				ob_start();
+					$this->load->view('Faktur_pembelian/printpdf', $data);
+					$html = ob_get_contents();
+				ob_end_clean();
+				ob_clean();
+				$options  	= new Options();
+				$options->set('isRemoteEnabled', TRUE);
+				$pdf = new Dompdf($options);
+				$pdf->loadHtml($html);
+				$pdf->setPaper('A4', 'portrait');
+				$pdf->render();
+				$time = time();
+				$pdf->stream("faktur-pembelian-". $time, array("Attachment" => false));
+				break;
 
-
-	public function printpdf($id = null) {
-	    $this->load->library('pdf');
-	    $pdf = $this->pdf;
-	    $data = $this->model->getfaktur($id);
-		$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
-		$data['fakturdetail'] = $this->model->fakturdetail($data['id']);
-	    $data['title'] = 'FAKTUR PEMBELIAN';
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Faktur_pembelian/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("faktur-pembelian-". $time, array("Attachment" => false));
+			case 'excel':
+				$data['faktur']	= $this->model->get($id);
+				$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Format Faktur Pembelian.xlsx');
+				$worksheet		= $spreadsheet->getActiveSheet();
+				$worksheet->getCell('F1')->setValue($data['faktur']['namaperusahaan']);
+				$worksheet->getCell('F2')->setValue($data['faktur']['alamat']);
+				$worksheet->getCell('Q6')->setValue($data['faktur']['tanggal']);
+				$worksheet->getCell('S6')->setValue($data['faktur']['notrans']);
+				$no 		= 0;
+				$x			= 15;
+				$subtotal	= 0;
+				$diskon		= 0;
+				foreach ($data['faktur']['detail'] as $key) {
+					$subtotal	+= (integer) $key['subtotal'];
+					$diskon		+= (integer) $key['diskon'];
+					$worksheet->getCell('A' . $x)->setValue($key['namaakun']);
+					$worksheet->getCell('F' . $x)->setValue('Rp. ' . number_format($key['total'],2,',','.'));
+					$worksheet->getCell('K' . $x)->setValue($key['catatan']);
+					$worksheet->getCell('P' . $x)->setValue($key['departemen']);
+					$worksheet->getCell('S' . $x)->setValue('');
+					$x++;
+				}
+				$worksheet->getCell('B45')->setValue(penyebut($subtotal) . ' Rupiah');
+				$worksheet->getCell('S45')->setValue('Rp. ' . number_format($subtotal,2,',','.'));
+				$worksheet->getCell('S46')->setValue('Rp. ' . number_format($diskon,2,',','.'));
+				$worksheet->getCell('S48')->setValue('Rp. ' . number_format(($subtotal + $diskon),2,',','.'));
+				$writer = new Xlsx($spreadsheet);
+				$filename = 'Report Faktur Pembelian';
+				
+				header('Content-Type: application/vnd.ms-excel');
+				header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+				header('Cache-Control: max-age=0');
+		
+				$writer->save('php://output');
+				break;
+			
+			default:
+				# code...
+				break;
+		}
 	}
 }
 

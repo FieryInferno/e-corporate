@@ -135,7 +135,7 @@
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<a href="`+base_url+`printpdf/`+data.id+`" class="dropdown-item"><i class="fas fa-print"></i> <?php echo lang('print') ?>
+									<a class="btn btn-success btn-sm dropdown-item" href="javascript:printData('`+data.id+`')"><i class="fas fa-print"></i> Cetak</a>
 									<a class="dropdown-item" href="`+base_url+`validasi/0/`+data.id+`"><i class="fas fa-check"></i> Validasi</a>
 									<a href="` + base_url + `edit/` + data.id + `" class="dropdown-item"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>
 									<a href="javascript:deleteData('` + data.id + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
@@ -229,6 +229,25 @@
 				})
 				break;
 			}
+		});
+	}
+
+	function printData(id) {
+		swal("Pilih format?", {
+			buttons: {
+				cancel	: "Batal",
+				pdf		: {
+					text	: "PDF",
+					value	: "pdf",
+				},
+				excel	: {
+					text	: "Excel",
+					value	: "excel",
+				}
+			},
+		})
+		.then((value) => {
+			redirect(base_url + 'printpdf/' + value + '/' + id);
 		});
 	}
 </script>
