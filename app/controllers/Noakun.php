@@ -211,5 +211,30 @@ class Noakun extends User_Controller {
 		$id	= $this->input->post('id');
 		$this->output->set_content_type('application/json')->set_output(json_encode($this->model->get($id)));
 	}
+
+	public function select2_noakun($id1 = null, $id2 = null)
+	{
+		$this->db->select('idakun as id, concat(mnoakun.akunno, " - ",mnoakun.namaakun) as text');
+		if ($id1 !== null) {
+			if ($id1 == 145) {
+				if ($id2 !== null) {
+					$this->db->where('idakun', $id2);
+					$data = $this->db->get('mnoakun')->row_array();
+				} else {
+					$this->db->like('akunno', '1', 'after');
+					$this->db->or_like('akunno', '4', 'after');
+					$this->db->or_like('akunno', '5', 'after');
+					$data = $this->db->get('mnoakun')->result_array();
+				}
+			} else {
+				$this->db->where('idakun', $id1);
+				$data = $this->db->get('mnoakun')->row_array();
+			}
+		} else {
+			$data = $this->db->get('mnoakun')->result_array();
+		}
+		
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }
 

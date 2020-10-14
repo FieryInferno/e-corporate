@@ -1,5 +1,5 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <div class="container-fluid">
@@ -23,177 +23,129 @@
         <div class="row">
           <div class="col-12">         
             <div class="card">
-            <div class="card-header {bg_header}">
-            <!-- <div class="header-elements-inline">
-                <h5 class="card-title">{subtitle}</h5>
-            </div> -->
-        </div>
-        <div class="card-body">
-            <form action="javascript:save()" id="form1">
-                <h3 class="mb-3 mt-3"><?php echo lang('sales') ?></h3>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Piutang Belum Ditagih') ?>:</label>
-                                <select class="form-control piutang_belum_ditagih" name="piutang_belum_ditagih" multiselect="multiselect" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Pajak Penjualan') ?>:</label>
-                                <select class="form-control pajak_penjualan" name="pajak_penjualan" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Pendapatan Penjualan') ?>:</label>
-                                <select class="form-control pendapatan_penjualan" name="pendapatan_penjualan" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Pendapatan Belum Ditagih') ?>:</label>
-                                <select class="form-control retur_penjualan" name="retur_penjualan" required></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Retur Penjualan') ?>:</label>
-                                <select class="form-control penjualan_belum_ditagih" name="penjualan_belum_ditagih" required></select>
-                            </div>
-                        </div>
-                    </div>
+                <div class="card-header">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_tambah">
+                        + <?php echo lang('add_new') ?>
+                    </button>
 
-                    <h3 class="mb-3 mt-3"><?php echo lang('purchasing') ?></h3>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Pajak Pembelian') ?>:</label>
-                                <select class="form-control pajak_pembelian" name="pajak_pembelian" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Hutang Belum Ditagih') ?>:</label>
-                                <select class="form-control hutang_belum_ditagih" name="hutang_belum_ditagih" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Pembelian') ?>:</label>
-                                <select class="form-control pembelian" name="pembelian" required></select>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Modal -->
+                    <div id="modal_tambah" class="modal fade">
+                        <div class="modal-dialog modal-lg">
+                            <form action="javascript:simpanPemetaan('tambah')" id="formTambahPemetaan">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title"><?php echo lang('add_new') ?></h5>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-group">
+                                            <label>Kode Akun</label>
+                                            <select class="kode_akun" name="kode_akun" style="width: 100%" required></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Kode Pemetaan Akun 1</label>
+                                            <select class="kode_akun_1" name="kode_akun_1" style="width: 100%" required></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Kode Pemetaan Akun 2</label>
+                                            <select class="kode_akun_2" name="kode_akun_2" style="width: 100%" required></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Kode Pemetaan Akun 3</label>
+                                            <select class="kode_akun_3" name="kode_akun_3" style="width: 100%" required></select>
+                                        </div>
+                                    </div>
 
-                    <h3 class="mb-3 mt-3"><?php echo lang('Utang dan Piutang') ?></h3>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Piutang Usaha') ?>:</label>
-                                <select class="form-control piutang_usaha" name="piutang_usaha" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Hutang Usaha') ?>:</label>
-                                <select class="form-control hutang_usaha" name="hutang_usaha" required></select>
-                            </div>
+                                    <div class="modal-footer">
+                                        <div class="btn-group">
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
+                                            <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-
-                    <h3 class="mb-3 mt-3"><?php echo lang('Persediaan') ?></h3>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Persediaan') ?>:</label>
-                                <select class="form-control persediaan" name="persediaan" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Persediaan Produksi') ?>:</label>
-                                <select class="form-control persediaan_produksi" name="persediaan_produksi" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Persediaan Rusak') ?>:</label>
-                                <select class="form-control persediaan_rusak" name="persediaan_rusak" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Persediaan Umum') ?>:</label>
-                                <select class="form-control persediaan_umum" name="persediaan_umum" required></select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <h3 class="mb-3 mt-3"><?php echo lang('Persediaan') ?></h3>
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Modal') ?>:</label>
-                                <select class="form-control ekuitas_saldo_awal" name="ekuitas_saldo_awal" required></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="text-right">
-                        <a href="{site_url}item" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                        <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-                    </div>
-                </form>
-            </div>
+                </div>
+                <div class="card-body">
+                    <table class="table table-bordered table-striped index_datatable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Kode Akun</th>
+                                <th>Nama Akun</th>
+                                <th>Akun 1</th>
+                                <th>Akun 2</th>
+                                <th>Akun 3</th>
+                                <th class="text-center"><?php echo lang('action') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody>                          
+                        </tbody>
+                    </table>
+                </div>
             </div>
           </div>
         </div>
       </div>
     </section>
-  </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h5 class="modal-title" id="exampleModalLabel">Pilih Rekening</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-                <form action="javascript:import_data()" method="post" enctype="multipart/form-data" id="form_import">
-                    <div class="form-row pt-3">
-                        <div class="col-sm-12">
-                            <label for="input-file-now">Input File</label>
-                            <input type="file" name="file" placeholder="Masukan File Excel" id="input-file-now" class="dropify">
-                        </div>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-                </form>
-            </div>
-		</div>
-	</div>
 </div>
-  
-<!-- jQuery -->
-<!-- <script src="<?= base_url('adminlte')?>/plugins/jquery/jquery.min.js"></script> -->
-<!-- Bootstrap 4 -->
-<!-- <script src="<?= base_url('adminlte')?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-<!-- DataTables -->
-<script src="<?= base_url('adminlte')?>/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<!-- notifikasi -->
-<!-- <script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script> -->
+
+<div id="modalEdit" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <form action="javascript:simpanPemetaan('edit')" id="formEditPemetaan">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit</h5>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Kode Akun</label>
+                        <input type="hidden" name="idPemetaanAkun" id="idPemetaanAkun">
+                        <select name="kode_akun" style="width: 100%" required id="kodeAkunEdit"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kode Pemetaan Akun 1</label>
+                        <select name="kode_akun_1" style="width: 100%" required id="kodeAkun1Edit"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kode Pemetaan Akun 2</label>
+                        <select name="kode_akun_2" style="width: 100%" required id="kodeAkun2Edit"></select>
+                    </div>
+                    <div class="form-group">
+                        <label>Kode Pemetaan Akun 3</label>
+                        <select name="kode_akun_3" style="width: 100%" required id="kodeAkun3Edit"></select>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
+                        <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script type="text/javascript">
-	var base_url = '{site_url}noakun/';
+	var base_url = '{site_url}metaakun/';
+    ajax_select({
+        id  : '.kode_akun',	
+        url : '{site_url}noakun/select2_noakun/145',
+    });
+    ajax_select({
+        id  : '.kode_akun_1',	
+        url : '{site_url}noakun/select2_noakun',
+    });
+    ajax_select({
+        id  : '.kode_akun_2',	
+        url : '{site_url}noakun/select2_noakun',
+    });
+    ajax_select({
+        id  : '.kode_akun_3',	
+        url : '{site_url}noakun/select2_noakun',
+    });
 	var table = $('.index_datatable').DataTable({
 		ajax: {
 			url: base_url + 'index_datatable',
@@ -209,51 +161,47 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-        	{data: 'noakun', visible: false},
-        	{
-        		data: 'noakuntop', width: '100px', orderable: false,
-        		render: function(data, type, row) {
-        			if(row.stdefault == '1') return '<span class="icon-lock"></span>';
-        			else if(row.stdefault == '0' && row.stkunci == '1') return '<span class="icon-plus2"></span>';
-        			else return '<span>-</span>';
-        		}
-        	},
-        	{
-        		data: 'akunno', width: '100px',
-        		render: function(data) {
-        			return '<span class="badge badge-info">'+data+'</span>';
-        		}
-        	},
-        	{
-        		data: 'namaakun',
-        		render: function(data,type,row) {
-        			return '<a href="'+base_url+'detail/'+row.noakun+'">'+data+'</a>';
-        		}
-        	},
-        	{
-        		data: 'kategoriakun'
-        	},
-        	{
-        		data: 'saldoakun', width: '150px', className: 'text-right font-weight-semibold', orderable: false,
-        		render: function(data) {
-        			return numeral(data).format();
-        		}
-        	},
-        	{
-        		data: 'akunno', width: 100, orderable: false, className: 'text-center',
-        		render: function(data,type,row) {
-        			var aksi = `<div class="list-icons"> 
-        			<div class="dropdown"> 
-        			<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="icon-menu9"></i> </a> 
-        			<div class="dropdown-menu dropdown-menu-right"> `;
-        			if(row.stdefault != '1' && row.stkunci != '1') {
-        				aksi += `<a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="icon-trash"></i> <?php echo lang('delete') ?></a>`;
-        			}
-        			// aksi += `<a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="icon-pencil"></i> <?php echo lang('edit') ?></a>`;
-        			aksi += `</div> </div> </div>`;
-        			return aksi;
-        		}
-        	}
+            {data: 'idPemetaanAkun', visible: false},
+            {
+                data        : 'akunno', 
+                width       : '30%', 
+                orderable   : false,
+            },
+            {
+                data: 'namaakun', 
+                width: '30%',
+            },
+            {
+                data    : 'akun1',
+                width   : '8%',
+            },
+            {
+                data    : 'akun2',
+                width   : '8%'
+            },
+            {
+                data        : 'akun3', 
+                width       : '8%',
+            },
+            {
+                data    : 'idPemetaanAkun', 
+                width   : '5%', 
+                orderable: false, 
+                className: 'text-center',
+                render: function(data,type,row) {
+					var aksi = `
+						<div class="list-icons"> 
+							<div class="dropdown"> 
+								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+								<div class="dropdown-menu dropdown-menu-right">
+									<a href="javascript:editData('${row.idPemetaanAkun}', '${row.kodeAkun}', '${row.kodeAkun1}', '${row.kodeAkun2}', '${row.kodeAkun3}')" class="dropdown-item"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>
+									<a href="javascript:deleteData('` + data + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+								</div> 
+							</div> 
+						</div>`;
+					return aksi;
+                }
+            }
         ]
 	});
 
@@ -294,33 +242,87 @@
             }
             });
     }
-    
-    function import_data() {
-        var formData    = new FormData($('#form_import')[0]);
-        console.log(formData.get('file'));
+
+    function simpanPemetaan(jenis) {
+        switch (jenis) {
+            case 'tambah':
+                formData    = new FormData($('#formTambahPemetaan')[0]);
+                break;
+            case 'edit':
+                formData    = new FormData($('#formEditPemetaan')[0]);
+                break;
+        
+            default:
+                break;
+        }
         $.ajax({
-			url         : base_url + 'import_data',
-			method      : 'post',
-			data        : formData,
-			contentType : false,
-			processData : false,
-			beforeSend  : function() {
-				pageBlock();
-			},
-			afterSend   : function() {
-				unpageBlock();
-			},
-			success     : function(response) {
-				if (response.status == 'success') {
-					swal("Berhasil!", "Berhasil Import Data", "success");
-					setTimeout(function() { table.ajax.reload() }, 100);
-				} else {
-					swal("Gagal!", "Gagal Import Data", "error");
-				}
-			},
-			error       : function() {
-				swal("Gagal!", "Internal Server Error", "error");
-			}
-		})
+            url: base_url + 'save',
+            dataType: 'json',
+            method: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                switch (jenis) {
+                    case 'tambah':
+                        $('#modal_tambah').modal('hide');
+                        break;
+                    case 'edit':
+                        $('#modalEdit').modal('hide');
+                        break;
+                
+                    default:
+                        break;
+                }
+                pageBlock();
+            },
+            afterSend: function() {
+                unpageBlock();
+            },
+            success: function(data) {
+                if(data.status == 'success') {
+                    swal("Berhasil!", data.message, "success");
+                    setTimeout(function() { table.ajax.reload() }, 100);
+                } else {
+                    swal("Gagal!", "Gagal Menambah Data", "error");
+                }
+            },
+            error: function() {
+                swal("Gagal!", "Internal Server Error", "error");
+            }
+        })
+    }
+
+    function editData(id, kodeAkun, kodeAkun1, kodeAkun2, kodeAkun3) {
+        $('#idPemetaanAkun').val(id);
+        ajax_select({
+            id          : '#kodeAkunEdit',	
+            url         : '{site_url}noakun/select2_noakun/145',
+            selected    : {
+                id  : kodeAkun,
+            }
+        });
+        ajax_select({
+            id          : '#kodeAkun1Edit',	
+            url         : '{site_url}noakun/select2_noakun',
+            selected    : {
+                id  : kodeAkun1,
+            }
+        });
+        ajax_select({
+            id          : '#kodeAkun2Edit',	
+            url         : '{site_url}noakun/select2_noakun',
+            selected    : {
+                id  : kodeAkun2,
+            }
+        });
+        ajax_select({
+            id          : '#kodeAkun3Edit',	
+            url         : '{site_url}noakun/select2_noakun',
+            selected    : {
+                id  : kodeAkun3,
+            }
+        });
+        $('#modalEdit').modal('show');
     }
 </script>
