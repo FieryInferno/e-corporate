@@ -92,4 +92,11 @@ class Departemen extends User_Controller{
 		else $data = $this->db->get('mpegawaihakakses')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
+
+	public function select2()
+	{
+		$this->db->select('mdepartemen.id, mdepartemen.nama as text');
+		$data = $this->db->get('mdepartemen')->result_array();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }

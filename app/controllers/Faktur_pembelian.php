@@ -225,5 +225,31 @@ class Faktur_pembelian extends User_Controller {
 				break;
 		}
 	}
+
+	public function validasi($status= null, $id = null)
+	{
+		$this->db->set('cby',get_user('username'));
+		$this->db->set('cdate',date('Y-m-d H:i:s'));
+		switch ($status) {
+			case '0':
+				$this->db->set('status','3');
+				break;
+			case '1':
+				$this->db->set('status','1');
+				break;
+				# code...
+				break;
+		}
+		$this->db->where('id', $id);
+		$update = $this->db->update('tfaktur');
+		if($update) {
+			$data['status'] = 'success';
+			$data['message'] = lang('update_success_message');
+		} else {
+			$data['status'] = 'error';
+			$data['message'] = lang('update_error_message');
+		}
+		redirect(base_url('faktur_pembelian'));	
+	}
 }
 

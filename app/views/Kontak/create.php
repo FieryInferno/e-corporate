@@ -22,56 +22,54 @@
     <section class="content">
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
-        <div class="card card-danger">
-          <div class="card-header">
-            <h3 class="card-title">{title}</h3>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-
-            <div class="col-md-6">
-                <form action="javascript:save()" id="form1">
-                    <div class="form-group">
-                        <label><?php echo lang('name') ?>:</label>
-                        <input type="text" class="form-control" name="nama" required>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{title}</h3>
+            </div>
+            <!-- /.card-header -->
+            <form action="javascript:save()" id="form1">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label><?php echo lang('name') ?>:</label>
+                                <input type="text" class="form-control" name="nama" required>
+                            </div>
+                            <div class="form-group">
+                            </div>
+                            <div class="form-group">
+                                <label><?php echo lang('email') ?>:</label>
+                                <input type="text" class="form-control" name="email">
+                            </div>
+                            <div class="form-group">
+                                <label><?php echo lang('Telepon') ?>:</label>
+                                <input type="text" class="form-control" name="telepon" required>
+                            </div>
+                            <div class="form-group">
+                                <label><?php echo lang('Contact Person') ?>:</label>
+                                <input type="text" class="form-control" name="cp" required>
+                            </div>
+                            <div class="form-group">
+                                <label><?php echo lang('type') ?>:</label>
+                                <select class="form-control tipe" name="tipe" required></select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label>Perusahaan :</label>
+                                <select class="form-control perusahaan" name="perusahaan" required></select>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label><?php echo lang('telephone') ?>:</label>
-                        <input type="text" class="form-control" name="telepon" required>
-                    </div>
-                    <div class="form-group">
-                        <label><?php echo lang('email') ?>:</label>
-                        <input type="text" class="form-control" name="email">
-                    </div>
-                    <div class="form-group">
-                        <label><?php echo lang('Telepon') ?>:</label>
-                        <input type="text" class="form-control" name="telepon" required>
-                    </div>
-                    <div class="form-group">
-                        <label><?php echo lang('Contact Person') ?>:</label>
-                        <input type="text" class="form-control" name="cp" required>
-                    </div>
-                    <div class="form-group">
-                        <label><?php echo lang('type') ?>:</label>
-                        <select class="form-control tipe" name="tipe" required></select>
-                    </div>
-                    <div class="form-group fnoakunpiutang" hidden>
-                        <label><?php echo lang('noakunpiutang') ?>:</label>
-                        <select class="form-control noakunpiutang" name="noakunpiutang" style="width:100%"></select>
-                    </div>
-                    <div class="form-group fnoakunutang" hidden>
-                        <label><?php echo lang('noakunutang') ?>:</label>
-                        <select class="form-control noakunutang" name="noakunutang" style="width:100%"></select>
-                    </div>
-                    <div class="text-right">
+                </div>
+                <div class="card-footer">
+                    <div class="text-left">
                         <a href="{site_url}kontak" class="btn bg-danger"><?php echo lang('cancel') ?></a>
                         <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
                     </div>
-                </form>
-            </div>
-			
-              </div>
-              <!-- /.col -->
+                </div>
+            </form>
+            <!-- /.col -->
             </div>
             <!-- /.row -->
           </div>
@@ -94,6 +92,13 @@
                 {id: '2', text: 'Customers'},
             ]
         }).val(null).trigger('change');
+        ajax_select({ 
+            id          : '.perusahaan', 
+            url         : '{site_url}perusahaan/select2', 
+            selected    : { 
+                id  : '' 
+            } 
+        });
     })
     $(document).on('change','.tipe',function(){
         var val = $(this).val();

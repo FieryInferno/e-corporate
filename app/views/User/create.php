@@ -29,10 +29,10 @@
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <form action="javascript:save()" id="form1">
+                        <form action="javascript:save()" id="form1">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-6">
                                         <div class="form-group">
                                             <label><?php echo lang('name') ?>:</label>
                                             <input type="text" class="form-control" name="name" required>
@@ -57,14 +57,26 @@
                                             <label><?php echo lang('permission') ?>:</label>
                                             <select class="form-control permissionid" name="permissionid" required></select>
                                         </div>
-                                        <div class="text-right">
-                                            <a href="{site_url}user" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                                            <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Perusahaan :</label>
+                                            <select class="form-control perusahaan" name="perusahaan" required></select>
                                         </div>
-                                    </form>
+                                        <div class="form-group">
+                                            <label>Departemen :</label>
+                                            <select class="form-control departemen" name="departemen" required></select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                            <div class="card-footer">
+                                <div class="text-left">
+                                    <a href="{site_url}user" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                                    <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+                                </div>
+                            </div>
+                        </form>
                     <!-- /.card -->
                     </div>
                 <!--/.col (left) -->
@@ -80,36 +92,56 @@
 <script type="text/javascript">
 	var base_url = '{site_url}user/';
     $(document).ready(function(){
-        ajax_select({ id: '.permissionid', url: base_url + 'select2_permissionid', selected: { id: '' } });
+        ajax_select({ 
+            id          : '.permissionid', 
+            url         : base_url + 'select2_permissionid', 
+            selected    : { 
+                id  : '' 
+            } 
+        });
         ajax_select({ id: '.cabangid', url: base_url + 'select2_cabangid', selected: { id: '' } });
+        ajax_select({ 
+            id          : '.perusahaan', 
+            url         : '{site_url}perusahaan/select2', 
+            selected    : { 
+                id  : '' 
+            } 
+        });
+        ajax_select({ 
+            id          : '.departemen', 
+            url         : '{site_url}departemen/select2', 
+            selected    : { 
+                id  : '' 
+            } 
+        });
     })
     function save() {
-    	var form = $('#form1')[0];
-    	var formData = new FormData(form);
-    	$.ajax({
-    		url: base_url + 'save',
-    		dataType: 'json',
-    		method: 'post',
-    		data: formData,
-    		contentType: false,
-    		processData: false,
-    		beforeSend: function() {
-    			pageBlock();
-    		},
+        var form = $('#form1')[0];
+        var formData = new FormData(form);
+        $.ajax({
+            url: base_url + 'save',
+            dataType: 'json',
+            method: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                pageBlock();
+            },
             afterSend: function() {
                 unpageBlock();
             },
-    		success: function(data) {
-    			if(data.status == 'success') {
+            success: function(data) {
+                if(data.status == 'success') {
                     swal("Berhasil!", "Berhasil Menambah Data", "success");
                     redirect(base_url);
-    			} else {
-    				swal("Gagal!", "Gagal Menambah Data", "error");
-    			}
-    		},
-    		error: function() {
-    			swal("Gagal!", "Internal Server Error", "error");
-    		}
-    	})
+                } else {
+                    swal("Gagal!", "Gagal Menambah Data", "error");
+                }
+            },
+            error: function() {
+                swal("Gagal!", "Internal Server Error", "error");
+            }
+        })
     }
 </script>

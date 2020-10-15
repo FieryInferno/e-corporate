@@ -76,7 +76,7 @@
                     <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped index_datatable">
-                            <thead class="{bg_header}">
+                            <thead>
                                 <tr>
                                     <th><?php echo lang('id') ?></th>
                                     <th><?php echo lang('no_receipt') ?></th>
