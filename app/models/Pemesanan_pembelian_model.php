@@ -46,7 +46,8 @@ class Pemesanan_pembelian_model extends CI_Model {
 
 	public function pemesanandetail($idpemesanan) {
 		$this->db->select('tpemesanandetail.*, mitem.nama as item');
-		$this->db->join('mitem', 'tpemesanandetail.itemid = mitem.id', 'left');
+		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id', 'left');
+		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id', 'left');
 		$this->db->where('tpemesanandetail.idpemesanan', $idpemesanan);
 		$get = $this->db->get('tpemesanandetail');
 		return $get->result_array();

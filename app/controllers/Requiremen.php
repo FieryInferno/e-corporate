@@ -122,7 +122,7 @@ class Requiremen extends User_Controller {
 	public function select2_item($id = null) {
 		$term = $this->input->get('q');
 		if($id) {
-			$this->db->select('mitem.id as itemid, mitem.nama as text, tanggaranbelanjadetail.koderekening, tanggaranbelanja.*');
+			$this->db->select('tanggaranbelanjadetail.id as itemid, mitem.nama as text, tanggaranbelanjadetail.koderekening, tanggaranbelanja.*');
 			$this->db->join('tanggaranbelanja', 'tanggaranbelanjadetail.idanggaran=tanggaranbelanja.id');
 			$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 			$this->db->from('tanggaranbelanjadetail');
@@ -130,7 +130,7 @@ class Requiremen extends User_Controller {
 			$data = $this->db->get()->row_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
-			$this->db->select('mitem.id as itemid, mitem.nama as text, tanggaranbelanjadetail.koderekening, tanggaranbelanja.*');
+			$this->db->select('tanggaranbelanjadetail.id as itemid, mitem.nama as text, tanggaranbelanjadetail.koderekening, tanggaranbelanja.*');
 			$this->db->join('tanggaranbelanjadetail', 'tanggaranbelanjadetail.idanggaran=tanggaranbelanja.id');
 			$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 			$this->db->where('tanggaranbelanja.status', 'Validate');

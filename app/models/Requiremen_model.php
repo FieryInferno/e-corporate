@@ -128,9 +128,10 @@ class Requiremen_model extends CI_Model {
 				$angsuran['a8']			= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a8'));
 			}
 			$this->db->insert('tpemesananangsuran', $angsuran);
-			$this->db->insert('tpengiriman', [
-				'pemesananid'	=> $id_pemesanan,
-				'total'			=> 0
+			$this->db->insert('tPenerimaan', [
+				'pemesanan'	=> $id_pemesanan,
+				'total'		=> 0,
+				'tipe'		=> 1
 			]);
 			$data['status'] = 'success';
 			$data['message'] = lang('update_success_message');
@@ -196,21 +197,13 @@ class Requiremen_model extends CI_Model {
 		$data	= [];
 		if(is_array($itemid)) {
 			for ($i=0; $i < count($itemid); $i++) {
-				// $this->db->select('tanggaranbelanjadetail.*, tanggaranbelanja.*, mitem.nama');
 				$this->db->select('tanggaranbelanjadetail.koderekening, tanggaranbelanjadetail.jumlah');
-				// $this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id=tanggaranbelanjadetail.idanggaran');
-				$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
-				$this->db->where('mitem.id', $itemid[$i]);
-				// $data[$i] = $this->db->get('tanggaranbelanja')->row_array();
+				$this->db->where('tanggaranbelanjadetail.id', $itemid[$i]);
 				$data[$i] = $this->db->get('tanggaranbelanjadetail')->row_array();
 			}
 		} else {
-			// $this->db->select('tanggaranbelanjadetail.*, tanggaranbelanja.*, mitem.nama');
 			$this->db->select('tanggaranbelanjadetail.koderekening, tanggaranbelanjadetail.jumlah');
-			// $this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id=tanggaranbelanjadetail.idanggaran');
-			$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
-			$this->db->where('mitem.id', $itemid[$i]);
-			// $data[$i] = $this->db->get('tanggaranbelanja')->row_array();
+			$this->db->where('tanggaranbelanjadetail.id', $itemid[0]);
 			$data[0] = $this->db->get('tanggaranbelanjadetail')->row_array();
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));

@@ -16,27 +16,25 @@ class Pengiriman_pembelian_model extends CI_Model {
 
 	public function save() {
 		$this->db->select('total');
-		$total	= $this->db->get_where('tpengiriman', [
-			'id'	=> $this->input->post('id_pengiriman')
+		$total	= $this->db->get_where('tPenerimaan', [
+			'idPenerimaan'	=> $this->input->post('idPenerimaan')
 		])->row_array();
 		for ($i=0; $i < count($this->input->post('itemid')); $i++) { 
 			$total['total']	+= (integer) $this->input->post('jumlah')[$i] * (integer) $this->input->post('harga')[$i];
 		}
-		$this->db->where('id', $this->input->post('id_pengiriman'));
-		$insertHead = $this->db->update('tpengiriman', [
+		$this->db->where('idPenerimaan', $this->input->post('idPenerimaan'));
+		$insertHead = $this->db->update('tPenerimaan', [
 			'tanggal'	=> $this->input->post('tanggal'),
 			'catatan'	=> $this->input->post('catatan'),
 			'tipe'		=> 1,
-			'cby'		=> get_user('username'),
-			'cdate'		=> date('Y-m-d H:i:s'),
 			'total'		=> $total['total']
 		]);
 		if($insertHead) {
 			for ($i=0; $i < count($this->input->post('no', TRUE)); $i++) {
 				if ($this->input->post('jumlah', TRUE)[$i] > 0) {
-					$this->db->insert('tpengirimandet', [
-						'idpengiriman'		=> $this->input->post('id_pengiriman'),
-						'idpemesanandetail'	=> $this->input->post('pemdet', TRUE)[$i],
+					$this->db->insert('tPenerimaanDetail', [
+						'idPenerimaan'		=> $this->input->post('idPenerimaan'),
+						'idPemesananDetail'	=> $this->input->post('pemdet', TRUE)[$i],
 						'jumlah'			=> $this->input->post('jumlah', TRUE)[$i]
 					]);
 				}
@@ -101,19 +99,19 @@ class Pengiriman_pembelian_model extends CI_Model {
 
 	public function get($id)
 	{
-		$this->db->select('tpengiriman.id, tpengiriman.notrans, tpengiriman.catatan, mperusahaan.nama_perusahaan, tpemesanan.departemen, tpemesanan.tanggal, tpemesanan.total as nominal_pemesanan, mkontak.nama as supplier, tpengiriman.total as nominal_penerimaan, mgudang.nama as gudang, tpengiriman.status, tpemesanan.notrans as nopemesanan, tpemesanan.id as idpemesanan, tpengiriman.tanggal as tanggal_pengiriman');
-		$this->db->join('tpemesanan', 'tpengiriman.pemesananid = tpemesanan.id');
+		$this->db->select('tPenerimaan.idPenerimaan as id, tPenerimaan.notrans, tPenerimaan.catatan, mperusahaan.nama_perusahaan, tpemesanan.departemen, tpemesanan.tanggal, tpemesanan.total as nominal_pemesanan, mkontak.nama as supplier, tPenerimaan.total as nominal_penerimaan, mgudang.nama as gudang, tPenerimaan.status, tpemesanan.notrans as nopemesanan, tpemesanan.id as idpemesanan, tPenerimaan.tanggal as tanggal_pengiriman');
+		$this->db->join('tpemesanan', 'tPenerimaan.pemesanan = tpemesanan.id');
 		$this->db->join('mkontak','tpemesanan.kontakid = mkontak.id');
 		$this->db->join('mgudang','tpemesanan.gudangid = mgudang.id', 'left');
 		$this->db->join('mperusahaan','tpemesanan.idperusahaan = mperusahaan.idperusahaan');
 		if ($id !== null) {
-			$this->db->where('tpengiriman.id', $id);
-			$data	= $this->db->get('tpengiriman')->row_array();
+			$this->db->where('tPenerimaan.idPenerimaan', $id);
+			$data	= $this->db->get('tPenerimaan')->row_array();
 			$this->db->select('mitem.kode as kode_barang, mitem.nama as nama_barang, tpemesanandetail.biayapengiriman, tpemesanandetail.ppn as pajak, tpemesanandetail.subtotal, tpemesanandetail.jumlahditerima, tpemesanandetail.harga, tpemesanandetail.id as idbarang');
-			$this->db->join('tpemesanandetail', 'tpengirimandet.idpemesanandetail = tpemesanandetail.id');
+			$this->db->join('tpemesanandetail', 'tPenerimaanDetail.idpemesanandetail = tpemesanandetail.id');
 			$this->db->join('mitem', 'tpemesanandetail.itemid = mitem.id');
-			$this->db->where('tpengirimandet.idpengiriman', $data['id']);
-			$data['detail_pengiriman']	= $this->db->get('tpengirimandet')->result_array();
+			$this->db->where('tPenerimaanDetail.idPenerimaan', $data['id']);
+			$data['detail_pengiriman']	= $this->db->get('tPenerimaanDetail')->result_array();
 			$data['angsuran']			= $this->db->get_where('tpemesananangsuran', [
 				'idpemesanan'	=> $data['idpemesanan']
 			])->row_array();
@@ -122,10 +120,10 @@ class Pengiriman_pembelian_model extends CI_Model {
 			$no		= 0; 
 			foreach ($data as $key) {
 				$this->db->select('mitem.kode as kode_barang, mitem.nama as nama_barang, tpemesanandetail.biayapengiriman, tpemesanandetail.ppn as pajak, tpemesanandetail.subtotal, tpemesanandetail.jumlahditerima, tpemesanandetail.harga, tpemesanandetail.id as idbarang');
-				$this->db->join('tpemesanandetail', 'tpengirimandet.idpemesanandetail = tpemesanandetail.id');
+				$this->db->join('tpemesanandetail', 'tPenerimaanDetail.idpemesanandetail = tpemesanandetail.id');
 				$this->db->join('mitem', 'tpemesanandetail.itemid = mitem.id');
-				$this->db->where('tpengirimandet.idpengiriman', $key['id']);
-				$data[$no]['detail_pengiriman']	= $this->db->get('tpengirimandet')->result_array();
+				$this->db->where('tPenerimaanDetail.idPenerimaan', $key['id']);
+				$data[$no]['detail_pengiriman']	= $this->db->get('tPenerimaanDetail')->result_array();
 				$data[$no]['angsuran']			= $this->db->get_where('tpemesananangsuran', [
 					'idpemesanan'	=> $key['idpemesanan']
 				])->row_array();

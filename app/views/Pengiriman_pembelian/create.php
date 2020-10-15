@@ -35,7 +35,7 @@
                                 <div class="form-group">
                                     <label><?php echo lang('date') ?>:</label>
                                     <div class="input-group"> 
-                                        <input type="hidden" name="id_pengiriman" value="<?= $this->uri->segment(3); ?>">
+                                        <input type="hidden" name="idPenerimaan" value="<?= $this->uri->segment(3); ?>">
                                         <input type="date" class="form-control" name="tanggal" required value="<?= $pengiriman['tanggal']; ?>">
                                     </div>
                                 </div>

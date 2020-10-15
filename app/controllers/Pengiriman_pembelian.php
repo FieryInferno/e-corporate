@@ -29,9 +29,9 @@ class Pengiriman_pembelian extends User_Controller {
 
 	public function index_datatable() {
 		$this->load->library('Datatables');
-		$this->datatables->select('tpengiriman.id, tpengiriman.notrans, tpengiriman.catatan, mperusahaan.nama_perusahaan, tpemesanan.departemen, tpemesanan.tanggal, tpemesanan.total as nominal_pemesanan, mkontak.nama as supplier, tpengiriman.total as nominal_penerimaan, mgudang.nama as gudang, tpengiriman.status, tpemesanan.notrans as nopemesanan, tpemesanan.id as idpemesanan');
-		$this->datatables->from('tpengiriman');
-		$this->datatables->join('tpemesanan', 'tpengiriman.pemesananid = tpemesanan.id');
+		$this->datatables->select('tPenerimaan.idPenerimaan as id, tPenerimaan.notrans, tPenerimaan.catatan, mperusahaan.nama_perusahaan, tpemesanan.departemen, tpemesanan.tanggal, tpemesanan.total as nominal_pemesanan, mkontak.nama as supplier, tPenerimaan.total as nominal_penerimaan, mgudang.nama as gudang, tPenerimaan.status, tpemesanan.notrans as nopemesanan, tpemesanan.id as idpemesanan');
+		$this->datatables->from('tPenerimaan');
+		$this->datatables->join('tpemesanan', 'tPenerimaan.pemesanan = tpemesanan.id');
 		$this->datatables->join('mkontak','tpemesanan.kontakid = mkontak.id');
 		$this->datatables->join('mgudang','tpemesanan.gudangid = mgudang.id', 'left');
 		$this->datatables->join('mperusahaan','tpemesanan.idperusahaan = mperusahaan.idperusahaan');
@@ -44,10 +44,10 @@ class Pengiriman_pembelian extends User_Controller {
 		$data['subtitle'] 				= lang('detail');
 		$data['tanggal'] 				= date('Y-m-d');
 		$data['content']				= 'Pengiriman_pembelian/create';
-		// $data['pengiriman']	= $this->model->get($id);
 		$data['pengiriman']				= $this->model->get($id);
 		$this->db->select('tpemesanandetail.*, mitem.nama as nama_barang, mitem.kode');
-		$this->db->join('mitem', 'tpemesanandetail.itemid = mitem.id');
+		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 		$data['pengiriman']['detail']	= $this->db->get_where('tpemesanandetail', [
 			'idpemesanan'	=> $data['pengiriman']['idpemesanan']
 		])->result_array();

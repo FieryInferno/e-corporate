@@ -72,7 +72,7 @@
               <i class="nav-icon fas fa-warehouse"></i><p><?php echo lang('warehouse') ?></p></a>
           </li>
           <li class="nav-item has-treeview">
-          <a href="{site_url}kontak" class="nav-link <?php echo menu_is_active('kontak') ?>">
+            <a href="{site_url}kontak" class="nav-link <?php echo menu_is_active('kontak') ?>">
               <i class="nav-icon fas fa-address-book"></i>
               <p>
               <?php echo lang('contact') ?>
@@ -166,7 +166,7 @@
             </a>
             <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('purchasing') ?>">
               <li class="nav-item">
-              <a href="{site_url}requiremen" class="nav-link <?php echo menu_is_active('requirement_order') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('Permintaan_pembelian') ?></p></a>
+              <a href="{site_url}requiremen" class="nav-link <?php echo menu_is_active('requiremen') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('Permintaan_pembelian') ?></p></a>
               </li>
               <li class="nav-item">
               <a href="{site_url}pemesanan_pembelian" class="nav-link <?php echo menu_is_active('pemesanan_pembelian') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('purchase_order') ?></p></a>
@@ -273,7 +273,12 @@
               </li>	          
             </ul>
           </li>	
-
+          <li class="nav-item has-treeview">
+            <a href="{site_url}persediaan" class="nav-link <?php echo menu_is_active('persediaan') ?>">
+              <i class="nav-icon fas fa-business-time"></i>
+              <p>Persediaan</p>
+            </a>
+          </li>
           <li class="nav-item has-treeview">
           <a href="{site_url}memo" class="nav-link <?php echo menu_is_active('memo') ?>">
               <i class="nav-icon fas fa-tachometer-alt"></i><p><?php echo lang('memos') ?></p></a>

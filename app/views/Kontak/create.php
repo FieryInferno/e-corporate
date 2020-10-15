@@ -36,8 +36,6 @@
                                 <input type="text" class="form-control" name="nama" required>
                             </div>
                             <div class="form-group">
-                            </div>
-                            <div class="form-group">
                                 <label><?php echo lang('email') ?>:</label>
                                 <input type="text" class="form-control" name="email">
                             </div>
