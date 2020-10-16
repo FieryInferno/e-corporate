@@ -9,15 +9,6 @@ class Persediaan extends User_Controller {
 		$data               = array_merge($data, path_info());
 		$this->parser->parse('template', $data);
     }
-    
-    public function tambah()
-    {
-        $data['title']      = 'Set Up Jurnal';
-        $data['subtitle']   = 'Tambah';
-		$data['content']    = 'SetUpJurnal/tambah';	
-		$data               = array_merge($data, path_info());
-		$this->parser->parse('template', $data);
-	}
 	
 	public function index_datatable() {
 		$this->load->library('Datatables');

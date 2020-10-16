@@ -115,7 +115,6 @@
             <a href="#" class="dropdown-item">
               <input type="text" class="form-control" id="username" placeholder="Masukkan Username" autocomplete="off" required name="username">
             </a>          
-            <div class="dropdown-divider"></div>
             <a href="#" class="dropdown-item">
               <input type="password" class="form-control" id="password" required name="password" placeholder="Masukkan Password">
             </a>

@@ -23,7 +23,7 @@
             <div class="row">
             <!-- left column -->
                 <div class="col-md-12">
-                    <form action="">
+                    <form action="javascript:save()" id="formSetUpJurnal">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">{subtitle} {title}</h3>
@@ -33,7 +33,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Kode Jurnal :</label>
-                                            <input type="text" class="form-control" placeholder="Kode Jurnal">
+                                            <input type="text" class="form-control" placeholder="Kode Jurnal" name="kodeJurnal">
                                         </div>
                                     </div>
                                 </div>
@@ -42,6 +42,7 @@
                                         <div class="form-group">
                                             <label>Formulir :</label>
                                             <select name="formulir" id="formulir" class="form-control">
+                                                <option value="" disabled selected>Pilih Formulir</option>
                                                 <option value="fakturPembelian">Faktur Pembelian</option>
                                                 <option value="fakturPembelian">Faktur Penjualan</option>
                                                 <option value="fakturPembelian">Penerimaan Barang</option>
@@ -55,7 +56,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Keterangan :</label>
-                                            <input type="text" class="form-control" placeholder="Keterangan">
+                                            <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
                                         </div>
                                     </div>
                                 </div>
@@ -69,9 +70,9 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <h5>Jurnal Anggaran</h5>
-                                        <button type="button" class="btn btn-primary">
+                                        <a href="javascript:tambah('jurnalAnggaran', 1)" type="button" class="btn btn-primary" id="tambahAnggaran">
                                             + <?php echo lang('add_new') ?>
-                                        </button>
+                                        </a>
                                         <table class="table table-striped table-borderless table-hover">
                                             <thead>
                                                 <tr class="table-active">
@@ -80,63 +81,14 @@
                                                     <th scope="col">Nominal</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="row">
-                                                            <div class="col-2">
-                                                                <button type="button" class="btn btn-danger">-</button>
-                                                            </div>
-                                                            <div class="col-10">
-                                                                <select name="elemen" id="elemen" class="form-control">
-                                                                    <option value="" disabled selected>Pilih Elemen</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <select name="d/k" id="d/k" class="form-control">
-                                                            <option value="" disabled selected>Pilih Jenis</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select name="nominal" id="nominal" class="form-control">
-                                                            <option value="" disabled selected>Pilih Nominal</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="row">
-                                                            <div class="col-2">
-                                                                <button type="button" class="btn btn-danger">-</button>
-                                                            </div>
-                                                            <div class="col-10">
-                                                                <select name="elemen" id="elemen" class="form-control">
-                                                                    <option value="" disabled selected>Pilih Elemen</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <select name="d/k" id="d/k" class="form-control">
-                                                            <option value="" disabled selected>Pilih Jenis</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select name="nominal" id="nominal" class="form-control">
-                                                            <option value="" disabled selected>Pilih Nominal</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+                                            <tbody id="jurnalAnggaran"></tbody>
                                         </table>
                                     </div>
                                     <div class="col-6">
                                         <h5>Jurnal Finansial</h5>
-                                        <button type="button" class="btn btn-primary">
+                                        <a href="javascript:tambah('jurnalFinansial', 1)" type="button" class="btn btn-primary" id="tambahFinansial">
                                             + <?php echo lang('add_new') ?>
-                                        </button>
+                                        </a>
                                         <table class="table table-striped table-borderless table-hover">
                                             <thead>
                                                 <tr class="table-active">
@@ -145,56 +97,7 @@
                                                     <th scope="col">Nominal</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>
-                                                        <div class="row">
-                                                            <div class="col-2">
-                                                                <button type="button" class="btn btn-danger">-</button>
-                                                            </div>
-                                                            <div class="col-10">
-                                                                <select name="elemen" id="elemen" class="form-control">
-                                                                    <option value="" disabled selected>Pilih Elemen</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <select name="d/k" id="d/k" class="form-control">
-                                                            <option value="" disabled selected>Pilih Jenis</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select name="nominal" id="nominal" class="form-control">
-                                                            <option value="" disabled selected>Pilih Nominal</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td>
-                                                        <div class="row">
-                                                            <div class="col-2">
-                                                                <button type="button" class="btn btn-danger">-</button>
-                                                            </div>
-                                                            <div class="col-10">
-                                                                <select name="elemen" id="elemen" class="form-control">
-                                                                    <option value="" disabled selected>Pilih Elemen</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                    </td>
-                                                    <td>
-                                                        <select name="d/k" id="d/k" class="form-control">
-                                                            <option value="" disabled selected>Pilih Jenis</option>
-                                                        </select>
-                                                    </td>
-                                                    <td>
-                                                        <select name="nominal" id="nominal" class="form-control">
-                                                            <option value="" disabled selected>Pilih Nominal</option>
-                                                        </select>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
+                                            <tbody id="jurnalFinansial"></tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -212,3 +115,89 @@
     </section>
     <!-- /.content -->
 </div>
+<script>
+    var base_url    = '{site_url}SetUpJurnal';  
+    function tambah(tipe, nomor) {
+        var metaAkun    = <?= json_encode($metaAkun); ?>;
+        var opt         = '';
+        for (let index = 0; index < metaAkun.length; index++) {
+            opt += '<option value="' + metaAkun[index].idPemetaanAkun + '">' + metaAkun[index].akunno + ' - ' + metaAkun[index].namaakun + '</option>';
+        }
+        var isiTabel    = `
+            <tr nomor="${nomor}">
+                <td>
+                    <div class="row">
+                        <div class="col-2">
+                            <a href="javascript:hapus('${nomor}')" type="button" class="btn btn-danger">-</a>
+                        </div>
+                        <div class="col-10">
+                            <select name="elemen${tipe}[]" id="elemen" class="form-control elemen">
+                                <option value="" disabled selected>Pilih Elemen</option>` +
+                                opt
+                            + `</select>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <select name="d/k${tipe}[]" id="d/k" class="form-control">
+                        <option value="" disabled selected>Pilih Jenis</option>
+                        <option value="debit">Debit</option>
+                        <option value="kredit">Kredit</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="nominal${tipe}[]" id="nominal" class="form-control">
+                        <option value="" disabled selected>Pilih Nominal</option>
+                    </select>
+                </td>
+            </tr>`;
+        nomorBaru   = nomor + 1;
+        switch (tipe) {
+            case 'jurnalAnggaran':
+                $('#jurnalAnggaran').append(isiTabel);
+                break;
+            case 'jurnalFinansial':
+                $('#jurnalFinansial').append(isiTabel);
+                break;
+            default:
+                break;
+        }
+        $('#tambahAnggaran').attr('href', 'javascript:tambah("jurnalAnggaran", ' + nomorBaru +')');
+        $('#tambahFinansial').attr('href', 'javascript:tambah("jurnalFinansial", ' + nomorBaru +')');
+        $('.elemen').select2();
+    }
+
+    function hapus(nomor) {
+        $(`tr[nomor="${nomor}"]`).remove();
+    }
+
+    function save() {
+        var form        = $('#formSetUpJurnal')[0];
+        var formData    = new FormData(form);
+        $.ajax({
+            url         : base_url + 'save',
+            dataType    : 'json',
+            method      : 'post',
+            data        : formData,
+            contentType : false,
+            processData : false,
+            beforeSend: function() {
+                pageBlock();
+            },
+            afterSend: function() {
+                unpageBlock();
+            },
+            success: function(data) {
+                if(data.status == 'success') {
+                    swal("Berhasil!", "Berhasil Menambah Data", "success");
+                    redirect(base_url);
+                } else {
+                    swal("Gagal!", "Gagal Menambah Data", "error");
+                }
+            },
+            error: function() {
+                swal("Gagal!", "Internal Server Error", "error");
+            }
+        })
+    }
+</script>

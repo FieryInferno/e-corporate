@@ -279,6 +279,42 @@
               <p>Persediaan</p>
             </a>
           </li>
+          <?php 
+            $menuInventaris = [
+              'daftarInventaris',
+              'pemeliharaanAset',
+              'mutasiAset',
+              'penghapusanAset',
+              'penyusutan'
+            ];
+          ?>
+          <li class="nav-item has-treeview">
+            <a href="#" class="nav-link"><i class="nav-icon fas fa-dolly"></i>
+              <p>Inventaris<i class="fas fa-angle-left right"></i></p>
+            </a>
+            <ul class="nav nav-treeview" data-submenu-title="inventaris">                        
+              <li class="nav-item">
+                <a href="#" class="nav-link <?php echo menu_is_active('daftarInventaris') ?>">
+                <i class="far fa-circle nav-icon"></i><p>Daftar Inventaris</p></a>
+              </li>          
+              <li class="nav-item">
+                <a href="#" class="nav-link <?php echo menu_is_active('pemeliharaanAset') ?>">
+                <i class="far fa-circle nav-icon"></i><p>Pemeliharaan Aset</p></a>
+              </li>          
+              <li class="nav-item">
+                <a href="#" class="nav-link <?php echo menu_is_active('mutasiAset') ?>">
+                <i class="far fa-circle nav-icon"></i><p>Mutasi Aset</p></a>
+              </li>          
+              <li class="nav-item">
+                <a href="#" class="nav-link <?php echo menu_is_active('penghapusanAset') ?>">
+                <i class="far fa-circle nav-icon"></i><p>Penghapusan Aset</p></a>
+              </li>          
+              <li class="nav-item">
+                <a href="#" class="nav-link <?php echo menu_is_active('penyusutan') ?>">
+                <i class="far fa-circle nav-icon"></i><p>Penyusutan</p></a>
+              </li>          
+            </ul>
+          </li>
           <li class="nav-item has-treeview">
           <a href="{site_url}memo" class="nav-link <?php echo menu_is_active('memo') ?>">
               <i class="nav-icon fas fa-tachometer-alt"></i><p><?php echo lang('memos') ?></p></a>

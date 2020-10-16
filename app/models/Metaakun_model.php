@@ -28,4 +28,11 @@ class Metaakun_model extends CI_Model {
 		$this->db->delete('tPemetaanAkun');
 	}
 
+	public function get()
+	{
+		$this->db->select('mnoakun.akunno, mnoakun.namaakun, tPemetaanAkun.idPemetaanAkun');
+		$this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun = mnoakun.idakun');
+		return $this->db->get('tPemetaanAkun')->result_array();
+	}
+
 }

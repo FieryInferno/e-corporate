@@ -62,49 +62,23 @@
 			searchPlaceholder: 'Type to filter...',
 		},
 		columns: [{
-				data: 'id',
+				data: 'idSetupJurnal',
 				visible: false
 			},
+			{data	: 'kodeJurnal'},
+			{data	: 'formulir'},
+			{data	: 'keterangan'},
 			{
-				data: 'dept'
-			},
-			{data: 'nama_perusahaan'},
-			{
-				data: 'nominal', className: 'text-right', orderable: false,
-        		render: function(data, type, row) {
-        			if(data) return formatRupiah(data, 'Rp. ') + ',00';
-        			else return formatRupiah(row.nominal, 'Rp. ') + ',00';
-				}
-			}, {
-				data: 'status',
-				render: function(data) {
-					if(data == 'Validate') return '<span class="badge badge-success"><?php echo lang('Validasi') ?></sapan>';
-					else return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
-				}
-			}, 
-			{
-				data	: {
-					id		: 'id',
-					status	: 'status'
-				},
-				width: 50,
-				orderable: false,
+				className	: "text-center",
 				render: function(data, type, row) {
-					if (data.status == 'Validate') {
-						var tombol_validasi	= `
-							<a class="dropdown-item" href="`+base_url+`validasi/1/`+data.id+`"><i class="fas fa-times"></i> Hapus Validasi</a>`;
-					} else {
-						var tombol_validasi	= `
-							<a class="dropdown-item" href="`+base_url+`validasi/0/`+data.id+`"><i class="fas fa-check"></i> Validasi</a>
-							<a href="javascript:deleteData('` + data.id + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>`;
-					}
 					var aksi = `
 						<div class="list-icons"> 
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<a href="`+base_url+`printpdf/`+data+`" class="dropdown-item"><i class="fas fa-print"></i> <?php echo lang('print') ?></a>` + tombol_validasi +
-								`</div> 
+									<a class="dropdown-item" href=""><i class="fas fa-pencil"></i> Edit</a>
+									<a href="javascript:deleteData('` + row.idSetupJurnal + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+								</div> 
 							</div> 
 						</div>`;
 					return aksi;
