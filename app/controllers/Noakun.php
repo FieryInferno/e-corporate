@@ -29,9 +29,7 @@ class Noakun extends User_Controller {
 
 	public function index_datatable() {
 		$this->load->library('Datatables');
-		// $this->datatables->select('mnoakun.*, viewnoakunsaldo.saldo as saldoakun');
 		$this->datatables->where('mnoakun.stdel', '0');
-		// $this->datatables->join('viewnoakunsaldo','mnoakun.noakun = viewnoakunsaldo.noakun','left');
 		$this->datatables->from('mnoakun');
 		return print_r($this->datatables->generate());
 	}
@@ -214,6 +212,7 @@ class Noakun extends User_Controller {
 
 	public function select2_noakun($id1 = null, $id2 = null)
 	{
+		$term = $this->input->get('q');
 		$this->db->select('idakun as id, concat(mnoakun.akunno, " - ",mnoakun.namaakun) as text');
 		if ($id1 !== null) {
 			if ($id1 == 145) {
@@ -224,6 +223,10 @@ class Noakun extends User_Controller {
 					$this->db->like('akunno', '1', 'after');
 					$this->db->or_like('akunno', '4', 'after');
 					$this->db->or_like('akunno', '5', 'after');
+					if ($term) {
+						$this->db->or_like('akunno', $term);
+						$this->db->or_like('namaakun', $term);
+					}
 					$data = $this->db->get('mnoakun')->result_array();
 				}
 			} else {
@@ -231,6 +234,10 @@ class Noakun extends User_Controller {
 				$data = $this->db->get('mnoakun')->row_array();
 			}
 		} else {
+			if ($term) {
+				$this->db->like('akunno', $term);
+				$this->db->or_like('namaakun', $term);
+			}
 			$data = $this->db->get('mnoakun')->result_array();
 		}
 		

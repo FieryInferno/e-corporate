@@ -14,59 +14,94 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Jurnal extends User_Controller {
 
+	private	$tglMulai;
+	private	$tglSampai;
+	private	$akunno;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Jurnal_model','model');
+		$this->tglMulai		= $this->input->get('tglMulai');
+		$this->tglSampai	= $this->input->get('tglSampai');
+		$this->akunno		= $this->input->get('kodeAkun');
 	}
 
 	public function index() {
-		$tanggalawal = $this->input->get('tanggalawal');
-		$tanggalakhir = $this->input->get('tanggalakhir');
-		$per_page = $this->input->get('per_page');
-
-		$base_url = site_url('jurnal/index');
-		if($tanggalawal && $tanggalakhir) {
-			$data['tanggalawal'] = $tanggalawal;
-			$data['tanggalakhir'] = $tanggalakhir;
-			$base_url = site_url('jurnal/index?tanggalawal='.$tanggalawal.'&tanggalakhir='.$tanggalakhir);
-		} else {
-			$data['tanggalawal'] = date('Y-m-01');
-			$data['tanggalakhir'] = date('Y-m-t');
-			$base_url = site_url('jurnal/index?tanggalawal='.$data['tanggalawal'].'&tanggalakhir='.$data['tanggalakhir']);
+		$data['title']		= 'Jurnal Umum';
+		$data['content']	= 'Jurnal/index';
+		$data['jurnalUmum']	= [];
+		$formulir	= ['penerimaanBarang', 'pengirimanBarang', 'fakturPenjualan', 'fakturPembelian', 'kasBank', 'pengeluaranKasKecil', 'saldoAwal'];
+		$jumlah		= count($formulir);
+		for ($i=0; $i < $jumlah; $i++) {
+			if ($formulir[$i] == 'penerimaanBarang') {
+				$table		= 'tPenerimaan';
+				$detail		= 'tPenerimaanDetail';
+				$id			= 'idPenerimaan';
+				$idDetail	= 'idDetailPenerimaan';
+				$jenis		= 'penerimaanBarang';
+			} elseif ($formulir[$i] == 'pengirimanBarang') {
+				$table		= 'tpengiriman';
+				$detail		= 'tpengirimandet';
+				$id			= 'id';
+				$idDetail	= 'id';
+				$jenis		= 'pengirimanBarang';
+			// } elseif ($formulir[$i] == 'fakturPenjualan') {
+			// 	$table		= 'tfakturpenjualan';
+			// 	$detail		= 'tfakturpenjualandetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'idDetailFakturPenjualan';
+			// 	$jenis	= 'fakturPenjualan';
+			// } elseif ($formulir[$i] == 'fakturPembelian') {
+			// 	$table		= 'tfaktur';
+			// 	$detail		= 'tfakturdetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'id';
+			// 	$jenis	= 'fakturPembelian';
+			// } elseif ($formulir[$i] == 'kasBank') {
+			// 	$table		= 'tkasbank';
+			// 	$detail		= 'tkasbankdetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'idKasBank';
+			// 	$jenis	= 'kasBank';
+			// } elseif ($formulir[$i] == 'pengeluaranKasKecil') {
+			// 	$table		= 'tpengeluarankaskecil';
+			// 	$detail		= 'tpengeluarankaskecildetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'id';
+			// 	$jenis	= 'pengeluaranKasKecil';
+			// } elseif ($formulir[$i] == 'saldoAwal') {
+			// 	$table		= 'tsaldoAwal';
+			// 	$detail		= 'tsaldoawaldetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'idsaldoawal';
+			// 	$jenis	= 'saldoAwal';
+			}
+			if ($table) {
+				$this->db->select($table . '.tanggal, tSetupJurnal.formulir, ' . $table . '.noTrans, tpemesanan.departemen, mperusahaan.nama_perusahaan, mnoakun.akunno, mnoakun.namaakun, tJurnalAnggaran.jenis as jenisAnggaran, tJurnalFinansial.jenis as jenisFinansial, ' . $table . '.total');
+				$this->db->join($detail, $table . '.' . $id . ' = ' . $detail . '.' . $idDetail);
+				$this->db->join('tpemesanandetail', $detail . '.idPemesananDetail = tpemesanandetail.id');
+				$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+				$this->db->join('tPemetaanAkun', 'tanggaranbelanjadetail.koderekening = tPemetaanAkun.kodeAkun');
+				$this->db->join('tJurnalAnggaran', 'tPemetaanAkun.idPemetaanAkun = tJurnalAnggaran.elemen', 'left');
+				$this->db->join('tJurnalFinansial', 'tPemetaanAkun.idPemetaanAkun = tJurnalFinansial.elemen','left');
+				$this->db->join('tSetupJurnal', 'tJurnalAnggaran.idSetupJurnal = tSetupJurnal.idSetupJurnal');
+				$this->db->join('tpemesanan', $table . '.pemesanan = tpemesanan.id');
+				$this->db->join('mperusahaan', 'tpemesanan.idperusahaan = mperusahaan.idperusahaan');
+				$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
+				$this->db->where('tSetupJurnal.formulir', $jenis);
+				$this->db->where($table . '.status', '3');
+				if ($this->tglMulai !== '' && $this->tglSampai !== '') {
+					$this->db->where($table . '.tanggal BETWEEN "' . $this->tglMulai . '" AND "' . $this->tglSampai . '"');
+				}
+				if ($this->akunno !== '') {
+					$this->db->where('mnoakun.akunno', $this->akunno);
+				}
+				$data['jurnalUmum'][$i]	= $this->db->get($table)->result_array();	
+			}
 		}
-
-		$this->load->library('pagination');		
-		$config['base_url'] = $base_url;
-		$config['total_rows'] = $this->model->get_count_jurnal($data['tanggalawal'], $data['tanggalakhir']);
-		$config['per_page'] = 10;
-		$config['full_tag_open'] = '<ul class="pagination">';
-		$config['full_tag_close'] = '</ul>';
-		$config['first_link'] = 'First';
-		$config['first_tag_open'] = '<li class="page-link">';
-		$config['first_tag_close'] = '</li>';
-		$config['last_link'] = 'Last';
-		$config['last_tag_open'] = '<li class="page-link">';
-		$config['last_tag_close'] = '</li>';
-		$config['next_link'] = '&gt;';
-		$config['next_tag_open'] = '<li class="page-link">';
-		$config['next_tag_close'] = '</li>';
-		$config['prev_link'] = '&lt;';
-		$config['prev_tag_open'] = '<li class="page-link">';
-		$config['prev_tag_close'] = '</li>';
-		$config['cur_tag_open'] = '<li class="page-link bg-info">';
-		$config['cur_tag_close'] = '</li>';
-		$config['num_tag_open'] = '<li class="page-link">';
-		$config['num_tag_close'] = '</li>';
-		$config['page_query_string'] = TRUE;
-		
-		$this->pagination->initialize($config);
-
-		$data['pagination'] = $this->pagination->create_links();
-		$data['get_jurnal'] = $this->model->get_jurnal($per_page, $config['per_page'], $data['tanggalawal'], $data['tanggalakhir']);
-		$data['title'] = lang('journal');
-		$data['subtitle'] = lang('list');
-		$data['content'] = 'Jurnal/index';
 		$data = array_merge($data,path_info());
+		// print_r($data);
+		// die();
 		$this->parser->parse('template',$data);
 	}
 
@@ -159,6 +194,108 @@ class Jurnal extends User_Controller {
         header('Cache-Control: max-age=0');
         $write = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
         $write->save('php://output');
+	}
+
+	public function index_datatable() {
+		$this->load->library('Datatables');
+
+		// return print_r($this->datatables->generate());
+
+		$jurnalUmum	= [];
+		$formulir	= ['penerimaanBarang', 'pengirimanBarang', 'fakturPenjualan', 'fakturPembelian', 'kasBank', 'pengeluaranKasKecil', 'saldoAwal'];
+		$jumlah		= count($formulir);
+		for ($i=0; $i < $jumlah; $i++) {
+			if ($formulir[$i] == 'penerimaanBarang') {
+				$table		= 'tPenerimaan';
+				$detail		= 'tPenerimaanDetail';
+				$id			= 'idPenerimaan';
+				$idDetail	= 'idDetailPenerimaan';
+				$jenis		= 'penerimaanBarang';
+			} elseif ($formulir[$i] == 'pengirimanBarang') {
+				$table		= 'tpengiriman';
+				$detail		= 'tpengirimandet';
+				$id			= 'id';
+				$idDetail	= 'id';
+				$jenis		= 'pengirimanBarang';
+			// } elseif ($formulir[$i] == 'fakturPenjualan') {
+			// 	$table		= 'tfakturpenjualan';
+			// 	$detail		= 'tfakturpenjualandetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'idDetailFakturPenjualan';
+			// 	$jenis	= 'fakturPenjualan';
+			// } elseif ($formulir[$i] == 'fakturPembelian') {
+			// 	$table		= 'tfaktur';
+			// 	$detail		= 'tfakturdetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'id';
+			// 	$jenis	= 'fakturPembelian';
+			// } elseif ($formulir[$i] == 'kasBank') {
+			// 	$table		= 'tkasbank';
+			// 	$detail		= 'tkasbankdetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'idKasBank';
+			// 	$jenis	= 'kasBank';
+			// } elseif ($formulir[$i] == 'pengeluaranKasKecil') {
+			// 	$table		= 'tpengeluarankaskecil';
+			// 	$detail		= 'tpengeluarankaskecildetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'id';
+			// 	$jenis	= 'pengeluaranKasKecil';
+			// } elseif ($formulir[$i] == 'saldoAwal') {
+			// 	$table		= 'tsaldoAwal';
+			// 	$detail		= 'tsaldoawaldetail';
+			// 	$id			= 'id';
+			// 	$idDetail	= 'idsaldoawal';
+			// 	$jenis	= 'saldoAwal';
+			}
+			if ($table) {
+				$this->datatables->select($table . '.tanggal, tSetupJurnal.formulir, ' . $table . '.noTrans, tpemesanan.departemen, mperusahaan.nama_perusahaan, mnoakun.akunno, mnoakun.namaakun, tJurnalAnggaran.jenis as jenisAnggaran, tJurnalFinansial.jenis as jenisFinansial, ' . $table . '.total');
+				$this->datatables->from($table);
+				$this->datatables->join($detail, $table . '.' . $id . ' = ' . $detail . '.' . $idDetail);
+				$this->datatables->join('tpemesanandetail', $detail . '.idPemesananDetail = tpemesanandetail.id');
+				$this->datatables->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+				$this->datatables->join('tPemetaanAkun', 'tanggaranbelanjadetail.koderekening = tPemetaanAkun.kodeAkun');
+				$this->datatables->join('tJurnalAnggaran', 'tPemetaanAkun.idPemetaanAkun = tJurnalAnggaran.elemen', 'left');
+				$this->datatables->join('tJurnalFinansial', 'tPemetaanAkun.idPemetaanAkun = tJurnalFinansial.elemen','left');
+				$this->datatables->join('tSetupJurnal', 'tJurnalAnggaran.idSetupJurnal = tSetupJurnal.idSetupJurnal');
+				$this->datatables->join('tpemesanan', $table . '.pemesanan = tpemesanan.id');
+				$this->datatables->join('mperusahaan', 'tpemesanan.idperusahaan = mperusahaan.idperusahaan');
+				$this->datatables->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
+				$this->datatables->where('tSetupJurnal.formulir', $jenis);
+				// $this->db->where('tPenerimaan.status', '3');
+				// $data	= $this->db->get($table)->result_array();
+				// array_push($jurnalUmum, $data);	
+				$jurnalUmum[$i]	= $this->datatables->generate();
+			}
+		}
+		print_r($data);
+		// for ($i=0; $i < count($jurnalUmum); $i++) { 
+		// 	for ($j=0; $j < count($jurnalUmum[$i]); $j++) { 
+		// 		$this->datatables->add_column('tanggal', $jurnalUmum[$i][$j]['tanggal']);
+		// 		$this->datatables->add_column('formulir', $jurnalUmum[$i][$j]['formulir']);
+		// 		$this->datatables->add_column('noTrans', $jurnalUmum[$i][$j]['noTrans']);
+		// 		$this->datatables->add_column('departemen', $jurnalUmum[$i][$j]['departemen']);
+		// 		$this->datatables->add_column('namaperusanaah', $jurnalUmum[$i][$j]['nama_perusahaan']);
+		// 		$this->datatables->add_column('akunno', $jurnalUmum[$i][$j]['akunno']);
+		// 		$this->datatables->add_column('namaakun', $jurnalUmum[$i][$j]['namaakun']);
+		// 		$this->datatables->add_column('departemen', $jurnalUmum[$i][$j]['departemen']);
+		// 		switch ($jurnalUmum[$i][$j]['jenisAnggaran']) {
+		// 			case 'debit':
+		// 				$this->datatables->add_column('debit', "Rp " . number_format($jurnalUmum[$i][$j]['total'],2,',','.'));
+		// 				$this->datatables->add_column('kredit', "Rp " . number_format(0,2,',','.'));
+		// 				break;
+		// 			case 'kredit':
+		// 				$this->datatables->add_column('kredit', "Rp " . number_format($jurnalUmum[$i][$j]['total'],2,',','.'));
+		// 				$this->datatables->add_column('debit', "Rp " . number_format(0,2,',','.'));
+		// 				break;
+					
+		// 			default:
+		// 				# code...
+		// 				break;
+		// 		}
+		// 		$this->datatables->generate();
+		// 	}
+		// }
 	}
 }
 

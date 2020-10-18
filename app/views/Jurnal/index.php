@@ -1,146 +1,157 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{title}</h1>
         </div>
-        <div class="header-elements d-none">
-          <div class="d-flex justify-content-center">
-            <div class="btn-group">
-              <a href="{site_url}jurnal/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-              <?php $currentURL = current_url(); ?>
-              <?php $params = $_SERVER['QUERY_STRING']; ?>
-              <?php $fullURL = $currentURL . '/printpdf?' . $params; ?>
-              <?php $fullURLChange = $fullURL ?>
-              <?php if ($this->uri->segment(2)): ?>
-                <?php $fullURL = $currentURL . '?' . $params; ?>
-                <?php $fullURLChange = str_replace('index', 'printpdf', $fullURL) ?>
-              <?php endif ?>
-              <a href="<?php echo $fullURLChange ?>" target="_blank" class="btn btn-warning"><?php echo lang('print') ?></a>
-            </div>
-          </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">{title}</li>
+          </ol>
         </div>
-        <div class="m-3">
-          <form action="{site_url}jurnal/index" id="form1" method="get">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label>Perusahaan:</label>
-                  <select class="form-control perusahaanid" name="perusahaanid"></select>
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label><?php echo lang('start_date') ?>:</label>
-                  <input type="text" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
-                </div>
-              </div>
-              <div class="col-md-2">
-                <div class="form-group">
-                  <label><?php echo lang('end_date') ?>:</label>
-                  <input type="text" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
-                </div>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="text-right">
-                  <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      </div><!-- /.container-fluid -->
-    </section>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-                <div class="table-responsive">
-                    <table class="table table-xs">
-                        <thead class="{bg_header}">
-                            <tr>
-                                <th width="60%"><?php echo lang('account') ?></th>
-                                <th class="text-right" width="20%"><?php echo lang('debet') ?></th>
-                                <th class="text-right" width="20%"><?php echo lang('kredit') ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if ($get_jurnal): ?>
-                                <?php foreach ($get_jurnal as $row): ?>
-                                    <tr class="bg-grey-300">
-                                        <td>
-                                            <?php $date = date('d/m/Y', strtotime($row['tanggal'])) ?>
-                                            <span class="font-weight-bold"><?php echo $row['keterangan'] ?> - </span> 
-                                            <span class="font-weight-bold">( <?php echo $date ?> )</span> 
-                                        </td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                    </tr>
-                                    <?php $totaldebet = 0 ?>
-                                    <?php $totalkredit = 0 ?>
-                                    <?php foreach ($this->model->get_jurnal_detail($row['id']) as $det): ?>
-                                        <?php $totaldebet = $totaldebet + $det['debet'] ?>
-                                        <?php $totalkredit = $totalkredit + $det['kredit'] ?>
-                                        <tr>
-                                            <td>
-                                                <a href="{site_url}noakun/detail/<?php echo $det['noakun'] ?>">
-                                                    <?php if ($det['debet'] == 0): ?>
-                                                        <?php echo str_repeat('&nbsp;', 20).'('.$det['noakun'] ?>) - <?php echo $det['namaakun'] ?> 
-                                                    <?php else: ?>
-                                                        (<?php echo $det['noakun'] ?>) - <?php echo $det['namaakun'] ?> 
-                                                    <?php endif ?>
-                                                </a>
-                                            </td>
-                                            <td class="text-right"><?php echo number_format($det['debet']) ?></td>
-                                            <td class="text-right"><?php echo number_format($det['kredit']) ?></td>
-                                        </tr>
-                                    <?php endforeach ?>
-                                    <tr class="bg-light font-weight-bold">
-                                        <td class="text-right">Total</td>
-                                        <td class="text-right"><?php echo number_format($totaldebet) ?></td>
-                                        <td class="text-right"><?php echo number_format($totalkredit) ?></td>
-                                    </tr>
-                                <?php endforeach ?>
-                            <?php else: ?>
-                                <tr>
-                                    <td class="text-center" colspan="3"><?php echo lang('data_not_found') ?></td>
-                                </tr>
-                            <?php endif ?>
-                        </tbody>
-                    </table>
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">         
+          <div class="card">
+            <div class="card-header">
+              <form action="{site_url}jurnal">
+                <div class="row">
+                  <div class="col-2">
+                    <select name="tipe" id="tipe" class="form-control">
+                      <option value="" disabled selected>-- Semua Jenis --</option>
+                      <option value="saldoAwal">Saldo Awal</option>
+                      <option value="fakturPenjualan">Faktur Penjualan</option>
+                      <option value="fakturPembelian">Faktur Pembelian</option>
+                      <option value="kasBank">Kas Bank</option>
+                      <option value="penerimaanBarang">Penerimaan Barang</option>
+                      <option value="pengirimanBarang">Pengiriman Barang</option>
+                      <option value="jurnalPenyesuaian">Jurnal Penyesuaian</option>
+                      <option value="kasKecil">Kas Kecil</option>
+                    </select>
+                  </div>
+                  <div class="col-2">
+                    <input type="date" name="tglMulai" placeholder="Tanggal Mulai" class="form-control">
+                  </div>
+                  <div class="col-2">
+                    <input type="date" name="tglSampai" placeholder="Tanggal Sampai" class="form-control">
+                  </div>
+                  <div class="col-2">
+                    <input type="text" name="kodeAkun" placeholder="Kode Akun" class="form-control">
+                  </div>
+                  <div class="col-2">
+                    <button class="btn btn-info" type="submit">Filter</button>
+                    <button class="btn btn-danger">Reset</button>
+                  </div>
                 </div>
+              </form>
             </div>
-            <div class="d-flex justify-content-center mt-3 mb-3">
-                <?php echo $pagination ?>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-xs index_datatable">
+                  <thead>
+                    <tr>
+                      <th>Tanggal</th>
+                      <th>Tipe</th>
+                      <th>No Trans</th>
+                      <th>Departemen</th>
+                      <th>Nama Perusahaan</th>
+                      <th>Nomor Akun</th>
+                      <th>Nama Akun</th>
+                      <th>Debit</th>
+                      <th>Kredit</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <?php
+                      foreach ($jurnalUmum as $key => $value) { 
+                        foreach ($value as $key) { ?>
+                          <tr>
+                            <td><?= $key['tanggal']; ?></td>
+                            <td><?= $key['formulir']; ?></td>
+                            <td><?= $key['noTrans']; ?></td>
+                            <td><?= $key['departemen']; ?></td>
+                            <td><?= $key['nama_perusahaan']; ?></td>
+                            <td><?= $key['akunno']; ?></td>
+                            <td><?= $key['namaakun']; ?></td>
+                            <?php 
+                              if ($key['jenisAnggaran'] !== null) { 
+                                switch ($key['jenisAnggaran']) {
+                                  case 'debit': ?>
+                                    <td>Rp. <?= number_format($key['total'],2,',','.'); ?></td>
+                                    <td>Rp. <?= number_format(0,2,',','.'); ?></td>
+                                    <?php break;
+                                  case 'kredit': ?>
+                                    <td>Rp. <?= number_format(0,2,',','.'); ?></td>
+                                    <td>Rp. <?= number_format($key['total'],2,',','.'); ?></td>
+                                    <?php break;
+                                  default:
+                                    # code...
+                                    break;
+                                }
+                              } ?>
+                          </tr>
+                        <?php }
+                      }
+                    ?>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
-<script type="text/javascript">
-  ajax_select({ 
-      id          : '.perusahaanid', 
-      url         : '{site_url}perusahaan/select2', 
-      selected    : { 
-          id: '{perusahaanid}' 
-      } 
-  });
+    </div>
+  </section>
+</div>
+<script>
+  var base_url = '{site_url}Jurnal/';
+  var table     = $('.index_datatable').DataTable(); 
+  // var table = $('.index_datatable').DataTable({
+	// 	ajax: {
+	// 		url     : base_url + 'index_datatable',
+	// 		type    : 'post',
+	// 	},
+	// 	pageLength: 100,
+	// 	stateSave: true,
+	// 	autoWidth: false,
+	// 	dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
+	// 	language: {
+	// 		search: '<span></span> _INPUT_',
+	// 		searchPlaceholder: 'Type to filter...',
+	// 	},
+	// 	columns: [{
+	// 			data: 'idSetupJurnal',
+	// 			visible: false
+	// 		},
+	// 		{data	: 'kodeJurnal'},
+	// 		{data	: 'formulir'},
+	// 		{data	: 'keterangan'},
+	// 		{
+	// 			className	: "text-center",
+	// 			render: function(data, type, row) {
+	// 				var aksi = `
+	// 					<div class="list-icons"> 
+	// 						<div class="dropdown"> 
+	// 							<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+	// 							<div class="dropdown-menu dropdown-menu-right">
+	// 								<a class="dropdown-item" href=""><i class="fas fa-pencil-alt"></i> Edit</a>
+	// 								<a href="javascript:deleteData('` + row.idSetupJurnal + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+	// 							</div> 
+	// 						</div> 
+	// 					</div>`;
+	// 				return aksi;
+	// 			}
+	// 		}
+	// 	]
+	// });
 </script>

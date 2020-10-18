@@ -184,37 +184,37 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label><?php echo lang('Term 1') ?>:</label>
-                                    <input type="text" class="form-control" name="a1" placeholder="Angsuran 1" id="a1" onkeyup="format('a1'), hitungterm(), hitungtum()" value="<?= "Rp. " . number_format($angsuran['a1'],2,',','.'); ?>">
+                                    <input type="text" class="form-control" name="a1" placeholder="Angsuran 1" id="a1" onkeyup="format('a1'), hitungterm(), hitungtum()" value="<?= $angsuran['a1'] !== '' ? "Rp. " . number_format($angsuran['a1'],2,',','.') : "" ; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('Term 2') ?>:</label>
-                                    <input type="text" class="form-control" name="a2" placeholder="Angsuran 2" id="a2" onkeyup="format('a2'), hitungterm(), hitungtum()" value="<?= "Rp. " . number_format($angsuran['a2'],2,',','.'); ?>">
+                                    <input type="text" class="form-control" name="a2" placeholder="Angsuran 2" id="a2" onkeyup="format('a2'), hitungterm(), hitungtum()" value="<?= $angsuran['a2'] !== '' ? "Rp. " . number_format($angsuran['a2'],2,',','.') : "" ; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('Term 3') ?>:</label>
-                                    <input type="text" class="form-control" name="a3" placeholder="Angsuran 3" id="a3" onkeyup="format('a3'), hitungterm(), hitungtum()" value="<?= "Rp. " . number_format($angsuran['a3'],2,',','.'); ?>">
+                                    <input type="text" class="form-control" name="a3" placeholder="Angsuran 3" id="a3" onkeyup="format('a3'), hitungterm(), hitungtum()" value="<?= $angsuran['a3'] !== '' ? "Rp. " . number_format($angsuran['a3'],2,',','.') : "" ; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('Term 4') ?>:</label>
-                                    <input type="text" class="form-control" name="a4" placeholder="Angsuran 4" id="a4" onkeyup="format('a4'), hitungterm(), hitungtum()" value="<?= "Rp. " . number_format($angsuran['a4'],2,',','.'); ?>">
+                                    <input type="text" class="form-control" name="a4" placeholder="Angsuran 4" id="a4" onkeyup="format('a4'), hitungterm(), hitungtum()" value="<?= $angsuran['a4'] !== '' ? "Rp. " . number_format($angsuran['a4'],2,',','.') : "" ; ?>">
                                 </div>
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label><?php echo lang('Term 5') ?>:</label>
-                                    <input type="text" class="form-control" name="a5" placeholder="Angsuran 5" id="a5" onkeyup="format('a5'), hitungterm(), hitungtum()" value="<?= "Rp. " . number_format($angsuran['a5'],2,',','.'); ?>">
+                                    <input type="text" class="form-control" name="a5" placeholder="Angsuran 5" id="a5" onkeyup="format('a5'), hitungterm(), hitungtum()" value="<?= $angsuran['a5'] !== '' ? "Rp. " . number_format($angsuran['a5'],2,',','.') : "" ; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('Term 6') ?>:</label>
-                                    <input type="text" class="form-control" name="a6" placeholder="Angsuran 6" id="a6" onkeyup="format('a6'), hitungterm(), hitungtum()" value="<?= "Rp. " . number_format($angsuran['a6'],2,',','.'); ?>">
+                                    <input type="text" class="form-control" name="a6" placeholder="Angsuran 6" id="a6" onkeyup="format('a6'), hitungterm(), hitungtum()" value="<?= $angsuran['a6'] !== '' ? "Rp. " . number_format($angsuran['a6'],2,',','.') : "" ; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('Term 7') ?>:</label>
-                                    <input type="text" class="form-control" name="a7" placeholder="Angsuran 7" id="a7" onkeyup="format('a7'), hitungterm(), hitungtum()" value="<?= "Rp. " . number_format($angsuran['a7'],2,',','.'); ?>">
+                                    <input type="text" class="form-control" name="a7" placeholder="Angsuran 7" id="a7" onkeyup="format('a7'), hitungterm(), hitungtum()" value="<?= $angsuran['a7'] !== '' ? "Rp. " . number_format($angsuran['a7'],2,',','.') : "" ; ?>">
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('Term 8') ?>:</label>
-                                    <input type="text" class="form-control" name="a8" placeholder="Angsuran 8" id="a8" onkeyup="format('a8'), hitungterm(), hitungtum()" value="<?= "Rp. " . number_format($angsuran['a8'],2,',','.'); ?>">
+                                    <input type="text" class="form-control" name="a8" placeholder="Angsuran 8" id="a8" onkeyup="format('a8'), hitungterm(), hitungtum()" value="<?= $angsuran['a8'] !== '' ? "Rp. " . number_format($angsuran['a8'],2,',','.') : "" ; ?>">
                                 </div>
                             </div>
                         </div>

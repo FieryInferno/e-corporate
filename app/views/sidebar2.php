@@ -386,7 +386,7 @@
 				<li class="nav-item">
 					<a href="{site_url}SetUpJurnal" class="nav-link <?php echo menu_is_active('SetUpJurnal') ?>">
 						<i class="icon-cash"></i>
-						<i class="nav-icon fas fa-cogs"></i><p>Set Up Jurnal</p>
+						<i class="nav-icon fas fa-cogs"></i><p>Setup Jurnal</p>
 					</a>
                 </li>
                 

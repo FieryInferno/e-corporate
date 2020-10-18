@@ -56,5 +56,22 @@ class SetUpJurnal_model extends CI_Model {
 		$this->datatables->from('tSetupJurnal');
 		return $this->datatables->generate();
     }
+
+    public function delete($idSetupJurnal) {
+		$this->db->where('idSetupJurnal', $idSetupJurnal);
+		$delete = $this->db->delete('tSetupJurnal');
+		if($delete) {
+            $this->db->where('idSetupJurnal', $idSetupJurnal);
+            $this->db->delete('tJurnalAnggaran');
+            $this->db->where('idSetupJurnal', $idSetupJurnal);
+            $this->db->delete('tJurnalFinansial');
+			$data['status'] = 'success';
+			$data['message'] = lang('delete_success_message');
+		} else {
+			$data['status'] = 'error';
+			$data['message'] = lang('delete_error_message');
+        }
+        return $data;
+	}
 }
 

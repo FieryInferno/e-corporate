@@ -193,7 +193,7 @@
 					} else {
 						const html = `
 							<tr>
-								<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, `+i+`)"></td>
+								<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, `+i+`)" idRekening="${element.idakun}"></td>
 								<td>${element.akunno}</td>
 								<td>${element.namaakun}</td>
 							</tr>
@@ -210,10 +210,11 @@
 		const namaRekening 	= $(elem).attr('data-name');
 		const stat			= $(elem).is(":checked");
 		const table			= $('#rekening');
+		const idRekening 	= $(elem).attr('idRekening');
 		// var no1				= 0;		
 		if (stat) {
 			const html = `
-				<tr class="bg-light item-title" kode="${kodeRekening}">
+				<tr class="bg-light item-title" kode="${kodeRekening}" idRekening="${idRekening}">
 					<td id="a${no}">
 						<button type="button" class="btn btn-primary" onclick="addItem(this,`+no+`,`+0+`)">+</button>
 					</td>
@@ -233,6 +234,7 @@
 		const td 			= $(elem).parents('td');
 		const tr 			= $(elem).parents('tr');
 		const kodeRekening 	= $(tr).attr('kode');
+		const idRekening 	= $(tr).attr('idRekening');
 		var no3				= no2 + 1;
 		const html 			= `
 			<tr class="rek-items" kode="${kodeRekening}">
@@ -240,7 +242,7 @@
 					<button type="button" class="btn btn-danger" onclick="removeItem(this)">-</button>
 				</td>
 				<td>
-					<input type="hidden" name="kode_rekening[]" id="kode_rekening`+no+no2+`" value="${kodeRekening}">
+					<input type="hidden" name="kode_rekening[]" id="kode_rekening`+no+no2+`" value="${idRekening}">
 					${kodeRekening}
 				</td>			
 				<td>

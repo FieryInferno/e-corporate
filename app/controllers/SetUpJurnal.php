@@ -39,4 +39,10 @@ class SetUpJurnal extends User_Controller {
 		return print_r($data);
 	}
 
+	public function delete($idSetupJurnal)
+	{
+		$data	= $this->SetUpJurnal_Model->delete($idSetupJurnal);
+		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
 }

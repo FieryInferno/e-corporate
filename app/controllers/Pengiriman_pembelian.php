@@ -168,8 +168,6 @@ class Pengiriman_pembelian extends User_Controller {
 
 	public function validasi($status= null, $id = null)
 	{
-		$this->db->set('cby',get_user('username'));
-		$this->db->set('cdate',date('Y-m-d H:i:s'));
 		switch ($status) {
 			case '0':
 				$this->db->set('status','3');
@@ -180,8 +178,8 @@ class Pengiriman_pembelian extends User_Controller {
 				# code...
 				break;
 		}
-		$this->db->where('id', $id);
-		$update = $this->db->update('tpengiriman');
+		$this->db->where('idPenerimaan', $id);
+		$update = $this->db->update('tPenerimaan');
 		if($update) {
 			$data['status'] = 'success';
 			$data['message'] = lang('update_success_message');

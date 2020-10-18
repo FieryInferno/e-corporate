@@ -41,15 +41,22 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Formulir :</label>
-                                            <select name="formulir" id="formulir" class="form-control">
+                                            <select name="formulir" id="formulir" class="form-control" onchange="pilihFormulir()">
                                                 <option value="" disabled selected>Pilih Formulir</option>
                                                 <option value="fakturPembelian">Faktur Pembelian</option>
-                                                <option value="fakturPembelian">Faktur Penjualan</option>
-                                                <option value="fakturPembelian">Penerimaan Barang</option>
-                                                <option value="fakturPembelian">Pengiriman Barang</option>
-                                                <option value="fakturPembelian">Pengeluaran Kas Kecil</option>
+                                                <option value="fakturPenjualan">Faktur Penjualan</option>
+                                                <option value="penerimaanBarang">Penerimaan Barang</option>
+                                                <option value="pengirimanBarang">Pengiriman Barang</option>
+                                                <option value="pengeluaranKasKecil">Pengeluaran Kas Kecil</option>
+                                                <option value="kasBank">Kas Bank</option>
+                                                <option value="saldoAwal">Saldo Awal</option>
+                                                <option value="jurnalPenyesuaian">Jurnal Penyesuaian</option>
+                                                <option value="setorPajak">Setor Pajak</option>
                                             </select>
                                         </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div id="tipeTransaksi"></div>
                                     </div>
                                 </div>
                                 <div class="row">
@@ -121,7 +128,7 @@
         var metaAkun    = <?= json_encode($metaAkun); ?>;
         var opt         = '';
         for (let index = 0; index < metaAkun.length; index++) {
-            opt += '<option value="' + metaAkun[index].idPemetaanAkun + '">' + metaAkun[index].akunno + ' - ' + metaAkun[index].namaakun + '</option>';
+            opt += '<option value="' + metaAkun[index].idPemetaanAkun + '">' + metaAkun[index].namaakun + '</option>';
         }
         var isiTabel    = `
             <tr nomor="${nomor}">
@@ -175,7 +182,7 @@
         var form        = $('#formSetUpJurnal')[0];
         var formData    = new FormData(form);
         $.ajax({
-            url         : base_url + 'save',
+            url         : base_url + '/save',
             dataType    : 'json',
             method      : 'post',
             data        : formData,
@@ -199,5 +206,24 @@
                 swal("Gagal!", "Internal Server Error", "error");
             }
         })
+    }
+
+    function pilihFormulir() {
+        var formulir    = $('#formulir').val();
+        if (formulir === 'fakturPembelian' || formulir === 'fakturPenjualan') {
+            $('#tipeTransaksi').html(
+                `<div class="form-group">
+                    <label>Formulir :</label>
+                    <select name="tipeTransaksi" class="form-control">
+                        <option value="" disabled selected>Pilih Tipe Transaksi</option>
+                        <option value="cash">Cash</option>
+                        <option value="kredit">Kredit</option>
+                    </select>
+                </div>`
+            );
+        } else {
+            alert(formulir);
+            $('#tipeTransaksi').empty();
+        }
     }
 </script>
