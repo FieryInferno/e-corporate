@@ -203,7 +203,7 @@ class Kas_bank extends User_Controller
 
         $this->db->select('tfaktur.*, tpemesananangsuran.*, tfaktur.notrans as no_kwitansi, mperusahaan.kode, mdepartemen.nama as nama_departemen, tfaktur.id as idfaktur, tfaktur.total as nominal_faktur');
         $this->db->join('tpengiriman','tfaktur.pengirimanid=tpengiriman.id');
-        $this->db->join('tpemesanan','tpengiriman.pemesananid=tpemesanan.id');
+        $this->db->join('tpemesanan','tpengiriman.pemesanan=tpemesanan.id');
         $this->db->join('mperusahaan','tpemesanan.idperusahaan=mperusahaan.idperusahaan');
         $this->db->join('mdepartemen','tpemesanan.departemen=mdepartemen.nama');
         $this->db->join('tpemesananangsuran','tpemesanan.id=tpemesananangsuran.idpemesanan');

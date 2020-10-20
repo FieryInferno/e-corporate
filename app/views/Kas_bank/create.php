@@ -22,18 +22,13 @@
     <section class="content">
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
-        <div class="card card-primary">
-          <div class="card-header">
-            <h3 class="card-title">Tambah {title}</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-               <a href="{site_url}Kas_bank" class="btn btn-tool"><i class="fas fa-times"></i></a>
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Tambah {title}</h3>
             </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-             <form action="javascript:save()" id="form1">
+            <!-- /.card-header -->
+            <div class="card-body">
+                <form action="javascript:save()" id="form1">
                 <div class="row">
                     <div class="col-md-5">
                         <div class="form-group">
