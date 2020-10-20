@@ -20,7 +20,7 @@ class Pemesanan_penjualan extends User_Controller
         $this->load->model('Pemesanan_penjualan_model', 'model');
     }
 
-   public function index() {
+    public function index() {
         $data['title'] = lang('sales_order');
         $data['subtitle'] = lang('list');
         $data['content'] = 'Pemesanan_penjualan/index';;
@@ -280,14 +280,15 @@ class Pemesanan_penjualan extends User_Controller
         $term = $this->input->get('q');
         if ($id) {
             $this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text, mnoakun.akunno as koderekening');
-            $this->db->where('mnoakun.stdel', '0');
+            $this->db->like('mnoakun.akunno', '4', 'after');
+            $this->db->or_like('mnoakun.akunno', '7', 'after');
             $data = $this->db->where('idakun', $id)->get('mnoakun')->row_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
             $this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text, mnoakun.akunno as koderekening');
-            $this->db->where('mnoakun.noakuntop', '4');
-            $this->db->where('mnoakun.stdel', '0');
-            if($term) $this->db->like('CONCAT(mnoakun.akunno," / ",mnoakun.namaakun)', $term);
+            $this->db->like('mnoakun.akunno', '4', 'after');
+            $this->db->or_like('mnoakun.akunno', '7', 'after');
+            if($term) $this->db->or_like('CONCAT(mnoakun.akunno," / ",mnoakun.namaakun)', $term);
             $data = $this->db->get('mnoakun')->result_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         }
