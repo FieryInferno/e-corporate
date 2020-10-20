@@ -57,20 +57,7 @@
         </div>
       </div>
     </section>
-  </div>
-
-  
-<!-- jQuery -->
-<script src="<?= base_url('adminlte')?>/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<?= base_url('adminlte')?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables -->
-<script src="<?= base_url('adminlte')?>/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<!-- notifikasi -->
-<!-- <script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script> -->
+</div>
 <script type="text/javascript">
 	var base_url = '{site_url}anggaran_pendapatan/';
 	var table = $('.index_datatable').DataTable({

@@ -31,7 +31,7 @@ class Anggaran_pendapatan extends User_Controller
 		$data['content'] = 'Anggaran_pendapatan/index';
 		$data['total_nominal'] = $this->model->hitungJumlahNominal();
 		$data = array_merge($data, path_info());
-		$this->parser->parse('default', $data);
+		$this->parser->parse('template', $data);
 	}
 
 	public function index_datatable()
