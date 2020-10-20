@@ -197,12 +197,14 @@ class Requiremen_model extends CI_Model {
 		$data	= [];
 		if(is_array($itemid)) {
 			for ($i=0; $i < count($itemid); $i++) {
-				$this->db->select('tanggaranbelanjadetail.koderekening, tanggaranbelanjadetail.jumlah');
+				$this->db->select('mnoakun.akunno, tanggaranbelanjadetail.jumlah');
+				$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 				$this->db->where('tanggaranbelanjadetail.id', $itemid[$i]);
 				$data[$i] = $this->db->get('tanggaranbelanjadetail')->row_array();
 			}
 		} else {
-			$this->db->select('tanggaranbelanjadetail.koderekening, tanggaranbelanjadetail.jumlah');
+			$this->db->select('mnoakun.akunno, tanggaranbelanjadetail.jumlah');
+				$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 			$this->db->where('tanggaranbelanjadetail.id', $itemid[0]);
 			$data[0] = $this->db->get('tanggaranbelanjadetail')->row_array();
 		}

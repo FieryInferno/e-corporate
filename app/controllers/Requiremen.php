@@ -144,7 +144,7 @@ class Requiremen extends User_Controller {
 
 	public function select2_item_jasa() {
 		$q	= $this->input->get('q');
-		$this->db->select('tanggaranbelanjadetail.id, mitem.nama as text');
+		$this->db->select('tanggaranbelanjadetail.id as itemid, mitem.nama as text');
 		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 		$this->db->join('mkategori', 'mitem.kategoriid = mkategori.id');
 		$this->db->where('mkategori.nama', 'Jasa');

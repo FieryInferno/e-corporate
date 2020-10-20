@@ -278,7 +278,7 @@
 
 <div id="modal_add_jasa" class="modal fade">
     <div class="modal-dialog modal-lg">
-        <form action="javascript:save_detail(0, 'jasa')" id="form_jasa">
+        <form action="javascript:save_detail(0, 'jasa1')" id="form_jasa">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Jasa</h5>
@@ -515,6 +515,7 @@
             $('.jenis_barang').attr("disabled", true);
             $('#rekanan').empty();
             $('#gudang').empty();
+            $('#form2').attr("action", "javascript:save_detail(0, 'jasa')");
         } else if($(this).val() == 'barang') {
             $('.jenis_barang').attr("disabled", false);
             $('#rekanan').html(`
@@ -526,10 +527,12 @@
                 <select class="form-control gudangid" name="gudangid"></select>
             `);
             ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: null } });
-            $('#tombol_jasa').css('display', 'none')
+            $('#tombol_jasa').css('display', 'none');
+            $('#form2').attr("action", "javascript:save_detail(0, 'barang')");
         } else {
             $('.gudangid').attr("disabled", true);
-            $('#tombol_jasa').css('display', 'block')
+            $('#tombol_jasa').css('display', 'block');
+            $('#form2').attr("action", "javascript:save_detail(0, 'barang')");
         }
     })
 
@@ -574,7 +577,7 @@
             success: function(data) {
                 isi = "";
                 for (let index = 0; index < data.length; index++) {
-                    isi += `<option value="${data[index].id}">${data[index].text}</option>`
+                    isi += `<option value="${data[index].itemid}">${data[index].text}</option>`
                 }
                 $('.id_jasa').append(isi);
             }
@@ -582,31 +585,29 @@
         $('.id_jasa').select2();
     })
 
-    $(document).on('change','.itemid',function(){
+    $(document).on('change','.itemid, .id_jasa',function(){
         var rowindex        = $('input[name=rowindex]').val();
         var itemid          = $(this).val();    
         var jenis_pembelian = $('.jenis_pembelian').val();
-        if (jenis_pembelian == 'barang' || jenis_pembelian == 'barang_dan_jasa') {
-            if(!rowindex) {
-                if(itemid) {
-                    $.ajax({
-                        url         : base_url + 'get_detail_item',
-                        method      : 'post',
-                        datatype    : 'json',
-                        data        : {
-                            itemid: itemid
-                        },
-                        success: function(data) {
-                            var detail_barang   = '';
-                            for (let index = 0; index < data.length; index++) {
-                                detail_barang   +=  `
-                                    <input type="hidden" class="form-control" id="noakun`+index+`" name="noakun[]" required value="${data[index].koderekening}">
-                                    <input type="hidden" class="form-control" id="sisapaguitem`+index+`" name="sisapaguitem[]" required value="${data[index].jumlah}">`;
-                            }
-                            $('#detail_barang').html(detail_barang);
+        if(!rowindex) {
+            if(itemid) {
+                $.ajax({
+                    url         : base_url + 'get_detail_item',
+                    method      : 'post',
+                    datatype    : 'json',
+                    data        : {
+                        itemid: itemid
+                    },
+                    success: function(data) {
+                        var detail_barang   = '';
+                        for (let index = 0; index < data.length; index++) {
+                            detail_barang   +=  `
+                                <input type="hidden" class="form-control" id="noakun`+index+`" name="noakun[]" required value="${data[index].akunno}">
+                                <input type="hidden" class="form-control" id="sisapaguitem`+index+`" name="sisapaguitem[]" required value="${data[index].jumlah}">`;
                         }
-                    })
-                }
+                        $('#detail_barang').html(detail_barang);
+                    }
+                })
             }
         }
     })
@@ -619,9 +620,15 @@
                 var barang          = $('.itemid :selected');        
                 break;
             case 'jasa':
+                var form            = $('#form2')[0];
+                var formData        = new FormData(form);
+                var barang          = $('.itemid :selected');   
+                break;
+
+            case 'jasa1':
                 var form            = $('#form_jasa')[0];
                 var formData        = new FormData(form);
-                var barang          = $('.id_jasa :selected');        
+                var barang          = $('.id_jasa :selected');   
                 break;
         
             default:
@@ -634,20 +641,10 @@
                 swal("Gagal!", "Item sudah ada", "error");
                 return;
             }
-            if (jenis == 'jasa') {
-                noakun          = 0;
-                sisapaguitem    = 0;
-            } else {
-                noakun          = $('#noakun'+index).val();
-                sisapaguitem    = $('#sisapaguitem'+index).val();
-                $('#noakun'+index).remove();
-                $('#sisapaguitem'+index).remove();
-            }
-            if (jenis == 'barang') {
-                sisapaguitem_tabel  = `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(sisapaguitem, 'Rp.')+',00'}" readonly>`;
-            } else {
-                sisapaguitem_tabel  = ``;
-            }
+            noakun          = $('#noakun'+index).val();
+            sisapaguitem    = $('#sisapaguitem'+index).val();
+            $('#noakun'+index).remove();
+            $('#sisapaguitem'+index).remove();
             table_detail.row.add([
                 barang[index].value,
                 item,
@@ -665,7 +662,7 @@
                 </button>`,
                 noakun,
                 `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonly onchange="sum_total('${index}${no}', '${no}', '${jenis}');">`,
-                sisapaguitem_tabel,
+                `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(String(sisapaguitem), 'Rp.')+',00'}" readonly>`,
                 `<a href="javascript:void(0)" class="edit_detail" id_barang="${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp;
                 <a href="javascript:void(0)" class="delete_detail text-danger"><i class="fas fa-trash"></i></a>`
             ]).draw( false );

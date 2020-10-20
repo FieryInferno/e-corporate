@@ -24,7 +24,7 @@
             <!-- left column -->
                 <div class="col-md-12">
                     <!-- jquery validation -->
-                    <div class="card card-primary">
+                    <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Tambah <?= $title; ?></h3>
                         </div>
@@ -227,10 +227,10 @@
 <!-- /.content-wrapper -->
 
 <div id="modal_add_detail" class="modal fade">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <form action="javascript:save_detail(0)" id="form2">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
+                <div class="modal-header">
                     <h5 class="modal-title"><?php echo lang('add_new') ?></h5>
                 </div>
 
