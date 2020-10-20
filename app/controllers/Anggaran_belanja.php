@@ -127,8 +127,8 @@ class Anggaran_belanja extends User_Controller
 	public function get_rekeningbelanja()
 	{
 		$this->db->select('*');		
-		$this->db->like('mnoakun.noakuntop', '5', 'after');
-		$this->db->or_like('mnoakun.noakuntop', '1', 'after');
+		$this->db->like('mnoakun.akunno', '1', 'after');
+		$this->db->or_like('mnoakun.akunno', '5', 'after');
 		$data = $this->db->get('mnoakun')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
