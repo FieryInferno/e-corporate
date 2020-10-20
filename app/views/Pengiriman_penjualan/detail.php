@@ -11,8 +11,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item"><a href="{site_url}pemesanan_penjualan">Penjualan</a></li>
-                        <li class="breadcrumb-item"><a href="{site_url}pengiriman_penjualan">Pengiriman</a></li>
+                        <li class="breadcrumb-item"><a href="{site_url}Pemesanan_penjualan">Penjualan</a></li>
+                        <li class="breadcrumb-item"><a href="{site_url}Pengiriman_penjualan">Pengiriman</a></li>
                         <li class="breadcrumb-item active">Detail{title}</li>
                     </ol>
                 </div>
@@ -29,26 +29,24 @@
                     <h3 class="card-title">Detail {title}</h3>
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                       <a href="{site_url}pengiriman_penjualan" class="btn btn-tool"><i class="fas fa-times"></i></a>
+                       <a href="{site_url}Pengiriman_penjualan" class="btn btn-tool"><i class="fas fa-times"></i></a>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <div class="row mb-3">
                         <div class="col-md-6 text-left">
-                            <div class="col-md-6 text-left">
-                            <?php if ($validasi == '1'): ?>
-                                <a href="{site_url}jurnal_penjualan/detail/<?php echo $jurpenjualan['id'] ?>" target="_balnk" class="btn btn-outline-primary">
-                                    <?php echo lang('view_journal') ?>
-                                </a>
-                            <?php endif ?>
-                        </div>
+                            
                         </div>
                         <div class="col-md-6 text-right">
                             <?php if ($validasi == '1'): ?>
-                                <h1 class="text-success font-weight-bold text-uppercase"><?php echo lang('Validasi') ?></h1>
-                            <?php else : ?>
-                                <h1 class="text-danger font-weight-bold text-uppercase"><?php echo lang('pending') ?></h1>
+                                <h1 class="text-primary font-weight-bold text-uppercase"><?php echo lang('Validasi') ?></h1>
+                            <?php elseif($status == '3'): ?>
+                                <h1 class="text-success font-weight-bold text-uppercase"><?php echo lang('done') ?></h1>
+                            <?php elseif($status == '2'): ?>
+                                <h1 class="text-warning font-weight-bold text-uppercase"><?php echo lang('partial') ?></h1>
+                            <?php else: ?>
+                                <h1 class="text-danger font-weight-bold text-uppercase"><?php echo lang('partial') ?></h1>
                             <?php endif ?>
                         </div>
                     </div>
@@ -62,10 +60,14 @@
                                         <td class="font-weight-bold">{notrans}</td>
                                     </tr>
                                     <tr>
-                                        <td><?php echo lang('date') ?></td>
+                                        <td><?php echo lang('date') ?> PO</td>
                                         <td class="font-weight-bold">{tanggal}</td>
                                     </tr>
-                                     <tr>
+                                    <tr>
+                                        <td><?php echo lang('date') ?> Terima</td>
+                                        <td class="font-weight-bold">{tanggalterima}</td>
+                                    </tr>
+                                    <tr>
                                         <td><?php echo lang('No. surat jalan') ?></td>
                                         <td class="font-weight-bold">{nomorsuratjalan}</td>
                                     </tr>
@@ -73,10 +75,12 @@
                                         <td><?php echo lang('supplier') ?></td>
                                         <td class="font-weight-bold"><?php echo $kontak['nama'] ?></td>
                                     </tr>
+                                    <?php if ($gudang['nama']!='') : ?>
                                     <tr>
                                         <td><?php echo lang('warehouse') ?></td>
                                         <td class="font-weight-bold"><?php echo $gudang['nama'] ?></td>
                                     </tr>
+                                    <?php endif; ?>
                                     <tr>
                                         <td><?php echo lang('note') ?></td>
                                         <td class="font-weight-bold">{catatan}</td>
@@ -93,11 +97,25 @@
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('discount') ?></td>
-                                        <td class="text-right font-weight-bold"><?php echo "Rp. " .number_format($diskon,0,',','.') ?></td>
+                                        <?Php 
+                                            $hasil_diskon = $subtotal;
+                                            if ($diskon > 0){
+                                                $nominaldiskon = ($diskon * $subtotal / 100);
+                                                $hasil_diskon = $hasil_diskon - $nominaldiskon;
+                                            }else{
+                                                $nominaldiskon = 0;
+                                                $hasil_diskon = $hasil_diskon - $nominaldiskon;
+                                            }
+                                        ?>
+                                        <td class="text-right font-weight-bold"><?php echo "Rp. " .number_format($hasil_diskon,0,',','.') ?></td>
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('ppn') ?></td>
                                         <td class="text-right font-weight-bold"><?php echo "Rp. " .number_format($ppn,0,',','.') ?></td>
+                                    </tr>
+                                    <tr>
+                                        <td><?php echo lang('Biaya Pengiriman') ?></td>
+                                        <td class="text-right font-weight-bold"><?php echo "Rp. " .number_format($biaya_pengiriman,0,',','.') ?></td>
                                     </tr>
                                     <tr class="bg-light">
                                         <td><?php echo lang('total') ?></td>
@@ -121,6 +139,7 @@
                                             <th class="text-right"><?php echo lang('subtotal') ?></th>
                                             <th class="text-right"><?php echo lang('discount') ?></th>
                                             <th class="text-right"><?php echo lang('ppn') ?></th>
+                                            <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
                                             <th class="text-right"><?php echo lang('total') ?></th>
                                         </tr>
                                     </thead>
@@ -142,12 +161,13 @@
                                                 <td class="text-right"><?php echo number_format($row['jumlah']) ?></td>
                                                 <td class="text-right"><?php echo "Rp. " .number_format($row['subtotal'],0,',','.') ?></td>
                                                 <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                                                <td class="text-right"><?php echo number_format($row['ppn']) ?>%</td>
+                                                <td class="text-right"><?php echo "Rp. " .number_format($row['ppn'],0,',','.') ?></td>
+                                                <td class="text-right"><?php echo "Rp. " .number_format($row['biaya_pengiriman'],0,',','.') ?></td>
                                                 <td class="text-right"><?php echo "Rp. " .number_format($row['total'],0,',','.') ?></td>
                                             </tr>
                                         <?php endforeach ?>
                                         <tr class="bg-light">
-                                            <td class="font-weight-bold text-right" colspan="6"><?php echo lang('grand_total') ?></td>
+                                            <td class="font-weight-bold text-right" colspan="7"><?php echo lang('grand_total') ?></td>
                                             <td class="font-weight-bold text-right"><?php echo "Rp. " .number_format($grandtotal,0,',','.') ?></td>
                                         </tr>
                                     </tbody>

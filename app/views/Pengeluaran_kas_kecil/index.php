@@ -24,58 +24,59 @@
           <div class="col-12">         
             <div class="card">
                 <div class="card-header">
-                    <!-- bagian button print -->
                     <div class="header-elements">
+                        <!-- bagian button print -->
                         <div class="d-flex">
-                    <!-- ini bagian search -->
-                    <div class="m-3">
-                        <a href="{site_url}pengeluaran_kas_kecil/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a> &nbsp;
-                        <div class="btn-group">
-                            <?php $currentURL = current_url(); ?>
-                            <?php $params = $_SERVER['QUERY_STRING']; ?>
-                            <?php $fullURL = $currentURL . '/printpdf?' . $params; ?>
-                            <?php $fullURLChange = $fullURL ?>
-                            <?php if ($this->uri->segment(2)): ?>
-                                <?php $fullURL = $currentURL . '?' . $params; ?>
-                                <?php $fullURLChange = str_replace('index', 'printpdf', $fullURL) ?>
-                            <?php endif ?>
-                            <a href="<?php echo $fullURLChange ?>" target="_blank" class="btn btn-warning"><?php echo lang('print') ?></a>
+                            <div class="m-1">
+                                <a href="{site_url}Pengeluaran_kas_kecil/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a> &nbsp;
+                                <div class="btn-group">
+                                    <?php $currentURL = current_url(); ?>
+                                    <?php $params = $_SERVER['QUERY_STRING']; ?>
+                                    <?php $fullURL = $currentURL . '/printpdf?' . $params; ?>
+                                    <?php $fullURLChange = $fullURL ?>
+                                    <?php if ($this->uri->segment(2)): ?>
+                                        <?php $fullURL = $currentURL . '?' . $params; ?>
+                                        <?php $fullURLChange = str_replace('index', 'printpdf', $fullURL) ?>
+                                    <?php endif ?>
+                                    <a href="<?php echo $fullURLChange ?>" target="_blank" class="btn btn-warning"><?php echo lang('print') ?></a>
 
                                 </div>
                             </div>
                         </div>
-                        <form action="{site_url}pengeluaran_kas_kecil/index" id="form1" method="GET">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label><?php echo lang('start_date') ?>:</label>
-                                        <input type="text" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
+                        <!-- ini bagian search -->
+                        <div class="m-1">
+                            <form action="{site_url}Pengeluaran_kas_kecil/index" id="form1" method="GET">
+                                <div class="row">
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><?php echo lang('start_date') ?>:</label>
+                                            <input type="date" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <div class="form-group">
+                                            <label><?php echo lang('end_date') ?>:</label>
+                                            <input type="date" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label><?php echo lang('end_date') ?>:</label>
-                                        <input type="text" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="text-right">
+                                            <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="text-right">
-                                        <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-			</div>
-
+			    </div>
 			</div>            							
             <div class="content">
                 <div class="card">
                     <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table table-striped index_datatable">
+                        <table class="table table-bordered table-striped index_datatable">
                             <thead>
                                 <tr>
                                     <th><?php echo lang('id') ?></th>
@@ -102,17 +103,6 @@
     </section>
   </div>
 
-  
-<!-- jQuery -->
-<script src="<?= base_url('adminlte')?>/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<?= base_url('adminlte')?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables -->
-<script src="<?= base_url('adminlte')?>/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<!-- notifikasi -->
 
 <script type="text/javascript">
 	var base_url = '{site_url}Pengeluaran_kas_kecil/';
@@ -126,11 +116,13 @@
 		pageLength: 100,
 		stateSave: true,
 		autoWidth: false,
+        order: [[1,'desc']],
         dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
         language: {
             search: '<span></span> _INPUT_',
             searchPlaceholder: 'Type to filter...',
         },
+
         columns: [
             {data: 'id', visible: false},
             {
@@ -145,9 +137,9 @@
             {data: 'nama_perusahaan'},
             {data: 'nama'},
             {
-                data: 'subtotal',
+                data: 'total',
                 render: function(data,type,row) {
-                    var nominal=`<div class="text-right">`+formatRupiah(data, 'Rp. ')+`,00</div>`;
+                    var nominal=`<div class="text-right">`+formatRupiah(data, 'Rp. ')+`</div>`;
                     return nominal;
                 }
             },
@@ -159,16 +151,25 @@
                 }
             },
             {
-                data: 'id', data: 'status', width: 100, orderable: false,
+                data: 'id', data: 'status', width: 40, orderable: false, class: 'text-center',
                 render: function(data,type,row) {
+                    var aksi = '';
                     if (row.status != '1')
                     {
-                        aksi = `<a href="` + base_url + `validasi/` + row.id + `" class="btn btn-success btn-sm" title="validasi"><i class="fas fa-check"></i></a>
-                        <a href="javascript:deleteData(`+row.id+`)" class="btn btn-danger btn-sm delete" title="hapus"><i class="fas fa-trash"></i></a>`;
-                    } else{
-                        aksi='';
+                    var aksi = `
+                        <div class="list-icons"> 
+                            <div class="dropdown"> 
+                                <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    <a href="` + base_url + `validasi/` + row.id + `" class="dropdown-item validasi" title="validasi"><i class="fas fa-check"></i> Validasi</a>  
+                                    <a href="`+base_url+`edit/`+row.id+`" class="dropdown-item" title="edit"><i class="fas fa-pencil-alt"></i> Ubah</a>    
+                                    <a href="javascript:deleteData(`+row.id+`)" class="dropdown-item delete" title="hapus"><i class="fas fa-trash"></i> Hapus</a>
+                                </div> 
+                            </div> 
+                        </div>`;
                     }
                     return aksi;
+                    
                 }
             }
         ]
@@ -211,21 +212,4 @@
 			}
         });
 	}
-
-	function formatRupiah(angka, prefix){
-        var number_string = angka.replace(/[^,\d]/g, '').toString(),
-        split           = number_string.split(','),
-        sisa             = split[0].length % 3,
-        rupiah             = split[0].substr(0, sisa),
-        ribuan             = split[0].substr(sisa).match(/\d{3}/gi);
-
-        // tambahkan titik jika yang di input sudah menjadi angka satuan ribuan
-        if(ribuan){
-            separator = sisa ? '.' : '';
-            rupiah += separator + ribuan.join('.');
-        }
-
-        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-    }
 </script>

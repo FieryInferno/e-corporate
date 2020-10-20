@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-md-3">
                         <input type="hidden" name="statusauto" value="0">
-                        <input type="hidden" class="pengirimanid" name="pengirimanid">
+                        <input type="hidden" class="form-control pengirimanid" name="pengirimanid" readonly>
                         <div class="form-group">
                             <label><?php echo lang('notrans') ?>:</label>
                             <input type="text" class="form-control" name="notrans" readonly placeholder="AUTO">
@@ -81,13 +81,19 @@
                             <select class="form-control departemen" name="departemen" disabled></select>
                         </div>
                     </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label><?php echo lang('Rekening') ?>:</label>
+                            <select class="form-control rekening" name="rekening" disabled required></select>
+                        </div>
+                    </div>
                 </div>
                 <div class="mb-3 mt-3 table-responsive">
                     <div class="mt-3 mb-3">
                         <button type="button" class="btn btn-sm btn-primary btn_add_detail"><?php echo lang('add_new') ?></button>
                         <button type="button" class="btn btn-sm btn-primary btn_add_detail_budgetevent"><?php echo lang('Budget Event') ?></button>
                     </div>
-                    <table class="table table-bordered" id="table_detail">
+                    <table class="table table-bordered" id="table_detail_item" hidden  width="100%">
                         <thead class="{bg_header}">
                             <tr>
                                 <th>ID</th>
@@ -96,10 +102,10 @@
                                 <th class="text-right"><?php echo lang('qty') ?></th>
                                 <th class="text-right"><?php echo lang('subtotal') ?></th>
                                 <th class="text-right"><?php echo lang('discount') ?></th>
-                                <th class="text-right"><?php echo lang('ppn') ?></th>
+                                <th class="text-right"><?php echo lang('Pajak') ?></th>
+                                <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
                                 <th class="text-right"><?php echo lang('total') ?></th>
                                 <th class="text-center"><?php echo lang('tipe') ?></th>
-                                
                                 <th>ID PENJUAL DETAIL</th>
                             </tr>
                         </thead>
@@ -107,9 +113,35 @@
                         <tfoot class="bg-light">
                             <tr>
                                 <th>ID</th>
-                                <th colspan="5">&nbsp;</th>
+                                <th colspan="6">&nbsp;</th>
                                 <th class="text-right"><?php echo lang('total') ?></th>
                                 <th class="text-center"><div id="total"></div></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+
+                    <table class="table table-bordered" id="table_detail_budgetevent" hidden width="100%">
+                        <thead class="{bg_header}">
+                            <tr>
+                                <th>ID</th>
+                                <th><?php echo lang('item') ?></th>
+                                <th class="text-right"><?php echo lang('price') ?></th>
+                                <th class="text-right"><?php echo lang('qty') ?></th>
+                                <th class="text-right"><?php echo lang('subtotal') ?></th>
+                                <th class="text-right"><?php echo lang('discount') ?></th>
+                                <th class="text-right"><?php echo lang('Pajak') ?></th>
+                                <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
+                                <th class="text-right"><?php echo lang('total') ?></th>
+                                <th class="text-center"><?php echo lang('tipe') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody> </tbody>
+                        <tfoot class="bg-light">
+                            <tr>
+                                <th>ID</th>
+                                <th colspan="6">&nbsp;</th>
+                                <th class="text-right"><?php echo lang('total') ?></th>
+                                <th class="text-center"><div id="total_budgetevent"></div></th>
                             </tr>
                         </tfoot>
                     </table>
@@ -131,7 +163,7 @@
                                             </div>
                                             <div class="col-sm-4">
                                                 <div class="form-group">
-                                                    <label><?php echo lang('Jumlah Term') ?>:</label>
+                                                    <label><?php echo lang('Tanggal uang muka') ?>:</label>
                                                     <input type="date" class="form-control tanggaluangmuka" name="tanggaluangmuka" readonly>
                                                 </div>
                                             </div>
@@ -149,10 +181,10 @@
                                     </div>
                                     <input type="hidden" name="detail_array" id="detail_array">
                                 </div>
-                <input type="hidden" name="detail_array" id="detail_array">
+              
                 <div class="text-right">
                     <div class="btn-group">
-                        <a href="{site_url}faktur_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                        <a href="{site_url}Faktur_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
                         <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
                     </div>
                 </div>
@@ -195,18 +227,18 @@
 
 
 <script type="text/javascript">
-    var base_url = '{site_url}faktur_penjualan/';
+    var base_url = '{site_url}Faktur_penjualan/';
     $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
         return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
     })
 
-    var tabel_detail = $('#table_detail').DataTable({
+    var table_detail_item = $('#table_detail_item').DataTable({
         sort: false,
         info: false,
         searching: false,
         paging: false,
         columnDefs: [
-            {targets: [0,8,9], visible: false},
+            {targets: [0,9,10], visible: false},
             {targets: [2,7,4], className: 'text-right'},
             {targets: [3,5,6], className: 'text-center'},
         ],
@@ -220,7 +252,7 @@
                         i : 0;
             };
 
-            total = api.column(7).data().reduce( function (a, b) {
+            total = api.column(8).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
            
@@ -228,8 +260,40 @@
         }
     })
 
+    var table_detail_budgetevent = $('#table_detail_budgetevent').DataTable({
+        sort: false,
+        info: false,
+        searching: false,
+        paging: false,
+        columnDefs: [
+            {targets: [0,9], visible: false},
+            {targets: [2,7,4,8], className: 'text-right'},
+            {targets: [1], width: 100 },
+            {targets: [3,5,6], className: 'text-center'},
+        ],
+        footerCallback: function ( row, data, start, end, display ) {
+
+            var api = this.api(), data;
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\Rp.]/g, '').replace(/,00/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+
+            total = api.column(8).data().reduce( function (a, b) {
+                return intVal(a) + intVal(b); 
+            }, 0 );
+           
+            $('#total_budgetevent').html(formatRupiah(String(total), 'Rp. '));
+        }
+    })
+
     $(document).ready(function(){
-        tabel_detail.clear().draw();
+        table_detail_item.clear().draw();
+        table_detail_budgetevent.clear().draw();
+        $("#table_detail_item").attr("hidden", false);
+        $("#table_detail_budgetevent").attr("hidden", true);
         //mengisi combobox kontak
         ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak' });
         ajax_select({ id: '.nomor_pengiriman', url: base_url + 'select2_nomor_pengiriman/'});
@@ -237,17 +301,28 @@
 
     //apabila kontakid telah dipilih
     $('.kontakid').change(function(e){
-        tabel_detail.clear().draw();
+        table_detail_item.clear().draw();
+        table_detail_budgetevent.clear().draw();
+        $(".rekening").attr("disabled", true);
         var kontakid = $(this).val();
         ajax_select({ id: '.nomor_pengiriman', url: base_url + 'select2_nomor_pengiriman/'+kontakid, selected: { id: null } });
-        
     })
-    //memunculkan modal
+    //memunculkan modal dan tabel item
     $(document).on('click','.btn_add_detail',function(){
+        $("#table_detail_item").attr("hidden", false);
+        $("#table_detail_budgetevent").attr("hidden", true);
+        $(".nomor_pengiriman").empty();
         $('#modal_add_detail').modal('show')
     })
+    //memunculkan tabel budget event
+    $(document).on('click','.btn_add_detail_budgetevent',function(){
+        $("#table_detail_item").attr("hidden", true);
+        $("#table_detail_budgetevent").attr("hidden", false);
+    })
 
-     function save_detail() {
+    function save_detail() {
+        table_detail_item.clear().draw();
+        table_detail_budgetevent.clear().draw();
         var pengirimanid = $('.nomor_pengiriman').val();
         $('.pengirimanid').val(pengirimanid);
         idpengiriman = $('.nomor_pengiriman').children('option:selected').val();
@@ -266,10 +341,8 @@
                 var no=0;
                 var grandtotal = 0;
 
-                
-
                 for(i=0; i<data.length; i++){
-                    if(tabel_detail.hasValue(data[i].idpenjualdetail)) {
+                    if(table_detail_item.hasValue(data[i].idpenjualdetail)) {
                         swal("Gagal!", "Nomor pengiriman tersebut telah ada!", "error");
                         return;
                     }
@@ -281,27 +354,36 @@
                     }else if (tipe_item == 'jasa'){
                         nama_item = data[i].jasa;
                     }else{
-                        nama_item = data[i].budgetevent;
+                        nama_item = data[i].inventaris;
                     }
+
+                    var hasil_diskon = data[i].subtotal;
+                    if (data[i].diskon > 0){
+                        nominaldiskon = (parseInt(data[i].diskon) * parseInt(data[i].subtotal) / parseInt(100));
+                        hasil_diskon = parseInt(hasil_diskon) - parseInt(nominaldiskon);
+                    }else{
+                        nominaldiskon = 0;
+                        hasil_diskon = parseInt(hasil_diskon) - parseInt(nominaldiskon);
+                    }
+
                     grandtotal = grandtotal + parseInt(data[i].total);
-                    tabel_detail.row.add([
+                    table_detail_item.row.add([
                         data[i].itemid,
                         nama_item,
                         `${formatRupiah(data[i].harga,'Rp. ')}`,
                         `${data[i].jumlah}`,
                         `${formatRupiah(data[i].subtotal,'Rp. ')}`,
-                        `${data[i].diskon}`,
-                        `${data[i].ppn}`,
+                        `${formatRupiah(String(hasil_diskon),'Rp. ')}`,
+                        `${formatRupiah(data[i].ppn,'Rp. ')}`,
+                        `${formatRupiah(data[i].biaya_pengiriman,'Rp. ')}`,
                         `${formatRupiah(data[i].total,'Rp. ')}`,
                         `${data[i].tipe}`,
                         `${data[i].idpenjualdetail}`
                         ]).draw( false );
                     no++;
                 }
-
             }
         })
-
        
        $.ajax({
             url : base_url + 'get_data_pengiriman',
@@ -326,6 +408,9 @@
                         document.getElementById("tanggalJT").readOnly = false; 
                     }
                     $('.tanggaluangmuka').val(data[i].tgl_pemesanan); 
+           
+                    $(".rekening").attr("disabled", false);
+                    ajax_select({ id: '.rekening', url: base_url + 'select2_rekening/'+ data[i].idperusahaan });
 
                     $.ajax({
                         url         : base_url + 'get_detail_angsuran',
@@ -346,11 +431,49 @@
                         }
                     })
 
+
+                    $.ajax({
+                        url         : base_url + 'get_detail_budgetevent',
+                        method      : 'post',
+                        async       : true,
+                        dataType    : 'json',
+                        data        : { id : data[i].pemesananid },
+                        success: function(data) {
+                            var i;
+                            var no=0;
+                            var grandtotal = 0;
+
+                            for(i=0; i<data.length; i++){
+                                var hasil_diskon = data[i].subtotal;
+                                if (data[i].diskon > 0){
+                                    nominaldiskon = (parseInt(data[i].diskon) * parseInt(data[i].subtotal) / parseInt(100));
+                                    hasil_diskon = parseInt(hasil_diskon) - parseInt(nominaldiskon);
+                                }else{
+                                    nominaldiskon = 0;
+                                    hasil_diskon = parseInt(hasil_diskon) - parseInt(nominaldiskon);
+                                }
+
+                                grandtotal = grandtotal + parseInt(data[i].total);
+                                table_detail_budgetevent.row.add([
+                                    data[i].idbudgetevent,
+                                    data[i].budgetevent,
+                                    `${formatRupiah(data[i].harga,'Rp. ')}`,
+                                    `${data[i].jumlah}`,
+                                    `${formatRupiah(data[i].subtotal,'Rp. ')}`,
+                                    `${formatRupiah(String(hasil_diskon),'Rp. ')}`,
+                                    `${formatRupiah(data[i].ppn,'Rp. ')}`,
+                                    `${formatRupiah(data[i].biaya_pengiriman,'Rp. ')}`,
+                                    `${formatRupiah(data[i].total,'Rp. ')}`,
+                                    `budgetevent`,
+                                    ]).draw( false );
+                                no++;
+                            }
+                        }
+                    })
                 }
-                
-        
             }
         });
+        
 
         $('#modal_add_detail').modal('hide');
     }

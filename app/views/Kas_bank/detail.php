@@ -1,39 +1,50 @@
-<div class="page-header page-header-light">
-    <div class="page-header-content header-elements-md-inline">
-        <div class="page-title d-flex">
-            <h4><i class="icon-info22 mr-2"></i> <span class="font-weight-semibold">{title}</span></h4>
-            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{title}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">{title}</li>
+            </ol>
+          </div>
         </div>
-        <div class="header-elements d-none">
-            <div class="d-flex justify-content-center">
-                <div class="btn-group">
-                    <a href="{site_url}kas_bank" class="btn btn-danger">
-                        <?php echo lang('back') ?>
-                    </a>
-                </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card card-danger">
+          <div class="card-header">
+            <h3 class="card-title">{title}</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+              <a href="{site_url}Kas_bank" class="btn btn-tool"><i class="fas fa-times"></i></a>
+       
             </div>
-        </div>
-    </div>
-</div>
-<div class="content">
-    <div class="card">
-        <div class="card-header {bg_header}">
-            <div class="header-elements-inline">
-                <h5 class="card-title">{subtitle}</h5>
-            </div>
-        </div>
-        <div class="card-body">
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
             <div class="row mb-3">
                 <div class="col-md-6 text-left">
 
                 </div>
                 <div class="col-md-6 text-right">
-                   <a href="{site_url}kas_bank/printpdf/{id}" target="_blank" class="btn btn-primary">
+                    <a href="{site_url}Kas_bank/printpdf/{id}" target="_blank" class="btn btn-primary">
                         <?php echo lang('print') ?>
                     </a>
                 </div>
             </div>
-            <hr>
+  
             <div class="row">
                 <div class="col-md-12">
                     <table class="table">
@@ -58,12 +69,11 @@
                                 <td><?php echo lang('Keterangan') ?></td>
                                 <td class="font-weight-bold">{keterangan}</td>
                             </tr>
+                            <tr><td></td><td></td></tr>
                         </tbody>
                     </table>
                 </div>
-           
             </div>
-            <hr>
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
@@ -96,10 +106,10 @@
                                         <td><?php echo $row['nokwitansi'] ?></td>
                                         <td class="text-right">Rp. <?php echo number_format($row['penerimaan'],2,",",".") ?></td>
                                         <td class="text-right">Rp. <?php echo number_format($row['pengeluaran'],2,",",".") ?></td>
-                                        <td><?php echo $row['nama_akun'].' '.$row['nomor_akun']?></td>
-                                        <td><?php echo $row['kode_perusahaan'] ?></td>
-                                        <td><?php echo $row['nama_departemen'] ?></td>
-                                        <td><?php echo $row['nama_bank'].' '.$row['nomor_rekening']?></td>
+                                        <td><?php echo $row['noakun'] ?></td>
+                                        <td><?php echo $row['kodeunit'] ?></td>
+                                        <td><?php echo $row['departemen'] ?></td>
+                                        <td><?php echo $row['sumberdana'] ?></td>
                                     </tr>
                                 <?php endforeach ?>
                                 <tr class="bg-light">
@@ -113,6 +123,10 @@
                     </div>
                 </div>
             </div>
+          
+          </div>
         </div>
-    </div>
-</div>
+      </div>
+    </section>
+  </div>
+

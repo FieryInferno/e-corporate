@@ -11,6 +11,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{site_url}Pemesanan_penjualan/">Penjualan</a></li>
                         <li class="breadcrumb-item active">{title}</li>
                     </ol>
                 </div>
@@ -28,19 +29,19 @@
                 
                     <div class="card-tools">
                         <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                        <a href="{site_url}pemesanan_penjualan" class="btn btn-tool"><i class="fas fa-times"></i></a>
+                        <a href="{site_url}Pengiriman_penjualan" class="btn btn-tool"><i class="fas fa-times"></i></a>
                     </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <form action="javascript:save()" id="form1">
-                        <input type="hidden" name="pemesananid" value="{id}">
+                        <input type="hidden" name="idpengiriman" value="<?= $this->uri->segment(3) ?>">
                         <div class="row">
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label><?php echo lang('date') ?> PO:</label>
                                     <div class="input-group"> 
-                                        <input type="text" class="form-control datepicker" name="tanggalPO" required value="{tanggal}" readonly>
+                                        <input type="text" class="form-control datepicker" name="" required value="{tanggal}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -53,12 +54,18 @@
                                 </div>
                             </div>
                             <div class="col-md-6"></div>
-                            <div class="col-md-6">
+                            <div class="col-md-3">
                                 <div class="form-group">
                                     <label><?php echo lang('Nomor Surat Jalan') ?>:</label>
                                     <div class="input-group"> 
                                         <input type="text" class="form-control nomorsuratjalan" name="nomorsuratjalan" required>
                                     </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><?php echo lang('Departemen') ?>:</label>
+                                    <select class="form-control departemen" name="" disabled></select>
                                 </div>
                             </div>
                             <div class="col-md-6"></div>
@@ -69,7 +76,7 @@
                             <?php endif ?>
                                     <div class="form-group">
                                         <label><?php echo lang('supplier') ?>:</label>
-                                        <select class="form-control kontakid" name="kontakid" disabled></select>
+                                        <select class="form-control kontakid" name="" disabled></select>
                                     </div>
                             <?php if (($jenis_barang == 'barang_dagangan') OR ($jenis_pembelian == 'barang_dan_jasa')): ?>
                                 </div>
@@ -80,7 +87,7 @@
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label><?php echo lang('warehouse') ?>:</label>
-                                        <select class="form-control gudangid" name="gudangid" disabled></select>
+                                        <select class="form-control gudangid" name="" disabled></select>
                                     </div>
                                 </div>
                             <?php endif ?>
@@ -99,7 +106,6 @@
                                         <th><?php echo lang('item') ?></th>
                                         <th class="text-right"><?php echo lang('qty_residual') ?></th>
                                         <th class="text-right"><?php echo lang('qty_received') ?></th>
-                                        <th class="text-right"><?php echo lang('stock') ?></th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -109,6 +115,10 @@
                                             <input class="no" type="hidden" name="no[]" value="<?php echo $no ?>">
                                             <input class="" type="hidden" name="idpenjualdetail[]" value="<?php echo $row['id'] ?>">
                                             <input class="itemid" type="hidden" name="itemid[]" value="<?php echo $row['itemid'] ?>">
+                                            <input class="harga" type="hidden" name="harga[]" value="<?php echo $row['harga'] ?>">
+                                            <input class="diskon" type="hidden" name="diskon[]" value="<?php echo $row['diskon'] ?>">
+                                            <input class="ppn" type="hidden" name="ppn[]" value="<?php echo $row['ppn'] ?>">
+                                            <input class="biaya_pengiriman" type="hidden" name="biaya_pengiriman[]" value="<?php echo $row['biaya_pengiriman'] ?>">
                                             <td>
                                                 <?php 
                                                     if ($row['tipe']=='barang'){
@@ -118,29 +128,22 @@
                                                     }
                                                 ?> 
                                             </td>
+    
                                             <td class="text-right" width="20%"><?php echo $row['jumlahsisa'] ?></td>
                                             <td class="text-right" width="20%">
                                                 <input type="number" min="0" name="jumlah[]" class="form-control jumlah text-right" value="<?php echo $row['jumlahsisa'] ?>">
                                             </td>
-                                            <td class="text-right" width="20%">
-                                                <?php 
-                                                    if ($row['tipe']=='barang'){
-                                                        echo $row['sisastok']; 
-                                                    }else{
-                                                        echo '-';
-                                                    }
-                                                ?> 
-                                                <input type="hidden" name="tipe[]" class="form-control" value="<?php echo $row['tipe'] ?>">
-                                            </td>
+                                            
+                                            <input type="hidden" name="tipe[]" class="form-control" value="<?php echo $row['tipe'] ?>">
                                         </tr>
                                         <?php $no++ ?>
                                     <?php endforeach ?>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="text-left">
+                        <div class="text-right">
                             <div class="btn-group">
-                                <a href="{site_url}pemesanan_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                                <a href="{site_url}Pengiriman_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
                                 <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
                             </div>
                         </div>
@@ -155,11 +158,12 @@
 </div>
 
 <script type="text/javascript">
-    var base_url = '{site_url}pengiriman_penjualan/';
+    var base_url = '{site_url}Pengiriman_penjualan/';
 
     $(document).ready(function(){
         ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: '{kontakid}' } });
         ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: '{gudangid}' } });
+        ajax_select({ id: '.departemen', url: base_url + 'select2_departemen', selected: { id: '{departemen}' } });
     })
 
     var table_detail = $('#table_detail').DataTable({
@@ -172,30 +176,32 @@
     $('#table_detail tbody').on('change','.jumlah',function(){
         var itemid = null;
         var jumlah = null;
+       
         var row = $(this).closest('tr');
         row.find('input.itemid').each(function() { itemid = this.value });
         row.find('input.jumlah').each(function() { jumlah = this.value });
 
-        $.ajax({
-            url: base_url + 'cekjumlahinput',
-            dataType: 'json',
-            method: 'post',
-            data: { 
-                itemid: itemid,
-                idpemesanan: '{id}'
-            },
-            success: function(data) {
-                jumlah = parseInt(jumlah);
-                if(jumlah > data.jumlahsisa) {
-                    swal("Gagal!", "Kesalahan menginput jumlah!", "error");
-                    row.find('input.jumlah').val( data.jumlahsisa );
-                    table_detail.reload()
+        
+            $.ajax({
+                url: base_url + 'cekjumlahinput',
+                dataType: 'json',
+                method: 'post',
+                data: { 
+                    itemid: itemid,
+                    idpemesanan: '{id}'
+                },
+                success: function(data) {
+                    jumlah = parseInt(jumlah);
+                    
+                    if(jumlah > data.jumlahsisa) {
+                        swal("Gagal!", "Kesalahan menginput jumlah!", "error");
+                        row.find('input.jumlah').val( data.jumlahsisa );
+                        table_detail.reload()
+                    }
+                   
                 }
-                if(jumlah < 0) {
-                    table_detail.reload()
-                }
-            }
-        })
+            })
+        
     })
 
     function save() {
@@ -215,7 +221,7 @@
         }
         
         $.ajax({
-            url: base_url + 'save',
+            url: base_url + 'save/' +'save',
             dataType: 'json',
             method: 'post',
             data: formData,

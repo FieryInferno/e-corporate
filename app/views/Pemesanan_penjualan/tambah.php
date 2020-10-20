@@ -9,7 +9,7 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('pemesanan_penjualan'); ?>">Penjualan</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('Pemesanan_penjualan'); ?>">Penjualan</a></li>
                         <li class="breadcrumb-item active"><?= $title; ?></li>
                     </ol>
                 </div>
@@ -24,7 +24,7 @@
             <!-- left column -->
                 <div class="col-md-12">
                     <!-- jquery validation -->
-                    <div class="card">
+                    <div class="card card-primary">
                         <div class="card-header">
                             <h3 class="card-title">Tambah <?= $title; ?></h3>
                         </div>
@@ -227,10 +227,10 @@
 <!-- /.content-wrapper -->
 
 <div id="modal_add_detail" class="modal fade">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <form action="javascript:save_detail(0)" id="form2">
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header bg-primary">
                     <h5 class="modal-title"><?php echo lang('add_new') ?></h5>
                 </div>
 
@@ -302,7 +302,7 @@
 </div>
 
 <script>
-    var base_url        = '{site_url}pemesanan_penjualan/';
+    var base_url        = '{site_url}Pemesanan_penjualan/';
     var total_total     = [];
     $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
         return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1

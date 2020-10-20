@@ -7,7 +7,7 @@
 		<div class="header-elements d-none">
 			<div class="d-flex justify-content-center">
 				<div class="btn-group">
-					<a href="{site_url}pengeluaran_kas_kecil/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a> &nbsp;
+					<a href="{site_url}Pengeluaran_kas_kecil/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a> &nbsp;
 					<div class="btn-group"> 
 						<?php $currentURL = current_url(); ?>
 						<?php $params = $_SERVER['QUERY_STRING']; ?>
@@ -25,7 +25,7 @@
 	</div>
 	<hr>
 	<div class="m-3">
-		<form action="{site_url}pengeluaran_kas_kecil/index" id="form1" method="GET">
+		<form action="{site_url}Pengeluaran_kas_kecil/index" id="form1" method="GET">
 			<div class="row">
 				<div class="col-md-3">
 					<div class="form-group">

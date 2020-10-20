@@ -171,7 +171,7 @@
                             <div class="card-footer">
                                 <div class="text-left">
                                     <div class="btn-group">
-                                        <a href="{site_url}kas_bank" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                                        <a href="{site_url}Kas_bank" class="btn bg-danger"><?php echo lang('cancel') ?></a>
                                         <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
                                     </div>
                                 </div>
@@ -191,7 +191,7 @@
 <!-- /.content-wrapper -->
 
 <script type="text/javascript">
-    var base_url = '{site_url}kas_bank/';
+    var base_url = '{site_url}Kas_bank/';
     $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
         return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
     })
@@ -213,8 +213,6 @@
         $('input[name=penerimaan]').val('0'); 
         $('input[name=pengeluaran]').val('0');
         var perusahaanId = $('#id_perusahaan').children('option:selected').val();
-        var num = perusahaanId.toString().padStart(3, "0")
-        $('#corpCode').val(num);
         ajax_select({
             id          : '#pejabat',
             url         : base_url + 'select2_mdepartemen_pejabat/' + perusahaanId,

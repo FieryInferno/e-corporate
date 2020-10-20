@@ -9,8 +9,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('pemesanan_penjualan'); ?>">Penjualan</a></li>
-                        <li class="breadcrumb-item active"><?= $title; ?></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('Pemesanan_penjualan'); ?>">Penjualan</a></li>
+                        <li class="breadcrumb-item active"><?= $title; ?></li> 
                     </ol>
                 </div>
             </div>
@@ -26,22 +26,27 @@
                     <!-- jquery validation -->
                     <div class="card card-primary">
                         <div class="card-header">
-                            <h3 class="card-title">Edit <?= $title; ?></h3>
+                            <h3 class="card-title">Ubah <?= $title; ?></h3>
+                            <div class="card-tools">
+                                <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
+                                <a href="{site_url}Pemesanan_penjualan" class="btn btn-tool"><i class="fas fa-times"></i></a>
+                            </div>
                         </div>
                         <!-- /.card-header -->
-                        <!-- form start -->
-                        <form id="form1" action="javascript:update()">
-                            <div class="card-body">
+                        <!-- card body -->
+                        <div class="card-body">
+                            <!-- form start -->
+                            <form id="form1" action="javascript:save()">
                                 <div class="row">
                                     <div class="col-md-3">
-                                        <input type="hidden" class="form-control idpemesanan" readonly name="idpemesanan" value="{id}">
+                                         <input type="text" class="idpemesanan" name="idpemesanan" value="{id}">
                                         <div class="form-group">
                                             <label><?php echo lang('notrans') ?>:</label>
                                             <input type="text" class="form-control"readonly name="notrans" placeholder="AUTO">
                                         </div>
                                         <div class="form-group" id="rekanan">
                                             <label><?php echo lang('rekanan') ?>:</label>
-                                            <select class="form-control kontakid" name="kontakid"></select>
+                                            <select class="form-control kontakid" name="kontakid" required></select>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -80,7 +85,7 @@
                                     <div class="form-group">
                                             <label><?php echo lang('Jenis Penjualan') ?>:</label>
                                             <select class="form-control jenis_penjualan" name="jenis_penjualan" required>
-                                                <option value="barang">Barang</option>
+                                                <option value="barang">Barang</option>                                   
                                                 <option value="jasa">Jasa</option>
                                                 <option value="barang_dan_jasa">Barang dan Jasa</option>
                                             </select>
@@ -125,17 +130,19 @@
                                         </div>
                                     </div>
                                   
-                                    <table class="table table-bordered" id="tabel_detail" width="100%">
+                                    <table class="table table-bordered" id="tabel_detail_item" width="100%" hidden>
                                         <thead class="{bg_header}">
                                             <tr>
                                                 <th>ID</th>
-                                                <th class="text-center"><?php echo lang('name') ?></th>
+                                                <th class="text-center"><?php echo lang('Item') ?></th>
                                                 <th class="text-center"><?php echo lang('price') ?></th>
                                                 <th class="text-center"><?php echo lang('qty') ?></th>
                                                 <th class="text-center"><?php echo lang('subtotal') ?></th>
-                                                <th class="text-center"><?php echo lang('kurs mata uang') ?></th>
+                                                <th class="text-center"><?php echo lang('Kurs <br> mata uang') ?></th>
                                                 <th class="text-center"><?php echo lang('discount') ?></th>
-                                                <th class="text-center"><?php echo lang('ppn') ?></th>
+                                                <th class="text-center"><?php echo lang('Pajak') ?></th>
+                                                <th class="text-center"><?php echo lang('Biaya <br>Pengiriman') ?></th>
+                                                <th class="text-center"><?php echo lang('No Akun') ?></th>
                                                 <th class="text-center"><?php echo lang('total') ?></th>
                                                 <th class="text-center"><?php echo lang('action') ?></th>
                                                 <th class="text-center"><?php echo lang('tipe') ?></th>
@@ -145,14 +152,46 @@
                                         <tfoot class="bg-light">
                                             <tr>
                                                 <th>ID</th>
-                                                <th colspan="6">&nbsp;</th>
+                                                <th colspan="8">&nbsp;</th>
                                                 <th class="text-right"><?php echo lang('total') ?></th>
-                                                <th class="text-center" id="total_total"></th>
+                                                <th class="text-center" id="total_total_item"></th>
                                                 <th><input type="hidden" name="total_penjualan" class="total_penjualan"></th>
                                             </tr>
                                         </tfoot>
                                     </table>
-                                   
+
+                                    <table class="table table-bordered" id="tabel_detail_budgetevent" width="100%" hidden>
+                                        <thead class="{bg_header}">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th class="text-center"><?php echo lang('Item') ?></th>
+                                                <th class="text-center"><?php echo lang('price') ?></th>
+                                                <th class="text-center"><?php echo lang('qty') ?></th>
+                                                <th class="text-center"><?php echo lang('subtotal') ?></th>
+                                                <th class="text-center"><?php echo lang('Kurs <br> mata uang') ?></th>
+                                                <th class="text-center"><?php echo lang('discount') ?></th>
+                                                <th class="text-center"><?php echo lang('Pajak') ?></th>
+                                                <th class="text-center"><?php echo lang('Biaya <br>Pengiriman') ?></th>
+                                                <th class="text-center"><?php echo lang('No Akun') ?></th>
+                                                <th class="text-center"><?php echo lang('total') ?></th>
+                                                <th class="text-center"><?php echo lang('action') ?></th>
+                                                <th class="text-center"><?php echo lang('tipe') ?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody> </tbody>
+                                        <tfoot class="bg-light">
+                                            <tr>
+                                                <th>ID</th>
+                                                <th colspan="8">&nbsp;</th>
+                                                <th class="text-right"><?php echo lang('total') ?></th>
+                                                <th class="text-center" id="total_total_budgetevent"></th>
+                                                <th><input type="hidden" name="total_budgetevent" class="total_budgetevent"></th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+
+
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -177,35 +216,61 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <?php for ($i=1; $i <= 8 ; $i++) {  ?>
-                                        <?php if (($i == 1) || ($i == 5)) { echo '<div class="col-md-6">'; } ?>
-                                            <div class="form-group a<?= $i ?>" hidden >
-                                                <label><?php echo lang('Term '.$i) ?>:</label>
-                                                <input type="text" class="form-control" name="a<?= $i ?>" placeholder="Angsuran <?= $i ?>" id="a<?= $i ?>" 
-                                                value="<?php if ($angsuran['a'.$i] != ''){ echo "Rp. " . number_format($angsuran['a'.$i],0,',','.'); }?>" onkeyup="UbahInputRUpiah(this);SUMTOTAL_UM_Term();">
+                                            <div class="col-md-6">
+                                                <div class="form-group a1" hidden>
+                                                    <label><?php echo lang('Term 1') ?>:</label>
+                                                    <input type="text" class="form-control angsuran1" name="a1" placeholder="Angsuran 1" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                                                </div>
+                                                <div class="form-group a2" hidden>
+                                                    <label><?php echo lang('Term 2') ?>:</label>
+                                                    <input type="text" class="form-control angsuran2" name="a2" placeholder="Angsuran 2"  onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()"> 
+                                                </div>
+                                                <div class="form-group a3" hidden>
+                                                    <label><?php echo lang('Term 3') ?>:</label>
+                                                    <input type="text" class="form-control angsuran3" name="a3" placeholder="Angsuran 3" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                                                </div>
+                                                <div class="form-group a4" hidden>
+                                                    <label><?php echo lang('Term 4') ?>:</label>
+                                                    <input type="text" class="form-control angsuran4" name="a4" placeholder="Angsuran 4" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                                                </div>
                                             </div>
-                                        <?php if (($i == 4) || ($i == 8)){ echo '</div>'; } ?>
-                                        <?php } ?>
+                                            <div class="col-md-6">
+                                                <div class="form-group a5" hidden>
+                                                    <label><?php echo lang('Term 5') ?>:</label>
+                                                    <input type="text" class="form-control angsuran5" name="a5" placeholder="Angsuran 5" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                                                </div>
+                                                <div class="form-group a6" hidden>
+                                                    <label><?php echo lang('Term 6') ?>:</label>
+                                                    <input type="text" class="form-control angsuran6" name="a6" placeholder="Angsuran 6" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                                                </div>
+                                                <div class="form-group a7" hidden>
+                                                    <label><?php echo lang('Term 7') ?>:</label>
+                                                    <input type="text" class="form-control angsuran7" name="a7" placeholder="Angsuran 7" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                                                </div>
+                                                <div class="form-group a8" hidden>
+                                                    <label><?php echo lang('Term 8') ?>:</label>
+                                                    <input type="text" class="form-control angsuran8" name="a8" placeholder="Angsuran 8" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="form-group">
                                             <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
                                             <input type="text" class="form-control tum" name="tum" readonly>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="detail_array_item" id="detail_array_item">
+                                    <input type="hidden" name="detail_array_budgetevent" id="detail_array_budgetevent">
                                 </div>
-                      
-                                <input type="hidden" name="detail_array" id="detail_array">
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
                                 <div class="text-right">
                                     <div class="btn-group">
-                                        <a href="{site_url}pemesanan_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                                        <a href="{site_url}Pemesanan_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
                                         <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
                                     </div>
                                 </div>
+                                </form>
+                                <!-- /form -->
                             </div>
-                        </form>
+                            <!-- /.card-body -->
                         </div>
                     <!-- /.card -->
                     </div>
@@ -219,49 +284,36 @@
 </div>
 <!-- /.content-wrapper -->
 
-<!-- modal tambah -->
-<div id="modal_add_detail" class="modal fade">
-    <div class="modal-dialog">
-        <form action="javascript:save_detail(0)" id="form2">
+<div id="modal_add_barang_inventaris" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <form action="javascript:save_detail(0,&#39;barang_inventaris&#39;)" id="form_barang_inventaris">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title"><?php echo lang('add_new') ?></h5>
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Baru</h5>
                 </div>
-
                 <div class="modal-body">
-                    <input type="hidden" name="rowindex">
+                    <input type="hidden" class="jenis_item">
+                    <input type="hidden" name="rowindex_barang_inventaris">
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="hidden" name="jenisItem" class="jenisItem">
-                            <div class="form-group comboboxbarang">
-                                <label><?php echo lang('item') ?>:</label>
-                                <select class="form-control barangid" name="barangid[]" style="width:100%" multiple>
-                                </select>
-                            </div>
-                            <div class="form-group comboboxjasa">
-                                <label><?php echo lang('item') ?>:</label>
-                                <select class="form-control jasaid" name="jasaid[]" style="width:100%" multiple>
-                                </select>
-                            </div>
-                            <div class="form-group comboboxbudgetevent">
-                                <label><?php echo lang('item') ?>:</label>
-                                <select class="form-control budgeteventid" name="budgeteventid[]" style="width:100%" multiple>
+                            <div class="form-group">
+                                <label><item></item></label>
+                                <select class="form-control id_barang_inventaris" name="id_barang_inventaris[]" required="" style="width:100%" multiple="">
                                 </select>
                             </div>
                         </div>
                         <table class="table">
-                            <tbody id='list'>
+                            <tbody id="list_barang_inventaris">
 
                             </tbody>
                         </table>
-                        <div id="detail"></div>
+                        <div id="detail_barang_inventaris"></div>
                     </div>
                 </div>
-
                 <div class="modal-footer">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
-                        <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">Simpan</button>
                     </div>
                 </div>
             </div>
@@ -269,48 +321,110 @@
     </div>
 </div>
 
-
-<!-- modal edit -->
-<div id="modal_edit_detail" class="modal fade">
-    <div class="modal-dialog">
-        <form action="javascript:save_edit_detail()" id="form3" enctype="multipart/form-data" method="POST">
+<div id="modal_add_jasa" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <form action="javascript:save_detail(0, &#39;jasa&#39;)" id="form_jasa">
             <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title">Edit Detail</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Jasa</h5>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" name="edit_rowindex">
+                    <input type="hidden" class="jenis_item">
+                    <input type="hidden" name="rowindex_jasa">
                     <div class="row">
                         <div class="col-md-12">
-                            <input type="hidden" name="edit_jenisItem" class="edit_jenisItem">
-                            <div class="form-group edit_comboboxbarang">
-                                <label><?php echo lang('item') ?>:</label>
-                                <select class="form-control edit_barangid" name="edit_barangid[]" style="width:100%">
-                                </select>
-                            </div>
-                            <div class="form-group edit_comboboxjasa">
-                                <label><?php echo lang('item') ?>:</label>
-                                <select class="form-control edit_jasaid" name="edit_jasaid[]" style="width:100%">
-                                </select>
-                            </div>
-                            <div class="form-group edit_comboboxbudgetevent">
-                                <label><?php echo lang('item') ?>:</label>
-                                <select class="form-control edit_budgeteventid" name="edit_budgeteventid[]" style="width:100%">
+                            <div class="form-group">
+                                <label>Jasa :</label>
+                                <select class="form-control id_jasa" name="id_jasa[]" required="" style="width:100%" multiple="">
                                 </select>
                             </div>
                         </div>
                         <table class="table">
-                            <tbody id='edit_list'>
+                            <tbody id="list_jasa">
 
                             </tbody>
                         </table>
-                        <div id="detail_edit"></div>
+                        <div id="detail_jasa"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modal_add_budgetevent" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <form action="javascript:save_detail(0, &#39;budgetevent&#39;)" id="form_budgetevent">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Budget Event</h5>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="rowindex_budgetevent">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Budget Event :</label>
+                                <select class="form-control id_budgetevent" name="id_budgetevent[]" required="" style="width:100%" multiple="">
+                                </select>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <tbody id="list_budgetevent">
+
+                            </tbody>
+                        </table>
+                        <div id="detail_budgetevent"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">Simpan</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="modal_edit_detail_item" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <form action="javascript:save_edit_detail('item')" id="form_edit_item" enctype="multipart/form-data" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Item</h5>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="edit_jenisitem" class="edit_jenisitem">
+                    <input type="hidden" name="edit_rowindex_item">
+                    <input type="hidden" class="nmr_urut_item">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Item:</label>
+                                <select class="form-control edit_itemid" name="edit_itemid[]" required="" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <tbody id="edit_list_item">
+
+                            </tbody>
+                        </table>
+                        <div id="edit_detail_item"></div>
                     </div>
                 </div>
 
                 <div class="modal-footer">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                         <button type="submit" class="btn btn-success">Edit</button>
                     </div>
                 </div>
@@ -319,44 +433,443 @@
     </div>
 </div>
 
-<script>
-    var base_url        = '{site_url}pemesanan_penjualan/';
-    var total_total     = [];
+<div id="modal_edit_detail_budgetevent" class="modal fade">
+    <div class="modal-dialog modal-lg">
+        <form action="javascript:save_edit_detail('budgetevent')" id="form_edit_budgetevent" enctype="multipart/form-data" method="POST">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit Budget Event</h5>
+                </div>
+                <div class="modal-body">
+                    <input type="hidden" name="edit_rowindex_budgetevent">
+                     <input type="hidden" class="nmr_urut_budgetevent">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Budget Event:</label>
+                                <select class="form-control edit_budgeteventid" name="edit_budgeteventid[]" required="" style="width:100%">
+                                </select>
+                            </div>
+                        </div>
+                        <table class="table">
+                            <tbody id="edit_list_budgetevent">
+
+                            </tbody>
+                        </table>
+                        <div id="edit_detail_budgetevent"></div>
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
+                        <button type="submit" class="btn btn-success">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div id="tambah_modal_pajak"></div>
+
+<div id="tambah_modal_pilih_pajak"></div>
+
+<div id="tambah_modal_pilih_pengiriman"></div>
+
+<script type="text/javascript">
+    var base_url                = '{site_url}Pemesanan_penjualan/';
+    var total_total_item        = [];
+    var total_total_budgetevent = [];
     $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
         return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
     })
 
 
-    //datatable
-    var tabel_detail = $('#tabel_detail').DataTable({
+     // isi tabel (detail pemesanan)
+    $(document).ready(function(){
+        $('#nokwitansi_rekening').attr("hidden", true);
+        $('.nokwitansi').attr("hidden", true);
+        $.ajax({
+            url         : base_url + 'get_detail_pemesanan',
+            method      : 'post',
+            async       : true,
+            dataType    : 'json',
+            data        : { id : $('.idpemesanan').val() },
+            success: function(data) {
+                var no  = 0;
+                for(var index=0; index < data.length; index++){
+                    var nama_item = ''; 
+                    var jenis = data[index].tipe;
+                    if (jenis == 'barang'){
+                        nama_item = data[index].item;
+                    }else if (jenis == 'inventaris'){
+                        nama_item = data[index].inventaris;
+                    }
+                    else if (jenis == 'jasa'){
+                        nama_item = data[index].jasa;
+                    }
+
+                    tabel_detail_item.row.add([
+                        data[index].itemid,
+                        nama_item,
+                        `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="harga[]" id="harga${index}${no}" value="${formatRupiah(data[index].harga,'Rp. ')}">`,
+                        `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="jumlah[]" id="jumlah${index}${no}" value="${data[index].jumlah}">`,
+                        `<input type="text" class="form-control" id="subtotal${index}${no}" readonly value="${formatRupiah(data[index].subtotal,'Rp. ')}"><input type="hidden" name="subtotal[]" id="subtotal_asli${index}${no}" readonly value="${data[index].subtotal}">`,
+                        `KURS`,
+                        `<input type="text" class="form-control" onkeyup="sum_total('${index}${no}', '${no}', '${jenis}');" name="diskon[]" id="diskon${index}${no}" value="${data[index].diskon}">`,
+                        `<input type="hidden" name="total_pajak[]" id="total_pajak${index}${no}" onchange="sum_total('${index}${no}', '${no}', '${jenis}');" value="${data[index].ppn}">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pajak${index}${no}" title="Tambah Pajak">
+                            <i class="fas fa-balance-scale"></i>
+                        </button>`,
+                        `<input type="hidden" name="biayapengiriman[]" id="biaya_pengiriman${index}${no}" onchange="sum_total('${index}${no}', '${no}', '${jenis}');" value="${data[index].biaya_pengiriman}">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman${index}${no}" title="Tambah Biaya Pengiriman">
+                            <i class="fas fa-shipping-fast"></i>
+                        </button>`,
+                        `${data[index].akunno}`,
+                        `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonly value="${formatRupiah(data[index].total,'Rp. ')}">`,
+                        `<a href="javascript:EditDetail('${data[index].itemid}','${jenis}','${no}')" class="edit_detail${data[index].itemid}"><i class="fas fa-pencil-alt"></i></a>&nbsp; 
+                            <a href="javascript:delete_detail_item('${no}')" class="delete_detail_item text-danger"><i class="fas fa-trash"></i></a>`,
+                        `${data[index].tipe}`
+                    ]).draw( false );
+
+                    detail_array_item();
+
+                    modal_pajak = `<div class="modal fade" id="modal_pajak${index}${no}">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Pajak</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="form_pajak${index}${no}" action="javascript:total_pajak('${index}${no}', '${no}')" enctype="multipart/form-data" method="POST">
+                                    <div class="modal-body">
+                                        <div class="mb-3 mt-3 table-responsive">
+                                            <div class="mt-3 mb-3">
+                                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pilih_pajak${index}${no}" id="pilih_pajak">
+                                                    <i class="fas fa-plus"></i>Pilih Pajak
+                                                </button>
+                                            </div>
+                                            <table class="table table-bordered" style="width:100%" id="pajak">
+                                                <thead class="bg-dark">
+                                                    <tr>
+                                                        <th class="text-right">Nama Pajak</th>
+                                                        <th class="text-right">Kode Akun</th>
+                                                        <th class="text-right">Nama Akun</th>
+                                                        <th class="text-right">Nominal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="isi_tbody_pajak${index}${no}">
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>`;
+                
+                    modal_pilih_pajak   = `<div class="modal fade" id="modal_pilih_pajak${index}${no}">
+                                            <div class="modal-dialog modal-lg">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title">Pilih Pajak</h4>
+                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <table class="table">
+                                                            <thead class="bg-dark">
+                                                                <tr>
+                                                                    <th>&nbsp;</th>
+                                                                    <th>Kode Pajak</th>
+                                                                    <th>Nama Pajak</th>
+                                                                    <th>Kode Akun</th>
+                                                                    <th>Nama Akun</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id='list_pajak${index}${no}'>
+
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>`
+                    modal_pengiriman = `
+                        <div class="modal fade" id="modal_pengiriman${index}${no}">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Biaya Pengiriman</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="form_pengiriman${index}${no}" action="javascript:total_pengiriman('${index}${no}', '${no}')" enctype="multipart/form-data" method="POST">
+                                    <div class="modal-body">
+                                        <div class="mb-3 mt-3 table-responsive">
+                                            <div class="mt-3 mb-3">
+                                                <select class="form-control pilih_akun" name="noakun" required id="noakun${index}${no}" multiple data-id="${index}${no}""></select>
+                                            </div>
+                                            <table class="table table-bordered" style="width:100%" id="pengiriman">
+                                                <thead class="bg-dark">
+                                                    <tr>
+                                                        <th class="text-right">Kode Akun</th>
+                                                        <th class="text-right">Nama Akun</th>
+                                                        <th class="text-right">Nominal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="isi_tbody_pengiriman${index}${no}">
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>`;
+                    $('#tambah_modal_pajak').append(modal_pajak);
+                    $('#tambah_modal_pilih_pajak').append(modal_pilih_pajak);
+                    $('#tambah_modal_pilih_pengiriman').append(modal_pengiriman);
+                    ajax_select({ 
+                        id          : `#noakun${index}${no}`, 
+                        url         : base_url+'select2_noakun_pengiriman'
+                    });
+                    getListPajak(String(index) + String(no));
+                    total_total_item.push(data[index].total);
+                    total_semua(jenis);
+                    no++;
+                }
+                var no_baru = no;
+
+                $('#form_barang_inventaris').attr('action', 'javascript:save_detail('+no_baru+',"barang_inventaris")');    
+                $('#modal_add_barang_inventaris').modal('hide');    
+         
+                $('#form_jasa').attr('action', 'javascript:save_detail('+no_baru+',"jasa")');
+                $('#modal_add_jasa').modal('hide');     
+            }
+        });
+        
+        $.ajax({
+            url         : base_url + 'get_detail_budgetevent',
+            method      : 'post',
+            async       : true,
+            dataType    : 'json',
+            data        : { id : $('.idpemesanan').val() },
+            success: function(data) {
+                var no = 0;
+                var jenis = "budgetevent";
+                for(var index=0; index<data.length; index++){
+                    $('.nokwitansi').val(data[index].nokwitansi);
+                    tabel_detail_budgetevent.row.add([
+                        data[index].idbudgetevent,
+                        data[index].budgetevent,
+                        `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="harga1[]" id="harga1${index}${no}" value="${formatRupiah(data[index].harga,'Rp. ')}">`,
+                        `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="jumlah1[]" id="jumlah1${index}${no}" value="${data[index].jumlah}">`,
+                        `<input type="text" class="form-control" id="subtotal1${index}${no}" readonly value="${formatRupiah(data[index].subtotal,'Rp. ')}"><input type="hidden" name="subtotal1[]" id="subtotal_asli1${index}${no}" readonly value="${data[index].subtotal}">`,
+                        `KURS`,
+                        `<input type="text" class="form-control" onkeyup="sum_total('${index}${no}', '${no}', '${jenis}');" name="diskon1[]" id="diskon1${index}${no}" value="${data[index].diskon}">`,
+                        `<input type="hidden" name="total_pajak1[]" id="total_pajak1${index}${no}" onchange="sum_total('${index}${no}', '${no}', '${jenis}');" value="${data[index].ppn}">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pajak1${index}${no}" title="Tambah Pajak">
+                            <i class="fas fa-balance-scale"></i>
+                        </button>`,
+                        `<input type="hidden" name="biayapengiriman1[]" id="biaya_pengiriman1${index}${no}" onchange="sum_total('${index}${no}', '${no}', '${jenis}');" value="${data[index].biaya_pengiriman}">
+                        <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman1${index}${no}" title="Tambah Biaya Pengiriman">
+                            <i class="fas fa-shipping-fast"></i>
+                        </button>`,
+                        `${data[index].akunno}`,
+                        `<input type="text" class="form-control" name="total1[]" id="total1${index}${no}" readonly value="${formatRupiah(data[index].total,'Rp. ')}">`,
+                        `<a href="javascript:EditDetail('${data[index].idbudgetevent}','${jenis}','${no}')" class="edit_detail${data[index].idbudgetevent}"><i class="fas fa-pencil-alt"></i></a>&nbsp; 
+                            <a href="javascript:delete_detail_budgetevent('${no}')" class="delete_detail_budgetevent text-danger"><i class="fas fa-trash"></i></a>`,
+                        `${jenis}`
+                    ]).draw( false );
+
+                    detail_array_budgetevent();
+                    modal_pajak = `<div class="modal fade" id="modal_pajak1${index}${no}">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Pajak</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="form_pajak1${index}${no}" action="javascript:total_pajak1('${index}${no}', '${no}')" enctype="multipart/form-data" method="POST">
+                                    <div class="modal-body">
+                                        <div class="mb-3 mt-3 table-responsive">
+                                            <div class="mt-3 mb-3">
+                                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pilih_pajak1${index}${no}" id="pilih_pajak1">
+                                                    <i class="fas fa-plus"></i>Pilih Pajak
+                                                </button>
+                                            </div>
+                                            <table class="table table-bordered" style="width:100%" id="pajak1">
+                                                <thead class="bg-dark">
+                                                    <tr>
+                                                        <th class="text-right">Nama Pajak</th>
+                                                        <th class="text-right">Kode Akun</th>
+                                                        <th class="text-right">Nama Akun</th>
+                                                        <th class="text-right">Nominal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="isi_tbody_pajak1${index}${no}">
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>`;
+                
+                modal_pilih_pajak   = `<div class="modal fade" id="modal_pilih_pajak1${index}${no}">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Pilih Pajak</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table">
+                                                        <thead class="bg-dark">
+                                                            <tr>
+                                                                <th>&nbsp;</th>
+                                                                <th>Kode Pajak</th>
+                                                                <th>Nama Pajak</th>
+                                                                <th>Kode Akun</th>
+                                                                <th>Nama Akun</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id='list_pajak1${index}${no}'>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`
+                modal_pengiriman = `
+                    <div class="modal fade" id="modal_pengiriman1${index}${no}">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Biaya Pengiriman</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form id="form_pengiriman1${index}${no}" action="javascript:total_pengiriman1('${index}${no}', '${no}')" enctype="multipart/form-data" method="POST">
+                                <div class="modal-body">
+                                    <div class="mb-3 mt-3 table-responsive">
+                                        <div class="mt-3 mb-3">
+                                            <select class="form-control pilih_akun1" name="noakun1" required id="noakun1${index}${no}" multiple data-id1="${index}${no}""></select>
+                                        </div>
+                                        <table class="table table-bordered" style="width:100%" id="pengiriman1">
+                                            <thead class="bg-dark">
+                                                <tr>
+                                                    <th class="text-right">Kode Akun</th>
+                                                    <th class="text-right">Nama Akun</th>
+                                                    <th class="text-right">Nominal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="isi_tbody_pengiriman1${index}${no}">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>`;
+                $('#tambah_modal_pajak').append(modal_pajak);
+                $('#tambah_modal_pilih_pajak').append(modal_pilih_pajak);
+                $('#tambah_modal_pilih_pengiriman').append(modal_pengiriman);
+                ajax_select({ 
+                    id          : `#noakun1${index}${no}`, 
+                    url         : base_url+'select2_noakun_pengiriman'
+                });
+                getListPajak1(String(index) + String(no));
+                total_total_budgetevent.push(data[index].total);
+                total_semua(jenis);
+                no++;
+            }
+            var no_baru = no; 
+            $('#form_budgetevent').attr('action', 'javascript:save_detail('+no_baru+',"budgetevent")');   
+            $('#modal_add_budgetevent').modal('hide');      
+            }
+        });
+        
+    })
+
+
+    //datatable item
+    var tabel_detail_item = $('#tabel_detail_item').DataTable({
         sort: false,
         info: false,
         searching: false,
         paging: false,
         columnDefs: [
-            {targets: [0,10], visible: false},
-            {targets: [8], className: 'text-right'},
+            {targets: [0,12], visible: false},
+            {targets: [5,7,8,9,11], className: 'text-center'}
         ],
+        
     })
+
+    //datatable budget event
+    var tabel_detail_budgetevent = $('#tabel_detail_budgetevent').DataTable({
+        sort: false,
+        info: false,
+        searching: false,
+        paging: false,
+        columnDefs: [
+            {targets: [0,12], visible: false},
+            {targets: [5,7,8,9,11], className: 'text-center'}
+        ],
+        
+    })
+
 
     $(document).ready(function(){
         //isi combobox kontak, gudang, perusahaan, departemen, pejabat
         ajax_select({id: '#perusahaan', url: base_url + 'select2_mperusahaan', selected: { id: '{idperusahaan}' } });
         ajax_select({id: '#departemen', url: base_url + 'select2_mdepartemen/{departemen}', selected: { id: '{departemen}' } });
-        ajax_select({id: '#pejabat', url: base_url + 'select2_mdepartemen_pejabat/{pejabat}', selected: { id: '{pejabat}' } });
+        ajax_select({id: '#pejabat', url: base_url + 'select2_mdepartemen_pejabat/{pejabat}', selected: { id: '{pejabat}' } });           
+
         //menyembunyikan button tambah
         $('.btn_add_detail_barang').attr("hidden", true);
         $('.btn_add_detail_jasa').attr("hidden", true);
         $('.btn_add_detail_budgetevent').attr("hidden", true);
-
-        //hiden combobobox
-        $('.comboboxbarang').attr("hidden", true);
-        $('.comboboxjasa').attr("hidden", true);
-        $('.comboboxbudgetevent').attr("hidden", true);
-        $('.edit_comboboxbarang').attr("hidden", true);
-        $('.edit_comboboxjasa').attr("hidden", true);
-        $('.edit_comboboxbudgetevent').attr("hidden", true);
-        $('#nokwitansi_rekening').attr("hidden", true);
 
         //select jenis penjualan
         var jenis_jual = '{jenis_pembelian}'; 
@@ -380,7 +893,6 @@
             }
             ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: '{kontakid}' } });
             ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: '{gudangid}' } });
-            $('#nokwitansi_rekening').attr("hidden", true);
         }else if(jenis_jual == 'jasa'){
             $('.jenis_penjualan').prop("selectedIndex", 1);
             $('.btn_add_detail_barang').attr("hidden", true);
@@ -388,7 +900,6 @@
             $('.btn_add_detail_budgetevent').attr("hidden", false);
             $('.jenis_barang').attr("disabled", true);
             $('#gudang').empty();
-            $('#nokwitansi_rekening').attr("hidden", false);
             $.ajax({
                 url         : base_url + 'get_budget_event',
                 method      : 'post',
@@ -428,7 +939,6 @@
                 }
             })
             $('.jenis_penjualan').prop("selectedIndex", 2);
-            $('#nokwitansi_rekening').attr("hidden", false);
             $('.btn_add_detail_barang').attr("hidden", false);
             $('.btn_add_detail_jasa').attr("hidden", false);
             $('.btn_add_detail_budgetevent').attr("hidden", false);
@@ -459,13 +969,19 @@
         }else {
             $('.cara_pembayaran').prop("selectedIndex", 1);
         }
-    })
 
-    //mengisi combobox depatemen
+        $('#tabel_detail_item').attr("hidden", false);
+        $('#tabel_detail_budgetevent').attr("hidden", true);
+
+        //setting inputan anggsuran 
+        $('input[name=jtem]').val('0');  
+        getListPajak();
+    }) 
+
     $('#perusahaan').change(function(e) {
         $("#departemen").val($("#departemen").data("default-value"));
         $("#pejabat").val($("#pejabat").data("default-value"));
-        $("#rekening").empty();
+        $("#rekening").val($("#rekening").data("default-value"));
         var perusahaanId = $('#perusahaan').children('option:selected').val();
         ajax_select({
             id: '#departemen',
@@ -475,22 +991,20 @@
             id: '#rekening',
             url: base_url + 'select2_mrekening_perusahaan/' + perusahaanId,
         });
-        
     })
-    //mengisi combobox pejabat
+
     $('#departemen').change(function(e) {
         $("#pejabat").val($("#pejabat").data("default-value"));
         var deptId = $('#departemen').children('option:selected').val()
         ajax_select({
             id: '#pejabat',
             url: base_url + 'select2_mdepartemen_pejabat/' + deptId,
-        });  
+        });
     })
 
-    //perubahan saat jenis penjualan diganti
+    //perubahan saat jenis pembelian diganti
     $(document).on('change','.jenis_penjualan',function(){
         $('#nokwitansi_rekening').attr("hidden", true);
-        $('.nokwitansi').val('');
         if ($(this).val() == 'jasa') {
             $('.jenis_barang').attr("disabled", true);
             $('#gudang').empty();
@@ -532,12 +1046,13 @@
             var jenis_penjualan = $('.jenis_penjualan').val();
             
         }
-        tabel_detail.clear().draw();
-        $('#total_total').html('');
-        $('#detail_array').val('');
-        total_total=[];
+        tabel_detail_item.clear().draw();
+        tabel_detail_budgetevent.clear().draw();
+        $('#total_total_item').html('');
+        $('#total_total_budgetevent').html('');
+        $('#detail_array_item').val('');
+        $('#detail_array_budgetevent').val('');
     })
-
      //perubahan saat jenis barang diganti
     $(document).on('change','.jenis_barang',function(){
         var jenis_barang = $(this).val();
@@ -550,371 +1065,1035 @@
             }else if (jenis_barang == 'inventaris'){
                 $('#gudang').empty();
             }
-        $('#total_total').html('');
+        $('#total_total_item').html('');
+        $('#total_total_budgetevent').html('');
         $('#total_penjualan').val('');
-        tabel_detail.clear().draw();
-        total_total=[];
+        tabel_detail_item.clear().draw();
+        tabel_detail_budgetevent.clear().draw();
+        total_total_item=[];
+        total_total_budgetevent=[];
     })
 
-   //menampilkan modal barang
+    //menampilkan modal barang
     $(document).on('click','.btn_add_detail_barang',function(){
-        $('#modal_add_detail').modal('show');
-        $('.barangid').empty();
-        $('.comboboxbarang').attr("hidden", false);
-        $('.comboboxjasa').attr("hidden", true);
-        $('.comboboxbudgetevent').attr("hidden", true);
-        
+        $('#modal_add_barang_inventaris').modal('show');
+        $('#nokwitansi_rekening').attr("hidden", true);
+        $('.nokwitansi').attr("hidden", true);
+
+        $('#tabel_detail_item').attr("hidden", false);
+        $('#tabel_detail_budgetevent').attr("hidden", true);
         var jenis_barang = $('.jenis_barang').val();
         var idgudang = $('.gudangid').val();
-        switch (jenis_barang){
-            case 'barang_dagangan' :
-                url = base_url + 'select2_item'+ '/'+ idgudang +'/'+idgudang;
-                $('.jenisItem').val('barang');
-                break;
-            case 'inventaris' :
-                url = base_url + 'select2_item_inventaris';
-                $('.jenisItem').val('inventaris');
-                break;
-            case 'barang_dan_jasa':
-                url = base_url + 'select2_item'+ '/'+ idgudang +'/'+idgudang;
-                $('.jenisItem').val('barang');
-                break;
-            default:
-                break;
+        if (jenis_barang == 'inventaris'){
+            $('item').html('Inventaris:');
+            $('.jenis_item').val('inventaris');
+            url = base_url + 'select2_item_inventaris';
+        }else{
+            $('item').html('Barang:');
+            $('.jenis_item').val('barang');
+            url = base_url + 'select2_item'+ '/'+ idgudang +'/'+idgudang;
         }
+        $('.id_barang_inventaris').empty();
         $.ajax({
             url         : url,
             method      : 'post',
             datatype    : 'json',
             success: function(data) {
                 isi = "";
+                detail = "";
                 for ( index = 0; index < data.length; index++) {
+                    detail += `<input type="hidden" class="form-control" id="noakun`+data[index].id+`" name="noakun[]" required value="${data[index].koderekening}">`;
                     isi += `<option value="${data[index].id}">${data[index].text}</option>`
                 }
-                $('.barangid').append(isi);
+                $('#detail_barang_inventaris').html(detail);
+                $('.id_barang_inventaris').append(isi);
             }
         })
-        $('.barangid').select2();
-        
+        $('.id_barang_inventaris').select2();
     })
 
     //menampilkan modal jasa
     $(document).on('click','.btn_add_detail_jasa',function(){
-        $('#modal_add_detail').modal('show');
-        $('.jasaid').empty();
-        $('.comboboxbarang').attr("hidden", true);
-        $('.comboboxjasa').attr("hidden", false);
-        $('.comboboxbudgetevent').attr("hidden", true);
-        $('.jenisItem').val('jasa');
+        $('#modal_add_jasa').modal('show');
+        $('#nokwitansi_rekening').attr("hidden", true);
+        $('.nokwitansi').attr("hidden", true);
+        $('#tabel_detail_item').attr("hidden", false);
+        $('#tabel_detail_budgetevent').attr("hidden", true);
+        $('.id_jasa').empty();
+        $('.jenis_item').val('jasa');
         $.ajax({
             url         : base_url + 'select2_item_jasa',
             method      : 'post',
             datatype    : 'json',
             success: function(data) {
                 isi = "";
+                detail="";
                 for ( index = 0; index < data.length; index++) {
+                     detail += `<input type="hidden" class="form-control" id="noakun`+data[index].id+`" name="noakun[]" required value="${data[index].koderekening}">`;
                     isi += `<option value="${data[index].id}">${data[index].text}</option>`
                 }
-                $('.jasaid').append(isi);
+                $('#detail_jasa').html(detail);
+                $('.id_jasa').append(isi);
             }
         })
-        $('.jasaid').select2();
+        $('.id_jasa').select2();
     })
 
     //menampilkan modal budgetevent
     $(document).on('click','.btn_add_detail_budgetevent',function(){
+        $('#modal_add_budgetevent').modal('show');
         $('#nokwitansi_rekening').attr("hidden", false);
-        $('.nokwitansi').val('{kode_otomatis}/BE/{tahun}');
+        $('.nokwitansi').attr("hidden", false);
         $("#rekening").val($("#rekening").data("default-value"));
-        $('#modal_add_detail').modal('show');
-        $('.budgeteventid').empty();
-        $('.comboboxbarang').attr("hidden", true);
-        $('.comboboxjasa').attr("hidden", true);
-        $('.comboboxbudgetevent').attr("hidden", false);
-        $('.jenisItem').val('budgetevent');
+        $('#tabel_detail_item').attr("hidden", true);
+        $('#tabel_detail_budgetevent').attr("hidden", false);
+        $('.id_budgetevent').empty();
         $.ajax({
             url         : base_url + 'select2_budgetevent',
             method      : 'post',
             datatype    : 'json',
             success: function(data) {
                 isi = "";
+                detail="";
                 for ( index = 0; index < data.length; index++) {
+                    detail += `<input type="hidden" class="form-control" id="noakun1`+data[index].id+`" name="noakun1[]" required value="${data[index].koderekening}">`;
                     isi += `<option value="${data[index].id}">${data[index].text}</option>`
                 }
-                $('.budgeteventid').append(isi);
+                $('#detail_budgetevent').html(detail);
+                $('.id_budgetevent').append(isi);
             }
         })
-        $('.budgeteventid').select2();
+        $('.id_budgetevent').select2();
     })
-    
-    //save detail barang
-    function save_detail(no) {
-        var form            = $('#form2')[0];
-        var formData        = new FormData(form);
-        var IsiItem            = '';
-        var jenisItem       = $('.jenisItem').val();
-        if ((jenisItem == 'barang') || (jenisItem == 'inventaris')){
-            IsiItem = $('.barangid :selected');
-        } else if (jenisItem == 'jasa'){
-            IsiItem = $('.jasaid :selected');
-        }else{
-            IsiItem = $('.budgeteventid :selected');
+
+
+    function save_detail(no, jenis) {
+        switch (jenis) {
+            case 'barang_inventaris':
+                var form            = $('#form_barang_inventaris')[0];
+                var formData        = new FormData(form);
+                var barang          = $('.id_barang_inventaris :selected');        
+                break;
+            case 'jasa':
+                var form            = $('#form_jasa')[0];
+                var formData        = new FormData(form);
+                var barang          = $('.id_jasa :selected');        
+                break;
+            case 'budgetevent':
+                var form            = $('#form_budgetevent')[0];
+                var formData        = new FormData(form);
+                var barang          = $('.id_budgetevent :selected');        
+                break;
+            default:
+                break;
         }
-        var no_baru         = no + 1;
-        jumlah_rows = tabel_detail.rows().count();
-        for ( index = 0; index < IsiItem.length; index++) {
-            var id    = IsiItem[index].value;
-            var item    = IsiItem[index].text;
-            if(tabel_detail.hasValue(id)) {
-                swal("Gagal!", "Item sudah ada", "error");
-                return;
+
+        if (jenis != 'budgetevent'){
+            var jenis_item = $('.jenis_item').val();
+            for (let index = 0; index < barang.length; index++) {
+                var id    = barang[index].value;
+                var item  = barang[index].text;
+                if(tabel_detail_item.hasValue(id)) {
+                    swal("Gagal!", "Item sudah ada", "error");
+                    return;
+                }
+                noakun   = $('#noakun'+barang[index].value).val();
+                $('#noakun'+barang[index].value).remove();
+                tabel_detail_item.row.add([
+                    barang[index].value,
+                    item,
+                    `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="harga[]" id="harga${index}${no}">`,
+                    `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="jumlah[]" id="jumlah${index}${no}">`,
+                    `<input type="text" class="form-control" id="subtotal${index}${no}" readonly><input type="hidden" name="subtotal[]" id="subtotal_asli${index}${no}" readonly>`,
+                    `KURS`,
+                    `<input type="text" class="form-control" onkeyup="sum_total('${index}${no}', '${no}', '${jenis}');" name="diskon[]" id="diskon${index}${no}">`,
+                    `<input type="hidden" name="total_pajak[]" id="total_pajak${index}${no}" onchange="sum_total('${index}${no}', '${no}', '${jenis}');">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pajak${index}${no}" title="Tambah Pajak">
+                        <i class="fas fa-balance-scale"></i>
+                    </button>`,
+                    `<input type="hidden" name="biayapengiriman[]" id="biaya_pengiriman${index}${no}" onchange="sum_total('${index}${no}', '${no}', '${jenis}');">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman${index}${no}" title="Tambah Biaya Pengiriman">
+                        <i class="fas fa-shipping-fast"></i>
+                    </button>`,
+                    `${noakun}`,
+                    `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonlY>`,
+                    `<a href="javascript:EditDetail('${barang[index].value}','${jenis_item}','${no}')" class="edit_detail${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp; 
+                        <a href="javascript:delete_detail_item('${no}')" class="delete_detail_item text-danger"><i class="fas fa-trash"></i></a>`,
+                    `${jenis_item}`
+                ]).draw( false );
+                detail_array_item();
+
+                modal_pajak = `<div class="modal fade" id="modal_pajak${index}${no}">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Pajak</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="form_pajak${index}${no}" action="javascript:total_pajak('${index}${no}', '${no}')" enctype="multipart/form-data" method="POST">
+                                    <div class="modal-body">
+                                        <div class="mb-3 mt-3 table-responsive">
+                                            <div class="mt-3 mb-3">
+                                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pilih_pajak${index}${no}" id="pilih_pajak">
+                                                    <i class="fas fa-plus"></i>Pilih Pajak
+                                                </button>
+                                            </div>
+                                            <table class="table table-bordered" style="width:100%" id="pajak">
+                                                <thead class="bg-dark">
+                                                    <tr>
+                                                        <th class="text-right">Nama Pajak</th>
+                                                        <th class="text-right">Kode Akun</th>
+                                                        <th class="text-right">Nama Akun</th>
+                                                        <th class="text-right">Nominal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="isi_tbody_pajak${index}${no}">
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>`;
+                
+                modal_pilih_pajak   = `<div class="modal fade" id="modal_pilih_pajak${index}${no}">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Pilih Pajak</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table">
+                                                        <thead class="bg-dark">
+                                                            <tr>
+                                                                <th>&nbsp;</th>
+                                                                <th>Kode Pajak</th>
+                                                                <th>Nama Pajak</th>
+                                                                <th>Kode Akun</th>
+                                                                <th>Nama Akun</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id='list_pajak${index}${no}'>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`
+                modal_pengiriman = `
+                    <div class="modal fade" id="modal_pengiriman${index}${no}">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Biaya Pengiriman</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form id="form_pengiriman${index}${no}" action="javascript:total_pengiriman('${index}${no}', '${no}')" enctype="multipart/form-data" method="POST">
+                                <div class="modal-body">
+                                    <div class="mb-3 mt-3 table-responsive">
+                                        <div class="mt-3 mb-3">
+                                            <select class="form-control pilih_akun" name="noakun" required id="noakun${index}${no}" multiple data-id="${index}${no}""></select>
+                                        </div>
+                                        <table class="table table-bordered" style="width:100%" id="pengiriman">
+                                            <thead class="bg-dark">
+                                                <tr>
+                                                    <th class="text-right">Kode Akun</th>
+                                                    <th class="text-right">Nama Akun</th>
+                                                    <th class="text-right">Nominal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="isi_tbody_pengiriman${index}${no}">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>`;
+                $('#tambah_modal_pajak').append(modal_pajak);
+                $('#tambah_modal_pilih_pajak').append(modal_pilih_pajak);
+                $('#tambah_modal_pilih_pengiriman').append(modal_pengiriman);
+                ajax_select({ 
+                    id          : `#noakun${index}${no}`, 
+                    url         : base_url+'select2_noakun_pengiriman'
+                });
+                getListPajak(String(index) + String(no));
+                no++;
             }
-            tabel_detail.row.add([
-                IsiItem[index].value,
-                item,
-                `<input type="text" class="form-control" onkeyup="sum('${index}${jumlah_rows}', '${jumlah_rows}');" name="harga[]" id="harga${index}${jumlah_rows}">`,
-                `<input type="text" class="form-control" onkeyup="sum('${index}${jumlah_rows}', '${jumlah_rows}');" name="jumlah[]" id="jumlah${index}${jumlah_rows}">`,
-                `<input type="text" class="form-control" id="subtotal${index}${jumlah_rows}" readonly><input type="hidden" name="subtotal[]" id="subtotal_asli${index}${jumlah_rows}" readonly>`,
-                `KURS KOSONG`,
-                `<input type="text" class="form-control" onkeyup="sum('${index}${jumlah_rows}', '${jumlah_rows}'); sum_total('${index}${jumlah_rows}', '${jumlah_rows}');" name="diskon[]" id="diskon${index}${jumlah_rows}">`,
-                `<input type="text" class="form-control" onkeyup="sum('${index}${jumlah_rows}', '${jumlah_rows}'); sum_total('${index}${jumlah_rows}', '${jumlah_rows}');" name="ppn[]" id="ppn${index}${jumlah_rows}">`,
-                `<input type="text" class="form-control" name="total[]" id="total${index}${jumlah_rows}" readonly>`,
-                `<a href="javascript:EditDetail('${IsiItem[index].value}','${jenisItem}')" class="edit_detail"><i class="fas fa-pencil-alt"></i></a>&nbsp; 
-                    <a href="javascript:void(0)" class="delete_detail text-danger"><i class="fas fa-trash"></i></a>`,
-                `${jenisItem}`
-            ]).draw( false );
-            
-            detail_array();
-            jumlah_rows++;
-        }
-        $('#modal_add_detail').modal('hide');
-        $('#form2').attr('action', 'javascript:save_detail('+jumlah_rows+')');
-    }
-
-    //detail array keseluruhan
-    function detail_array() {
-        var arr = tabel_detail.data().toArray();
-        $('#detail_array').val( JSON.stringify(arr) );
-    }
-
-    //edit data barang
-    function EditDetail(id,jenisItem){
-        if ((jenisItem == 'barang') || (jenisItem == 'inventaris')){
-            var rowindex    = tabel_detail.row($('.edit_detail').parents('tr')).index();
-            $('input[name=edit_rowindex]').val(rowindex);
-            $('.edit_comboboxbarang').attr("hidden", false);
-            $('.edit_comboboxjasa').attr("hidden", true);
-            $('.edit_comboboxbudgetevent').attr("hidden", true); 
-            var idgudang = $('.gudangid').val();
-            var jenis_barang = $('.jenis_barang').val();
-            if (jenis_barang == 'barang_dagangan'){
-                url = base_url + 'select2_item'+'/'+id+'/'+idgudang;
-                $('.edit_jenisItem').val('barang');
-            }else if (jenis_barang == 'inventaris'){
-                url = base_url + 'select2_item_inventaris';
-                $('.edit_jenisItem').val('inventaris');
-            }else{
-                url = base_url + 'select2_item'+'/'+id+'/'+idgudang;
-                $('.edit_jenisItem').val('barang');
-            }
-            ajax_select({ id: '.edit_barangid', url: url, selected: { id: id } });
-        }else if (jenisItem == 'jasa'){
-            var rowindex    = tabel_detail.row($(this).parents('tr')).index();
-            $('input[name=edit_rowindex]').val(rowindex);
-            $('.edit_jenisItem').val('jasa');
-            $('.edit_comboboxbarang').attr("hidden", true);
-            $('.edit_comboboxjasa').attr("hidden", false);
-            $('.edit_comboboxbudgetevent').attr("hidden", true); 
-            url = base_url + 'select2_item_jasa';
-            ajax_select({ id: '.edit_jasaid', url: url, selected: { id: id } });
+            var no_baru = no;
+   
+            $('#form_barang_inventaris').attr('action', 'javascript:save_detail('+no_baru+',"barang_inventaris")');    
+            $('#modal_add_barang_inventaris').modal('hide');    
+         
+            $('#form_jasa').attr('action', 'javascript:save_detail('+no_baru+',"jasa")');
+            $('#modal_add_jasa').modal('hide');     
+                  
         }else{
-            var rowindex    = tabel_detail.row($(this).parents('tr')).index();
-            $('input[name=edit_rowindex]').val(rowindex);
-            $('.edit_jenisItem').val('budgetevent');
-            $('.edit_comboboxbarang').attr("hidden", true);
-            $('.edit_comboboxjasa').attr("hidden", true);
-            $('.edit_comboboxbudgetevent').attr("hidden", false); 
-            url = base_url + 'select2_budgetevent';
-            ajax_select({ id: '.edit_budgeteventid', url: url, selected: { id: id } });
-        }
-        $('#modal_edit_detail').modal('show');
-    }
-    
-    //simpan edit
-    function save_edit_detail(no) {
-        var formData        = new FormData($('#form3')[0]);
-        var edit_rowindex   = $('input[name=edit_rowindex]').val();
-        var Edit_jenisItem  = $('.edit_jenisItem').val();
-        var IsiItem    = '';
-        if ((Edit_jenisItem == 'barang') || (Edit_jenisItem == 'inventaris')){
-            edit_isiitem = $('.edit_barangid :selected');
-        } else if (Edit_jenisItem == 'jasa'){
-            edit_isiitem = $('.edit_jasaid :selected');
-        }else{
-            edit_isiitem = $('.edit_budgeteventid :selected');
-        }
+            for (let index = 0; index < barang.length; index++) {
+                var id    = barang[index].value;
+                var item  = barang[index].text;
+                if(tabel_detail_budgetevent.hasValue(id)) {
+                    swal("Gagal!", "Item sudah ada", "error");
+                    return;
+                }
+                 noakun   = $('#noakun1'+barang[index].value).val();
+                $('#noakun1'+barang[index].value).remove();
+                tabel_detail_budgetevent.row.add([
+                    barang[index].value,
+                    item,
+                    `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="harga1[]" id="harga1${index}${no}">`,
+                    `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="jumlah1[]" id="jumlah1${index}${no}">`,
+                    `<input type="text" class="form-control" id="subtotal1${index}${no}" readonly><input type="hidden" name="subtotal1[]" id="subtotal_asli1${index}${no}" readonly>`,
+                    `KURS`,
+                    `<input type="text" class="form-control" onkeyup="sum_total('${index}${no}', '${no}', '${jenis}');" name="diskon1[]" id="diskon1${index}${no}">`,
+                    `<input type="hidden" name="total_pajak1[]" id="total_pajak1${index}${no}" onchange="sum_total('${index}${no}', '${no}', '${jenis}');">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pajak1${index}${no}" title="Tambah Pajak">
+                        <i class="fas fa-balance-scale"></i>
+                    </button>`,
+                    `<input type="hidden" name="biayapengiriman1[]" id="biaya_pengiriman1${index}${no}" onchange="sum_total('${index}${no}', '${no}', '${jenis}');">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman1${index}${no}" title="Tambah Biaya Pengiriman">
+                        <i class="fas fa-shipping-fast"></i>
+                    </button>`,
+                    `${noakun}`,
+                    `<input type="text" class="form-control" name="total1[]" id="total1${index}${no}" readonly>`,
+                    `<a href="javascript:EditDetail('${barang[index].value}','${jenis}','${no}')" class="edit_detail${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp; 
+                        <a href="javascript:delete_detail_budgetevent('${no}')" class="delete_detail_budgetevent text-danger"><i class="fas fa-trash"></i></a>`,
+                    `${jenis}`
+                ]).draw( false );
+                detail_array_budgetevent();
 
-        for ( index = 0; index < edit_isiitem.length; index++) {
-            var id    = edit_isiitem[index].value;
-            var item  = edit_isiitem[index].text;
-            if(tabel_detail.hasValue(id)) {
-                swal("Gagal!", "Item sudah ada", "error");
-                return;
+                modal_pajak = `<div class="modal fade" id="modal_pajak1${index}${no}">
+                            <div class="modal-dialog modal-lg">
+                                <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title">Pajak</h4>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form id="form_pajak1${index}${no}" action="javascript:total_pajak1('${index}${no}', '${no}')" enctype="multipart/form-data" method="POST">
+                                    <div class="modal-body">
+                                        <div class="mb-3 mt-3 table-responsive">
+                                            <div class="mt-3 mb-3">
+                                                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pilih_pajak1${index}${no}" id="pilih_pajak1">
+                                                    <i class="fas fa-plus"></i>Pilih Pajak
+                                                </button>
+                                            </div>
+                                            <table class="table table-bordered" style="width:100%" id="pajak1">
+                                                <thead class="bg-dark">
+                                                    <tr>
+                                                        <th class="text-right">Nama Pajak</th>
+                                                        <th class="text-right">Kode Akun</th>
+                                                        <th class="text-right">Nama Akun</th>
+                                                        <th class="text-right">Nominal</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody id="isi_tbody_pajak1${index}${no}">
+                                                    
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>`;
+                
+                modal_pilih_pajak   = `<div class="modal fade" id="modal_pilih_pajak1${index}${no}">
+                                        <div class="modal-dialog modal-lg">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title">Pilih Pajak</h4>
+                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <table class="table">
+                                                        <thead class="bg-dark">
+                                                            <tr>
+                                                                <th>&nbsp;</th>
+                                                                <th>Kode Pajak</th>
+                                                                <th>Nama Pajak</th>
+                                                                <th>Kode Akun</th>
+                                                                <th>Nama Akun</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id='list_pajak1${index}${no}'>
+
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>`
+                modal_pengiriman = `
+                    <div class="modal fade" id="modal_pengiriman1${index}${no}">
+                        <div class="modal-dialog modal-lg">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Biaya Pengiriman</h4>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <form id="form_pengiriman1${index}${no}" action="javascript:total_pengiriman1('${index}${no}', '${no}')" enctype="multipart/form-data" method="POST">
+                                <div class="modal-body">
+                                    <div class="mb-3 mt-3 table-responsive">
+                                        <div class="mt-3 mb-3">
+                                            <select class="form-control pilih_akun1" name="noakun1" required id="noakun1${index}${no}" multiple data-id1="${index}${no}""></select>
+                                        </div>
+                                        <table class="table table-bordered" style="width:100%" id="pengiriman1">
+                                            <thead class="bg-dark">
+                                                <tr>
+                                                    <th class="text-right">Kode Akun</th>
+                                                    <th class="text-right">Nama Akun</th>
+                                                    <th class="text-right">Nominal</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="isi_tbody_pengiriman1${index}${no}">
+                                                
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="modal-footer justify-content-between">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="submit" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>`;
+                $('#tambah_modal_pajak').append(modal_pajak);
+                $('#tambah_modal_pilih_pajak').append(modal_pilih_pajak);
+                $('#tambah_modal_pilih_pengiriman').append(modal_pengiriman);
+                ajax_select({ 
+                    id          : `#noakun1${index}${no}`, 
+                    url         : base_url+'select2_noakun_pengiriman'
+                });
+                getListPajak1(String(index) + String(no));
+                no++;
             }
-            tabel_detail.row(edit_rowindex).data([
-                edit_isiitem[index].value,
-                item,
-                `<input type="text" class="form-control" onkeyup="sum('${index}${edit_rowindex}', '${edit_rowindex}');" name="harga[]" id="harga${index}${edit_rowindex}">`,
-                `<input type="text" class="form-control" onkeyup="sum('${index}${edit_rowindex}', '${edit_rowindex}');" name="jumlah[]" id="jumlah${index}${edit_rowindex}">`,
-                `<input type="text" class="form-control" id="subtotal${index}${edit_rowindex}" readonly><input type="hidden" name="subtotal[]" id="subtotal_asli${index}${edit_rowindex}" readonly>`,
-                `KURS KOSONG`,
-                `<input type="text" class="form-control" onkeyup="sum('${index}${edit_rowindex}', '${edit_rowindex}'); sum_total('${index}${edit_rowindex}', '${edit_rowindex}');" name="diskon[]" id="diskon${index}${edit_rowindex}">`,
-                `<input type="text" class="form-control" onkeyup="sum('${index}${edit_rowindex}', '${edit_rowindex}'); sum_total('${index}${edit_rowindex}', '${edit_rowindex}');" name="ppn[]" id="ppn${index}${edit_rowindex}">`,
-                `<input type="text" class="form-control" name="total[]" id="total${index}${edit_rowindex}" readonly>`,
-                `<a href="javascript:EditDetail('${edit_isiitem[index].value}','${Edit_jenisItem}')" class="edit_detail"><i class="fas fa-pencil-alt"></i></a>&nbsp
-                    <a href="javascript:void(0)" class="delete_detail text-danger" onclick="delete_detail('${no}')"><i class="fas fa-trash"></i></a>`,
-                `${Edit_jenisItem}`
-            ]).draw( false );
-            detail_array();
-            edit_rowindex++;
+            var no_baru = no; 
+            $('#form_budgetevent').attr('action', 'javascript:save_detail('+no_baru+',"budgetevent")');   
+            $('#modal_add_budgetevent').modal('hide');      
         }
-        $('#modal_edit_detail').modal('hide');
     }
 
-    //hapus isi tabel barang dagangan
-    $('#tabel_detail tbody').on('click','.delete_detail',function(){
-        var rowindex    = tabel_detail.row($(this).parents('tr')).index();
-        tabel_detail.row($(this).parents('tr')).remove().draw();
-        detail_array();
-        total_total.splice(rowindex, 1);
-        total_semua();
+    //barang, inventaris, dan jasa
+    function addPajak(elem, no, id) {
+        const kode_pajak    = $(elem).attr('kode_pajak');
+        const nama_pajak    = $(elem).attr('nama_pajak');
+        const kode_akun     = $(elem).attr('kode_akun');
+        const nama_akun     = $(elem).attr('nama_akun');
+        const stat          = $(elem).is(":checked");
+        const table         = $('#isi_tbody_pajak'+id);
+        // var no1              = 0;        
+        if (stat) {
+            html = `<tr no="${no}">
+                        <td>${kode_pajak}</td>
+                        <td>${kode_akun}</td>
+                        <td>${nama_akun}</td>
+                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak"></td>
+                    </tr>`;
+            table.append(html);
+        } else {
+            // alert('a');
+            $(`tr[no="${no}"]`).remove();
+        }
+    }
+
+    function total_pajak(id, no) {
+        var formData    = new FormData($('#form_pajak'+id)[0]);
+        var pajak       = formData.getAll('pajak');
+        var pajak_baru  = 0;
+        pajak.forEach(p => {
+            pajak_baru  += parseInt(p.replace(/[Rp.]/g, ''));
+        });
+        $('#total_pajak'+id).val(pajak_baru);
+        $('#modal_pajak'+id).modal('hide');
+        sum_total(id, no, "item")
+    }
+
+    function total_pengiriman(id, no) {
+        var formData            = new FormData($('#form_pengiriman'+id)[0]);
+        var pengiriman          = formData.getAll('pengiriman');
+        var biaya_pengiriman    = 0;
+        pengiriman.forEach(p => {
+            biaya_pengiriman  += parseInt(p.replace(/[Rp.]/g, ''));
+        });
+        $('#biaya_pengiriman'+id).val(biaya_pengiriman);
+        $('#modal_pengiriman'+id).modal('hide');
+        sum_total(id, no, "item")
+    }
+
+    function nominalPajak(no) {
+        var nilai   = $('#nominal_pajak' + no).val();
+        var nilai1  = nilai.replace(/[^,\d]/g, '').toString();
+        $('#nominal_pajak' + no).val(formatRupiah(String(nilai), 'Rp. '));
+    }
+
+    function getListPajak(id) {
+        var table = $('#list_pajak'+id);
+        $.ajax({
+            type    : "get",
+            url     : base_url + 'get_PilihanPajak',
+            success : function(response) {
+                for (let i = 0; i < response.length; i++) {
+                    const element = response[i];
+                    if (i < 0) {
+                        const html = `
+                            <tr class="bg-light">
+                                <td><input type="checkbox" name="" id=""  disabled></td>
+                                <td>${element.kode_pajak}</td>
+                                <td>${element.nama_pajak}</td>
+                                <td>${element.akunno}</td>
+                                <td>${element.namaakun}</td>
+                            </tr>
+                        `;
+                        table.append(html);
+                    } else {
+                        const html  = `
+                            <tr>
+                                <td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}"id="" onchange="addPajak(this, `+i+`, '`+id+`')"></td>
+                                <td>${element.kode_pajak}</td>
+                                <td>${element.nama_pajak}</td>
+                                <td>${element.akunno}</td>
+                                <td>${element.namaakun}</td>
+                            </tr>
+                        `;
+                        table.append(html);
+                    }
+                }
+            }
+        });
+    }
+
+    $(document).on('select2:select','.pilih_akun',function(e){
+        id  = $(this).attr('data-id');
+        $.ajax({
+            url         : base_url + 'select2_noakun',
+            method      : 'post',
+            datatype    : 'json',
+            data        : {
+                id  : e.params.data.id
+            },
+            success: function(data) {
+                var isi_tbody_pengiriman    = `
+                    <tr>
+                        <td>${data.akunno}</td>
+                        <td>${data.namaakun}</td>
+                        <td><input type="text" class="form-control pajak" id="nominal_pajak${id}" onkeyup="nominalPajak('${id}')" name="pengiriman"></td>
+                    </tr>`;
+                $('#isi_tbody_pengiriman'+id).append(isi_tbody_pengiriman);
+            }
+        })
+    })
+
+    //budgetevent
+    function addPajak1(elem, no, id) {
+        const kode_pajak    = $(elem).attr('kode_pajak1');
+        const nama_pajak    = $(elem).attr('nama_pajak1');
+        const kode_akun     = $(elem).attr('kode_akun1');
+        const nama_akun     = $(elem).attr('nama_akun1');
+        const stat          = $(elem).is(":checked");
+        const table         = $('#isi_tbody_pajak1'+id);
+        // var no1              = 0;        
+        if (stat) {
+            html = `<tr no="${no}">
+                        <td>${kode_pajak}</td>
+                        <td>${kode_akun}</td>
+                        <td>${nama_akun}</td>
+                        <td><input type="text" class="form-control pajak1" id="nominal_pajak1${no}${id}" onkeyup="nominalPajak1('${no}${id}')" name="pajak1"></td>
+                    </tr>`;
+            table.append(html);
+        } else {
+            // alert('a');
+            $(`tr[no="${no}"]`).remove();
+        }
+    }
+
+    function total_pajak1(id, no) {
+        var formData    = new FormData($('#form_pajak1'+id)[0]);
+        var pajak       = formData.getAll('pajak1');
+        var pajak_baru  = 0;
+        pajak.forEach(p => {
+            pajak_baru  += parseInt(p.replace(/[Rp.]/g, ''));
+        });
+        $('#total_pajak1'+id).val(pajak_baru);
+        $('#modal_pajak1'+id).modal('hide');
+        sum_total(id, no, "budgetevent")
+    }
+
+    function total_pengiriman1(id, no) {
+        var formData            = new FormData($('#form_pengiriman1'+id)[0]);
+        var pengiriman          = formData.getAll('pengiriman1');
+        var biaya_pengiriman    = 0;
+        pengiriman.forEach(p => {
+            biaya_pengiriman  += parseInt(p.replace(/[Rp.]/g, ''));
+        });
+        $('#biaya_pengiriman1'+id).val(biaya_pengiriman);
+        $('#modal_pengiriman1'+id).modal('hide');
+        sum_total(id, no, "budgetevent")
+    }
+
+    function nominalPajak1(no) {
+        var nilai   = $('#nominal_pajak1' + no).val();
+        var nilai1  = nilai.replace(/[^,\d]/g, '').toString();
+        $('#nominal_pajak1' + no).val(formatRupiah(String(nilai), 'Rp. '));
+    }
+
+    function getListPajak1(id) {
+        var table = $('#list_pajak1'+id);
+        $.ajax({
+            type    : "get",
+            url     : base_url + 'get_PilihanPajak',
+            success : function(response) {
+                for (let i = 0; i < response.length; i++) {
+                    const element = response[i];
+                    if (i < 0) {
+                        const html = `
+                            <tr class="bg-light">
+                                <td><input type="checkbox" name="" id=""  disabled></td>
+                                <td>${element.kode_pajak}</td>
+                                <td>${element.nama_pajak}</td>
+                                <td>${element.akunno}</td>
+                                <td>${element.namaakun}</td>
+                            </tr>
+                        `;
+                        table.append(html);
+                    } else {
+                        const html  = `
+                            <tr>
+                                <td><input type="checkbox" name="" kode_pajak1="${element.kode_pajak}" nama_pajak1="${element.nama_pajak}" kode_akun1="${element.akunno}" nama_akun1="${element.namaakun}"id="" onchange="addPajak1(this, `+i+`, '`+id+`')"></td>
+                                <td>${element.kode_pajak}</td>
+                                <td>${element.nama_pajak}</td>
+                                <td>${element.akunno}</td>
+                                <td>${element.namaakun}</td>
+                            </tr>
+                        `;
+                        table.append(html);
+                    }
+                }
+            }
+        });
+    }
+
+    $(document).on('select2:select','.pilih_akun1',function(e){
+        id  = $(this).attr('data-id1');
+        $.ajax({
+            url         : base_url + 'select2_noakun',
+            method      : 'post',
+            datatype    : 'json',
+            data        : {
+                id  : e.params.data.id
+            },
+            success: function(data) {
+                var isi_tbody_pengiriman    = `
+                    <tr>
+                        <td>${data.akunno}</td>
+                        <td>${data.namaakun}</td>
+                        <td><input type="text" class="form-control pajak1" id="nominal_pajak1${id}" onkeyup="nominalPajak1('${id}')" name="pengiriman1"></td>
+                    </tr>`;
+                $('#isi_tbody_pengiriman1'+id).append(isi_tbody_pengiriman);
+            }
+        })
     })
 
     //hitung subtotal dan total
-    function sum(no, no1) { 
-        var txtFirstNumberValue                     = document.getElementById('harga'+no).value.replace(/[^0-9]+/g, '').toString();    
-        document.getElementById('harga'+no).value   = formatRupiah(txtFirstNumberValue, 'Rp.');
-        var txtSecondNumberValue                    = document.getElementById('jumlah'+no).value;
-        var result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
-        if (isNaN(parseInt(txtFirstNumberValue))) {
-            var result  = 0;    
-        }
-        if (isNaN(parseInt(txtSecondNumberValue))) {
-            var result  = 0;    
-        }
-        if (!isNaN(result)) {
-            document.getElementById('subtotal'+no).value        = formatRupiah(String(result), 'Rp.');
-            document.getElementById('subtotal_asli'+no).value   = result;
-            document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.');
-        }
-        else if(txtFirstNumberValue !=null && txtSecondNumberValue == null){
-            document.getElementById('subtotal'+no).value = txtFirstNumberValue;
-            document.getElementById('total'+no).value = txtFirstNumberValue;
+    function sum(no, no1, jenis) { 
+        if (jenis != 'budgetevent'){
+            var txtFirstNumberValue                     = document.getElementById('harga'+no).value.replace(/[^,\d]/g, '').toString(); 
+            document.getElementById('harga'+no).value   = formatRupiah(txtFirstNumberValue, 'Rp.');
+            var txtSecondNumberValue                    = document.getElementById('jumlah'+no).value;
+            var result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
+            var pajak                                   = document.getElementById('total_pajak'+no).value;
+            if (!isNaN(parseInt(pajak))) {
+                var result   = result + parseInt(pajak);    
+            }
+            var biaya_pengiriman                        = document.getElementById('biaya_pengiriman'+no).value;
+            if (!isNaN(parseInt(biaya_pengiriman))) {
+                var result   = result + parseInt(biaya_pengiriman);    
+            }
+            if (isNaN(parseInt(txtFirstNumberValue))) {
+                var result  = 0;    
+            }
+            if (isNaN(parseInt(txtSecondNumberValue))) {
+                var result  = 0;    
+            }
+            
+            if (!isNaN(result)) {
+                hasilsubtotal = parseInt(txtFirstNumberValue * txtSecondNumberValue);
+                document.getElementById('subtotal'+no).value        = formatRupiah(String(hasilsubtotal), 'Rp.');
+                document.getElementById('subtotal_asli'+no).value   = hasilsubtotal;
+                document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.');
+            }
+            else if(txtFirstNumberValue !=null && txtSecondNumberValue == null){
+                document.getElementById('subtotal'+no).value = txtFirstNumberValue;
+                document.getElementById('total'+no).value = txtFirstNumberValue;
+            }else{
+                hasilsubtotal = parseInt(txtFirstNumberValue * txtSecondNumberValue);
+                document.getElementById('subtotal'+no).value        = formatRupiah(String(hasilsubtotal), 'Rp.');
+                document.getElementById('subtotal_asli'+no).value   = hasilsubtotal;
+                document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.');
+            }
+                total_total_item[no1] = [];
+                total_total_item[no1].push(parseInt(result));
         }else{
-            document.getElementById('subtotal'+no).value        = formatRupiah(String(result), 'Rp.');
-            document.getElementById('subtotal_asli'+no).value   = result;
-            document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.');
+            var txtFirstNumberValue                     = document.getElementById('harga1'+no).value.replace(/[^,\d]/g, '').toString(); 
+            document.getElementById('harga1'+no).value   = formatRupiah(txtFirstNumberValue, 'Rp.');
+            var txtSecondNumberValue                    = document.getElementById('jumlah1'+no).value;
+            var result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
+            
+            var pajak                                   = document.getElementById('total_pajak1'+no).value;
+            if (!isNaN(parseInt(pajak))) {
+                var result   = result + parseInt(pajak);    
+            }
+
+            var biaya_pengiriman                        = document.getElementById('biaya_pengiriman1'+no).value;
+            if (!isNaN(parseInt(biaya_pengiriman))) {
+                var result   = result + parseInt(biaya_pengiriman);    
+            }
+            if (isNaN(parseInt(txtFirstNumberValue))) {
+                var result  = 0;    
+            }
+            if (isNaN(parseInt(txtSecondNumberValue))) {
+                var result  = 0;    
+            }
+            
+            if (!isNaN(result)) {
+                hasilsubtotal = parseInt(txtFirstNumberValue * txtSecondNumberValue);
+                document.getElementById('subtotal1'+no).value        = formatRupiah(String(hasilsubtotal), 'Rp.');
+                document.getElementById('subtotal_asli1'+no).value   = hasilsubtotal;
+                document.getElementById('total1'+no).value           = formatRupiah(String(result), 'Rp.');
+            }
+            else if(txtFirstNumberValue !=null && txtSecondNumberValue == null){
+                document.getElementById('subtotal1'+no).value = txtFirstNumberValue;
+                document.getElementById('total1'+no).value = txtFirstNumberValue;
+            }else{
+                hasilsubtotal = parseInt(txtFirstNumberValue * txtSecondNumberValue);
+                document.getElementById('subtotal1'+no).value        = formatRupiah(String(hasilsubtotal), 'Rp.');
+                document.getElementById('subtotal_asli1'+no).value   = hasilsubtotal;
+                document.getElementById('total1'+no).value           = formatRupiah(String(result), 'Rp.');
+            }
+            total_total_budgetevent[no1] = [];
+            total_total_budgetevent[no1].push(parseInt(result));
         }
-        total_total[no1] = [];
-        total_total[no1].push(parseInt(result));
-        total_semua();
+        total_semua(jenis);
     }
 
-    //hitung total dengan diskon dan ppn
-    function sum_total(no, no1) {   
-        var subtotal            = document.getElementById('subtotal_asli'+no).value;
-        var diskon              = document.getElementById('diskon'+no).value;
-        if (isNaN(parseInt(diskon))) {
-            var subtotal_baru   = parseInt(subtotal);    
-        } else {
-            var subtotal_baru   = parseInt(subtotal) - (parseInt(diskon) * parseInt(subtotal)/100);
+    //hitung total dengan diskon dan pajak
+    function sum_total(no, no1, jenis) { 
+        if (jenis != 'budgetevent'){
+            var subtotal            = document.getElementById('subtotal_asli'+no).value.replace(/[^,\d]/g, '').toString();
+            if (isNaN(parseInt(subtotal))) {
+                var subtotal   = 0;    
+            }
+            var diskon              = document.getElementById('diskon'+no).value;
+            if (isNaN(parseInt(diskon))) {
+                var subtotal_baru   = parseInt(subtotal);    
+            } else {
+                var subtotal_baru   = parseInt(subtotal) - (parseInt(diskon) * parseInt(subtotal)/100);
+            }
+            var pajak                 = document.getElementById('total_pajak'+no).value;
+            if (isNaN(parseInt(pajak))) {
+                var total   = parseInt(subtotal_baru);    
+            } else {
+                var total   = parseInt(subtotal_baru) + parseInt(pajak);
+            }
+            var pengiriman  = document.getElementById('biaya_pengiriman'+no).value;
+            if (isNaN(parseInt(pengiriman))) {
+                var total   = parseInt(total);    
+            } else {
+                var total   = parseInt(total) + parseInt(pengiriman);
+            }
+            document.getElementById('total'+no).value = formatRupiah(String(total), 'Rp.');
+
+            total_total_item[no1]    = [];
+            total_total_item[no1].push((parseInt(total)));
+        }else{
+            var subtotal            = document.getElementById('subtotal_asli1'+no).value.replace(/[^,\d]/g, '').toString();
+            if (isNaN(parseInt(subtotal))) {
+                var subtotal   = 0;    
+            }
+            var diskon              = document.getElementById('diskon1'+no).value;
+            if (isNaN(parseInt(diskon))) {
+                var subtotal_baru   = parseInt(subtotal);    
+            } else {
+                var subtotal_baru   = parseInt(subtotal) - (parseInt(diskon) * parseInt(subtotal)/100);
+            }
+            var pajak                 = document.getElementById('total_pajak1'+no).value;
+            if (isNaN(parseInt(pajak))) {
+                var total   = parseInt(subtotal_baru);    
+            } else {
+                var total   = parseInt(subtotal_baru) + parseInt(pajak);
+            }
+            var pengiriman  = document.getElementById('biaya_pengiriman1'+no).value;
+            if (isNaN(parseInt(pengiriman))) {
+                var total   = parseInt(total);    
+            } else {
+                var total   = parseInt(total) + parseInt(pengiriman);
+            }
+            document.getElementById('total1'+no).value = formatRupiah(String(total), 'Rp.');
+            total_total_budgetevent[no1]    = [];
+            total_total_budgetevent[no1].push((parseInt(total)));
         }
-        var ppn                 = document.getElementById('ppn'+no).value;
-        if (isNaN(parseInt(ppn))) {
-            var total   = parseInt(subtotal_baru);    
-        } else {
-            var total   = parseInt(subtotal_baru) + (parseInt(ppn) * parseInt(subtotal_baru)/100);
-        }
-        var subtotal            = document.getElementById('subtotal_asli'+no).value;
-        var diskon              = document.getElementById('diskon'+no).value;
-        document.getElementById('total'+no).value = formatRupiah(String(total), 'Rp.');
-        total_total[no1]    = [];
-        total_total[no1].push((parseInt(total)));
-        total_semua();
+        total_semua(jenis);
     }
 
     //hitung total tabel
-    function total_semua() {
-        a  = 0;
-        total_total.forEach(b => {
-            a   += parseInt(b);
-        });
-        
-        var hasil = formatRupiah(String(a), 'Rp. ');
-        $('#total_total').html(hasil);
-        $('.total_penjualan').val(hasil);
+    function total_semua(jenis) {
+        if (jenis != 'budgetevent'){
+            a  = 0;
+            total_total_item.forEach(function callback(element, index, array) {
+                a   += parseInt(element);
+            })
+            var hasil = formatRupiah(String(a), 'Rp. ');
+            $('#total_total_item').html(hasil);
+            $('.total_penjualan').val(hasil);
+        }else{
+            b  = 0;
+            total_total_budgetevent.forEach(function callback(element, index, array) {
+                b   += parseInt(element);
+            })
+            var hasil1 = formatRupiah(String(b), 'Rp. ');
+            $('#total_total_budgetevent').html(hasil1);
+            $('.total_budgetevent').val(hasil1);
+        }
     }
-    
-    //setting keyup format rupiah
-    function UbahInputRUpiah(nama_inputan){
-        $(nama_inputan).on('keyup',function(){
-            var nilai= $(this).val();
-            $(this).val(formatRupiah(String(nilai), 'Rp. '));
-        });
+
+    //hapus data
+    function delete_detail_item(no){
+        total_total_item.splice(no, 1,"0");
+        total_semua("item");
     }
-
-
-    // isi tabel (detail pemesanan)
-    $(document).ready(function(){
-        //mengambil detail angsuran
-        $.ajax({
-            url         : base_url + 'get_detail_pemesanan',
-            method      : 'post',
-            async       : true,
-            dataType    : 'json',
-            data        : { id : $('.idpemesanan').val() },
-            success: function(data) {
-                var i;
-                var no=0;
-                var grandtotal = 0;
-                for(i=0; i<data.length; i++){
-                    var nama_item = ''; 
-                    var tipe_item = data[i].tipe;
-                    if ((tipe_item == 'barang') || (tipe_item == 'inventaris')){
-                        nama_item = data[i].item;
-                    }else if (tipe_item == 'jasa'){
-                        nama_item = data[i].jasa;
-                    }else{
-                        nama_item = data[i].budgetevent;
-                    }
-                    grandtotal = grandtotal + parseInt(data[i].total);
-                    tabel_detail.row.add([
-                        data[i].itemid,
-                        nama_item,
-                        `<input type="text" class="form-control" onkeyup="sum('${i}${no}', '${no}');" name="harga[]" id="harga${i}${no}" value="${formatRupiah(data[i].harga,'Rp. ')}">`,
-                        `<input type="text" class="form-control" onkeyup="sum('${i}${no}', '${no}');" name="jumlah[]" id="jumlah${i}${no}" value="${data[i].jumlah}">`,
-                        `<input type="text" class="form-control" id="subtotal${i}${no}" readonly value="${formatRupiah(data[i].subtotal,'Rp. ')}"><input type="hidden" name="subtotal[]" id="subtotal_asli${i}${no}" readonly value="${formatRupiah(data[i].subtotal,'Rp. ')}">`,
-                        `KURS KOSONG`,
-                        `<input type="text" class="form-control" onkeyup="sum('${i}${no}', '${no}');sum_total('${i}${no}', '${no}');" name="diskon[]" id="diskon${i}${no}" value="${data[i].diskon}">`,
-                        `<input type="text" class="form-control" onkeyup="sum('${i}${no}', '${no}');sum_total('${i}${no}', '${no}');" name="ppn[]" id="ppn${i}${no}" value="${data[i].ppn}">`,
-                        `<input type="text" class="form-control" name="total[]" id="total${i}${no}" readonly value="${formatRupiah(data[i].total,'Rp. ')}">`,
-                        `<a href="javascript:EditDetail('${data[i].itemid}','${data[i].tipe}')" class="edit_detail"><i class="fas fa-pencil-alt"></i></a>&nbsp; <a href="javascript:void(0)" class="delete_detail text-danger"><i class="fas fa-trash"></i></a>`,
-                        `${data[i].tipe}`
-                        ]).draw( false );
-                    detail_array();
-                    total_total[no]    = [];
-                    total_total[no].push((parseInt(data[i].total)));
-                    total_semua();
-                    no++;
-                }
-                var hasil = formatRupiah(String(grandtotal), 'Rp. ');
-                $('#total_total').html(hasil);
-                $('.total_penjualan').val(hasil);
-            }
-        })
-
+    $('#tabel_detail_item tbody').on('click','.delete_detail_item',function(){
+        tabel_detail_item.row($(this).parents('tr')).remove().draw();
+        detail_array_item();
     })
-    //angsuran
+    function delete_detail_budgetevent(no){
+        total_total_budgetevent.splice(no, 1,"0");
+        total_semua("budgetevent");
+    }
+    $('#tabel_detail_budgetevent tbody').on('click','.delete_detail_budgetevent',function(){
+        tabel_detail_budgetevent.row($(this).parents('tr')).remove().draw();
+        detail_array_budgetevent();
+    })
+
+
+    //mengambil isi tabel
+    function detail_array_item() {
+        var arr = tabel_detail_item.data().toArray();
+        $('#detail_array_item').val( JSON.stringify(arr) );
+    }
+    function detail_array_budgetevent() {
+        var arr = tabel_detail_budgetevent.data().toArray();
+        $('#detail_array_budgetevent').val( JSON.stringify(arr) );
+    }
+
+    //modal edit data
+    function EditDetail(id,jenis,no){
+        if (jenis != 'budgetevent'){
+            var rowindex    = tabel_detail_item.row($('.edit_detail'+id).parents('tr')).index();
+            $('input[name=edit_rowindex_item]').val(rowindex);
+            $('.edit_itemid').empty();
+            $('.nmr_urut_item').val(no);
+            var idgudang = $('.gudangid').val();
+            if (jenis == 'barang'){
+                url = base_url + 'select2_item'+'/'+id+'/'+idgudang;
+                $('.edit_jenisitem').val('barang');
+            }else if (jenis == 'inventaris'){
+                url = base_url + 'select2_item_inventaris';
+                $('.edit_jenisitem').val('inventaris');
+            }else if (jenis == 'jasa'){
+                url = base_url + 'select2_item_jasa';
+                $('.edit_jenisitem').val('jasa');
+            }
+            $.ajax({
+                url         : url,
+                method      : 'post',
+                datatype    : 'json',
+                success: function(data) {
+                    isi = "";
+                    detail="";
+                    for ( index = 0; index < data.length; index++) {
+                        if (data[index].id != id){
+                            isi += `<option value="${data[index].id}">${data[index].text}</option>`
+                        }else{
+                            isi += `<option value="${data[index].id}" selected>${data[index].text}</option>`
+                        }
+                        detail += `<input type="hidden" class="form-control" id="noakun`+data[index].id+`" name="noakun[]" required value="${data[index].koderekening}">`;     
+                    }
+                    $('#edit_detail_item').html(detail);
+                    $('.edit_itemid').append(isi);
+                }
+            })
+            $('.edit_itemid').select2();
+
+            $('#modal_edit_detail_item').modal('show');
+        }else{
+
+            var rowindex    = tabel_detail_budgetevent.row($('.edit_detail'+id).parents('tr')).index();
+            $('input[name=edit_rowindex_budgetevent]').val(rowindex);
+            $('.edit_budgeteventid').empty();
+            $('.edit_jenisitem').val('budgetevent');
+            $('.nmr_urut_budgetevent').val(no);
+            $.ajax({
+                url         : base_url + 'select2_budgetevent',
+                method      : 'post',
+                datatype    : 'json',
+                success: function(data) {
+                    isi = "";
+                    detail="";
+                    for ( index = 0; index < data.length; index++) {
+                        if (data[index].id != id){
+                            isi += `<option value="${data[index].id}">${data[index].text}</option>`
+                        }else{
+                            isi += `<option value="${data[index].id}" selected>${data[index].text}</option>`
+                        }
+                        detail += `<input type="hidden" class="form-control" id="noakun1`+data[index].id+`" name="noakun1[]" required value="${data[index].koderekening}">`;     
+                    }
+                    $('#edit_detail_budgetevent').html(detail);
+                    $('.edit_budgeteventid').append(isi);
+                }
+            })
+            $('.edit_budgeteventid').select2();
+
+            $('#modal_edit_detail_budgetevent').modal('show');
+        }
+    }
+
+    function save_edit_detail(jenis) {
+       
+        if (jenis != 'budgetevent'){
+            var formData        = new FormData($('#form_edit_item')[0]);
+            var edit_rowindex   = $('input[name=edit_rowindex_item]').val();
+            var edit_jenisitem  = $('.edit_jenisitem').val();
+            var noakun          = 0;
+            var edit_isiitem    = $('.edit_itemid :selected');
+            var nmr_urut       = $('.nmr_urut_item').val();
+
+            for (var index = 0; index < edit_isiitem.length; index++) {
+                var id    = edit_isiitem[index].value;
+                var item    = edit_isiitem[index].text;
+                if(tabel_detail_item.hasValue(id)) {
+                        swal("Gagal!", "Item sudah ada", "error");
+                        return;
+                }
+                noakun   = $('#noakun'+edit_isiitem[index].value).val();
+                $('#noakun'+edit_isiitem[index].value).remove();
+
+                tabel_detail_item.row(edit_rowindex).data([
+                    edit_isiitem[index].value,
+                    item,
+                    `<input type="text" class="form-control" onkeyup="sum('${index}${nmr_urut}', '${nmr_urut}','${jenis}');" name="harga[]" id="harga${index}${nmr_urut}">`,
+                    `<input type="text" class="form-control" onkeyup="sum('${index}${nmr_urut}', '${nmr_urut}','${jenis}');" name="jumlah[]" id="jumlah${index}${nmr_urut}">`,
+                    `<input type="text" class="form-control" id="subtotal${index}${nmr_urut}" readonly><input type="hidden" name="subtotal[]" id="subtotal_asli${index}${nmr_urut}" readonly>`,
+                    `KURS`,
+                    `<input type="text" class="form-control" onkeyup="sum_total('${index}${nmr_urut}', '${nmr_urut}','${jenis}');" name="diskon[]" id="diskon${index}${nmr_urut}">`,
+                    `<input type="hidden" name="total_pajak[]" id="total_pajak${index}${nmr_urut}" onchange="sum_total('${index}${nmr_urut}', '${nmr_urut}','${jenis}');">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pajak${index}${nmr_urut}" title="Tambah Pajak">
+                        <i class="fas fa-balance-scale"></i>
+                    </button>`,
+                    `<input type="hidden" name="biayapengiriman[]" id="biaya_pengiriman${index}${nmr_urut}" onchange="sum_total('${index}${nmr_urut}', '${nmr_urut}','${jenis}');">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman${index}${nmr_urut}" title="Tambah Biaya Pengiriman">
+                        <i class="fas fa-shipping-fast"></i>
+                    </button>`,
+                    `${noakun}`,
+                    `<input type="text" class="form-control" name="total[]" id="total${index}${nmr_urut}" readonly>`,
+                    `<a href="javascript:EditDetail('${edit_isiitem[index].value}','${jenis}','${nmr_urut}')" class="edit_detail${edit_isiitem[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp
+                        <a href="javascript:delete_detail_item('${nmr_urut}')" class="delete_detail_item text-danger"><i class="fas fa-trash"></i></a>`,
+                    `${edit_jenisitem}`
+                ]).draw( false );
+                detail_array_item();
+                total_total_item[nmr_urut]    = [];
+                total_total_item[nmr_urut].push(0);
+                total_semua("item");
+            }
+            $('#modal_edit_detail_item').modal('hide');
+        }else{
+            var formData        = new FormData($('#form_edit_budgetevent')[0]);
+            var edit_rowindex   = $('input[name=edit_rowindex_budgetevent]').val();
+            var edit_jenisitem  = "budgetevent";
+            var noakun          = 0;
+            var edit_isiitem    = $('.edit_budgeteventid :selected');
+            var nmr_urut        = $('.nmr_urut_budgetevent').val();
+
+            for (var index = 0; index < edit_isiitem.length; index++) {
+                var id    = edit_isiitem[index].value;
+                var item    = edit_isiitem[index].text;
+                if(tabel_detail_budgetevent.hasValue(id)) {
+                        swal("Gagal!", "Item sudah ada", "error");
+                        return;
+                }
+
+                 noakun   = $('#noakun1'+edit_isiitem[index].value).val();
+                $('#noakun1'+edit_isiitem[index].value).remove();
+
+                tabel_detail_budgetevent.row(edit_rowindex).data([
+                    edit_isiitem[index].value,
+                    item,
+                    `<input type="text" class="form-control" onkeyup="sum('${index}${nmr_urut}', '${nmr_urut}','${jenis}');" name="harga1[]" id="harga1${index}${nmr_urut}">`,
+                    `<input type="text" class="form-control" onkeyup="sum('${index}${nmr_urut}', '${nmr_urut}','${jenis}');" name="jumlah1[]" id="jumlah1${index}${nmr_urut}">`,
+                    `<input type="text" class="form-control" id="subtotal1${index}${nmr_urut}" readonly><input type="hidden" name="subtotal1[]" id="subtotal_asli1${index}${nmr_urut}" readonly>`,
+                    `KURS`,
+                    `<input type="text" class="form-control" onkeyup="sum_total('${index}${nmr_urut}', '${nmr_urut}','${jenis}');" name="diskon1[]" id="diskon1${index}${nmr_urut}">`,
+                    `<input type="hidden" name="total_pajak1[]" id="total_pajak1${index}${nmr_urut}" onchange="sum_total('${index}${nmr_urut}', '${nmr_urut}','${jenis}');">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pajak1${index}${nmr_urut}" title="Tambah Pajak">
+                        <i class="fas fa-balance-scale"></i>
+                    </button>`,
+                    `<input type="hidden" name="biayapengiriman1[]" id="biaya_pengiriman1${index}${nmr_urut}" onchange="sum_total('${index}${nmr_urut}', '${nmr_urut}','${jenis}');">
+                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman1${index}${nmr_urut}" title="Tambah Biaya Pengiriman">
+                        <i class="fas fa-shipping-fast"></i>
+                    </button>`,
+                    `${noakun}`,
+                    `<input type="text" class="form-control" name="total1[]" id="total1${index}${nmr_urut}" readonly>`,
+                    `<a href="javascript:EditDetail('${edit_isiitem[index].value}','${jenis}','${nmr_urut}')" class="edit_detail${edit_isiitem[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp
+                        <a href="javascript:delete_detail_budgetevent('${nmr_urut}')" class="delete_detail_budgetevent  text-danger"><i class="fas fa-trash"></i></a>`,
+                    `${edit_jenisitem}`
+                ]).draw( false );
+                detail_array_budgetevent();
+                total_total_budgetevent[nmr_urut]    = [];
+                total_total_budgetevent[nmr_urut].push(0);
+                total_semua("budgetevent");
+            }      
+            $('#modal_edit_detail_budgetevent').modal('hide');
+        }
+    }
+
+
+ //angsuran
     $(document).ready(function(){
         //mengambil detail angsuran
         $.ajax({
@@ -925,35 +2104,37 @@
             data        : { id : $('.idpemesanan').val() },
             success: function(data) {
                 var i;
+                var angsuran = [];
                 for(i=0; i<data.length; i++){ 
                     var uangmuka = data[i].uangmuka; 
                     var jumlahterm = data[i].jumlahterm;
-                    var a1 = data[i].a1; 
-                    var a2 = data[i].a2;
-                    var a3 = data[i].a3;
-                    var a4 = data[i].a4;
-                    var a5 = data[i].a5;
-                    var a6 = data[i].a6;
-                    var a7 = data[i].a7;
-                    var a8 = data[i].a8;
+                    angsuran.push(data[i].a1);
+                    angsuran.push(data[i].a2);
+                    angsuran.push(data[i].a3);
+                    angsuran.push(data[i].a4);
+                    angsuran.push(data[i].a5);
+                    angsuran.push(data[i].a6);
+                    angsuran.push(data[i].a7);
+                    angsuran.push(data[i].a8);
                     var total = data[i].total;
                 }
                 $('.um').val(formatRupiah(uangmuka, 'Rp.')); 
                 $('.jtem').val(jumlahterm);
                 if (parseInt(jumlahterm) > 0){
                     for (var i = 1; i <= 8; i++) {
-                         $('.a'+i).attr("hidden", true);
+                        $('.a'+i).attr("hidden", true);
                     } 
             
                     for (var j = 1; j <= jumlahterm; j++) {
-                         $('.a'+j).attr("hidden", false);
+                        $('.a'+j).attr("hidden", false);
+                        $('.angsuran'+j).val(formatRupiah(angsuran[j-1], 'Rp.'));
                     } 
                 }
                 $('.tum').val(formatRupiah(total, 'Rp.')); 
             }
         })
     })
-
+    
     //setting keyup format rupiah
     function UbahInputRUpiah(nama_inputan){
         $(nama_inputan).on('keyup',function(){
@@ -961,6 +2142,7 @@
             $(this).val(formatRupiah(String(nilai), 'Rp. '));
         });
     }
+
     //setting keyup untuk tampilan jumlah anggsuran
     $('.jtem').on('keyup',function(){
         for (var i = 1; i <= 8; i++) {
@@ -968,23 +2150,17 @@
         } 
         var nilai_jtem = $(this).val();
         for (var j = 1; j <= nilai_jtem; j++) {
-            $('.a'+j).attr("hidden", false);
+             $('.a'+j).attr("hidden", false);
         } 
-        nilai_urut = parseInt(nilai_jtem) + parseInt('1');
-        $('#a'+nilai_urut).val(''); 
-        SUMTOTAL_UM_Term();
     });
     $('.jtem').on('click',function(){
         for (var i = 1; i <= 8; i++) {
-            $('.a'+i).attr("hidden", true);
+             $('.a'+i).attr("hidden", true);
         } 
         var nilai_jtem = $(this).val();
         for (var j = 1; j <= nilai_jtem; j++) {
-            $('.a'+j).attr("hidden", false);
-        }
-        nilai_urut = parseInt(nilai_jtem) + parseInt('1');
-        $('#a'+nilai_urut).val(''); 
-        SUMTOTAL_UM_Term();
+             $('.a'+j).attr("hidden", false);
+        } 
     });
 
     //hitung total uang muka dan term
@@ -1007,9 +2183,8 @@
          
         $('input[name=tum]').val(formatRupiah(String(hasil_um_term), 'Rp. ')); 
     }
-
-
-    function update() {
+    
+   function save() {
         var form = $('#form1')[0];
         var formData = new FormData(form);
             $.ajax({

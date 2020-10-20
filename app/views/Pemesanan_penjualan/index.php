@@ -24,7 +24,7 @@
           <div class="col-12">         
             <div class="card">
               <div class="card-header">
-			  <a href="{site_url}pemesanan_penjualan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+			  <a href="{site_url}Pemesanan_penjualan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 			</div>
               <div class="card-body">
                 <table class="table table-bordered table-striped index_datatable">
@@ -55,7 +55,7 @@
   </div>
 
 <script type="text/javascript">
-	var base_url = '{site_url}pemesanan_penjualan/';
+	var base_url = '{site_url}Pemesanan_penjualan/';
 	var table = $('.index_datatable').DataTable({
 		ajax: {
 			url: base_url + 'index_datatable',
@@ -95,22 +95,77 @@
 				render: function(data) {
 					if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
 					else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></sapan>';
+					else if(data == '5') return '<span class="badge badge-primary"><?php echo lang('Validasi') ?></sapan>';
 					else  return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
 				}
 			},
 			{
-				data: 'id', width: 101, orderable: false,
+				data: 'id', width: 40, orderable: false, class:'text-center',
 				render: function(data,type,row) { 
-					let aksi	= ``;
+					var tombol='';
+					var cetak ='';
 					if (row.status == '4'){
-						aksi += `<a href="`+base_url+`edit/`+data+`" class="btn btn-info btn-sm" title="edit"><i class="fas fa-pencil-alt"></i></a>`; 
+						tombol=`<a class="dropdown-item" href="javascript:validasi('` + data+ `')"><i class="fas fa-check"></i> Validasi</a>
+								<a class="dropdown-item" href="`+base_url+`edit/`+data+`"><i class="fas fa-pencil-alt"></i> Ubah</a>
+								<a href="javascript:deleteData('` + data+ `')" class="dropdown-item delete"><i class="fas fa-trash"></i> Hapus</a>`; 
 					}
-					aksi += ` <a href="javascript:deleteData('`+data+`')" class="btn btn-danger btn-sm" title="hapus"><i class="fas fa-trash"></i></a> <a href="javascript:cetakdata('`+data+`')" class="btn btn-success btn-sm" title="cetak"><i class="fas fa-print"></i></a>`;
+					if (row.status == '5'){
+						tombol=`<a class="dropdown-item" href="javascript:batalvalidasi('` + data+ `')"><i class="fas fa-times"></i> Batal Validasi</a>`;
+					}
+					if (row.status == '3'){
+						cetak = `<a class="dropdown-item" href="`+base_url+`printpdf/`+data+`"><i class="fas fa-print"></i> Cetak</a>`;
+					}
+					
+					var aksi = `
+						<div class="list-icons"> 
+							<div class="dropdown"> 
+								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+								<div class="dropdown-menu dropdown-menu-right">
+									`+ tombol + `
+									`+ cetak +`
+								</div> 
+							</div> 
+						</div>`;
 					return aksi;
 				}
 			},
         ]
 	});
+
+
+	function validasi(id) {
+        $.ajax({
+            url: base_url + 'validasi',
+            dataType: 'json',
+            method: 'post',
+            data: {id : id},
+            success: function(data) {
+                if(data.status == 'success') {
+                    swal("Berhasil!",data.message, "success");
+                    redirect(base_url);
+                } else {
+                    swal("Gagal!",data.message, "error");
+                }
+            },
+        })
+    }
+
+    function batalvalidasi(id) {
+        $.ajax({
+            url: base_url + 'batalvalidasi',
+            dataType: 'json',
+            method: 'post',
+            data: {id : id},
+            success: function(data) {
+                if(data.status == 'success') {
+                    swal("Berhasil!",data.message, "success");
+                    redirect(base_url);
+                } else {
+                    swal("Gagal!",data.message, "error");
+                }
+            },
+        })
+    }
 
 	function deleteData(id) {
 		swal("Anda yakin akan menghapus data?", {

@@ -41,7 +41,7 @@
 											<th><?php echo lang('warehouse') ?></th>
 											<th><?php echo lang('Departemen') ?></th>
 											<th><?php echo lang('status') ?></th>
-											<th><?php echo lang('aksi') ?></th>
+											<th><?php echo lang('action') ?></th>
 										</tr>
 									</thead>
 									<tbody></tbody>
@@ -58,7 +58,7 @@
   </div>
 
 <script type="text/javascript">
-	var base_url = '{site_url}pengiriman_penjualan/';
+	var base_url = '{site_url}Pengiriman_penjualan/';
 	var table = $('.index_datatable').DataTable({
 		ajax: {
 			url: base_url + 'index_datatable',
@@ -67,7 +67,6 @@
 		pageLength: 100,
 		stateSave: true,
 		autoWidth: false,
-        order: [[0,'desc']],
         dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
         language: {
             search: '<span></span> _INPUT_',
@@ -78,7 +77,12 @@
         	{
         		data: 'notrans',
         		render: function(data,type,row) {
-        			var link = base_url + 'detail/' + row.id;
+                    var link =" ";
+                    if (row.status != '3'){
+        			    link = base_url + 'create/' + row.id;
+                    }else{
+                        link = base_url + 'detail/' + row.id;
+                    }
         			return '<a href="'+link+'" class="badge badge-info">'+data+'</a>';
         		}
         	},
@@ -97,26 +101,44 @@
         	{data: 'gudang'},
         	{data: 'departemen'},
         	{
-        		data: 'validasi',
-        		render: function(data) {
-        			if(data == '1') return '<span class="badge badge-success"><?php echo lang('Validasi') ?></sapan>';
-        			else return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
+        		data: 'status',
+        		render: function(data,type,row) {
+                    if((data == '3') && (row.validasi == '2')) return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
+                    else if(row.validasi == '1') return '<span class="badge badge-primary"><?php echo lang('Validasi') ?></sapan>';
+        			else if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?> <br>Pengiriman</sapan>';
+                    else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></sapan>';
+                    else  return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
         		}
         	},
         	{
-        		data: 'id', width: 101, orderable: false,
+        		data: 'id', width: 40, orderable: false, class: 'text-center',
 				render: function(data,type,row) { 
-					let aksi	= ``;
-
-					if(row.validasi != '1')
-					{
-						aksi += `<a href="javascript:Validasi('`+data+`')" class="btn btn-success btn-sm" title="validasi"><i class="fas fa-check"></i></a> `;
-					}
-                    if (row.validasi == '1'){
-                        aksi += `<a href="javascript:ValidasiBatal('`+data+`')" class="btn btn-danger btn-sm" title="Batal"><i class="fas fa-times"></i></a> `;
+                    var aksi = '';
+                    var tombol = '';
+                    if (row.validasi != '2'){
+                        if (row.status == '3'){
+                            if (row.validasi != '1'){
+                                tombol += `
+                                    <a class="dropdown-item" href="javascript:Validasi('`+data+`')"><i class="fas fa-check"></i>  Validasi</a>`; 
+                            }
+                            if (row.validasi == '1'){
+                                tombol += `<a class="dropdown-item" href="javascript:ValidasiBatal('`+data+`')"><i class="fas fa-times"></i> Batal Validasi</a>`; 
+                            }
+                        }else{
+                            tombol += `<a href="`+base_url+`edit/`+data+`" class="dropdown-item" title="edit"><i class="fas fa-pencil-alt"></i> Ubah</a>`;
+                        }
+                        aksi = `
+                            <div class="list-icons"> 
+                                <div class="dropdown"> 
+                                    <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                                    <div class="dropdown-menu dropdown-menu-right">
+                                        `+ tombol + `
+                                        <a href="javascript:deleteData('` + data+ `')" class="dropdown-item delete"><i class="fas fa-trash"></i> Hapus</a>
+                                    </div> 
+                                </div> 
+                            </div>`;
                     }
-					aksi += `<a href="javascript:deleteData('`+data+`')" class="btn btn-danger btn-sm" title="Hapus"><i class="fas fa-trash"></i></a>`;
-					return aksi;
+                    return aksi;
 				}
         	}
         ]

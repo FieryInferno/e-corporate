@@ -10,7 +10,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 * @filesource
 * ================================================= 
 */
-
+ 
 
 class Pengiriman_penjualan extends User_Controller {
 
@@ -43,19 +43,17 @@ class Pengiriman_penjualan extends User_Controller {
 	}
 
 	public function create() {
-		$idpemesanan = $this->input->get('idpemesanan');
-		if($idpemesanan) {
-			$detailpemesanan = get_by_id('id',$idpemesanan,'tpemesananpenjualan');
+		$idpengiriman = $this->uri->segment(3);
+		if($idpengiriman) {
+			$pengiriman = get_by_id('id',$idpengiriman,'tpengirimanpenjualan');
+			$detailpemesanan = get_by_id('id',$pengiriman['pemesananid'],'tpemesananpenjualan');
 			if($detailpemesanan) {
 				$data['title'] = lang('delivery');
 				$data['subtitle'] = lang('add_new');
-				if($detailpemesanan['status'] == '3') {
-					$data['content'] = 'Pengiriman_penjualan/detail';
-				} else {
-					$data['tanggal'] = date('Y-m-d');
-					$data['pemesanandetail'] = $this->model->pemesanandetail($detailpemesanan['id']);
-					$data['content'] = 'Pengiriman_penjualan/create';
-				}
+				$data['tanggal'] = date('Y-m-d');
+				$data['pemesanandetail'] = $this->model->pemesanandetail($detailpemesanan['id']);
+				$data['content'] = 'Pengiriman_penjualan/create';
+				
 				$data = array_merge($data,path_info(),$detailpemesanan);
 				$this->parser->parse('template',$data);
 			} else {
@@ -88,6 +86,29 @@ class Pengiriman_penjualan extends User_Controller {
 		}
 	}
 
+	public function edit($id = null) {
+		if($id) {
+			$data = $this->model->getpengiriman($id);
+			if($data) {
+				$pemesanan = 
+				$data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
+				$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
+				$data['pemjual'] = get_by_id('id',$data['pemesananid'],'tpemesananpenjualan');
+				$data['pemesanandetail'] = $this->model->pemesanandetail($data['pemesananid']);
+
+				$data['title'] = lang('delivery');
+				$data['subtitle'] = lang('detail');
+				$data['content'] = 'Pengiriman_penjualan/edit';
+				$data = array_merge($data,path_info());
+				$this->parser->parse('template',$data);
+			} else {
+				show_404();
+			}
+		} else {
+			show_404();
+		}
+	}
+
 	public function printpdf($id = null) {
 	    $this->load->library('pdf');
 	    $pdf = $this->pdf;
@@ -109,6 +130,10 @@ class Pengiriman_penjualan extends User_Controller {
 		$this->model->save();
 	}
 
+	public function update() {
+		$this->model->update();
+	}
+
 	public function delete() {
 		$this->model->delete();
 	}
@@ -117,6 +142,7 @@ class Pengiriman_penjualan extends User_Controller {
 	public function cekjumlahinput() {
 		$this->model->cekjumlahinput();
 	}
+	
 
 	public function select2_kontak($id = null) {
 		$term = $this->input->get('q');
@@ -151,123 +177,112 @@ class Pengiriman_penjualan extends User_Controller {
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
 	}
+	
+	public function select2_departemen($id = null) {
+		$term = $this->input->get('q');
+		if($id) {
+			$this->db->select('mdepartemen.id, mdepartemen.nama as text');
+			$data = $this->db->where('id', $id)->get('mdepartemen')->row_array();
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+		} else {
+			$this->db->select('mdepartemen.id, mdepartemen.nama as text');
+			$this->db->where('mdepartemen.sdel', '0');
+			$this->db->limit(10);
+			if($term) $this->db->like('mdepartemen', $term);
+			$data = $this->db->get('mdepartemen')->result_array();
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+		}
+	}
 
 	public function validasi()
 	{
-		$id = $this->input->post('id');
-		$this->db->set('validasi','1');
-		$this->db->where('id', $id);
-		$update = $this->db->update('tpengirimanpenjualan');
-		$this->db->set('validasi','1');
-		$this->db->where('idpengiriman', $id);
-		$update_detail = $this->db->update('tpengirimanpenjualandetail');
-		if($update && $update_detail) {
-			$data['status'] = 'success';
-			$data['message'] = "Data berhasil divalidasi";
-		} else {
-			$data['status'] = 'error';
-			$data['message'] = "Gagal memvalidasi data";
-		}
+		$idpengiriman = $this->input->post('id');
+
+		$query= $this->db->query("SELECT * FROM tpengirimanpenjualan WHERE id='$idpengiriman'");
+        if ($query->num_rows() > 0){
+        	foreach ($query->result() as $kirim) {
+        		
+        		$query_detail= $this->db->query("SELECT * FROM tpengirimanpenjualandetail WHERE idpengiriman='$kirim->id'");
+		        if ($query_detail->num_rows() > 0){
+		        	foreach ($query_detail->result() as $krm_detail) {
+
+
+			        	$date_now = date('Y-m-d');
+
+			        	if ($kirim->statusauto == 0){
+			        		if ($kirim->tipe == 2){
+			        			if ($krm_detail->tipe == 'barang'){
+			        				$this->db->query(" INSERT INTO tstokkeluar (gudangid, tanggalkeluar, itemid, harga, jumlah, refid) VALUES ('$kirim->gudangid','$date_now', '$krm_detail->itemid','$krm_detail->harga','$krm_detail->jumlah','$idpengiriman')");
+
+			        			}
+			        		}
+			        	}
+		        	}
+		        }
+        	}
+
+        	$this->db->set('validasi','1');
+			$this->db->where('id', $idpengiriman);
+			$update = $this->db->update('tpengirimanpenjualan');
+			if($update) {
+				$data['status'] = 'success';
+				$data['message'] = "Data berhasil divalidasi";
+			} else {
+				$data['status'] = 'error';
+				$data['message'] = "Data gagal divalidasi";
+			}
+	    }
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
 	public function validasibatal()
 	{
-		$id = $this->input->post('id');
-		$kirimjual = get_by_id('id',$id,'tpengirimanpenjualan');
-		$pemesananid = $kirimjual['pemesananid'];
-		$gudangid = $kirimjual['gudangid'];
+		$idpengiriman = $this->input->post('id');
 
-		$query_pengjualdetail= $this->db->query("SELECT * FROM tpengirimanpenjualandetail WHERE idpengiriman='$id'");
-        if ($query_pengjualdetail->num_rows() > 0){
-        	foreach ($query_pengjualdetail->result() as $row) {
-        		$idpenjualdetail = $row->idpenjualdetail;
-        		$jumlah = $row->jumlah;
-				$query_pemjualdetail= $this->db->query("SELECT * FROM tpemesananpenjualandetail WHERE id='$idpenjualdetail'");
-        		if ($query_pemjualdetail->num_rows() > 0){
-        			foreach ($query_pemjualdetail->result() as $row1) {
-        				$hasil_baru_jt = $row1->jumlahditerima - $jumlah;
-        				$hasil_baru_js = $row1->jumlahsisa + $jumlah;
+		$query= $this->db->query("SELECT * FROM tpengirimanpenjualan WHERE id='$idpengiriman'");
+        if ($query->num_rows() > 0){
+        	foreach ($query->result() as $kirim) {
+        		
+        		$query_detail= $this->db->query("SELECT * FROM tpengirimanpenjualandetail WHERE idpengiriman='$kirim->id'");
+		        if ($query_detail->num_rows() > 0){
+		        	foreach ($query_detail->result() as $krm_detail) {
 
-        				$this->db->set('jumlahditerima',$hasil_baru_jt);
-        				$this->db->set('jumlahsisa',$hasil_baru_js);
-        				if ($hasil_baru_js == 0){
-        					$this->db->set('status','3');
-        				}else if ($row1->jumlah == $hasil_baru_js){
-        					$this->db->set('status','4');
-        				}else{
-        					$this->db->set('status','2');
-        				}
-						$this->db->where('id', $idpenjualdetail);
-						$this->db->update('tpemesananpenjualandetail');
-        			}
-        		}
+				        //mengembalikan stok masuk seperti semula
+				        if ($krm_detail->tipe == 'barang'){
+		        			$query_stokmasuk= $this->db->query("SELECT * FROM tstokmasuk WHERE itemid='$krm_detail->itemid' AND gudangid='$kirim->gudangid'");
+			        		if ($query_stokmasuk->num_rows() > 0){
+			        			foreach ($query_stokmasuk->result() as $stokm) {
+			        				$hasil_baru_keluar = $stokm->keluar - $krm_detail->jumlah;
+			        				$hasil_baru_sisa = $stokm->sisa + $krm_detail->jumlah;
 
-        		if ($row->tipe == 'barang'){
-        			$itemid = $row->itemid;
-        			$query_stokmasuk= $this->db->query("SELECT * FROM tstokmasuk WHERE itemid='$itemid' AND gudangid='$gudangid'");
-	        		if ($query_stokmasuk->num_rows() > 0){
-	        			foreach ($query_stokmasuk->result() as $row2) {
-	        				$hasil_keluar = $row2->keluar - $jumlah;
-	        				$hasil_sisa = $row2->sisa + $jumlah;
-	        				$this->db->set('keluar',$hasil_keluar);
-	        				$this->db->set('sisa',$hasil_sisa);
-							$this->db->where('itemid', $itemid);
-							$this->db->where('gudangid', $gudangid);
-							$this->db->update('tstokmasuk');
-	        			}
-	        		}
-        		}        		
+			        				$this->db->set('keluar',$hasil_baru_keluar);
+			        				$this->db->set('sisa',$hasil_baru_sisa);
+									$this->db->where('itemid', $krm_detail->itemid);
+									$this->db->where('gudangid', $kirim->gudangid);
+									$this->db->update('tstokmasuk');
+			        			}
+			        		}
+		        		} 
 
-        	}
-        }
+		        	}
+		        }
 
-        $query_pesanjual= $this->db->query("SELECT * FROM tpemesananpenjualandetail WHERE idpemesanan='$pemesananid'");
-        $total_sisa = 0;
-        $total_jumlah = 0;
-        if ($query_pesanjual->num_rows() > 0){
-        	foreach ($query_pesanjual->result() as $row3) {
-        		$total_jumlah = $total_jumlah + $row3->jumlah;
-        		$total_sisa = $total_sisa + $row3->jumlahsisa;
-        	}
-        	if ($total_sisa == 0){
-	        	$this->db->set('status','3');
-				$this->db->where('id', $pemesananid);
-				$update = $this->db->update('tpemesananpenjualan');
-	        }else if ($total_sisa < $total_jumlah){
-	        	$this->db->set('status','2');
-				$this->db->where('id', $pemesananid);
-				$update = $this->db->update('tpemesananpenjualan');
-	        }else{
-	        	$this->db->set('status','1');
-				$this->db->where('id', $pemesananid);
-				$update = $this->db->update('tpemesananpenjualan');
-	        }
-
-        }
-
-		$jurnalid = get_by_id('refid',$id,'tjurnalpenjualan');
-		$this->db->where('id', $jurnalid['id']);
-		$this->db->delete('tjurnalpenjualan');
-
-		$this->db->where('idjurnal', $jurnalid['id']);
-		$this->db->delete('tjurnalpenjualandetail');
-
-		$this->db->where('refid', $id);
-		$this->db->delete('tstokkeluar');
-
-		$this->db->set('validasi','0');
-		$this->db->where('id', $id);
-		$update = $this->db->update('tpengirimanpenjualan');
-		if($update) {
-			$data['status'] = 'success';
-			$data['message'] = "Validasi data berhasil digagalkan";
-		} else {
-			$data['status'] = 'error';
-			$data['message'] = "Gagal Validasi data";
+		        //hapus atau batal stok keluar
+				$this->db->where('refid', $idpengiriman);
+				$this->db->delete('tstokkeluar');
+				//update validasi pengiriman penjualan
+				$this->db->set('validasi','0');
+				$this->db->where('id', $idpengiriman);
+				$update = $this->db->update('tpengirimanpenjualan');
+				if($update) {
+					$data['status'] = 'success';
+					$data['message'] = "Validasi data berhasil dibatalkan";
+				} else {
+					$data['status'] = 'error';
+					$data['message'] = "Validasi data gagal dibatalkan";
+				}
+			}
 		}
-
-		
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 

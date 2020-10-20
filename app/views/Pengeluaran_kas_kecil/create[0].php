@@ -119,7 +119,7 @@
                 </div>
                 <div class="text-left">
                     <div class="btn-group">
-                        <a href="{site_url}pengeluaran_kas_kecil" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                        <a href="{site_url}Pengeluaran_kas_kecil" class="btn bg-danger"><?php echo lang('cancel') ?></a>
                         &nbsp;<button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
                     </div>
                 </div>
@@ -197,7 +197,7 @@
 <script src="{assets_path}global/js/plugins/pickers/pickadate/picker.js"></script>
 <script src="{assets_path}global/js/plugins/pickers/pickadate/picker.date.js"></script>
 <script type="text/javascript">
-    var base_url = '{site_url}pengeluaran_kas_kecil/';
+    var base_url = '{site_url}Pengeluaran_kas_kecil/';
 
     $(document).ready(function(){  
         //combobox perusahaan      

@@ -35,7 +35,7 @@ class Pengeluaran_kas_kecil extends User_Controller {
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Pengeluaran_kas_kecil/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function index_datatable() {
@@ -113,18 +113,18 @@ class Pengeluaran_kas_kecil extends User_Controller {
 		}
 	}
 	
-	public function select2_mdepartemen_pejabat($dept = null, $text = null)
+	public function select2_mdepartemen_pejabat($id = null, $text = null)
 	{
 		$term = $this->input->get('q');
 		if ($text) {
 			$this->db->select('mdepartemen.pejabat as id, mdepartemen.pejabat as text');
-			$this->db->where('mdepartemen.id', $dept);
-			$this->db->where('mdepartemen.sdel', '0');
-			$data = $this->db->get('tanggaranbelanja')->row_array();
-			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+            $this->db->where('mdepartemen.pejabat', $id);
+            $this->db->where('mdepartemen.sdel', '0');
+            $data = $this->db->get('mdepartemen')->row_array();
+            $this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mdepartemen.pejabat as id, mdepartemen.pejabat as text');
-			$this->db->where('mdepartemen.id', $dept);
+			$this->db->where('mdepartemen.id', $id);
 			$this->db->where('mdepartemen.sdel', '0');
 			if($term) $this->db->like('pejabat', $term);
 			$this->db->limit(10);
@@ -147,7 +147,7 @@ class Pengeluaran_kas_kecil extends User_Controller {
 			$this->db->where('mnoakun.noakunheader', '1');
 			$this->db->where('mnoakun.jenis', '02');
 			$this->db->where('mnoakun.stdel', '0');
-			if($term) $this->db->like('akunno', $term);
+			if($term) $this->db->like('CONCAT(mnoakun.akunno," / ",mnoakun.namaakun)', $term);
 			$data = $this->db->get('mnoakun')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
@@ -173,7 +173,7 @@ class Pengeluaran_kas_kecil extends User_Controller {
 			$data['status'] = 'error';
 			$data['message'] = lang('update_error_message');
 		}
-		redirect(base_url('pengeluaran_kas_kecil'));
+		redirect(base_url('Pengeluaran_kas_kecil'));
 	}
 
 	public function printpdf() {
@@ -221,14 +221,13 @@ class Pengeluaran_kas_kecil extends User_Controller {
         }
 		$term = $this->input->get('q');
 		if ($text) {
+
 			$this->db->select('tanggaranbelanja.*, tanggaranbelanjadetail.id as id, tanggaranbelanjadetail.uraian as text');
-			$this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id=tanggaranbelanjadetail.idanggaran');
-			$this->db->where('tanggaranbelanja.idperusahaan',$id);
-			$this->db->where('tanggaranbelanja.dept',$nama_departemen);
-			$this->db->where('tanggaranbelanja.status','Validate');
-			$this->db->where('tanggaranbelanja.stdel','0');
-			$data = $this->db->get('tanggaranbelanjadetail')->row_array();
-			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+            $this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id=tanggaranbelanjadetail.idanggaran');
+            $data = $this->db->where('tanggaranbelanjadetail.id', $id)->get('tanggaranbelanjadetail')->row_array();
+            $this->output->set_content_type('application/json')->set_output(json_encode($data));
+
+			
 		} else {
 			$this->db->select('tanggaranbelanja.*, tanggaranbelanjadetail.id as id, tanggaranbelanjadetail.uraian as text');
 			$this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id=tanggaranbelanjadetail.idanggaran');
@@ -242,6 +241,26 @@ class Pengeluaran_kas_kecil extends User_Controller {
 		}
 	}
 
+    public function select2_noakun_pengiriman() {
+        $this->db->select('mnoakun.idakun as id, concat("(",mnoakun.akunno,") - ",mnoakun.namaakun) as text');
+        $data = $this->db->get('mnoakun')->result_array();
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+    public function get_noakun_pengiriman() {
+        $id = $this->input->post('id');
+        $this->db->select('mnoakun.*');
+        $this->db->where('mnoakun.idakun', $id);
+        $data = $this->db->get('mnoakun')->row_array();
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function get_PilihanPajak()
+    {
+        $this->db->select('mpajak.*, mnoakun.akunno , mnoakun.namaakun ');
+        $this->db->join('mnoakun','mpajak.akun=mnoakun.idakun');
+        $data = $this->db->get('mpajak')->result_array();   
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
 	public function get_detail_item()
     {
         $this->model->get_detail_item();
@@ -253,6 +272,10 @@ class Pengeluaran_kas_kecil extends User_Controller {
 
     public function save() {
 		$this->model->save();
+	}
+
+	public function update() {
+		$this->model->update();
 	}
 
 	public function delete() {
@@ -270,9 +293,9 @@ class Pengeluaran_kas_kecil extends User_Controller {
 
 				$data['title'] = lang('petty_cash_outlay');
 				$data['subtitle'] = lang('detail');
-				$data['content'] = 'pengeluaran_kas_kecil/detail';
+				$data['content'] = 'Pengeluaran_kas_kecil/detail';
 				$data = array_merge($data,path_info());
-				$this->parser->parse('default',$data);
+				$this->parser->parse('template',$data);
 			} else {
 				show_404();
 			}
@@ -280,5 +303,30 @@ class Pengeluaran_kas_kecil extends User_Controller {
 			show_404();
 		}
 	}
+
+	public function edit($id = null) {
+		if($id) {
+			$data = get_by_id('id',$id,'tpengeluarankaskecil');
+			if($data) {
+				$data['pengeluarkaskecildetail'] = $this->model->pengeluarandetail($data['id']);
+
+				$data['title'] = lang('petty_cash_outlay');
+				$data['subtitle'] = lang('edit');
+				$data['content'] = 'Pengeluaran_kas_kecil/edit';
+				$data = array_merge($data,path_info());
+				$this->parser->parse('template',$data);
+			} else {
+				show_404();
+			}
+		} else {
+			show_404();
+		}
+	}
+
+	public function get_detail_pengeluarandetail(){
+        $idpengeluaran = $this->input->post('id',TRUE);
+        $data = $this->model->get_detail_pengeluarandetail($idpengeluaran)->result();
+        echo json_encode($data);
+    }
 
 }

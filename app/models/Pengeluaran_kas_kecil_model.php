@@ -52,26 +52,23 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
   
     function get_hitungsisakaskecil($idper){
 
-    	$query_pemindahbukuan = $this->db->query("SELECT penerimaan,pengeluaran FROM tpemindahbukuankaskecil WHERE perusahaan='$idper'");
-    	$jumlah_penerimaan=0;
-    	$jumlah_pengeluaran=0;
+    	$query_pemindahbukuan = $this->db->query("SELECT nominal FROM tpemindahbukuankaskecil WHERE perusahaan='$idper' ");
+    	$nominal_pemindahbukuan=0;
         if($query_pemindahbukuan->num_rows()>0){
             foreach($query_pemindahbukuan->result() as $p){
-                $jumlah_penerimaan=$jumlah_penerimaan+$p->penerimaan;
-    			$jumlah_pengeluaran=$jumlah_pengeluaran+$p->pengeluaran;
+                $nominal_pemindahbukuan=$nominal_pemindahbukuan+$p->nominal;
             }
         }
-        $nominal_pemindahbukuan = $jumlah_penerimaan - $jumlah_pengeluaran;
 
-        $query_pengeluaran = $this->db->query("SELECT subtotal FROM tpengeluarankaskecil WHERE perusahaan='$idper' AND stdel='0'");
-    	$jumlah_nominal_pengeluaran =0;
+        $query_pengeluaran = $this->db->query("SELECT nominal FROM tpengajuankaskecil WHERE perusahaan='$idper' AND status='1' AND stdel='0'");
+    	$jumlah_nominal_pengajuan =0;
         if($query_pengeluaran->num_rows()>0){
             foreach($query_pengeluaran->result() as $p){
-                $jumlah_nominal_pengeluaran=$jumlah_nominal_pengeluaran+$p->subtotal;
+                $jumlah_nominal_pengajuan=$jumlah_nominal_pengajuan+$p->nominal;
             }
         }
 
-        $query_setor = $this->db->query("SELECT nominal FROM tsetorkaskecil WHERE perusahaan='$idper' AND stdel='0' AND status='0'");
+        $query_setor = $this->db->query("SELECT nominal FROM tsetorkaskecil WHERE perusahaan='$idper'AND status='1' AND stdel='0'");
     	$jumlah_nominal_setor =0;
         if($query_setor->num_rows()>0){
             foreach($query_setor->result() as $p){
@@ -79,7 +76,7 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
             }
         }
 
-        $hasil = $nominal_pemindahbukuan - $jumlah_nominal_pengeluaran - $jumlah_nominal_setor;
+        $hasil = $nominal_pemindahbukuan - $jumlah_nominal_pengajuan - $jumlah_nominal_setor ;
     	$data['hasil'] = $hasil;
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
@@ -101,41 +98,49 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
     }
 
  	public function get_detail_item() {
-		$itemid = $this->input->post('itemid', TRUE);
-		if($itemid) {
-			$this->db->where('id', $itemid);
-			// $this->db->where('status', '0');
-			$data = $this->db->get('tanggaranbelanjadetail', 1)->row_array();
-			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+		$itemid = $this->input->post('itemid');
+		$data	= [];
+		if(is_array($itemid)) {
+			for ($i=0; $i < count($itemid); $i++) {
+				$this->db->select('tanggaranbelanjadetail.*');
+				$this->db->where('tanggaranbelanjadetail.id', $itemid[$i]);
+				$data[$i] = $this->db->get('tanggaranbelanjadetail')->row_array();
+			}
+		} else {
+			$this->db->select('tanggaranbelanjadetail.*');
+			$this->db->where('tanggaranbelanjadetail.id', $itemid);
+			$data[0] = $this->db->get('tanggaranbelanjadetail')->row_array();
 		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
 	public function save() {
-		$array_detail = $this->input->post('detail_array');
-		$array_detail = json_decode($array_detail);
+		
 		$idper = $this->input->post('perusahaan');
 		$iddep = $this->input->post('departemen');
-		$nominal = $this->input->post('nominal');
-		$sisa_kas_kecil = $this->input->post('sisa_kas_kecil');
+		$nominal = preg_replace("/[^0-9]/", "", $this->input->post('nominal'));
+		$sisa_kas_kecil = preg_replace("/[^0-9]/", "", $this->input->post('sisa_kas_kecil'));
 
 		$query_departemen = $this->db->query("SELECT * FROM mdepartemen WHERE id='$iddep'");
-        if ($query_departemen->num_rows() > 0){
-        	foreach ($query_departemen->result() as $dep) {
-        		$nama_departemen=$dep->nama;
-        	}
-        }
-        $jumlah_item=0;
-        $jumlah_data_anggaran=0;
-        foreach($array_detail as $row) {
-	        $itemid=$row[0];
-	        $query_detail = $this->db->query("SELECT tanggaranbelanja.id, tanggaranbelanjadetail.id FROM tanggaranbelanja JOIN tanggaranbelanjadetail ON tanggaranbelanja.id = tanggaranbelanjadetail.idanggaran WHERE tanggaranbelanja.idperusahaan = '$idper' AND tanggaranbelanja.dept='$nama_departemen' AND tanggaranbelanjadetail.id='$itemid'");
-	        	if($query_detail->num_rows()>0){
-			        foreach($query_detail->result() as $p){
-			           	$jumlah_data_anggaran=$jumlah_data_anggaran+1;
-			        }
-	        	}
-	        $jumlah_item = $jumlah_item + 1;
+	    if ($query_departemen->num_rows() > 0){
+	   		foreach ($query_departemen->result() as $dep) {
+	        	$nama_departemen=$dep->nama;
+	        }
 	    }
+	    $detail_array = $this->input->post('detail_array');
+		$detail_array = json_decode($detail_array);
+	    $jumlah_item=0;
+	    $jumlah_data_anggaran=0;
+	    foreach($detail_array as $row) {
+			$itemid=$row[0];
+		    $query_detail = $this->db->query("SELECT tanggaranbelanja.id, tanggaranbelanjadetail.id FROM tanggaranbelanja INNER JOIN tanggaranbelanjadetail ON tanggaranbelanja.id = tanggaranbelanjadetail.idanggaran WHERE tanggaranbelanja.idperusahaan = '$idper' AND tanggaranbelanja.dept='$nama_departemen' AND tanggaranbelanjadetail.id='$itemid'");
+		    if($query_detail->num_rows()>0){
+				foreach($query_detail->result() as $p){
+		           	$jumlah_data_anggaran=$jumlah_data_anggaran+1;
+		        }
+		    }
+	        $jumlah_item = $jumlah_item + 1;
+		}
 
 		if ($jumlah_item != $jumlah_data_anggaran){
 			$data['status'] = 'error';
@@ -157,22 +162,111 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 			$insertHead = $this->db->insert('tpengeluarankaskecil');
 			if($insertHead) {
 				$idpengeluaran = $this->db->insert_id();
-				$detail_array = $this->input->post('detail_array');
-				$detail_array = json_decode($detail_array);
+				
+				$no =0;
 				foreach($detail_array as $row) {
 					$this->db->set('idpengeluaran',$idpengeluaran);
 					$this->db->set('itemid',$row[0]);
-					$this->db->set('harga',remove_comma($row[2]));
-					$this->db->set('jumlah',remove_comma($row[3]));
-					$this->db->set('diskon',remove_comma($row[5]));
-					$this->db->set('ppn',remove_comma($row[6]));
-					$this->db->set('akunno',$row[7]);
+					$this->db->set('harga',preg_replace("/[^0-9]/", "", $this->input->post('harga')[$no]));
+					$this->db->set('jumlah',$this->input->post('jumlah')[$no]);
+					$this->db->set('diskon',$this->input->post('diskon')[$no]);
+					$this->db->set('pajak',preg_replace("/[^0-9]/", "", $this->input->post('total_pajak')[$no]));
+					$this->db->set('biaya_pengiriman',preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman')[$no]));
+					$this->db->set('akunno',$row[8]);
 					$this->db->insert('tpengeluarankaskecildetail');
 				}
 				$data['status'] = 'success';
-				$data['message'] = lang('save_success_message');
+				$data['message'] = 'Berhasil menyimpan data';
+			}else{
+				$data['status'] = 'error';
+				$data['message'] = 'Gagal menyimpan data';
 			}
+		}		
+		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function update() {
+		$idpengeluaran	= $this->input->post('idpengeluaran');
+		//delete pengeluaran kas kecil
+		$this->db->where('id',$idpengeluaran);
+		$this->db->delete('tpengeluarankaskecil');
+		//delete pengeluaran kas kecil detail
+		$this->db->where('idpengeluaran',$idpengeluaran);
+		$this->db->delete('tpengeluarankaskecildetail');
+
+		
+		$idper = $this->input->post('perusahaan');
+		$iddep = $this->input->post('departemen');
+		$nominal = preg_replace("/[^0-9]/", "", $this->input->post('nominal'));
+		$sisa_kas_kecil = preg_replace("/[^0-9]/", "", $this->input->post('sisa_kas_kecil'));
+
+		$query_departemen = $this->db->query("SELECT * FROM mdepartemen WHERE id='$iddep'");
+	    if ($query_departemen->num_rows() > 0){
+	   		foreach ($query_departemen->result() as $dep) {
+	        	$nama_departemen=$dep->nama;
+	        }
+	    }
+	    $detail_array = $this->input->post('detail_array');
+		$detail_array = json_decode($detail_array);
+	    $jumlah_item=0;
+	    $jumlah_data_anggaran=0;
+	    foreach($detail_array as $row) {
+			$itemid=$row[0];
+		    $query_detail = $this->db->query("SELECT tanggaranbelanja.id, tanggaranbelanjadetail.id FROM tanggaranbelanja INNER JOIN tanggaranbelanjadetail ON tanggaranbelanja.id = tanggaranbelanjadetail.idanggaran WHERE tanggaranbelanja.idperusahaan = '$idper' AND tanggaranbelanja.dept='$nama_departemen' AND tanggaranbelanjadetail.id='$itemid'");
+		    if($query_detail->num_rows()>0){
+				foreach($query_detail->result() as $p){
+		           	$jumlah_data_anggaran=$jumlah_data_anggaran+1;
+		        }
+		    }
+	        $jumlah_item = $jumlah_item + 1;
 		}
+
+		if ($jumlah_item != $jumlah_data_anggaran){
+			$data['status'] = 'error';
+			$data['message'] = lang('Maaf, item tidak ada dalam anggaaran belanja.');
+		}else if ($nominal > $sisa_kas_kecil){
+			$data['status'] = 'error';
+			$data['message'] = lang('Maaf, nominal terlalu besar dari sisa kas kecil.');
+		}else {
+			$this->db->set('nokwitansi',$this->input->post('nokwitansi', TRUE));
+			$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
+			$this->db->set('perusahaan',$this->input->post('perusahaan', TRUE));
+			$this->db->set('departemen',$this->input->post('departemen', TRUE));
+			$this->db->set('pejabat',$this->input->post('pejabat', TRUE));
+			$this->db->set('akunno',$this->input->post('akunno', TRUE));
+			$this->db->set('keterangan',$this->input->post('keterangan', TRUE));
+			$this->db->set('status','');
+			$this->db->set('cby',get_user('username'));
+			$this->db->set('cdate',date('Y-m-d H:i:s'));
+			$insertHead = $this->db->insert('tpengeluarankaskecil');
+			if($insertHead) {
+				$idpengeluaran = $this->db->insert_id();
+				
+				$no =0;
+				foreach($detail_array as $row) {
+					$this->db->set('idpengeluaran',$idpengeluaran);
+					$this->db->set('itemid',$row[0]);
+					$this->db->set('harga',preg_replace("/[^0-9]/", "", $this->input->post('harga')[$no]));
+					$this->db->set('jumlah',$this->input->post('jumlah')[$no]);
+					$this->db->set('diskon',$this->input->post('diskon')[$no]);
+					$this->db->set('pajak',preg_replace("/[^0-9]/", "", $this->input->post('total_pajak')[$no]));
+					$this->db->set('biaya_pengiriman',preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman')[$no]));
+					$this->db->set('akunno',$row[8]);
+					$this->db->insert('tpengeluarankaskecildetail');
+				}
+
+				$this->db->set('uby',get_user('username'));
+				$this->db->set('udate',date('Y-m-d H:i:s'));
+				$this->db->where('id', $idpengeluaran);
+				$this->db->update('tpengeluarankaskecil');
+
+				$data['status'] = 'success';
+				$data['message'] = 'Berhasil mengubah data';
+			}else{
+				$data['status'] = 'error';
+				$data['message'] = 'Gagal mengubah data';
+			}
+		}		
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
@@ -183,6 +277,14 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 		$get = $this->db->get('tpengeluarankaskecildetail');
 		return $get->result_array();
 	}
+
+	function get_detail_pengeluarandetail($idpengeluaran){
+        $this->db->select('tpengeluarankaskecildetail.*, tanggaranbelanjadetail.uraian as nama_item, tanggaranbelanjadetail.jumlah as jumkas');
+		$this->db->join('tanggaranbelanjadetail', 'tpengeluarankaskecildetail.itemid = tanggaranbelanjadetail.id');
+		$this->db->where('tpengeluarankaskecildetail.idpengeluaran', $idpengeluaran);
+		$query = $this->db->get('tpengeluarankaskecildetail');
+		return $query;
+    }
 
 }
 

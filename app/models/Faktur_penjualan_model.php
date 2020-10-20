@@ -24,82 +24,12 @@ class Faktur_penjualan_model extends CI_Model {
 		}
 
 		$statusauto = $this->input->post('statusauto', TRUE);
-		if($statusauto == '1') {
-			$pemesananid = $this->input->post('pemesananid', TRUE);
-			if($pemesananid) {
-				$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
-				$this->db->set('pemesananid',$this->input->post('pemesananid', TRUE));
-				$this->db->set('tipe','2');
-				$this->db->set('statusauto','1');
-				$this->db->set('catatan','-');
-				$this->db->set('cby',get_user('username'));
-				$this->db->set('cdate',date('Y-m-d H:i:s'));
-				$insertHead = $this->db->insert('tpengirimanpenjualan');
-				if($insertHead) {
-					$idpengiriman = $this->db->insert_id();
-					for ($i=0; $i < count($this->input->post('no', TRUE)); $i++) {
-						$this->db->set('idpengiriman',$idpengiriman);
-						$this->db->set('itemid',$this->input->post('itemid', TRUE)[$i]);
-						$this->db->set('jumlah',remove_comma($this->input->post('jumlah', TRUE)[$i]));
-						$this->db->insert('tpengirimanpenjualandetail');
-					}
-					$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
-					$this->db->set('pengirimanid',$idpengiriman);
-					$this->db->set('tipe','2');
-					$this->db->set('catatan',$this->input->post('catatan', TRUE));
-					$this->db->set('cby',get_user('username'));
-					$this->db->set('cdate',date('Y-m-d H:i:s'));
-					$insertHead = $this->db->insert('tfakturpenjualan');
-					if($insertHead) {
-						$data['status'] = 'success';
-						$data['message'] = lang('save_success_message');
-						return $this->output->set_content_type('application/json')->set_output(json_encode($data));
-					}
-				}
-			} else {
-				$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
-				$this->db->set('kontakid',$this->input->post('kontakid', TRUE));
-				$this->db->set('gudangid',$this->input->post('gudangid', TRUE));
-				$this->db->set('tipe','2');
-				$this->db->set('statusauto','1');
-				$this->db->set('catatan','-');
-				$this->db->set('cby',get_user('username'));
-				$this->db->set('cdate',date('Y-m-d H:i:s'));
-				$insertHead = $this->db->insert('tpengirimanpenjualan');
-				if($insertHead) {
-					$idpengiriman = $this->db->insert_id();
-					$detail_array = $this->input->post('detail_array');
-					$detail_array = json_decode($detail_array);
-					foreach($detail_array as $row) {
-						$this->db->set('idpengiriman',$idpengiriman);
-						$this->db->set('itemid',$row[0]);
-						$this->db->set('harga',remove_comma($row[2]));
-						$this->db->set('jumlah',remove_comma($row[3]));
-						$this->db->set('diskon',remove_comma($row[5]));
-						$this->db->set('ppn',remove_comma($row[6]));
-						$this->db->insert('tpengirimanpenjualandetail');
-					}
-
-					$this->db->set('notrans',$this->input->post('notrans', TRUE));
-					$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
-					$this->db->set('pengirimanid',$idpengiriman);
-					$this->db->set('tipe','2');
-					$this->db->set('catatan',$this->input->post('catatan', TRUE));
-					$this->db->set('cby',get_user('username'));
-					$this->db->set('cdate',date('Y-m-d H:i:s'));
-					$insertHead = $this->db->insert('tfakturpenjualan');
-					if($insertHead) {
-						$data['status'] = 'success';
-						$data['message'] = lang('save_success_message');
-						return $this->output->set_content_type('application/json')->set_output(json_encode($data));
-					}
-				}
-			}
-		} else {
+		if($statusauto == '0') {
 			$this->db->set('notrans',$this->input->post('notrans', TRUE));
 			$this->db->set('nomorsuratjalan',$this->input->post('nomorsuratjalan', TRUE));
 			$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
 			$this->db->set('tanggaltempo',$this->input->post('tanggalJT', TRUE));
+			$this->db->set('rekening',$this->input->post('rekening', TRUE));
 			$this->db->set('pengirimanid',$this->input->post('pengirimanid', TRUE));
 			$this->db->set('catatan',$this->input->post('catatan', TRUE));
 			$this->db->set('carabayar',$this->input->post('carabayar', TRUE));
@@ -108,9 +38,59 @@ class Faktur_penjualan_model extends CI_Model {
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
 			$insertHead = $this->db->insert('tfakturpenjualan');
 			if($insertHead) {
+				$this->db->set('validasi','2');
+				$this->db->where('id',$this->input->post('pengirimanid',TRUE));
+				$this->db->update('tpengirimanpenjualan');
 				$data['status'] = 'success';
 				$data['message'] = "Data berhasil disimpan.";
-			}		
+			}else{
+				$data['status'] = 'error';
+				$data['message'] = "Data gagal disimpan.";
+			}	
+		}
+
+		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+
+	public function update() {
+		$id = $this->input->post('fakturid');
+		$faktur = get_by_id('id',$id,'tfakturpenjualan');
+ 		
+ 		$this->db->set('validasi','1');
+		$this->db->where('id',$faktur['pengirimanid']);
+		$this->db->update('tpengirimanpenjualan');
+
+ 		$this->db->where('idfaktur', $id);
+		$this->db->delete('tfakturpenjualandetail');
+
+		$this->db->where('id', $id);
+		$delete = $this->db->delete('tfakturpenjualan');
+
+		$statusauto = $this->input->post('statusauto', TRUE);
+		if($statusauto == '0') {
+			$this->db->set('notrans',$this->input->post('notrans', TRUE));
+			$this->db->set('nomorsuratjalan',$this->input->post('nomorsuratjalan', TRUE));
+			$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
+			$this->db->set('tanggaltempo',$this->input->post('tanggalJT', TRUE));
+			$this->db->set('rekening',$this->input->post('rekening', TRUE));
+			$this->db->set('pengirimanid',$this->input->post('pengirimanid', TRUE));
+			$this->db->set('catatan',$this->input->post('catatan', TRUE));
+			$this->db->set('carabayar',$this->input->post('carabayar', TRUE));
+			$this->db->set('tipe','2');
+			$this->db->set('cby',get_user('username'));
+			$this->db->set('cdate',date('Y-m-d H:i:s'));
+			$insertHead = $this->db->insert('tfakturpenjualan');
+			if($insertHead) {
+				$this->db->set('validasi','2');
+				$this->db->where('id',$this->input->post('pengirimanid',TRUE));
+				$this->db->update('tpengirimanpenjualan');
+				$data['status'] = 'success';
+				$data['message'] = "Data berhasil diupdate.";
+			}else{
+				$data['status'] = 'error';
+				$data['message'] = "Data gagal diupdate.";
+			}	
 		}
 
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
@@ -226,7 +206,7 @@ class Faktur_penjualan_model extends CI_Model {
     }
 
     function get_detail_pengiriman($pengirimanid){
-        $this->db->select('tpengirimanpenjualandetail.*, CONCAT(mitem.noakunjual," - ",mitem.nama) as item, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as jasa,  CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as budgetevent');
+        $this->db->select('tpengirimanpenjualandetail.*, CONCAT(mitem.noakunjual," - ",mitem.nama) as item, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as jasa,  CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as inventeris');
 		$this->db->join('mitem', 'tpengirimanpenjualandetail.itemid = mitem.id', 'left');
 		$this->db->join('mnoakun', 'tpengirimanpenjualandetail.itemid = mnoakun.idakun', 'left');
 		$this->db->where('tpengirimanpenjualandetail.idpengiriman', $pengirimanid);
@@ -234,37 +214,28 @@ class Faktur_penjualan_model extends CI_Model {
 		return $query;
     }
 
+    function get_detail_budgetevent($pemesananid){
+        $this->db->select('tbudgetevent.*, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as budgetevent');
+		$this->db->join('mnoakun', 'tbudgetevent.idbudgetevent = mnoakun.idakun', 'left');
+		$this->db->where('tbudgetevent.idpemesanan', $pemesananid);
+		$query = $this->db->get('tbudgetevent');
+		return $query;
+    }
+
     public function delete() {
 		$id = $this->uri->segment(3);
 		$faktur = get_by_id('id',$id,'tfakturpenjualan');
-		$query_jurnal= $this->db->query("SELECT * FROM tjurnalpenjualan WHERE refid='$id'");
-        $cek_jurnal = 0;
-        if ($query_jurnal->num_rows() > 0){
-        	foreach ($query_jurnal->result() as $row10) {
-        		$cek_jurnal = $cek_jurnal + 1;
-        	}
-        }
-
-        if ($cek_jurnal == '1'){
-			$jurnalid = get_by_id('refid',$id,'tjurnalpenjualan');
-			$this->db->where('id', $jurnalid['id']);
-			$this->db->delete('tjurnalpenjualan');
-
-			$this->db->where('idjurnal', $jurnalid['id']);
-			$this->db->delete('tjurnalpenjualandetail');
-        }
-
-        $this->db->set('status','1');
-		$this->db->where('id', $faktur['pengirimanid']);
-		$this->db->update('tpengirimanpenjualan');
-
-		$this->db->where('idfaktur', $id);
-		$this->db->delete('tfakturpenjualandetail');
 
 		$this->db->where('id', $id);
 		$delete = $this->db->delete('tfakturpenjualan');
-
 		if($delete) {
+			$this->db->where('idfaktur', $id);
+			$this->db->delete('tfakturpenjualandetail');
+
+			$this->db->set('validasi','1');
+			$this->db->where('id', $faktur['pengirimanid']);
+			$this->db->update('tpengirimanpenjualan');
+
 			$data['status'] = 'success';
 			$data['message'] = 'Berhasil menghapus data';
 		} else {

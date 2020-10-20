@@ -9,19 +9,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 * @since	Version 1.0.0
 * @filesource
 * ================================================= 
-*/
+*/ 
 
-
+ 
 class Pemesanan_penjualan_model extends CI_Model {
 
 	public function save() {
-		$data_array = $this->input->post('detail_array');
-		$data_array = json_decode($data_array);
+		$data_array_item = $this->input->post('detail_array_item');
+		$data_array_item = json_decode($data_array_item);
 		$total_item = preg_replace("/[^0-9]/", "",$this->input->post('total_penjualan'));
 		$total_uangmukaterm = preg_replace("/[^0-9]/", "",$this->input->post('tum'));
-		$cara_pembayaran = $this->input->post('cara_pembayaran');
-		$tanggal = $this->input->post('tanggal');
-		if ($data_array == ''){
+
+		if ($data_array_item == ''){
 			$data['status'] = 'error';
 			$data['message'] = "Silahkan isi detail terlebih dulu!";
 		}
@@ -29,21 +28,25 @@ class Pemesanan_penjualan_model extends CI_Model {
 			$data['status'] = 'error';
 			$data['message'] = "Total item dan total uang muka + term harus sama!";
 		}else{
-			$hdata_budgetevent=0;
-			foreach($data_array as $row => $value) {
-				if ($value[10] == 'budgetevent'){
-					$hdata_budgetevent = $hdata_budgetevent +1;
+			$data_array_budgetevent = $this->input->post('detail_array_budgetevent');
+			$data_array_budgetevent = json_decode($data_array_budgetevent);
+
+			$jumlah_budgetevent=0;
+			if ($data_array_budgetevent != ''){
+				foreach($data_array_budgetevent as $row => $value) {
+					$jumlah_budgetevent = $jumlah_budgetevent +1;
 				}
 			}
-			if (($hdata_budgetevent > 0) && ($this->input->post('rekening') == '')){
+
+			if (($data_array_budgetevent > 0) && ($this->input->post('rekening') == '')){
 				$data['status'] = 'error';
-				$data['message'] = "Rekening belum dipilih!";
+				$data['message'] = "Rekening budget event belum dipilih!";
 			}else{
 				$id_pemesanan	= uniqid('PEM-JUAL');
 				$insertHead 	= $this->db->insert('tpemesananpenjualan', [
 					'id'				=> $id_pemesanan,
 					'notrans'			=> $this->input->post('notrans'),
-					'tanggal'			=> $tanggal,
+					'tanggal'			=> $this->input->post('tanggal'),
 					'kontakid'			=> $this->input->post('kontakid'),
 					'gudangid'			=> $this->input->post('gudangid'),
 					'idperusahaan'		=> $this->input->post('idperusahaan'),
@@ -59,16 +62,10 @@ class Pemesanan_penjualan_model extends CI_Model {
 					'cby'				=> get_user('username'),
 					'cdate'				=> date('Y-m-d H:i:s')
 				]);
+				if ($insertHead){
 
-				// $insertHead	= 1;
-				if($insertHead) {
-					$detail_array = $this->input->post('detail_array');
-					$detail_array = json_decode($detail_array);
-					// print_r($detail_array);die();
 					$no	= 0;
-					$total_budgetevent=0;
-					$hitung_budgetevent=0;
-					foreach($detail_array as $row => $value) {
+					foreach($data_array_item as $row => $value) {
 						$this->db->insert('tpemesananpenjualandetail', [
 							'id'			=> uniqid('PEM-JUAL-DET'),
 							'idpemesanan'	=> $id_pemesanan,
@@ -77,35 +74,42 @@ class Pemesanan_penjualan_model extends CI_Model {
 							'jumlah'		=> $this->input->post('jumlah')[$no],
 							'status'		=> '4',
 							'diskon'		=> $this->input->post('diskon')[$no],
-							'ppn'			=> $this->input->post('ppn')[$no],
-							'akunno'		=> $value[0],
+							'ppn'			=> preg_replace("/[^0-9]/", "", $this->input->post('total_pajak')[$no]),
+							'biaya_pengiriman'=> preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman')[$no]),
+							'akunno'		=> $value[9],
 							'subtotal'		=> preg_replace("/[^0-9]/", "", $this->input->post('subtotal')[$no]),
 							'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('total')[$no]),
-							'tipe'			=> $value[10],
+							'tipe'			=> $value[12],
 						]);
-						if ($value[10] == 'budgetevent'){
-							$total = preg_replace("/[^0-9]/", "", $this->input->post('total')[$no]);
-							$total_budgetevent = $total_budgetevent + $total;
-							$hitung_budgetevent= $hitung_budgetevent + 1;
-						}
 						$no++;
 					}
 
-					if ($hitung_budgetevent > 0 ){
-						$this->db->insert('tbudgetevent', [
-							'idpemesanan'	=> $id_pemesanan,
-							'nokwitansi'	=> $this->input->post('nokwitansi'),
-							'tanggal'		=> $tanggal,
-							'perusahaan'	=> $this->input->post('idperusahaan'),
-							'departemen'	=> $this->input->post('dept'),
-							'pejabat'		=> $this->input->post('pejabat'),
-							'keterangan'	=> $this->input->post('catatan'),
-							'nominal'		=> $total_budgetevent,
-							'rekening'		=> $this->input->post('rekening'),
-							'status'		=> '0',
-							'cby'			=> get_user('username'),
-							'cdate'			=> date('Y-m-d H:i:s')
-						]);
+					$no1 = 0;
+					if ($data_array_budgetevent != ''){
+						foreach($data_array_budgetevent as $row => $value) {
+							$this->db->insert('tbudgetevent', [
+								'idpemesanan'	=> $id_pemesanan,
+								'nokwitansi'	=> $this->input->post('nokwitansi'),
+								'idbudgetevent'	=> $value[0],
+								'harga'			=> preg_replace("/[^0-9]/", "", $this->input->post('harga1')[$no1]),
+								'jumlah'		=> $this->input->post('jumlah1')[$no1],
+								'subtotal'		=> preg_replace("/[^0-9]/", "", $this->input->post('subtotal1')[$no1]),
+								'diskon'		=> $this->input->post('diskon1')[$no1],
+								'ppn'			=> preg_replace("/[^0-9]/", "", $this->input->post('total_pajak1')[$no1]),
+								'biaya_pengiriman'=> preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman1')[$no1]),
+								'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('total1')[$no1]),
+								'tanggal'		=> $this->input->post('tanggal'),
+								'perusahaan'	=> $this->input->post('idperusahaan'),
+								'departemen'	=> $this->input->post('dept'),
+								'pejabat'		=> $this->input->post('pejabat'),
+								'keterangan'	=> $this->input->post('catatan'),
+								'rekening'		=> $this->input->post('rekening'),
+								'status'		=> '4',
+								'cby'			=> get_user('username'),
+								'cdate'			=> date('Y-m-d H:i:s')
+							]);
+							$no1++;
+						}
 					}
 
 					$this->db->insert('tpemesananpenjualanangsuran', [
@@ -123,8 +127,12 @@ class Pemesanan_penjualan_model extends CI_Model {
 						'a7'			=> preg_replace("/[^0-9]/", "", $this->input->post('a7')),
 						'a8'			=> preg_replace("/[^0-9]/", "", $this->input->post('a8')),
 					]);
+
 					$data['status'] = 'success';
-					$data['message'] = 'Berhasil Menyimpan Data';
+					$data['message'] = 'Berhasil menyimpan data';
+				}else{
+					$data['status'] = 'error';
+					$data['message'] = 'Gagal menyimpan data';
 				}
 			}
 		}
@@ -132,13 +140,13 @@ class Pemesanan_penjualan_model extends CI_Model {
 	}
 
 	public function update() {
-		$data_array = $this->input->post('detail_array');
-		$data_array = json_decode($data_array);
+		
+		$data_array_item = $this->input->post('detail_array_item');
+		$data_array_item = json_decode($data_array_item);
 		$total_item = preg_replace("/[^0-9]/", "",$this->input->post('total_penjualan'));
 		$total_uangmukaterm = preg_replace("/[^0-9]/", "",$this->input->post('tum'));
-		$cara_pembayaran = $this->input->post('cara_pembayaran');
-		$tanggal = $this->input->post('tanggal');
-		if ($data_array == ''){
+
+		if ($data_array_item == ''){
 			$data['status'] = 'error';
 			$data['message'] = "Silahkan isi detail terlebih dulu!";
 		}
@@ -146,97 +154,103 @@ class Pemesanan_penjualan_model extends CI_Model {
 			$data['status'] = 'error';
 			$data['message'] = "Total item dan total uang muka + term harus sama!";
 		}else{
-			$hdata_budgetevent=0;
-			foreach($data_array as $row => $value) {
-				if ($value[10] == 'budgetevent'){
-					$hdata_budgetevent = $hdata_budgetevent +1;
+			$data_array_budgetevent = $this->input->post('detail_array_budgetevent');
+			$data_array_budgetevent = json_decode($data_array_budgetevent);
+
+			$jumlah_budgetevent=0;
+			if ($data_array_budgetevent != ''){
+				foreach($data_array_budgetevent as $row => $value) {
+					$jumlah_budgetevent = $jumlah_budgetevent +1;
 				}
 			}
-			if (($hdata_budgetevent > 0) && ($this->input->post('rekening') == '')){
-				$data['status'] = 'error';
-				$data['message'] = "Rekening belum dipilih!";
-			}else{
 
-				$id_pemesanan	= $this->input->post('idpemesanan');
-				//update data pemesanan
-				$this->db->where('id',$id_pemesanan);
-				$this->db->delete('tpemesananpenjualan');
-				$insertHead 	= $this->db->insert('tpemesananpenjualan', [
-						'id'				=> $id_pemesanan,
-						'notrans'			=> $this->input->post('notrans'),
-						'tanggal'			=> $tanggal,
-						'kontakid'			=> $this->input->post('kontakid'),
-						'gudangid'			=> $this->input->post('gudangid'),
-						'idperusahaan'		=> $this->input->post('idperusahaan'),
-						'departemen'		=> $this->input->post('dept'),
-						'pejabat'			=> $this->input->post('pejabat'),
-						'jenis_pembelian'	=> $this->input->post('jenis_penjualan'),
-						'jenis_barang'		=> $this->input->post('jenis_barang'),
-						'cara_pembayaran'	=> $this->input->post('cara_pembayaran'),
-						'catatan'			=> $this->input->post('catatan'),
-						'akunno'			=> ' ',
-						'tipe'				=> '2',
-						'status'			=> '4',
-						'cby'				=> get_user('username'),
-						'cdate'				=> date('Y-m-d H:i:s')
-					]);
-				// $insertHead	= 1;
-				if($insertHead) {
-					//hapus data detail pemesanan
-					$this->db->where('idpemesanan',$id_pemesanan);
+			if (($data_array_budgetevent > 0) && ($this->input->post('rekening') == '')){
+				$data['status'] = 'error';
+				$data['message'] = "Rekening budget event belum dipilih!";
+			}else{
+				$id_pemesanan = $this->input->post('idpemesanan');
+
+				$this->db->set('tanggal', $this->input->post('tanggal'));
+				$this->db->set('kontakid', $this->input->post('kontakid'));
+				$this->db->set('gudangid', $this->input->post('gudangid'));
+				$this->db->set('idperusahaan', $this->input->post('idperusahaan'));
+				$this->db->set('departemen', $this->input->post('dept'));
+				$this->db->set('pejabat', $this->input->post('pejabat'));
+				$this->db->set('jenis_pembelian', $this->input->post('jenis_penjualan'));
+				$this->db->set('jenis_barang', $this->input->post('jenis_barang'));
+				$this->db->set('cara_pembayaran', $this->input->post('cara_pembayaran'));
+				$this->db->set('catatan', $this->input->post('catatan'));
+				$this->db->set('subtotal','');
+				$this->db->set('ppn','');
+				$this->db->set('biaya_pengiriman','');
+				$this->db->set('diskon','');
+				$this->db->set('total','');
+				$this->db->set('akunno','');
+				$this->db->set('tipe', '2');
+				$this->db->set('status', '4');
+				$this->db->set('uby', get_user('username'));
+				$this->db->set('udate', date('Y-m-d H:i:s'));
+				$this->db->where('id', $id_pemesanan);
+				$update = $this->db->update('tpemesananpenjualan');
+
+				if ($update){
+					$this->db->where('idpemesanan', $id_pemesanan);
 					$this->db->delete('tpemesananpenjualandetail');
-					$detail_array = $this->input->post('detail_array');
-					$detail_array = json_decode($detail_array);
-					// print_r($detail_array);die();
+
 					$no	= 0;
-					$total_budgetevent=0;
-					$hitung_budgetevent=0;
-					foreach($detail_array as $row => $value) {
+					foreach($data_array_item as $row => $value) {
 						$this->db->insert('tpemesananpenjualandetail', [
-								'id'			=> uniqid('PEM-JUAL-DET'),
-								'idpemesanan'	=> $id_pemesanan,
-								'itemid'		=> $value[0],
-								'harga'			=> preg_replace("/[^0-9]/", "", $this->input->post('harga')[$no]),
-								'jumlah'		=> $this->input->post('jumlah')[$no],
-								'status'		=> '4',
-								'diskon'		=> $this->input->post('diskon')[$no],
-								'ppn'			=> $this->input->post('ppn')[$no],
-								'akunno'		=> $value[0],
-								'subtotal'		=> preg_replace("/[^0-9]/", "", $this->input->post('subtotal')[$no]),
-								'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('total')[$no]),
-								'tipe'			=> $value[10],
+							'id'			=> uniqid('PEM-JUAL-DET'),
+							'idpemesanan'	=> $id_pemesanan,
+							'itemid'		=> $value[0],
+							'harga'			=> preg_replace("/[^0-9]/", "", $this->input->post('harga')[$no]),
+							'jumlah'		=> $this->input->post('jumlah')[$no],
+							'status'		=> '4',
+							'diskon'		=> $this->input->post('diskon')[$no],
+							'ppn'			=> preg_replace("/[^0-9]/", "", $this->input->post('total_pajak')[$no]),
+							'biaya_pengiriman'=> preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman')[$no]),
+							'akunno'		=> $value[9],
+							'subtotal'		=> preg_replace("/[^0-9]/", "", $this->input->post('subtotal')[$no]),
+							'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('total')[$no]),
+							'tipe'			=> $value[12],
 						]);
-						if ($value[10] == 'budgetevent'){
-							$total = preg_replace("/[^0-9]/", "", $this->input->post('total')[$no]);
-							$total_budgetevent = $total_budgetevent + $total;
-							$hitung_budgetevent= $hitung_budgetevent + 1;
-						}
 						$no++;
 					}
 
-					//hapus data budgetevent
-					$this->db->where('idpemesanan',$id_pemesanan);
+					$this->db->where('idpemesanan', $id_pemesanan);
 					$this->db->delete('tbudgetevent');
-					if ($hitung_budgetevent > 0 ){
-						$this->db->insert('tbudgetevent', [
-							'idpemesanan'	=> $id_pemesanan,
-							'nokwitansi'	=> $this->input->post('nokwitansi'),
-							'tanggal'		=> $tanggal,
-							'perusahaan'	=> $this->input->post('idperusahaan'),
-							'departemen'	=> $this->input->post('dept'),
-							'pejabat'		=> $this->input->post('pejabat'),
-							'keterangan'	=> $this->input->post('catatan'),
-							'nominal'		=> $total_budgetevent,
-							'rekening'		=> $this->input->post('rekening'),
-							'status'		=> '0',
-							'cby'				=> get_user('username'),
-							'cdate'				=> date('Y-m-d H:i:s')
-						]);
+
+					$no1 = 0;
+					if ($data_array_budgetevent != ''){
+						foreach($data_array_budgetevent as $row => $value) {
+							$this->db->insert('tbudgetevent', [
+								'idpemesanan'	=> $id_pemesanan,
+								'nokwitansi'	=> $this->input->post('nokwitansi'),
+								'idbudgetevent'	=> $value[0],
+								'harga'			=> preg_replace("/[^0-9]/", "", $this->input->post('harga1')[$no1]),
+								'jumlah'		=> $this->input->post('jumlah1')[$no1],
+								'subtotal'		=> preg_replace("/[^0-9]/", "", $this->input->post('subtotal1')[$no1]),
+								'diskon'		=> $this->input->post('diskon1')[$no1],
+								'ppn'			=> preg_replace("/[^0-9]/", "", $this->input->post('total_pajak1')[$no1]),
+								'biaya_pengiriman'=> preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman1')[$no1]),
+								'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('total1')[$no1]),
+								'tanggal'		=> $this->input->post('tanggal'),
+								'perusahaan'	=> $this->input->post('idperusahaan'),
+								'departemen'	=> $this->input->post('dept'),
+								'pejabat'		=> $this->input->post('pejabat'),
+								'keterangan'	=> $this->input->post('catatan'),
+								'rekening'		=> $this->input->post('rekening'),
+								'status'		=> '4',
+								'cby'			=> get_user('username'),
+								'cdate'			=> date('Y-m-d H:i:s')
+							]);
+							$no1++;
+						}
 					}
 
-					//hapus data pemesanan anggsuran
-					$this->db->where('idpemesanan',$id_pemesanan);
+					$this->db->where('idpemesanan', $id_pemesanan);
 					$this->db->delete('tpemesananpenjualanangsuran');
+
 					$this->db->insert('tpemesananpenjualanangsuran', [
 						'id'			=> uniqid('PEM-JUAL-ANG'),
 						'idpemesanan'	=> $id_pemesanan,
@@ -252,11 +266,16 @@ class Pemesanan_penjualan_model extends CI_Model {
 						'a7'			=> preg_replace("/[^0-9]/", "", $this->input->post('a7')),
 						'a8'			=> preg_replace("/[^0-9]/", "", $this->input->post('a8')),
 					]);
+
+
 					$data['status'] = 'success';
-					$data['message'] = 'Berhasil Megupdate Data';
+					$data['message'] = 'Berhasil mengubah data';
+				}else{
+					$data['status'] = 'error';
+					$data['message'] = 'Gagal mengubah data';
 				}
 			}
-		}	
+		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
@@ -287,10 +306,12 @@ class Pemesanan_penjualan_model extends CI_Model {
 
 	public function delete() {
 		$id = $this->uri->segment(3);
-		$this->db->set('stdel','1');
+		$this->db->set('stdel', '1');
+		$this->db->set('dby', get_user('username'));
+		$this->db->set('ddate', date('Y-m-d H:i:s'));
 		$this->db->where('id', $id);
-		$update = $this->db->update('tpemesananpenjualan');
-		if($update) {
+		$update_pesanan = $this->db->update('tpemesananpenjualan');
+		if ($update_pesanan) {
 			$data['status'] = 'success';
 			$data['message'] = 'Berhasil menghapus data';
 		} else {
@@ -374,11 +395,19 @@ class Pemesanan_penjualan_model extends CI_Model {
     }
 
     function get_detail_pemesanan($id){
-        $this->db->select('tpemesananpenjualandetail.*, CONCAT(mitem.noakunjual," - ",mitem.nama) as item, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as jasa,  CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as budgetevent');
+        $this->db->select('tpemesananpenjualandetail.*, CONCAT(mitem.noakunjual," - ",mitem.nama) as item, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as inventaris, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as jasa');
 		$this->db->join('mitem', 'tpemesananpenjualandetail.itemid = mitem.id', 'left');
 		$this->db->join('mnoakun', 'tpemesananpenjualandetail.itemid = mnoakun.idakun', 'left');
 		$this->db->where('tpemesananpenjualandetail.idpemesanan', $id);
 		$query = $this->db->get('tpemesananpenjualandetail');
+		return $query;
+    }
+
+    function get_detail_budgetevent($id){
+        $this->db->select('tbudgetevent.*, mnoakun.akunno as akunno, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as budgetevent');
+		$this->db->join('mnoakun', 'tbudgetevent.idbudgetevent = mnoakun.idakun', 'left');
+		$this->db->where('tbudgetevent.idpemesanan', $id);
+		$query = $this->db->get('tbudgetevent');
 		return $query;
     }
     function get_budget_event($id){
@@ -386,6 +415,27 @@ class Pemesanan_penjualan_model extends CI_Model {
 		$this->db->where('tbudgetevent.idpemesanan', $id);
 		$query = $this->db->get('tbudgetevent');
 		return $query;
+    }
+
+    function get_noakun_item($id,$jenisitem){
+    	if ($jenisitem == 'barang'){
+    		$this->db->select('mitem.noakunjual as koderekening');
+    		$this->db->where('mitem.id',$id);
+    		$query = $this->db->get('mitem');
+    	}else if ($jenisitem == 'inventaris'){
+    		$this->db->select('mnoakun.akunno as koderekening');
+    		$this->db->where('mnoakun.idakun',$id);
+    		$query = $this->db->get('mnoakun');
+    	}else if ($jenisitem == 'jasa'){
+    		$this->db->select('mnoakun.akunno as koderekening');
+    		$this->db->where('mnoakun.idakun',$id);
+    		$query = $this->db->get('mnoakun');
+    	}else if ($jenisitem == 'budgetevent'){
+    		$this->db->select('mnoakun.akunno as koderekening');
+    		$this->db->where('mnoakun.idakun',$id);
+    		$query = $this->db->get('mnoakun');
+    	}
+        return $query;
     }
 }
 

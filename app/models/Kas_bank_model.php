@@ -26,7 +26,7 @@ class Kas_bank_model extends CI_Model {
 			$this->db->set('uby',get_user('username'));
 			$this->db->set('udate',date('Y-m-d H:i:s'));
 			$this->db->where('id', $id);
-			$update = $this->db->update('tkasbank');
+			$update = $this->db->update('tpengajuankaskecil');
 			if($update) {
 				$data['status'] = 'success'; 
 				$data['message'] = lang('update_success_message');
@@ -35,71 +35,73 @@ class Kas_bank_model extends CI_Model {
 				$data['message'] = lang('update_error_message');
 			}
 		} else {
-			foreach($this->input->post() as $key => $val) $this->db->set($key,strip_tags($val));
-			$this->db->set('penerimaan',$this->input->post('pengeluaran'));
-			$this->db->set('pengeluaran','0');
-			$this->db->set('cby',get_user('username'));
-			$this->db->set('cdate',date('Y-m-d H:i:s'));
-			$insert = $this->db->insert('tpemindahbukuankaskecil');
-			foreach($this->input->post() as $key => $val) $this->db->set($key,strip_tags($val));
+			$this->db->set('nomor_kas_bank',$this->input->post('nomor_kas_bank'));
+			$this->db->set('perusahaan',$this->input->post('perusahaan'));
+			$this->db->set('pejabat',$this->input->post('pejabat'));
+			$this->db->set('tanggal',$this->input->post('tanggal'));
+			$this->db->set('penerimaan',preg_replace("/[^0-9]/", "", $this->input->post('penerimaan')));
+			$this->db->set('pengeluaran',preg_replace("/[^0-9]/", "", $this->input->post('pengeluaran')));
+			$this->db->set('keterangan',$this->input->post('keterangan'));
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
 			$insert_kasbank = $this->db->insert('tkasbank');
 			if($insert_kasbank)  {
-				$nomor_kas_bank= $this->input->post('nomor_kas_bank');
-				$idper= $this->input->post('perusahaan');
+				$nomor_kas_bank = $this->db->insert_id();
+				$detail_array1 = $this->input->post("detail_array");
+				$detail_array = json_decode($detail_array1);
+				foreach($detail_array as $row) {
+					$this->db->set('idkasbank',$nomor_kas_bank);
+					$this->db->set('idtipe',$row[0]);
+					$this->db->set('tipe',$row[2]);
+					$this->db->set('tanggal',$row[3]);
+					$this->db->set('nokwitansi',$row[4]);
+					$this->db->set('penerimaan',preg_replace("/[^0-9]/", "", $row[5]));
+					$this->db->set('pengeluaran',preg_replace("/[^0-9]/", "", $row[6]));
+					$this->db->set('noakun',$row[7]);
+					$this->db->set('kodeunit',$row[8]);
+					$this->db->set('departemen',$row[9]);
+					$this->db->set('sumberdana',$row[10]);
+					$this->db->insert('tkasbankdetail');
 
-				$query= $this->db->query("SELECT * FROM tkasbank WHERE nomor_kas_bank='$nomor_kas_bank'");
-				if($query->num_rows()>0){
-		            foreach($query->result() as $p){
-		               $idkasbank=$p->id;
-		            }
-		        }
-
-				$query_pengajuan = $this->db->query("SELECT * FROM tpengajuankaskecil WHERE perusahaan='$idper' AND stdel='0' AND status='0'");
-				if($query_pengajuan->num_rows()>0){
-		            foreach($query_pengajuan->result() as $p){
-		               	$this->db->set('idkasbank',$idkasbank);
-						$this->db->set('tipe','Pengajuan Kas Kecil');
-						$this->db->set('tanggal',$p->tanggal);
-						$this->db->set('nokwitansi',$p->nokwitansi);
-						$this->db->set('penerimaan','0');
-						$this->db->set('pengeluaran',$p->nominal);
-						$this->db->set('noakun',$p->kas);
-						$this->db->set('kodeunit',$p->perusahaan);
-						$this->db->set('departemen',$p->pejabat);
-						$this->db->set('sumberdana',$p->rekening);
-						$this->db->insert('tkasbankdetail');
+					$id=$row[0];
+					$tipe = $row[2];
+					if ($tipe == 'Penjualan'){
+						$this->db->set('stts_kas','1');
+						$this->db->where('id', $id);
+						$this->db->update('tfakturpenjualan');
+            			
+					}else if ($tipe == 'Budget Event'){
+						$this->db->set('status_kas','1');
+						$this->db->where('id', $id);
+						$this->db->update('tbudgetevent');
+            			
+					}else if ($tipe == 'Pengajuan Kas Kecil'){
 						$this->db->set('status','1');
 						$this->db->set('uby',get_user('username'));
 						$this->db->set('udate',date('Y-m-d H:i:s'));
-						$this->db->where('id', $p->id);
+						$this->db->where('id', $id);
 						$this->db->update('tpengajuankaskecil');
-		            }
-		        }
-
-		        $query_setor = $this->db->query("SELECT * FROM tsetorkaskecil WHERE perusahaan='$idper' AND stdel='0' AND status='0'");
-		        if($query_setor->num_rows()>0){
-            		foreach($query_setor->result() as $p){
-            			$this->db->set('idkasbank',$idkasbank);
-						$this->db->set('tipe','Setor Kas Kecil');
-						$this->db->set('tanggal',$p->tanggal);
-						$this->db->set('nokwitansi',$p->nokwitansi);
-						$this->db->set('penerimaan','0');
-						$this->db->set('pengeluaran',$p->nominal);
-						$this->db->set('noakun',$p->kas);
-						$this->db->set('kodeunit',$p->perusahaan);
-						$this->db->set('departemen',$p->pejabat);
-						$this->db->set('sumberdana',$p->rekening);
-						$this->db->insert('tkasbankdetail');
+            			
+					}else if ($tipe == 'Setor Kas Kecil'){
 						$this->db->set('status','1');
 						$this->db->set('uby',get_user('username'));
 						$this->db->set('udate',date('Y-m-d H:i:s'));
-						$this->db->where('id', $p->id);
+						$this->db->where('id', $id);
 						$this->db->update('tsetorkaskecil');
-            		}
-            	}
-			
+					}
+				}
+				
+				$this->db->set('nomor_kas_bank',$this->input->post('nomor_kas_bank'));
+				$this->db->set('perusahaan',$this->input->post('perusahaan'));
+				$this->db->set('pejabat',$this->input->post('pejabat'));
+				$this->db->set('tanggal',$this->input->post('tanggal'));
+				$this->db->set('keterangan',$this->input->post('keterangan'));
+				$this->db->set('nominal',preg_replace("/[^0-9]/", "", $this->input->post('pengeluaran_pemindahbukuan')));
+				$this->db->set('cby',get_user('username'));
+				$this->db->set('cdate',date('Y-m-d H:i:s'));
+				$this->db->insert('tpemindahbukuankaskecil');
+				
+
 				$data['status'] = 'success';
 				$data['message'] = lang('save_success_message');
 			} else {
@@ -139,87 +141,13 @@ class Kas_bank_model extends CI_Model {
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
-	function get_data_pengajuan($idperusahaan)
-    {
-    	$this->db->select('tpengajuankaskecil.*,mperusahaan.kode, mdepartemen.nama, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening');
-		$this->db->join('mperusahaan','tpengajuankaskecil.perusahaan=mperusahaan.idperusahaan');
-		$this->db->join('mdepartemen','tpengajuankaskecil.pejabat=mdepartemen.id');
-		$this->db->join('mnoakun','tpengajuankaskecil.kas=mnoakun.idakun');
-		$this->db->join('mrekening','tpengajuankaskecil.rekening=mrekening.id');
-        $this->db->where('tpengajuankaskecil.perusahaan', $idperusahaan);
-        $this->db->where('tpengajuankaskecil.stdel', '0');
-        $this->db->where('tpengajuankaskecil.status', '0');
-        return $this->db->from('tpengajuankaskecil')->get()->result();
-    }
-
-	function get_data_setor($idperusahaan)
-    {
-    	$this->db->select('tsetorkaskecil.*,mperusahaan.kode, mdepartemen.nama, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening');
-		$this->db->join('mperusahaan','tsetorkaskecil.perusahaan=mperusahaan.idperusahaan');
-		$this->db->join('mdepartemen','tsetorkaskecil.pejabat=mdepartemen.id');
-		$this->db->join('mnoakun','tsetorkaskecil.kas=mnoakun.idakun');
-		$this->db->join('mrekening','tsetorkaskecil.rekening=mrekening.id');
-        $this->db->where('tsetorkaskecil.perusahaan', $idperusahaan);
-        $this->db->where('tsetorkaskecil.status', '0');
-        $this->db->where('tsetorkaskecil.stdel', '0');
-        return $this->db->from('tsetorkaskecil')->get()->result();
-    }
-
-    function get_total($idperusahaan,$idpejabat)
-    {
-    	$this->db->select('SUM(nominal AS total_pengeluaran');
-        $this->db->where('tpengajuankaskecil.perusahaan', $idperusahaan);
-        $this->db->where('tpengajuankaskecil.pejabat', $idpejabat);
-        $this->db->where('tpengajuankaskecil.stdel', '0');
-        return $this->db->from('tpengajuankaskecil')->get()->result();
-    }
-
-	function get_nominal_kasbank()
-    {
-    	$this->db->select_sum('tkasbank.penerimaan');
-    	$this->db->select_sum('tkasbank.pengeluaran');
-		$this->db->where('tkasbank.stdel', '0');
-		$data = $this->db->get('tkasbank', 1)->row_array();
-		$this->output->set_content_type('application/json')->set_output(json_encode($data));
-    }
-
-    function get_hitungtotal($idper){
- 
-    	$query_pengajuan = $this->db->query("SELECT nominal FROM tpengajuankaskecil WHERE perusahaan='$idper' AND stdel='0' AND status='0'");
-    	$jumlah_pengajuan =0;
-        if($query_pengajuan->num_rows()>0){
-            foreach($query_pengajuan->result() as $p){
-                $jumlah_pengajuan=$jumlah_pengajuan+$p->nominal;
-            }
-        }
-
-        $query_setor = $this->db->query("SELECT nominal FROM tsetorkaskecil WHERE perusahaan='$idper' AND stdel='0' AND status='0'");
-    	$jumlah_nominal_setor =0;
-        if($query_setor->num_rows()>0){
-            foreach($query_setor->result() as $p){
-                $jumlah_nominal_setor=$jumlah_nominal_setor+$p->nominal;
-            }
-        }
-
-    	$data['penerimaan'] = $jumlah_nominal_setor;
-    	$data['pengeluaran'] = $jumlah_pengajuan;
-		$this->output->set_content_type('application/json')->set_output(json_encode($data));
-    }
+	
 
     public function kasbankdetail($idkasbank) {
-		$this->db->select('tkasbankdetail.*, mperusahaan.kode as kode_perusahaan, mdepartemen.nama as nama_departemen, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening');
-		$this->db->join('mperusahaan', 'tkasbankdetail.kodeunit = mperusahaan.idperusahaan');
-		$this->db->join('mdepartemen', 'tkasbankdetail.departemen = mdepartemen.id');
-		$this->db->join('mnoakun','tkasbankdetail.noakun=mnoakun.idakun');
-		$this->db->join('mrekening','tkasbankdetail.sumberdana=mrekening.id');
+		$this->db->select('tkasbankdetail.*');
 		$this->db->where('tkasbankdetail.idkasbank', $idkasbank);
 		$get = $this->db->get('tkasbankdetail');
 		return $get->result_array();
-	}
-
-	public function get($id_kas_bank)
-	{
-		return $this->db->get_where('tkasbank')->row_array();
 	}
 }
 

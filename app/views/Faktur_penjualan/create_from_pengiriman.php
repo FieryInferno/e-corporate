@@ -132,7 +132,7 @@
 <script src="{assets_path}global/js/plugins/pickers/pickadate/picker.js"></script>
 <script src="{assets_path}global/js/plugins/pickers/pickadate/picker.date.js"></script>
 <script type="text/javascript">
-    var base_url = '{site_url}faktur_penjualan/';
+    var base_url = '{site_url}Faktur_penjualan/';
 
     $('#table_detail tbody').on('change','.harga, .jumlah, .diskon, .ppn',function(){
         var itemid, harga, jumlah, subtotal, 

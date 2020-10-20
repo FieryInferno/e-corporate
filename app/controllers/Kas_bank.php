@@ -58,12 +58,12 @@ class Kas_bank extends User_Controller
             }
         }  
         
-        $data['tahun']          = $tahun;
-        $data['kode_otomatis']  = $kd;
-        $data['title']          = 'Tambah Kas Bank';
-        $data['subtitle']       = lang('add_new');
-        $data['tanggal']        = date('Y-m-d');
-        $data['content']        = 'Kas_bank/tambah';
+        $data['tahun'] = $tahun;
+        $data['kode_otomatis'] = $kd;
+        $data['title'] = lang('bank_cash');
+        $data['subtitle'] = lang('add_new');
+        $data['tanggal'] = date('Y-m-d');
+        $data['content'] = 'Kas_bank/create';
         $data = array_merge($data, path_info());
         $this->parser->parse('template', $data);
     }
@@ -114,7 +114,7 @@ class Kas_bank extends User_Controller
             $this->db->where('mnoakun.noakunheader', '1');
             $this->db->where('mnoakun.jenis', '02');
             $this->db->where('mnoakun.stdel', '0');
-            if($term) $this->db->like('akunno', $term);
+            if($term) $this->db->like('CONCAT(mnoakun.akunno," / ",mnoakun.namaakun)', $term);
             $data = $this->db->get('mnoakun')->result_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         }
@@ -133,35 +133,7 @@ class Kas_bank extends User_Controller
     public function delete() {
         $this->model->delete();
     }
-    public function DataPengajuanKasKecil() {
-        $idperusahaan=$this->input->post('idPer');
-        $data=$this->model->get_data_pengajuan($idperusahaan);
-        echo json_encode($data);
-    }
 
-    public function DataSetorKasKecil() {
-        $idperusahaan=$this->input->post('idPer');
-        $data=$this->model->get_data_setor($idperusahaan);
-        echo json_encode($data);
-    }
-
-    public function get_total_penerimaan_pengeluaran()
-    {
-        $idperusahaan=$this->input->post('idPer');
-        $idpejabat=$this->input->post('idPej');
-        $data=$this->model->get_total($idperusahaan,$idpejabat);
-        echo json_encode($data);
-    }
-
-    public function get_nominal_kasbank()
-    {
-        $this->model->get_nominal_kasbank();
-    }
-
-    public function get_hitungtotal(){
-        $idper = $this->input->post('idper',TRUE);
-        $this->model->get_hitungtotal($idper);
-    }
 
     public function detail($id = null) {
         if($id) {
@@ -169,7 +141,6 @@ class Kas_bank extends User_Controller
             if($data) {
                 $data['perusahaan'] = get_by_id('idperusahaan',$data['perusahaan'],'mperusahaan');
                 $data['departemen'] = get_by_id('id',$data['pejabat'],'mdepartemen');
-                $data['akun'] = get_by_id('idakun',$data['akunno'],'mnoakun');
                 $data['kasbankdetail'] = $this->model->kasbankdetail($data['id']);
 
                 $data['title'] = lang('bank_cash');
@@ -205,13 +176,91 @@ class Kas_bank extends User_Controller
         $pdf->stream("bank-kas-detail-".$data['nomor_kas_bank'].'-'.$time, array("Attachment" => false));
     }
 
-    public function edit($id_kas_bank)
-	{
-		$data['title']      = 'Kas Bank';
-        $data['content']    = 'Kas_bank/edit';
-        $data['subtitle']   = 'Edit Kas Bank';
-		$data['kas_bank']	= $this->model->get($id_kas_bank);
-		$data = array_merge($data, path_info());
-		$this->parser->parse('template',$data);
-	}
+    public function get_Penjualan()
+    {
+        $tgl = $this->input->get('tgl');
+        $idperusahaan = $this->input->get('idPerusahaan');
+
+        $this->db->select('tfakturpenjualan.*, tpemesananpenjualanangsuran.*, mkontak.nama as nama_pelanggan, mrekening.norek as nomor_rekening, mrekening.nama as nama_rekening, mrekening.akunno as nomor_akun,tfakturpenjualan.notrans as no_kwitansi, mperusahaan.kode, mdepartemen.nama as nama_departemen, tfakturpenjualan.id as idfaktur, tfakturpenjualan.total as nominal_faktur');
+        $this->db->join('tpengirimanpenjualan','tfakturpenjualan.pengirimanid=tpengirimanpenjualan.id');
+        $this->db->join('tpemesananpenjualan','tpengirimanpenjualan.pemesananid=tpemesananpenjualan.id');
+        $this->db->join('tpemesananpenjualanangsuran','tpemesananpenjualan.id=tpemesananpenjualanangsuran.idpemesanan');
+        $this->db->join('mperusahaan','tpemesananpenjualan.idperusahaan=mperusahaan.idperusahaan');
+        $this->db->join('mdepartemen','tpemesananpenjualan.departemen=mdepartemen.id');
+        $this->db->join('mkontak','tfakturpenjualan.kontakid=mkontak.id');
+        $this->db->join('mrekening','tfakturpenjualan.rekening=mrekening.id');
+        $this->db->where('tfakturpenjualan.tanggal <=',$tgl);
+        $this->db->where('tpemesananpenjualan.idperusahaan', $idperusahaan);
+        $this->db->where('tfakturpenjualan.stts_kas', '0');
+        $data = $this->db->get('tfakturpenjualan')->result_array();   
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function get_Pembelian()
+    {
+        $tgl = $this->input->get('tgl');
+        $idperusahaan = $this->input->get('idPerusahaan');
+
+        $this->db->select('tfaktur.*, tpemesananangsuran.*, tfaktur.notrans as no_kwitansi, mperusahaan.kode, mdepartemen.nama as nama_departemen, tfaktur.id as idfaktur, tfaktur.total as nominal_faktur');
+        $this->db->join('tpengiriman','tfaktur.pengirimanid=tpengiriman.id');
+        $this->db->join('tpemesanan','tpengiriman.pemesananid=tpemesanan.id');
+        $this->db->join('mperusahaan','tpemesanan.idperusahaan=mperusahaan.idperusahaan');
+        $this->db->join('mdepartemen','tpemesanan.departemen=mdepartemen.nama');
+        $this->db->join('tpemesananangsuran','tpemesanan.id=tpemesananangsuran.idpemesanan');
+        $this->db->where('tfaktur.tanggal <=',$tgl);
+        $this->db->where('tpemesanan.idperusahaan', $idperusahaan);
+        $data = $this->db->get('tfaktur')->result_array();   
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function get_BudgetEvent()
+    {
+        $tgl = $this->input->get('tgl');
+        $idperusahaan = $this->input->get('idPerusahaan');
+        $this->db->select('tbudgetevent.*, mperusahaan.kode, mdepartemen.nama as nama_departemen, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening, mrekening.akunno, SUM(tbudgetevent.total) as nominal');
+        $this->db->join('mperusahaan','tbudgetevent.perusahaan=mperusahaan.idperusahaan');
+        $this->db->join('mdepartemen','tbudgetevent.departemen=mdepartemen.id');
+        $this->db->join('mrekening','tbudgetevent.rekening=mrekening.id'); 
+        $this->db->where('tbudgetevent.tanggal <=',$tgl);
+        $this->db->where('tbudgetevent.perusahaan', $idperusahaan);
+        $this->db->where('tbudgetevent.status', '3');
+        $this->db->where('tbudgetevent.status_kas', '0');
+        $this->db->group_by('tbudgetevent.idpemesanan');
+        $data = $this->db->get('tbudgetevent')->result_array();   
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function get_KasKecil()
+    {
+        $idperusahaan = $this->input->get('idPerusahaan');
+        $tgl = $this->input->get('tgl');
+        $this->db->select('tpengajuankaskecil.*, mperusahaan.kode, mdepartemen.nama as nama_departemen, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening');
+        $this->db->join('mperusahaan','tpengajuankaskecil.perusahaan=mperusahaan.idperusahaan');
+        $this->db->join('mdepartemen','tpengajuankaskecil.pejabat=mdepartemen.id');
+        $this->db->join('mnoakun','tpengajuankaskecil.kas=mnoakun.idakun');
+        $this->db->join('mrekening','tpengajuankaskecil.rekening=mrekening.id'); 
+        $this->db->where('tpengajuankaskecil.perusahaan', $idperusahaan);
+        $this->db->where('tpengajuankaskecil.tanggal <=',$tgl);
+        $this->db->where('tpengajuankaskecil.status', '0');
+        $this->db->where('tpengajuankaskecil.stdel', '0');
+        $data = $this->db->get('tpengajuankaskecil')->result_array();
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function get_SetorKasKecil()
+    {
+        $tgl = $this->input->get('tgl');
+        $idperusahaan = $this->input->get('idPerusahaan');
+        $this->db->select('tsetorkaskecil.*,mperusahaan.kode, mdepartemen.nama as nama_departemen, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening');
+        $this->db->join('mperusahaan','tsetorkaskecil.perusahaan=mperusahaan.idperusahaan');
+        $this->db->join('mdepartemen','tsetorkaskecil.pejabat=mdepartemen.id');
+        $this->db->join('mnoakun','tsetorkaskecil.kas=mnoakun.idakun');
+        $this->db->join('mrekening','tsetorkaskecil.rekening=mrekening.id');
+        $this->db->where('tsetorkaskecil.perusahaan', $idperusahaan);
+        $this->db->where('tsetorkaskecil.tanggal <=',$tgl);
+        $this->db->where('tsetorkaskecil.status', '0');
+        $this->db->where('tsetorkaskecil.stdel', '0');
+        $data = $this->db->get('tsetorkaskecil')->result_array();
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
 }

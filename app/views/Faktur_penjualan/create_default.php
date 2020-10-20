@@ -82,7 +82,7 @@
                 <input type="hidden" name="detail_array" id="detail_array">
                 <div class="text-left">
                     <div class="btn-group">
-                        <a href="{site_url}faktur_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                        <a href="{site_url}Faktur_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
                         <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
                     </div>
                 </div>
@@ -157,7 +157,7 @@
 <script src="{assets_path}global/js/plugins/pickers/pickadate/picker.js"></script>
 <script src="{assets_path}global/js/plugins/pickers/pickadate/picker.date.js"></script>
 <script type="text/javascript">
-    var base_url = '{site_url}faktur_penjualan/';
+    var base_url = '{site_url}Faktur_penjualan/';
     $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
         return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
     })

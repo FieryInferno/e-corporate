@@ -27,7 +27,7 @@
           <div class="col-12">         
             <div class="card">
               <div class="card-header">
-			 	<a href="{site_url}faktur_penjualan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+			 	<a href="{site_url}Faktur_penjualan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 			  </div>
           <div class="card-body">
             <div class="table-responsive">
@@ -72,7 +72,7 @@
   </div>
 
 <script type="text/javascript">
-	var base_url = '{site_url}faktur_penjualan/';
+	var base_url = '{site_url}Faktur_penjualan/';
 	var table = $('.index_datatable').DataTable({
 		ajax: {
 			url: base_url + 'index_datatable',
@@ -119,13 +119,25 @@
         		}
         	},
           {
-            data: 'id', width: 105, orderable: false,
+            data: 'id', width: 40, orderable: false,
             render: function(data,type,row) { 
-              let aksi  = ``;
-              
-                aksi += `<a href="`+base_url+`edit/`+data+`" class="btn btn-info btn-sm" title="edit"><i class="fas fa-pencil-alt"></i></a>`; 
-              
-              aksi += ` <a href="javascript:deleteData('`+data+`')" class="btn btn-danger btn-sm" title="hapus"><i class="fas fa-trash"></i></a> <a href="javascript:cetakdata('`+data+`')" class="btn btn-success btn-sm" title="cetak"><i class="fas fa-print"></i></a>`;
+              var tombol = '';
+           
+              if (row.stts_kas != 1){
+                  tombol += ` <a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="fas fa-pencil-alt"></i> Ubah</a>
+                        <a href="javascript:deleteData('` + data+ `')" class="dropdown-item delete"><i class="fas fa-trash"></i> Hapus</a>`;
+              }
+
+              var aksi = `
+                  <div class="list-icons"> 
+                    <div class="dropdown"> 
+                      <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                      <div class="dropdown-menu dropdown-menu-right">
+                        `+tombol+`
+                        <a class="dropdown-item" href="`+base_url+`printpdf/`+data+`"><i class="fas fa-print"></i> Cetak</a>
+                      </div> 
+                    </div> 
+                  </div>`;
               return aksi;
             }
           },

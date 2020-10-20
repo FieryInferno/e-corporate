@@ -43,9 +43,12 @@ class Faktur_penjualan extends User_Controller {
         if ($id) {
             $data = get_by_id('id', $id, 'tfakturpenjualan');
             if ($data) {
+            	$pengiriman = get_by_id('id', $data['pengirimanid'], 'tpengirimanpenjualan');
+            	$data['pengiriman']= get_by_id('id',$data['pengirimanid'],'tpengirimanpenjualan');
+                $data['pemesanan']= get_by_id('id',$pengiriman['pemesananid'],'tpemesananpenjualan');
                 $data['title'] = lang('invoice');
                 $data['subtitle'] = lang('edit');
-                $data['content'] = 'faktur_penjualan/edit';
+                $data['content'] = 'Faktur_penjualan/edit';
                 $data = array_merge($data, path_info());
                 $this->parser->parse('template', $data);
             } else {
@@ -144,6 +147,10 @@ class Faktur_penjualan extends User_Controller {
 		$this->model->save();
 	}
 
+	public function update() {
+		$this->model->update();
+	}
+
 	public function delete() {
 		$this->model->delete();
 	}
@@ -223,6 +230,22 @@ class Faktur_penjualan extends User_Controller {
 		}
 	}
 
+	public function select2_rekening($id = null, $text = null) {
+		$term = $this->input->get('q');
+		if($text) {
+			$this->db->select('mrekening.id, CONCAT(mrekening.norek, " - " ,mrekening.nama) as text');
+			$data = $this->db->where('id', $id)->get('mrekening')->row_array();
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+		} else {
+			$this->db->select('mrekening.id, CONCAT(mrekening.norek, " - " ,mrekening.nama) as text');
+			$this->db->where('mrekening.perusahaan',$id);
+			$this->db->where('mrekening.stdel', '0');
+			if($term) $this->db->like('CONCAT(mrekening.norek, " - " ,mrekening.nama)', $term);
+			$data = $this->db->get('mrekening')->result_array();
+			$this->output->set_content_type('application/json')->set_output(json_encode($data));
+		}
+	}
+
 
 
 	public function get_detail_item() {
@@ -242,9 +265,9 @@ class Faktur_penjualan extends User_Controller {
         } else {
             $this->db->select('tpengirimanpenjualan.id as id, CONCAT(tpengirimanpenjualan.notrans," - ",tpengirimanpenjualan.tanggal," - ",mkontak.nama," - Rp. ",tpengirimanpenjualan.total) as text, tpengirimanpenjualan.total as total_harga');
             $this->db->join('mkontak','tpengirimanpenjualan.kontakid = mkontak.id');
-      		$this->db->where('kontakid', $id);
-      		$this->db->where('validasi', '1');
-      		$this->db->where('status <>', '3');
+            $this->db->where('tpengirimanpenjualan.kontakid', $id);
+      		$this->db->where('tpengirimanpenjualan.validasi', '1');
+      		$this->db->where('tpengirimanpenjualan.status', '3');
       		if($term) $this->db->like('CONCAT(tpengirimanpenjualan.notrans," - ",tpengirimanpenjualan.tanggal," - ",mkontak.nama," - Rp. ",tpengirimanpenjualan.total)', $term);
             $data = $this->db->get('tpengirimanpenjualan')->result_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
@@ -263,9 +286,15 @@ class Faktur_penjualan extends User_Controller {
         echo json_encode($data);
     }
 
-     public function get_detail_pengiriman(){
+    public function get_detail_pengiriman(){
         $pengirimanid = $this->input->post('pengirimanid',TRUE);
         $data = $this->model->get_detail_pengiriman($pengirimanid)->result();
+        echo json_encode($data);
+    }
+
+    public function get_detail_budgetevent(){
+        $pemesananid = $this->input->post('id',TRUE);
+        $data = $this->model->get_detail_budgetevent($pemesananid)->result();
         echo json_encode($data);
     }
 }
