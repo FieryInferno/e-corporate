@@ -181,7 +181,7 @@ class Faktur_pembelian_model extends CI_Model {
 		$this->db->where('idfaktur', $data['id']);
 		$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
 		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
-		$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.akunno');
+		$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 		$this->db->join('tpemesanan', 'tpemesanandetail.idpemesanan = tpemesanan.id'); 
 		$this->db->select('mnoakun.namaakun, tpemesanandetail.total, tpemesanan.catatan, tpemesanan.departemen, tpemesanandetail.subtotal, tpemesanandetail.diskon');
 		$data['detail']	= $this->db->get('tfakturdetail')->result_array();

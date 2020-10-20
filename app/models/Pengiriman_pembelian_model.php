@@ -109,19 +109,21 @@ class Pengiriman_pembelian_model extends CI_Model {
 			$data	= $this->db->get('tPenerimaan')->row_array();
 			$this->db->select('mitem.kode as kode_barang, mitem.nama as nama_barang, tpemesanandetail.biayapengiriman, tpemesanandetail.ppn as pajak, tpemesanandetail.subtotal, tpemesanandetail.jumlahditerima, tpemesanandetail.harga, tpemesanandetail.id as idbarang');
 			$this->db->join('tpemesanandetail', 'tPenerimaanDetail.idpemesanandetail = tpemesanandetail.id');
-			$this->db->join('mitem', 'tpemesanandetail.itemid = mitem.id');
+			$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+			$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 			$this->db->where('tPenerimaanDetail.idPenerimaan', $data['id']);
 			$data['detail_pengiriman']	= $this->db->get('tPenerimaanDetail')->result_array();
 			$data['angsuran']			= $this->db->get_where('tpemesananangsuran', [
 				'idpemesanan'	=> $data['idpemesanan']
 			])->row_array();
 		} else {
-			$data	= $this->db->get('tpengiriman')->result_array();
+			$data	= $this->db->get('tPenerimaan')->result_array();
 			$no		= 0; 
 			foreach ($data as $key) {
 				$this->db->select('mitem.kode as kode_barang, mitem.nama as nama_barang, tpemesanandetail.biayapengiriman, tpemesanandetail.ppn as pajak, tpemesanandetail.subtotal, tpemesanandetail.jumlahditerima, tpemesanandetail.harga, tpemesanandetail.id as idbarang');
 				$this->db->join('tpemesanandetail', 'tPenerimaanDetail.idpemesanandetail = tpemesanandetail.id');
-				$this->db->join('mitem', 'tpemesanandetail.itemid = mitem.id');
+				$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+				$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 				$this->db->where('tPenerimaanDetail.idPenerimaan', $key['id']);
 				$data[$no]['detail_pengiriman']	= $this->db->get('tPenerimaanDetail')->result_array();
 				$data[$no]['angsuran']			= $this->db->get_where('tpemesananangsuran', [
