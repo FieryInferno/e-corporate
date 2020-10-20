@@ -144,19 +144,14 @@ class Requiremen extends User_Controller {
 
 	public function select2_item_jasa() {
 		$q	= $this->input->get('q');
-		// $this->db->select('mitem.id as id, mitem.nama as text');
-		// $this->db->join('mkategori', 'mitem.kategoriid = mkategori.id');
-		// $this->db->where('mkategori.nama', 'Jasa');
-		// if ($q) {
-		// 	$this->db->like('mitem.nama', $q);
-		// }
-		// $data = $this->db->get('mitem')->result_array();
-
 		$this->db->select('tanggaranbelanjadetail.id, mitem.nama as text');
 		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 		$this->db->join('mkategori', 'mitem.kategoriid = mkategori.id');
 		$this->db->where('mkategori.nama', 'Jasa');
-		$this->db->get('tanggaranbelanjadetail');
+		if ($q) {
+			$this->db->like('mitem.nama', $q);
+		}
+		$data	= $this->db->get('tanggaranbelanjadetail')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 

@@ -129,6 +129,7 @@ class Anggaran_belanja extends User_Controller
 		$this->db->select('*');		
 		$this->db->like('mnoakun.akunno', '1', 'after');
 		$this->db->or_like('mnoakun.akunno', '5', 'after');
+		$this->db->or_like('mnoakun.akunno', '6', 'after');
 		$data = $this->db->get('mnoakun')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
