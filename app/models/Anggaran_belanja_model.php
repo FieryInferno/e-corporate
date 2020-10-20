@@ -118,7 +118,7 @@ class Anggaran_belanja_model extends CI_Model
 	{
 		$this->db->select('tanggaranbelanjadetail.koderekening, mnoakun.namaakun, mitem.nama as namabarang, tanggaranbelanjadetail.jumlah as total, tanggaranbelanjadetail.volume, tanggaranbelanjadetail.tarif, tanggaranbelanjadetail.satuan');
 		$this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id = tanggaranbelanjadetail.idanggaran');
-		$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.akunno');
+		$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 		$data	= $this->db->get('tanggaranbelanja')->result_array();
 		$no		= 0;

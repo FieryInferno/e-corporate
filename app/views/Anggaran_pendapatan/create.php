@@ -23,7 +23,7 @@
     <section class="content">
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
-        <div class="card card-danger">
+        <div class="card">
           <div class="card-header">
             <h3 class="card-title">{title} Anggaran Pendapatan</h3>
 
@@ -90,32 +90,7 @@
 									<th class="text-center">Realisasi</th>
 								</tr>
 							</thead>
-							<tbody>
-								<!--<tr class="bg-light">-->
-								<!--	<td></td>-->
-								<!--	<td>4</td>-->
-								<!--	<td>PENDAPATAN - LRA</td>-->
-								<!--	<td colspan="5"></td>-->
-								<!--</tr>-->
-								<!--<tr class="bg-light">-->
-								<!--	<td></td>-->
-								<!--	<td>4.1</td>-->
-								<!--	<td>PENDAPATAN ASLI DAERAH</td>-->
-								<!--	<td colspan="5"></td>-->
-								<!--</tr>-->
-								<!--<tr class="bg-light">-->
-								<!--	<td></td>-->
-								<!--	<td>4.1.4</td>-->
-								<!--	<td>Lain lain Pendapatan Asli Daerah</td>-->
-								<!--	<td colspan="5"></td>-->
-								<!--</tr>-->
-								<!--<tr class="bg-light">-->
-								<!--	<td></td>-->
-								<!--	<td>4.1.4.16</td>-->
-								<!--	<td>Pendapatan dari Badan Layanan Umum Daerah</td>-->
-								<!--	<td colspan="5"></td>-->
-								<!--</tr>-->
-							</tbody>
+							<tbody></tbody>
 						</table>
 					</div>
 				</div>

@@ -173,7 +173,7 @@ class Faktur_pembelian extends User_Controller {
 					$this->load->view('Faktur_pembelian/printpdf', $data);
 					$html = ob_get_contents();
 				ob_end_clean();
-				ob_clean();
+				// ob_clean();
 				$options  	= new Options();
 				$options->set('isRemoteEnabled', TRUE);
 				$pdf = new Dompdf($options);

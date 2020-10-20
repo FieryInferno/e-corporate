@@ -136,7 +136,8 @@ class Anggaran_pendapatan extends User_Controller
 	public function get_rekeningpendapatan()
 	{
 		$this->db->select('*');
-		$this->db->like('mnoakun.noakuntop', '4', 'after');
+		$this->db->like('mnoakun.akunno', '4', 'after');
+		$this->db->or_like('mnoakun.akunno', '7', 'after');
 		$data = $this->db->get('mnoakun')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
