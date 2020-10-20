@@ -67,7 +67,6 @@
 
 					</div>
 				</div>
-			</form>
 			<div class="row">
 				<div class="col-sm-12">
 					<div class="text-left">
@@ -102,6 +101,7 @@
 					</div>
 				</div>
 			</div>
+			</form>
               </div>
               <!-- /.col -->
             </div>
@@ -196,7 +196,7 @@
 					} else {
 						const html = `
 							<tr>
-								<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this)"></td>
+								<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, ${i})" idRekening="${element.idakun}"></td>
 								<td>${element.akunno}</td>
 								<td>${element.namaakun}</td>
 							</tr>
@@ -208,16 +208,17 @@
 		});
 	}
 
-	function addRekening(elem) {
-		const kodeRekening = $(elem).attr('kode-rekening');
-		const namaRekening = $(elem).attr('data-name');
-		const stat = $(elem).is(":checked");
-		const table = $('#rekening');
+	function addRekening(elem, no) {
+		const kodeRekening 	= $(elem).attr('kode-rekening');
+		const namaRekening 	= $(elem).attr('data-name');
+		const stat			= $(elem).is(":checked");
+		const table			= $('#rekening');
+		const idRekening	= $(elem).attr('idRekening');
 		if (stat) {
 			const html = `
-				<tr class="bg-light item-title" kode="${kodeRekening}">
-					<td>
-						<button type="button" class="btn btn-primary" onclick="addItem(this)">+</button>
+				<tr class="bg-light item-title" kode="${kodeRekening}" idRekening="${idRekening}">
+					<td id="a${no}">
+						<button type="button" class="btn btn-primary" onclick="addItem(this, ${no}, 0)">+</button>
 					</td>
 					<td>${kodeRekening}</td>
 					<td>${namaRekening}</td>
@@ -231,48 +232,53 @@
 		console.log(stat);
 	}
 
-	function addItem(elem) {
-		const td = $(elem).parents('td');
-		const tr = $(elem).parents('tr');
-		const kodeRekening = $(tr).attr('kode');
+	function addItem(elem, no, no2) {
+		const td			= $(elem).parents('td');
+		const tr			= $(elem).parents('tr');
+		const kodeRekening	= $(tr).attr('kode');
+		const idRekening	= $(tr).attr('idRekening');
+		var no3				= no2 + 1;
 		console.log(tr.attr('kode'));
 		const html = `
 			<tr class="rek-items" kode="${kodeRekening}">
 				<td>
 					<button type="button" class="btn btn-danger" onclick="removeItem(this)">-</button>
 				</td>
-				<td>${kodeRekening}</td>
-				<td><input type="text" class="form-control" name="uraian"></td>
-				<td><input type="text" class="form-control" onkeyup="sum();" name="volume" id="volume"></td>
 				<td>
-					<select type="text" class="form-control" name="satuan">
+					<input type="hidden" name="kode_rekening[]" id="kode_rekening`+no+no2+`" value="${idRekening}">
+					${kodeRekening}
+				</td>
+				<td><input type="text" class="form-control" name="uraian[]"></td>
+				<td><input type="text" class="form-control" onkeyup="sum('${no}${no2}');" name="volume[]" id="volume${no}${no2}"></td>
+				<td>
+					<select type="text" class="form-control" name="satuan[]">
 						<option>buah</option>
 						<option>pak</option>
 					</select>
 				</td>
-				<td><input type="text" class="form-control" name="uraian" onkeyup="sum();" onkeypress="return isNumberKey(event)" id="harga"></td>
-				<td><input type="text" class="form-control" name="tarif" id="jumlah" onkeyup="sum();" onkeypress="return isNumberKey(event)" readonly ></td>
+				<td><input type="text" class="form-control" name="harga[]" onkeyup="sum('${no}${no2}');" onkeypress="return isNumberKey(event)" id="harga${no}${no2}"></td>
+				<td><input type="text" class="form-control" name="jumlah[]" id="jumlah${no}${no2}" onkeyup="sum('${no}${no2}');" onkeypress="return isNumberKey(event)" readonly ></td>
 				<td><input type="text" class="form-control" name="keterangan"></td>
 			</tr>
 			`;
 		$(html).insertAfter(tr);
-
+		$('#a'+no).html(`<button type="button" class="btn btn-primary" onclick="addItem(this,`+no+`,`+no3+`)">+</button>`);
 	}
 	
-	function sum() {
-        var txtFirstNumberValue                 = document.getElementById('volume').value;
-        var txtSecondNumberValue                = document.getElementById('harga').value.replace(/[^,\d]/g, '').toString();
-        console.log(typeof document.getElementById('harga').value);
+	function sum(no) {
+        var txtFirstNumberValue                 = document.getElementById('volume' + no).value;
+        var txtSecondNumberValue                = document.getElementById('harga' + no).value.replace(/[^,\d]/g, '').toString();
+        console.log(typeof document.getElementById('harga' + no).value);
         if (!isNaN(parseInt(txtSecondNumberValue))){
             // console.log(txtSecondNumberValue);
-            document.getElementById('harga').value  = formatRupiah(txtSecondNumberValue, 'Rp.');
+            document.getElementById('harga' + no).value  = formatRupiah(txtSecondNumberValue, 'Rp.');
         }
         var result = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
         if (!isNaN(result)) {
-            document.getElementById('jumlah').value = formatRupiah(String(result), 'Rp.')+',00';;
+            document.getElementById('jumlah' + no).value = formatRupiah(String(result), 'Rp.')+',00';;
         }
         else{
-            document.getElementById('jumlah').value = formatRupiah('0', 'Rp.')+',00';
+            document.getElementById('jumlah' + no).value = formatRupiah('0', 'Rp.')+',00';
         }
     }
     

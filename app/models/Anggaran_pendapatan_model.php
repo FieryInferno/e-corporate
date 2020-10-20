@@ -32,11 +32,40 @@ class Anggaran_pendapatan_model extends CI_Model
 				$data['message'] = lang('update_error_message');
 			}
 		} else {
-			foreach ($this->input->post() as $key => $val) $this->db->set($key, $val);
-			$this->db->set('cby', get_user('username'));
-			$this->db->set('cdate', date('Y-m-d H:i:s'));
-			$insert = $this->db->insert('tanggaranpendapatan');
+			$idAnggaranPendapatan	= rand(100, 9999999999);
+			$nominal				= 0;
+			for ($i=0; $i < count($this->input->post('jumlah')); $i++) { 
+				// var_dump((integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('jumlah')[$i]));
+				
+				$nominal	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('jumlah')[$i]);
+			}
+			$insert = $this->db->insert('tanggaranpendapatan', [
+				'id'			=> $idAnggaranPendapatan,
+				'idPerusahaan'	=> $this->input->post('idperusahaan'),
+				'dept'			=> $this->input->post('dept'),
+				'pejabat'		=> $this->input->post('pejabat'),
+				'thnanggaran'	=> $this->input->post('thnanggaran'),
+				'tglpengajuan'	=> $this->input->post('tglpengajuan'),
+				'nominal'		=> $nominal,
+				'status'		=> 0,
+				'cby'			=> get_user('username'),
+				'cdate'			=> date('Y-m-d H:i:s')
+			]);
 			if ($insert) {
+				for ($i=0; $i < count($this->input->post('kode_rekening')); $i++) { 
+					$this->db->insert('tanggaranpendapatandetail', [
+						'id'			=> rand(100, 9999999999),
+						'idanggaran'	=> $idAnggaranPendapatan,
+						'koderekening'	=> $this->input->post('kode_rekening')[$i],
+						'uraian'		=> $this->input->post('uraian')[$i],
+						'volume'		=> $this->input->post('volume')[$i],
+						'satuan'		=> $this->input->post('satuan')[$i],
+						'tarif'			=> (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga')[$i]),
+						'jumlah'		=> (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('jumlah')[$i]),
+						'keterangan'	=> '',
+						'status'		=> 0
+					]);
+				}
 				$data['status'] = 'success';
 				$data['message'] = lang('save_success_message');
 			} else {
