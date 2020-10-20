@@ -32,7 +32,7 @@ class Anggaran_pendapatan_model extends CI_Model
 				$data['message'] = lang('update_error_message');
 			}
 		} else {
-			$idAnggaranPendapatan	= rand(100, 9999999999);
+			$idAnggaranPendapatan	= rand(100, 999999999);
 			$nominal				= 0;
 			for ($i=0; $i < count($this->input->post('jumlah')); $i++) { 
 				// var_dump((integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('jumlah')[$i]));
@@ -54,7 +54,7 @@ class Anggaran_pendapatan_model extends CI_Model
 			if ($insert) {
 				for ($i=0; $i < count($this->input->post('kode_rekening')); $i++) { 
 					$this->db->insert('tanggaranpendapatandetail', [
-						'id'			=> rand(100, 9999999999),
+						'id'			=> rand(100, 999999999),
 						'idanggaran'	=> $idAnggaranPendapatan,
 						'koderekening'	=> $this->input->post('kode_rekening')[$i],
 						'uraian'		=> $this->input->post('uraian')[$i],
