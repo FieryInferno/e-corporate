@@ -126,10 +126,6 @@
     var base_url    = '{site_url}SetUpJurnal';  
     function tambah(tipe, nomor) {
         var metaAkun    = <?= json_encode($metaAkun); ?>;
-        var opt         = '';
-        for (let index = 0; index < metaAkun.length; index++) {
-            opt += '<option value="' + metaAkun[index].idPemetaanAkun + '">' + metaAkun[index].namaakun + '</option>';
-        }
         var isiTabel    = `
             <tr nomor="${nomor}">
                 <td>
@@ -139,9 +135,12 @@
                         </div>
                         <div class="col-10">
                             <select name="elemen${tipe}[]" id="elemen" class="form-control elemen">
-                                <option value="" disabled selected>Pilih Elemen</option>` +
-                                opt
-                            + `</select>
+                                <option value="" disabled selected>Pilih Elemen</option>
+                                <option value="kodeAkun">Kode Akun</option>
+                                <option value="mapAkun1">Map Akun 1</option>
+                                <option value="mapAkun2">Map Akun 2</option>
+                                <option value="mapAkun3">Map Akun 3</option>
+                            </select>
                         </div>
                     </div>
                 </td>
@@ -171,7 +170,6 @@
         }
         $('#tambahAnggaran').attr('href', 'javascript:tambah("jurnalAnggaran", ' + nomorBaru +')');
         $('#tambahFinansial').attr('href', 'javascript:tambah("jurnalFinansial", ' + nomorBaru +')');
-        $('.elemen').select2();
     }
 
     function hapus(nomor) {
@@ -222,7 +220,6 @@
                 </div>`
             );
         } else {
-            alert(formulir);
             $('#tipeTransaksi').empty();
         }
     }

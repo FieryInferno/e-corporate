@@ -27,9 +27,14 @@ class Noakun extends User_Controller {
 		$this->parser->parse('default',$data);
 	}
 
-	public function index_datatable() {
+	public function index_datatable($no = null) {
 		$this->load->library('Datatables');
 		$this->datatables->where('mnoakun.stdel', '0');
+		if ($no) {
+			$this->datatables->like('mnoakun.akunno', '1', 'after');
+			$this->datatables->or_like('mnoakun.akunno', '2', 'after');
+			$this->datatables->or_like('mnoakun.akunno', '3', 'after');
+		}
 		$this->datatables->from('mnoakun');
 		return print_r($this->datatables->generate());
 	}
@@ -241,6 +246,27 @@ class Noakun extends User_Controller {
 			$data = $this->db->get('mnoakun')->result_array();
 		}
 		
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function select2NoAkunBarang()
+	{
+		$term = $this->input->get('q');
+		$this->db->select('idakun as id, concat(mnoakun.akunno, " - ",mnoakun.namaakun) as text');
+		if ($term) {
+			$this->db->like('akunno', $term);
+			$this->db->or_like('namaakun', $term);
+		} else {
+			$this->db->or_like('akunno', '1', 'after');
+			$this->db->or_like('akunno', '5', 'after');
+			$this->db->or_like('akunno', '6', 'after');
+		}
+		$data = $this->db->get('mnoakun')->result_array();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function select2_noakunbeli($id = null) {
+		$data	= $this->model->select2NoAkunBeli($id);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 }

@@ -28,25 +28,25 @@
 				</div> -->
               <div class="card-body">
                 <table class="table table-bordered table-striped index_datatable">
-                  <thead>
-				  <tr>
-					<th>ID</th>
-					<th><?php echo lang('Dept Name') ?></th>
-					<th>Perusahaan</th>
-					<th class="text-right"><?php echo lang('Nominal') ?></th>
-					<th><?php echo lang('Status') ?></th>
-					<th class="text-center"><?php echo lang('action') ?></th>
-				</tr>
-			</thead>
-			<tbody></tbody>
-			<tfoot>
-				<tr>
-					<th colspan="3" class="text-right"><B><?php echo lang('Total') ?><B></th>				
-					<th class="text-right"><?= "Rp. " . number_format($total_nominal,2,',','.'); ?></th>
-					<th></th>
-					<th></th>
-				</tr>
-			</tfoot>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th><?php echo lang('Dept Name') ?></th>
+							<th>Perusahaan</th>
+							<th class="text-right"><?php echo lang('Nominal') ?></th>
+							<th><?php echo lang('Status') ?></th>
+							<th class="text-center"><?php echo lang('action') ?></th>
+						</tr>
+					</thead>
+					<tbody></tbody>
+					<tfoot>
+						<tr>
+							<th colspan="3" class="text-right"><B><?php echo lang('Total') ?><B></th>				
+							<th class="text-right"><?= "Rp. " . number_format($total_nominal,2,',','.'); ?></th>
+							<th></th>
+							<th></th>
+						</tr>
+					</tfoot>
                 </table>
               </div>
             </div>

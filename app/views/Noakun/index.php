@@ -156,42 +156,42 @@
 	});
 
 	function deleteData(id) {
-        swal("Anda yakin akan menghapus data?", {
-            buttons: {
-                cancel: "Batal",
-                catch: {
-                text: "Ya, Yakin",
-                value: "ya",
-                },
+    swal("Anda yakin akan menghapus data?", {
+      buttons: {
+        cancel: "Batal",
+        catch: {
+        text: "Ya, Yakin",
+        value: "ya",
+        },
+      },
+    })
+    .then((value) => {
+      switch (value) {
+        case "ya":
+        $.ajax({
+            url: base_url + 'delete/'+id,
+            beforeSend: function() {
+              pageBlock();
             },
-            })
-            .then((value) => {
-            switch (value) {
-                case "ya":
-                $.ajax({
-                    url: base_url + 'delete/'+id,
-                    beforeSend: function() {
-                    pageBlock();
-                    },
-                    afterSend: function() {
-                    unpageBlock();
-                    },
-                    success: function(data) {
-                    if(data.status == 'success') {
-                        swal("Berhasil!", "Data Berhasil Dihapus!", "success");
-                        setTimeout(function() { table.ajax.reload() }, 100);
-                    } else {
-                        swal("Gagal!", "Pikachu was caught!", "error");
-                    }
-                    },
-                    error: function() {
-                    swal("Gagal!", "Internal Server Error!", "error");
-                    }
-                })
-                break;
+            afterSend: function() {
+              unpageBlock();
+            },
+            success: function(data) {
+              if(data.status == 'success') {
+                  swal("Berhasil!", "Data Berhasil Dihapus!", "success");
+                  setTimeout(function() { table.ajax.reload() }, 100);
+              } else {
+                  swal("Gagal!", "Pikachu was caught!", "error");
+              }
+            },
+            error: function() {
+              swal("Gagal!", "Internal Server Error!", "error");
             }
-            });
-    }
+        })
+        break;
+      }
+    });
+  }
     
     function import_data() {
         var formData    = new FormData($('#form_import')[0]);

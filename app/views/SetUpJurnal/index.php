@@ -61,7 +61,8 @@
 			search: '<span></span> _INPUT_',
 			searchPlaceholder: 'Type to filter...',
 		},
-		columns: [{
+		columns: [
+			{
 				data: 'idSetupJurnal',
 				visible: false
 			},
@@ -76,7 +77,10 @@
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<a class="dropdown-item" href=""><i class="fas fa-pencil-alt"></i> Edit</a>
+									<form action="SetUpJurnal/edit" method="post">
+										<input type="hidden" value="${row.idSetupJurnal}" name="idSetupJurnal">
+										<button class="dropdown-item" type="submit"><i class="fas fa-pencil-alt"></i> Edit</button>
+									</form>
 									<a href="javascript:deleteData('` + row.idSetupJurnal + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
 								</div> 
 							</div> 

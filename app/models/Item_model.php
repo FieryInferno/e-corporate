@@ -39,8 +39,8 @@ class Item_model extends CI_Model
                 $this->db->set($key, strip_tags($val));
             }
 
-            $this->db->set('hargabeli', remove_comma($this->input->post('hargabeli')));
-            $this->db->set('hargajual', remove_comma($this->input->post('hargajual')));
+            $this->db->set('hargabeli', preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('hargabeli')));
+            $this->db->set('hargajual', preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('hargajual')));
             $this->db->set('uby', get_user('username'));
             $this->db->set('udate', date('Y-m-d H:i:s'));
             $this->db->where('id', $id);
@@ -61,7 +61,6 @@ class Item_model extends CI_Model
                 $data['message'] = lang('kode sudah ada sebelumnya.');
                 return $this->output->set_content_type('application/json')->set_output(json_encode($data));
             } else {
-
                 $upload = $this->uploadgambar();
                 if ($upload['status'] == 'error') {
                     $data['status'] = 'error';
@@ -77,8 +76,8 @@ class Item_model extends CI_Model
                     $this->db->set($key, strip_tags($val));
                 }
 
-                $this->db->set('hargabeli', remove_comma($this->input->post('hargabeli')));
-                $this->db->set('hargajual', remove_comma($this->input->post('hargajual')));
+                $this->db->set('hargabeli', preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('hargabeli')));
+                $this->db->set('hargajual', preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('hargajual')));
                 $this->db->set('cby', get_user('username'));
                 $this->db->set('cdate', date('Y-m-d H:i:s'));
                 $insert = $this->db->insert('mitem');
@@ -104,20 +103,16 @@ class Item_model extends CI_Model
 
         $this->load->library('upload', $config);
         $this->upload->initialize($config);
-        $datafile = $this->upload->data();
-        $data['status'] = 'success';
-        $data['file_name'] = $datafile['file_name'];
-        return $data;
-        // if (!$this->upload->do_upload('gambar')) {
-        //     $data['status'] = 'error';
-        //     $data['message'] = $this->upload->display_errors();
-        //     return $data;
-        // } else {
-        //     $datafile = $this->upload->data();
-        //     $data['status'] = 'success';
-        //     $data['file_name'] = $datafile['file_name'];
-        //     return $data;
-        // }
+        if (!$this->upload->do_upload('gambar')) {
+            $data['status'] = 'error';
+            $data['message'] = $this->upload->display_errors();
+            return $data;
+        } else {
+            $datafile = $this->upload->data();
+            $data['status'] = 'success';
+            $data['file_name'] = $datafile['file_name'];
+            return $data;
+        }
     }
 
     public function delete()

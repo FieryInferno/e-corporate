@@ -31,16 +31,16 @@
 
           <form action="javascript:save()" id="form1">
                 <div class="row">
-                	<div class="col-md-6">
-        				<div class="form-group">
-        					<label><?php echo lang('code') ?>:</label>
-        					<input type="text" class="form-control" name="kode" placeholder="AUTO" pattern="[a-zA-Z0-9-#]+" maxlength="10">
-        				</div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label><?php echo lang('code') ?>:</label>
+                            <input type="text" class="form-control" name="kode" placeholder="AUTO" pattern="[a-zA-Z0-9-#]+" maxlength="10">
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label><?php echo lang('name') ?>:</label>
-                            <input type="text" class="form-control" name="nama" required>
+                            <label>Nama :</label>
+                            <input type="text" class="form-control" name="nama" required placeholder="Nama Barang">
                         </div>
                     </div>
                 </div>
@@ -67,7 +67,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label><?php echo lang('purchase_price') ?>:</label>
-                            <input type="text" class="form-control hargabeli" name="hargabeli" required>
+                            <input type="text" class="form-control hargabeli" name="hargabeli" required placeholder="Harga Beli">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -81,7 +81,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label><?php echo lang('sales_price') ?>:</label>
-                            <input type="text" class="form-control hargajual" name="hargajual" required>
+                            <input type="text" class="form-control hargajual" name="hargajual" required placeholder="Harga Jual">
                         </div>
                     </div>
                     <div class="col-md-6">
@@ -101,7 +101,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label><?php echo lang('Departemen') ?>:</label>
-                            <select class="form-control departemen" name="iddepartemen"></select>
+                            <select class="form-control departemen" name="idDepartemen"></select>
                        </div>
                     </div>
                 </div>
@@ -132,48 +132,64 @@
 	var base_url = '{site_url}item/';
 
     $(document).ready(function(){
-        $('.hargajual').val( numeral( $('.hargajual').val() ).format() );
-        $('.hargabeli').val( numeral( $('.hargabeli').val() ).format() );
-
         ajax_select({ id: '.satuanid', url: base_url + 'select2_satuanid', selected: { id: '' } });
         ajax_select({ id: '.kategoriid', url: base_url + 'select2_kategoriid', selected: { id: '' } });
-        ajax_select({ id: '.noakunbeli', url: base_url + 'select2_noakunbeli', selected: { id: '' } });
-        ajax_select({ id: '.noakunjual', url: base_url + 'select2_noakunjual', selected: { id: '' } });
-        ajax_select({ id: '.noakunpersediaan', url: base_url + 'select2_noakunpersediaan', selected: { id: '' } });
+        ajax_select({ 
+            id          : '.noakunbeli', 
+            url         : '{site_url}noakun/select2_noakun', 
+            selected    : { 
+                id  : '' 
+            } 
+        });
+        ajax_select({ 
+            id          : '.noakunjual', 
+            url         : '{site_url}noakun/select2_noakun', 
+            selected    : { 
+                id  : '' 
+            } 
+        });
+        ajax_select({ 
+            id          : '.noakunpersediaan', 
+            url         : '{site_url}noakun/select2NoAkunBarang', 
+            selected    : { 
+                id  : '' 
+            } 
+        });
         ajax_select({ id: '.departemen', url: base_url + 'select2_departemen', selected: { id: '' } });
     })
 
     $(document).on('keyup','.hargajual, .hargabeli',function(){
         var val = $(this).val();
-        $(this).val( numeral(val).format() );
+        $(this).val( formatRupiah(val, 'Rp. ') );
     })
+
     function save() {
-    	var form = $('#form1')[0];
-    	var formData = new FormData(form);
-    	$.ajax({
-    		url: base_url + 'save',
-    		dataType: 'json',
-    		method: 'post',
-    		data: formData,
-    		contentType: false,
-    		processData: false,
-    		beforeSend: function() {
-    			pageBlock();
-    		},
+        var form = $('#form1')[0];
+        var formData = new FormData(form);
+        $.ajax({
+            url: base_url + 'save',
+            dataType: 'json',
+            method: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                pageBlock();
+            },
             afterSend: function() {
                 unpageBlock();
             },
-    		success: function(data) {
-    			if(data.status == 'success') {
-    				NotifySuccess(data.message)
+            success: function(data) {
+                if(data.status == 'success') {
+                    swal("Berhasil!", "Berhasil Menambah Data", "success");
                     redirect(base_url);
-    			} else {
-    				NotifyError(data.message)
-    			}
-    		},
-    		error: function() {
-    			NotifyError('<?php echo lang('internal_server_error') ?>');
-    		}
-    	})
+                } else {
+                    swal("Gagal!", "Gagal Menambah Data", "error");
+                }
+            },
+            error: function() {
+                swal("Gagal!", "Internal Server Error", "error");
+            }
+        })
     }
 </script>

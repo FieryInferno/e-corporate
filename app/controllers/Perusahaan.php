@@ -70,7 +70,11 @@ class Perusahaan extends User_Controller{
 
 	public function select2()
 	{
+		$q	= $this->input->get('q');
 		$this->db->select('mperusahaan.idperusahaan as id, mperusahaan.nama_perusahaan as text');
+		if ($q) {
+			$this->db->like('nama_perusahaan', $q);
+		}
 		$data = $this->db->get('mperusahaan')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}

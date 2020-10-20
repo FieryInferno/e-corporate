@@ -14,6 +14,42 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class SetUpJurnal_model extends CI_Model {
 
+    private $idSetupJurnal;
+	private $kodeJurnal;
+	private $formulir;
+	private $keterangan;
+    private $table  = 'tSetupJurnal';
+    
+    public function setKodeJurnal($kodeJurnal)
+	{
+		$this->kodeJurnal	= $kodeJurnal;
+	}
+
+	public function setFormulir($formulir)
+	{
+		$this->formulir	= $formulir;
+	}
+
+	public function setKeterangan($keterangan)
+	{
+		$this->keterangan	= $keterangan;
+	}
+
+	protected function getKodeJurnal()
+	{
+		return $this->kodeJurnal;
+	}
+
+	protected function getFormulir()
+	{
+		return $this->formulir;
+	}
+
+	protected function getKeterangan()
+	{
+		return $this->keterangan;
+	}
+
 	public function save() {
         $idSetupJurnal  = uniqid('SJ');
         $setupJurnal    = $this->db->insert('tSetupJurnal', [
@@ -72,6 +108,43 @@ class SetUpJurnal_model extends CI_Model {
 			$data['message'] = lang('delete_error_message');
         }
         return $data;
+    }
+    
+    public function get()
+    {
+        if ($this->getIdSetupJurnal()) {
+            $data                       = $this->db->get_where('tSetupJurnal', [
+                'idSetupjurnal' => $this->getIdSetupJurnal()
+            ])->row_array();
+            $data['jurnalAnggaran']     = $this->db->get_where('tJurnalAnggaran', [
+                'idSetupJurnal' => $this->getIdSetupJurnal()
+            ])->result_array();
+            $data['jurnalFinansial']    = $this->db->get_where('tJurnalFinansial', [
+                'idSetupJurnal' => $this->getIdSetupJurnal()
+            ])->result_array();
+            return $data;
+        }
+    }
+
+    public function setIdSetupJurnal($idSetupJurnal)
+	{
+		$this->idSetupJurnal	= $idSetupJurnal;
 	}
+
+	private function getIdSetupJurnal()
+	{
+		return $this->idSetupJurnal;
+    }
+    
+    public function edit()
+    {
+        $this->db->where('idSetupJurnal', $this->getIdSetupJurnal());
+        $data   = $this->db->update($this->table, [
+            'kodeJurnal'    => $this->getKodeJurnal(),
+            'formulir'      => $this->getFormulir(),
+            'keterangan'    => $this->getKeterangan()
+        ]);
+        return $data;
+    }
 }
 

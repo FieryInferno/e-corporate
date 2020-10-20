@@ -73,35 +73,33 @@
                   </thead>
                   <tbody>
                     <?php
-                      foreach ($jurnalUmum as $key => $value) { 
-                        foreach ($value as $key) { ?>
+                    // print_r($jurnalUmum);
+                      foreach ($jurnalUmum as $key => $value) { ?>
                           <tr>
-                            <td><?= $key['tanggal']; ?></td>
-                            <td><?= $key['formulir']; ?></td>
-                            <td><?= $key['noTrans']; ?></td>
-                            <td><?= $key['departemen']; ?></td>
-                            <td><?= $key['nama_perusahaan']; ?></td>
-                            <td><?= $key['akunno']; ?></td>
-                            <td><?= $key['namaakun']; ?></td>
-                            <?php 
-                              if ($key['jenisAnggaran'] !== null) { 
-                                switch ($key['jenisAnggaran']) {
+                            <td><?= $value['tanggal']; ?></td>
+                            <td><?= $value['formulir']; ?></td>
+                            <td><?= $value['noTrans']; ?></td>
+                            <td><?= $value['departemen']; ?></td>
+                            <td><?= $value['nama_perusahaan']; ?></td>
+                            <td><?= $value['akunno']; ?></td>
+                            <td><?= $value['namaakun']; ?></td>
+                            <?php  
+                                switch ($value['jenis']) {
                                   case 'debit': ?>
-                                    <td>Rp. <?= number_format($key['total'],2,',','.'); ?></td>
+                                    <td>Rp. <?= number_format($value['total'],2,',','.'); ?></td>
                                     <td>Rp. <?= number_format(0,2,',','.'); ?></td>
                                     <?php break;
                                   case 'kredit': ?>
                                     <td>Rp. <?= number_format(0,2,',','.'); ?></td>
-                                    <td>Rp. <?= number_format($key['total'],2,',','.'); ?></td>
+                                    <td>Rp. <?= number_format($value['total'],2,',','.'); ?></td>
                                     <?php break;
-                                  default:
-                                    # code...
-                                    break;
-                                }
-                              } ?>
+                                  default: ?>
+                                    <td>Rp. <?= number_format($value['totalDebit'],2,',','.'); ?></td>
+                                    <td>Rp. <?= number_format($value['totalKredit'],2,',','.'); ?></td>
+                                    <?php break;
+                                } ?>
                           </tr>
                         <?php }
-                      }
                     ?>
                   </tbody>
                 </table>
@@ -114,44 +112,5 @@
   </section>
 </div>
 <script>
-  var base_url = '{site_url}Jurnal/';
   var table     = $('.index_datatable').DataTable(); 
-  // var table = $('.index_datatable').DataTable({
-	// 	ajax: {
-	// 		url     : base_url + 'index_datatable',
-	// 		type    : 'post',
-	// 	},
-	// 	pageLength: 100,
-	// 	stateSave: true,
-	// 	autoWidth: false,
-	// 	dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
-	// 	language: {
-	// 		search: '<span></span> _INPUT_',
-	// 		searchPlaceholder: 'Type to filter...',
-	// 	},
-	// 	columns: [{
-	// 			data: 'idSetupJurnal',
-	// 			visible: false
-	// 		},
-	// 		{data	: 'kodeJurnal'},
-	// 		{data	: 'formulir'},
-	// 		{data	: 'keterangan'},
-	// 		{
-	// 			className	: "text-center",
-	// 			render: function(data, type, row) {
-	// 				var aksi = `
-	// 					<div class="list-icons"> 
-	// 						<div class="dropdown"> 
-	// 							<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
-	// 							<div class="dropdown-menu dropdown-menu-right">
-	// 								<a class="dropdown-item" href=""><i class="fas fa-pencil-alt"></i> Edit</a>
-	// 								<a href="javascript:deleteData('` + row.idSetupJurnal + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
-	// 							</div> 
-	// 						</div> 
-	// 					</div>`;
-	// 				return aksi;
-	// 			}
-	// 		}
-	// 	]
-	// });
 </script>

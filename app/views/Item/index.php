@@ -55,19 +55,6 @@
     </section>
   </div>
 
-  
-<!-- jQuery -->
-<script src="<?= base_url('adminlte')?>/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<?= base_url('adminlte')?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables -->
-<script src="<?= base_url('adminlte')?>/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<!-- notifikasi -->
-<!-- <script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script> -->
-
   <script type="text/javascript">
 	var base_url = '{site_url}item/';
 	var table = $('.index_datatable').DataTable({
@@ -86,39 +73,39 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-        	{data: 'id', visible: false},
-        	{
-        		data: 'gambar',
-        		render: function(data) {
-        			if(data) return '<img src="{base_url}uploads/item/'+data+'" width="60" height="60">';
-        			else return '<img src="{base_url}uploads/default.png" width="60" height="60">';
-        		}
-        	},
-        	{
-        		data: 'kode',
-        		render: function(data,type,row) {
-        			var link = base_url + 'detail/' + row.id;
-        			return '<span class="badge badge-info">'+data+'</span>';
-        		}
-        	},
-        	{data: 'nama'},
-        	{data: 'satuan'},
-        	{data: 'kategori'},
-        	{data: 'stok', className: 'text-right', orderable: false},
-        	{
-        		data: 'hargabeliterakhir', className: 'text-right', orderable: false,
-        		render: function(data, type, row) {
-        			if(data > 0) return numeral(data).format();
-        			else return numeral(row.hargabeli).format();
-        		}
-        	},
-        	{
-        		data: 'totalpersediaan', className: 'text-right', orderable: false,
-        		render: function(data, type, row) {
-        			if(data) return numeral(data).format();
-        			else return numeral(row.hargabeli).format();
-        		}
-        	},
+			{data: 'id', visible: false},
+			{
+				data: 'gambar',
+				render: function(data) {
+					if(data) return '<img src="{base_url}uploads/item/'+data+'" width="60" height="60">';
+					else return '<img src="{base_url}uploads/default.png" width="60" height="60">';
+				}
+			},
+			{
+				data: 'kode',
+				render: function(data,type,row) {
+					var link = base_url + 'detail/' + row.id;
+					return '<span class="badge badge-info">'+data+'</span>';
+				}
+			},
+			{data: 'nama'},
+			{data: 'satuan'},
+			{data: 'kategori'},
+			{data: 'stok', className: 'text-right', orderable: false},
+			{
+				data: 'hargabeliterakhir', className: 'text-right', orderable: false,
+				render: function(data, type, row) {
+					if(data > 0) return formatRupiah(data, 'Rp. ') + ',00';
+					else return formatRupiah(row.hargabeli, 'Rp. ') + ',00';
+				}
+			},
+			{
+				data: 'totalpersediaan', className: 'text-right', orderable: false,
+				render: function(data, type, row) {
+					if(data) return formatRupiah(data, 'Rp. ') + ',00';
+					else return formatRupiah(row.hargabeli, 'Rp. ') + ',00';
+				}
+			},
         	{
         		data: 'id', width: 100, orderable: false, className: 'text-center',
         		render: function(data,type,row) {
@@ -137,23 +124,40 @@
 	});
 
 	function deleteData(id) {
-	    var notice = new PNotify({
-	        title: '<?php echo lang('confirm') ?>',
-	        text: '<p><?php echo lang('confirm_delete') ?></p>',
-	        hide: false,
-	        type: 'warning',
-	        confirm: {
-	            confirm: true,
-	            buttons: [
-	                { text: 'Yes', addClass: 'btn btn-sm btn-primary' },
-	                { addClass: 'btn btn-sm btn-link' }
-	            ]
-	        },
-	        buttons: { closer: false, sticker: false }
-	    })
-	    notice.get().on('pnotify.confirm', function() {
-	    	$.ajax({ url: base_url + 'delete/'+id })
-	    	setTimeout(function() { table.ajax.reload() }, 100);
-	    })
+		swal("Anda yakin akan menghapus data?", {
+			buttons: {
+				cancel: "Batal",
+				catch: {
+				text: "Ya, Yakin",
+				value: "ya",
+				},
+			},
+		})
+		.then((value) => {
+			switch (value) {
+				case "ya":
+				$.ajax({
+					url: base_url + 'delete/'+id,
+					beforeSend: function() {
+						pageBlock();
+					},
+					afterSend: function() {
+						unpageBlock();
+					},
+					success: function(data) {
+						if(data.status == 'success') {
+							swal("Berhasil!", "Data Berhasil Dihapus!", "success");
+							setTimeout(function() { table.ajax.reload() }, 100);
+						} else {
+							swal("Gagal!", "Pikachu was caught!", "error");
+						}
+					},
+					error: function() {
+						swal("Gagal!", "Internal Server Error!", "error");
+					}
+				})
+				break;
+			}
+		});
 	}
 </script> 

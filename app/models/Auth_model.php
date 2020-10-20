@@ -10,7 +10,17 @@ class Auth_model extends CI_Model {
 		$user = $this->db->get('z_user');
 		if($user->num_rows() > 0) {
 			$rowuser = $user->row_array();
-			$this->session->set_userdata( array('userid' => $rowuser['id']) );
+			if ($rowuser['permissionid'] !== 1) {
+				$data	= $this->db->get_where('mperusahaan', [
+					'idperusahaan'	=> $rowuser['perusahaan']
+				])->row_array();
+				$this->session->set_userdata( array(
+					'userid' 		=> $rowuser['id'],
+					'perusahaan'	=> $data['nama_perusahaan']
+				) );
+			} else {
+				$this->session->set_userdata( array('userid' => $rowuser['id']) );
+			}
 			return true;
 		} else {
 			return false;

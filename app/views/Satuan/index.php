@@ -172,20 +172,20 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-        	{data: 'id', visible: false},
-        	{data: 'nama'},
-        	{
-        		data: 'id', width: 100, orderable: false,
-        		render: function(data,type,row) {
-        			var aksi = `   <a class="btn btn-info btn-sm" href="`+base_url+`edit/`+data+`">
-                              <i class="fas fa-pencil-alt"></i>                             
-                          </a>
-                          <a class="btn btn-danger btn-sm" href="javascript:deleteData(`+data+`)">
-                              <i class="fas fa-trash"></i>                           
-                          </a>       `;
-        			return aksi;
-        		}
-        	}
+			{data: 'id', visible: false},
+			{data: 'nama'},
+			{
+				data: 'id', width: 100, orderable: false,
+				render: function(data,type,row) {
+					var aksi = `   <a class="btn btn-info btn-sm" href="`+base_url+`edit/`+data+`">
+							<i class="fas fa-pencil-alt"></i>                             
+						</a>
+						<a class="btn btn-danger btn-sm" href="javascript:deleteData(`+data+`)">
+							<i class="fas fa-trash"></i>                           
+						</a>       `;
+					return aksi;
+				}
+			}
         ]
 	});
 

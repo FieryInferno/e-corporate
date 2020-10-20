@@ -367,16 +367,11 @@
 
           <li class="nav-header">AKUNTANSI</li>  
           <li class="nav-item">
-					<?php $url = site_url('saldo_awal')?>
-					<?php $count = $this->db->count_all_results('tsaldoawal');?>
-					<?php if ($count > 0): ?>
-						<?php $url = site_url('saldo_awal/manage')?>
-					<?php endif?>
-					<a href="<?php echo $url ?>" class="nav-link <?php echo menu_is_active('saldo_awal') ?>">
-						<i class="icon-gear"></i>
-						<i class="nav-icon fas fa-balance-scale-left"></i><p> <?php echo lang('beginning_balance') ?> </p>
-					</a>
-				</li>
+            <a href="<?= site_url('saldo_awal') ?>" class="nav-link <?php echo menu_is_active('saldo_awal') ?>">
+              <i class="icon-gear"></i>
+              <i class="nav-icon fas fa-balance-scale-left"></i><p> <?php echo lang('beginning_balance') ?> </p>
+            </a>
+          </li>
 				<li class="nav-item">
 					<a href="{site_url}noakun" class="nav-link <?php echo menu_is_active('noakun') ?>">
 						<i class="icon-database"></i>

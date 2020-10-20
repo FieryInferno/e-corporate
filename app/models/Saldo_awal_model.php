@@ -14,6 +14,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Saldo_awal_model extends CI_Model {
 
+	private $title	= 'Saldo Awal';
+	private $idSaldoAwal;
+	private $nomor;	
+	private $perusahaan;
+	private $keterangan;
+	private	$detail;
+
 	public function get_saldoawaldetail() {
 		$this->db->select('tsaldoawaldetail.*, mnoakun.namaakun');
 		$this->db->join('mnoakun', 'mnoakun.noakun = tsaldoawaldetail.noakun');
@@ -24,30 +31,34 @@ class Saldo_awal_model extends CI_Model {
 	}
 
 	public function save() {
-		for ($i=0; $i < count($this->input->post('noakun')); $i++) {
-			$this->db->set('debet',remove_comma($this->input->post('debet')[$i]));
-			$this->db->set('kredit',remove_comma($this->input->post('kredit')[$i]));
-			$this->db->where('noakun', $this->input->post('noakun')[$i]);
-			$this->db->update('tsaldoawaldetail');
+		$data	= $this->db->insert('tsaldoawal', [
+			'idSaldoAwal'	=> $this->idSaldoAwal,
+			'no'			=> $this->nomor,
+			'tanggal'		=> $this->tanggal,
+			'perusahaan'	=> $this->perusahaan,
+			'keterangan'	=> $this->keterangan
+		]);
+		if ($data) {
+			for ($i=0; $i < count($this->detail['idAkun']); $i++) { 
+				if ($this->detail['debit'][$i] !== '') {
+					$debit	= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->detail['debit'][$i]);
+				} else {
+					$debit	= 0;
+				}
+				if ($this->detail['kredit'][$i] !== '') {
+					$kredit	= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->detail['kredit'][$i]);
+				} else {
+					$kredit	= 0;
+				}
+				$data	= $this->db->insert('tsaldoawaldetail', [
+					'idsaldoawal'	=> $this->idSaldoAwal,
+					'noakun'		=> $this->detail['idAkun'][$i],
+					'debet'			=> $debit,
+					'kredit'		=> $kredit
+				]);
+			}
 		}
-		$ekuitassaldoawal = get_pengaturan_akun(21);
-		$totalkredit = remove_comma($this->input->post('totalkredit'));
-		$totaldebet = remove_comma($this->input->post('totaldebet'));
-		if($totaldebet > $totalkredit) {
-			$this->db->set('kredit','kredit + '.($totaldebet-$totalkredit), false);
-			$this->db->where('noakun', $ekuitassaldoawal);
-			$this->db->update('tsaldoawaldetail');
-		}
-
-		if($totaldebet < $totalkredit) {
-			$this->db->set('debet','debet + ' . ($totalkredit-$totaldebet), false);
-			$this->db->where('noakun', $ekuitassaldoawal);
-			$this->db->update('tsaldoawaldetail');
-		}
-
-		$data['status'] = 'success';
-		$data['message'] = lang('save_success_message');
-		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+		return $data;
 	}
 
 	public function savehead() {
@@ -66,5 +77,64 @@ class Saldo_awal_model extends CI_Model {
 		}		
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
+
+	public function setIdSaldoAwal($idSaldoAwal)
+	{
+		$this->idSaldoAwal	= $idSaldoAwal;
+	}
+
+	public function setNomor($nomor)
+	{
+		$this->nomor	= $nomor;
+	}
+
+	public function setTanggal($tanggal)
+	{
+		$this->tanggal	= $tanggal;
+	}
+
+	public function setPerusahaan($perusahaan)
+	{
+		$this->perusahaan	= $perusahaan;
+	}
+
+	public function setKeterangan($keterangan)
+	{
+		$this->keterangan	= $keterangan;
+	}
+
+	public function setDetail($detail)
+	{
+		$this->detail	= $detail;
+	}
+
+	public function indexDatatables()
+	{
+		$data	= $this->db->get('tsaldoawal')->result_array();
+		foreach ($data as $key) {
+			$data0	= $this->db->get_where('tsaldoawaldetail', [
+				'idsaldoawal'	=> $key['idSaldoAwal']
+			])->result_array();
+			$debit	= 0;
+			$kredit	= 0;
+			foreach ($data0 as $key) {
+				$debit	+= $key['debet'];
+				$kredit	+= $key['kredit'];
+			}
+			$data['debit']	= $debit;
+			$data['kredit']	= $kredit;
+		}
+		$this->load->library('Datatables');
+		$this->datatables->select('tsaldoawal.*, mperusahaan.nama_perusahaan');
+		$this->datatables->join('mperusahaan', 'tsaldoawal.perusahaan = mperusahaan.idperusahaan');
+		$this->datatables->from('tsaldoawal');
+		$this->datatables->add_column('debit', $data['debit']);
+		$this->datatables->add_column('kredit', $data['kredit']);
+		return $this->datatables->generate();
+		// $this->db->select('tsaldoawal.*, mperusahaan.nama_perusahaan');
+		// $this->db->join('mperusahaan', 'tsaldoawal.perusahaan = mperusahaan.idperusahaan');
+		// print_r($this->db->get('tsaldoawal')->result_array());
+	}
+
 }
 

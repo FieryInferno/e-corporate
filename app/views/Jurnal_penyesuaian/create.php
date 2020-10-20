@@ -1,276 +1,286 @@
-<div class="page-header page-header-light">
-    <div class="page-header-content header-elements-md-inline">
-        <div class="page-title d-flex">
-            <h4><i class="icon-info22 mr-2"></i> <span class="font-weight-semibold">{title}</span></h4>
-            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-        </div>
-    </div>
-</div>
-<div class="content">
-    <div class="card">
-        <div class="card-header {bg_header}">
-            <div class="header-elements-inline">
-                <h5 class="card-title">{subtitle}</h5>
-            </div>
-        </div>
-        <div class="card-body">
-            <form action="javascript:save()" id="form1">
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label><?php echo lang('date') ?>:</label>
-                            <input type="text" class="form-control" name="tanggal" required value="{tanggal}">
-                        </div>
-                    </div>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><?= $title; ?></h1>
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label><?php echo lang('note') ?>:</label>
-                            <textarea class="form-control keterangan" name="keterangan" rows="6"></textarea>
-                        </div>
-                    </div>                        
-                </div>
-
-                <div class="mb-3 mt-3 table-responsive">
-                    <div class="mt-3 mb-3">
-                        <button type="button" class="btn btn-sm btn-primary btn_add_detail"><?php echo lang('add_new') ?></button>
-                    </div>
-                    <div class="table-responsive">
-                        <table class="table table-bordered" id="table_detail">
-                            <thead class="{bg_header}">
-                                <tr>
-                                    <th>ID</th>
-                                    <th><?php echo lang('account_number') ?></th>
-                                    <th class="text-right"><?php echo lang('debet') ?></th>
-                                    <th class="text-right"><?php echo lang('kredit') ?></th>
-                                    <th class="text-right"><?php echo lang('action') ?></th>
-                                </tr>
-                            </thead>
-                            <tbody> </tbody>
-                            <tfoot class="bg-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th><?php echo lang('total') ?></th>
-                                    <th class="text-right totaldebet">0</th>
-                                    <th class="text-right totalkredit">0</th>
-                                    <th class="text-center">&nbsp;</th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                </div>
-                <input type="hidden" name="detail_array" id="detail_array">
-                <div class="text-right">
-                    <a href="{site_url}jurnal" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                    <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-<div id="modal_add_detail" class="modal fade">
-    <div class="modal-dialog">
-        <form action="javascript:save_detail()" id="form2">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title"><?php echo lang('add_new') ?></h5>
-                </div>
-
-                <div class="modal-body">
-                    <input type="hidden" name="rowindex">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label><?php echo lang('account_number') ?>:</label>
-                                <select class="form-control noakun" name="noakun" required style="width:100%"></select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label><?php echo lang('debet') ?>:</label>
-                                <input type="text" class="form-control decimalnumber" name="debet" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label><?php echo lang('kredit') ?>:</label>
-                                <input type="text" class="form-control decimalnumber" name="kredit" required>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
-                        <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
-                    </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('anggaran_belanja'); ?>">{title}</a></li>
+                        <li class="breadcrumb-item active">{subtitle}</li>
+                    </ol>
                 </div>
             </div>
-        </form>
-    </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <form action="javascript:save()" id="formSaldoAwal">
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Tambah Jurnal Penyesuaian</h3>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Nomor :</label>
+                                            <input type="text" class="form-control" placeholder="(Auto)" name="nomor" readonly>
+                                        </div>
+                                    </div>
+									<div class="col-6">
+										<div class="form-group">
+                                            <label></label>
+                                            <div class="form-check">
+												<input class="form-check-input" type="checkbox" value="" id="defaultCheck1" checked>
+												<label class="form-check-label" for="defaultCheck1">
+													Penomoran Otomatis
+												</label>
+											</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+									<div class="col-6">
+                                        <div class="form-group">
+                                            <label>Tanggal :</label>
+                                            <input type="date" class="form-control" placeholder="Tanggal" name="tanggal" required value="{tanggal}">
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Perusahaan :</label>
+                                            <select name="perusahaan" id="perusahaan" class="form-control" required></select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
+                                            <label>Keterangan :</label>
+                                            <input type="text" class="form-control" placeholder="Keterangan" name="keterangan" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h3 class="card-title">Rincian Penyesuaian</h3>
+                            </div>
+							<div class="card-header">
+							<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+								+ Pilih Akun
+							</button>
+
+							<!-- Modal -->
+							<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+								<div class="modal-dialog modal-lg" role="document">
+									<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalLabel">Pilih Akun</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+                                        <table class="table table-striped table-borderless table-hover" id="tabelNoAkun">
+                                            <thead>
+                                                <tr class="table-active">
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Kode Akun</th>
+                                                    <th scope="col">Nama akun</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                        </table>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
+									</div>
+									</div>
+								</div>
+							</div>
+                            </div>
+                            <div class="card-body">
+								<div class="row">
+									<div class="col-12">
+                                        <table class="table table-striped table-borderless table-hover" id="tabelRincian">
+                                            <thead>
+                                                <tr class="table-active">
+                                                    <th scope="col" width="30%">Kode Akun</th>
+                                                    <th scope="col" width="30%">Nama akun</th>
+                                                    <th scope="col" width="20%" class="text-center">Debit</th>
+													<th scope="col" width="20%" class="text-center">Kredit</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="rincianAkun"></tbody>
+                                            <tfoot>
+                                                <tr>
+                                                    <th colspan="2" class="text-right">Total :</th>
+                                                    <th class="text-right" id="totalDebit">Rp. 0,00</th>
+                                                    <th class="text-right" id="totalKredit">Rp. 0,00</th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+								</div>
+                            </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-info"><i class="fas fa-save"></i> Simpan</button>
+                            </div>
+                        </div>
+                    </form>
+                    <!--/.col (left) -->
+                <!--/.col (right) -->
+                </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
 </div>
-<script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script>
-<script src="{assets_path}global/js/plugins/forms/selects/select2.full.min.js"></script>
-<script src="{assets_path}global/js/plugins/tables/datatables/datatables.min.js"></script>
-<script src="{assets_path}global/js/plugins/pickers/pickadate/picker.js"></script>
-<script src="{assets_path}global/js/plugins/pickers/pickadate/picker.date.js"></script>
-<script type="text/javascript">
-    var base_url = '{site_url}jurnal_penyesuaian/';
-    $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
-        return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
-    })
-    var table_detail = $('#table_detail').DataTable({
-        sort: false,
-        info: false,
-        searching: false,
-        paging: false,
-        autoWidth: false,
-        columnDefs: [
-            {targets: [0], visible: false},
-            {targets: [2,3,4], className: 'text-right'}
-        ],
-        footerCallback: function ( row, data, start, end, display ) {
-            var api = this.api(), data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[\$,]/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
-            };
-
-            totaldebet = api.column( 2 ).data().reduce( function (a, b) {
-                return intVal(a) + intVal(b); 
-            }, 0 );
-            $( api.column( 2 ).footer() ).html( numeral(totaldebet).format() );
-
-            totalkredit = api.column( 3 ).data().reduce( function (a, b) {
-                return intVal(a) + intVal(b); 
-            }, 0 );
-            $( api.column( 3 ).footer() ).html( numeral(totalkredit).format() );
-
-            $('.totaldebet').val( numeral(totaldebet).format() )
-            $('.totalkredit').val( numeral(totalkredit).format() )
-        }
-    })
-
-    $(document).on('click','.btn_add_detail',function(){
-        $('#modal_add_detail').modal('show')
-        $('input[name=rowindex]').val('');
-        $('input[name=debet]').val(0);
-        $('input[name=kredit]').val(0);
-        ajax_select({ id: '.noakun', url: base_url + 'select2_noakun', selected: { id: '' } });
-        $('.noakun').val('').trigger('change');
-    })
-
-    $('#table_detail tbody').on('click','.edit_detail',function(){
-        var tr = table_detail.row($(this).parents('tr')).index();
-        var noakun = table_detail.cell(tr,0).data();
-        var debet = table_detail.cell(tr,2).data();
-        var kredit = table_detail.cell(tr,3).data();
-
-        $('input[name=rowindex]').val(tr);
-        $('.noakun').val(noakun).trigger('change');
-        $('input[name=debet]').val(debet);
-        $('input[name=kredit]').val(kredit);
-        $('#modal_add_detail').modal('show');
-    })
-
-    $('#table_detail tbody').on('click','.delete_detail',function(){
-        table_detail.row($(this).parents('tr')).remove().draw();
-        detail_array();
-    })
-
-    function save_detail() {
-        var form = $('#form2')[0];
-        var formData = new FormData(form);
-
-        var noakun = $('.noakun :selected').text();
-        var rowindex = formData.get('rowindex');
-        if(!rowindex) {
-            if(table_detail.hasValue(noakun)) {
-                NotifyError('Noakun already exists!');
-                return false;
-            }
-        }
-        var debet = numeral(formData.get('debet')).value();
-        var kredit = numeral(formData.get('kredit')).value();
-
-        if(debet == kredit) {
-            NotifyError('Debet dan kredit tidak boleh sama!');
-            return false;
-        }
-
-        if(!rowindex) {
-            table_detail.row.add([
-                formData.get('noakun'),
-                noakun,
-                numeral(formData.get('debet')).format(),
-                numeral(formData.get('kredit')).format(),
-                `<a href="javascript:void(0)" class="edit_detail"><i class="icon icon-pencil"></i></a>&nbsp;
-                <a href="javascript:void(0)" class="delete_detail"><i class="icon icon-trash"></i></a>`
-            ]).draw( false );
+<script>
+    base_url    = '{site_url}jurnal_penyesuaian/';
+	$(document).ready(function() {
+        if ('<?= $this->session->userid; ?>' == 1) {
+            var idPerusahaan    = null; 
         } else {
-            table_detail.row(rowindex).data([
-                formData.get('noakun'),
-                noakun,
-                numeral(formData.get('debet')).format(),
-                numeral(formData.get('kredit')).format(),
-                `<a href="javascript:void(0)" class="edit_detail"><i class="icon icon-pencil"></i></a>&nbsp;
-                <a href="javascript:void(0)" class="delete_detail"><i class="icon icon-trash"></i></a>`
-            ]).draw( false );
+            var idperusahaan    = '<?= $this->session->perusahaan; ?>';
+            $('#perusahaan').attr('readonly'); 
         }
+        ajax_select({
+            id			: '#perusahaan',
+            url			: '{site_url}perusahaan/select2',
+            selected	: {
+                id	: idPerusahaan
+            }
+        });
+    })
 
+    var table = $('#tabelNoAkun').DataTable({
+		ajax: {
+			url     : '{site_url}noakun/index_datatable/123',
+			type    : 'post',
+		},
+		stateSave: true,
+		autoWidth: false,
+        dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
+        language: {
+            search: '<span></span> _INPUT_',
+            searchPlaceholder: 'Type to filter...',
+        },
+        columns: [
+            {
+                data    : 'idakun',
+                render  : function(data,type,row) {
+                    return `
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onchange="tambahAkun(this)" idAkun="${data}" noAkun="${row.akunno}" namaAkun="${row.namaakun}">
+                        </div>`;
+                }
+            },
+            {data: 'akunno'},
+            {data: 'namaakun'},
+        ]
+	});
 
-
-        $('#modal_add_detail').modal('hide')
-        detail_array()
+    function tambahAkun(elemen) {
+        var idAkun      = $(elemen).attr('idAkun');
+        var noAkun      = $(elemen).attr('noAkun');
+        var namaAkun    = $(elemen).attr('namaAkun');
+        var status      = $(elemen).is(':checked');
+        if (status) {
+            $('#rincianAkun').append(
+                `<tr idAkun="${idAkun}">
+                    <td>
+                        <input type="hidden" value="${idAkun}" name="idAkun[]">
+                        ${noAkun}
+                    </td>
+                    <td>${namaAkun}</td>
+                    <td>
+                        <input type="text" name="debit[]" onkeyup="nilai(this), hitung('debit')" class="form-control">
+                    </td>
+                    <td>
+                        <input type="text" name="kredit[]" onkeyup="nilai(this), hitung('kredit')" class="form-control">
+                    </td>
+                </tr>`
+            )
+        } else {
+            $(`tr[idAkun = ${idAkun}]`).remove();
+        }
     }
 
-    function detail_array() {
-        var arr = table_detail.data().toArray();
-        $('#detail_array').val( JSON.stringify(arr) );
+    function nilai(elemen) {
+        var nilai   = $(elemen).val();
+        $(elemen).val(formatRupiah(String(nilai), 'Rp. '));
+    }
+
+    function hitung(jenis) {
+        switch (jenis) {
+            case 'debit':
+                data    = new FormData($('#formSaldoAwal')[0]);
+                data0   = data.getAll('debit[]');
+                data1   = 0;
+                data0.forEach(element => {
+                    data1   += element.replace(/[^,\d]/g, '')*1;
+                });
+                $('#totalDebit').html(formatRupiah(String(data1), 'Rp. ') + ',00');
+                break;
+            case 'kredit':
+                data    = new FormData($('#formSaldoAwal')[0]);
+                data0   = data.getAll('kredit[]');
+                data1   = 0;
+                data0.forEach(element => {
+                    data1   += element.replace(/[^,\d]/g, '')*1;
+                });
+                $('#totalKredit').html(formatRupiah(String(data1), 'Rp. ') + ',00');
+                break;
+        
+            default:
+                break;
+        }
     }
 
     function save() {
-        if(numeral($('.totaldebet').text()).value() != numeral($('.totalkredit').text()).value()) {
-            NotifyError('Debet dan kredit harus sama!');
-            return false;
-        }
-
-        var form = $('#form1')[0];
-        var formData = new FormData(form);
-
-        detail = formData.get('detail_array');
-        if(detail.length < 10) {
-            NotifyError('Silahkan isi detail terlebih dulu!');
-            return false;
-        }
-        $.ajax({
-            url: base_url + 'save',
-            dataType: 'json',
-            method: 'post',
-            data: formData,
-            contentType: false,
-            processData: false,
-            beforeSend: function() {
-                pageBlock();
-            },
-            afterSend: function() {
-                unpageBlock();
-            },
-            success: function(data) {
-                if(data.status == 'success') {
-                    NotifySuccess(data.message)
-                    redirect(base_url);
-                } else {
-                    NotifyError(data.message)
+        var form        = $('#formSaldoAwal')[0];
+        var formData    = new FormData(form);
+        var totalDebit  = $('#totalDebit').html();
+        var totalKredit = $('#totalKredit').html();
+        if(totalDebit !== totalKredit) {
+            swal("Gagal!", "Angka Debit dan Kredit Tidak Sama", "error");
+        } else {
+            $.ajax({
+                url: base_url + 'save',
+                dataType: 'json',
+                method: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    pageBlock();
+                },
+                afterSend: function() {
+                    unpageBlock();
+                },
+                success: function(data) {
+                    if(data.status == 'success') {
+                        swal("Berhasil!", "Berhasil Menambah Data", "success");
+                        redirect(base_url);
+                    } else {
+                        swal("Gagal!", "Gagal Menambah Data", "error");
+                    }
+                },
+                error: function() {
+                    swal("Gagal!", "Internal Server Error", "error");
                 }
-            },
-            error: function() {
-                NotifyError('<?php echo lang('internal_server_error') ?>');
-            }
-        })
+            })
+        }
     }
 </script>

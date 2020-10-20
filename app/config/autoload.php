@@ -132,4 +132,4 @@ $autoload['language'] = array('general');
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('general_model' => 'general', 'Pajak_model', 'Noakun_model', 'Pemesanan_pembelian_model', 'Metaakun_model', 'SetUpJurnal_Model');
+$autoload['model'] = array('general_model' => 'general', 'Pajak_model', 'Noakun_model', 'Pemesanan_pembelian_model', 'Metaakun_model', 'SetUpJurnal_Model', 'JurnalAnggaranModel', 'JurnalFinansialModel');

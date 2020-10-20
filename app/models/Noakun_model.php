@@ -143,5 +143,18 @@ class Noakun_model extends CI_Model {
 			return $this->db->get('mnoakun')->result_array();
 		}
 	}
+
+	public function select2NoAkunBeli($id)
+	{
+		$term = $this->input->get('q');
+		$this->db->select('mnoakun.noakun as id, concat("(",mnoakun.noakun,") - ",mnoakun.namaakun) as text');
+		// $this->db->where('mnoakun.stdel', '0');
+		// $this->db->where('mnoakun.stbayar', '1');
+		$this->db->like('mnoakun.noakun', '5114', 'after');
+		// $this->db->limit(100);
+		if($term) $this->db->or_like('namaakun', $term);
+		if($id) $data = $this->db->where('noakun', $id)->get('mnoakun')->row_array();
+		else $data = $this->db->get('mnoakun')->result_array();
+	}
 }
 

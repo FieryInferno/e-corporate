@@ -24,7 +24,7 @@ class Item extends User_Controller {
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Item/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function index_datatable() {
@@ -51,7 +51,7 @@ class Item extends User_Controller {
 				$data['subtitle'] = lang('edit');
 				$data['content'] = 'Item/edit';
 				$data = array_merge($data,path_info());
-				$this->parser->parse('default',$data);
+				$this->parser->parse('template',$data);
 			} else {
 				show_404();
 			}
@@ -98,19 +98,6 @@ class Item extends User_Controller {
 		if($term) $this->db->like('id', $term);
 		if($id) $data = $this->db->where('id', $id)->get('mdepartemen')->row_array();
 		else $data = $this->db->get('mdepartemen')->result_array();
-		$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	}
-
-	public function select2_noakunbeli($id = null) {
-		$term = $this->input->get('q');
-		$this->db->select('mnoakun.noakun as id, concat("(",mnoakun.noakun,") - ",mnoakun.namaakun) as text');
-		$this->db->where('mnoakun.stdel', '0');
-		$this->db->where('mnoakun.stbayar', '1');
-		$this->db->like('mnoakun.noakun', '5114', 'after');
-		$this->db->limit(100);
-		if($term) $this->db->or_like('namaakun', $term);
-		if($id) $data = $this->db->where('noakun', $id)->get('mnoakun')->row_array();
-		else $data = $this->db->get('mnoakun')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
