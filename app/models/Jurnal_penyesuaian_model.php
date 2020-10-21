@@ -14,6 +14,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Jurnal_penyesuaian_model extends CI_Model {
 
+	private $idJurnalPenyesuaian;
+	private $tanggal;
+	private $perusahaan;
+	private $totalDebit;
+	private $debit;
+	private $kredit;
+	private $keterangan;
+	private $noAkun;
+
 	public function get_count_jurnal($tanggalawal, $tanggalakhir) {
 		$this->db->where('tjurnal.tanggal >=', $tanggalawal);
 		$this->db->where('tjurnal.tanggal <=', $tanggalakhir);
@@ -53,31 +62,66 @@ class Jurnal_penyesuaian_model extends CI_Model {
 	}
 
 	public function save() {
-		$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
-		$this->db->set('tipe','5');
-		$this->db->set('stauto','0');
-		if($this->input->post('keterangan', TRUE)) $this->db->set('keterangan',$this->input->post('keterangan', TRUE));
-		else $this->db->set('keterangan','Jurnal Penyesuaian');
-		$this->db->set('cby',get_user('username'));
-		$this->db->set('cdate',date('Y-m-d H:i:s'));
-		$insertHead = $this->db->insert('tjurnal');
+		$insertHead	= $this->db->insert('tjurnal', [
+			'idJurnalPenyesuaian'	=> $this->get('idJurnalPenyesuaian'),
+			'tanggal'				=> $this->get('tanggal'),
+			'perusahaan'			=> $this->get('perusahaan'),
+			'totaldebet'			=> $this->getTotal('debit', $this->get('debit')),
+			'totalkredit'			=> $this->getTotal('kredit', $this->get('kredit')),
+			'keterangan'			=> $this->get('keterangan')
+		]);
 
 		if($insertHead) {
-			$idjurnal = $this->db->insert_id();
-			$detail_array = $this->input->post('detail_array');
-			$detail_array = json_decode($detail_array);
-			foreach($detail_array as $row) {
-				$this->db->set('idjurnal',$idjurnal);
-				$this->db->set('noakun',$row[0]);
-				$this->db->set('debet',remove_comma($row[2]));
-				$this->db->set('kredit',remove_comma($row[3]));
-				$this->db->set('keterangan','-');
-				$this->db->insert('tjurnaldetail');
+			for ($i=0; $i < count($this->get('noAkun')); $i++) { 
+				$insertHead	+= $this->db->insert('tjurnaldetail', [
+					'idjurnal'		=> $this->get('idJurnalPenyesuaian'),
+					'noakun'		=> $this->get('noAkun')[$i],
+					'debet'			=> $this->get('debit')[$i],
+					'kredit'		=> $this->get('kredit')[$i],
+					'keterangan'	=> '-'
+				]);
 			}
-			$data['status'] = 'success';
-			$data['message'] = lang('update_success_message');
 		}
-		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+		if ($insertHead == (1 + count($this->get('noAkun')))) {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	private function getTotal($jenis, $data)
+	{
+		switch ($jenis) {
+			case 'debit':
+				$this->totalDebit	= 0;
+				foreach ($data as $key) {
+					$this->totalDebit	+= (integer) $key;
+				}
+				return $this->totalDebit;
+				break;
+
+			case 'kredit':
+				$this->totalKredit	= 0;
+				foreach ($data as $key) {
+					$this->totalKredit	+= (integer) $key;
+				}
+				return $this->totalDebit;
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+	}
+
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
+	}
+
+	private function get($jenis)
+	{
+		return $this->$jenis;
 	}
 }
 

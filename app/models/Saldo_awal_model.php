@@ -111,19 +111,25 @@ class Saldo_awal_model extends CI_Model {
 	public function indexDatatables()
 	{
 		$data	= $this->db->get('tsaldoawal')->result_array();
-		foreach ($data as $key) {
-			$data0	= $this->db->get_where('tsaldoawaldetail', [
-				'idsaldoawal'	=> $key['idSaldoAwal']
-			])->result_array();
-			$debit	= 0;
-			$kredit	= 0;
-			foreach ($data0 as $key) {
-				$debit	+= $key['debet'];
-				$kredit	+= $key['kredit'];
+		if ($data) {
+			foreach ($data as $key) {
+				$data0	= $this->db->get_where('tsaldoawaldetail', [
+					'idsaldoawal'	=> $key['idSaldoAwal']
+				])->result_array();
+				$debit	= 0;
+				$kredit	= 0;
+				foreach ($data0 as $key) {
+					$debit	+= $key['debet'];
+					$kredit	+= $key['kredit'];
+				}
+				$data['debit']	= $debit;
+				$data['kredit']	= $kredit;
 			}
-			$data['debit']	= $debit;
-			$data['kredit']	= $kredit;
+		} else {
+			$data['debit']	= '';
+			$data['kredit']	= '';
 		}
+		
 		$this->load->library('Datatables');
 		$this->datatables->select('tsaldoawal.*, mperusahaan.nama_perusahaan');
 		$this->datatables->join('mperusahaan', 'tsaldoawal.perusahaan = mperusahaan.idperusahaan');
@@ -131,9 +137,6 @@ class Saldo_awal_model extends CI_Model {
 		$this->datatables->add_column('debit', $data['debit']);
 		$this->datatables->add_column('kredit', $data['kredit']);
 		return $this->datatables->generate();
-		// $this->db->select('tsaldoawal.*, mperusahaan.nama_perusahaan');
-		// $this->db->join('mperusahaan', 'tsaldoawal.perusahaan = mperusahaan.idperusahaan');
-		// print_r($this->db->get('tsaldoawal')->result_array());
 	}
 
 }

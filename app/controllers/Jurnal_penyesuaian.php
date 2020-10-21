@@ -14,9 +14,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Jurnal_penyesuaian extends User_Controller {
 
+	private $idJurnalPenyesuaian;
+	private $tanggal;
+	private $perusahaan;
+	private $debit;
+	private $kredit;
+	private $keterangan;
+	private $noAkun;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Jurnal_penyesuaian_model','model');
+		$this->set('idJurnalPenyesuaian', $this->input->post('idJurnalPenyesuaian'));
+		$this->set('tanggal', $this->input->post('tanggal'));
+		$this->set('perusahaan', $this->input->post('perusahaan'));
+		$this->set('debit', $this->input->post('debit'));
+		$this->set('kredit', $this->input->post('kredit'));
+		$this->set('keterangan', $this->input->post('keterangan'));
+		$this->set('noAkun', $this->input->post('idAkun'));
 	}
 
 	public function index() 
@@ -66,7 +81,21 @@ class Jurnal_penyesuaian extends User_Controller {
 	}
 
 	public function save() {
-		$this->model->save();
+		$this->model->set('idJurnalPenyesuaian', $this->get('idJurnalPenyesuaian'));
+		$this->model->set('tanggal', $this->get('tanggal'));
+		$this->model->set('perusahaan', $this->get('perusahaan'));
+		$this->model->set('debit', $this->get('debit'));
+		$this->model->set('kredit', $this->get('kredit'));
+		$this->model->set('keterangan', $this->get('keterangan'));
+		$this->model->set('noAkun', $this->get('noAkun'));
+		$this->model->set('noAkun', $this->get('noAkun'));
+		$data	= $this->model->save();
+		if ($data) {
+			$data0['status']	= 'success';
+		} else {
+			$data0['status']	= 'error';
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($data0));
 	}
 
 	// additional
@@ -80,6 +109,24 @@ class Jurnal_penyesuaian extends User_Controller {
 		if($id) $data = $this->db->where('noakun', $id)->get('mnoakun')->row_array();
 		else $data = $this->db->get('mnoakun')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	private function set($jenis, $isi)
+	{
+		if ($jenis == 'idJurnalPenyesuaian') {
+			if ($isi) {
+				$this->idJurnalPenyesuaian	= $isi;
+			} else {
+				$this->idJurnalPenyesuaian	= rand(10, 999999999);
+			}
+		} else {
+			$this->$jenis	= $isi;
+		}
+	}
+
+	private function get($jenis)
+	{
+		return $this->$jenis;
 	}
 }
 
