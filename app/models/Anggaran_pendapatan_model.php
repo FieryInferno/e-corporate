@@ -100,9 +100,8 @@ class Anggaran_pendapatan_model extends CI_Model
 	public function delete()
 	{
 		$id = $this->uri->segment(3);
-        $this->db->set('stdel', '1');
         $this->db->where('id', $id);
-        $update = $this->db->update('tanggaranpendapatan');
+        $update = $this->db->delete('tanggaranpendapatan');
         if ($update) {
             return jsonOutputDeleteSuccess();
         } else {

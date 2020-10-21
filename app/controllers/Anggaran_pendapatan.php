@@ -39,7 +39,6 @@ class Anggaran_pendapatan extends User_Controller
 	$this->load->library('Datatables');
 		$this->datatables->select('tanggaranpendapatan.*,mperusahaan.*');
 		$this->datatables->join('mperusahaan','tanggaranpendapatan.idperusahaan=mperusahaan.idperusahaan');
-		$this->datatables->where('tanggaranpendapatan.stdel', '0');
 		$this->datatables->from('tanggaranpendapatan');
 		return print_r($this->datatables->generate());
 	}
@@ -127,7 +126,7 @@ class Anggaran_pendapatan extends User_Controller
 	public function get_rekitem($id)
 	{
 		$this->db->select('*');
-		$this->db->where('idanggaran', $id);
+		$this->db->where('idPendapatan', $id);
 		$this->db->order_by('koderekening', 'asc');
 		$data = $this->db->get('tanggaranpendapatandetail')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));

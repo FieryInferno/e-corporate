@@ -141,7 +141,7 @@
             id: '#perusahaan',
             url: base_url + 'select2_mperusahaan',
             selected: {
-                id: '{idperusahaan}'
+                id: '{idPerusahaan}'
             }
         });
         $('#perusahaan').change(function(e) {
