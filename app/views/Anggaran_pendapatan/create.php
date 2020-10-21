@@ -11,7 +11,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="{site_url}pajak/create">Anggaran Pendapatan</a></li>
+              <li class="breadcrumb-item"><a href="{site_url}anggaran_pendapatan/create">Anggaran Pendapatan</a></li>
               <li class="breadcrumb-item active">{title}</li>
             </ol>
           </div>
@@ -24,18 +24,13 @@
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
         <div class="card">
-          <div class="card-header">
-            <h3 class="card-title">{title} Anggaran Pendapatan</h3>
+			<div class="card-header">
+				<h3 class="card-title">{title} Anggaran Pendapatan</h3>
+			</div>
+			<!-- /.card-header -->
+			<div class="card-body">
 
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-              <button type="button" class="btn btn-tool" data-card-widget="remove"><i class="fas fa-times"></i></button>
-            </div>
-          </div>
-          <!-- /.card-header -->
-          <div class="card-body">
-
-          <form action="javascript:save()" id="form1">
+			<form action="javascript:save()" id="form1">
 				<div class="row">
 					<div class="col-md-6">
 						<div class="form-group">
@@ -351,7 +346,7 @@
 			success: function(response) {
 				if (response.status == 'success') {
 					swal("Berhasil!", "Berhasil Menambah Data!", "success");
-					ajax_item();
+					redirect(base_url);
 				} else {
 					swal("Gagal!", "Gagal Menambah Data!", "error");
 				}

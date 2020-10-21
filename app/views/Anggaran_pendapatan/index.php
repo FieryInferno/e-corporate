@@ -46,7 +46,7 @@
 					<th></th>
 						<th><B><?php echo lang('Total') ?><B></th>				
 					
-					<th><?php echo number_format($total_nominal) ?></th>
+					<th><?= "Rp " . number_format($total_nominal,2,',','.') ?></th>
 					<th></th>
 			</tr>
 			</tfoot>
@@ -85,9 +85,9 @@
 			},
 				{
 					data: 'nominal', className: 'text-right', orderable: false,
-        		render: function(data, type, row) {
-        			if(data) return formatRupiah(data, 'Rp.')+',00';
-        			else return formatRupiah(row.nominal, 'Rp.')+',00';
+				render: function(data, type, row) {
+					if(data) return formatRupiah(data, 'Rp.')+',00';
+					else return formatRupiah(row.nominal, 'Rp.')+',00';
 				}
 			},
 			{
