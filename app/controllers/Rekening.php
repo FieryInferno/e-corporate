@@ -80,11 +80,13 @@ class Rekening extends User_Controller{
 	}	
 	public function select2_akunno($id = null) {
 		$term = $this->input->get('q');
-		$this->db->select('mnoakun.akunno as id, mnoakun.akunno as text');
-		$this->db->like('mnoakun.noakuntop', '1', 'after');
+		$this->db->select('mnoakun.idakun as id, concat(mnoakun.akunno, " - ", mnoakun.namaakun) as text');
+		$this->db->like('mnoakun.akunno', '1', 'after');
 		$this->db->where('mnoakun.stdel', '0');
-		$this->db->limit(100);
-		if($term) $this->db->like('namaakun', $term);
+		if ($term) {
+			$this->db->like('akunno', $term);
+			$this->db->or_like('namaakun', $term);
+		}
 		if($id) $data = $this->db->where('akunno', $id)->get('mrekening')->row_array();
 		else $data = $this->db->get('mnoakun')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));

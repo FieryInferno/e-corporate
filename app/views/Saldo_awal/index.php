@@ -96,7 +96,7 @@
                     <div class="dropdown"> 
                       <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
                       <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href=""><i class="fas fa-pencil-alt"></i> Edit</a>
+                        <a class="dropdown-item" href="` + base_url + `edit/` + row.idSaldoAwal + `"><i class="fas fa-pencil-alt"></i> Edit</a>
                         <a href="javascript:deleteData('` + row.idSaldoAwal + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
                       </div> 
                     </div> 

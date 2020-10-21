@@ -200,5 +200,36 @@ class Saldo_awal extends User_Controller {
 		$data	= $this->model->indexDatatables();
 		return print_r($data);
 	}
+
+	public function edit($id = null) {
+		if($id) {
+			$data = $this->model->getById($id);
+			if($data) {
+				$id=$this->uri->segment(3);
+				$query_pengajuan = $this->db->query("SELECT * FROM tsetorkaskecil WHERE id='$id'");
+				foreach ($query_pengajuan->result() as $p) {
+					$idperusahaan=$p->perusahaan;
+					$iddepartemen=$p->pejabat;
+					$idakun=$p->kas;
+					$idrek = $p->rekening;
+				}
+
+				$data['perusahaan']=$idperusahaan;
+				$data['pejabat']=$iddepartemen;
+				$data['akun']=$idakun;
+				$data['rekening']=$idrek;
+
+				$data['title'] = lang('petty_cash_deposit');
+				$data['subtitle'] = lang('edit');
+				$data['content'] = 'Setor_kas_kecil/edit';
+				$data = array_merge($data,path_info());
+				$this->parser->parse('default',$data);
+			} else {
+				show_404();
+			}
+		} else {
+			show_404();
+		}
+	}
 }
 
