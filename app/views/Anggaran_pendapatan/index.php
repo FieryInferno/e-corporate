@@ -29,27 +29,24 @@
   			<?php } ?></div>
               <div class="card-body">
                 <table class="table table-bordered table-striped index_datatable">
-                  <thead>
-				  <tr>
-					<th>ID</th>
-					<th><?php echo lang('department name') ?></th>
-					<th><?php echo lang('perusahaan') ?></th>
-					<th><?php echo lang('nominal') ?></th>
-					<th class="text-center"><?php echo lang('action') ?></th>
-				</tr>
-                  </thead>
-                  <tbody>                          
-                  </tbody>
-				  <tfoot>
-			<tr>
-					<th></th>
-					<th></th>
-						<th><B><?php echo lang('Total') ?><B></th>				
-					
-					<th><?= "Rp " . number_format($total_nominal,2,',','.') ?></th>
-					<th></th>
-			</tr>
-			</tfoot>
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th><?php echo lang('department name') ?></th>
+							<th><?php echo lang('perusahaan') ?></th>
+							<th><?php echo lang('nominal') ?></th>
+							<th class="text-center"><?php echo lang('action') ?></th>
+						</tr>
+					</thead>
+					<tbody>                          
+					</tbody>
+					<tfoot>
+						<tr>
+							<th colspan="3"><B><?php echo lang('Total') ?><B></th>	
+							<th></th>
+							<th></th>
+						</tr>
+					</tfoot>
                 </table>
               </div>
             </div>
@@ -83,8 +80,8 @@
 			{
 				data: 'nama_perusahaan'
 			},
-				{
-					data: 'nominal', className: 'text-right', orderable: false,
+			{
+				data: 'nominal', className: 'text-right', orderable: false,
 				render: function(data, type, row) {
 					if(data) return formatRupiah(data, 'Rp.')+',00';
 					else return formatRupiah(row.nominal, 'Rp.')+',00';
@@ -106,7 +103,40 @@
 					return aksi;
 				}
 			}
-		]
+		],
+		"footerCallback": function ( row, data, start, end, display ) {
+			var api = this.api(), data;
+
+			// Remove the formatting to get integer data for summation
+			var intVal = function ( i ) {
+				return typeof i === 'string' ?
+					i.replace(/(Rp.|,00)/g, '')*1 :
+					typeof i === 'number' ?
+						i : 0;
+			};
+
+			// Total over all pages
+			total = api
+				.column( 3 )
+				.data()
+				.reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+				
+
+			// Total over this page
+			pageTotal = api
+				.column( 3, { page: 'current'} )
+				.data()
+				.reduce( function (a, b) {
+					return intVal(a) + intVal(b);
+				}, 0 );
+
+			// Update footer
+			$( api.column( 3 ).footer() ).html(
+				formatRupiah(String(total), 'Rp.')+',00'
+			);
+		}
 	});
 
 	function deleteData(id) {
