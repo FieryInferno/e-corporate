@@ -139,5 +139,26 @@ class Saldo_awal_model extends CI_Model {
 		return $this->datatables->generate();
 	}
 
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
+	}
+
+	public function getData()
+	{
+		if ($this->get('idSaldoAwal') !== null) {
+			$this->db->where('idSaldoAwal', $this->get('idSaldoAwal'));
+			$this->db->get('tsaldoawal')->row_array();
+		} else {
+			$this->db->get('tsaldoawal')->result_array();
+		}
+		
+	}
+
+	public function get($jenis)
+	{
+		return $this->$jenis;
+	}
+
 }
 

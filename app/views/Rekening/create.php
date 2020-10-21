@@ -22,7 +22,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <form action="javascript:save()" id="formSaldoAwal">
+                    <form action="javascript:save()" id="form">
                         <div class="card">
                             <div class="card-header">
                                 <div class="header-elements-inline">
@@ -68,7 +68,7 @@
         ajax_select({ id: '.akunno', url: base_url + 'select2_akunno', selected: { id: '' } });
     })
     function save() {
-        var form = $('#form1')[0];
+        var form = $('#form')[0];
         var formData = new FormData(form);
         $.ajax({
             url: base_url + 'save',
@@ -85,14 +85,14 @@
             },
             success: function(data) {
                 if(data.status == 'success') {
-                    NotifySuccess(data.message)
+                    swal("Berhasil!", "Berhasil Menambah Data", "success");
                     redirect(base_url);
                 } else {
-                    NotifyError(data.message)
+                    swal("Gagal!", "Gagal Menambah Data", "error");
                 }
             },
             error: function() {
-                NotifyError('<?php echo lang('internal_server_error') ?>');
+                swal("Gagal!", "Internal Server Error", "error");
             }
         })
     }

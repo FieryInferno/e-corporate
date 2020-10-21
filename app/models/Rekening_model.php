@@ -6,11 +6,9 @@ class Rekening_model extends CI_Model {
 	public function save() {
 		$id = $this->uri->segment(3);
 		if($id) {
-            foreach($this->input->post() as $key => $val) 
+			foreach($this->input->post() as $key => $val)
+			$this->db->set('id', rand(10, 9999999999)); 
             $this->db->set($key,strip_tags($val));
-			// // $this->db->set('kode','kode');
-			// $this->db->set('uby',get_user('username'));
-			// $this->db->set('udate',date('Y-m-d H:i:s'));
 			$this->db->where('id', $id);
 			$update = $this->db->update('mrekening');
 			if($update) {
@@ -21,8 +19,12 @@ class Rekening_model extends CI_Model {
 				$data['message'] = lang('update_error_message');
 			}
 		} else {
-            foreach($this->input->post() as $key => $val) 
-            $this->db->set($key,strip_tags($val));
+			$this->db->set('id', rand(10, 999999999)); 
+			$this->db->set('perusahaan', $this->input->post('perusahaan'));
+			$this->db->set('nama', $this->input->post('nama'));
+			$this->db->set('norek', $this->input->post('norek'));
+			$this->db->set('akunno', $this->input->post('akunno'));
+			$this->db->set('stdel', '0');
 			$this->db->set('stdel','0');
 			$insert = $this->db->insert('mrekening');
 			if($insert) {

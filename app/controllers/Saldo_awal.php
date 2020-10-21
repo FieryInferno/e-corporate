@@ -203,7 +203,8 @@ class Saldo_awal extends User_Controller {
 
 	public function edit($id = null) {
 		if($id) {
-			$data = $this->model->getById($id);
+			$this->model->set('idSaldoAwal', $id);
+			$data = $this->model->getData();
 			if($data) {
 				$id=$this->uri->segment(3);
 				$query_pengajuan = $this->db->query("SELECT * FROM tsetorkaskecil WHERE id='$id'");
