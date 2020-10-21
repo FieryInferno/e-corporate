@@ -13,7 +13,7 @@ class Rekening extends User_Controller{
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Rekening/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function index_datatable() {
@@ -30,7 +30,7 @@ class Rekening extends User_Controller{
 		$data['subtitle'] = lang('add_new');
 		$data['content'] = 'Rekening/create';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function edit($id = null) {
