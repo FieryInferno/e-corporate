@@ -31,18 +31,15 @@ class Anggaran_pendapatan_model extends CI_Model
 				'thnanggaran'	=> $this->input->post('thnanggaran'),
 				'tglpengajuan'	=> $this->input->post('tglpengajuan'),
 				'nominal'		=> $nominal,
-				'status'		=> 0,
-				'cby'			=> get_user('username'),
-				'cdate'			=> date('Y-m-d H:i:s')
+				'status'		=> 0
 			]);
-			
 			if ($update) {
-				$this->db->where('id', $id);
+				$this->db->where('idPendapatan', $id);
 				$this->db->delete('tanggaranpendapatandetail');
 				for ($i=0; $i < count($this->input->post('kode_rekening')); $i++) { 
 					$this->db->insert('tanggaranpendapatandetail', [
 						'id'			=> rand(100, 999999999),
-						'idanggaran'	=> $id,
+						'idPendapatan'	=> $id,
 						'koderekening'	=> $this->input->post('kode_rekening')[$i],
 						'uraian'		=> $this->input->post('uraian')[$i],
 						'volume'		=> $this->input->post('volume')[$i],
@@ -71,15 +68,13 @@ class Anggaran_pendapatan_model extends CI_Model
 				'thnanggaran'	=> $this->input->post('thnanggaran'),
 				'tglpengajuan'	=> $this->input->post('tglpengajuan'),
 				'nominal'		=> $nominal,
-				'status'		=> 0,
-				'cby'			=> get_user('username'),
-				'cdate'			=> date('Y-m-d H:i:s')
+				'status'		=> 0
 			]);
 			if ($insert) {
 				for ($i=0; $i < count($this->input->post('kode_rekening')); $i++) { 
 					$this->db->insert('tanggaranpendapatandetail', [
 						'id'			=> rand(100, 999999999),
-						'idanggaran'	=> $idAnggaranPendapatan,
+						'idPendapatan'	=> $idAnggaranPendapatan,
 						'koderekening'	=> $this->input->post('kode_rekening')[$i],
 						'uraian'		=> $this->input->post('uraian')[$i],
 						'volume'		=> $this->input->post('volume')[$i],
@@ -118,7 +113,6 @@ class Anggaran_pendapatan_model extends CI_Model
 	public function hitungJumlahNominal()
 	{
 		$this->db->select_sum('nominal');
-		$this->db->where('stdel','0');
 		$query = $this->db->get('tanggaranpendapatan');
 		if($query->num_rows()>0)
 		{

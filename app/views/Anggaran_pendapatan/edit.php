@@ -222,7 +222,7 @@
                                             <input type="hidden" name="kode_rekening[]" id="kode_rekening${i}${j}${i}${j}" value="${item.koderekening}">
                                             ${element.akunno}
                                         </td>
-                                        <td><input type="text" class="form-control" name="uraian" value="${item.uraian}"></td>
+                                        <td><input type="text" class="form-control" name="uraian[]" value="${item.uraian}"></td>
                                         <td><input type="text" class="form-control" name="volume[]" id="volume${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${item.volume}"></td>
                                         <td>
                                             <select type="text" class="form-control" name="satuan">
