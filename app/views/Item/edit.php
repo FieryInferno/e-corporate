@@ -99,14 +99,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label><?php echo lang('Image') ?>:</label>
-                                <input type="file" class="form-control h-auto" name="gambar">
-                            </div>
-                        </div>
-                    </div>
                     <div class="text-right">
                         <a href="{site_url}item" class="btn bg-danger"><?php echo lang('cancel') ?></a>
                         <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>

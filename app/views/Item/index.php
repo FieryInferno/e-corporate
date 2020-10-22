@@ -31,7 +31,6 @@
                   <thead>
 				  <tr>
 					<th>ID</th>
-					<th><?php echo lang('Image') ?></th>
 					<th><?php echo lang('code') ?></th>
 					<th><?php echo lang('name') ?></th>
 					<th><?php echo lang('unit') ?></th>
@@ -75,17 +74,10 @@
         columns: [
 			{data: 'id', visible: false},
 			{
-				data: 'gambar',
-				render: function(data) {
-					if(data) return '<img src="{base_url}uploads/item/'+data+'" width="60" height="60">';
-					else return '<img src="{base_url}uploads/default.png" width="60" height="60">';
-				}
-			},
-			{
 				data: 'kode',
 				render: function(data,type,row) {
 					var link = base_url + 'detail/' + row.id;
-					return '<span class="badge badge-info">'+data+'</span>';
+					return '<span class="btn btn-sm btn-info">'+data+'</span>';
 				}
 			},
 			{data: 'nama'},
