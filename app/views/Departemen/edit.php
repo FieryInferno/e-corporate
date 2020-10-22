@@ -1,45 +1,64 @@
-<div class="page-header page-header-light">
-    <div class="page-header-content header-elements-md-inline">
-        <div class="page-title d-flex">
-            <h4><i class="icon-info22 mr-2"></i> <span class="font-weight-semibold">{title}</span></h4>
-            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>{title}</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active">{title}</li>
+            </ol>
+          </div>
         </div>
-    </div>
-</div>
-<div class="content">
-    <div class="card">
-        <div class="card-header {bg_header}">
-            <div class="header-elements-inline">
-                <h5 class="card-title">{subtitle}</h5>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">{title}</h3>
             </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-                <div class="col-md-6">
-                    <form action="javascript:save()" id="form1">
-                        <div class="form-group">
-                            <label><?php echo lang('nama perusahaan') ?>:</label>
-                            <!-- <input type="text" class="form-control" name="id_perusahaan" required value="{id_perusahaan}"> -->
-                            <select id="perusahaan" class="form-control" name="idperusahaan" required></select>
-                            <label><?php echo lang('nama perusahaan') ?>:</label>
-                            <input type="text" class="form-control" name="nama" required value="{nama}">
-                            <label><?php echo lang('pejabat') ?>:</label>
-                            <input type="text" class="form-control" name="pejabat" required value="{pejabat}">
-                            <label><?php echo lang('jabatan') ?>:</label>
-                            <input type="text" class="form-control" name="jabatan" required value="{jabatan}">
-                        </div>
-                        <div class="text-right">
-                            <a href="{site_url}departemen" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                            <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-                        </div>
-                    </form>
+            <!-- /.card-header -->
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <form action="javascript:save()" id="form1">
+                            <div class="form-group">
+                                <label><?php echo lang('nama perusahaan') ?>:</label>
+                                <select id="perusahaan" class="form-control" name="id_perusahaan" required></select>
+                                <label><?php echo lang('nama perusahaan') ?>:</label>
+                                <input type="text" class="form-control" name="nama" required value="{nama}">
+                                <label><?php echo lang('pejabat') ?>:</label>
+                                <input type="text" class="form-control" name="pejabat" required value="{pejabat}">
+                                <label><?php echo lang('jabatan') ?>:</label>
+                                <input type="text" class="form-control" name="jabatan" required value="{jabatan}">
+                            </div>
+                            <div class="text-right">
+                                <a href="{site_url}departemen" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                                <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">          
+          </div>
         </div>
-    </div>
-</div>
-<script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script>
-<script src="{assets_path}global/js/plugins/forms/selects/select2.full.min.js"></script>
+
 <script type="text/javascript">
     var base_url = '{site_url}departemen/';
     $(document).ready(function(){
@@ -47,7 +66,7 @@
             id: '#perusahaan',
             url: base_url + 'select2_mperusahaan',
             selected: {
-                id: '{idperusahaan}'
+                id: '{id_perusahaan}'
             }
         });
     })
@@ -69,14 +88,14 @@
             },
             success: function(data) {
                 if(data.status == 'success') {
-                    NotifySuccess(data.message)
-                    redirect(base_url)
+                    swal("Berhasil!", "Data Berhasil Disimpan!", "success");
+                    redirect(base_url);
                 } else {
-                    NotifyError(data.message)
+                    swal("Gagal!", "Data Gagal Disimpan!", "error");
                 }
             },
             error: function() {
-                NotifyError('<?php echo lang('internal_server_error') ?>');
+                swal("Gagal!", "Internal Server Error!", "error");
             }
         })
     }

@@ -13,7 +13,7 @@ class Departemen extends User_Controller{
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Departemen/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function index_datatable() {
@@ -39,7 +39,7 @@ class Departemen extends User_Controller{
 	{
 		if ($id) {
 			$this->db->select('mperusahaan.idperusahaan as id, mperusahaan.nama_perusahaan as text');
-			$data = $this->db->where('id', $id)->get('mperusahaan')->row_array();
+			$data = $this->db->where('idperusahaan', $id)->get('mperusahaan')->row_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mperusahaan.idperusahaan as id, mperusahaan.nama_perusahaan as text');
@@ -65,7 +65,7 @@ class Departemen extends User_Controller{
 				$data['subtitle'] = lang('edit');
 				$data['content'] = 'Departemen/edit';
 				$data = array_merge($data,path_info());
-				$this->parser->parse('default',$data);
+				$this->parser->parse('template', $data);
 			} else {
 				show_404();
 			}

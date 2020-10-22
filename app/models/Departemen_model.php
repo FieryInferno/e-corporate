@@ -21,7 +21,8 @@ class Departemen_model extends CI_Model {
 			}
 		} else {
             foreach($this->input->post() as $key => $val) 
-            $this->db->set($key,strip_tags($val));
+			$this->db->set($key,strip_tags($val));
+			$this->db->set('id', rand(10, 999999999));
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
 			$insert = $this->db->insert('mdepartemen');
