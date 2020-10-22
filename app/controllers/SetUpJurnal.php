@@ -144,7 +144,6 @@ class SetUpJurnal extends User_Controller {
         $data['title']      = 'Set Up Jurnal';
         $data['subtitle']   = 'Tambah';
 		$data['content']    = 'SetUpJurnal/tambah';	
-		$data['metaAkun']	= $this->Metaakun_model->get();
 		$data               = array_merge($data, path_info());
 		$this->parser->parse('template', $data);
 	}

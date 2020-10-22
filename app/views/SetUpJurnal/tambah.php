@@ -125,7 +125,29 @@
 <script>
     var base_url    = '{site_url}SetUpJurnal';  
     function tambah(tipe, nomor) {
-        var metaAkun    = <?= json_encode($metaAkun); ?>;
+        var formulir    = $('#formulir').val();
+        if (formulir == 'fakturPembelian' || formulir == 'fakturPenjualan' || formulir == 'pengeluaranKasKecil') {
+            var option  = `
+                <option value="rekeningBank">Rekening Bank</option>
+                <option value="mapRekeningBank1">Map Rekening Bank 1</option>
+                <option value="mapRekeningBank2">Map Rekening Bank 2</option>
+                <option value="mapRekeningBank3">Map Rekening Bank 3</option>
+                <option value="mapRekeningPajak">Map Rekening Pajak</option>
+                <option value="mapRekeningPajak1">Map Rekening Pajak 1</option>
+                <option value="mapRekeningPajak2">Map Rekening Pajak 2</option>
+                <option value="mapRekeningPajak3">Map Rekening Pajak 3</option>
+            `;
+            if (formulir == 'fakturPenjualan') {
+                option  += `
+                    <option value="budgetEvent">Budget Event</option>
+                    <option value="mapBE1">Map Budget Event 1</option>
+                    <option value="mapBE2">Map Budget Event 2</option>
+                    <option value="mapBE3">Map Budget Event 3</option>
+                `;
+            }
+        } else {
+            var option  = ``;
+        }
         var isiTabel    = `
             <tr nomor="${nomor}">
                 <td>
@@ -140,6 +162,7 @@
                                 <option value="mapAkun1">Map Akun 1</option>
                                 <option value="mapAkun2">Map Akun 2</option>
                                 <option value="mapAkun3">Map Akun 3</option>
+                                ${option}
                             </select>
                         </div>
                     </div>
