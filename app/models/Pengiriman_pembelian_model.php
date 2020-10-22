@@ -99,7 +99,7 @@ class Pengiriman_pembelian_model extends CI_Model {
 
 	public function get($id)
 	{
-		$this->db->select('tPenerimaan.idPenerimaan as id, tPenerimaan.notrans, tPenerimaan.catatan, mperusahaan.nama_perusahaan, tpemesanan.departemen, tpemesanan.tanggal, tpemesanan.total as nominal_pemesanan, mkontak.nama as supplier, tPenerimaan.total as nominal_penerimaan, mgudang.nama as gudang, tPenerimaan.status, tpemesanan.notrans as nopemesanan, tpemesanan.id as idpemesanan, tPenerimaan.tanggal as tanggal_pengiriman');
+		$this->db->select('tPenerimaan.idPenerimaan as id, tPenerimaan.notrans, tPenerimaan.catatan, mperusahaan.nama_perusahaan, tpemesanan.departemen, tpemesanan.tanggal, tpemesanan.total as nominal_pemesanan, mkontak.nama as supplier, tPenerimaan.total as nominal_penerimaan, mgudang.nama as gudang, tPenerimaan.status, tpemesanan.notrans as nopemesanan, tpemesanan.id as idpemesanan, tPenerimaan.tanggal as tanggal_pengiriman, tpemesanan.cara_pembayaran');
 		$this->db->join('tpemesanan', 'tPenerimaan.pemesanan = tpemesanan.id');
 		$this->db->join('mkontak','tpemesanan.kontakid = mkontak.id');
 		$this->db->join('mgudang','tpemesanan.gudangid = mgudang.id', 'left');

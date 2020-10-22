@@ -206,9 +206,11 @@ class Faktur_penjualan_model extends CI_Model {
     }
 
     function get_detail_pengiriman($pengirimanid){
-        $this->db->select('tpengirimanpenjualandetail.*, CONCAT(mitem.noakunjual," - ",mitem.nama) as item, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as jasa,  CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as inventeris');
+        $this->db->select('tpengirimanpenjualandetail.*, CONCAT(mitem.noakunjual," - ",mitem.nama) as item, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as jasa,  CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as inventeris, tpemesananpenjualan.cara_pembayaran');
 		$this->db->join('mitem', 'tpengirimanpenjualandetail.itemid = mitem.id', 'left');
 		$this->db->join('mnoakun', 'tpengirimanpenjualandetail.itemid = mnoakun.idakun', 'left');
+		$this->db->join('tpemesananpenjualandetail', 'tpengirimanpenjualandetail.idpenjualdetail = tpemesananpenjualandetail.id', 'left');
+		$this->db->join('tpemesananpenjualan', 'tpemesananpenjualandetail.idpemesanan = tpemesananpenjualan.id', 'left');
 		$this->db->where('tpengirimanpenjualandetail.idpengiriman', $pengirimanid);
 		$query = $this->db->get('tpengirimanpenjualandetail');
 		return $query;

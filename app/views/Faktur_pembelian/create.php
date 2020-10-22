@@ -47,6 +47,13 @@ total
                                     <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
                                 </div>
                             </div>
+                            <div class="form-group">
+                                <label>Setup Jurnal : </label>
+                                <div class="input-group"> 
+                                    <input type="hidden" name="setupJurnal" id="setupJurnal1">
+                                    <input type="text" class="form-control" disabled id="setupJurnal2">
+                                </div>
+                            </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
@@ -184,10 +191,10 @@ total
                     </div>
                 </form>
             </div>
-          <!-- /.card-body -->
-          <div class="card-footer">          
-          </div>
-        </div>
+        <!-- /.card-body -->
+        <div cl   ass="card-footer">          
+    </div>
+</div>
 
 <div id="modal_add_detail" class="modal fade">
     <div class="modal-dialog modal-lg">
@@ -276,14 +283,6 @@ total
 					return intVal(a) + intVal(b);
 				}, 0 );
 
-			// Total over this page
-			// pageTotal = api
-			// 	.column( 7, { page: 'current'} )
-			// 	.data()
-			// 	.reduce( function (a, b) {
-			// 		return intVal(a) + intVal(b);
-			// 	}, 0 );
-
 			// Update footer
 			$( api.column( 6 ).footer() ).html(formatRupiah(String(subtotal))+',00');
             $( api.column( 7 ).footer() ).html(formatRupiah(String(biayapengiriman))+',00');
@@ -367,6 +366,19 @@ total
                 },
                 success: function(data) {
                     var detail  = '';
+                    switch (data[0].cara_pembayaran) {
+                        case 'cash':
+                            $('#setupJurnal1').val('BLJ01');
+                            $('#setupJurnal2').val('BLJ01');
+                            break;
+                        case 'credit':
+                            $('#setupJurnal1').val('BLJ02');
+                            $('#setupJurnal2').val('BLJ02');
+                            break;
+                    
+                        default:
+                            break;
+                    }
                     for (let i = 0; i < data[index].detail_pengiriman.length; i++) {
                         var subtotal        = parseInt(data[index].detail_pengiriman[i].jumlahditerima) * parseInt(data[index].detail_pengiriman[i].harga);
                         var biayapengiriman = data[index].detail_pengiriman[i].biayapengiriman;

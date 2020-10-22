@@ -258,17 +258,17 @@ class Faktur_penjualan extends User_Controller {
 	public function select2_nomor_pengiriman($id=null, $text=null) {
         $term = $this->input->get('q');
         if ($text) {
-             $this->db->select('tpengirimanpenjualan.id as id, CONCAT(tpengirimanpenjualan.notrans," - ",tpengirimanpenjualan.tanggal," - ",mkontak.nama," - Rp. ",tpengirimanpenjualan.total) as text, tpengirimanpenjualan.total as total_harga');
-             $this->db->where('validasi', '1');
+			$this->db->select('tpengirimanpenjualan.id as id, CONCAT(tpengirimanpenjualan.notrans," - ",tpengirimanpenjualan.tanggal," - ",mkontak.nama," - Rp. ",tpengirimanpenjualan.total) as text, tpengirimanpenjualan.total as total_harga');
+			$this->db->where('validasi', '1');
             $data = $this->db->where('id', $id)->get('tpengirimanpenjualan')->row_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
             $this->db->select('tpengirimanpenjualan.id as id, CONCAT(tpengirimanpenjualan.notrans," - ",tpengirimanpenjualan.tanggal," - ",mkontak.nama," - Rp. ",tpengirimanpenjualan.total) as text, tpengirimanpenjualan.total as total_harga');
             $this->db->join('mkontak','tpengirimanpenjualan.kontakid = mkontak.id');
             $this->db->where('tpengirimanpenjualan.kontakid', $id);
-      		$this->db->where('tpengirimanpenjualan.validasi', '1');
-      		$this->db->where('tpengirimanpenjualan.status', '3');
-      		if($term) $this->db->like('CONCAT(tpengirimanpenjualan.notrans," - ",tpengirimanpenjualan.tanggal," - ",mkontak.nama," - Rp. ",tpengirimanpenjualan.total)', $term);
+			$this->db->where('tpengirimanpenjualan.validasi', '1');
+			$this->db->where('tpengirimanpenjualan.status', '3');
+			if($term) $this->db->like('CONCAT(tpengirimanpenjualan.notrans," - ",tpengirimanpenjualan.tanggal," - ",mkontak.nama," - Rp. ",tpengirimanpenjualan.total)', $term);
             $data = $this->db->get('tpengirimanpenjualan')->result_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         }
