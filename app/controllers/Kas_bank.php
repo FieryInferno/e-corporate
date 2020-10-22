@@ -178,6 +178,7 @@ class Kas_bank extends User_Controller
 
     public function get_Penjualan()
     {
+        
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
         $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, mnoakun.akunno, mperusahaan.kode, mdepartemen.nama as namaDepartemen');
