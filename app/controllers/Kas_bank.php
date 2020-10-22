@@ -141,8 +141,7 @@ class Kas_bank extends User_Controller
             if($data) {
                 $data['perusahaan'] = get_by_id('idperusahaan',$data['perusahaan'],'mperusahaan');
                 $data['departemen'] = get_by_id('id',$data['pejabat'],'mdepartemen');
-                $data['kasbankdetail'] = $this->model->kasbankdetail($data['id']);
-
+                $data['kasbankdetail']  = $this->model->kasbankdetail($data['id']);
                 $data['title'] = lang('bank_cash');
                 $data['subtitle'] = lang('detail');
                 $data['content'] = 'Kas_bank/detail';
@@ -181,10 +180,11 @@ class Kas_bank extends User_Controller
 
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, mnoakun.akunno, mperusahaan.kode, mdepartemen.nama as namaDepartemen');
+        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, tpemesananpenjualandetail.akunno, mperusahaan.kode, mdepartemen.nama as namaDepartemen');
         $this->db->join('tpengirimanpenjualan','tfakturpenjualan.pengirimanid=tpengirimanpenjualan.id');
         $this->db->join('tpemesananpenjualan','tpengirimanpenjualan.pemesananid=tpemesananpenjualan.id');
         $this->db->join('tpemesananpenjualanangsuran','tpemesananpenjualan.id=tpemesananpenjualanangsuran.idpemesanan');
+        $this->db->join('tpemesananpenjualandetail','tpemesananpenjualan.id = tpemesananpenjualandetail.idpemesanan');
         $this->db->join('mperusahaan','tpemesananpenjualan.idperusahaan=mperusahaan.idperusahaan');
         $this->db->join('mdepartemen','tpemesananpenjualan.departemen=mdepartemen.id');
         $this->db->join('mkontak','tfakturpenjualan.kontakid=mkontak.id');

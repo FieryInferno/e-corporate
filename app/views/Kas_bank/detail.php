@@ -22,15 +22,9 @@
     <section class="content">
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
-        <div class="card card-danger">
+        <div class="card">
           <div class="card-header">
             <h3 class="card-title">{title}</h3>
-
-            <div class="card-tools">
-              <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-              <a href="{site_url}Kas_bank" class="btn btn-tool"><i class="fas fa-times"></i></a>
-       
-            </div>
           </div>
           <!-- /.card-header -->
           <div class="card-body">
@@ -77,9 +71,8 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        
                         <table class="table table-bordered">
-                            <thead class="{bg_header}">
+                            <thead">
                                 <tr>
                                     <th><?php echo lang('No') ?></th>
                                     <th><?php echo lang('Tipe') ?></th>
