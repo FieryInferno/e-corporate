@@ -97,8 +97,8 @@
                                         <td><?php echo $row['tipe'] ?></td>
                                         <td><?php echo $row['tanggal'] ?></td>
                                         <td><?php echo $row['nokwitansi'] ?></td>
-                                        <td class="text-right">Rp. <?php echo number_format($row['penerimaan'],2,",",".") ?></td>
-                                        <td class="text-right">Rp. <?php echo number_format($row['pengeluaran'],2,",",".") ?></td>
+                                        <td class="text-right"><?php echo number_format($row['penerimaan'],2,",",".") ?></td>
+                                        <td class="text-right"><?php echo number_format($row['pengeluaran'],2,",",".") ?></td>
                                         <td><?php echo $row['noakun'] ?></td>
                                         <td><?php echo $row['kodeunit'] ?></td>
                                         <td><?php echo $row['departemen'] ?></td>
@@ -107,8 +107,8 @@
                                 <?php endforeach ?>
                                 <tr class="bg-light">
                                     <td class="font-weight-bold text-right" colspan="4"><?php echo lang('grand_total') ?></td>
-                                    <td class="font-weight-bold text-right">Rp. <?php echo number_format($total_penerimaan,2,",",".") ?></td>
-                                    <td class="font-weight-bold text-right">Rp. <?php echo number_format($total_pengeluaran,2,",",".") ?></td>
+                                    <td class="font-weight-bold text-right"><?php echo number_format($total_penerimaan,2,",",".") ?></td>
+                                    <td class="font-weight-bold text-right"><?php echo number_format($total_pengeluaran,2,",",".") ?></td>
                                     <td colspan="4"></td>
                                 </tr>
                             </tbody>
