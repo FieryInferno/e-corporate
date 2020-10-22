@@ -100,7 +100,7 @@
 
                                 <div class="mb-3 mt-3 table-responsive">
                                    <table class="table table-bordered" id="table_detail_rincian_buku_kas_umum">
-                                        <thead class="{bg_header}" id="atastabel">
+                                        <thead id="atastabel">
                                              <tr><th><?php echo lang('ID') ?></th>
                                                 <th><?php echo lang('') ?></th>
                                                 <th><?php echo lang('Tipe') ?></th>
@@ -123,7 +123,7 @@
                               <div class="tab-pane fade" id="saldo_sumber_dana" role="tabpanel" aria-labelledby="custom-saldo-sumber-dana-tab">
                                 <div class="mb-3 mt-3 table-responsive">
                                     <table class="table table-bordered" id="table_detail_rincian_saldo_sumber_dana" width="100%">
-                                        <thead class="{bg_header}" id="atastabel" >
+                                        <thead id="atastabel" >
                                             <tr><th><?php echo lang('ID') ?></th>
                                                 <th><?php echo lang('Nama Rekening Bank') ?></th>
                                                 <th><?php echo lang('Saldo Awal') ?></th>
@@ -201,11 +201,11 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabelpenjualan">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr class="text-center">
                             <th>&nbsp;</th>
-                            <th>Uang Muka</th>
-                            <th>Termin</th>
+                            <th>Nominal Bayar</th>
+                            <th>Keterangan</th>
                             <th>Nomor Faktur</th>
                             <th>Nama Pelanggan</th>
                             <th>Tanggal</th>
@@ -238,7 +238,7 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabelpembelian">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr class="text-center">
                             <th>&nbsp;</th>
                             <th>Uang Muka</th>
@@ -273,7 +273,7 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabelbudgetevent">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
@@ -308,7 +308,7 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabelrewardsales">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
@@ -343,7 +343,7 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabelsetorpajak">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
@@ -378,7 +378,7 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabelkaskecil">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
@@ -413,7 +413,7 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabelsetorkaskecil">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
@@ -448,7 +448,7 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabelreturjual">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
@@ -484,7 +484,7 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabelreturbeli">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
@@ -519,7 +519,7 @@
             </div>
             <div class="modal-body">
                 <table class="table" id="tabeldeposito">
-                    <thead class="{bg_header}">
+                    <thead>
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
@@ -844,48 +844,60 @@
             data : {idPerusahaan: idPerusahaan, tgl: tgl },
             url: base_url + 'get_Penjualan',
             success: function(response) {
-                
-               for (let i = 0; i < response.length; i++) {
-                    const element = response[i];
-                    var angsuran = ''; 
-
-                    if (element.jumlahterm != 0){
-                        if (element.a1 != ''){
-                            angsuran += 'Term 1 : '+ formatRupiah(String(`${element.a1}`), 'Rp. ');
-                        }
-                        if (element.a2 != ''){
-                            angsuran += '<br>Term 2 : '+ formatRupiah(String(`${element.a2}`), 'Rp. ');
-                        }
-                        if (element.a3 != ''){
-                            angsuran += '<br>Term 3 : '+ formatRupiah(String(`${element.a3}`), 'Rp. ')
-                        }
-                        if (element.a4 != ''){
-                            angsuran += '<br>Term 4 : '+ formatRupiah(String(`${element.a4}`), 'Rp. ');
-                        }
-                        if (element.a5 != ''){
-                            angsuran += '<br>Term 5 : '+ formatRupiah(String(`${element.a5}`), 'Rp. ');
-                        }
-                        if (element.a6 != ''){
-                            angsuran += '<br>Term 6 : '+ formatRupiah(String(`${element.a6}`), 'Rp. ');
-                        }
-                        if (element.a7 != ''){
-                            angsuran += '<br>Term 7 : '+ formatRupiah(String(`${element.a7}`), 'Rp. ');
-                        }
-                        if (element.a8 != ''){
-                            angsuran += '<br>Term 8 : '+ formatRupiah(String(`${element.a8}`), 'Rp. ');
-                        }
+                for (let index = 0; index < response.length; index++) {
+                    var jumlah          = 0;
+                    var nominalBayar    = [];
+                    var keterangan      = [];
+                    if (response[index].uangmuka !== '') {
+                        nominalBayar[jumlah]    = response[index].uangmuka;
+                        keterangan[jumlah]      = 'Uang Muka';
+                        jumlah++;
+                    } else if (response[index].a1 !== '') {
+                        nominalBayar[jumlah]    = response[index].a1;
+                        keterangan[jumlah]     = 'Term Ke-1';
+                        jumlah++;
+                    } else if (response[index].a2 !== '') {
+                        nominalBayar[jumlah]    = response[index].a2;
+                        keterangan[jumlah]      = 'Term Ke-2';
+                        jumlah++;
+                    } else if (response[index].a3 !== '') {
+                        nominalBayar[jumlah]    = response[index].a3;
+                        keterangan[jumlah]      = 'Term Ke-3';
+                        jumlah++;
+                    } else if (response[index].a4 !== '') {
+                        nominalBayar[jumlah]    = response[index].a4;
+                        keterangan[jumlah]      = 'Term Ke-4';
+                        jumlah++;
+                    } else if (response[index].a5 !== '') {
+                        nominalBayar[jumlah]    = response[index].a5;
+                        keterangan[jumlah]      = 'Term Ke-5';
+                        jumlah++;
+                    } else if (response[index].a6 !== '') {
+                        nominalBayar[jumlah]    = response[index].a6;
+                        keterangan[jumlah]      = 'Term Ke-6';
+                        jumlah++;
+                    } else if (response[index].a7 !== '') {
+                        nominalBayar[jumlah]    = response[index].a7;
+                        keterangan[jumlah]      = 'Term Ke-7';
+                        jumlah++;
+                    } else if (response[index].a8 !== '') {
+                        nominalBayar[jumlah]    = response[index].a8;
+                        keterangan[jumlah]      = 'Term Ke-8';
+                        jumlah++;
                     }
-                    
-                    tabelpenjualan.row.add([
-                        `<input type="checkbox" id="checkbox_JUAL${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Penjualan" data-tgl="${element.tanggal}" data-kwitansi="${element.no_kwitansi}" data-nominal="${element.nominal_faktur}" data-namaakun="" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_rekening}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this);">`,
-                        formatRupiah(String(`${element.uangmuka}`), 'Rp. '),
-                        `${angsuran}`,
-                        `${element.no_kwitansi}`,
-                        `${element.nama_pelanggan}`,
-                        `${element.tanggal}`,
-                        formatRupiah(String(`${element.nominal_faktur}`), 'Rp. '),
-                        `${element.nomor_rekening} <br> ${element.nama_rekening}`,
-                    ]).draw();
+                    for (let i = 0; i < jumlah; i++) {
+                        tabelpenjualan.row.add([
+                            `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${response[index].total}" data-namaakun="" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);">`,
+                            // `<input type="checkbox" name="" id="">`,
+                            formatRupiah(String(`${nominalBayar[i]}`), 'Rp. ') + ',00',
+                            keterangan[i],
+                            response[index].notrans,
+                            response[index].nama,
+                            response[index].tanggal,
+                            formatRupiah(String(response[index].total), 'Rp. '),
+                            response[index].norek + '<br>' + response[index].namaRekening,
+                        ]).draw();
+                    }
                 }
             }
         });

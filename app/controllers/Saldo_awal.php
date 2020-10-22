@@ -208,6 +208,7 @@ class Saldo_awal extends User_Controller {
 			$data['title'] = 'Saldo Awal';
 			$data['subtitle'] = lang('edit');
 			$data['content'] = 'Saldo_awal/edit';
+			$data['a']			= 'a';
 			$data = array_merge($data,path_info());
 			$this->parser->parse('template',$data);
 		} else {

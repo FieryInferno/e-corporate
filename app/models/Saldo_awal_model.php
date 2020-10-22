@@ -148,7 +148,7 @@ class Saldo_awal_model extends CI_Model {
 	{
 		if ($this->get('idSaldoAwal') !== null) {
 			$this->db->where('idSaldoAwal', $this->get('idSaldoAwal'));
-			$this->db->get('tsaldoawal')->row_array();
+			return $this->db->get('tsaldoawal')->row_array();
 		} else {
 			$this->db->get('tsaldoawal')->result_array();
 		}

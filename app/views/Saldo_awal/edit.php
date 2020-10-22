@@ -32,7 +32,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Nomor :</label>
-                                            <input type="text" class="form-control" placeholder="(Auto)" name="nomor" readonly>
+                                            <input type="text" class="form-control" placeholder="(Auto)" name="nomor" readonly value="<?= $saldoAwal['no']; ?>">
                                         </div>
                                     </div>
 									<div class="col-6">
@@ -51,7 +51,7 @@
 									<div class="col-6">
                                         <div class="form-group">
                                             <label>Tanggal :</label>
-                                            <input type="date" class="form-control" placeholder="Tanggal" name="tanggal" required>
+                                            <input type="date" class="form-control" placeholder="Tanggal" name="tanggal" required value="<?= $saldoAwal['tanggal']; ?>">
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -65,7 +65,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Keterangan :</label>
-                                            <input type="text" class="form-control" placeholder="Keterangan" name="keterangan" required>
+                                            <input type="text" class="form-control" placeholder="Keterangan" name="keterangan" required value="<?= $saldoAwal['keterangan']; ?>">
                                         </div>
                                     </div>
                                 </div>

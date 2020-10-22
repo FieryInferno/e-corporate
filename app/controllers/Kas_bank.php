@@ -180,8 +180,7 @@ class Kas_bank extends User_Controller
     {
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-
-        $this->db->select('tfakturpenjualan.*, tpemesananpenjualanangsuran.*, mkontak.nama as nama_pelanggan, mrekening.norek as nomor_rekening, mrekening.nama as nama_rekening, mrekening.akunno as nomor_akun,tfakturpenjualan.notrans as no_kwitansi, mperusahaan.kode, mdepartemen.nama as nama_departemen, tfakturpenjualan.id as idfaktur, tfakturpenjualan.total as nominal_faktur');
+        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, mnoakun.akunno, mperusahaan.kode, mdepartemen.nama as namaDepartemen');
         $this->db->join('tpengirimanpenjualan','tfakturpenjualan.pengirimanid=tpengirimanpenjualan.id');
         $this->db->join('tpemesananpenjualan','tpengirimanpenjualan.pemesananid=tpemesananpenjualan.id');
         $this->db->join('tpemesananpenjualanangsuran','tpemesananpenjualan.id=tpemesananpenjualanangsuran.idpemesanan');
@@ -189,10 +188,11 @@ class Kas_bank extends User_Controller
         $this->db->join('mdepartemen','tpemesananpenjualan.departemen=mdepartemen.id');
         $this->db->join('mkontak','tfakturpenjualan.kontakid=mkontak.id');
         $this->db->join('mrekening','tfakturpenjualan.rekening=mrekening.id');
+        $this->db->join('mnoakun','mrekening.akunno = mnoakun.idakun');
         $this->db->where('tfakturpenjualan.tanggal <=',$tgl);
         $this->db->where('tpemesananpenjualan.idperusahaan', $idperusahaan);
         $this->db->where('tfakturpenjualan.stts_kas', '0');
-        $data = $this->db->get('tfakturpenjualan')->result_array();   
+        $data   = $this->db->get('tfakturpenjualan')->result_array();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 

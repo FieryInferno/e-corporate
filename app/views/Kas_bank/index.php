@@ -78,13 +78,17 @@
         columns: [
 			{data: 'id', visible: false},
 			{
-				data: 'nomor_kas_bank', 
+				data		: 'nomor_kas_bank',
+				className	: 'text-center', 
 				render: function(data,type,row) {
 					var link = base_url + 'detail/' + row.id;
-					return '<a href="'+link+'" class="badge badge-info">'+data+'</a>';
+					return '<a href="'+link+'" class="btn btn-info btn-sm">'+data+'</a>';
 				}
 			},
-			{data: 'tanggal'},
+			{
+				data		: 'tanggal',
+				className	: 'text-center'
+			},
 			{
 				data: 'penerimaan',
 				render: function(data,type,row) {
