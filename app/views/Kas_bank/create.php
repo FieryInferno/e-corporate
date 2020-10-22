@@ -970,7 +970,7 @@
                     }
                     for (let i = 0; i < jumlah; i++) {
                         tabelpembelian.row.add([
-                            `<input type="checkbox" id="checkbox_JUAL${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${element.total}" data-namaakun="" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="" data-norekening="" onchange="save_detail(this);">`,
+                            `<input type="checkbox" id="checkbox_JUAL${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${element.total}" data-namaakun="" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaBank}" data-norekening="${element.norek}" onchange="save_detail(this);">`,
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
@@ -1140,7 +1140,7 @@
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
-                    `-`
+                    `${namabank} ${norekening}`
                 ]).draw(false);
             } else {
                 var rowindex=$('#button_BELI'+id).closest('tr').index();
