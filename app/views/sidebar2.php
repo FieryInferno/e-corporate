@@ -122,6 +122,12 @@
               <p>Pajak</p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="SistemPenomoran" class="nav-link <?php echo menu_is_active('sistemPenomoran') ?>">
+              <i class="nav-icon fas fa-list-ol"></i>
+              <p>Sistem Penomoran</p>
+            </a>
+          </li>
 
           
           <li class="nav-header">TRANSAKSI</li>  

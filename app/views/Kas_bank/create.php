@@ -850,35 +850,43 @@
                         nominalBayar[jumlah]    = response[index].uangmuka;
                         keterangan[jumlah]      = 'Uang Muka';
                         jumlah++;
-                    } else if (response[index].a1 !== '') {
+                    } 
+                    if (response[index].a1 !== '') {
                         nominalBayar[jumlah]    = response[index].a1;
                         keterangan[jumlah]     = 'Term Ke-1';
                         jumlah++;
-                    } else if (response[index].a2 !== '') {
+                    } 
+                    if (response[index].a2 !== '') {
                         nominalBayar[jumlah]    = response[index].a2;
                         keterangan[jumlah]      = 'Term Ke-2';
                         jumlah++;
-                    } else if (response[index].a3 !== '') {
+                    } 
+                    if (response[index].a3 !== '') {
                         nominalBayar[jumlah]    = response[index].a3;
                         keterangan[jumlah]      = 'Term Ke-3';
                         jumlah++;
-                    } else if (response[index].a4 !== '') {
+                    } 
+                    if (response[index].a4 !== '') {
                         nominalBayar[jumlah]    = response[index].a4;
                         keterangan[jumlah]      = 'Term Ke-4';
                         jumlah++;
-                    } else if (response[index].a5 !== '') {
+                    } 
+                    if (response[index].a5 !== '') {
                         nominalBayar[jumlah]    = response[index].a5;
                         keterangan[jumlah]      = 'Term Ke-5';
                         jumlah++;
-                    } else if (response[index].a6 !== '') {
+                    } 
+                    if (response[index].a6 !== '') {
                         nominalBayar[jumlah]    = response[index].a6;
                         keterangan[jumlah]      = 'Term Ke-6';
                         jumlah++;
-                    } else if (response[index].a7 !== '') {
+                    } 
+                    if (response[index].a7 !== '') {
                         nominalBayar[jumlah]    = response[index].a7;
                         keterangan[jumlah]      = 'Term Ke-7';
                         jumlah++;
-                    } else if (response[index].a8 !== '') {
+                    } 
+                    if (response[index].a8 !== '') {
                         nominalBayar[jumlah]    = response[index].a8;
                         keterangan[jumlah]      = 'Term Ke-8';
                         jumlah++;
@@ -919,35 +927,43 @@
                         nominalBayar[jumlah]    = response[index].uangmuka;
                         keterangan[jumlah]      = 'Uang Muka';
                         jumlah++;
-                    } else if (response[index].a1 !== '') {
+                    }
+                    if (response[index].a1 !== '') {
                         nominalBayar[jumlah]    = response[index].a1;
                         keterangan[jumlah]     = 'Term Ke-1';
                         jumlah++;
-                    } else if (response[index].a2 !== '') {
+                    }
+                    if (response[index].a2 !== '') {
                         nominalBayar[jumlah]    = response[index].a2;
                         keterangan[jumlah]      = 'Term Ke-2';
                         jumlah++;
-                    } else if (response[index].a3 !== '') {
+                    }
+                    if (response[index].a3 !== '') {
                         nominalBayar[jumlah]    = response[index].a3;
                         keterangan[jumlah]      = 'Term Ke-3';
                         jumlah++;
-                    } else if (response[index].a4 !== '') {
+                    }
+                    if (response[index].a4 !== '') {
                         nominalBayar[jumlah]    = response[index].a4;
                         keterangan[jumlah]      = 'Term Ke-4';
                         jumlah++;
-                    } else if (response[index].a5 !== '') {
+                    }
+                    if (response[index].a5 !== '') {
                         nominalBayar[jumlah]    = response[index].a5;
                         keterangan[jumlah]      = 'Term Ke-5';
                         jumlah++;
-                    } else if (response[index].a6 !== '') {
+                    }
+                    if (response[index].a6 !== '') {
                         nominalBayar[jumlah]    = response[index].a6;
                         keterangan[jumlah]      = 'Term Ke-6';
                         jumlah++;
-                    } else if (response[index].a7 !== '') {
+                    }
+                    if (response[index].a7 !== '') {
                         nominalBayar[jumlah]    = response[index].a7;
                         keterangan[jumlah]      = 'Term Ke-7';
                         jumlah++;
-                    } else if (response[index].a8 !== '') {
+                    }
+                    if (response[index].a8 !== '') {
                         nominalBayar[jumlah]    = response[index].a8;
                         keterangan[jumlah]      = 'Term Ke-8';
                         jumlah++;
@@ -963,47 +979,6 @@
                         ]).draw();
                     }
                 }
-                // for (let i = 0; i < response.length; i++) {
-                //     const element = response[i];
-                //     var angsuran = ''; 
-
-                //     if (element.jumlahterm != 0){
-                //         if (element.a1 != ''){
-                //             angsuran += 'Term 1 : '+ formatRupiah(String(`${element.a1}`));
-                //         }
-                //         if (element.a2 != ''){
-                //             angsuran += '<br>Term 2 : '+ formatRupiah(String(`${element.a2}`));
-                //         }
-                //         if (element.a3 != ''){
-                //             angsuran += '<br>Term 3 : '+ formatRupiah(String(`${element.a3}`))
-                //         }
-                //         if (element.a4 != ''){
-                //             angsuran += '<br>Term 4 : '+ formatRupiah(String(`${element.a4}`));
-                //         }
-                //         if (element.a5 != ''){
-                //             angsuran += '<br>Term 5 : '+ formatRupiah(String(`${element.a5}`));
-                //         }
-                //         if (element.a6 != ''){
-                //             angsuran += '<br>Term 6 : '+ formatRupiah(String(`${element.a6}`));
-                //         }
-                //         if (element.a7 != ''){
-                //             angsuran += '<br>Term 7 : '+ formatRupiah(String(`${element.a7}`));
-                //         }
-                //         if (element.a8 != ''){
-                //             angsuran += '<br>Term 8 : '+ formatRupiah(String(`${element.a8}`));
-                //         }
-                //     }
-                    
-                //     tabelpembelian.row.add([
-                //         `<input type="checkbox" id="checkbox_JUAL${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.no_kwitansi}" data-nominal="${element.nominal_faktur}" data-namaakun="" data-noakun="" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="" data-norekening="" onchange="save_detail(this);">`,
-                //         formatRupiah(String(`${element.uangmuka}`)),
-                //         `${angsuran}`,
-                //         `${element.no_kwitansi}`,
-                //         `${element.tanggal}`,
-                //         formatRupiah(String(element.nominal_faktur)),
-                //     ]).draw();
-                    
-                // }
             }
         });
     }
