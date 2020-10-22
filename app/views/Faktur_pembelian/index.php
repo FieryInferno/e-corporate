@@ -1,66 +1,65 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-				<div class="card-header">
-					<a href="{site_url}faktur_pembelian/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
+						<div class="card-header">
+							<a href="{site_url}faktur_pembelian/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+						</div>
+						<div class="card-body">
+							<table class="table table-bordered table-striped index_datatable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th><?php echo lang('notrans') ?></th>
+										<th>Perusahaan</th>
+										<th><?php echo lang('date') ?></th>
+										<th><?php echo lang('supplier') ?></th>
+										<th><?php echo lang('warehouse') ?></th>
+										<th>Biaya Pengiriman</th>
+										<th>Pajak</th>
+										<th><?php echo lang('total') ?></th>
+										<th><?php echo lang('status') ?></th>
+										<th>Aksi</th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+								<tfoot>
+									<tr>
+										<th colspan="6" class="text-right">Total</th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+										<th></th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
 				</div>
-              <div class="card-body">
-                <table class="table table-bordered table-striped index_datatable">
-                  <thead>
-				  <tr>
-				  	<th>ID</th>
-					<th><?php echo lang('notrans') ?></th>
-					<th>Perusahaan</th>
-					<th><?php echo lang('date') ?></th>
-					<th><?php echo lang('supplier') ?></th>
-					<th><?php echo lang('warehouse') ?></th>
-					<th>Biaya Pengiriman</th>
-					<th>Pajak</th>
-					<th><?php echo lang('total') ?></th>
-					<th><?php echo lang('status') ?></th>
-					<th>Aksi</th>
-				</tr>
-                  </thead>
-                  <tbody>                          
-                  </tbody>
-						<tfoot>
-							<tr>
-								<th colspan="6" class="text-right">Total</th>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th></th>
-								<th></th>
-							</tr>
-						</tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+			</div>
+		</div>
     </section>
   </div>
 <script type="text/javascript">
@@ -80,34 +79,34 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-        	{data: 'id', visible: false},
-        	{
-        		data: 'notrans',
-        		render: function(data,type,row) {
-        			var link = base_url + 'detail/' + row.id;
-        			return '<a href="#" class="btn btn-info">'+data+'</a>';
-        		}
-        	},
+			{data: 'id', visible: false},
+			{
+				data: 'notrans',
+				render: function(data,type,row) {
+					var link = base_url + 'detail/' + row.id;
+					return '<a href="#" class="btn btn-info">'+data+'</a>';
+				}
+			},
 			{data: 'namaperusahaan'},
 			{data: 'tanggal'},
-        	{data: 'supplier'},
+			{data: 'supplier'},
 			{data: 'gudang'},
 			{
 				data: 'biaya_pengiriman', className: 'text-right',
 				render: function(data) {
-					return formatRupiah(String(data), 'Rp. ') + ',00';
+					return formatRupiah(String(data)) + ',00';
 				}
 			},
 			{
 				data: 'pajak', className: 'text-right',
 				render: function(data) {
-					return formatRupiah(String(data), 'Rp. ') + ',00';
+					return formatRupiah(String(data)) + ',00';
 				}
 			},
 			{
 				data: 'total', className: 'text-right',
 				render: function(data) {
-					return formatRupiah(String(data), 'Rp. ') + ',00';
+					return formatRupiah(String(data)) + ',00';
 				}
 			},
 			{

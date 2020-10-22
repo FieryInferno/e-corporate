@@ -99,9 +99,9 @@
                                 </div>
 
                                 <div class="mb-3 mt-3 table-responsive">
-                                   <table class="table table-bordered" id="table_detail_rincian_buku_kas_umum">
+                                <table class="table table-bordered" id="table_detail_rincian_buku_kas_umum">
                                         <thead id="atastabel">
-                                             <tr><th><?php echo lang('ID') ?></th>
+                                            <tr><th><?php echo lang('ID') ?></th>
                                                 <th><?php echo lang('') ?></th>
                                                 <th><?php echo lang('Tipe') ?></th>
                                                 <th><?php echo lang('date') ?></th>
@@ -119,8 +119,8 @@
                                         </tbody>
                                     </table>
                                 </div>
-                              </div>
-                              <div class="tab-pane fade" id="saldo_sumber_dana" role="tabpanel" aria-labelledby="custom-saldo-sumber-dana-tab">
+                            </div>
+                            <div class="tab-pane fade" id="saldo_sumber_dana" role="tabpanel" aria-labelledby="custom-saldo-sumber-dana-tab">
                                 <div class="mb-3 mt-3 table-responsive">
                                     <table class="table table-bordered" id="table_detail_rincian_saldo_sumber_dana" width="100%">
                                         <thead id="atastabel" >
@@ -147,13 +147,12 @@
                                         </tfoot>
                                     </table>
                                 </div>
-                              </div>
-                
                             </div>
-                          </div>
-                          <!-- /.card -->
+                            </div>
                         </div>
-                      </div>
+                        <!-- /.card -->
+                        </div>
+                    </div>
                 </div>
                         
                 <br>
@@ -169,7 +168,6 @@
                     </div>
                     <input type="hidden" id="pengeluaran_pemindahbukuan" class="form-control decimalnumber text-right" name="pengeluaran_pemindahbukuan" readonly>
                     <div class="col-md-3">
-                      
                     </div>
                             
                 </div>
@@ -241,8 +239,8 @@
                     <thead>
                         <tr class="text-center">
                             <th>&nbsp;</th>
-                            <th>Uang Muka</th>
-                            <th>Termin</th>
+                            <th>Nominal Bayar</th>
+                            <th>keterangan</th>
                             <th>Nomor Faktur</th>
                             <th>Tanggal</th>
                             <th>Nominal</th>
@@ -667,8 +665,8 @@
                 return intVal(a) + intVal(b); 
             }, 0 );
            
-            $('#penerimaan').val(formatRupiah(String(penerimaan), 'Rp. '))
-            $('#pengeluaran').val(formatRupiah(String(pengeluaran), 'Rp. '))
+            $('#penerimaan').val(formatRupiah(String(penerimaan)))
+            $('#pengeluaran').val(formatRupiah(String(pengeluaran)))
             
         }
     })
@@ -705,10 +703,10 @@
                 return intVal(a) + intVal(b); 
             }, 0 );
            
-            $('#tot_saldo_awal').html(formatRupiah(String(tot_saldo_awal), 'Rp. '));
-            $('#tot_penerimaan').html(formatRupiah(String(tot_penerimaan), 'Rp. '));
-            $('#tot_pengeluaran').html(formatRupiah(String(tot_pengeluaran), 'Rp. '));
-            $('#tot_saldo_akhir').html(formatRupiah(String(tot_saldo_akhir), 'Rp. '));
+            $('#tot_saldo_awal').html(formatRupiah(String(tot_saldo_awal)));
+            $('#tot_penerimaan').html(formatRupiah(String(tot_penerimaan)));
+            $('#tot_pengeluaran').html(formatRupiah(String(tot_pengeluaran)));
+            $('#tot_saldo_akhir').html(formatRupiah(String(tot_saldo_akhir)));
             
         }
     })
@@ -888,13 +886,12 @@
                     for (let i = 0; i < jumlah; i++) {
                         tabelpenjualan.row.add([
                             `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${response[index].total}" data-namaakun="" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);">`,
-                            // `<input type="checkbox" name="" id="">`,
-                            formatRupiah(String(`${nominalBayar[i]}`), 'Rp. ') + ',00',
+                            formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
                             response[index].nama,
                             response[index].tanggal,
-                            formatRupiah(String(response[index].total), 'Rp. '),
+                            formatRupiah(String(response[index].total)) + ',00',
                             response[index].norek + '<br>' + response[index].namaRekening,
                         ]).draw();
                     }
@@ -912,47 +909,101 @@
             data : {idPerusahaan: idPerusahaan, tgl: tgl },
             url: base_url + 'get_Pembelian',
             success: function(response) {
-               for (let i = 0; i < response.length; i++) {
-                    const element = response[i];
-                    var angsuran = ''; 
-
-                    if (element.jumlahterm != 0){
-                        if (element.a1 != ''){
-                            angsuran += 'Term 1 : '+ formatRupiah(String(`${element.a1}`), 'Rp. ');
-                        }
-                        if (element.a2 != ''){
-                            angsuran += '<br>Term 2 : '+ formatRupiah(String(`${element.a2}`), 'Rp. ');
-                        }
-                        if (element.a3 != ''){
-                            angsuran += '<br>Term 3 : '+ formatRupiah(String(`${element.a3}`), 'Rp. ')
-                        }
-                        if (element.a4 != ''){
-                            angsuran += '<br>Term 4 : '+ formatRupiah(String(`${element.a4}`), 'Rp. ');
-                        }
-                        if (element.a5 != ''){
-                            angsuran += '<br>Term 5 : '+ formatRupiah(String(`${element.a5}`), 'Rp. ');
-                        }
-                        if (element.a6 != ''){
-                            angsuran += '<br>Term 6 : '+ formatRupiah(String(`${element.a6}`), 'Rp. ');
-                        }
-                        if (element.a7 != ''){
-                            angsuran += '<br>Term 7 : '+ formatRupiah(String(`${element.a7}`), 'Rp. ');
-                        }
-                        if (element.a8 != ''){
-                            angsuran += '<br>Term 8 : '+ formatRupiah(String(`${element.a8}`), 'Rp. ');
-                        }
+                console.log(response);
+                for (let index = 0; index < response.length; index++) {
+                    element = response[index];
+                    var jumlah          = 0;
+                    var nominalBayar    = [];
+                    var keterangan      = [];
+                    if (response[index].uangmuka !== '') {
+                        nominalBayar[jumlah]    = response[index].uangmuka;
+                        keterangan[jumlah]      = 'Uang Muka';
+                        jumlah++;
+                    } else if (response[index].a1 !== '') {
+                        nominalBayar[jumlah]    = response[index].a1;
+                        keterangan[jumlah]     = 'Term Ke-1';
+                        jumlah++;
+                    } else if (response[index].a2 !== '') {
+                        nominalBayar[jumlah]    = response[index].a2;
+                        keterangan[jumlah]      = 'Term Ke-2';
+                        jumlah++;
+                    } else if (response[index].a3 !== '') {
+                        nominalBayar[jumlah]    = response[index].a3;
+                        keterangan[jumlah]      = 'Term Ke-3';
+                        jumlah++;
+                    } else if (response[index].a4 !== '') {
+                        nominalBayar[jumlah]    = response[index].a4;
+                        keterangan[jumlah]      = 'Term Ke-4';
+                        jumlah++;
+                    } else if (response[index].a5 !== '') {
+                        nominalBayar[jumlah]    = response[index].a5;
+                        keterangan[jumlah]      = 'Term Ke-5';
+                        jumlah++;
+                    } else if (response[index].a6 !== '') {
+                        nominalBayar[jumlah]    = response[index].a6;
+                        keterangan[jumlah]      = 'Term Ke-6';
+                        jumlah++;
+                    } else if (response[index].a7 !== '') {
+                        nominalBayar[jumlah]    = response[index].a7;
+                        keterangan[jumlah]      = 'Term Ke-7';
+                        jumlah++;
+                    } else if (response[index].a8 !== '') {
+                        nominalBayar[jumlah]    = response[index].a8;
+                        keterangan[jumlah]      = 'Term Ke-8';
+                        jumlah++;
                     }
-                    
-                    tabelpembelian.row.add([
-                        `<input type="checkbox" id="checkbox_JUAL${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.no_kwitansi}" data-nominal="${element.nominal_faktur}" data-namaakun="" data-noakun="" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="" data-norekening="" onchange="save_detail(this);">`,
-                        formatRupiah(String(`${element.uangmuka}`), 'Rp. '),
-                        `${angsuran}`,
-                        `${element.no_kwitansi}`,
-                        `${element.tanggal}`,
-                        formatRupiah(String(element.nominal_faktur), 'Rp. '),
-                    ]).draw();
-                    
+                    for (let i = 0; i < jumlah; i++) {
+                        tabelpembelian.row.add([
+                            `<input type="checkbox" id="checkbox_JUAL${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${element.total}" data-namaakun="" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="" data-norekening="" onchange="save_detail(this);">`,
+                            formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
+                            keterangan[i],
+                            response[index].notrans,
+                            response[index].tanggal,
+                            formatRupiah(String(response[index].total)) + ',00',
+                        ]).draw();
+                    }
                 }
+                // for (let i = 0; i < response.length; i++) {
+                //     const element = response[i];
+                //     var angsuran = ''; 
+
+                //     if (element.jumlahterm != 0){
+                //         if (element.a1 != ''){
+                //             angsuran += 'Term 1 : '+ formatRupiah(String(`${element.a1}`));
+                //         }
+                //         if (element.a2 != ''){
+                //             angsuran += '<br>Term 2 : '+ formatRupiah(String(`${element.a2}`));
+                //         }
+                //         if (element.a3 != ''){
+                //             angsuran += '<br>Term 3 : '+ formatRupiah(String(`${element.a3}`))
+                //         }
+                //         if (element.a4 != ''){
+                //             angsuran += '<br>Term 4 : '+ formatRupiah(String(`${element.a4}`));
+                //         }
+                //         if (element.a5 != ''){
+                //             angsuran += '<br>Term 5 : '+ formatRupiah(String(`${element.a5}`));
+                //         }
+                //         if (element.a6 != ''){
+                //             angsuran += '<br>Term 6 : '+ formatRupiah(String(`${element.a6}`));
+                //         }
+                //         if (element.a7 != ''){
+                //             angsuran += '<br>Term 7 : '+ formatRupiah(String(`${element.a7}`));
+                //         }
+                //         if (element.a8 != ''){
+                //             angsuran += '<br>Term 8 : '+ formatRupiah(String(`${element.a8}`));
+                //         }
+                //     }
+                    
+                //     tabelpembelian.row.add([
+                //         `<input type="checkbox" id="checkbox_JUAL${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.no_kwitansi}" data-nominal="${element.nominal_faktur}" data-namaakun="" data-noakun="" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="" data-norekening="" onchange="save_detail(this);">`,
+                //         formatRupiah(String(`${element.uangmuka}`)),
+                //         `${angsuran}`,
+                //         `${element.no_kwitansi}`,
+                //         `${element.tanggal}`,
+                //         formatRupiah(String(element.nominal_faktur)),
+                //     ]).draw();
+                    
+                // }
             }
         });
     }
@@ -985,7 +1036,7 @@
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
                             `${element.tanggal}`,
-                            formatRupiah(String(`${element.nominal}`), 'Rp. '),
+                            formatRupiah(String(`${element.nominal}`)),
                         ]).draw();
                     }
                 }
@@ -1020,7 +1071,7 @@
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
                             `${element.tanggal}`,
-                            formatRupiah(String(`${element.nominal}`), 'Rp. '),
+                            formatRupiah(String(`${element.nominal}`)),
                         ]).draw();
                     }
                 }
@@ -1056,7 +1107,7 @@
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
                             `${element.tanggal}`,
-                            formatRupiah(String(`${element.nominal}`), 'Rp. '),
+                            formatRupiah(String(`${element.nominal}`)),
                         ]).draw();
                     }
                 }
@@ -1088,8 +1139,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String(nominal), 'Rp. '),
-                    formatRupiah(String('0'), 'Rp. '),
+                    formatRupiah(String('0')),
+                    formatRupiah(String(nominal)),
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
@@ -1109,12 +1160,12 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String('0'), 'Rp. '),
-                    formatRupiah(String(nominal), 'Rp. '),
+                    formatRupiah(String(nominal)),
+                    formatRupiah(String('0')),
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
-                    `${namabank} ${norekening}`
+                    `-`
                 ]).draw(false);
             } else {
                 var rowindex=$('#button_BELI'+id).closest('tr').index();
@@ -1130,8 +1181,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String('0'), 'Rp. '),
-                    formatRupiah(String(nominal), 'Rp. '),
+                    formatRupiah(String('0')),
+                    formatRupiah(String(nominal)),
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
@@ -1152,8 +1203,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String('0'), 'Rp. '),
-                    formatRupiah(String(nominal), 'Rp. '),
+                    formatRupiah(String('0')),
+                    formatRupiah(String(nominal)),
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
@@ -1238,7 +1289,7 @@
                 sumPengeluaranPemindahbukuan = sumPengeluaranPemindahbukuan + 0;
             }
         }
-        document.getElementById('pengeluaran_pemindahbukuan').value=formatRupiah(String(sumPengeluaranPemindahbukuan), 'Rp. ');
+        document.getElementById('pengeluaran_pemindahbukuan').value=formatRupiah(String(sumPengeluaranPemindahbukuan));
     }
     //simpan data
     function save() {

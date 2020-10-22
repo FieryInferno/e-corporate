@@ -410,7 +410,7 @@
     function nominalPajak(no) {
         var nilai   = $('#nominal_pajak' + no).val();
         var nilai1  = nilai.replace(/[^,\d]/g, '').toString();
-        $('#nominal_pajak' + no).val(formatRupiah(String(nilai), 'Rp. '));
+        $('#nominal_pajak' + no).val(formatRupiah(String(nilai)));
     }
 
     function getListPajak(id) {
@@ -475,7 +475,7 @@
             }, 0 );
 
             $( api.column( 9 ).footer() ).html(
-                formatRupiah(String(total), 'Rp. ')+',00'
+                formatRupiah(String(total))+',00'
             );
 
             $('.subtotalhead').val( numeral(total).format() )
@@ -662,7 +662,7 @@
                 </button>`,
                 noakun,
                 `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonly onchange="sum_total('${index}${no}', '${no}', '${jenis}');">`,
-                `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(String(sisapaguitem), 'Rp.')+',00'}" readonly>`,
+                `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(String(sisapaguitem))+',00'}" readonly>`,
                 `<a href="javascript:void(0)" class="edit_detail" id_barang="${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp;
                 <a href="javascript:void(0)" class="delete_detail text-danger"><i class="fas fa-trash"></i></a>`
             ]).draw( false );
@@ -824,7 +824,7 @@
 
     function sum(no, no1, jenis) {	
         var txtFirstNumberValue                     = document.getElementById('harga'+no).value.replace(/[^,\d]/g, '').toString();    
-        document.getElementById('harga'+no).value   = formatRupiah(txtFirstNumberValue, 'Rp.');
+        document.getElementById('harga'+no).value   = formatRupiah(txtFirstNumberValue);
 		var txtSecondNumberValue                    = document.getElementById('jumlah'+no).value;
         var result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
         var pajak                 = document.getElementById('total_pajak'+no).value;
@@ -842,20 +842,20 @@
             var sisapaguitem_baru       = String(parseInt(sisapaguitem) - result);
         }
 		if (!isNaN(result)) {
-			document.getElementById('subtotal'+no).value        = formatRupiah(String(result), 'Rp.')+',00';
+			document.getElementById('subtotal'+no).value        = formatRupiah(String(result))+',00';
             document.getElementById('subtotal_asli'+no).value   = result;
-            document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.')+',00';
+            document.getElementById('total'+no).value           = formatRupiah(String(result))+',00';
 		}
 		else if(txtFirstNumberValue !=null && txtSecondNumberValue == null){
 			document.getElementById('subtotal'+no).value = txtFirstNumberValue;
             document.getElementById('total'+no).value = txtFirstNumberValue;
 		}else{
-            document.getElementById('subtotal'+no).value        = formatRupiah(String(result), 'Rp.')+',00';
+            document.getElementById('subtotal'+no).value        = formatRupiah(String(result))+',00';
             document.getElementById('subtotal_asli'+no).value   = result;
-            document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.')+',00';
+            document.getElementById('total'+no).value           = formatRupiah(String(result))+',00';
 		}
         if (jenis == 'barang') {
-            document.getElementById('sisapaguitem_baru'+no).value = formatRupiah(sisapaguitem_baru, 'Rp.')+',00';
+            document.getElementById('sisapaguitem_baru'+no).value = formatRupiah(sisapaguitem_baru)+',00';
         }
         total_total[no1] = [];
         total_total[no1].push(parseInt(result));
@@ -889,9 +889,9 @@
             var sisapaguitem            = document.getElementById('sisapaguitem_lama'+no).value;
             var sisapaguitem_baru       = String(parseInt(sisapaguitem) - total);
         }
-        document.getElementById('total'+no).value = formatRupiah(String(total), 'Rp.')+',00';
+        document.getElementById('total'+no).value = formatRupiah(String(total))+',00';
         if (jenis == 'barang') {
-            document.getElementById('sisapaguitem_baru'+no).value = formatRupiah(sisapaguitem_baru, 'Rp.')+',00';
+            document.getElementById('sisapaguitem_baru'+no).value = formatRupiah(sisapaguitem_baru)+',00';
         }
         total_total[no1]    = [];
         total_total[no1].push((parseInt(total)));
@@ -903,7 +903,7 @@
         total_total.forEach(function callback(element, index, array) {
             a   += parseInt(element);
         })
-        $('#total_total').html(formatRupiah(String(a), 'Rp. ')+',00');
+        $('#total_total').html(formatRupiah(String(a))+',00');
         $('#grandtotal').val(a);
     }
 
@@ -966,7 +966,7 @@
                 `<input type="text" class="form-control" onkeyup="sum_total('${index}${rowindex}', '${rowindex}');" name="ppn[]" id="ppn${index}${rowindex}">`,
                 noakun,
                 `<input type="text" class="form-control" name="total[]" id="total${index}${rowindex}" readonly>`,
-                `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${rowindex}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${rowindex}" value="${formatRupiah(sisapaguitem, 'Rp.')+',00'}" readonly name="sisapaguitem_baru[]" >`,
+                `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${rowindex}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${rowindex}" value="${formatRupiah(sisapaguitem)+',00'}" readonly name="sisapaguitem_baru[]" >`,
                 `<a href="javascript:void(0)" class="edit_detail" id_barang="${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp;
                 <a href="javascript:void(0)" class="delete_detail text-danger" onclick="delete_detail('${no}')"><i class="fas fa-trash"></i></a>`
             ]).draw( false );
@@ -1062,7 +1062,7 @@
 
     function format(id) {
             var angka   = $('#'+id).val()
-            $('#'+id).val(formatRupiah(String(angka), 'Rp. '));
+            $('#'+id).val(formatRupiah(String(angka)));
         }
 
         function hitungtum() {
@@ -1076,7 +1076,7 @@
                 um = 0;
             }
             tum = um + jtem;
-            $('.tum').val(formatRupiah(String(tum), 'Rp. ') + ',00');
+            $('.tum').val(formatRupiah(String(tum)) + ',00');
             if (tum !== grandtotal) {
                 $('#alertjumlah').css('display', 'block');
             } else {
@@ -1119,6 +1119,6 @@
                 a8 = 0;
             }
             jtem    = a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8;
-            $('.jtem').val(formatRupiah(String(jtem), 'Rp. ') + ',00');
+            $('.jtem').val(formatRupiah(String(jtem)) + ',00');
         }
 </script>

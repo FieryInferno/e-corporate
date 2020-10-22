@@ -71,7 +71,7 @@ class Faktur_pembelian_model extends CI_Model {
 			'biayapengiriman'   => $biayapengiriman
 		]);
 		if($insert) {
-		    $i  = 0;
+			$i  = 0;
 			foreach ($this->input->post('idbarang') as $key) {
 				$this->db->insert('tfakturdetail', [
 					'idfaktur'		=> $idfaktur,

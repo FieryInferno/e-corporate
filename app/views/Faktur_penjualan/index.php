@@ -88,41 +88,40 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-        	{data: 'id', visible: false},
-        	{
-        		data: 'notrans',
-        		render: function(data,type,row) {
-        			var link = base_url + 'detail/' + row.id;
-        			return '<a href="'+link+'" class="badge badge-info">'+data+'</a>';
-        		}
-        	},
+          {data: 'id', visible: false},
+          {
+            data: 'notrans',
+            render: function(data,type,row) {
+              var link = base_url + 'detail/' + row.id;
+              return '<a href="'+link+'" class="badge badge-info">'+data+'</a>';
+            }
+          },
           {data: 'nomorsuratjalan'},
-        	{data: 'catatan', orderable: false},
+          {data: 'catatan', orderable: false},
           {data: 'namadepartemen'},
-        	{data: 'tanggal'},
+          {data: 'tanggal'},
           {data: 'tanggaltempo'},
-        	{data: 'supplier'},
+          {data: 'supplier'},
           {data: 'carabayar'},
-        	{data: 'gudang'},
-        	{
-        		data: 'total', className: 'text-right',
-        		render: function(data) {
-        			return formatRupiah(data, 'Rp. ');
-        		}
-        	},
-        	{
-        		data: 'status', className: 'text-center',
-        		render: function(data) {
-        			if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
-        			else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></sapan>';
-        			else if(data == '1') return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
-        		}
-        	},
+          {data: 'gudang'},
+          {
+            data: 'total', className: 'text-right',
+            render: function(data) {
+              return formatRupiah(data) + ',00';
+            }
+          },
+          {
+            data: 'status', className: 'text-center',
+            render: function(data) {
+              if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
+              else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></sapan>';
+              else if(data == '1') return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
+            }
+          },
           {
             data: 'id', width: 40, orderable: false,
             render: function(data,type,row) { 
               var tombol = '';
-           
               if (row.stts_kas != 1){
                   tombol += ` <a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="fas fa-pencil-alt"></i> Ubah</a>
                         <a href="javascript:deleteData('` + data+ `')" class="dropdown-item delete"><i class="fas fa-trash"></i> Hapus</a>`;
@@ -157,7 +156,7 @@
                 return intVal(a) + intVal(b); 
             }, 0 );
            
-            $('#total').html(formatRupiah(String(total), 'Rp. '));
+            $('#total').html(formatRupiah(String(total)) + ',00');
         }
 	});
 

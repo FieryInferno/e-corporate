@@ -78,7 +78,7 @@ total
                             <button type="button" class="btn btn-sm btn-primary btn_add_detail"><?php echo lang('add_new') ?></button>
                         </div>
                         <table class="table table-bordered" id="table_detail">
-                            <thead class="{bg_header}">
+                            <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th class="text-right" style="width:50px;">Nomor Penerimaan</th>
@@ -285,10 +285,10 @@ total
 			// 	}, 0 );
 
 			// Update footer
-			$( api.column( 6 ).footer() ).html(formatRupiah(String(subtotal), 'Rp.')+',00');
-            $( api.column( 7 ).footer() ).html(formatRupiah(String(biayapengiriman), 'Rp.')+',00');
-            $( api.column( 8 ).footer() ).html(formatRupiah(String(pajak), 'Rp.')+',00');
-            $( api.column( 9 ).footer() ).html(formatRupiah(String(subtotal+biayapengiriman+pajak), 'Rp.')+',00');
+			$( api.column( 6 ).footer() ).html(formatRupiah(String(subtotal))+',00');
+            $( api.column( 7 ).footer() ).html(formatRupiah(String(biayapengiriman))+',00');
+            $( api.column( 8 ).footer() ).html(formatRupiah(String(pajak))+',00');
+            $( api.column( 9 ).footer() ).html(formatRupiah(String(subtotal+biayapengiriman+pajak))+',00');
 		}
     })
 
@@ -382,10 +382,10 @@ total
                             data[index].detail_pengiriman[i].nama_barang,
                             data[index].departemen,
                             data[index].detail_pengiriman[i].jumlahditerima,
-                            formatRupiah(String(subtotal), 'Rp. ') + ',00',
-                            formatRupiah(biayapengiriman, 'Rp. ') + ',00',
-                            formatRupiah(pajak, 'Rp. ') + ',00',
-                            formatRupiah(String(subtotal + parseInt(biayapengiriman) + parseInt(pajak)), 'Rp. ') + ',00' +
+                            formatRupiah(String(subtotal)) + ',00',
+                            formatRupiah(biayapengiriman) + ',00',
+                            formatRupiah(pajak) + ',00',
+                            formatRupiah(String(subtotal + parseInt(biayapengiriman) + parseInt(pajak))) + ',00' +
                             `<input type="hidden" value="${subtotal + parseInt(biayapengiriman) + parseInt(pajak)}" name="total[]">`,
                             `<a href="javascript:void(0)" class="edit_detail" id_barang="${pengiriman[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp;
                             <a href="javascript:void(0)" class="delete_detail text-danger"><i class="fas fa-trash"></i></a>`
@@ -433,7 +433,7 @@ total
                                 a   += parseInt(data[index].angsuran.a8);
                                 break;
                         }
-                        $('#a' + j).val(formatRupiah(String(a), 'Rp. ') + ',00');
+                        $('#a' + j).val(formatRupiah(String(a)) + ',00');
                     }
                     $('#detail').html(detail);
                 }

@@ -21,48 +21,45 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-              <!-- <div class="card-header">
-				<a href="{site_url}item/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-			</div> -->
-              <div class="card-body">
-                <table class="table table-bordered table-striped index_datatable">
-                  <thead>
-				  <tr>
-					<th>ID</th>
-					<th><?php echo lang('notrans') ?></th>
-					<th><?php echo lang('note') ?></th>
-					<th><?php echo lang('date') ?></th>
-					<th>Perusahaan</th>
-					<th>Departemen</th>
-					<th><?php echo lang('supplier') ?></th>
-					<th>Nominal</th>
-					<th><?php echo lang('warehouse') ?></th>
-					<th><?php echo lang('status') ?></th>
-					<th><?php echo lang('aksi') ?></th>
-				</tr>
-					</thead>
-					<tbody></tbody>
-					<tfoot>
-						<tr>
-							<th colspan="7" style="text-align:right">Total:</th>
-							<th style="text-align:right"></th>
-							<th></th>
-							<th></th>
-							<th></th>
-						</tr>
-					</tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
+						<div class="card-body">
+							<table class="table table-bordered table-striped index_datatable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th><?php echo lang('notrans') ?></th>
+										<th><?php echo lang('note') ?></th>
+										<th><?php echo lang('date') ?></th>
+										<th>Perusahaan</th>
+										<th>Departemen</th>
+										<th><?php echo lang('supplier') ?></th>
+										<th>Nominal</th>
+										<th><?php echo lang('warehouse') ?></th>
+										<th><?php echo lang('status') ?></th>
+										<th><?php echo lang('aksi') ?></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+								<tfoot>
+									<tr>
+										<th colspan="7" style="text-align:right">Total:</th>
+										<th style="text-align:right"></th>
+										<th></th>
+										<th></th>
+										<th></th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
     </section>
-  </div>
+</div>
 <script type="text/javascript">
 	var base_url = '{site_url}pemesanan_pembelian/';
 	var table = $('.index_datatable').DataTable({
@@ -80,15 +77,15 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-        	{data: 'id', visible: false},
-        	{
-        		data: 'notrans',
+			{data: 'id', visible: false},
+			{
+				data: 'notrans',
 				render: function(data,type,row) {
 					var link = base_url + 'detail/' + row.id;
 					return '<a href="'+link+'" class="btn btn-sm btn-info">'+data+'</a>';
 				}
-        	},
-        	{data: 'catatan', orderable: false, width: '200px'},
+			},
+			{data: 'catatan', orderable: false, width: '200px'},
 			{data: 'tanggal'},
 			{data: 'nama_perusahaan'},
 			{data: 'departemen'},
@@ -96,21 +93,17 @@
 			{
 				data: 'total',
 				render: function(data,type,row) {
-					var total=`<div class="text-right">`+formatRupiah(data, 'Rp. ')+`,00</div>`;
+					var total=`<div class="text-right">`+formatRupiah(data)+`,00</div>`;
 					return total;
 				}
 			},
-        	{data: 'gudang'},
-        	{
-        		data: 'status',
-        		render: function(data) {
-        			// if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
-        			// else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></sapan>';
-        			// else if(data == '1') return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
-        			if(data == '6') return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
-        			else if(data == '5') return '<span class="badge badge-warning"><?php echo lang('peninjauan') ?></sapan>';
-        			// else if(data == '1') return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
-        		}
+			{data: 'gudang'},
+			{
+				data: 'status',
+				render: function(data) {
+					if(data == '6') return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
+					else if(data == '5') return '<span class="badge badge-warning"><?php echo lang('peninjauan') ?></sapan>';
+				}
 			},
 			{
 				data	: {
@@ -178,7 +171,7 @@
 
 			// Update footer
 			$( api.column( 7 ).footer() ).html(
-			formatRupiah(String(pageTotal), 'Rp.')+',00'
+			formatRupiah(String(pageTotal))+',00'
 			);
 		}
 	});

@@ -93,7 +93,7 @@
 			{
 				data: 'total',
 				render: function(data,type,row) {
-					var total=`<div class="text-right">`+formatRupiah(data, 'Rp. ')+`,00</div>`;
+					var total=`<div class="text-right">`+formatRupiah(data)+`,00</div>`;
 					return total;
 				}
 			},
@@ -180,7 +180,7 @@
 
 			// Update footer
 			$( api.column( 6 ).footer() ).html(
-			formatRupiah(String(pageTotal), 'Rp.')+',00'
+			formatRupiah(String(pageTotal))+',00'
 			);
 		}
 	});

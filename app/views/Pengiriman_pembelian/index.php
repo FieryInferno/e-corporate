@@ -102,14 +102,14 @@
 			{
 				data: 'nominal_pemesanan',
 				render: function(data,type,row) {
-					return formatRupiah(data, 'Rp. ') + ',00';
+					return formatRupiah(data) + ',00';
 				}
 			},
 			{data: 'supplier'},
 			{
 				data: 'nominal_penerimaan',
 				render: function(data,type,row) {
-					return formatRupiah(data, 'Rp. ') + ',00';
+					return formatRupiah(data) + ',00';
 				}
 			},
 			{data: 'gudang'},
@@ -190,10 +190,10 @@
 
 			// Update footer
 			$( api.column( 7 ).footer() ).html(
-				formatRupiah(String(pageTotal), 'Rp.')+',00'
+				formatRupiah(String(pageTotal))+',00'
 			);
 			$( api.column( 9 ).footer() ).html(
-				formatRupiah(String(pageTotal0), 'Rp.')+',00'
+				formatRupiah(String(pageTotal0))+',00'
 			);
 		}
 	});
