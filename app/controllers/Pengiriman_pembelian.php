@@ -190,9 +190,9 @@ class Pengiriman_pembelian extends User_Controller {
 		redirect(base_url('pengiriman_pembelian'));	
 	}
 
-	public function select2()
+	public function select2($kontak = null)
 	{
-		$data	= $this->model->get(null);
+		$data	= $this->model->get(null, $kontak);
 		$no		= 0;
 		foreach ($data as $key) {
 			$data0[$no]['id']	= $key['id'];

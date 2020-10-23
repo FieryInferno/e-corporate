@@ -308,10 +308,6 @@ total
                 id  : null 
             } 
         });
-        ajax_select({ 
-            id          : '.nopenerimaan', 
-            url         : '{site_url}Pengiriman_pembelian/select2'
-        });
     })
 
     $('#table_detail tbody').on('click','.delete_detail',function(){
@@ -488,4 +484,11 @@ total
             }
         })
     }
+
+    $(document).on('change', '.kontakid', function () {
+        ajax_select({ 
+            id          : '.nopenerimaan', 
+            url         : '{site_url}Pengiriman_pembelian/select2/' + $('.kontakid').val()
+        });
+    })
 </script>
