@@ -59,7 +59,7 @@
     </section>
 </div>
 <script>
-  var base_url = '{site_url}saldo_awal/';
+  var base_url = '{site_url}jurnal_penyesuaian/';
   var table = $('.index_datatable').DataTable({
 		ajax: {
 			url     : base_url + 'index_datatable',
@@ -73,23 +73,24 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-            {data : 'no'},
+            {data : 'notrans'},
             {data : 'tanggal'},
             {data : 'nama_perusahaan'},
             {data : 'keterangan'},
             {
-                data    : "debit",
+                data    : "totaldebet",
                 render: function(data,type,row) {
-                return formatRupiah(row.debit, 'Rp. ') + ',00';
+                return formatRupiah(String(data)) + ',00';
                 }
             },
             {
-                data    : "kredit",
+                data    : "totalkredit",
                 render: function(data,type,row) {
-                return formatRupiah(row.kredit, 'Rp. ') + ',00';
+                return formatRupiah(String(data)) + ',00';
                 }
             },
             {
+                data    : "idJurnalPenyesuaian",
                 render: function(data, type, row) {
                 var aksi = `
                     <div class="list-icons"> 
@@ -97,7 +98,7 @@
                         <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
                         <div class="dropdown-menu dropdown-menu-right">
                         <a class="dropdown-item" href=""><i class="fas fa-pencil-alt"></i> Edit</a>
-                        <a href="javascript:deleteData('` + row.idSaldoAwal + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+                        <a href="javascript:deleteData('` + data + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
                         </div> 
                     </div> 
                     </div>`;
@@ -130,22 +131,13 @@
                 .reduce( function (a, b) {
                 return intVal(a) + intVal(b);
                 }, 0 );
-                
-
-            // Total over this page
-            // pageTotal = api
-            // 	.column( 3, { page: 'current'} )
-            // 	.data()
-            // 	.reduce( function (a, b) {
-            // 		return intVal(a) + intVal(b);
-            // 	}, 0 );
 
             // Update footer
             $( api.column( 4 ).footer() ).html(
-                formatRupiah(String(totalDebit), 'Rp.')+',00'
+                formatRupiah(String(totalDebit))+',00'
             );
             $( api.column( 5 ).footer() ).html(
-                formatRupiah(String(totalKredit), 'Rp.')+',00'
+                formatRupiah(String(totalKredit))+',00'
             );
         }
 	});

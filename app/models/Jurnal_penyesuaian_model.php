@@ -123,5 +123,14 @@ class Jurnal_penyesuaian_model extends CI_Model {
 	{
 		return $this->$jenis;
 	}
+
+	public function index_datatable()
+	{
+		$this->load->library('Datatables');
+		$this->datatables->select('tjurnal.notrans, tjurnal.tanggal, mperusahaan.nama_perusahaan, tjurnal.keterangan, tjurnal.totaldebet, tjurnal.totalkredit, tjurnal.idJurnalPenyesuaian');
+		$this->datatables->join('mperusahaan', 'tjurnal.perusahaan = mperusahaan.idperusahaan');
+        $this->datatables->from('tjurnal');
+		return $this->datatables->generate();
+	}
 }
 

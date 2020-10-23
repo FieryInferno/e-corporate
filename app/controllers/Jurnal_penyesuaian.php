@@ -128,5 +128,10 @@ class Jurnal_penyesuaian extends User_Controller {
 	{
 		return $this->$jenis;
 	}
+
+	public function index_datatable() {
+		$data	= $this->model->index_datatable();
+        return print_r($data);
+    }
 }
 
