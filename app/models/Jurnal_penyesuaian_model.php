@@ -120,9 +120,17 @@ class Jurnal_penyesuaian_model extends CI_Model {
 		$this->$jenis	= $isi;
 	}
 
-	private function get($jenis)
+	public function get($jenis = null)
 	{
-		return $this->$jenis;
+		if ($jenis) {
+			return $this->$jenis;
+		} else {
+			$this->db->select('tjurnal.tanggal, tjurnal.notrans, mperusahaan.nama_perusahaan, mnoakun.akunno, mnoakun.namaakun, tjurnaldetail.debet, tjurnaldetail.kredit');
+			$this->db->join('mperusahaan', 'tjurnal.perusahaan = mperusahaan.idperusahaan');
+			$this->db->join('tjurnaldetail', 'tjurnal.idJurnalPenyesuaian = tjurnaldetail.idjurnal');
+			$this->db->join('mnoakun', 'tjurnaldetail.noakun = mnoakun.idakun');
+			return $this->db->get('tjurnal')->result_array();
+		}
 	}
 
 	public function index_datatable()

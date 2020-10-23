@@ -35,7 +35,7 @@ class Jurnal extends User_Controller {
 		if ($this->tipe) {
 			array_push($formulir, $this->tipe);
 		} else {
-			$formulir	= ['penerimaanBarang', 'pengirimanBarang', 'fakturPenjualan', 'fakturPembelian', 'kasBank', 'pengeluaranKasKecil', 'saldoAwal'];
+			$formulir	= ['penerimaanBarang', 'pengirimanBarang', 'fakturPenjualan', 'fakturPembelian', 'kasBank', 'pengeluaranKasKecil', 'saldoAwal', 'jurnalPenyesuaian'];
 		}
 		$jumlah	= count($formulir);
 		for ($i=0; $i < $jumlah; $i++) {
@@ -117,6 +117,26 @@ class Jurnal extends User_Controller {
 						]);
 					}
 				}
+			} elseif ($formulir[$i] == 'jurnalPenyesuaian') {
+				$data0	= $this->Jurnal_penyesuaian_model->get();
+				// print_r($data0);
+				// die();
+				if ($data0) {
+					foreach ($data0 as $key) {
+						array_push($data['jurnalUmum'], [
+							'tanggal'			=> $key['tanggal'],
+							'formulir'			=> 'Jurnal Penyesuaian',
+							'noTrans'			=> $key['notrans'],
+							'departemen'		=> '',
+							'nama_perusahaan' 	=> $key['nama_perusahaan'],
+							'akunno'			=> $key['akunno'],
+							'namaakun'			=> $key['namaakun'],
+							'jenis'				=> '',
+							'totalDebit'		=> $key['debet'],
+							'totalKredit'		=> $key['kredit'],
+						]);
+					}
+				}
 			} else {
 				$table = null;
 			}
@@ -145,7 +165,7 @@ class Jurnal extends User_Controller {
 
 	public function printpdf() {
 		$this->load->library('pdf');
-	    $pdf = $this->pdf;
+		$pdf = $this->pdf;
 
 		$tanggalawal = $this->input->get('tanggalawal');
 		$tanggalakhir = $this->input->get('tanggalakhir');
@@ -161,14 +181,14 @@ class Jurnal extends User_Controller {
 		$data['get_jurnal'] = $this->model->get_jurnal_print($data['tanggalawal'], $data['tanggalakhir']);
 		$data['title'] = lang('journal');
 		$data['subtitle'] = lang('list');
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Jurnal/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'landscape');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("jurnal-umum-". $time, array("Attachment" => false));
+		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+		$data = array_merge($data,path_info());
+		$html = $this->load->view('Jurnal/printpdf', $data, TRUE);
+		$pdf->loadHtml($html);
+		$pdf->setPaper('A4', 'landscape');
+		$pdf->render();
+		$time = time();
+		$pdf->stream("jurnal-umum-". $time, array("Attachment" => false));
 	}
 
 	public function create() {

@@ -11,8 +11,10 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 * ================================================= 
 */ 
 
- 
+
 class Kas_bank_model extends CI_Model {
+
+	private $idkasbank;
 
 	function get_kodeperusahaan($id){
         $query = $this->db->get_where('mperusahaan', array('idperusahaan' => $id));
@@ -125,12 +127,9 @@ class Kas_bank_model extends CI_Model {
 	}
 
 	public function delete() {
-		$id = $this->uri->segment(3);
-		$this->db->set('stdel','1');
-		$this->db->set('uby',get_user('username'));
-		$this->db->set('udate',date('Y-m-d H:i:s'));
+		$id	= $this->get('idKasBank');
 		$this->db->where('id', $id);
-		$update = $this->db->update('tkasbank');
+		$update = $this->db->delete('tkasbank');
 		if($update) {
 			$data0	= $this->db->get_where('tkasbankdetail', [
 				'idkasbank'	=> $id
@@ -143,22 +142,29 @@ class Kas_bank_model extends CI_Model {
 					]);
 				}
 			}
-			$data['status'] = 'success';
-			$data['message'] = lang('delete_success_message');
+			$this->db->where('idkasbank', $id);
+			$this->db->delete('tkasbankdetail');
+			return TRUE;
 		} else {
-			$data['status'] = 'error';
-			$data['message'] = lang('delete_error_message');
+			return FALSE;
 		}
-		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
-	
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
+	}
 
     public function kasbankdetail($idkasbank) {
 		$this->db->select('tkasbankdetail.*');
 		$this->db->where('tkasbankdetail.idkasbank', $idkasbank);
 		$get = $this->db->get('tkasbankdetail');
 		return $get->result_array();
+	}
+
+	private function get($jenis)
+	{
+		return $this->$jenis;
 	}
 }
 

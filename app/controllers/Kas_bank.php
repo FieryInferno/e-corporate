@@ -13,11 +13,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Kas_bank extends User_Controller
 {
+    private $idKasBank;
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Kas_bank_model', 'model');
+        $this->set('idKasBank', $this->input->post('idKasBank'));
     }
 
     public function index()
@@ -130,9 +132,16 @@ class Kas_bank extends User_Controller
     public function save() {
         $this->model->save();
     }
- 
+
     public function delete() {
-        $this->model->delete();
+        $this->model->set('idKasBank', $this->get('idKasBank'));
+		$delete	= $this->model->delete();
+		if ($delete) {
+			$data['status']	= 'success';
+		} else {
+			$data['status']	= 'error';
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
 
@@ -269,4 +278,14 @@ class Kas_bank extends User_Controller
         $data = $this->db->get('tsetorkaskecil')->result_array();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
+
+    private function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
+    }
+    
+    private function get($jenis)
+	{
+		return $this->$jenis;
+	}
 }

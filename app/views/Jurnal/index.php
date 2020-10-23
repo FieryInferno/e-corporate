@@ -86,16 +86,16 @@
                             <?php  
                                 switch ($value['jenis']) {
                                   case 'debit': ?>
-                                    <td>Rp. <?= number_format($value['total'],2,',','.'); ?></td>
-                                    <td>Rp. <?= number_format(0,2,',','.'); ?></td>
+                                    <td><?= number_format($value['total'],2,',','.'); ?></td>
+                                    <td><?= number_format(0,2,',','.'); ?></td>
                                     <?php break;
                                   case 'kredit': ?>
-                                    <td>Rp. <?= number_format(0,2,',','.'); ?></td>
-                                    <td>Rp. <?= number_format($value['total'],2,',','.'); ?></td>
+                                    <td><?= number_format(0,2,',','.'); ?></td>
+                                    <td><?= number_format($value['total'],2,',','.'); ?></td>
                                     <?php break;
                                   default: ?>
-                                    <td>Rp. <?= number_format($value['totalDebit'],2,',','.'); ?></td>
-                                    <td>Rp. <?= number_format($value['totalKredit'],2,',','.'); ?></td>
+                                    <td><?= number_format($value['totalDebit'],2,',','.'); ?></td>
+                                    <td><?= number_format($value['totalKredit'],2,',','.'); ?></td>
                                     <?php break;
                                 } ?>
                           </tr>
