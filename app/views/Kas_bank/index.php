@@ -21,44 +21,44 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-              <div class="card-header">
-			  <a href="{site_url}Kas_bank/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
+						<div class="card-header">
+							<a href="{site_url}Kas_bank/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+						</div>
+						<div class="card-body">
+							<table class="table table-striped index_datatable" onload="return data()">
+								<!-- <table class="table table-bordered table-striped index_datatable"> -->
+								<thead>
+									<tr class="text-center">
+										<th><?php echo lang('id') ?></th>
+										<th><?php echo lang('number') ?></th>
+										<th><?php echo lang('date') ?></th>
+										<th>Perusahaan</th>
+										<th><?php echo lang('reception') ?></th>
+										<th><?php echo lang('spending') ?></th>
+										<th><?php echo lang('Aksi') ?></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+								<tfoot class="bg-light">
+									<tr>
+										<th class="text-right" colspan="3"><?php echo lang('total') ?></th>
+										<th class="text-right"><a1></a1></th>
+										<th class="text-right"><a2></a2></th>
+										<th></th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
-              <div class="card-body">
-			  <table class="table table-striped index_datatable" onload="return data()">
-                <!-- <table class="table table-bordered table-striped index_datatable"> -->
-                  	<thead>
-					  <tr class="text-center">
-					  	<th><?php echo lang('id') ?></th>
-						<th><?php echo lang('number') ?></th>
-						<th><?php echo lang('date') ?></th>
-						<th><?php echo lang('reception') ?></th>
-						<th><?php echo lang('spending') ?></th>
-						<th><?php echo lang('Aksi') ?></th>
-					   </tr>
-                  	</thead>
-                  <tbody>                          
-                  </tbody>
-				  <tfoot class="bg-light">
-                <tr>
-                    <th class="text-right" colspan="3"><?php echo lang('total') ?></th>
-                    <th class="text-right"><a1></a1></th>
-                    <th class="text-right"><a2></a2></th>
-                    <th></th>
-                </tr>
-            </tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+		</div>
     </section>
-  </div>
+</div>
 
 <script type="text/javascript">
 	var base_url = '{site_url}Kas_bank/';
@@ -87,6 +87,10 @@
 			},
 			{
 				data		: 'tanggal',
+				className	: 'text-center'
+			},
+			{
+				data		: 'nama_perusahaan',
 				className	: 'text-center'
 			},
 			{

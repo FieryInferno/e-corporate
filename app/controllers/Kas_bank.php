@@ -31,7 +31,8 @@ class Kas_bank extends User_Controller
 
     public function index_datatable() {
         $this->load->library('Datatables');
-        $this->datatables->select('tkasbank.*');
+        $this->datatables->select('tkasbank.*, mperusahaan.nama_perusahaan');
+        $this->datatables->join('mperusahaan', 'tkasbank.perusahaan = mperusahaan.idperusahaan');
         $this->datatables->where('tkasbank.stdel', '0');
         $this->datatables->from('tkasbank');
         return print_r($this->datatables->generate());
