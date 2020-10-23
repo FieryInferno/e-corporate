@@ -205,6 +205,7 @@
                             <th>Nominal Bayar</th>
                             <th>Keterangan</th>
                             <th>Nomor Faktur</th>
+                            <th>Kontak</th>
                             <th>Nama Pelanggan</th>
                             <th>Tanggal</th>
                             <th>Nominal</th>
@@ -242,6 +243,7 @@
                             <th>Nominal Bayar</th>
                             <th>keterangan</th>
                             <th>Nomor Faktur</th>
+                            <th>Kontak</th>
                             <th>Tanggal</th>
                             <th>Nominal</th>
                         </tr>
@@ -310,6 +312,7 @@
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
+                            <th>Kontak</th>
                             <th>Keterangan</th>
                             <th>Departemen</th>
                             <th>Tanggal</th>
@@ -380,6 +383,7 @@
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
+                            <th>Kontak</th>
                             <th>Keterangan</th>
                             <th>Departemen</th>
                             <th>Tanggal</th>
@@ -450,6 +454,7 @@
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
+                            <th>Kontak</th>
                             <th>Keterangan</th>
                             <th>Departemen</th>
                             <th>Tanggal</th>
@@ -486,6 +491,7 @@
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
+                            <th>Kontak</th>
                             <th>Keterangan</th>
                             <th>Departemen</th>
                             <th>Tanggal</th>
@@ -713,26 +719,26 @@
 
     //datatable penjualan
     var tabelpenjualan = $('#tabelpenjualan').DataTable({
-        sort: false,
-        info: false,
-        searching: false,
-        paging: false,
-        columnDefs: [
-            {targets: [0,3,4,5,7], className : 'text-center'},
-            {targets: [6] , className: 'text-right'},
+        sort        : false,
+        info        : false,
+        searching   : true,
+        paging      : false,
+        columnDefs  : [
+            {targets    : [0,3,4,5,7], className : 'text-center'},
+            {targets    : [6] , className: 'text-right'},
             
         ],
     })
 
     //datatable pembelian
     var tabelpembelian = $('#tabelpembelian').DataTable({
-        sort: false,
-        info: false,
-        searching: false,
-        paging: false,
-        columnDefs: [
-            {targets: [0,2,3,4], className : 'text-center' },
-            {targets: [5] , className: 'text-right'},
+        sort        : false,
+        info        : false,
+        searching   : true,
+        paging      : false,
+        columnDefs  : [
+            {targets    : [0,2,3,4], className : 'text-center' },
+            {targets    : [5] , className: 'text-right'},
             
         ],
     })
@@ -740,7 +746,7 @@
     var tabelbudgetevent = $('#tabelbudgetevent').DataTable({
         sort: false,
         info: false,
-        searching: false,
+        searching   : true,
         paging: false,
         columnDefs: [
             {targets: [0,1,2,3,4] },
@@ -752,7 +758,7 @@
     var tabelrewardsales = $('#tabelrewardsales').DataTable({
         sort: false,
         info: false,
-        searching: false,
+        searching   : true,
         paging: false,
         columnDefs: [
             {targets: [0,1,2,3,4] },
@@ -764,7 +770,7 @@
     var tabelsetorpajak = $('#tabelsetorpajak').DataTable({
         sort: false,
         info: false,
-        searching: false,
+        searching   : true,
         paging: false,
         columnDefs: [
             {targets: [0,1,2,3,4] },
@@ -776,7 +782,7 @@
     var tabelkaskecil = $('#tabelkaskecil').DataTable({
         sort: false,
         info: false,
-        searching: false,
+        searching   : true,
         paging: false,
         columnDefs: [
             {targets: [0,1,2,3,4] },
@@ -788,7 +794,7 @@
     var tabelsetorkaskecil = $('#tabelsetorkaskecil').DataTable({
         sort: false,
         info: false,
-        searching: false,
+        searching   : true,
         paging: false,
         columnDefs: [
             {targets: [0,1,2,3,4] },
@@ -800,7 +806,7 @@
     var tabelreturjual = $('#tabelreturjual').DataTable({
         sort: false,
         info: false,
-        searching: false,
+        searching   : true,
         paging: false,
         columnDefs: [
             {targets: [0,1,2,3,4] },
@@ -812,7 +818,7 @@
     var tabelreturbeli = $('#tabelreturbeli').DataTable({
         sort: false,
         info: false,
-        searching: false,
+        searching   : true,
         paging: false,
         columnDefs: [
             {targets: [0,1,2,3,4] },
@@ -824,7 +830,7 @@
     var tabeldeposito = $('#tabeldeposito').DataTable({
         sort: false,
         info: false,
-        searching: false,
+        searching   : true,
         paging: false,
         columnDefs: [
             {targets: [0,1,2,3,4] },
@@ -846,47 +852,47 @@
                     var jumlah          = 0;
                     var nominalBayar    = [];
                     var keterangan      = [];
-                    if (response[index].uangmuka !== '') {
+                    if (response[index].uangmuka !== '' && response[index].uangmuka !== '0') {
                         nominalBayar[jumlah]    = response[index].uangmuka;
                         keterangan[jumlah]      = 'Uang Muka';
                         jumlah++;
                     } 
-                    if (response[index].a1 !== '') {
+                    if (response[index].a1 !== '' && response[index].a1 !== '0') {
                         nominalBayar[jumlah]    = response[index].a1;
                         keterangan[jumlah]     = 'Term Ke-1';
                         jumlah++;
                     } 
-                    if (response[index].a2 !== '') {
+                    if (response[index].a2 !== '' && response[index].a2 !== '0') {
                         nominalBayar[jumlah]    = response[index].a2;
                         keterangan[jumlah]      = 'Term Ke-2';
                         jumlah++;
                     } 
-                    if (response[index].a3 !== '') {
+                    if (response[index].a3 !== '' && response[index].a3 !== '0') {
                         nominalBayar[jumlah]    = response[index].a3;
                         keterangan[jumlah]      = 'Term Ke-3';
                         jumlah++;
                     } 
-                    if (response[index].a4 !== '') {
+                    if (response[index].a4 !== '' && response[index].a4 !== '0') {
                         nominalBayar[jumlah]    = response[index].a4;
                         keterangan[jumlah]      = 'Term Ke-4';
                         jumlah++;
                     } 
-                    if (response[index].a5 !== '') {
+                    if (response[index].a5 !== '' && response[index].a5 !== '0') {
                         nominalBayar[jumlah]    = response[index].a5;
                         keterangan[jumlah]      = 'Term Ke-5';
                         jumlah++;
                     } 
-                    if (response[index].a6 !== '') {
+                    if (response[index].a6 !== '' && response[index].a6 !== '0') {
                         nominalBayar[jumlah]    = response[index].a6;
                         keterangan[jumlah]      = 'Term Ke-6';
                         jumlah++;
                     } 
-                    if (response[index].a7 !== '') {
+                    if (response[index].a7 !== '' && response[index].a7 !== '0') {
                         nominalBayar[jumlah]    = response[index].a7;
                         keterangan[jumlah]      = 'Term Ke-7';
                         jumlah++;
                     } 
-                    if (response[index].a8 !== '') {
+                    if (response[index].a8 !== '' && response[index].a8 !== '0') {
                         nominalBayar[jumlah]    = response[index].a8;
                         keterangan[jumlah]      = 'Term Ke-8';
                         jumlah++;
@@ -897,6 +903,7 @@
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
+                            response[index].rekanan,
                             response[index].nama,
                             response[index].tanggal,
                             formatRupiah(String(response[index].total)) + ',00',
@@ -917,53 +924,52 @@
             data : {idPerusahaan: idPerusahaan, tgl: tgl },
             url: base_url + 'get_Pembelian',
             success: function(response) {
-                console.log(response);
                 for (let index = 0; index < response.length; index++) {
                     element = response[index];
                     var jumlah          = 0;
                     var nominalBayar    = [];
                     var keterangan      = [];
-                    if (response[index].uangmuka !== '') {
+                    if (response[index].uangmuka !== '' && response[index].uangmuka !== '0') {
                         nominalBayar[jumlah]    = response[index].uangmuka;
                         keterangan[jumlah]      = 'Uang Muka';
                         jumlah++;
                     }
-                    if (response[index].a1 !== '') {
+                    if (response[index].a1 !== '' && response[index].a1 !== '0') {
                         nominalBayar[jumlah]    = response[index].a1;
                         keterangan[jumlah]     = 'Term Ke-1';
                         jumlah++;
                     }
-                    if (response[index].a2 !== '') {
+                    if (response[index].a2 !== '' && response[index].a2 !== '0') {
                         nominalBayar[jumlah]    = response[index].a2;
                         keterangan[jumlah]      = 'Term Ke-2';
                         jumlah++;
                     }
-                    if (response[index].a3 !== '') {
+                    if (response[index].a3 !== '' && response[index].a3 !== '0') {
                         nominalBayar[jumlah]    = response[index].a3;
                         keterangan[jumlah]      = 'Term Ke-3';
                         jumlah++;
                     }
-                    if (response[index].a4 !== '') {
+                    if (response[index].a4 !== '' && response[index].a4 !== '0') {
                         nominalBayar[jumlah]    = response[index].a4;
                         keterangan[jumlah]      = 'Term Ke-4';
                         jumlah++;
                     }
-                    if (response[index].a5 !== '') {
+                    if (response[index].a5 !== '' && response[index].a5 !== '0') {
                         nominalBayar[jumlah]    = response[index].a5;
                         keterangan[jumlah]      = 'Term Ke-5';
                         jumlah++;
                     }
-                    if (response[index].a6 !== '') {
+                    if (response[index].a6 !== '' && response[index].a6 !== '0') {
                         nominalBayar[jumlah]    = response[index].a6;
                         keterangan[jumlah]      = 'Term Ke-6';
                         jumlah++;
                     }
-                    if (response[index].a7 !== '') {
+                    if (response[index].a7 !== '' && response[index].a7 !== '0') {
                         nominalBayar[jumlah]    = response[index].a7;
                         keterangan[jumlah]      = 'Term Ke-7';
                         jumlah++;
                     }
-                    if (response[index].a8 !== '') {
+                    if (response[index].a8 !== '' && response[index].a8 !== '0') {
                         nominalBayar[jumlah]    = response[index].a8;
                         keterangan[jumlah]      = 'Term Ke-8';
                         jumlah++;
@@ -974,6 +980,7 @@
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
+                            response[index].rekanan,
                             response[index].tanggal,
                             formatRupiah(String(response[index].total)) + ',00',
                         ]).draw();
