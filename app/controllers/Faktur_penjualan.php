@@ -14,9 +14,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Faktur_penjualan extends User_Controller {
 
+	private $id;
+	private $status;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Faktur_penjualan_model','model');
+		$this->setGet('id', $this->input->post('id'));
+		$this->setGet('status', $this->input->post('status'));
 	}
 
 	public function index() {
@@ -296,6 +301,30 @@ class Faktur_penjualan extends User_Controller {
         $pemesananid = $this->input->post('id',TRUE);
         $data = $this->model->get_detail_budgetevent($pemesananid)->result();
         echo json_encode($data);
-    }
+	}
+	
+	public function validasi()
+	{
+		$this->model->setGet('id', $this->setGet('id'));
+		$this->model->setGet('status', $this->setGet('status'));
+		$validasi	= $this->model->validasi();
+		if ($validasi) {
+			$data['status']	= 'success';
+			$data['pesan']	= 'Data Berhasil Divalidasi';
+		} else {
+			$data['status']	= 'error';
+			$data['pesan']	= 'Data Gagal Divalidasi';
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	private function setGet($jenis = null, $isi = null)
+	{
+		if ($isi) {
+			$this->$jenis	= $isi;
+		} else {
+			return $this->$jenis;
+		}
+	}
 }
 

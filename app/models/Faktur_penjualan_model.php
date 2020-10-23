@@ -14,6 +14,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Faktur_penjualan_model extends CI_Model {
 
+	private	$id;
+	private $status;
+
 	public function save() {
 		$notrans = $this->input->post('notrans', TRUE);
 		$ceknotrans = get_by_id('notrans',$notrans,'tfakturpenjualan');
@@ -245,6 +248,29 @@ class Faktur_penjualan_model extends CI_Model {
 			$data['message'] = 'Gagal menghapus data';
 		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function setGet($jenis = null, $isi = null)
+	{
+		if ($isi) {
+			$this->$jenis	= $isi;
+		} else {
+			return $this->$jenis;
+		}
+	}
+
+	public function validasi()
+	{
+		if ($this->setGet('status') == 1) {
+			$status	= 3;
+		} else {
+			$status	= 1;
+		}
+		$this->db->where('id', $this->setGet('id'));
+		$validasi	= $this->db->update('tfakturpenjualan', [
+			'status'	=> $status
+		]);
+		return $validasi;
 	}
 }
 

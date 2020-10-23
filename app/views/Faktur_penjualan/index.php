@@ -132,7 +132,6 @@
                   tombol += ` <a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="fas fa-pencil-alt"></i> Ubah</a>
                         <a href="javascript:deleteData('` + data+ `')" class="dropdown-item delete"><i class="fas fa-trash"></i> Hapus</a>`;
               }
-
               var aksi = `
                   <div class="list-icons"> 
                     <div class="dropdown"> 
@@ -140,6 +139,11 @@
                       <div class="dropdown-menu dropdown-menu-right">
                         `+tombol+`
                         <a class="dropdown-item" href="`+base_url+`printpdf/`+data+`"><i class="fas fa-print"></i> Cetak</a>
+                        <form method="post" id="formAksi">
+                          <input type="hidden" value="${data}" name="id">
+                          <input type="hidden" value="${row.status}" name="status">
+                          <a href="javascript:aksiData('validasi')" class="dropdown-item delete"><i class="fas fa-check"></i> Validasi</a>
+                        </form>
                       </div> 
                     </div> 
                   </div>`;
@@ -165,8 +169,17 @@
         }
 	});
 
-	function deleteData(id) {
-    swal("Anda yakin akan menghapus data?", {
+	function aksiData(jenis) {
+    switch (jenis) {
+      case 'validasi':
+        var warning = 'Anda yakin akan memvalidasi data?';
+        var url     = base_url + 'validasi';
+        break;
+    
+      default:
+        break;
+    }
+		swal(warning, {
       buttons: {
         cancel: "Batal",
         catch: {
@@ -174,32 +187,40 @@
         value: "ya",
         },
       },
-    })
-    .then((value) => {
-      switch (value) {
-        case "ya":
-        $.ajax({
-          url: base_url + 'delete/'+id,
-          beforeSend: function() {
-            pageBlock();
-          },
-          afterSend: function() {
-            unpageBlock();
-          },
-          success: function(data) {
-            if(data.status == 'success') {
-              swal("Berhasil!", data.message, "success");
-              setTimeout(function() { table.ajax.reload() }, 100);
-            } else {
-              swal("Gagal!", data.message, "error");
-            }
-          },
-          error: function() {
-            swal("Gagal!", "Internal Server Error!", "error");
-          }
-        })
-        break;
-      }
-    });
-  }
+		})
+		.then((value) => {
+			switch (value) {
+				case "ya":
+          var form    = new FormData($('#formAksi')[0]);
+          var id      = form.get('id');
+          var status  = form.get('status');
+          $.ajax({
+              url     : base_url + 'validasi',
+              method  : 'post',
+              data    : {
+                  'id'      : id,
+                  'status'  : status
+              },
+              beforeSend: function() {
+                  pageBlock();
+              },
+              afterSend: function() {
+                  unpageBlock();
+              },
+              success: function(data) {
+                  if(data.status == 'success') {
+                      swal("Berhasil!", data.pesan, "success");
+                      setTimeout(function() { table.ajax.reload() }, 100);
+                  } else {
+                      swal("Gagal!", data.pesan, "error");
+                  }
+              },
+              error: function() {
+                  swal("Gagal!", "Internal Server Error!", "error");
+              }
+          })
+          break;
+			}
+		});
+	}
 </script>
