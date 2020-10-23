@@ -22,14 +22,10 @@
     <section class="content">
         <div class="container-fluid">
             <!-- SELECT2 EXAMPLE -->
-            <div class="card card-danger">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Tambah {title}</h3>
-                    <div class="card-tools">
-                      <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                       <a href="{site_url}Pengeluaran_kas_kecil" class="btn btn-tool"><i class="fas fa-times"></i></a>
-                    </div>
-                  </div>
+                </div>
                 <!-- /.card-header -->
                 <div class="card-body">
                     <form action="javascript:save()" id="form1">
@@ -57,7 +53,7 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6">
-                                 <div class="form-group">
+                                <div class="form-group">
                                     <label><?php echo lang('Departemen') ?>:</label>
                                     <select id="departemen" class="form-control departemen" name="departemen" required></select>
                                 </div>
@@ -79,18 +75,23 @@
                         </div>
                         
                         <div class="row">
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label><?php echo lang('nominal') ?>:</label>
                                     <input type="text" id="nominal" class="form-control nominal text-right" name="nominal" readonly="" required="">
                                 </div>
-                               
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <label><?php echo lang('remaining_petty_cash') ?>:</label>
                                     <input type="text" id="sisa_kas_kecil" class="form-control sisa_kas_kecil text-right" name="sisa_kas_kecil" readonly>
                                 </div>  
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label>Setup Jurnal : </label>
+                                    <input type="text" class="form-control">
+                                </div>
                             </div>
                         </div>
             

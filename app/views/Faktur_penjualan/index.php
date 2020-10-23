@@ -93,7 +93,7 @@
             data: 'notrans',
             render: function(data,type,row) {
               var link = base_url + 'detail/' + row.id;
-              return '<a href="'+link+'" class="badge badge-info">'+data+'</a>';
+              return '<a href="'+link+'" class="btn btn-sm btn-info">'+data+'</a>';
             }
           },
           {data: 'nomorsuratjalan'},
@@ -155,7 +155,6 @@
             total = api.column(10).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
-           
             $('#total').html(formatRupiah(String(total)) + ',00');
         }
 	});

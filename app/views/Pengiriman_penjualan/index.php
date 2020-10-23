@@ -1,61 +1,61 @@
-   <!-- Content Wrapper. Contains page content -->
-   <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="<?= base_url('pemesanan_penjualan'); ?>">Penjualan</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item"><a href="<?= base_url('pemesanan_penjualan'); ?>">Penjualan</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">                   							
-				<div class="content">
-					<div class="card">
-						<div class="card-body">
-							<div class="table-responsive">
-								<table class="table table-bordered table-striped index_datatable">
-									<thead>
-										<tr>
-											<th>ID</th>
-											<th><?php echo lang('notrans') ?></th>
-											<th><?php echo lang('order') ?></th>
-											<th><?php echo lang('note') ?></th>
-											<th><?php echo lang('date') ?> Terima</th>
-											<th><?php echo lang('date') ?> PO</th>
-											<th><?php echo lang('supplier') ?></th>
-											<th><?php echo lang('Nomor Surat Jalan') ?></th>
-											<th><?php echo lang('warehouse') ?></th>
-											<th><?php echo lang('Departemen') ?></th>
-											<th><?php echo lang('status') ?></th>
-											<th><?php echo lang('action') ?></th>
-										</tr>
-									</thead>
-									<tbody></tbody>
-								</table>
-							</div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">                   							
+						<div class="content">
+							<div class="card">
+								<div class="card-body">
+									<div class="table-responsive">
+										<table class="table table-bordered table-striped index_datatable">
+											<thead>
+												<tr>
+													<th>ID</th>
+													<th><?php echo lang('notrans') ?></th>
+													<th><?php echo lang('order') ?></th>
+													<th><?php echo lang('note') ?></th>
+													<th><?php echo lang('date') ?> Terima</th>
+													<th><?php echo lang('date') ?> PO</th>
+													<th><?php echo lang('supplier') ?></th>
+													<th><?php echo lang('Nomor Surat Jalan') ?></th>
+													<th><?php echo lang('warehouse') ?></th>
+													<th><?php echo lang('Departemen') ?></th>
+													<th><?php echo lang('status') ?></th>
+													<th><?php echo lang('action') ?></th>
+												</tr>
+											</thead>
+											<tbody></tbody>
+										</table>
+									</div>
+								</div>
+							</div>				
 						</div>
-					</div>				
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+					</div>
+				</div>
+			</div>
+		</div>
     </section>
-  </div>
+</div>
 
 <script type="text/javascript">
 	var base_url = '{site_url}Pengiriman_penjualan/';
@@ -73,45 +73,45 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-        	{data: 'id', visible: false},
-        	{
-        		data: 'notrans',
-        		render: function(data,type,row) {
-                    var link =" ";
-                    if (row.status != '3'){
-        			    link = base_url + 'create/' + row.id;
-                    }else{
-                        link = base_url + 'detail/' + row.id;
-                    }
-        			return '<a href="'+link+'" class="badge badge-info">'+data+'</a>';
-        		}
-        	},
-        	{
-        		data: 'nopemesanan',
-        		render: function(data,type,row) {
-        			var link = '{site_url}pemesanan_penjualan/detail/' + row.idpemesanan;
-        			return '<a target="_blank" href="'+link+'" class="badge badge-info">'+data+'</a>';
-        		}
-        	},
-        	{data: 'catatan', orderable: false, },
-        	{data: 'tanggalterima'},
-        	{data: 'tanggal'},
-        	{data: 'supplier'},
-        	{data: 'nomorsuratjalan'},
-        	{data: 'gudang'},
-        	{data: 'departemen'},
-        	{
-        		data: 'status',
-        		render: function(data,type,row) {
-                    if((data == '3') && (row.validasi == '2')) return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
-                    else if(row.validasi == '1') return '<span class="badge badge-primary"><?php echo lang('Validasi') ?></sapan>';
-        			else if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?> <br>Pengiriman</sapan>';
-                    else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></sapan>';
-                    else  return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
-        		}
-        	},
-        	{
-        		data: 'id', width: 40, orderable: false, class: 'text-center',
+			{data: 'id', visible: false},
+			{
+				data: 'notrans',
+				render: function(data,type,row) {
+					var link =" ";
+					if (row.status != '3'){
+						link = base_url + 'create/' + row.id;
+					}else{
+						link = base_url + 'detail/' + row.id;
+					}
+					return '<a href="'+link+'" class="btn btn-info btn-sm">'+data+'</a>';
+				}
+			},
+			{
+				data: 'nopemesanan',
+				render: function(data,type,row) {
+					var link = '{site_url}pemesanan_penjualan/detail/' + row.idpemesanan;
+					return '<a target="_blank" href="'+link+'" class="btn btn-info btn-sm">'+data+'</a>';
+				}
+			},
+			{data: 'catatan', orderable: false, },
+			{data: 'tanggalterima'},
+			{data: 'tanggal'},
+			{data: 'supplier'},
+			{data: 'nomorsuratjalan'},
+			{data: 'gudang'},
+			{data: 'departemen'},
+			{
+				data: 'status',
+				render: function(data,type,row) {
+					if((data == '3') && (row.validasi == '2')) return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
+					else if(row.validasi == '1') return '<span class="badge badge-primary"><?php echo lang('Validasi') ?></sapan>';
+					else if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?> <br>Pengiriman</sapan>';
+					else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></sapan>';
+					else  return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
+				}
+			},
+			{
+				data: 'id', width: 40, orderable: false, class: 'text-center',
 				render: function(data,type,row) { 
                     var aksi = '';
                     var tombol = '';

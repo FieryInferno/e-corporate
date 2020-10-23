@@ -24,13 +24,9 @@
     <section class="content">
         <div class="container-fluid">
             <!-- SELECT2 EXAMPLE -->
-            <div class="card card-danger">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Detail {title}</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                       <a href="{site_url}Pengiriman_penjualan" class="btn btn-tool"><i class="fas fa-times"></i></a>
-                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -89,11 +85,11 @@
                             </table>
                         </div>
                         <div class="col-md-6">
-                             <table class="table">
+                            <table class="table">
                                 <tbody>
                                     <tr>
                                         <td><?php echo lang('subtotal') ?></td>
-                                        <td class="text-right font-weight-bold"><?php echo "Rp. " .number_format($subtotal,0,',','.') ?></td>
+                                        <td class="text-right font-weight-bold"><?php echo number_format($subtotal, 2,',','.') ?></td>
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('discount') ?></td>
@@ -107,19 +103,19 @@
                                                 $hasil_diskon = $hasil_diskon - $nominaldiskon;
                                             }
                                         ?>
-                                        <td class="text-right font-weight-bold"><?php echo "Rp. " .number_format($hasil_diskon,0,',','.') ?></td>
+                                        <td class="text-right font-weight-bold"><?php echo number_format($hasil_diskon, 2,',','.') ?></td>
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('ppn') ?></td>
-                                        <td class="text-right font-weight-bold"><?php echo "Rp. " .number_format($ppn,0,',','.') ?></td>
+                                        <td class="text-right font-weight-bold"><?php echo number_format($ppn, 2,',','.') ?></td>
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('Biaya Pengiriman') ?></td>
-                                        <td class="text-right font-weight-bold"><?php echo "Rp. " .number_format($biaya_pengiriman,0,',','.') ?></td>
+                                        <td class="text-right font-weight-bold"><?php echo number_format($biaya_pengiriman, 2,',','.') ?></td>
                                     </tr>
                                     <tr class="bg-light">
                                         <td><?php echo lang('total') ?></td>
-                                        <td class="text-right font-weight-bold"><?php echo "Rp. " .number_format($total,0,',','.') ?></td>
+                                        <td class="text-right font-weight-bold"><?php echo number_format($total, 2,',','.') ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -131,7 +127,7 @@
                             <div class="table-responsive">
                                 
                                 <table class="table table-bordered">
-                                    <thead class="{bg_header}">
+                                    <thead>
                                         <tr>
                                             <th><?php echo lang('item') ?></th>
                                             <th class="text-right"><?php echo lang('price') ?></th>
@@ -157,18 +153,18 @@
                                                     ?>
                                                 
                                                 </td>
-                                                <td class="text-right"><?php echo "Rp. " .number_format($row['harga'],0,',','.') ?></td>
+                                                <td class="text-right"><?php echo number_format($row['harga'], 2,',','.') ?></td>
                                                 <td class="text-right"><?php echo number_format($row['jumlah']) ?></td>
-                                                <td class="text-right"><?php echo "Rp. " .number_format($row['subtotal'],0,',','.') ?></td>
+                                                <td class="text-right"><?php echo number_format($row['subtotal'], 2,',','.') ?></td>
                                                 <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                                                <td class="text-right"><?php echo "Rp. " .number_format($row['ppn'],0,',','.') ?></td>
-                                                <td class="text-right"><?php echo "Rp. " .number_format($row['biaya_pengiriman'],0,',','.') ?></td>
-                                                <td class="text-right"><?php echo "Rp. " .number_format($row['total'],0,',','.') ?></td>
+                                                <td class="text-right"><?php echo number_format($row['ppn'], 2,',','.') ?></td>
+                                                <td class="text-right"><?php echo number_format($row['biaya_pengiriman'], 2,',','.') ?></td>
+                                                <td class="text-right"><?php echo number_format($row['total'], 2,',','.') ?></td>
                                             </tr>
                                         <?php endforeach ?>
                                         <tr class="bg-light">
                                             <td class="font-weight-bold text-right" colspan="7"><?php echo lang('grand_total') ?></td>
-                                            <td class="font-weight-bold text-right"><?php echo "Rp. " .number_format($grandtotal,0,',','.') ?></td>
+                                            <td class="font-weight-bold text-right"><?php echo number_format($grandtotal, 2,',','.') ?></td>
                                         </tr>
                                     </tbody>
                                 </table>

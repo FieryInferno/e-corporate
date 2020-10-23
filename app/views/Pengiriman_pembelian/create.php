@@ -68,7 +68,14 @@
                                     <input type="text" class="form-control" id="gudangid" disabled value="<?= $pengiriman['gudang']; ?>">
                                 </div>
                             </div>
-                            <div class="col-md-6">&nbsp;</div>
+
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Setup Jurnal : </label>
+                                    <input type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-3">&nbsp;</div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo lang('note') ?>:</label>
