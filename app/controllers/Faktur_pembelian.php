@@ -18,9 +18,12 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Faktur_pembelian extends User_Controller {
 
+	private $id;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Faktur_pembelian_model','model');
+		$this->setGet('id', $this->input->post('id'));
 	}
 
 	public function index() {
@@ -42,7 +45,7 @@ class Faktur_pembelian extends User_Controller {
 		return print_r($this->datatables->generate());
 	}
 
-	public function detail($id = null) {
+	public function detail() {
 		if($id) {
 			$data = $this->model->getfaktur($id);
 			if($data) {
@@ -250,6 +253,15 @@ class Faktur_pembelian extends User_Controller {
 			$data['message'] = lang('update_error_message');
 		}
 		redirect(base_url('faktur_pembelian'));	
+	}
+
+	private function setGet($jenis = null, $isi = null)
+	{
+		if ($isi) {
+			$this->$jenis	= $isi;
+		} else {
+			return $this->$jenis;
+		}
 	}
 }
 

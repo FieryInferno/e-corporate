@@ -125,7 +125,9 @@
             }
           },
           {
-            data: 'id', width: 40, orderable: false,
+            data  : 'id',
+            width: 40, 
+            orderable: false,
             render: function(data,type,row) { 
               var tombol = '';
               if (row.stts_kas != 1){
@@ -139,10 +141,10 @@
                       <div class="dropdown-menu dropdown-menu-right">
                         `+tombol+`
                         <a class="dropdown-item" href="`+base_url+`printpdf/`+data+`"><i class="fas fa-print"></i> Cetak</a>
-                        <form method="post" id="formAksi">
-                          <input type="hidden" value="${data}" name="id">
-                          <input type="hidden" value="${row.status}" name="status">
-                          <a href="javascript:aksiData('validasi')" class="dropdown-item delete"><i class="fas fa-check"></i> Validasi</a>
+                        <form method="post" id="formAksi${data}">
+                          <input type="hidden" value="${data}" name="id${data}">
+                          <input type="hidden" value="${row.status}" name="status${data}">
+                          <button type="button" onclick="aksiData('validasi', '${data}')" class="dropdown-item"><i class="fas fa-check"></i> Validasi</button>
                         </form>
                       </div> 
                     </div> 
@@ -169,7 +171,7 @@
         }
 	});
 
-	function aksiData(jenis) {
+	function aksiData(jenis, data) {
     switch (jenis) {
       case 'validasi':
         var warning = 'Anda yakin akan memvalidasi data?';
@@ -191,9 +193,10 @@
 		.then((value) => {
 			switch (value) {
 				case "ya":
-          var form    = new FormData($('#formAksi')[0]);
-          var id      = form.get('id');
-          var status  = form.get('status');
+          var form    = new FormData($(`#formAksi${data}`)[0]);
+          var id      = form.get(`id${data}`);
+          console.log(id);
+          var status  = form.get(`status${data}`);
           $.ajax({
               url     : base_url + 'validasi',
               method  : 'post',

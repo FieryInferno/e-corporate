@@ -84,8 +84,11 @@
 			{
 				data: 'notrans',
 				render: function(data,type,row) {
-					var link = base_url + 'detail/' + row.id;
-					return '<a href="#" class="btn btn-info">'+data+'</a>';
+					return `
+					<form action="${base_url + 'detail'}" method="post">
+						<input type="hidden" name="id" value="${row.id}">
+						<button type="submit" class="btn btn-info btn-sm">${data}</button>
+					</form>`;
 				}
 			},
 			{data: 'namaperusahaan'},
