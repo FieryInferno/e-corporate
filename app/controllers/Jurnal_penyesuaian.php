@@ -151,6 +151,18 @@ class Jurnal_penyesuaian extends User_Controller {
 	public function index_datatable() {
 		$data	= $this->model->index_datatable();
         return print_r($data);
-    }
+	}
+	
+	public function delete()
+	{
+		$this->model->set('idJurnalPenyesuaian', $this->get('idJurnalPenyesuaian'));
+		$delete	= $this->model->delete();
+		if ($delete) {
+			$data['status']	= 'success';
+		} else {
+			$data['status']	= 'error';
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }
 

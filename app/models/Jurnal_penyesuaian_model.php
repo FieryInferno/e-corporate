@@ -63,8 +63,6 @@ class Jurnal_penyesuaian_model extends CI_Model {
 	}
 
 	public function save() {
-		print_r($this->get('nomor'));
-		die();
 		$insertHead	= $this->db->insert('tjurnal', [
 			'idJurnalPenyesuaian'	=> $this->get('idJurnalPenyesuaian'),
 			'tanggal'				=> $this->get('tanggal'),
@@ -134,6 +132,24 @@ class Jurnal_penyesuaian_model extends CI_Model {
 		$this->datatables->join('mperusahaan', 'tjurnal.perusahaan = mperusahaan.idperusahaan');
         $this->datatables->from('tjurnal');
 		return $this->datatables->generate();
+	}
+
+	public function delete()
+	{
+		$id	= $this->get('idJurnalPenyesuaian');
+		$this->db->where('idJurnalPenyesuaian', $id);
+		$delete	= $this->db->delete('tjurnal');
+		if ($delete) {
+			$this->db->where('idjurnal', $id);
+			$delete	= $this->db->delete('tjurnaldetail');
+			if ($delete) {
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		} else {
+			return FALSE;
+		}
 	}
 }
 
