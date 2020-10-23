@@ -50,13 +50,13 @@ class Faktur_pembelian extends User_Controller {
 		if($id) {
 			$data = $this->model->getfaktur($id);
 			if($data) {
-				$data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
-				$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
-				$data['fakturdetail'] = $this->model->fakturdetail($data['id']);
-				$data['title'] = lang('invoice');
-				$data['subtitle'] = lang('detail');
-				$data['content'] = 'Faktur_pembelian/detail';
-				$data = array_merge($data,path_info());
+				$data['kontak']			= get_by_id('id',$data['kontakid'],'mkontak');
+				$data['gudang']			= get_by_id('id',$data['gudangid'],'mgudang');
+				$data['fakturdetail']	= $this->model->fakturdetail($data['id']);
+				$data['title']			= lang('invoice');
+				$data['subtitle']		= lang('detail');
+				$data['content']		= 'Faktur_pembelian/detail';
+				$data					= array_merge($data,path_info());
 				$this->parser->parse('template',$data);
 			} else {
 				show_404();

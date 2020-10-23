@@ -94,7 +94,7 @@
                                     <tbody>
                                         <tr>
                                             <td><?php echo lang('subtotal') ?></td>
-                                            <td class="text-right font-weight-bold"><?php echo number_format($subtotal), 2, ',','.' ?></td>
+                                            <td class="text-right font-weight-bold"><?php echo number_format($subtotal, 2, ',','.') ?></td>
                                         </tr>
                                         <tr>
                                             <td><?php echo lang('discount') ?></td>
@@ -156,10 +156,10 @@
                                             <tr>
                                                 <td><?php echo $row['item'] ?></td>
                                                 <td class="text-right"><?php echo number_format($row['harga'], 2, ',','.') ?></td>
-                                                <td class="text-right"><?php echo number_format($row['jumlah'], 2, ',','.') ?></td>
+                                                <td class="text-right"><?= $row['jumlah']; ?></td>
                                                 <td class="text-right"><?php echo number_format($row['subtotal'], 2, ',','.') ?></td>
                                                 <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                                                <td class="text-right"><?php echo number_format($row['ppn']) ?>%</td>
+                                                <td class="text-right"><?php echo number_format($row['ppn'], 2, ',','.') ?></td>
                                                 <td class="text-right"><?php echo number_format($row['total'], 2, ',','.') ?></td>
                                             </tr>
                                         <?php endforeach ?>
