@@ -1200,7 +1200,7 @@
             const stat = $(elem).is(":checked");
             const table = $('#isitabel');       
             if (stat) {
-               table_detail.row.add([
+                table_detail.row.add([
                     `${id}`,
                     `<button type="button" class="btn btn-danger delete_detail" id="button_SKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
                     `${tipe}`,

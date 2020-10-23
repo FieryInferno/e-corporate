@@ -132,6 +132,17 @@ class Kas_bank_model extends CI_Model {
 		$this->db->where('id', $id);
 		$update = $this->db->update('tkasbank');
 		if($update) {
+			$data0	= $this->db->get_where('tkasbankdetail', [
+				'idkasbank'	=> $id
+			])->result_array();
+			foreach ($data0 as $key) {
+				if ($key['tipe'] == 'Penjualan') {
+					$this->db->where('id', $key['idtipe']);
+					$this->db->update('tfakturpenjualan', [
+						'stts_kas'	=> '0'
+					]);
+				}
+			}
 			$data['status'] = 'success';
 			$data['message'] = lang('delete_success_message');
 		} else {
