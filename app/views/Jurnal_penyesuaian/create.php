@@ -166,7 +166,7 @@
 
     var table = $('#tabelNoAkun').DataTable({
 		ajax: {
-			url     : '{site_url}noakun/index_datatable/123',
+			url     : '{site_url}noakun/index_datatable',
 			type    : 'post',
 		},
 		stateSave: true,

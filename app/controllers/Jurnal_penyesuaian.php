@@ -21,6 +21,7 @@ class Jurnal_penyesuaian extends User_Controller {
 	private $kredit;
 	private $keterangan;
 	private $noAkun;
+	private $nomor;
 
 	public function __construct() {
 		parent::__construct();
@@ -32,6 +33,24 @@ class Jurnal_penyesuaian extends User_Controller {
 		$this->set('kredit', $this->input->post('kredit'));
 		$this->set('keterangan', $this->input->post('keterangan'));
 		$this->set('noAkun', $this->input->post('idAkun'));
+		if ($this->input->post('nomor') !== '') {
+			$this->set('nomor', $this->input->post('nomor'));
+		} else {
+			$nomor	= rand(1, 999);
+			switch (strlen($nomor)) {
+				case 1:
+					$nomor	= '00' . (string) $nomor;
+					break;
+				case 2:
+					$nomor	= '0' . (string) $nomor;
+					break;
+				
+				default:
+					$nomor	= $nomor;
+					break;
+			}
+			$this->set('nomor', $nomor . '/JP' . '/' . $this->get('perusahaan') . '/2020');
+		}
 	}
 
 	public function index() 
@@ -45,7 +64,7 @@ class Jurnal_penyesuaian extends User_Controller {
 
 	public function printpdf() {
 		$this->load->library('pdf');
-	    $pdf = $this->pdf;
+		$pdf = $this->pdf;
 
 		$tanggalawal = $this->input->get('tanggalawal');
 		$tanggalakhir = $this->input->get('tanggalakhir');
@@ -88,7 +107,7 @@ class Jurnal_penyesuaian extends User_Controller {
 		$this->model->set('kredit', $this->get('kredit'));
 		$this->model->set('keterangan', $this->get('keterangan'));
 		$this->model->set('noAkun', $this->get('noAkun'));
-		$this->model->set('noAkun', $this->get('noAkun'));
+		$this->model->set('nomor', $this->get('nomor'));
 		$data	= $this->model->save();
 		if ($data) {
 			$data0['status']	= 'success';

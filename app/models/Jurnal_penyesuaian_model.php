@@ -22,6 +22,7 @@ class Jurnal_penyesuaian_model extends CI_Model {
 	private $kredit;
 	private $keterangan;
 	private $noAkun;
+	private $nomor;
 
 	public function get_count_jurnal($tanggalawal, $tanggalakhir) {
 		$this->db->where('tjurnal.tanggal >=', $tanggalawal);
@@ -62,22 +63,24 @@ class Jurnal_penyesuaian_model extends CI_Model {
 	}
 
 	public function save() {
+		print_r($this->get('nomor'));
+		die();
 		$insertHead	= $this->db->insert('tjurnal', [
 			'idJurnalPenyesuaian'	=> $this->get('idJurnalPenyesuaian'),
 			'tanggal'				=> $this->get('tanggal'),
 			'perusahaan'			=> $this->get('perusahaan'),
 			'totaldebet'			=> $this->getTotal('debit', $this->get('debit')),
 			'totalkredit'			=> $this->getTotal('kredit', $this->get('kredit')),
-			'keterangan'			=> $this->get('keterangan')
+			'keterangan'			=> $this->get('keterangan'),
+			'notrans'				=> $this->get('nomor')
 		]);
-
 		if($insertHead) {
 			for ($i=0; $i < count($this->get('noAkun')); $i++) { 
 				$insertHead	+= $this->db->insert('tjurnaldetail', [
 					'idjurnal'		=> $this->get('idJurnalPenyesuaian'),
 					'noakun'		=> $this->get('noAkun')[$i],
-					'debet'			=> $this->get('debit')[$i],
-					'kredit'		=> $this->get('kredit')[$i],
+					'debet'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->get('debit')[$i]),
+					'kredit'		=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->get('kredit')[$i]),
 					'keterangan'	=> '-'
 				]);
 			}
@@ -95,7 +98,7 @@ class Jurnal_penyesuaian_model extends CI_Model {
 			case 'debit':
 				$this->totalDebit	= 0;
 				foreach ($data as $key) {
-					$this->totalDebit	+= (integer) $key;
+					$this->totalDebit	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
 				}
 				return $this->totalDebit;
 				break;
@@ -103,7 +106,7 @@ class Jurnal_penyesuaian_model extends CI_Model {
 			case 'kredit':
 				$this->totalKredit	= 0;
 				foreach ($data as $key) {
-					$this->totalKredit	+= (integer) $key;
+					$this->totalKredit	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
 				}
 				return $this->totalDebit;
 				break;
