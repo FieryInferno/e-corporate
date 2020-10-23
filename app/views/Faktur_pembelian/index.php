@@ -40,6 +40,7 @@
 										<th>Pajak</th>
 										<th><?php echo lang('total') ?></th>
 										<th><?php echo lang('status') ?></th>
+										<th>Setup Jurnal</th>
 										<th>Aksi</th>
 									</tr>
 								</thead>
@@ -118,6 +119,12 @@
 				}
 			},
 			{
+				className: 'text-center',
+				render: function(data) {
+					return '';
+				}
+			},
+			{
 				data: {
 					id		: 'id',
 					status	: 'status'
@@ -182,13 +189,13 @@
 
 			// Update footer
 			$( api.column( 6 ).footer() ).html(
-				formatRupiah(String(total), 'Rp.')+',00'
+				formatRupiah(String(total))+',00'
 			);
 			$( api.column( 7 ).footer() ).html(
-				formatRupiah(String(totalBiayaPengiriman), 'Rp.')+',00'
+				formatRupiah(String(totalBiayaPengiriman))+',00'
 			);
 			$( api.column( 8 ).footer() ).html(
-				formatRupiah(String(totalPajak), 'Rp.')+',00'
+				formatRupiah(String(totalPajak))+',00'
 			);
 		}
 	});

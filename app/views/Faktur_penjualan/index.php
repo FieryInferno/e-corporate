@@ -31,26 +31,26 @@
 			  </div>
           <div class="card-body">
             <div class="table-responsive">
-      			  <table class="table table-striped index_datatable" onload="return data()">
-                      <!-- <table class="table table-bordered table-striped index_datatable"> -->
-                        	<thead class="">
-      						<tr>
-      							<th>ID</th>
-      							<th><?php echo lang('notrans') ?></th>
+              <table class="table table-striped index_datatable" onload="return data()">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th><?php echo lang('notrans') ?></th>
                     <th><?php echo lang('Surat Jalan') ?></th>
-      							<th><?php echo lang('note') ?></th>
+                    <th><?php echo lang('note') ?></th>
                     <th><?php echo lang('Departemen') ?></th>
-      							<th><?php echo lang('date') ?></th>
+                    <th><?php echo lang('date') ?></th>
                     <th><?php echo lang('date') ?>J/T</th>
-      							<th><?php echo lang('supplier') ?></th>
+                    <th><?php echo lang('supplier') ?></th>
                     <th><?php echo lang('Cara Bayar') ?></th>
-      							<th><?php echo lang('warehouse') ?></th>
-      							<th><?php echo lang('total') ?></th>
-      							<th><?php echo lang('status') ?></th>
+                    <th><?php echo lang('warehouse') ?></th>
+                    <th><?php echo lang('total') ?></th>
+                    <th><?php echo lang('status') ?></th>
+                    <th>Setup Jurnal</th>
                     <th><?php echo lang('Aksi') ?></th>
-      						</tr>
-      					</thead>
-      					<tbody></tbody>
+                  </tr>
+                </thead>
+                <tbody></tbody>
                 <tfoot class="bg-light">
                   <tr>
                     <th>ID</th>
@@ -116,6 +116,12 @@
               if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?></sapan>';
               else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></sapan>';
               else if(data == '1') return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
+            }
+          },
+          {
+            className: 'text-center',
+            render: function(data) {
+              return '';
             }
           },
           {

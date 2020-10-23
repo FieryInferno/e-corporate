@@ -41,6 +41,7 @@
 													<th><?php echo lang('warehouse') ?></th>
 													<th><?php echo lang('Departemen') ?></th>
 													<th><?php echo lang('status') ?></th>
+													<th>Setup Jurnal</th>
 													<th><?php echo lang('action') ?></th>
 												</tr>
 											</thead>
@@ -108,6 +109,11 @@
 					else if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?> <br>Pengiriman</sapan>';
 					else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></sapan>';
 					else  return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
+				}
+			},
+			{
+				render: function(data,type,row) {
+					return '';
 				}
 			},
 			{

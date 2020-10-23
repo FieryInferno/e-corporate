@@ -23,39 +23,41 @@
         <div class="row">
           <div class="col-12">         
             <div class="card">
-				<!-- <div class="card-header">
-					<a href="{site_url}pengiriman_pembelian/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-				</div> -->
-              <div class="card-body">
-                <table class="table table-bordered table-striped index_datatable">
-                  <thead>
-				  <tr>
-				  <th>ID</th>
-					<th><?php echo lang('notrans') ?></th>
-					<th><?php echo lang('order') ?></th>
-					<th><?php echo lang('note') ?></th>
-					<th>Perusahaan</th>
-					<th>Departemen</th>
-					<th><?php echo lang('date') ?></th>
-					<th style="text-align:right">Nominal Pemesanan</th>
-					<th><?php echo lang('supplier') ?></th>
-					<th style="text-align:right">Nominal Penerimaan</th>
-					<th><?php echo lang('warehouse') ?></th>
-					<th><?php echo lang('status') ?></th>
-					<th><?php echo lang('action') ?></th>
-				</tr>
-                  </thead>
-                  <tbody></tbody>
-					<tfoot>
-						<th colspan="7" style="text-align:right">Total :</th>
-						<th style="text-align:right"></th>
-						<th style="text-align:right">Total :</th>
-						<th style="text-align:right"></th>
-						<th></th>
-						<th></th>
-					</tfoot>
-                </table>
-              </div>
+				<div class="card-body">
+					<table class="table table-bordered table-striped index_datatable">
+						<thead>
+							<tr>
+								<th>ID</th>
+								<th><?php echo lang('notrans') ?></th>
+								<th><?php echo lang('order') ?></th>
+								<th><?php echo lang('note') ?></th>
+								<th>Perusahaan</th>
+								<th>Departemen</th>
+								<th><?php echo lang('date') ?></th>
+								<th style="text-align:right">Nominal Pemesanan</th>
+								<th><?php echo lang('supplier') ?></th>
+								<th style="text-align:right">Nominal Penerimaan</th>
+								<th><?php echo lang('warehouse') ?></th>
+								<th><?php echo lang('status') ?></th>
+								<th>Setup Jurnal</th>
+								<th><?php echo lang('action') ?></th>
+							</tr>
+						</thead>
+						<tbody></tbody>
+						<tfoot>
+							<tr>
+								<th colspan="7" style="text-align:right">Total :</th>
+								<th style="text-align:right"></th>
+								<th style="text-align:right">Total :</th>
+								<th style="text-align:right"></th>
+								<th></th>
+								<th></th>
+								<th></th>
+								<th></th>
+							</tr> 
+						</tfoot>
+					</table>
+				</div>
             </div>
           </div>
         </div>
@@ -119,6 +121,11 @@
 					if(data == '3') return '<span class="badge badge-success"><?php echo lang('done') ?></span>';
 					else if(data == '2') return '<span class="badge badge-warning"><?php echo lang('partial') ?></span>';
 					else if(data == '1') return '<span class="badge badge-danger"><?php echo lang('pending') ?></span>';
+				}
+			},
+			{
+				render: function(data) {
+					return '';
 				}
 			},
 			{
