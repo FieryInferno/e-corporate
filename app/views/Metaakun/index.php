@@ -132,7 +132,7 @@
 	var base_url = '{site_url}metaakun/';
     ajax_select({
         id  : '.kode_akun',	
-        url : '{site_url}noakun/select2_noakun/145',
+        url : '{site_url}noakun/select2_noakun',
     });
     ajax_select({
         id  : '.kode_akun_1',	
