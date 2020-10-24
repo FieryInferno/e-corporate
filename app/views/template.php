@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>{title} :: Akuntansi Sederhana<?php echo get_pengaturan('app_name') ?></title>
+    <title>{title} :: <?php echo get_pengaturan('app_name') ?></title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
