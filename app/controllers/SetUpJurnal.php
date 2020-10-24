@@ -15,13 +15,14 @@ class SetUpJurnal extends User_Controller {
 	private $jenisAnggaran;
 	private $idJurnalAnggaran;
 	private $idJurnalFinansial;
+	private $jenis;
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->setIdSetupJurnal($this->input->post('idSetupJurnal'));
 		$this->setKodeJurnal($this->input->post('kodeJurnal'));
-		$this->setFormulir($this->input->post('formulir'));
+		$this->setGet('formulir', $this->input->post('formulir'));
 		$this->setKeterangan($this->input->post('keterangan'));
 		$this->setElemenJurnalAnggaran($this->input->post('elemenjurnalAnggaran'));
 		$this->setElemenJurnalFinansial($this->input->post('elemenjurnalFinansial'));
@@ -29,6 +30,7 @@ class SetUpJurnal extends User_Controller {
 		$this->setJenisFinansial($this->input->post('d/kjurnalFinansial'));
 		$this->setIdJurnalAnggaran($this->input->post('idJurnalAnggaran'));
 		$this->setIdJurnalFinansial($this->input->post('idJurnalFinansial'));
+		$this->setGet('jenis', $this->input->post('jenis'));
 		switch ($this->uri->segment(2)) {
 			case 'edit':
 				$this->setSubtitle('Edit');
@@ -44,11 +46,6 @@ class SetUpJurnal extends User_Controller {
 	private function setKodeJurnal($kodeJurnal)
 	{
 		$this->kodeJurnal	= $kodeJurnal;
-	}
-
-	private function setFormulir($formulir)
-	{
-		$this->formulir	= $formulir;
 	}
 
 	private function setKeterangan($keterangan)
@@ -89,11 +86,6 @@ class SetUpJurnal extends User_Controller {
 	private function getKodeJurnal()
 	{
 		return $this->kodeJurnal;
-	}
-
-	private function getFormulir()
-	{
-		return $this->formulir;
 	}
 
 	private function getKeterangan()
@@ -223,7 +215,7 @@ class SetUpJurnal extends User_Controller {
 	{
 		$this->SetUpJurnal_Model->setIdSetupJurnal($this->getIdSetupJurnal());
 		$this->SetUpJurnal_Model->setKodeJurnal($this->getKodeJurnal());
-		$this->SetUpJurnal_Model->setFormulir($this->getFormulir());
+		$this->SetUpJurnal_Model->setGet('formulir', $this->setGet('formulir'));
 		$this->SetUpJurnal_Model->setKeterangan($this->getKeterangan());
 		$data	= $this->SetUpJurnal_Model->edit();
 		if ($data) {
@@ -242,5 +234,22 @@ class SetUpJurnal extends User_Controller {
 			$data0['message'] = lang('save_error_message');
 		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data0));
+	}
+
+	private function setGet($jenis = null, $isi = null)
+	{
+		if ($isi) {
+			$this->$jenis	= $isi;
+		} else {
+			return $this->$jenis;
+		}
+	}
+
+	public function get()
+	{
+		$this->SetUpJurnal_Model->setGet('jenis', $this->setGet('jenis'));
+		$this->SetUpJurnal_Model->setGet('formulir', $this->setGet('formulir'));
+		$data	= $this->SetUpJurnal_Model->getByJenis();
+		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 }

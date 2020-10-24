@@ -362,19 +362,19 @@ total
                 },
                 success: function(data) {
                     var detail  = '';
-                    switch (data[0].cara_pembayaran) {
-                        case 'cash':
-                            $('#setupJurnal1').val('BLJ01');
-                            $('#setupJurnal2').val('BLJ01');
-                            break;
-                        case 'credit':
-                            $('#setupJurnal1').val('BLJ02');
-                            $('#setupJurnal2').val('BLJ02');
-                            break;
-                    
-                        default:
-                            break;
-                    }
+                    $.ajax({
+                        url         : '{site_url}SetUpJurnal/get',
+                        dataType    : 'json',
+                        method      : 'post',
+                        data        : {
+                            id       : data[0].cara_pembayaran,
+                            formulir    : 'fakturPembelian'
+                        },
+                        success: function(data) {
+                            $('#setupJurnal1').val(data['idSetupJurnal']);
+                            $('#setupJurnal2').val(data['kodeJurnal']);
+                        }
+                    });
                     for (let i = 0; i < data[index].detail_pengiriman.length; i++) {
                         var subtotal        = parseInt(data[index].detail_pengiriman[i].jumlahditerima) * parseInt(data[index].detail_pengiriman[i].harga);
                         var biayapengiriman = data[index].detail_pengiriman[i].biayapengiriman;
@@ -402,7 +402,6 @@ total
                     }
                     for (let j = 0; j < 11; j++) {
                         a   = parseInt($('#a' + j).val().replace(/[\Rp.]/g, '').replace(/,00/g, ''));
-                        console.log(a);
                         if (isNaN(a)) {
                             a   = 0;
                         }

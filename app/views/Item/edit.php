@@ -61,7 +61,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label><?php echo lang('purchase_price') ?>:</label>
-                                <input type="text" class="form-control hargabeli" name="hargabeli" required value="<?= "Rp " . number_format($hargabeli, 0,',','.'); ?>">
+                                <input type="text" class="form-control hargabeli" name="hargabeli" required value="<?= number_format($hargabeli, 0,',','.'); ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -75,7 +75,7 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label><?php echo lang('sales_price') ?>:</label>
-                                <input type="text" class="form-control hargajual" name="hargajual" required value="<?= "Rp " . number_format($hargajual, 0,',','.'); ?>">
+                                <input type="text" class="form-control hargajual" name="hargajual" required value="<?= number_format($hargajual, 0,',','.'); ?>">
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -146,7 +146,7 @@
 
     $(document).on('keyup','.hargajual, .hargabeli',function(){
         var val = $(this).val();
-        $(this).val( formatRupiah(val, 'Rp. ') );
+        $(this).val( formatRupiah(val) );
     })
 
     function save() {

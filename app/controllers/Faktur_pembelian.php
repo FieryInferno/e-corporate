@@ -36,10 +36,11 @@ class Faktur_pembelian extends User_Controller {
 
 	public function index_datatable() {
 		$this->load->library('Datatables');
-		$this->datatables->select('tfaktur.id, tfaktur.notrans,  mperusahaan.nama_perusahaan as namaperusahaan,  tfaktur.tanggal, mkontak.nama as rekanan, mgudang.nama as gudang, mkontak.nama as supplier, tfaktur.total, tfaktur.status, tfaktur.ppn as pajak, tfaktur.biayaPengiriman as biaya_pengiriman');
+		$this->datatables->select('tfaktur.id, tfaktur.notrans,  mperusahaan.nama_perusahaan as namaperusahaan,  tfaktur.tanggal, mkontak.nama as rekanan, mgudang.nama as gudang, mkontak.nama as supplier, tfaktur.total, tfaktur.status, tfaktur.ppn as pajak, tfaktur.biayaPengiriman as biaya_pengiriman, tSetupJurnal.kodeJurnal');
 		$this->datatables->join('mkontak','tfaktur.kontakid = mkontak.id','left');
 		$this->datatables->join('mgudang','tfaktur.gudangid = mgudang.id','left');
 		$this->datatables->join('mperusahaan','tfaktur.perusahaanid = mperusahaan.idperusahaan','left');
+		$this->datatables->join('tSetupJurnal','tfaktur.setupJurnal = tSetupJurnal.idSetupJurnal','left');
 		// $this->datatables->where('tfaktur.tipe','1');
 		$this->datatables->from('tfaktur');
 		return print_r($this->datatables->generate());

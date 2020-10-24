@@ -122,10 +122,8 @@
 				}
 			},
 			{
-				className: 'text-center',
-				render: function(data) {
-					return '';
-				}
+				data		: 'kodeJurnal',
+				className	: 'text-center'
 			},
 			{
 				data: {

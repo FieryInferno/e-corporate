@@ -1,56 +1,53 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-              <div class="card-header">
-				<a href="{site_url}item/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
+						<div class="card-header">
+							<a href="{site_url}item/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+						</div>
+						<div class="card-body">
+							<table class="table table-bordered table-striped index_datatable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th><?php echo lang('code') ?></th>
+										<th><?php echo lang('name') ?></th>
+										<th><?php echo lang('unit') ?></th>
+										<th><?php echo lang('category') ?></th>
+										<th><?php echo lang('stock') ?></th>
+										<th><?php echo lang('Hrg Beli Terakhir') ?></th>
+										<th><?php echo lang('Total Persediaan') ?></th>
+										<th class="text-center"><?php echo lang('action') ?></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
-              <div class="card-body">
-                <table class="table table-bordered table-striped index_datatable">
-                  <thead>
-				  <tr>
-					<th>ID</th>
-					<th><?php echo lang('code') ?></th>
-					<th><?php echo lang('name') ?></th>
-					<th><?php echo lang('unit') ?></th>
-					<th><?php echo lang('category') ?></th>
-					<th><?php echo lang('stock') ?></th>
-					<th><?php echo lang('Hrg Beli Terakhir') ?></th>
-					<th><?php echo lang('Total Persediaan') ?></th>
-					<th class="text-center"><?php echo lang('action') ?></th>
-				</tr>
-                  </thead>
-                  <tbody>                          
-                  </tbody>
-                  <tfoot>                 
-                  </tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+		</div>
     </section>
   </div>
 
@@ -86,15 +83,15 @@
 			{
 				data: 'hargabeliterakhir', className: 'text-right', orderable: false,
 				render: function(data, type, row) {
-					if(data > 0) return formatRupiah(data, 'Rp. ') + ',00';
-					else return formatRupiah(row.hargabeli, 'Rp. ') + ',00';
+					if(data > 0) return formatRupiah(data) + ',00';
+					else return formatRupiah(row.hargabeli) + ',00';
 				}
 			},
 			{
 				data: 'totalpersediaan', className: 'text-right', orderable: false,
 				render: function(data, type, row) {
-					if(data) return formatRupiah(data, 'Rp. ') + ',00';
-					else return formatRupiah(row.hargabeli, 'Rp. ') + ',00';
+					if(data) return formatRupiah(data) + ',00';
+					else return formatRupiah(row.hargabeli) + ',00';
 				}
 			},
 			{

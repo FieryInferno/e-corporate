@@ -19,15 +19,11 @@ class SetUpJurnal_model extends CI_Model {
 	private $formulir;
 	private $keterangan;
     private $table  = 'tSetupJurnal';
+    private $jenis;
     
     public function setKodeJurnal($kodeJurnal)
 	{
 		$this->kodeJurnal	= $kodeJurnal;
-	}
-
-	public function setFormulir($formulir)
-	{
-		$this->formulir	= $formulir;
 	}
 
 	public function setKeterangan($keterangan)
@@ -38,11 +34,6 @@ class SetUpJurnal_model extends CI_Model {
 	protected function getKodeJurnal()
 	{
 		return $this->kodeJurnal;
-	}
-
-	protected function getFormulir()
-	{
-		return $this->formulir;
 	}
 
 	protected function getKeterangan()
@@ -141,10 +132,27 @@ class SetUpJurnal_model extends CI_Model {
         $this->db->where('idSetupJurnal', $this->getIdSetupJurnal());
         $data   = $this->db->update($this->table, [
             'kodeJurnal'    => $this->getKodeJurnal(),
-            'formulir'      => $this->getFormulir(),
+            'formulir'      => $this->setGet('formulir'),
             'keterangan'    => $this->getKeterangan()
         ]);
         return $data;
+    }
+
+    public function setGet($jenis = null, $isi = null)
+	{
+		if ($isi) {
+			$this->$jenis	= $isi;
+		} else {
+			return $this->$jenis;
+		}
+    }
+    
+    public function getByJenis()
+    {
+        $this->db->like('keterangan', $this->setGet('jenis'));
+        return $this->db->get_where($this->table, [
+            'formulir'  => $this->setGet('formulir')  
+        ])->row_array();
     }
 }
 

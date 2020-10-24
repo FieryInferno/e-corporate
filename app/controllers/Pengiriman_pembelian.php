@@ -33,7 +33,7 @@ class Pengiriman_pembelian extends User_Controller {
 		$this->datatables->from('tPenerimaan');
 		$this->datatables->join('tpemesanan', 'tPenerimaan.pemesanan = tpemesanan.id');
 		$this->datatables->join('mkontak','tpemesanan.kontakid = mkontak.id');
-		$this->datatables->join('mgudang','tpemesanan.gudangid = mgudang.id', 'left');
+		$this->datatables->join('mgudang','tPenerimaan.gudang = mgudang.id', 'left');
 		$this->datatables->join('mperusahaan','tpemesanan.idperusahaan = mperusahaan.idperusahaan');
 		$this->datatables->where('tpemesanan.status', '6');
 		return print_r($this->datatables->generate());
@@ -76,20 +76,20 @@ class Pengiriman_pembelian extends User_Controller {
 	}
 
 	public function printpdf($id = null) {
-	    $this->load->library('pdf');
-	    $pdf = $this->pdf;
-	    $data = $this->model->getpengiriman($id);
+		$this->load->library('pdf');
+		$pdf = $this->pdf;
+		$data = $this->model->getpengiriman($id);
 		$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
 		$data['pengirimandetail'] = $this->model->pengirimandetail($data['id']);
-	    $data['title'] = lang('Surat Jalan');
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Pengiriman_pembelian/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("pengiriman-pembelian-". $time, array("Attachment" => false));
+		$data['title'] = lang('Surat Jalan');
+		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+		$data = array_merge($data,path_info());
+		$html = $this->load->view('Pengiriman_pembelian/printpdf', $data, TRUE);
+		$pdf->loadHtml($html);
+		$pdf->setPaper('A4', 'portrait');
+		$pdf->render();
+		$time = time();
+		$pdf->stream("pengiriman-pembelian-". $time, array("Attachment" => false));
 	}
 
 	public function edit($id = null) {
@@ -161,7 +161,7 @@ class Pengiriman_pembelian extends User_Controller {
 		$no			= 0;
 		foreach ($pemesanan as $key) {
 			$data[$no]['id']	= $key['id'];
-			$data[$no]['text']	= $key['notrans'] . ' - ' . $key['nama_perusahaan'] . ' - Rp. ' . number_format($key['total'],2,',','.');
+			$data[$no]['text']	= $key['notrans'] . ' - ' . $key['nama_perusahaan'] . ' - ' . number_format($key['total'],2,',','.');
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
@@ -196,7 +196,7 @@ class Pengiriman_pembelian extends User_Controller {
 		$no		= 0;
 		foreach ($data as $key) {
 			$data0[$no]['id']	= $key['id'];
-			$data0[$no]['text']	= $key['notrans'] . ' - ' . $key['tanggal_pengiriman'] . ' - ' . $key['supplier'] . ' - Rp. ' . number_format($key['nominal_penerimaan'],2,',','.');
+			$data0[$no]['text']	= $key['notrans'] . ' - ' . $key['tanggal_pengiriman'] . ' - ' . $key['supplier'] . ' - ' . number_format($key['nominal_penerimaan'],2,',','.');
 			$no++;
 		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($data0));
