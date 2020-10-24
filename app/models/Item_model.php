@@ -16,6 +16,8 @@ class Item_model extends CI_Model
 
     public function save()
     {
+        print_r($this->input->post());
+        die();
         $id = $this->uri->segment(3);
         $kode = $this->input->post('kode');
 

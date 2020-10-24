@@ -127,7 +127,7 @@ class Faktur_pembelian_model extends CI_Model {
 		return $get->row_array();
 	}
 
-	public function getfaktur($id) {
+	public function getfaktur($id = null) {
 		$this->db->select('mkontak.nama as kontak, mkontak.alamat, mkontak.telepon, tpengiriman.notrans as nosj, tpemesanan.subtotal, tpemesanan.diskon, tfaktur.*, tpemesanan.ppn, tpemesanan.biayapengiriman');
 		$this->db->where('tfaktur.id', $id);
 		$this->db->join('mkontak', 'tfaktur.kontakid = mkontak.id','left');
@@ -180,16 +180,28 @@ class Faktur_pembelian_model extends CI_Model {
 		$this->db->join('mkontak','tfaktur.kontakid = mkontak.id','left');
 		$this->db->join('mgudang','tfaktur.gudangid = mgudang.id','left');
 		$this->db->join('mperusahaan','tfaktur.perusahaanid = mperusahaan.idperusahaan','left');
-		$this->db->where('tfaktur.id', $id);
-		$data	= $this->db->get('tfaktur')->row_array();
-
-		$this->db->where('idfaktur', $data['id']);
-		$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
-		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
-		$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
-		$this->db->join('tpemesanan', 'tpemesanandetail.idpemesanan = tpemesanan.id'); 
-		$this->db->select('mnoakun.namaakun, tpemesanandetail.total, tpemesanan.catatan, tpemesanan.departemen, tpemesanandetail.subtotal, tpemesanandetail.diskon');
-		$data['detail']	= $this->db->get('tfakturdetail')->result_array();
+		if ($id) {
+			$this->db->where('tfaktur.id', $id);
+			$data	= $this->db->get('tfaktur')->row_array();
+			$this->db->where('idfaktur', $data['id']);
+			$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
+			$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+			$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
+			$this->db->join('tpemesanan', 'tpemesanandetail.idpemesanan = tpemesanan.id'); 
+			$this->db->select('mnoakun.namaakun, tpemesanandetail.total, tpemesanan.catatan, tpemesanan.departemen, tpemesanandetail.subtotal, tpemesanandetail.diskon, mnoakun.akunno');
+			$data['detail']	= $this->db->get('tfakturdetail')->result_array();
+		} else {
+			$data	= $this->db->get('tfaktur')->result_array();
+			for ($i=0; $i < count($data); $i++) { 
+				$this->db->where('idfaktur', $data[$i]['id']);
+				$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
+				$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+				$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
+				$this->db->join('tpemesanan', 'tpemesanandetail.idpemesanan = tpemesanan.id'); 
+				$this->db->select('mnoakun.namaakun, tpemesanandetail.total, tpemesanan.catatan, tpemesanan.departemen, tpemesanandetail.subtotal, tpemesanandetail.diskon, mnoakun.akunno, mnoakun.idakun');
+				$data[$i]['detail']	= $this->db->get('tfakturdetail')->result_array();
+			}
+		}
 		return $data;
 	}
 }
