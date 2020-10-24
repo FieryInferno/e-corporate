@@ -16,27 +16,19 @@ class Item_model extends CI_Model
 
     public function save()
     {
-        print_r($this->input->post());
-        die();
         $id = $this->uri->segment(3);
         $kode = $this->input->post('kode');
-
         if ($id) {
-            $item = get_by_id('id', $id, 'mitem');
-            $kodeexists = get_by_id('kode', $kode, 'mitem');
+            // $item = get_by_id('id', $id, 'mitem');
+            // $kodeexists = get_by_id('kode', $kode, 'mitem');
 
-            if ($item['kode'] != $kodeexists['kode']) {
-                if ($kodeexists) {
-                    $data['status'] = 'error';
-                    $data['message'] = 'Kode sudah ada sebelumnya';
-                    return $this->output->set_content_type('application/json')->set_output(json_encode($data));
-                }
-            }
-
-            $upload = $this->uploadgambar();
-            if ($upload['status'] == 'success') {
-                $this->db->set('gambar', $upload['file_name']);
-            }
+            // if ($item['kode'] != $kodeexists['kode']) {
+            //     if ($kodeexists) {
+            //         $data['status'] = 'error';
+            //         $data['message'] = 'Kode sudah ada sebelumnya';
+            //         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+            //     }
+            // }
             foreach ($this->input->post() as $key => $val) {
                 $this->db->set($key, strip_tags($val));
             }
@@ -63,21 +55,9 @@ class Item_model extends CI_Model
                 $data['message'] = lang('kode sudah ada sebelumnya.');
                 return $this->output->set_content_type('application/json')->set_output(json_encode($data));
             } else {
-                $upload = $this->uploadgambar();
-                if ($upload['status'] == 'error') {
-                    $data['status'] = 'error';
-                    $data['message'] = $upload['message'];
-                    return $this->output->set_content_type('application/json')->set_output(json_encode($data));
-                }
-
-                if ($upload['status'] == 'success') {
-                    $this->db->set('gambar', $upload['file_name']);
-                }
-
                 foreach ($this->input->post() as $key => $val) {
                     $this->db->set($key, strip_tags($val));
                 }
-
                 $this->db->set('hargabeli', preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('hargabeli')));
                 $this->db->set('hargajual', preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('hargajual')));
                 $this->db->set('cby', get_user('username'));
