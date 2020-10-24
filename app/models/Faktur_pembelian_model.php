@@ -66,9 +66,7 @@ class Faktur_pembelian_model extends CI_Model {
 			'kontakid'		    => $this->input->post('kontakid'),
 			'perusahaanid'	    => $this->input->post('perusahaanid'),
 			'total'			    => $total,
-			'bank'			    => $this->input->post('rekening'),
-			'ppn'               => $pajak,
-			'biayapengiriman'   => $biayapengiriman
+			'bank'			    => $this->input->post('rekening')
 		]);
 		if($insert) {
 			$i  = 0;

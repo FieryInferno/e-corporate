@@ -41,7 +41,7 @@ class Faktur_pembelian extends User_Controller {
 		$this->datatables->join('mgudang','tfaktur.gudangid = mgudang.id','left');
 		$this->datatables->join('mperusahaan','tfaktur.perusahaanid = mperusahaan.idperusahaan','left');
 		$this->datatables->join('tPenerimaan','tfaktur.pengirimanid = tPenerimaan.idPenerimaan','left');
-		$this->datatables->join('tpemesanan','tPenerimaan.pemesanan = tpemesanan.id','left');
+		$this->datatables->join('tpemesanan','tPenerimaan.pemesanan = tpemesanan.id');
 		// $this->datatables->where('tfaktur.tipe','1');
 		$this->datatables->from('tfaktur');
 		return print_r($this->datatables->generate());
