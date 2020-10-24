@@ -62,7 +62,6 @@
 			type: 'post',
 		},
 		paging:true,
-		pageLength: 1000,
 		stateSave: true,
 		autoWidth: false,
 		responsive: true,
@@ -98,20 +97,20 @@
 					else return formatRupiah(row.hargabeli, 'Rp. ') + ',00';
 				}
 			},
-        	{
-        		data: 'id', width: 100, orderable: false, className: 'text-center',
-        		render: function(data,type,row) {
-        			var aksi = `
-                          <a class="btn btn-info btn-sm" href="`+base_url+`edit/`+data+`">
-                              <i class="fas fa-pencil-alt"></i>                             
-                          </a>
-                          <a class="btn btn-danger btn-sm" href="javascript:deleteData(`+data+`)">
-                              <i class="fas fa-trash"></i>                           
-                          </a>               
+			{
+				data: 'id', width: 100, orderable: false, className: 'text-center',
+				render: function(data,type,row) {
+					var aksi = `
+						<a class="btn btn-info btn-sm" href="`+base_url+`edit/`+data+`">
+							<i class="fas fa-pencil-alt"></i>                             
+						</a>
+						<a class="btn btn-danger btn-sm" href="javascript:deleteData(`+data+`)">
+							<i class="fas fa-trash"></i>                           
+						</a>               
 							`;
-        			return aksi;
-        		}
-        	}
+					return aksi;
+				}
+			}
         ]
 	});
 

@@ -221,14 +221,14 @@
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('invoice') ?></p></a>
               </li>            
               <li class="nav-item">
-              <a href="{site_url}pembayaran_penjualan" class="nav-link <?php echo menu_is_active('pembayaran_penjualan') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('payment') ?></p></a>
+              <a href="SetorPajak" class="nav-link <?php echo menu_is_active('SetorPajak') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Setor Pajak</p></a>
               </li>            
               <li class="nav-item">
               <a href="{site_url}retur_penjualan" class="nav-link <?php echo menu_is_active('retur_penjualan') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('return') ?></p></a>
               </li>        
-             </ul>
+            </ul>
           </li>	          
         <?php $menu = array(
             'kas_bank',
