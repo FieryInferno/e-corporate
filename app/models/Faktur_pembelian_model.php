@@ -128,7 +128,7 @@ class Faktur_pembelian_model extends CI_Model {
 	}
 
 	public function getfaktur($id = null) {
-		$this->db->select('mkontak.nama as kontak, mkontak.alamat, mkontak.telepon, tpengiriman.notrans as nosj, tpemesanan.subtotal, tpemesanan.diskon, tfaktur.*, tpemesanan.ppn, tpemesanan.biayapengiriman, mrekening.nama as bank, tpemesanan.id as idPemesanan');
+		$this->db->select('mkontak.nama as kontak, mkontak.alamat, mkontak.telepon, tpemesanan.subtotal, tpemesanan.diskon, tfaktur.*, tpemesanan.ppn, tpemesanan.biayapengiriman, mrekening.nama as bank, tpemesanan.id as idPemesanan');
 		$this->db->where('tfaktur.id', $id);
 		$this->db->join('mkontak', 'tfaktur.kontakid = mkontak.id','left');
 		$this->db->join('tPenerimaan', 'tfaktur.pengirimanid = tPenerimaan.idPenerimaan', 'left');
