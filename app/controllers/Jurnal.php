@@ -156,11 +156,11 @@ class Jurnal extends User_Controller {
 										$akunno		= $detail['akunno'];
 										$namaakun	= $detail['namaakun'];
 										break;
-									case 'kodeAkun':
+									case 'mapAkun1':
 										$akunno		= $data2['akunno'];
 										$namaakun	= $data2['namaakun'];
 										break;
-									case 'kodeAkun':
+									case 'mapAkun2':
 										$akunno		= $data2['akunno1'];
 										$namaakun	= $data2['namaakun1'];
 										break;
