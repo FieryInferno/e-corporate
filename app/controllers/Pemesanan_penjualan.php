@@ -257,14 +257,16 @@ class Pemesanan_penjualan extends User_Controller
     public function select2_item($id = null, $idgudang = null,$text = null) {
         $term = $this->input->get('q');
         if ($text) {
-            $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mitem.noakunjual as koderekening');
-             $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid');
+            $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mnoakun.akunno as koderekening');
+            $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid');
+            $this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun');
             $this->db->group_by('tstokmasuk.itemid');
             $data = $this->db->where('mitem.id', $id)->get('mitem')->row_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
-            $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mitem.noakunjual as koderekening');
+            $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mnoakun.akunno as koderekening');
             $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid');
+            $this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun');
             $this->db->where('tstokmasuk.gudangid', $idgudang);
             $this->db->where('mitem.stdel', '0');
             $this->db->group_by('tstokmasuk.itemid');

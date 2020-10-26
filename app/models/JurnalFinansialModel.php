@@ -21,43 +21,24 @@ class JurnalFinansialModel extends SetUpJurnal_Model {
 
     public function save()
     {
-        for ($i=0; $i < count($this->getIdJurnalFinansial()); $i++) { 
-            $this->db->where('idJurnalFinansial', $this->getIdJurnalFinansial()[$i]);
-            $this->db->update($this->table, [
-                'elemen'    => $this->getElemenJurnalFinansial()[$i],
-                'jenis'     => $this->getJenisFinansial()[$i],
-            ]);
+        if ($this->idJurnalFinansial) {
+            for ($i=0; $i < count($this->idJurnalFinansial); $i++) { 
+                $this->db->where('idJurnalFinansial', $this->idJurnalFinansial[$i]);
+                $this->db->update($this->table, [
+                    'elemen'    => $this->setGet('elemenJurnalFinansial')[$i],
+                    'jenis'     => $this->setGet('jenisFinansial')[$i],
+                ]);
+            }
         }
     }
-    
-	public function setElemenJurnalFinansial($elemenJurnalFinansial)
-	{
-		$this->elemenJurnalFinansial	= $elemenJurnalFinansial;
-    }
-    
-	public function setJenisFinansial($jenisFinansial)
-	{
-		$this->jenisFinansial	= $jenisFinansial;
-    }
 
-    public function setIdJurnalFinansial($idJurnalFinansial)
+    public function setGet($jenis = null, $isi = null)
 	{
-		$this->idJurnalFinansial	= $idJurnalFinansial;
+		if ($isi) {
+			$this->$jenis	= $isi;
+		} else {
+			return $this->$jenis;
+		}
 	}
-
-	protected function getElemenJurnalFinansial()
-	{
-		return $this->elemenJurnalFinansial;
-	}
-
-	protected function getJenisFinansial()
-	{
-		return $this->jenisFinansial;
-    }
-    
-    private function getIdJurnalFinansial()
-    {
-        return $this->idJurnalFinansial;
-    }
 }
 

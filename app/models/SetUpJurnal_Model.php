@@ -50,7 +50,7 @@ class SetUpJurnal_model extends CI_Model {
             'keterangan'    => $this->input->post('keterangan')
         ]);
         if ($setupJurnal) {
-            if ($this->input->post('elemenjurnalAnggaran') !== null) {
+            if ($this->input->post('elemenjurnalAnggaran')) {
                 for ($i=0; $i < count($this->input->post('elemenjurnalAnggaran')); $i++) { 
                     $this->db->insert('tJurnalAnggaran', [
                         'idSetupJurnal' => $idSetupJurnal,
@@ -103,15 +103,15 @@ class SetUpJurnal_model extends CI_Model {
     
     public function get()
     {
-        if ($this->getIdSetupJurnal()) {
+        if ($this->setGet('idSetupJurnal')) {
             $data                       = $this->db->get_where('tSetupJurnal', [
-                'idSetupjurnal' => $this->getIdSetupJurnal()
+                'idSetupjurnal' => $this->setGet('idSetupJurnal')
             ])->row_array();
             $data['jurnalAnggaran']     = $this->db->get_where('tJurnalAnggaran', [
-                'idSetupJurnal' => $this->getIdSetupJurnal()
+                'idSetupJurnal' => $this->setGet('idSetupJurnal')
             ])->result_array();
             $data['jurnalFinansial']    = $this->db->get_where('tJurnalFinansial', [
-                'idSetupJurnal' => $this->getIdSetupJurnal()
+                'idSetupJurnal' => $this->setGet('idSetupJurnal')
             ])->result_array();
             return $data;
         }
@@ -121,15 +121,10 @@ class SetUpJurnal_model extends CI_Model {
 	{
 		$this->idSetupJurnal	= $idSetupJurnal;
 	}
-
-	private function getIdSetupJurnal()
-	{
-		return $this->idSetupJurnal;
-    }
     
     public function edit()
     {
-        $this->db->where('idSetupJurnal', $this->getIdSetupJurnal());
+        $this->db->where('idSetupJurnal', $this->setGet('idSetupJurnal'));
         $data   = $this->db->update($this->table, [
             'kodeJurnal'    => $this->getKodeJurnal(),
             'formulir'      => $this->setGet('formulir'),

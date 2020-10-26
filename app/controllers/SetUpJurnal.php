@@ -24,11 +24,11 @@ class SetUpJurnal extends User_Controller {
 		$this->setKodeJurnal($this->input->post('kodeJurnal'));
 		$this->setGet('formulir', $this->input->post('formulir'));
 		$this->setKeterangan($this->input->post('keterangan'));
-		$this->setElemenJurnalAnggaran($this->input->post('elemenjurnalAnggaran'));
+		$this->setGet('elemenJurnalAnggaran', $this->input->post('elemenjurnalAnggaran'));
 		$this->setElemenJurnalFinansial($this->input->post('elemenjurnalFinansial'));
-		$this->setJenisAnggaran($this->input->post('d/kjurnalAnggaran'));
+		$this->setGet('jenisAnggaran', $this->input->post('d/kjurnalAnggaran'));
 		$this->setJenisFinansial($this->input->post('d/kjurnalFinansial'));
-		$this->setIdJurnalAnggaran($this->input->post('idJurnalAnggaran'));
+		$this->setGet('idJurnalAnggaran', $this->input->post('idJurnalAnggaran'));
 		$this->setIdJurnalFinansial($this->input->post('idJurnalFinansial'));
 		$this->setGet('jenis', $this->input->post('jenis'));
 		switch ($this->uri->segment(2)) {
@@ -53,19 +53,9 @@ class SetUpJurnal extends User_Controller {
 		$this->keterangan	= $keterangan;
 	}
 
-	private function setElemenJurnalAnggaran($elemenJurnalAnggaran)
-	{
-		$this->elemenJurnalAnggaran	= $elemenJurnalAnggaran;
-	}
-
 	private function setElemenJurnalFinansial($elemenJurnalFinansial)
 	{
 		$this->elemenJurnalFinansial	= $elemenJurnalFinansial;
-	}
-
-	private function setJenisAnggaran($jenisAnggaran)
-	{
-		$this->jenisAnggaran	= $jenisAnggaran;
 	}
 
 	private function setJenisFinansial($jenisFinansial)
@@ -78,11 +68,6 @@ class SetUpJurnal extends User_Controller {
 		$this->idJurnalFinansial	= $idJurnalFinansial;
 	}
 
-	private function setIdJurnalAnggaran($idJurnalAnggaran)
-	{
-		$this->idJurnalAnggaran	= $idJurnalAnggaran;
-	}
-
 	private function getKodeJurnal()
 	{
 		return $this->kodeJurnal;
@@ -93,19 +78,9 @@ class SetUpJurnal extends User_Controller {
 		return $this->keterangan;
 	}
 
-	private function getElemenJurnalAnggaran()
-	{
-		return $this->elemenJurnalAnggaran;
-	}
-
 	private function getElemenJurnalFinansial()
 	{
 		return $this->elemenJurnalFinansial;
-	}
-
-	private function getJenisAnggaran()
-	{
-		return $this->jenisAnggaran;
 	}
 
 	private function getJenisFinansial()
@@ -117,12 +92,6 @@ class SetUpJurnal extends User_Controller {
 	{
 		return $this->idJurnalFinansial;
 	}
-
-	private function getIdJurnalAnggaran()
-	{
-		return $this->idJurnalAnggaran;
-	}
-
 	public function index()
 	{
 		$data['title']      = 'Set Up Jurnal';
@@ -219,13 +188,13 @@ class SetUpJurnal extends User_Controller {
 		$this->SetUpJurnal_Model->setKeterangan($this->getKeterangan());
 		$data	= $this->SetUpJurnal_Model->edit();
 		if ($data) {
-			$this->JurnalAnggaranModel->setIdJurnalAnggaran($this->getIdJurnalAnggaran());
-			$this->JurnalAnggaranModel->setElemenJurnalAnggaran($this->getElemenJurnalAnggaran());
-			$this->JurnalAnggaranModel->setJenisAnggaran($this->getJenisAnggaran());
+			$this->JurnalAnggaranModel->setGet('idJurnalAnggaran', $this->setGet('idJurnalAnggaran'));
+			$this->JurnalAnggaranModel->setGet('elemenJurnalAnggaran', $this->setGet('elemenJurnalAnggaran'));
+			$this->JurnalAnggaranModel->setGet('jenisAnggaran', $this->setGet('jenisAnggaran'));
 			$this->JurnalAnggaranModel->save();
-			$this->JurnalFinansialModel->setIdJurnalFinansial($this->getIdJurnalFinansial());
-			$this->JurnalFinansialModel->setElemenJurnalFinansial($this->getElemenJurnalFinansial());
-			$this->JurnalFinansialModel->setJenisFinansial($this->getJenisFinansial());
+			$this->JurnalFinansialModel->setGet('idJurnalFinansial', $this->setGet('idJurnalFinansial'));
+			$this->JurnalFinansialModel->setGet('elemenJurnalFinansial', $this->setGet('elemenJurnalFinansial'));
+			$this->JurnalFinansialModel->setGet('jenisFinansial', $this->setGet('jenisFinansial'));
 			$this->JurnalFinansialModel->save();
 			$data0['status'] = 'success';
 			$data0['message'] = lang('save_success_message');

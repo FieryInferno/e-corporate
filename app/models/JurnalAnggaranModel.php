@@ -21,43 +21,24 @@ class JurnalAnggaranModel extends SetUpJurnal_Model {
     
     public function save()
     {
-        for ($i=0; $i < count($this->getIdJurnalAnggaran()); $i++) { 
-            $this->db->where('idJurnalAnggaran', $this->getIdJurnalAnggaran()[$i]);
-            $this->db->update($this->table, [
-                'elemen'    => $this->getElemenJurnalAnggaran()[$i],
-                'jenis'     => $this->getJenisAnggaran()[$i],
-            ]);
+        if ($this->idJurnalAnggaran !== null) {
+            for ($i=0; $i < count($this->idJurnalAnggaran); $i++) { 
+                $this->db->where('idJurnalAnggaran', $this->idJurnalAnggaran[$i]);
+                $this->db->update($this->table, [
+                    'elemen'    => $this->setGet('elemenJurnalAnggaran')[$i],
+                    'jenis'     => $this->setGet('jenisAnggaran')[$i],
+                ]);
+            }
         }
     }
 
-    public function setElemenJurnalAnggaran($elemenJurnalAnggaran)
+    public function setGet($jenis = null, $isi = null)
 	{
-		$this->elemenJurnalAnggaran	= $elemenJurnalAnggaran;
+		if ($isi) {
+			$this->$jenis	= $isi;
+		} else {
+			return $this->$jenis;
+		}
 	}
-
-	public function setJenisAnggaran($jenisAnggaran)
-	{
-		$this->jenisAnggaran	= $jenisAnggaran;
-    }
-    
-    public function setIdJurnalAnggaran($idJurnalAnggaran)
-	{
-		$this->idJurnalAnggaran	= $idJurnalAnggaran;
-	}
-    
-    protected function getElemenJurnalAnggaran()
-	{
-		return $this->elemenJurnalAnggaran;
-	}
-
-	protected function getJenisAnggaran()
-	{
-		return $this->jenisAnggaran;
-    }
-    
-    private function getIdJurnalAnggaran()
-    {
-        return $this->idJurnalAnggaran;
-    }
 }
 
