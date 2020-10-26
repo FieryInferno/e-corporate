@@ -134,18 +134,55 @@ class Faktur_pembelian_model extends CI_Model {
 		$this->db->join('tPenerimaan', 'tfaktur.pengirimanid = tPenerimaan.idPenerimaan', 'left');
 		$this->db->join('tpemesanan', 'tPenerimaan.pemesanan = tpemesanan.id', 'left');
 		$this->db->join('mrekening', 'tfaktur.bank = mrekening.id', 'left');
-		$get = $this->db->get('tfaktur', 1);
-		return $get->row_array();
+		$data	= $this->db->get('tfaktur', 1)->row_array();
+		$data['detail']	= $this->fakturdetail($id);
+		$uangMuka	= 0;
+		$jumlahTerm	= 0;
+		$total		= 0;
+		$a1			= 0;
+		$a2			= 0;
+		$a3			= 0;
+		$a4			= 0;
+		$a5			= 0;
+		$a6			= 0;
+		$a7			= 0;
+		$a8			= 0;
+		for ($i=0; $i < count($data['detail']); $i++) { 
+			$uangMuka	+= (integer) $data['detail'][$i]['uangmuka'];
+			$jumlahTerm	+= (integer) $data['detail'][$i]['jumlahterm'];
+			$total		+= (integer) $data['detail'][$i]['total'];
+			$a2			+= (integer) $data['detail'][$i]['a2'];
+			$a3			+= (integer) $data['detail'][$i]['a3'];
+			$a4			+= (integer) $data['detail'][$i]['a4'];
+			$a5			+= (integer) $data['detail'][$i]['a5'];
+			$a6			+= (integer) $data['detail'][$i]['a6'];
+			$a7			+= (integer) $data['detail'][$i]['a7'];
+			$a8			+= (integer) $data['detail'][$i]['a8'];
+			$a1			+= (integer) $data['detail'][$i]['a1'];
+		}
+		$data['uangmuka']	= $uangMuka;
+		$data['jumlahterm']	= $jumlahTerm;
+		$data['total']		= $total;
+		$data['a1']			= $a1;
+		$data['a2']			= $a2;
+		$data['a3']			= $a3;
+		$data['a4']			= $a4;
+		$data['a5']			= $a5;
+		$data['a6']			= $a6;
+		$data['a7']			= $a7;
+		$data['a8']			= $a8;
+		return $data;
 	}
 
 	public function fakturdetail($idfaktur) {
-		$this->db->select('tfakturdetail.*, mitem.nama as item, tpemesanandetail.harga, tpemesanandetail.jumlah, tpemesanandetail.subtotal, tpemesanandetail.diskon, tpemesanandetail.ppn, tpemesanandetail.total, tpemesanandetail.biayapengiriman, tpemesanandetail.akunno');
+		$this->db->select('tfakturdetail.*, mitem.nama as item, tpemesanandetail.harga, tpemesanandetail.jumlah, tpemesanandetail.subtotal, tpemesanandetail.diskon, tpemesanandetail.ppn, tpemesanandetail.total, tpemesanandetail.biayapengiriman, tpemesanandetail.akunno, tpemesananangsuran.uangmuka, tpemesananangsuran.jumlahterm, tpemesananangsuran.total, tpemesananangsuran.a1, tpemesananangsuran.a2, tpemesananangsuran.a3, tpemesananangsuran.a4, tpemesananangsuran.a5, tpemesananangsuran.a6, tpemesananangsuran.a7, tpemesananangsuran.a8');
 		$this->db->where('tfakturdetail.idfaktur', $idfaktur);
 		$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id', 'left');
 		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id', 'left');
 		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id', 'left');
-		$get = $this->db->get('tfakturdetail');
-		return $get->result_array();
+		$this->db->join('tpemesananangsuran', 'tpemesanandetail.idpemesanan = tpemesananangsuran.idpemesanan', 'left');
+		$data		= $this->db->get('tfakturdetail')->result_array();
+		return $data;
 	}
 
 	public function detailitem() {
