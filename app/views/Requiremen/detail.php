@@ -144,7 +144,7 @@
                             <div class="form-group">
                                     <label><?php echo lang('Uang Muka') ?>:</label>
                                     <input type="hidden" value="<?= $this->uri->segment(3); ?>" name="idpemesanan">
-                                    <input class="form-control um" name="um" id="um" onkeyup="format('um'), hitungtum()" value="<?= number_format($angsuran['uangmuka'],2,',','.'); ?>">
+                                    <input class="form-control um" name="um" id="um" onkeyup="format('um'), hitungtum()" value="<?= $angsuran['uangmuka'] !== '' ? number_format($angsuran['uangmuka'],2,',','.') : "" ; ?>">
                                 </div>
                                 <div class="row mb-3">                            
                                 <div class="col-md-6">

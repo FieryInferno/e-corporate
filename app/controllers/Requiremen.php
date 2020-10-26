@@ -56,6 +56,7 @@ class Requiremen extends User_Controller {
 				$data['title'] 				= lang('purchase_order');
 				$data['subtitle'] 			= lang('detail');
 				$data['content'] 			= 'Requiremen/detail';
+				$data['angsuran']			= $this->Pemesanan_pembelian_model->get_angsuran($data['id']);
 				$data 						= array_merge($data,path_info());
 				$this->parser->parse('default',$data);
 			} else {
@@ -93,21 +94,21 @@ class Requiremen extends User_Controller {
 	}
 	
 	public function printpdf($id = null) {
-	    $this->load->library('pdf');
-	    $pdf = $this->pdf;
-	    $data = get_by_id('id',$id,'tpemesanan');
-	    $data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
+		$this->load->library('pdf');
+		$pdf = $this->pdf;
+		$data = get_by_id('id',$id,'tpemesanan');
+		$data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
 		$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
 		$data['pemesanandetail'] = $this->model->pemesanandetail($data['id']);
-	    $data['title'] = lang('purchase_order');
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Pemesanan_pembelian/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("pemesanan-pembelian-". $time, array("Attachment" => false));
+		$data['title'] = lang('purchase_order');
+		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+		$data = array_merge($data,path_info());
+		$html = $this->load->view('Pemesanan_pembelian/printpdf', $data, TRUE);
+		$pdf->loadHtml($html);
+		$pdf->setPaper('A4', 'portrait');
+		$pdf->render();
+		$time = time();
+		$pdf->stream("pemesanan-pembelian-". $time, array("Attachment" => false));
 	}
 
 	public function save($id_pemesanan = null) {

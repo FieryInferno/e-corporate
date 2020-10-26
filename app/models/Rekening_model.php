@@ -55,5 +55,12 @@ class Rekening_model extends CI_Model {
 		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
+
+	public function setGet()
+	{
+		$this->db->get_where('mrekening', [
+			'id'	=> $this->id
+		])->row_array();
+	}
 }
 

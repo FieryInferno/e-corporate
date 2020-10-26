@@ -57,6 +57,7 @@ class Faktur_pembelian extends User_Controller {
 				$data['title']			= lang('invoice');
 				$data['subtitle']		= lang('detail');
 				$data['content']		= 'Faktur_pembelian/detail';
+				$data['angsuran']		= $this->Pemesanan_pembelian_model->get_angsuran($data['idPemesanan']);
 				$data					= array_merge($data,path_info());
 				$this->parser->parse('template',$data);
 			} else {
