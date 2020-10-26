@@ -272,10 +272,10 @@
             },
             success: function(data) {
                 if(data.status == 'success') {
-                    swal("Berhasil!", "Berhasil Menambah Data", "success");
+                    swal("Berhasil!", "Berhasil Mengedit Data", "success");
                     redirect(base_url);
                 } else {
-                    swal("Gagal!", "Gagal Menambah Data", "error");
+                    swal("Gagal!", "Gagal Mengedit Data", "error");
                 }
             },
             error: function() {

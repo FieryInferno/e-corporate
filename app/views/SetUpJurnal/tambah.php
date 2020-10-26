@@ -242,6 +242,17 @@
                     </select>
                 </div>`
             );
+        } else if (formulir === 'pengirimanBarang' || formulir === 'penerimaanBarang') {
+            $('#tipeTransaksi').html(
+                `<div class="form-group">
+                    <label>Jenis :</label>
+                    <select name="jenis" class="form-control">
+                        <option value="" disabled selected>Pilih Jenis</option>
+                        <option value="jasa">Barang</option>
+                        <option value="barang">Jasa</option>
+                    </select>
+                </div>`
+            );
         } else {
             $('#tipeTransaksi').empty();
         }
