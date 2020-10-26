@@ -100,11 +100,8 @@ class Item_model extends CI_Model
     public function delete()
     {
         $id = $this->uri->segment(3);
-        $this->db->set('stdel', '1');
-        $this->db->set('dby', get_user('username'));
-        $this->db->set('ddate', date('Y-m-d H:i:s'));
         $this->db->where('id', $id);
-        $update = $this->db->update('mitem');
+        $update = $this->db->delete('mitem');
         if ($update) {
             $data['status'] = 'success';
             $data['message'] = lang('delete_success_message');
