@@ -140,21 +140,48 @@ class Jurnal extends User_Controller {
 								$this->db->select('tJurnalAnggaran.elemen, tJurnalAnggaran.jenis, tSetupJurnal.formulir');
 								$this->db->join('tJurnalAnggaran', 'tSetupJurnal.idSetupJurnal = tJurnalAnggaran.idSetupJurnal');
 							}
-							$this->db->where('formulir', 'fakturPembelian');
-							$data1	= $this->db->get('tSetupJurnal')->row_array();
+							$this->db->where('tSetupJurnal.idSetupJurnal', $key['setupJurnal']);
+							$data1	= $this->db->get_where('tSetupJurnal')->result_array();
+							$no		= 0;
+							$this->db->select('mnoakun.akunno, mnoakun.namaakun, mnoakun1.akunno as akunno1, mnoakun1.namaakun as namaakun1, mnoakun2.akunno as akunno2, mnoakun2.namaakun as namaakun2');
+							$this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun1 = mnoakun.idakun');
+							$this->db->join('mnoakun as mnoakun1', 'tPemetaanAkun.kodeAkun2 = mnoakun1.idakun');
+							$this->db->join('mnoakun as mnoakun2', 'tPemetaanAkun.kodeAkun3 = mnoakun2.idakun');
 							$data2	= $this->db->get_where('tPemetaanAkun', [
-								$data1['elemen']	=> $detail['idakun']
+								'kodeAkun'	=> $detail['idakun']
 							])->row_Array();
-							if ($data2) {
+							foreach ($data1 as $setupJurnal) {
+								switch ($setupJurnal['elemen']) {
+									case 'kodeAkun':
+										$akunno		= $detail['akunno'];
+										$namaakun	= $detail['namaakun'];
+										break;
+									case 'kodeAkun':
+										$akunno		= $data2['akunno'];
+										$namaakun	= $data2['namaakun'];
+										break;
+									case 'kodeAkun':
+										$akunno		= $data2['akunno1'];
+										$namaakun	= $data2['namaakun1'];
+										break;
+									case 'mapAkun3':
+										$akunno		= $data2['akunno2'];
+										$namaakun	= $data2['namaakun2'];
+										break;
+									
+									default:
+										# code...
+										break;
+								}
 								array_push($data['jurnalUmum'], [
 									'tanggal'			=> $key['tanggal'],
 									'formulir'			=> 'Faktur Pembelian',
 									'noTrans'			=> $key['notrans'],
 									'departemen'		=> '',
 									'nama_perusahaan' 	=> $key['namaperusahaan'],
-									'akunno'			=> $detail['akunno'],
-									'namaakun'			=> $detail['namaakun'],
-									'jenis'				=> $data1['jenis'],
+									'akunno'			=> $akunno,
+									'namaakun'			=> $namaakun,
+									'jenis'				=> $setupJurnal['jenis'],
 									'total'				=> $detail['total']
 								]);
 							}

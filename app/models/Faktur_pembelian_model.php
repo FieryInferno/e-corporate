@@ -213,7 +213,7 @@ class Faktur_pembelian_model extends CI_Model {
 
 	public function get($id = null)
 	{
-		$this->db->select('tfaktur.id, tfaktur.notrans,  mperusahaan.nama_perusahaan as namaperusahaan,  tfaktur.tanggal, mkontak.nama as rekanan, mgudang.nama as gudang, mkontak.nama as supplier, tfaktur.biayapengiriman as biaya_pengiriman, tfaktur.total as total, tfaktur.status as status, tfaktur.ppn as pajak, tfaktur.biayapengiriman, mperusahaan.alamat');
+		$this->db->select('tfaktur.id, tfaktur.notrans,  mperusahaan.nama_perusahaan as namaperusahaan,  tfaktur.tanggal, mkontak.nama as rekanan, mgudang.nama as gudang, mkontak.nama as supplier, tfaktur.biayapengiriman as biaya_pengiriman, tfaktur.total as total, tfaktur.status as status, tfaktur.ppn as pajak, tfaktur.biayapengiriman, mperusahaan.alamat, tfaktur.setupJurnal');
 		$this->db->join('mkontak','tfaktur.kontakid = mkontak.id','left');
 		$this->db->join('mgudang','tfaktur.gudangid = mgudang.id','left');
 		$this->db->join('mperusahaan','tfaktur.perusahaanid = mperusahaan.idperusahaan','left');
