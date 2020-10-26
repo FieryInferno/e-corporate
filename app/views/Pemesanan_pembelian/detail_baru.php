@@ -112,14 +112,16 @@
                             <div class="table-responsive">
                                 
                                 <table class="table table-bordered">
-                                    <thead class="{bg_header}">
+                                    <thead>
                                         <tr>
                                             <th><?php echo lang('item') ?></th>
                                             <th class="text-right"><?php echo lang('price') ?></th>
                                             <th class="text-right"><?php echo lang('qty') ?></th>
                                             <th class="text-right"><?php echo lang('subtotal') ?></th>
                                             <th class="text-right"><?php echo lang('discount') ?></th>
-                                            <th class="text-right"><?php echo lang('ppn') ?></th>
+                                            <th class="text-right">Pajak</th>
+                                            <th class="text-right">Biaya Pengiriman</th>
+                                            <th class="text-right">No Akun</th>
                                             <th class="text-right"><?php echo lang('total') ?></th>
                                         </tr>
                                     </thead>
@@ -134,11 +136,13 @@
                                                 <td class="text-right"><?= number_format($row['subtotal'],2,',','.'); ?></td>
                                                 <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
                                                 <td class="text-right"><?= number_format($row['ppn'],2,',','.'); ?></td>
+                                                <td class="text-right"><?= number_format($row['biayapengiriman'],2,',','.'); ?></td>
+                                                <td class="text-right"><?= $row['akunno']; ?></td>
                                                 <td class="text-right"><?= number_format($row['total'],2,',','.'); ?></td>
                                             </tr>
                                         <?php endforeach ?>
                                         <tr class="bg-light">
-                                            <td class="font-weight-bold text-right" colspan="6"><?php echo lang('grand_total') ?></td>
+                                            <td class="font-weight-bold text-right" colspan="8"><?php echo lang('grand_total') ?></td>
                                             <td class="font-weight-bold text-right"><?= number_format($grandtotal,2,',','.'); ?></td>
                                         </tr>
                                     </tbody>

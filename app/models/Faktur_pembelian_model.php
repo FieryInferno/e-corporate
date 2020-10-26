@@ -139,7 +139,7 @@ class Faktur_pembelian_model extends CI_Model {
 	}
 
 	public function fakturdetail($idfaktur) {
-		$this->db->select('tfakturdetail.*, mitem.nama as item, tpemesanandetail.harga, tpemesanandetail.jumlah, tpemesanandetail.subtotal, tpemesanandetail.diskon, tpemesanandetail.ppn, tpemesanandetail.total');
+		$this->db->select('tfakturdetail.*, mitem.nama as item, tpemesanandetail.harga, tpemesanandetail.jumlah, tpemesanandetail.subtotal, tpemesanandetail.diskon, tpemesanandetail.ppn, tpemesanandetail.total, tpemesanandetail.biayapengiriman, tpemesanandetail.akunno');
 		$this->db->where('tfakturdetail.idfaktur', $idfaktur);
 		$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id', 'left');
 		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id', 'left');

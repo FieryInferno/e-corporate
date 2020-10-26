@@ -1,56 +1,54 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-              <div class="card-header">
-			  <a href="{site_url}Pemesanan_penjualan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
+						<div class="card-header">
+							<a href="{site_url}Pemesanan_penjualan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+						</div>
+						<div class="card-body">
+							<table class="table table-bordered table-striped index_datatable">
+								<thead>
+									<tr>
+										<th>ID</th>
+										<th><?php echo lang('notrans') ?></th>
+										<th><?php echo lang('note') ?></th>
+										<th><?php echo lang('date') ?></th>
+										<th><?php echo lang('supplier') ?></th>
+										<th><?php echo lang('warehouse') ?></th>
+										<th>Nominal Total</th>
+										<th><?php echo lang('status') ?></th>
+										<th><?php echo lang('Aksi') ?></th>
+									</tr>
+								</thead>
+								<tbody></tbody>
+							</table>
+						</div>
+					</div>
+				</div>
 			</div>
-              <div class="card-body">
-                <table class="table table-bordered table-striped index_datatable">
-                  <thead>
-				  <tr>
-				  <th>ID</th>
-					<th><?php echo lang('notrans') ?></th>
-					<th><?php echo lang('note') ?></th>
-					<th><?php echo lang('date') ?></th>
-					<th><?php echo lang('supplier') ?></th>
-					<th><?php echo lang('warehouse') ?></th>
-					<th>Nominal Total</th>
-					<th><?php echo lang('status') ?></th>
-					<th><?php echo lang('Aksi') ?></th>
-				</tr>
-                  </thead>
-                  <tbody>                          
-                  </tbody>
-                  <tfoot>                 
-                  </tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+			</div>
+		</div>
     </section>
   </div>
 
@@ -76,7 +74,7 @@
 				data: 'notrans',
 				render: function(data,type,row) {
 					var link = base_url + 'detail/' + row.id;
-					return '<a href="'+link+'" class="badge badge-info">'+data+'</a>';
+					return '<a href="'+link+'" class="btn btn-sm btn-info">'+data+'</a>';
 				}
 			},
 			{data: 'catatan', orderable: false, width: '200px'},

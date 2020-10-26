@@ -23,13 +23,9 @@
     <section class="content">
         <div class="container-fluid">
             <!-- SELECT2 EXAMPLE -->
-            <div class="card card-danger">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Detail {title}</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                       <a href="{site_url}Pemesanan_penjualan" class="btn btn-tool"><i class="fas fa-times"></i></a>
-                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -65,9 +61,6 @@
                                         <tr>
                                             <td><?php echo lang('supplier') ?></td>
                                             <td class="font-weight-bold"><?php echo $kontak['nama'] ?></td>
-                                            <!-- <td class="font-weight-bold">
-                                                <select id="kontakid" class="form-control kontakid" name="kontakid" required></select>
-                                            </td> -->
                                         </tr>
                                     <?php if (($jenis_barang == 'barang_dagangan') OR ($jenis_pembelian == 'barang_dan_jasa')): ?>
                                         <tr>
@@ -87,23 +80,23 @@
                                 <tbody>
                                     <tr>
                                         <td><?php echo lang('subtotal') ?></td>
-                                        <td class="text-right font-weight-bold"><?= "Rp. " . number_format($subtotal,0,',','.'); ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($subtotal,0,',','.'); ?></td>
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('discount') ?></td>
-                                        <td class="text-right font-weight-bold"><?= "Rp. " . number_format($diskon,0,',','.'); ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($diskon,0,',','.'); ?></td>
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('Pajak') ?></td>
-                                        <td class="text-right font-weight-bold"><?= "Rp. " . number_format($ppn,0,',','.'); ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($ppn,0,',','.'); ?></td>
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('Biaya Pengiriman') ?></td>
-                                        <td class="text-right font-weight-bold"><?= "Rp. " . number_format($biaya_pengiriman,0,',','.'); ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($biaya_pengiriman,0,',','.'); ?></td>
                                     </tr>
                                     <tr class="bg-light">
                                         <td><?php echo lang('total') ?></td>
-                                        <td class="text-right font-weight-bold"><?= "Rp. " . number_format($total,0,',','.'); ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($total,0,',','.'); ?></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -115,7 +108,7 @@
                             <div class="table-responsive">
                                 
                                 <table class="table table-bordered">
-                                    <thead class="{bg_header}">
+                                    <thead>
                                         <tr>
                                             <th><?php echo lang('item') ?></th>
                                             <th class="text-right"><?php echo lang('price') ?></th>
@@ -124,6 +117,7 @@
                                             <th class="text-right"><?php echo lang('discount') ?></th>
                                             <th class="text-right"><?php echo lang('Pajak') ?></th>
                                             <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
+                                            <th class="text-right">No Akun</th>
                                             <th class="text-right"><?php echo lang('total') ?></th>
                                         </tr>
                                     </thead>
@@ -141,18 +135,19 @@
                                                     }
                                                     ?>    
                                                 </td>
-                                                <td class="text-right"><?= "Rp. " . number_format($row['harga'],0,',','.'); ?></td>
-                                                <td class="text-right"><?=  number_format($row['jumlah']) ?></td>
-                                                <td class="text-right"><?= "Rp. " . number_format($row['subtotal'],0,',','.'); ?></td>
-                                                <td class="text-right"><?=  number_format($row['diskon']) ?>%</td>
-                                                <td class="text-right"><?=  "Rp. ".number_format($row['ppn'],0,',','.') ?></td>
-                                                <td class="text-right"><?=  "Rp. ".number_format($row['biaya_pengiriman'],0,',','.') ?></td>
-                                                <td class="text-right"><?= "Rp. " . number_format($row['total'],0,',','.'); ?></td>
+                                                <td class="text-right"><?= number_format($row['harga'],0,',','.'); ?></td>
+                                                <td class="text-right"><?= number_format($row['jumlah']) ?></td>
+                                                <td class="text-right"><?= number_format($row['subtotal'],0,',','.'); ?></td>
+                                                <td class="text-right"><?= number_format($row['diskon']) ?>%</td>
+                                                <td class="text-right"><?= number_format($row['ppn'],0,',','.') ?></td>
+                                                <td class="text-right"><?= number_format($row['biaya_pengiriman'],0,',','.') ?></td>
+                                                <td class="text-right"><?=  $row['akunno']; ?></td>
+                                                <td class="text-right"><?= number_format($row['total'],0,',','.'); ?></td>
                                             </tr>
                                         <?php endforeach ?>
                                         <tr class="bg-light">
                                             <td class="font-weight-bold text-right" colspan="7"><?php echo lang('grand_total') ?></td>
-                                            <td class="font-weight-bold text-right"><?= "Rp. " . number_format($grandtotal,0,',','.'); ?></td>
+                                            <td class="font-weight-bold text-right"><?= number_format($grandtotal,0,',','.'); ?></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -171,7 +166,7 @@
                                     <div class="col-sm-8">
                                         <div class="form-group">
                                             <label><?php echo lang('Uang Muka') ?>:</label>
-                                            <input type="text" class="form-control um" name="um" value="<?= "Rp. " . number_format($angsuran['uangmuka'],0,',','.')?>" readonly>
+                                            <input type="text" class="form-control um" name="um" value="<?= number_format($angsuran['uangmuka'],0,',','.')?>" readonly>
                                         </div>
                                     </div>
                                     <div class="col-sm-4">
@@ -188,15 +183,14 @@
                                             <div class="form-group a<?= $i ?>" hidden >
                                                 <label><?php echo lang('Term '.$i) ?>:</label>
                                                 <input type="text" class="form-control" name="a<?= $i ?>" placeholder="Angsuran <?= $i ?>" 
-                                                value="<?php if ($angsuran['a'.$i] != ''){ echo "Rp. " . number_format($angsuran['a'.$i],0,',','.'); }?>" <?php if ($angsuran['a'.$i] != ''){ echo 'readonly'; } ?> onkeyup="UbahInputRUpiah(this);SUMTOTAL_UM_Term();">
+                                                value="<?php if ($angsuran['a'.$i] != ''){ echo number_format($angsuran['a'.$i],0,',','.'); }?>" <?php if ($angsuran['a'.$i] != ''){ echo 'readonly'; } ?> onkeyup="UbahInputRUpiah(this);SUMTOTAL_UM_Term();">
                                             </div>
                                         <?php if (($i == 4) || ($i == 8) || ($i ==  $angsuran['jumlahterm'])){ echo '</div>'; } ?>
                                         <?php } ?>
-                                      
                                 </div>
                                     <div class="form-group">
                                         <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
-                                        <input type="text" class="form-control tum" name="tum" readonly value="<?= "Rp. " . number_format($angsuran['total'],0,',','.')?>">
+                                        <input type="text" class="form-control tum" name="tum" readonly value="<?= number_format($angsuran['total'],0,',','.')?>">
                                     </div>
                             </div>
                         </div>
