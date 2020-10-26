@@ -230,8 +230,8 @@
                                                 <option value="pak" ${pak}>pak</option>
                                             </select>
                                         </td>
-                                        <td><input type="text" class="form-control" name="harga[]" id="harga${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.tarif), 'Rp. ')}"></td>
-                                        <td><input type="text" class="form-control" name="jumlah[]" id="jumlah${i}${j}${i}${j}" readonly onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.jumlah), 'Rp. ')}"></td>
+                                        <td><input type="text" class="form-control" name="harga[]" id="harga${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.tarif))}"></td>
+                                        <td><input type="text" class="form-control" name="jumlah[]" id="jumlah${i}${j}${i}${j}" readonly onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.jumlah))}"></td>
                                         <td><input type="text" class="form-control" name="keterangan" value="${item.keterangan}"></td>
                                     </tr>
                                     `;
@@ -261,14 +261,14 @@
         console.log(typeof document.getElementById('harga' + no).value);
         if (!isNaN(parseInt(txtSecondNumberValue))){
             // console.log(txtSecondNumberValue);
-            document.getElementById('harga' + no).value  = formatRupiah(txtSecondNumberValue, 'Rp.');
+            document.getElementById('harga' + no).value  = formatRupiah(txtSecondNumberValue);
         }
         var result = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
         if (!isNaN(result)) {
-            document.getElementById('jumlah' + no).value = formatRupiah(String(result), 'Rp.')+',00';;
+            document.getElementById('jumlah' + no).value = formatRupiah(String(result))+',00';;
         }
         else{
-            document.getElementById('jumlah' + no).value = formatRupiah('0', 'Rp.')+',00';
+            document.getElementById('jumlah' + no).value = formatRupiah('0')+',00';
         }
     }
 

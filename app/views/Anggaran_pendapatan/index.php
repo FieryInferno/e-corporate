@@ -83,8 +83,8 @@
 			{
 				data: 'nominal', className: 'text-right', orderable: false,
 				render: function(data, type, row) {
-					if(data) return formatRupiah(data, 'Rp.')+',00';
-					else return formatRupiah(row.nominal, 'Rp.')+',00';
+					if(data) return formatRupiah(data)+',00';
+					else return formatRupiah(row.nominal)+',00';
 				}
 			},
 			{
@@ -134,7 +134,7 @@
 
 			// Update footer
 			$( api.column( 3 ).footer() ).html(
-				formatRupiah(String(total), 'Rp.')+',00'
+				formatRupiah(String(total))+',00'
 			);
 		}
 	});

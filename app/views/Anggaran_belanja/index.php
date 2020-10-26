@@ -1,62 +1,62 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-              <div class="card-header">
-			  <?php if($this->session->userdata( "userid" )=="1") { ?>
-				<a href="{site_url}anggaran_belanja/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-  			<?php } ?></div>
-              <div class="card-body">
-                <table class="table table-bordered table-striped index_datatable">
-                  <thead>
-				  <tr>
-					<th>ID</th>
-					<th><?php echo lang('department name') ?></th>
-						<th><?php echo lang('perusahaan') ?></th>
-					<th><?php echo lang('nominal') ?></th>
-					<th class="text-center"><?php echo lang('action') ?></th>
-				</tr>
-                  </thead>
-                  <tbody>                          
-                  </tbody>
-					<tfoot>
-						<tr>
-							<th></th>
-							<th></th>
-							<th style="text-align:right;"><B><?php echo lang('Total') ?><B></th>				
-							<th></th>
-							<th></th>
-						</tr>
-					</tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
+						<div class="card-header">
+						<?php if($this->session->userdata( "userid" )=="1") { ?>
+							<a href="{site_url}anggaran_belanja/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+						<?php } ?></div>
+						<div class="card-body">
+							<table class="table table-bordered table-striped index_datatable">
+								<thead>
+								<tr>
+									<th>ID</th>
+									<th><?php echo lang('department name') ?></th>
+										<th><?php echo lang('perusahaan') ?></th>
+									<th><?php echo lang('nominal') ?></th>
+									<th class="text-center"><?php echo lang('action') ?></th>
+								</tr>
+								</thead>
+								<tbody>                          
+								</tbody>
+								<tfoot>
+									<tr>
+										<th></th>
+										<th></th>
+										<th style="text-align:right;"><B><?php echo lang('Total') ?><B></th>				
+										<th></th>
+										<th></th>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
     </section>
-  </div>
+</div>
 <script type="text/javascript">
 	var base_url = '{site_url}anggaran_belanja/';
 	var table = $('.index_datatable').DataTable({
@@ -85,8 +85,8 @@
 				{
 				data: 'nominal', className: 'text-right', orderable: false,
 				render: function(data, type, row) {
-					if(data) return formatRupiah(data, 'Rp.')+',00';
-					else return formatRupiah(row.nominal, 'Rp.')+',00';
+					if(data) return formatRupiah(data)+',00';
+					else return formatRupiah(row.nominal)+',00';
 				}
 			},
 			{
@@ -98,9 +98,13 @@
 						<div class="list-icons"> 
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
-								<div class="dropdown-menu dropdown-menu-right"> 
-									<a class="btn btn-info btn-sm dropdown-item" href="`+base_url+`edit/`+data+`"><i class="fas fa-pencil-alt"></i> Edit</a>
-									<a class="btn btn-danger btn-sm dropdown-item" href="javascript:deleteData('`+data+`')"><i class="fas fa-trash"></i> Hapus</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<form action="anggaran_belanja/edit" method="post">
+										<input type="hidden" value="${data}" name="idAnggaranBelanja">
+										<button class="dropdown-item" type="submit"><i class="fas fa-pencil-alt"></i> Edit</button>
+									</form>` + 
+									// <a class="btn btn-info btn-sm dropdown-item" href="`+base_url+`edit/`+data+`"><i class="fas fa-pencil-alt"></i> Edit</a>
+									`<a class="btn btn-danger btn-sm dropdown-item" href="javascript:deleteData('`+data+`')"><i class="fas fa-trash"></i> Hapus</a>
 									<a class="btn btn-success btn-sm dropdown-item" href="javascript:printData('`+data+`')"><i class="fas fa-print"></i> Cetak</a>
 								</div> 
 							</div> 
@@ -139,7 +143,7 @@
 
 			// Update footer
 			$( api.column( 3 ).footer() ).html(
-				formatRupiah(String(pageTotal), 'Rp.')+',00'
+				formatRupiah(String(pageTotal))+',00'
 			);
 		}
 	});

@@ -43,6 +43,7 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="<?= base_url('adminlte')?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="<?= base_url('adminlte')?>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+  <link rel="stylesheet" href="<?= base_url('adminlte')?>/plugins/toastr/toastr.min.css">
 	
   <!-- Core JS files -->
 	<!-- <script src="{assets_path}global/js/main/jquery.min.js"></script>
@@ -98,6 +99,7 @@
 	<script src="{assets_path}js/numeral.min.js"></script>
   <script src="{assets_path}global/js/plugins/forms/selects/select2.full.min.js"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  <script src="<?= base_url('adminlte')?>/plugins/toastr/toastr.min.js"></script>
   <script>
     function formatRupiah(angka, prefix){
         var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -130,7 +132,7 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">    
     <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        <a class="nav-link" data-toggle="dropdown">
           <i class="far fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">

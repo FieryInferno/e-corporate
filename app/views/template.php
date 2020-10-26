@@ -32,6 +32,7 @@
     <link rel="stylesheet" href="<?= base_url('adminlte'); ?>/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url('adminlte'); ?>/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
     <link rel="stylesheet" href="<?= base_url('adminlte'); ?>/plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+    <link rel="stylesheet" href="<?= base_url('adminlte')?>/plugins/toastr/toastr.min.css">
 
     <script src="<?= base_url('adminlte'); ?>/plugins/jquery/jquery.min.js"></script>
     <!-- jQuery UI 1.11.4 -->
@@ -74,6 +75,7 @@
     <script src="{assets_path}js/numeral.min.js"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="{assets_path}global/js/plugins/loaders/blockui.min.js"></script>
+    <script src="<?= base_url('adminlte')?>/plugins/toastr/toastr.min.js"></script>
     <script>
       function formatRupiah(angka, prefix){
         var number_string = angka.replace(/[^,\d]/g, '').toString(),
@@ -105,8 +107,8 @@
     </ul>
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">    
-    <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+      <li class="nav-item dropdown">
+        <a class="nav-link" data-toggle="dropdown">
           <i class="far fa-user"></i>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">

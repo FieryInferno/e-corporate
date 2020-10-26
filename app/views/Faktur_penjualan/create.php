@@ -337,19 +337,19 @@
                 var i;
                 var no=0;
                 var grandtotal = 0;
-                switch (data[0].cara_pembayaran) {
-                    case 'cash':
-                        $('#setupJurnal1').val('REV01');
-                        $('#setupJurnal2').val('REV01');
-                        break;
-                    case 'credit':
-                        $('#setupJurnal1').val('REV02');
-                        $('#setupJurnal2').val('REV02');
-                        break;
-                
-                    default:
-                        break;
-                }
+                $.ajax({
+                        url         : '{site_url}SetUpJurnal/get',
+                        dataType    : 'json',
+                        method      : 'post',
+                        data        : {
+                            jenis       : data[0].cara_pembayaran,
+                            formulir    : 'fakturPembelian'
+                        },
+                        success: function(data) {
+                            $('#setupJurnal1').val(data['idSetupJurnal']);
+                            $('#setupJurnal2').val(data['kodeJurnal']);
+                        }
+                    });
                 for(i=0; i<data.length; i++){
                     if(table_detail_item.hasValue(data[i].idpenjualdetail)) {
                         swal("Gagal!", "Nomor pengiriman tersebut telah ada!", "error");

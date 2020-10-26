@@ -8,10 +8,13 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 class Anggaran_belanja extends User_Controller
 {
+	private $idAnggaranBelanja;
+
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->model('Anggaran_belanja_model', 'model');
+		$this->setGet('idAnggaranBelanja', $this->input->post('idAnggaranBelanja'));
 	}
 
 	public function index()
@@ -46,8 +49,9 @@ class Anggaran_belanja extends User_Controller
 
 	public function edit($id = null)
 	{
-		if ($id) {
-			$data = get_by_id('id', $id, 'tanggaranbelanja');
+		if ($this->idAnggaranBelanja) {
+			$this->model->setGet('idAnggaranBelanja', $this->idAnggaranBelanja);
+			$data = $this->model->get();
 			if ($data) {
 				$data['title'] = lang('anggaran_belanja');
 				$data['subtitle'] = lang('edit');
@@ -303,6 +307,15 @@ class Anggaran_belanja extends User_Controller
 			default:
 				# code...
 				break;
+		}
+	}
+
+	private function setGet($jenis = null, $isi = null)
+	{
+		if ($isi) {
+			$this->$jenis	= $isi;
+		} else {
+			return $this->$jenis;
 		}
 	}
 }

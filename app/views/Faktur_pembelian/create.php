@@ -367,7 +367,7 @@ total
                         dataType    : 'json',
                         method      : 'post',
                         data        : {
-                            id       : data[0].cara_pembayaran,
+                            jenis       : data[0].cara_pembayaran,
                             formulir    : 'fakturPembelian'
                         },
                         success: function(data) {
