@@ -34,10 +34,11 @@ class Faktur_penjualan extends User_Controller {
 
 	public function index_datatable() {
 		$this->load->library('Datatables');
-		$this->datatables->select('tfakturpenjualan.*, mkontak.nama as supplier, mgudang.nama as gudang, mdepartemen.nama as namadepartemen');
+		$this->datatables->select('tfakturpenjualan.*, mkontak.nama as supplier, mgudang.nama as gudang, mdepartemen.nama as namadepartemen, tSetupJurnal.kodeJurnal');
 		$this->datatables->join('mkontak','tfakturpenjualan.kontakid = mkontak.id','left');
 		$this->datatables->join('mgudang','tfakturpenjualan.gudangid = mgudang.id','left');
 		$this->datatables->join('mdepartemen','tfakturpenjualan.departemen = mdepartemen.id','left');
+		$this->datatables->join('tSetupJurnal','tfakturpenjualan.setupJurnal = tSetupJurnal.idSetupJurnal','left');
 		$this->datatables->where('tfakturpenjualan.tipe','2');
 		$this->datatables->from('tfakturpenjualan');
 		return print_r($this->datatables->generate());
