@@ -20,7 +20,7 @@
 </div>
 <div class="content">
     <div class="card">
-        <div class="card-header {bg_header}">
+        <div class="card-header">
             <div class="header-elements-inline">
                 <h5 class="card-title">{subtitle}</h5>
             </div>

@@ -192,7 +192,6 @@
 						`;
                         table.append(html);
                     } else {
-                        console.log(RekTitle);
                         let checked = '';
                         if (RekTitle.includes(element.idakun)) {
                             checked = 'checked';

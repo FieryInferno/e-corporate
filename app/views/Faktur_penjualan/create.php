@@ -343,7 +343,7 @@
                         method      : 'post',
                         data        : {
                             jenis       : data[0].cara_pembayaran,
-                            formulir    : 'fakturPembelian'
+                            formulir    : 'fakturPenjualan'
                         },
                         success: function(data) {
                             $('#setupJurnal1').val(data['idSetupJurnal']);

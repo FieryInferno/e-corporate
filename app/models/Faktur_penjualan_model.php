@@ -39,6 +39,7 @@ class Faktur_penjualan_model extends CI_Model {
 			$this->db->set('tipe','2');
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
+			$this->db->set('setupJurnal', $this->input->post('setupJurnal'));
 			$insertHead = $this->db->insert('tfakturpenjualan');
 			if($insertHead) {
 				$this->db->set('validasi','2');
@@ -139,19 +140,49 @@ class Faktur_penjualan_model extends CI_Model {
 		return $get->row_array();
 	}
 
-	public function getfaktur($id) {
-		$this->db->select('tfakturpenjualan.*, mkontak.nama as kontak, mkontak.alamat, mkontak.telepon, tpengirimanpenjualan.notrans as nosj');
-		$this->db->where('tfakturpenjualan.id', $id);
+	public function getfaktur($id = null, $validasi = null) {
+		$this->db->select('tfakturpenjualan.*, mkontak.nama as kontak, mkontak.alamat, mkontak.telepon, tpengirimanpenjualan.notrans as nosj, tpemesananpenjualan.jenis_pembelian, tfakturpenjualan.setupJurnal, mperusahaan.nama_perusahaan as namaperusahaan');
 		$this->db->join('mkontak', 'tfakturpenjualan.kontakid = mkontak.id','left');
 		$this->db->join('tpengirimanpenjualan', 'tfakturpenjualan.pengirimanid = tpengirimanpenjualan.id','left');
-		$get = $this->db->get('tfakturpenjualan', 1);
-		return $get->row_array();
+		$this->db->join('tpemesananpenjualan', 'tpengirimanpenjualan.pemesananid = tpemesananpenjualan.id','left');
+		$this->db->join('mperusahaan', 'tfakturpenjualan.idperusahaan = mperusahaan.idperusahaan','left');
+		switch ($validasi) {
+			case '1':
+				$this->db->where('tpengirimanpenjualan.validasi', 1);
+				break;
+			case '2':
+				$this->db->where('tpengirimanpenjualan.validasi', 2);
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+		if ($id) {
+			$this->db->where('tfakturpenjualan.id', $id);
+			return $this->db->get('tfakturpenjualan')->row_array();
+		} else {
+			return $this->db->get('tfakturpenjualan')->result_array();
+		}
 	}
 
-	public function fakturdetail($idfaktur) {
-		$this->db->select('tfakturpenjualandetail.*, mitem.nama as item');
+	public function fakturdetail($idfaktur, $jenisPembelian) {
 		$this->db->where('tfakturpenjualandetail.idfaktur', $idfaktur);
-		$this->db->join('mitem', 'tfakturpenjualandetail.itemid = mitem.id', 'left');
+		switch ($jenisPembelian) {
+			case 'jasa':
+				$this->db->select('tfakturpenjualandetail.*, concat(mnoakun.akunno, "/", mnoakun.namaakun) as item, mnoakun.akunno, mnoakun.idakun, mnoakun.namaakun');
+				$this->db->join('mnoakun', 'tfakturpenjualandetail.itemid = mnoakun.idakun', 'left');
+				break;
+			case 'barang':
+				$this->db->select('tfakturpenjualandetail.*, mitem.nama as item, mnoakun.akunno, mnoakun.idakun, mnoakun.namaakun');
+				$this->db->join('mitem', 'tfakturpenjualandetail.itemid = mitem.id', 'left');
+				$this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun', 'left');
+				break;
+			
+			default:
+				# code...
+				break;
+		}
 		$get = $this->db->get('tfakturpenjualandetail');
 		return $get->result_array();
 	}

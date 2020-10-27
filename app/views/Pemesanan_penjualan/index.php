@@ -84,7 +84,7 @@
 			{	
 				data: 'total',
 				render: function(data,type,row) {
-					var total=`<div class="text-right">`+formatRupiah(data, 'Rp. ')+`</div>`;
+					var total=`<div class="text-right">`+formatRupiah(data)+`</div>`;
 					return total;
 				}
 			},

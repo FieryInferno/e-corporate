@@ -47,7 +47,7 @@ class Anggaran_belanja extends User_Controller
 		$this->parser->parse('template', $data);
 	}
 
-	public function edit($id = null)
+	public function edit()
 	{
 		if ($this->idAnggaranBelanja) {
 			$this->model->setGet('idAnggaranBelanja', $this->idAnggaranBelanja);

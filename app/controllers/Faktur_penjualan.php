@@ -48,8 +48,8 @@ class Faktur_penjualan extends User_Controller {
         if ($id) {
             $data = get_by_id('id', $id, 'tfakturpenjualan');
             if ($data) {
-            	$pengiriman = get_by_id('id', $data['pengirimanid'], 'tpengirimanpenjualan');
-            	$data['pengiriman']= get_by_id('id',$data['pengirimanid'],'tpengirimanpenjualan');
+				$pengiriman = get_by_id('id', $data['pengirimanid'], 'tpengirimanpenjualan');
+				$data['pengiriman']= get_by_id('id',$data['pengirimanid'],'tpengirimanpenjualan');
                 $data['pemesanan']= get_by_id('id',$pengiriman['pemesananid'],'tpemesananpenjualan');
                 $data['title'] = lang('invoice');
                 $data['subtitle'] = lang('edit');
@@ -66,13 +66,12 @@ class Faktur_penjualan extends User_Controller {
 
 	public function detail($id = null) {
 		if($id) {
-			$data = $this->model->getfaktur($id);
+			$data = $this->model->getfaktur($id, '1');
 			if($data) {
 				$data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
 				$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
-				$data['fakturdetail'] = $this->model->fakturdetail($data['id']);
+				$data['fakturdetail'] = $this->model->fakturdetail($data['id'], $data['jenis_pembelian']);
 				$data['jurpenjualan'] =  get_by_id('refid',$data['id'],'tjurnalpenjualan');
-				
 				$data['title'] = lang('invoice');
 				$data['subtitle'] = lang('detail');
 				$data['content'] = 'Faktur_penjualan/detail';
@@ -87,20 +86,20 @@ class Faktur_penjualan extends User_Controller {
 	}
 
 	public function printpdf($id = null) {
-	    $this->load->library('pdf');
-	    $pdf = $this->pdf;
-	    $data = $this->model->getfaktur($id);
+		$this->load->library('pdf');
+		$pdf = $this->pdf;
+		$data = $this->model->getfaktur($id);
 		$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
 		$data['fakturdetail'] = $this->model->fakturdetail($data['id']);
-	    $data['title'] = 'Faktur Penjualan';
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Faktur_penjualan/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("faktur-penjualan-". $time, array("Attachment" => false));
+		$data['title'] = 'Faktur Penjualan';
+		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+		$data = array_merge($data,path_info());
+		$html = $this->load->view('Faktur_penjualan/printpdf', $data, TRUE);
+		$pdf->loadHtml($html);
+		$pdf->setPaper('A4', 'portrait');
+		$pdf->render();
+		$time = time();
+		$pdf->stream("faktur-penjualan-". $time, array("Attachment" => false));
 	}
 
 	public function create() {

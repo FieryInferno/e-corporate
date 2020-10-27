@@ -27,6 +27,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title"><?= $title; ?> Anggaran Belanja</h3>
+                            <?php print_r($detail); ?>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->

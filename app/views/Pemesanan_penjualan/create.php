@@ -126,7 +126,7 @@
                                     </div>
                                   
                                     <table class="table table-bordered" id="tabel_detail_item" width="100%" hidden>
-                                        <thead class="{bg_header}">
+                                        <thead>
                                             <tr>
                                                 <th>ID</th>
                                                 <th class="text-center"><?php echo lang('Item') ?></th>
@@ -184,9 +184,6 @@
                                             </tr>
                                         </tfoot>
                                     </table>
-
-
-
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">

@@ -35,7 +35,7 @@ class Jurnal extends User_Controller {
 		if ($this->tipe) {
 			array_push($formulir, $this->tipe);
 		} else {
-			$formulir	= ['penerimaanBarang', 'pengirimanBarang', 'fakturPenjualan', 'fakturPembelian', 'kasBank', 'pengeluaranKasKecil', 'saldoAwal', 'jurnalPenyesuaian'];
+			$formulir	= ['penerimaanBarang', 'fakturPembelian', 'pengirimanBarang', 'fakturPenjualan', 'kasBank', 'pengeluaranKasKecil', 'saldoAwal', 'jurnalPenyesuaian'];
 		}
 		$jumlah	= count($formulir);
 		for ($i=0; $i < $jumlah; $i++) {
@@ -128,18 +128,95 @@ class Jurnal extends User_Controller {
 						]);
 					}
 				}
-			} elseif ($formulir[$i] == 'fakturPembelian') {
-				$data0	= $this->Faktur_pembelian_model->get();
+			} elseif ($formulir[$i] == 'fakturPembelian' || $formulir[$i] == 'fakturPenjualan') {
+				// $data0	= $this->Faktur_pembelian_model->get();
+				// if ($data0) {
+				// 	foreach ($data0 as $key) {
+				// 		foreach ($key['detail'] as $detail) {
+				// 			if (substr($detail['akunno'], 0, 1) == 1 || substr($detail['akunno'], 0, 1) == 2 || substr($detail['akunno'], 0, 1) == 3 || substr($detail['akunno'], 0, 1) == 8 || substr($detail['akunno'], 0, 1) == 9 || substr($detail['akunno'], 0, 1) == 6) {
+				// 				$this->db->select('tJurnalFinansial.elemen, tJurnalFinansial.jenis, tSetupJurnal.formulir');
+				// 				$this->db->join('tJurnalFinansial', 'tSetupJurnal.idSetupJurnal = tJurnalFinansial.idSetupJurnal');
+				// 			} else {
+				// 				$this->db->select('tJurnalAnggaran.elemen, tJurnalAnggaran.jenis, tSetupJurnal.formulir');
+				// 				$this->db->join('tJurnalAnggaran', 'tSetupJurnal.idSetupJurnal = tJurnalAnggaran.idSetupJurnal');
+				// 			}
+				// 			$this->db->where('tSetupJurnal.idSetupJurnal', $key['setupJurnal']);
+				// 			$data1	= $this->db->get_where('tSetupJurnal')->result_array();
+				// 			$no		= 0;
+				// 			$this->db->select('mnoakun.akunno, mnoakun.namaakun, mnoakun1.akunno as akunno1, mnoakun1.namaakun as namaakun1, mnoakun2.akunno as akunno2, mnoakun2.namaakun as namaakun2');
+				// 			$this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun1 = mnoakun.idakun');
+				// 			$this->db->join('mnoakun as mnoakun1', 'tPemetaanAkun.kodeAkun2 = mnoakun1.idakun');
+				// 			$this->db->join('mnoakun as mnoakun2', 'tPemetaanAkun.kodeAkun3 = mnoakun2.idakun');
+				// 			$data2	= $this->db->get_where('tPemetaanAkun', [
+				// 				'kodeAkun'	=> $detail['idakun']
+				// 			])->row_Array();
+				// 			foreach ($data1 as $setupJurnal) {
+				// 				switch ($setupJurnal['elemen']) {
+				// 					case 'kodeAkun':
+				// 						$akunno		= $detail['akunno'];
+				// 						$namaakun	= $detail['namaakun'];
+				// 						break;
+				// 					case 'mapAkun1':
+				// 						$akunno		= $data2['akunno'];
+				// 						$namaakun	= $data2['namaakun'];
+				// 						break;
+				// 					case 'mapAkun2':
+				// 						$akunno		= $data2['akunno1'];
+				// 						$namaakun	= $data2['namaakun1'];
+				// 						break;
+				// 					case 'mapAkun3':
+				// 						$akunno		= $data2['akunno2'];
+				// 						$namaakun	= $data2['namaakun2'];
+				// 						break;
+									
+				// 					default:
+				// 						# code...
+				// 						break;
+				// 				}
+				// 				array_push($data['jurnalUmum'], [
+				// 					'tanggal'			=> $key['tanggal'],
+				// 					'formulir'			=> 'Faktur Pembelian',
+				// 					'noTrans'			=> $key['notrans'],
+				// 					'departemen'		=> '',
+				// 					'nama_perusahaan' 	=> $key['namaperusahaan'],
+				// 					'akunno'			=> $akunno,
+				// 					'namaakun'			=> $namaakun,
+				// 					'jenis'				=> $setupJurnal['jenis'],
+				// 					'total'				=> $detail['total']
+				// 				]);
+				// 			}
+				// 		}
+				// 	}
+				// }
+
+				switch ($formulir[$i]) {
+					case 'fakturPembelian':
+						$data0	= $this->Faktur_pembelian_model->get();
+						$jenis	= 'Faktur Pembelian';
+						break;
+					case 'fakturPenjualan':
+						$data0	= $this->Faktur_penjualan_model->getfaktur(null, '2');
+						$jenis	= 'Faktur Penjualan';
+						$no		= 0;
+						foreach ($data0 as $key) {
+							$data0[$no]['detail']	= $this->Faktur_penjualan_model->fakturdetail($key['id'], $key['jenis_pembelian']);
+						}
+						break;
+					
+					default:
+						# code...
+						break;
+				}
 				if ($data0) {
 					foreach ($data0 as $key) {
 						foreach ($key['detail'] as $detail) {
-							if (substr($detail['akunno'], 0, 1) == 1 || substr($detail['akunno'], 0, 1) == 2 || substr($detail['akunno'], 0, 1) == 3 || substr($detail['akunno'], 0, 1) == 8 || substr($detail['akunno'], 0, 1) == 9 || substr($detail['akunno'], 0, 1) == 6) {
+							// if (substr($detail['akunno'], 0, 1) == 1 || substr($detail['akunno'], 0, 1) == 2 || substr($detail['akunno'], 0, 1) == 3 || substr($detail['akunno'], 0, 1) == 8 || substr($detail['akunno'], 0, 1) == 9 || substr($detail['akunno'], 0, 1) == 6) {
 								$this->db->select('tJurnalFinansial.elemen, tJurnalFinansial.jenis, tSetupJurnal.formulir');
 								$this->db->join('tJurnalFinansial', 'tSetupJurnal.idSetupJurnal = tJurnalFinansial.idSetupJurnal');
-							} else {
-								$this->db->select('tJurnalAnggaran.elemen, tJurnalAnggaran.jenis, tSetupJurnal.formulir');
-								$this->db->join('tJurnalAnggaran', 'tSetupJurnal.idSetupJurnal = tJurnalAnggaran.idSetupJurnal');
-							}
+							// } else {
+							// 	$this->db->select('tJurnalAnggaran.elemen, tJurnalAnggaran.jenis, tSetupJurnal.formulir');
+							// 	$this->db->join('tJurnalAnggaran', 'tSetupJurnal.idSetupJurnal = tJurnalAnggaran.idSetupJurnal');
+							// }
 							$this->db->where('tSetupJurnal.idSetupJurnal', $key['setupJurnal']);
 							$data1	= $this->db->get_where('tSetupJurnal')->result_array();
 							$no		= 0;
@@ -175,7 +252,7 @@ class Jurnal extends User_Controller {
 								}
 								array_push($data['jurnalUmum'], [
 									'tanggal'			=> $key['tanggal'],
-									'formulir'			=> 'Faktur Pembelian',
+									'formulir'			=> $jenis,
 									'noTrans'			=> $key['notrans'],
 									'departemen'		=> '',
 									'nama_perusahaan' 	=> $key['namaperusahaan'],
