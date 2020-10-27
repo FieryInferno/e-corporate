@@ -14,6 +14,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Utang_model extends CI_Model {
 
+	private $kontakid;
+
 	public function get_count_utang($tanggalawal, $tanggalakhir, $kontakid) {
 		$this->db->where('view_laporan_utang_piutang.tanggal >=', $tanggalawal);
 		$this->db->where('view_laporan_utang_piutang.tanggal <=', $tanggalakhir);
@@ -43,6 +45,27 @@ class Utang_model extends CI_Model {
 		$this->db->order_by('view_laporan_utang_piutang.idfaktur', 'desc');
 		$get = $this->db->get('view_laporan_utang_piutang');
 		return $get->result_array();
+	}
+
+	public function indexDatatables()
+	{
+		print_r($this->setGet('kontakid'));
+		die();
+		$this->load->library('Datatables');
+		$this->datatables->select('tfaktur.tanggal, tfaktur.tanggaltempo, tfaktur.notrans, tfaktur.catatan, mkontak.nama as rekanan, tfaktur.total, tfaktur.totaldibayar, (tfaktur.total - tfaktur.totaldibayar) as sisaUtang, tfaktur.id');
+		$this->datatables->join('mkontak', 'tfaktur.kontakid = mkontak.id');
+		$this->datatables->from('tfaktur');
+		return $this->datatables->generate();
+	}
+
+	public function setGet($jenis = null, $isi = null)
+	{
+		if ($isi) {
+			$this->$jenis	= $isi;
+		} else {
+			return $this->$jenis;
+		}
+		
 	}
 }
 
