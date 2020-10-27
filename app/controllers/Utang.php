@@ -31,8 +31,6 @@ class Utang extends User_Controller {
 	}
 
 	public function index_datatable() {
-		print_r($this->input->get('kontakid'));
-		die();
 		$this->model->setGet('kontakid', $this->setGet('kontakid'));
 		$data	= $this->model->indexDatatables();
 		return print_r($data);

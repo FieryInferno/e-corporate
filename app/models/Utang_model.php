@@ -49,8 +49,6 @@ class Utang_model extends CI_Model {
 
 	public function indexDatatables()
 	{
-		print_r($this->setGet('kontakid'));
-		die();
 		$this->load->library('Datatables');
 		$this->datatables->select('tfaktur.tanggal, tfaktur.tanggaltempo, tfaktur.notrans, tfaktur.catatan, mkontak.nama as rekanan, tfaktur.total, tfaktur.totaldibayar, (tfaktur.total - tfaktur.totaldibayar) as sisaUtang, tfaktur.id');
 		$this->datatables->join('mkontak', 'tfaktur.kontakid = mkontak.id');
