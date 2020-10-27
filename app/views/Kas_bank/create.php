@@ -393,7 +393,6 @@
                         <tr>
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
-                            <th>Kontak</th>
                             <th>Keterangan</th>
                             <th>Departemen</th>
                             <th>Tanggal</th>

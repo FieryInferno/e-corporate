@@ -96,14 +96,14 @@
 			{
 				data: 'penerimaan',
 				render: function(data,type,row) {
-					var penerimaan=`<div class="text-right">`+formatRupiah(data, 'Rp. ')+`,00</div>`;
+					var penerimaan=`<div class="text-right">`+formatRupiah(data)+`,00</div>`;
 					return penerimaan;
 				}
 			},
 			{
 				data: 'pengeluaran',
 				render: function(data,type,row) {
-					var pengeluaran=`<div class="text-right">`+formatRupiah(data, 'Rp. ')+`,00</div>`;
+					var pengeluaran=`<div class="text-right">`+formatRupiah(data)+`,00</div>`;
 					return pengeluaran;
 				}
 			},
@@ -143,8 +143,8 @@
                 return intVal(a) + intVal(b); 
             }, 0 );
            
-            $('a1').html(formatRupiah(String(total_penerimaan), 'Rp. '));
-            $('a2').html(formatRupiah(String(total_pengeluaran), 'Rp. '));
+            $('a1').html(formatRupiah(String(total_penerimaan)));
+            $('a2').html(formatRupiah(String(total_pengeluaran)));
         }
 	});
 
