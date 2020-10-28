@@ -33,30 +33,37 @@
                                     <div class="col-4">
                                         <div class="form-group">
                                             <label>No. Invoice</label>
-                                            <input type="text" class="form-control" name="noInvoice" placeholder="No. Invoice" required>
+                                            <input type="hidden" name="idSaldoAwalHutang" value="{idSaldoAwalHutang}">
+                                            <input type="text" class="form-control" name="noInvoice" placeholder="No. Invoice" required value="{noInvoice}">
                                         </div>
                                     </div>
                                     <div class="col-4">
                                         <div class="form-group">
                                             <label>Tanggal</label>
-                                            <input type="date" class="form-control" name="tanggal" value="<?= date('Y-m-d'); ?>" id="tanggal" required>
+                                            <input type="date" class="form-control" name="tanggal" value="<?= date('Y-m-d'); ?>" id="tanggal" required value="{tanggal}">
                                         </div>
                                     </div>
                                     <div class="col-4">
                                         <div class="form-group">
                                             <label>Tanggal Tempo</label>
-                                            <input type="date" class="form-control" name="tanggalTempo" onchange="periksaTanggal()" id="tanggalTempo" required>
+                                            <input type="date" class="form-control" name="tanggalTempo" onchange="periksaTanggal()" id="tanggalTempo" required value="{tanggalTempo}">
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label>Perusahaan</label>
+                                            <select id="perusahaan" class="form-control" name="perusahaan" required></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label>Nama Pemasok</label>
                                             <select id="pemasok" class="form-control" name="pemasok" required></select>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label>No. Akun</label>
                                             <select id="noAkun" class="form-control" name="noAkun" required></select>
@@ -67,7 +74,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Deskripsi</label>
-                                            <textarea name="deskripsi" id="deskripsi" cols="30" rows="10" placeholder="deskripsi" class="form-control" required></textarea>
+                                            <textarea name="deskripsi" id="deskripsi" cols="30" rows="10" placeholder="deskripsi" class="form-control" required>{deskripsi}</textarea>
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -75,7 +82,7 @@
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label>Nilai Hutang</label>
-                                                    <input type="text" class="form-control" name="nilaiHutang" placeholder="Nilai Hutang" required onkeyup="format(this)">
+                                                    <input type="text" class="form-control" name="nilaiHutang" placeholder="Nilai Hutang" required onkeyup="format(this)" value="<?= number_format($jumlah,0,',','.'); ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -83,13 +90,13 @@
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label>Prime Owing</label>
-                                                    <input type="text" class="form-control" name="primeOwing" placeholder="Prime Owing" required onkeyup="format(this)">
+                                                    <input type="text" class="form-control" name="primeOwing" placeholder="Prime Owing" required onkeyup="format(this)" value="<?= number_format($primeOwing,0,',','.'); ?>">
                                                 </div>
                                             </div>
                                             <div class="col-6">
                                                 <div class="form-group">
                                                     <label>Tax Owing</label>
-                                                    <input type="text" class="form-control" name="taxOwing" placeholder="Tax Owing" required onkeyup="format(this)">
+                                                    <input type="text" class="form-control" name="taxOwing" placeholder="Tax Owing" required onkeyup="format(this)" value="<?= number_format($taxOwing,0,',','.'); ?>">
                                                 </div>
                                             </div>
                                         </div>
@@ -114,17 +121,24 @@
     var base_url    = '{site_url}SaldoAwalHutang';
     $(document).ready(function() {
 		ajax_select({
+            id          : '#perusahaan',	
+            url         : '{site_url}perusahaan/select2',
+            selected    : {
+                id  : '{perusahaan}'
+            }
+        });
+        ajax_select({
             id          : '#pemasok',	
             url         : '{site_url}kontak/select2',
             selected    : {
-                id  : ''
+                id  : '{namaPemasok}'
             }
         });
         ajax_select({
             id          : '#noAkun',	
             url         : '{site_url}noakun/select2_noakun',
             selected    : {
-                id  : ''
+                id  : '{akun}'
             }
         });	
 	})
