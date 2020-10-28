@@ -177,9 +177,9 @@ function menu_is_open($menu = array())
     $uri = $ci->uri->segment(1);
     if (is_array($menu)) {
         if (in_array(strtolower($uri), $menu)) {
-            return 'nav-item-expanded nav-item-open';
+            // return 'nav-item-expanded nav-item-open';
+            return 'menu-open';
         }
-
     }
 }
 

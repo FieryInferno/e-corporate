@@ -1,42 +1,39 @@
 <?php $uri = $this->uri->segment(1)?>
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
-    <!-- Brand Logo -->
-    <a href="<?= base_url()?>" class="brand-link">
-      <img src="<?= base_url('adminlte')?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-           style="opacity: .8">
-      <span class="brand-text font-weight-light">PT ABB</span>
-    </a>
+  <!-- Brand Logo -->
+  <a href="<?= base_url()?>" class="brand-link">
+    <img src="<?= base_url('adminlte')?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+    <span class="brand-text font-weight-light">PT ABB</span>
+  </a>
 
     <!-- Sidebar -->
-    <div class="sidebar">
-      <!-- Sidebar user panel (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="<?= base_url('adminlte')?>/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block"> <?php echo get_user('name') ?></a>
-        </div>
+  <div class="sidebar">
+    <!-- Sidebar user panel (optional) -->
+    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+      <div class="image">
+        <img src="<?= base_url('adminlte')?>/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
       </div>
+      <div class="info">
+        <a href="#" class="d-block"> <?php echo get_user('name') ?></a>
+      </div>
+    </div>
 
- <!-- Sidebar Menu -->
- <nav class="mt-2">
-        <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
-          <!-- Add icons to the links using the .nav-icon class
-               with font-awesome or any other icon font library -->
-          <li class="nav-item has-treeview menu-open">
-          <a href="{site_url}dashboard" class="nav-link <?php echo menu_is_active('dashboard') ?>">
-              <i class="nav-icon fas fa-tachometer-alt"></i>
-              <p>
-              <?php echo lang('Dashboard') ?>
-              </p>
-            </a>
-          </li>
+<!-- Sidebar Menu -->
+    <nav class="mt-2">
+      <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+        <!-- Add icons to the links using the .nav-icon class with font-awesome or any other icon font library -->
+        <li class="nav-item has-treeview menu-open">
+        <a href="{site_url}dashboard" class="nav-link <?php echo menu_is_active('dashboard') ?>">
+            <i class="nav-icon fas fa-tachometer-alt"></i>
+            <p>
+            <?php echo lang('Dashboard') ?>
+            </p>
+          </a>
+        </li>
 
-          <li class="nav-header">MASTER DATA</li>       
+        <li class="nav-header">MASTER DATA</li>       
 
-         <?php $menu = array('item', 'kategori', 'satuan')?>    
-                 
+        <?php $menu = array('item', 'kategori', 'satuan')?>  
           <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
             <a href="#" class="nav-link
               <?php
@@ -48,19 +45,19 @@
             </a>
             <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('item') ?>">
               <li class="nav-item">
-              <a href="{site_url}item" class="nav-link <?php echo menu_is_active('item') ?>">
+                <a href="{site_url}item" class="nav-link <?php echo menu_is_active('item') ?>">
                   <i class="far fa-circle nav-icon"></i>                  
                   <p><?php echo lang('item') ?></p>
                 </a>
               </li>
               <li class="nav-item">
-              <a href="{site_url}kategori" class="nav-link <?php echo menu_is_active('kategori') ?>">
+                <a href="{site_url}kategori" class="nav-link <?php echo menu_is_active('kategori') ?>">
                   <i class="far fa-circle nav-icon"></i>                  
                   <p><?php echo lang('category') ?></p>
                 </a>
               </li>
               <li class="nav-item">
-              <a href="{site_url}satuan" class="nav-link <?php echo menu_is_active('satuan') ?>">
+                <a href="{site_url}satuan" class="nav-link <?php echo menu_is_active('satuan') ?>">
                   <i class="far fa-circle nav-icon"></i>                  
                   <p><?php echo lang('unit') ?></p>
                 </a>
@@ -68,14 +65,15 @@
             </ul>
           </li>
           <li class="nav-item has-treeview">
-          <a href="{site_url}gudang" class="nav-link <?php echo menu_is_active('gudang') ?>">
-              <i class="nav-icon fas fa-warehouse"></i><p><?php echo lang('warehouse') ?></p></a>
+            <a href="{site_url}gudang" class="nav-link <?php echo menu_is_active('gudang') ?>">
+              <i class="nav-icon fas fa-warehouse"></i><p><?php echo lang('warehouse') ?></p>
+            </a>
           </li>
           <li class="nav-item has-treeview">
             <a href="{site_url}kontak" class="nav-link <?php echo menu_is_active('kontak') ?>">
               <i class="nav-icon fas fa-address-book"></i>
               <p>
-              <?php echo lang('contact') ?>
+                <?php echo lang('contact') ?>
               </p>
             </a>
           </li>
@@ -91,28 +89,28 @@
             </a>
             <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('user_management') ?>">
               <li class="nav-item">
-              <a href="{site_url}user" class="nav-link <?php echo menu_is_active('user') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user') ?></p></a>
+                <a href="{site_url}user" class="nav-link <?php echo menu_is_active('user') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user') ?></p></a>
               </li>
               <li class="nav-item">
-              <a href="{site_url}perusahaan" class="nav-link <?php echo menu_is_active('perusahaan') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('perusahaan') ?></p></a>
+                <a href="{site_url}perusahaan" class="nav-link <?php echo menu_is_active('perusahaan') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('perusahaan') ?></p></a>
               </li>
               <li class="nav-item">
-              <a href="{site_url}departemen" class="nav-link <?php echo menu_is_active('departemen') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('departemen') ?></p></a>
+                <a href="{site_url}departemen" class="nav-link <?php echo menu_is_active('departemen') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('departemen') ?></p></a>
               </li>             
               <li class="nav-item">
-              <a href="{site_url}tahunanggaran" class="nav-link <?php echo menu_is_active('tahunanggaran') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('tahunanggaran') ?></p></a>
+                <a href="{site_url}tahunanggaran" class="nav-link <?php echo menu_is_active('tahunanggaran') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('tahunanggaran') ?></p></a>
               </li>
               <li class="nav-item">
-              <a href="{site_url}multi_curency" class="nav-link <?php echo menu_is_active('multi_curency') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('multi_curency') ?></p></a>
+                <a href="{site_url}multi_curency" class="nav-link <?php echo menu_is_active('multi_curency') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('multi_curency') ?></p></a>
               </li>
               <li class="nav-item">
-              <a href="{site_url}rekening" class="nav-link <?php echo menu_is_active('rekening') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('rekening') ?></p></a>
+                <a href="{site_url}rekening" class="nav-link <?php echo menu_is_active('rekening') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('rekening') ?></p></a>
               </li>             
               <li class="nav-item">
-              <a href="{site_url}user_akses" class="nav-link <?php echo menu_is_active('user_akses') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user_akses') ?></p></a>
+                <a href="{site_url}user_akses" class="nav-link <?php echo menu_is_active('user_akses') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user_akses') ?></p></a>
               </li>
               <li class="nav-item">
-              <a href="{site_url}user_hak_akses" class="nav-link <?php echo menu_is_active('user_hak_akses') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user_hak_akses') ?></p></a>
+                <a href="{site_url}user_hak_akses" class="nav-link <?php echo menu_is_active('user_hak_akses') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user_hak_akses') ?></p></a>
               </li>             
             </ul>
           </li>
@@ -128,12 +126,8 @@
               <p>Sistem Penomoran</p>
             </a>
           </li>
-
-          
           <li class="nav-header">TRANSAKSI</li>  
-          
-          
-			<?php $menu = array('anggaran_pendapatan', 'anggaran_belanja', 'validasi_anggaran_pendapatan', 'validasi_anggaran_belanja') ?>
+      <?php $menu = array('anggaran_pendapatan', 'anggaran_belanja', 'validasi_anggaran_pendapatan', 'validasi_anggaran_belanja') ?>
 			<li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
             <a href="#" class="nav-link
               <?php
@@ -366,50 +360,67 @@
               <li class="nav-item">
               <a href="{site_url}laporan_stok_akhir_barang" class="nav-link <?php echo menu_is_active('laporan_stok_akhir_barang') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('Lap Stok Akhir Barang') ?></p></a>
-              </li>            
-                       
+              </li>     
             </ul>
           </li>	
 
-          <li class="nav-header">AKUNTANSI</li>  
-          <li class="nav-item">
-            <a href="<?= site_url('saldo_awal') ?>" class="nav-link <?php echo menu_is_active('saldo_awal') ?>">
-              <i class="icon-gear"></i>
-              <i class="nav-icon fas fa-balance-scale-left"></i><p> <?php echo lang('beginning_balance') ?> </p>
-            </a>
-          </li>
+        <li class="nav-header">AKUNTANSI</li>  
+
+        <?php $menuSaldoAwal = ['saldo_awal', 'saldoawalhutang']; ?>
+        <li class="nav-item has-treeview <?= menu_is_open($menuSaldoAwal) ?>">
+          <a href="#" class="nav-link
+            <?php
+              if ($this->uri->segment(1) == 'saldo_awal' || $this->uri->segment(1) == 'SaldoAwalHutang') {
+                echo 'active';
+              }
+            ?>"><i class="nav-icon fas fa-copy"></i>
+            <p>Saldo Awal <i class="fas fa-angle-left right"></i></p>
+          </a>
+          <ul class="nav nav-treeview" data-submenu-title="<?= 'Saldo Awal' ?>">                        
+            <li class="nav-item">
+              <a href="{site_url}saldo_awal" class="nav-link <?= menu_is_active('saldo_awal') ?>">
+                <i class="far fa-circle nav-icon"></i><p> Saldo Awal</p>
+              </a>
+            </li>            
+            <li class="nav-item">
+              <a href="{site_url}SaldoAwalHutang" class="nav-link <?php echo menu_is_active('SaldoAwalHutang') ?>">
+                <i class="far fa-circle nav-icon"></i><p> Saldo Awal Hutang</p>
+              </a>
+            </li>                                           
+          </ul>
+        </li>	
+
 				<li class="nav-item">
 					<a href="{site_url}noakun" class="nav-link <?php echo menu_is_active('noakun') ?>">
 						<i class="icon-database"></i>
 						<i class="nav-icon fas fa-file-invoice-dollar"></i><p> <?php echo lang('account_number') ?> </p>
 					</a>
 				</li>
+        
 				<li class="nav-item">
 					<a href="{site_url}SetUpJurnal" class="nav-link <?php echo menu_is_active('SetUpJurnal') ?>">
 						<i class="icon-cash"></i>
 						<i class="nav-icon fas fa-cogs"></i><p>Setup Jurnal</p>
 					</a>
-                </li>
-                
-          <?php $menu = array(
-              'utang',
-              'piutang',
-          )?>
+        </li>
 
+        <?php $menu = ['utang', 'piutang']; ?>
         <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
-            <a href="#" class="nav-link"><i class="nav-icon fas fa-copy"></i>
-              <p><?php echo lang('Utang &amp; Piutang') ?><i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('Utang &amp; Piutang') ?>">                        
-              <li class="nav-item">
+          <a href="#" class="nav-link"><i class="nav-icon fas fa-copy"></i>
+            <p><?php echo lang('Utang &amp; Piutang') ?><i class="fas fa-angle-left right"></i></p>
+          </a>
+          <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('Utang &amp; Piutang') ?>">                        
+            <li class="nav-item">
               <a href="{site_url}utang" class="nav-link <?php echo menu_is_active('pemesanan_pembelian') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('Utang Usaha') ?></p></a>
-              </li>            
-              <li class="nav-item">
+                <i class="far fa-circle nav-icon"></i><p><?php echo lang('Utang Usaha') ?></p>
+              </a>
+            </li>            
+            <li class="nav-item">
               <a href="{site_url}piutang" class="nav-link <?php echo menu_is_active('pengiriman_pembelian') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('Piutang Usaha') ?></p></a>
-              </li>                                           
-            </ul>
+                <i class="far fa-circle nav-icon"></i><p><?php echo lang('Piutang Usaha') ?></p>
+              </a>
+            </li>                                           
+          </ul>
         </li>	
 
         <li class="nav-item">
@@ -464,10 +475,8 @@
 					<i class="fas fa-search nav-icon"></i><p> Pemetaan Akun </p>
 					</a>
 				</li>
-
       </nav>
       <!-- /.sidebar-menu -->
-      
-        </div>
     </div>
+  </div>
 </aside>

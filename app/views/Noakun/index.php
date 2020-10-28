@@ -1,57 +1,58 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{title}</h1>
         </div>
-      </div><!-- /.container-fluid -->
-    </section>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">{title}</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-              <div class="card-header">
-				<a href="{site_url}pajak/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    + Import
-                </button>
-			</div>
-              <div class="card-body">
-              <table class="table table-striped index_datatable">
-                    <thead class="{bg_header}">
-                        <tr>
-                            <th>ID</th>
-                            <th><?php echo lang('lock') ?></th>
-                            <th><?php echo lang('code') ?></th>
-                            <th><?php echo lang('name') ?></th>
-                            <th><?php echo lang('Kategori Akun') ?></th>
-                            <th><?php echo lang('balance') ?></th>
-                            <th class="text-center"><?php echo lang('action') ?></th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">         
+          <div class="card">
+            <div class="card-header">
+              <a href="{site_url}pajak/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                  + Import
+              </button>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                <table class="table table-xs table-striped table-borderless table-hover index_datatable">
+                  <thead>
+                    <tr class="table-active">
+                      <th>ID</th>
+                      <th><?php echo lang('code') ?></th>
+                      <th><?php echo lang('name') ?></th>
+                      <th><?php echo lang('Kategori Akun') ?></th>
+                      <th><?php echo lang('balance') ?></th>
+                      <th class="text-center"><?php echo lang('action') ?></th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
                 </table>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </section>
-  </div>
-  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    </div>
+  </section>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -61,34 +62,22 @@
 				</button>
 			</div>
 			<div class="modal-body">
-                <form action="javascript:import_data()" method="post" enctype="multipart/form-data" id="form_import">
-                    <div class="form-row pt-3">
-                        <div class="col-sm-12">
-                            <label for="input-file-now">Input File</label>
-                            <input type="file" name="file" placeholder="Masukan File Excel" id="input-file-now" class="dropify">
-                        </div>
-                    </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save changes</button>
-                </form>
-            </div>
+        <form action="javascript:import_data()" method="post" enctype="multipart/form-data" id="form_import">
+          <div class="form-row pt-3">
+              <div class="col-sm-12">
+                  <label for="input-file-now">Input File</label>
+                  <input type="file" name="file" placeholder="Masukan File Excel" id="input-file-now" class="dropify">
+              </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="submit" class="btn btn-primary">Save changes</button>
+            </form>
+        </div>
 		</div>
 	</div>
 </div>
-  
-<!-- jQuery -->
-<!-- <script src="<?= base_url('adminlte')?>/plugins/jquery/jquery.min.js"></script> -->
-<!-- Bootstrap 4 -->
-<!-- <script src="<?= base_url('adminlte')?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-<!-- DataTables -->
-<script src="<?= base_url('adminlte')?>/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<!-- notifikasi -->
-<!-- <script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script> -->
 
 <script type="text/javascript">
 	var base_url = '{site_url}noakun/';
@@ -97,9 +86,7 @@
 			url: base_url + 'index_datatable',
 			type: 'post',
 		},
-		pageLength: 100,
 		stateSave: false,
-		autoWidth: false,
 		order: [[5,'ASC']],
         dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
         language: {
@@ -107,51 +94,43 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-        	{data: 'noakun', visible: false},
-        	{
-        		data: 'noakuntop', width: '100px', orderable: false,
-        		render: function(data, type, row) {
-        			if(row.stdefault == '1') return '<span class="icon-lock"></span>';
-        			else if(row.stdefault == '0' && row.stkunci == '1') return '<span class="icon-plus2"></span>';
-        			else return '<span>-</span>';
-        		}
-        	},
-        	{
-        		data: 'akunno', width: '100px',
-        		render: function(data) {
-        			return '<span class="badge badge-info">'+data+'</span>';
-        		}
-        	},
-        	{
-        		data: 'namaakun',
-        		render: function(data,type,row) {
-        			return '<a href="'+base_url+'detail/'+row.noakun+'">'+data+'</a>';
-        		}
-        	},
-        	{
-        		data: 'kategoriakun'
-        	},
-        	{
-        		data: 'saldoakun', width: '150px', className: 'text-right font-weight-semibold', orderable: false,
-        		render: function(data) {
-        			return numeral(data).format();
-        		}
-        	},
-        	{
-        		data: 'akunno', width: 100, orderable: false, className: 'text-center',
-        		render: function(data,type,row) {
-        			var aksi = `<div class="list-icons"> 
-        			<div class="dropdown"> 
-        			<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="icon-menu9"></i> </a> 
-        			<div class="dropdown-menu dropdown-menu-right"> `;
-        			if(row.stdefault != '1' && row.stkunci != '1') {
-        				aksi += `<a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="icon-trash"></i> <?php echo lang('delete') ?></a>`;
-        			}
-        			// aksi += `<a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="icon-pencil"></i> <?php echo lang('edit') ?></a>`;
-        			aksi += `</div> </div> </div>`;
-        			return aksi;
-        		}
-        	}
+          {data: 'noakun', visible: false},
+          {
+            data: 'akunno', width: '100px',
+            render: function(data) {
+              return '<span class="btn btn-sm btn-info">'+data+'</span>';
+            }
+          },
+          {
+            data: 'namaakun',
+            render: function(data,type,row) {
+              return '<a href="'+base_url+'detail/'+row.idakun+'">'+data+'</a>';
+            }
+          },
+          {
+            data: 'kategoriakun'
+          },
+          {
+            data: 'saldoakun', width: '150px', className: 'text-right font-weight-semibold', orderable: false,
+            render: function(data) {
+              return numeral(data).format();
+            }
+          },
+          {
+            data: 'akunno', width: 100, orderable: false, className: 'text-center',
+            render: function(data,type,row) {
+              var aksi = `<div class="list-icons"> 
+              <div class="dropdown"> 
+              <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="icon-menu9"></i> </a> 
+              <div class="dropdown-menu dropdown-menu-right"> `;
+              if(row.stdefault != '1' && row.stkunci != '1') {
+                aksi += `<a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="icon-trash"></i> <?php echo lang('delete') ?></a>`;
+              }
+              // aksi += `<a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="icon-pencil"></i> <?php echo lang('edit') ?></a>`;
+              aksi += `</div> </div> </div>`;
+              return aksi;
+            }
+          }
         ]
 	});
 

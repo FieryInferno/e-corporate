@@ -134,7 +134,7 @@ class Anggaran_belanja_model extends CI_Model
 	public function get()
 	{
 		if ($this->idAnggaranBelanja) {
-			$this->db->select('tanggaranbelanja.idperusahaan, tanggaranbelanja.thnanggaran, tanggaranbelanja.tglpengajuan, tanggaranbelanja.id');
+			$this->db->select('tanggaranbelanja.idperusahaan, tanggaranbelanja.thnanggaran, tanggaranbelanja.tglpengajuan, tanggaranbelanja.id, tanggaranbelanja.dept');
 			$this->db->where('id', $this->idAnggaranBelanja);
 			$data			= $this->db->get('tanggaranbelanja')->row_array();
 			$data['detail']	= $this->db->get_where('tanggaranbelanjadetail', [

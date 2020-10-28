@@ -105,5 +105,20 @@ class Kontak extends User_Controller {
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
 	}
+
+	public function select2($id = null)
+	{
+		$q	= $this->input->post('q');
+		$this->db->select('mkontak.id, mkontak.nama as text');
+		if ($id) {
+			$data = $this->db->where('id', $id)->get('mkontak')->row_array();
+		} else {
+			if ($q) {
+				$this->db->like('mkontak.nama', $q);
+			}
+			$data = $this->db->get('mkontak')->result_array();
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }
 

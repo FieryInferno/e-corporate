@@ -58,7 +58,7 @@ $autoload['packages'] = array();
 |
 |	$autoload['libraries'] = array('user_agent' => 'ua');
 */
-$autoload['libraries'] = array('session','database','parser', 'upload');
+$autoload['libraries'] = array('session','database','parser', 'upload', 'form_validation');
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +132,4 @@ $autoload['language'] = array('general');
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('general_model' => 'general', 'Pajak_model', 'Noakun_model', 'Pemesanan_pembelian_model', 'Metaakun_model', 'SetUpJurnal_Model', 'JurnalAnggaranModel', 'JurnalFinansialModel', 'Jurnal_penyesuaian_model', 'Faktur_pembelian_model', 'Pemesanan_pembelian_model', 'Faktur_penjualan_model');
+$autoload['model'] = array('general_model' => 'general', 'Pajak_model', 'Noakun_model', 'Pemesanan_pembelian_model', 'Metaakun_model', 'SetUpJurnal_Model', 'JurnalAnggaranModel', 'JurnalFinansialModel', 'Jurnal_penyesuaian_model', 'Faktur_pembelian_model', 'Pemesanan_pembelian_model', 'Faktur_penjualan_model', 'SaldoAwalHutangModel');

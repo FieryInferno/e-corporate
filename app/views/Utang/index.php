@@ -92,57 +92,7 @@
                                             <th class="text-right"><?php echo lang('action') ?></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <!-- <?php if ($get_utang): ?>
-                                            <?php $totalutang = 0; $grandtotaldibayar = 0; $totalsisatagihan = 0 ?>
-                                            <?php foreach ($get_utang as $row): ?>
-                                                <?php if($row['sisatagihan'] != 0) : ?>
-                                                    <?php $totalutang = $totalutang + $row['total'] ?>
-                                                    <?php $grandtotaldibayar = $grandtotaldibayar + $row['totaldibayar'] ?>
-                                                    <?php $totalsisatagihan = $totalsisatagihan + $row['sisatagihan'] ?>
-                                                    <tr>
-                                                        <td><?php echo formatdatemonthname($row['tanggal']) ?></td>
-                                                        <td></td>
-                                                        <td>
-                                                            <a href="{site_url}faktur_pembelian/detail/<?php echo $row['idfaktur'] ?>" class="badge badge-info"><?php echo $row['notrans'] ?></a>
-                                                        </td>
-                                                        <td><strong><?php echo $row['namaakun'] ?></strong></td>
-                                                        <td><strong><?php echo $row['kontak'] ?></strong></td>
-                                                        <td class="text-center"><?php echo number_format($row['total']) ?></td>
-                                                        <td class="text-center"><?php echo number_format($row['totaldibayar']) ?></td>
-                                                        <td class="text-center"><?php echo number_format($row['sisatagihan']) ?></td>
-                                                        <td class="text-center">
-                                                            <?php if ($row['status'] == '3'): ?>
-                                                                <label class="badge badge-success">Lunas</label>
-                                                            <?php else: ?>
-                                                                <label class="badge badge-warning">Belum Lunas</label>
-                                                            <?php endif ?>
-                                                        </td>
-                                                        <td class="text-right">
-                                                            <?php if ($row['status'] == '3'): ?>
-                                                                <?php $pembayaran = get_by_id('fakturid',$row['idfaktur'],'tpembayaran'); ?>
-                                                                <a href="{site_url}pembayaran_pembelian/printpdf/<?php echo $pembayaran['id'] ?>" class="btn btn-sm btn-info"><i class="icon icon-printer"></i></a>
-                                                            <?php else: ?>
-                                                                <a href="{site_url}pembayaran_pembelian/create?idfaktur=<?php echo $row['idfaktur'] ?>" class="btn btn-sm btn-primary">Pembayaran</a>
-                                                            <?php endif ?>
-                                                        </td>
-                                                    </tr>
-                                                <?php endif; ?>
-                                            <?php endforeach ?>
-                                            <tr class="bg-grey-300">
-                                                <td colspan="4">Total Utang :</td>
-                                                <td class="text-center font-weight-bold"><?php echo number_format($totalutang) ?></td>
-                                                <td class="text-center font-weight-bold"><?php echo number_format($grandtotaldibayar) ?></td>
-                                                <td class="text-center font-weight-bold"><?php echo number_format($totalsisatagihan) ?></td>
-                                                <td>&nbsp;</td>
-                                                <td>&nbsp;</td>
-                                            </tr>
-                                        <?php else: ?>
-                                            <tr>
-                                                <td class="text-center" colspan="8"><?php echo lang('data_not_found') ?></td>
-                                            </tr>
-                                        <?php endif ?> -->
-                                    </tbody>
+                                    <tbody></tbody>
                                 </table>
                             </div>
                         </div>

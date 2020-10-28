@@ -26,7 +26,7 @@
                     <!-- jquery validation -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><?= $title; ?> Anggaran Belanja</h3>
+                            <h3 class="card-title"><?= $title; ?></h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
@@ -147,8 +147,14 @@
 <script type="text/javascript">
 	var base_url = '{site_url}anggaran_belanja/';
 	$(document).ready(function() {
-		ajax_select({id: '#perusahaan',	url: base_url + 'select2_mperusahaan',});			
-		ajax_select({ id: '#satuan', url: base_url + 'select2_satuan', selected: { id: '' } });		
+		ajax_select({
+			id			: '#perusahaan',	
+			url			: '{site_url}perusahaan/select2',
+			selected	: {
+				id	: '{idperusahaan}'
+			}
+		});			
+		// ajax_select({ id: '#satuan', url: base_url + 'select2_satuan', selected: { id: '' } });		
 		$('#perusahaan').change(function(e) {
 			var perusahaanId = $('#perusahaan').children('option:selected').val();
 			var num = perusahaanId.toString().padStart(3, "0")
@@ -156,6 +162,9 @@
 			ajax_select({
 				id: '#department',
 				url: base_url + 'select2_mdepartemen/' + perusahaanId,
+				selected	: {
+					id	: '{dept}'
+				}
 			});
 		})
 
