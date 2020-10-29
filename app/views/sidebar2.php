@@ -366,11 +366,11 @@
 
         <li class="nav-header">AKUNTANSI</li>  
 
-        <?php $menuSaldoAwal = ['saldo_awal', 'saldoawalhutang']; ?>
+        <?php $menuSaldoAwal = ['saldo_awal', 'saldoawalhutang', 'saldoawalpiutang']; ?>
         <li class="nav-item has-treeview <?= menu_is_open($menuSaldoAwal) ?>">
           <a href="#" class="nav-link
             <?php
-              if ($this->uri->segment(1) == 'saldo_awal' || $this->uri->segment(1) == 'SaldoAwalHutang') {
+              if ($this->uri->segment(1) == 'saldo_awal' || $this->uri->segment(1) == 'SaldoAwalHutang' || $this->uri->segment(1) == 'SaldoAwalPiutang') {
                 echo 'active';
               }
             ?>"><i class="nav-icon fas fa-copy"></i>
@@ -385,6 +385,11 @@
             <li class="nav-item">
               <a href="{site_url}SaldoAwalHutang" class="nav-link <?php echo menu_is_active('SaldoAwalHutang') ?>">
                 <i class="far fa-circle nav-icon"></i><p> Saldo Awal Hutang</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{site_url}SaldoAwalPiutang" class="nav-link <?php echo menu_is_active('SaldoAwalPiutang') ?>">
+                <i class="far fa-circle nav-icon"></i><p> Saldo Awal Piutang</p>
               </a>
             </li>                                           
           </ul>

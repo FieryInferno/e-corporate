@@ -25,7 +25,7 @@
                 <div class="col-12">         
                     <div class="card">
                         <div class="card-header">
-                            <a href="{site_url}SaldoAwalHutang/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+                            <a href="{site_url}SaldoAwalPiutang/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -33,18 +33,19 @@
                                     <thead>
                                         <tr class="table-active">
                                             <th>Nama Perusahaan</th>
-                                            <th>Nama Pemasok</th>
+                                            <th>Nama Pelanggan</th>
                                             <th>Tanggal</th>
-                                            <th>No. Invoice</th>
-                                            <th>Saldo Hutang</th>
+                                            <th>No. Faktur Penjualan</th>
+                                            <th>Saldo Piutang</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody></tbody>
                                     <tfoot>
                                         <tr>
-                                            <th colspan="4">Total</th>
-                                            <th colspan="2"></th>
+                                            <th colspan="4" class="text-right">Total</th>
+                                            <th class="text-right"></th>
+                                            <th></th>
                                         </tr>
                                     </tfoot>
                                 </table>
@@ -57,7 +58,7 @@
     </section>
 </div>
 <script>
-    var base_url    = '{site_url}SaldoAwalHutang/';
+    var base_url    = '{site_url}SaldoAwalPiutang/';
     var table = $('.index_datatable').DataTable({
 		ajax: {
 			url: base_url + 'indexDatatable',
@@ -70,12 +71,25 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-            {data   : 'nama_perusahaan'},
-            {data   : 'namaPemasok'},
-            {data   : 'tanggal'},
-            {data   : 'noInvoice'},
+            {
+                data   : 'nama_perusahaan',
+                width   : '20%'
+            },
+            {
+                data   : 'namaPelanggan',
+                width   : '20%'
+            },
+            {
+                data   : 'tanggal',
+                width   : '15%'
+            },
+            {
+                data   : 'noInvoice',
+                width   : '20%'
+            },
             {
                 data        : 'jumlah',
+                width       : '20%',
                 className   : 'text-right font-weight-semibold', 
                 orderable   : false,
                 render      : function(data) {
@@ -83,8 +97,8 @@
                 }
             },
             {
-                data        : 'idSaldoAwalHutang', 
-                orderable   : false, 
+                data        : 'idSaldoAwalPiutang',
+                width       : '5%', 
                 className   : 'text-center',
                 render      : function(data,type,row) {
                     var aksi = `
@@ -92,11 +106,11 @@
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<form action="SaldoAwalHutang/edit" method="post">
-                                        <input type="hidden" name="idSaldoAwalHutang" value="${data}">
+									<form action="SaldoAwalPiutang/edit" method="post">
+                                        <input type="hidden" name="idSaldoAwalPiutang" value="${data}">
                                         <button type="submit" value="edit" class="dropdown-item"><i class="fas fa-pencil-alt"></i> Edit</button>
                                     </form>
-                                    <button onclick="deleteData(this)" class="dropdown-item" idSaldoAwalHutang="${data}"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></button>
+                                    <button onclick="deleteData(this)" class="dropdown-item" idSaldoAwalPiutang="${data}"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></button>
 								</div> 
 							</div> 
 						</div>`;
@@ -135,8 +149,7 @@
 	});
 
     function deleteData(elemen) {
-        var idSaldoAwalHutang   = $(elemen).attr('idSaldoAwalHutang');
-        console.log(idSaldoAwalHutang);
+        var idSaldoAwalPiutang   = $(elemen).attr('idSaldoAwalPiutang');
 		swal("Anda yakin akan menghapus data?", {
 			buttons: {
 				cancel: "Batal",
@@ -154,7 +167,7 @@
                     dataType    : 'json',
                     method      : 'post',
                     data        : {
-                        idSaldoAwalHutang  : idSaldoAwalHutang
+                        idSaldoAwalPiutang  : idSaldoAwalPiutang
                     },
 					beforeSend: function() {
 					pageBlock();
