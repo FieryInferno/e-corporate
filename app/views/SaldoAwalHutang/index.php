@@ -129,7 +129,7 @@
                 }, 0 );
             // Update footer
             $( api.column( 4 ).footer() ).html(
-                formatRupiah(String(pageTotal)) + ',00 ( ' + formatRupiah(String(total)) + ',00 )'
+                formatRupiah(String(total)) + ',00
             );
         }
 	});
