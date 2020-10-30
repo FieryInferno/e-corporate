@@ -366,11 +366,11 @@
 
         <li class="nav-header">AKUNTANSI</li>  
 
-        <?php $menuSaldoAwal = ['saldo_awal', 'saldoawalhutang', 'saldoawalpiutang', 'saldoawalinventaris']; ?>
+        <?php $menuSaldoAwal = ['saldo_awal', 'saldoawalhutang', 'saldoawalpiutang', 'saldoawalinventaris', 'saldoawalpersediaan']; ?>
         <li class="nav-item has-treeview <?= menu_is_open($menuSaldoAwal) ?>">
           <a href="#" class="nav-link
             <?php
-              if ($this->uri->segment(1) == 'saldo_awal' || $this->uri->segment(1) == 'SaldoAwalHutang' || $this->uri->segment(1) == 'SaldoAwalPiutang' || $this->uri->segment(1) == 'SaldoAwalInventaris') {
+              if ($this->uri->segment(1) == 'saldo_awal' || $this->uri->segment(1) == 'SaldoAwalHutang' || $this->uri->segment(1) == 'SaldoAwalPiutang' || $this->uri->segment(1) == 'SaldoAwalInventaris' || $this->uri->segment(1) == 'SaldoAwalPersediaan') {
                 echo 'active';
               }
             ?>"><i class="nav-icon fas fa-copy"></i>
@@ -395,6 +395,11 @@
             <li class="nav-item">
               <a href="{site_url}SaldoAwalInventaris" class="nav-link <?php echo menu_is_active('SaldoAwalInventaris') ?>">
                 <i class="far fa-circle nav-icon"></i><p> Saldo Awal Inventaris</p>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{site_url}SaldoAwalPersediaan" class="nav-link <?php echo menu_is_active('SaldoAwalPersediaan') ?>">
+                <i class="far fa-circle nav-icon"></i><p> Saldo Awal Persediaan</p>
               </a>
             </li>                                           
           </ul>
