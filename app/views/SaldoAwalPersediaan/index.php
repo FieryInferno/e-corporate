@@ -61,7 +61,7 @@
     </section>
 </div>
 <script>
-    var base_url    = '{site_url}SaldoAwalPiutang/';
+    var base_url    = '{site_url}SaldoAwalPersediaan/';
     var table = $('.index_datatable').DataTable({
 		ajax: {
 			url: base_url + 'indexDatatable',
@@ -74,33 +74,29 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
+            {data   : 'nama_perusahaan'},
+            {data   : 'kodeItem'},
+            {data    : 'gudang'},
             {
-                data   : 'nama_perusahaan',
-                width   : '20%'
+                data        : 'quantity',
+                className   : 'text-right'
             },
             {
-                data   : 'namaPelanggan',
-                width   : '20%'
-            },
-            {
-                data   : 'tanggal',
-                width   : '15%'
-            },
-            {
-                data   : 'noInvoice',
-                width   : '20%'
-            },
-            {
-                data        : 'jumlah',
-                width       : '20%',
-                className   : 'text-right font-weight-semibold', 
-                orderable   : false,
+                data        : 'unitPrice',
+                className   : 'text-right',
                 render      : function(data) {
-                    return formatRupiah(data) + ',00';
+                    return formatRupiah(String(data)) + ',00';
                 }
             },
             {
-                data        : 'idSaldoAwalPiutang',
+                data        : 'nilaiTotal',
+                className   : 'text-right font-weight-bold',
+                render      : function(data, type, row) {
+                    return formatRupiah(String(data)) + ',00';
+                }
+            },
+            {
+                data        : 'idSaldoAwalPersediaan',
                 width       : '5%', 
                 className   : 'text-center',
                 render      : function(data,type,row) {
@@ -132,21 +128,30 @@
             };
             // Total over all pages
             total = api
-                .column( 4 )
+                .column( 5 )
+                .data()
+                .reduce( function (a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0 );
+            totalJumlah = api
+                .column( 3 )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
             // Total over this page
             pageTotal = api
-                .column( 4, { page: 'current'} )
+                .column( 5, { page: 'current'} )
                 .data()
                 .reduce( function (a, b) {
                     return intVal(a) + intVal(b);
                 }, 0 );
             // Update footer
-            $( api.column( 4 ).footer() ).html(
+            $( api.column( 5 ).footer() ).html(
                 formatRupiah(String(total)) + ',00'
+            );
+            $( api.column( 3 ).footer() ).html(
+                formatRupiah(String(totalJumlah))
             );
         }
 	});
