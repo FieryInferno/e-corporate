@@ -24,7 +24,8 @@ class Auth extends CI_Controller {
 		if($this->form_validation->run() === true) {
 			$login = $this->model->login($this->input->post('username'), $this->input->post('password'));
 			if($login) {
-				redirect('Dashboard/index/1');
+				$this->session->set_flashdata('login', TRUE);
+				redirect('Dashboard');
 			} else {
 				$this->session->set_flashdata('error', lang('error_login') );
 				redirect('auth/login');

@@ -12,7 +12,8 @@
 <script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
 <script>
   $(document).ready(function () {
-    if ('{login}' == 1) {
+    var login = '<?= $this->session->login; ?>';
+    if (login == 1) {
       toastr.success('Anda Berhasil Login');
     }
   });

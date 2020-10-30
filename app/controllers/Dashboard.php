@@ -9,14 +9,10 @@ class Dashboard extends User_Controller
         $this->load->model('Dashboard_model', 'model');
     }
 
-    public function index($status = null)
+    public function index()
     {
         $data['title'] = lang('dashboard');
-        // $data['getChartLabaRugi'] = $this->getChartLabaRugi();
         $data['content'] = 'Dashboard/content';
-        if ($status) {
-            $data['login']  = 1;
-        }
         $data = array_merge($data, path_info());
         $this->parser->parse('template', $data);
     }
