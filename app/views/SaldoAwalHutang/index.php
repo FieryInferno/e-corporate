@@ -75,8 +75,8 @@
             {data   : 'tanggal'},
             {data   : 'noInvoice'},
             {
-                data        : 'jumlah',
-                className   : 'text-right font-weight-semibold', 
+                data        : 'primeOwing',
+                className   : 'text-right font-weight-bold', 
                 orderable   : false,
                 render      : function(data) {
                     return formatRupiah(data) + ',00';

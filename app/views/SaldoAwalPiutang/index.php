@@ -88,9 +88,9 @@
                 width   : '20%'
             },
             {
-                data        : 'jumlah',
+                data        : 'primeOwing',
                 width       : '20%',
-                className   : 'text-right font-weight-semibold', 
+                className   : 'text-right font-weight-bold', 
                 orderable   : false,
                 render      : function(data) {
                     return formatRupiah(data) + ',00';
