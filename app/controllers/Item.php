@@ -14,9 +14,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Item extends User_Controller {
 
+	private $id;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Item_model','model');
+		$this->id	= $this->input->post('id');
 	}
 
 	public function index() {
@@ -128,17 +131,19 @@ class Item extends User_Controller {
 		else $data = $this->db->get('mnoakun')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}	
-	// public function select2_noakunpersediaan($id = null) {
-	// 	$term = $this->input->get('q');
-	// 	$this->db->select('mnoakun.noakun as id, concat("(",mnoakun.noakun,") - ",mnoakun.namaakun) as text');
-	// 	$this->db->where('mnoakun.stdel', '0');
-	// 	$this->db->where('mnoakun.stbayar', '1');
-	// 	$this->db->like('mnoakun.noakun', '1311', 'after');
-	// 	$this->db->limit(100);
-	// 	if($term) $this->db->like('namaakun', $term);
-	// 	if($id) $data = $this->db->where('noakun', $id)->get('mnoakun')->row_array();
-	// 	else $data = $this->db->get('mnoakun')->result_array();
-	// 	$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	// }	
+
+	public function select2($id = null)
+	{
+		$term	= $this->input->get('q');
+		$data	= $this->model->select2($id, $term);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function get()
+	{
+		$this->model->set('id', $this->id);
+		$data	= $this->model->get();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }
 

@@ -25,7 +25,7 @@
                 <div class="col-12">         
                     <div class="card">
                         <div class="card-header">
-                            <a href="{site_url}SaldoAwalPiutang/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+                            <a href="{site_url}SaldoAwalInventaris/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -75,7 +75,7 @@
         columns: [
             {
                 data   : 'nama_perusahaan',
-                width   : '15%'
+                width   : '10%'
             },
             {
                 data   : 'kodeInventaris',
@@ -86,30 +86,35 @@
                 width   : '15%'
             },
             {
-                data    : 'idSaldoAwalInventaris',
+                data    : 'noRegister',
                 width   : '5%',
                 render  : function (data, type, row) {
-                    var panjang = data.length;
-                    switch (panjang) {
-                        case 1:
-                            return '0000' + data;
-                            break;
-                        case 2:
-                            return '000' + data;
-                            break;
-                        case 3:
-                            return '00' + data;
-                            break;
-                        case 4:
-                            return '0' + data;
-                            break;
-                        case 5:
-                            return data;
-                            break;
-                    
-                        default:
-                            break;
+                    if (data == null) {
+                        var panjang = (row.idSaldoAwalInventaris).length;
+                        switch (panjang) {
+                            case 1:
+                                return '0000' + row.idSaldoAwalInventaris;
+                                break;
+                            case 2:
+                                return '000' + row.idSaldoAwalInventaris;
+                                break;
+                            case 3:
+                                return '00' + row.idSaldoAwalInventaris;
+                                break;
+                            case 4:
+                                return '0' + row.idSaldoAwalInventaris;
+                                break;
+                            case 5:
+                                return row.idSaldoAwalInventaris;
+                                break;
+                        
+                            default:
+                                break;
+                        }
+                    } else {
+                        return data;
                     }
+                    
                 }
             },
             {
@@ -128,11 +133,11 @@
                 }
             },
             {
-                data   : 'akunno',
-                width   : '5%'
+                data   : 'namaakun',
+                width   : '10%'
             },
             {
-                data        : 'idSaldoAwalPiutang',
+                data        : 'idSaldoAwalInventaris',
                 width       : '5%', 
                 className   : 'text-center',
                 render      : function(data,type,row) {
@@ -141,11 +146,11 @@
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<form action="SaldoAwalPiutang/edit" method="post">
-                                        <input type="hidden" name="idSaldoAwalPiutang" value="${data}">
+									<form action="SaldoAwalInventaris/edit" method="post">
+                                        <input type="hidden" name="idSaldoAwalInventaris" value="${data}">
                                         <button type="submit" value="edit" class="dropdown-item"><i class="fas fa-pencil-alt"></i> Edit</button>
                                     </form>
-                                    <button onclick="deleteData(this)" class="dropdown-item" idSaldoAwalPiutang="${data}"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></button>
+                                    <button onclick="deleteData(this)" class="dropdown-item" idSaldoAwalInventaris="${data}"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></button>
 								</div> 
 							</div> 
 						</div>`;
@@ -184,7 +189,7 @@
 	});
 
     function deleteData(elemen) {
-        var idSaldoAwalPiutang   = $(elemen).attr('idSaldoAwalPiutang');
+        var idSaldoAwalInventaris   = $(elemen).attr('idSaldoAwalInventaris');
 		swal("Anda yakin akan menghapus data?", {
 			buttons: {
 				cancel: "Batal",
@@ -202,7 +207,7 @@
                     dataType    : 'json',
                     method      : 'post',
                     data        : {
-                        idSaldoAwalPiutang  : idSaldoAwalPiutang
+                        idSaldoAwalInventaris  : idSaldoAwalInventaris
                     },
 					beforeSend: function() {
 					pageBlock();

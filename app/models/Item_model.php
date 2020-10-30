@@ -14,21 +14,13 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Item_model extends CI_Model
 {
 
+    private $id;
+
     public function save()
     {
         $id = $this->uri->segment(3);
         $kode = $this->input->post('kode');
         if ($id) {
-            // $item = get_by_id('id', $id, 'mitem');
-            // $kodeexists = get_by_id('kode', $kode, 'mitem');
-
-            // if ($item['kode'] != $kodeexists['kode']) {
-            //     if ($kodeexists) {
-            //         $data['status'] = 'error';
-            //         $data['message'] = 'Kode sudah ada sebelumnya';
-            //         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
-            //     }
-            // }
             foreach ($this->input->post() as $key => $val) {
                 $this->db->set($key, strip_tags($val));
             }
@@ -129,5 +121,32 @@ class Item_model extends CI_Model
         $img = $location . "{$str}.png";
         $this->load->helper('html');
         return img($img);
+    }
+
+    public function select2($id, $term)
+	{
+        $this->db->select('id, concat(mitem.kode, " - ", mitem.nama) as text');
+        if ($id) {
+            $this->db->where('id', $id);
+        }
+		if ($term) {
+			$this->db->like('kode', $term);
+			$this->db->or_like('nama', $term);
+		}
+		return $this->db->get('mitem')->result_array();
+    }
+    
+    public function get()
+    {
+        $this->db->select('mnoakun.namaakun, mnoakun.idakun, mitem.nama');
+        $this->db->join('mnoakun', 'mitem.noakunpersediaan = mnoakun.idakun');
+        return $this->db->get_where('mitem', [
+            'id'    => $this->id
+        ])->row_array();
+    }
+
+    public function set($jenis, $isi)
+    {
+        $this->$jenis   = $isi;
     }
 }
