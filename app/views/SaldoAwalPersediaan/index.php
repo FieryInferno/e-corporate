@@ -25,7 +25,7 @@
                 <div class="col-12">         
                     <div class="card">
                         <div class="card-header">
-                            <a href="{site_url}SaldoAwalPiutang/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+                            <a href="{site_url}SaldoAwalPersediaan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -105,11 +105,11 @@
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<form action="SaldoAwalPiutang/edit" method="post">
-                                        <input type="hidden" name="idSaldoAwalPiutang" value="${data}">
+									<form action="SaldoAwalPersediaan/edit" method="post">
+                                        <input type="hidden" name="idSaldoAwalPersediaan" value="${data}">
                                         <button type="submit" value="edit" class="dropdown-item"><i class="fas fa-pencil-alt"></i> Edit</button>
                                     </form>
-                                    <button onclick="deleteData(this)" class="dropdown-item" idSaldoAwalPiutang="${data}"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></button>
+                                    <button onclick="deleteData(this)" class="dropdown-item" idSaldoAwalPersediaan="${data}"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></button>
 								</div> 
 							</div> 
 						</div>`;
@@ -157,7 +157,7 @@
 	});
 
     function deleteData(elemen) {
-        var idSaldoAwalPiutang   = $(elemen).attr('idSaldoAwalPiutang');
+        var idSaldoAwalPersediaan   = $(elemen).attr('idSaldoAwalPersediaan');
 		swal("Anda yakin akan menghapus data?", {
 			buttons: {
 				cancel: "Batal",
@@ -175,13 +175,13 @@
                     dataType    : 'json',
                     method      : 'post',
                     data        : {
-                        idSaldoAwalPiutang  : idSaldoAwalPiutang
+                        idSaldoAwalPersediaan  : idSaldoAwalPersediaan
                     },
 					beforeSend: function() {
-					pageBlock();
+                        pageBlock();
 					},
 					afterSend: function() {
-					unpageBlock();
+                        unpageBlock();
 					},
 					success: function(data) {
 					if(data.status == 'success') {
@@ -192,7 +192,7 @@
 					}
 					},
 					error: function() {
-					swal("Gagal!", "Internal Server Error!", "error");
+                        swal("Gagal!", "Internal Server Error!", "error");
 					}
 				})
 				break;

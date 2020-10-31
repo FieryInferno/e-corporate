@@ -79,5 +79,21 @@ class Gudang extends User_Controller {
 		else $data = $this->db->get('mpegawaihakakses')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
+
+	public function select2($id = null)
+	{
+		$q	= $this->input->get('q');
+		$this->db->select('mgudang.id, mgudang.nama as text');
+		if ($q) {
+			$this->db->like('nama', $q);
+		}
+		if ($id) {
+			$this->db->where('id', $id);
+			$data = $this->db->get('mgudang')->row_array();
+		} else {
+			$data = $this->db->get('mgudang')->result_array();
+		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }
 

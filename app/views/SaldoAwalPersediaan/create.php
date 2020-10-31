@@ -30,74 +30,44 @@
                             </div>
                             <div class="card-body">
                                 <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <div class="form-group">
-                                            <label>No. Faktur Penjualan</label>
-                                            <input type="text" class="form-control" name="noInvoice" placeholder="No. Invoice" required>
+                                            <label>Kode Barang</label>
+                                            <select id="kodeBarang" class="form-control" name="kodeBarang" required></select>
                                         </div>
                                     </div>
-                                    <div class="col-4">
-                                        <div class="form-group">
-                                            <label>Tanggal</label>
-                                            <input type="date" class="form-control" name="tanggal" value="<?= date('Y-m-d'); ?>" id="tanggal" required>
-                                        </div>
-                                    </div>
-                                    <div class="col-4">
-                                        <div class="form-group">
-                                            <label>Tanggal Tempo</label>
-                                            <input type="date" class="form-control" name="tanggalTempo" onchange="periksaTanggal()" id="tanggalTempo" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <div class="form-group">
                                             <label>Perusahaan</label>
                                             <select id="perusahaan" class="form-control" name="perusahaan" required></select>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
                                         <div class="form-group">
-                                            <label>Nama Pemasok</label>
-                                            <select id="pemasok" class="form-control" name="pemasok" required></select>
+                                            <label>Gudang</label>
+                                            <select id="gudang" class="form-control" name="gudang" required></select>
                                         </div>
                                     </div>
-                                    <div class="col-4">
+                                    <div class="col-6">
                                         <div class="form-group">
-                                            <label>No. Akun</label>
-                                            <select id="noAkun" class="form-control" name="noAkun" required></select>
+                                            <label>Kode Akun</label>
+                                            <select id="noAkun" class="form-control" name="noAkun"></select>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
-                                            <label>Deskripsi</label>
-                                            <textarea name="deskripsi" id="deskripsi" cols="30" rows="10" placeholder="deskripsi" class="form-control" required></textarea>
+                                            <label>Jumlah</label>
+                                            <input type="text" class="form-control" name="jumlah" placeholder="Jumlah" required onkeyup="format(this)">
                                         </div>
                                     </div>
                                     <div class="col-6">
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="form-group">
-                                                    <label>Nilai Piutang</label>
-                                                    <input type="text" class="form-control" name="nilaiPiutang" placeholder="Nilai Piutang" required onkeyup="format(this)">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label>Prime Owing</label>
-                                                    <input type="text" class="form-control" name="primeOwing" placeholder="Prime Owing" required onkeyup="format(this)">
-                                                </div>
-                                            </div>
-                                            <div class="col-6">
-                                                <div class="form-group">
-                                                    <label>Tax Owing</label>
-                                                    <input type="text" class="form-control" name="taxOwing" placeholder="Tax Owing" required onkeyup="format(this)">
-                                                </div>
-                                            </div>
+                                        <div class="form-group">
+                                            <label>Harga Pokok</label>
+                                            <input type="text" class="form-control" name="hargaPokok" placeholder="Harga Pokok" required onkeyup="format(this)">
                                         </div>
                                     </div>
                                 </div>
@@ -117,18 +87,18 @@
     <!-- /.content -->
 </div>
 <script>
-    var base_url    = '{site_url}SaldoAwalPiutang';
+    var base_url    = '{site_url}SaldoAwalPersediaan';
     $(document).ready(function() {
         ajax_select({
             id          : '#perusahaan',	
             url         : '{site_url}perusahaan/select2',
             selected    : {
-                id  : '{perusahaan}'
+                id  : ''
             }
         });
 		ajax_select({
-            id          : '#pemasok',	
-            url         : '{site_url}kontak/select2',
+            id          : '#gudang',	
+            url         : '{site_url}gudang/select2',
             selected    : {
                 id  : ''
             }
@@ -140,6 +110,13 @@
                 id  : ''
             }
         });	
+        ajax_select({
+            id          : '#kodeBarang',	
+            url         : '{site_url}item/select2',
+            selected    : {
+                id  : ''
+            }
+        });
 	})
 
     function save() {
