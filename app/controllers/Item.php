@@ -32,9 +32,10 @@ class Item extends User_Controller {
 
 	public function index_datatable() {
 		$this->load->library('Datatables');
-		$this->datatables->select('viewitem.*');
-		$this->datatables->where('viewitem.stdel', '0');
-		$this->datatables->from('viewitem');
+		$this->datatables->select('mitem.kode, mitem.nama, msatuan.nama as satuan, mkategori.nama as kategori, mitem.hargabeliterakhir, mitem.id');
+		$this->datatables->join('msatuan', 'mitem.satuanid = msatuan.id', 'left');
+		$this->datatables->join('mkategori', 'mitem.kategoriid = mkategori.id', 'left');
+		$this->datatables->from('mitem');
 		return print_r($this->datatables->generate());
 	}
 

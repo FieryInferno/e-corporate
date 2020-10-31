@@ -35,9 +35,9 @@
 										<th><?php echo lang('name') ?></th>
 										<th><?php echo lang('unit') ?></th>
 										<th><?php echo lang('category') ?></th>
-										<th><?php echo lang('stock') ?></th>
+										<!-- <th><?php echo lang('stock') ?></th> -->
 										<th><?php echo lang('Hrg Beli Terakhir') ?></th>
-										<th><?php echo lang('Total Persediaan') ?></th>
+										<!-- <th><?php echo lang('Total Persediaan') ?></th> -->
 										<th class="text-center"><?php echo lang('action') ?></th>
 									</tr>
 								</thead>
@@ -79,21 +79,21 @@
 			{data: 'nama'},
 			{data: 'satuan'},
 			{data: 'kategori'},
-			{data: 'stok', className: 'text-right', orderable: false},
+			// {data: 'stok', className: 'text-right', orderable: false},
 			{
 				data: 'hargabeliterakhir', className: 'text-right', orderable: false,
 				render: function(data, type, row) {
 					if(data > 0) return formatRupiah(data) + ',00';
-					else return formatRupiah(row.hargabeli) + ',00';
+					else return formatRupiah(String(row.hargabeliterakhir)) + ',00';
 				}
 			},
-			{
-				data: 'totalpersediaan', className: 'text-right', orderable: false,
-				render: function(data, type, row) {
-					if(data) return formatRupiah(data) + ',00';
-					else return formatRupiah(row.hargabeli) + ',00';
-				}
-			},
+			// {
+			// 	data: 'totalpersediaan', className: 'text-right', orderable: false,
+			// 	render: function(data, type, row) {
+			// 		if(data) return formatRupiah(data) + ',00';
+			// 		else return formatRupiah(row.hargabeli) + ',00';
+			// 	}
+			// },
 			{
 				data: 'id', width: 100, orderable: false, className: 'text-center',
 				render: function(data,type,row) {
