@@ -28,6 +28,7 @@
                                 <table class="table table-xs table-striped table-borderless table-hover index_datatable">
                                     <thead>
                                         <tr class="table-active">
+											<th>Perusahaan</th>
 											<th>Kode</th>
 											<th>Nama</th>
 											<th>Satuan</th>
@@ -44,6 +45,7 @@
 										<?php
 											foreach ($persediaan as $key) { ?>
 												<tr>
+													<td><?= $key['nama_perusahaan']; ?></td>
 													<td><?= $key['kode']; ?></td>
 													<td><?= $key['nama']; ?></td>
 													<td><?= $key['satuan']; ?></td>
