@@ -1,20 +1,20 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
@@ -27,7 +27,6 @@
                             <table class="table table-bordered table-striped index_datatable">
                                 <thead>
                                     <tr>
-                                        <th>ID</th>
                                         <th>Kode</th>
                                         <th>Nama</th>
                                         <th>Satuan</th>
@@ -55,7 +54,6 @@
 			url     : base_url + 'index_datatable',
 			type    : 'post',
 		},
-		pageLength: 100,
 		stateSave: true,
 		autoWidth: false,
 		dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
@@ -65,19 +63,14 @@
 		},
 		columns: [
 			{
-				data: 'id',
-				visible: false
-			},
-			{
 				data: 'kode',
 				render: function(data, type, row) {
 					return `<button class="btn btn-sm btn-info">${data}</button>`;
 				}
 			},
-			{data: 'namaBarang'},
-			{data: 'namaSatuan'},
-			{data: 'namaKategori'},
-			{data: 'masuk'}, 
+			{data: 'nama'},
+			{data: 'satuan'},
+			{data: 'kategori'},
 			{
 				render: function(data, type, row) {
 					return 0;
@@ -85,17 +78,13 @@
 			}, 
 			{
 				render: function(data, type, row) {
-					return row.masuk - 0;
+					return 0;
 				}
-			},
+			}, 
+			{data	: 'quantity'},
+			{data	: 'hargabeliterakhir'},
 			{
-				render: function(data, type, row) {
-					data	= (row.masuk - 0) * row.hargabeliterakhir;
-					return formatRupiah(String(data), 'Rp. ')+',00';
-				}
-			},
-			{
-				data: 'hargabeliterakhir',
+				data: 'nilaiTotal',
 				render: function(data, type, row) {
 					return formatRupiah(data, 'Rp. ')+',00';
 				}

@@ -11,16 +11,24 @@ class Persediaan extends User_Controller {
     }
 	
 	public function index_datatable() {
+		// $this->load->library('Datatables');
+		// $this->datatables->select('tPenerimaanDetail.idDetailPenerimaan as id, mitem.kode, mitem.nama as namaBarang, msatuan.nama as namaSatuan, mkategori.nama as namaKategori, mitem.hargabeliterakhir, tPenerimaanDetail.jumlah as masuk');
+		// $this->datatables->join('tpemesanandetail','tPenerimaanDetail.idPemesananDetail = tpemesanandetail.id');
+		// $this->datatables->join('tanggaranbelanjadetail','tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+		// $this->datatables->join('mitem','tanggaranbelanjadetail.uraian = mitem.id');
+		// $this->datatables->join('msatuan','mitem.satuanid = msatuan.id');
+		// $this->datatables->join('mkategori','mitem.kategoriid = mkategori.id');
+		// $this->datatables->like('tanggaranbelanjadetail.koderekening', '1.1.3', 'after');
+		// $this->datatables->or_like('tanggaranbelanjadetail.koderekening', '113', 'after');
+		// $this->datatables->from('tPenerimaanDetail');
+		// return print_r($this->datatables->generate());
+
 		$this->load->library('Datatables');
-		$this->datatables->select('tPenerimaanDetail.idDetailPenerimaan as id, mitem.kode, mitem.nama as namaBarang, msatuan.nama as namaSatuan, mkategori.nama as namaKategori, mitem.hargabeliterakhir, tPenerimaanDetail.jumlah as masuk');
-		$this->datatables->join('tpemesanandetail','tPenerimaanDetail.idPemesananDetail = tpemesanandetail.id');
-		$this->datatables->join('tanggaranbelanjadetail','tpemesanandetail.itemid = tanggaranbelanjadetail.id');
-		$this->datatables->join('mitem','tanggaranbelanjadetail.uraian = mitem.id');
-		$this->datatables->join('msatuan','mitem.satuanid = msatuan.id');
-		$this->datatables->join('mkategori','mitem.kategoriid = mkategori.id');
-		$this->datatables->like('tanggaranbelanjadetail.koderekening', '1.1.3', 'after');
-		$this->datatables->or_like('tanggaranbelanjadetail.koderekening', '113', 'after');
-		$this->datatables->from('tPenerimaanDetail');
+		$this->datatables->select('mitem.kode, mitem.nama, msatuan.nama as satuan, mkategori.nama as kategori, saldoAwalPersediaan.quantity, mitem.hargabeliterakhir, saldoAwalPersediaan.nilaiTotal');
+		$this->datatables->join('mitem','saldoAwalPersediaan.idItem = mitem.id');
+		$this->datatables->join('msatuan','mitem.satuanid = msatuan.id', 'left');
+		$this->datatables->join('mkategori','mitem.kategoriid = mkategori.id', 'left');
+		$this->datatables->from('saldoAwalPersediaan');
 		return print_r($this->datatables->generate());
 	}
 
