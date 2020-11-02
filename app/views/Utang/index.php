@@ -83,6 +83,7 @@
                                             <th><?php echo lang('Tanggal') ?></th>
                                             <th>Tgl J/T</th>
                                             <th><?php echo lang('No Invoice') ?></th>
+                                            <th>Nama Perusahaan</th>
                                             <th><?php echo lang('Keterangan') ?></th>
                                             <th><?php echo lang('Supplier') ?></th>
                                             <th class="text-center"><?php echo lang('Utang') ?></th>
@@ -100,6 +101,7 @@
                                                         <td><?= $key['tanggal']; ?></td>
                                                         <td><?= $key['tanggaltempo']; ?></td>
                                                         <td><?= $key['notrans']; ?></td>
+                                                        <td><?= $key['nama_perusahaan']; ?></td>
                                                         <td><?= $key['catatan']; ?></td>
                                                         <td><?= $key['rekanan']; ?></td>
                                                         <td><?= number_format($key['total'],2,',','.'); ?></td>

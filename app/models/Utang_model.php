@@ -17,6 +17,7 @@ class Utang_model extends CI_Model {
 	private $kontakid;
 	private $table	= 'SaldoAwalHutang';
 	private $table0	= 'tfaktur';
+	private $perusahaan;
 
 	public function get_count_utang($tanggalawal, $tanggalakhir, $kontakid) {
 		$this->db->where('view_laporan_utang_piutang.tanggal >=', $tanggalawal);
@@ -30,12 +31,16 @@ class Utang_model extends CI_Model {
 	public function get($jenis) {
 		switch ($jenis) {
 			case 'saldoAwal':
-				$this->db->select($this->table . '.tanggal, ' . $this->table . '.tanggaltempo, ' . $this->table . '.noInvoice as notrans, ' . $this->table . '.deskripsi as catatan, ' . $this->table . '.namaPemasok as rekanan, ' . $this->table . '.primeOwing as total, ' . $this->table . '.idSaldoAwalHutang');
+				$this->db->select($this->table . '.tanggal, ' . $this->table . '.tanggaltempo, ' . $this->table . '.noInvoice as notrans, ' . $this->table . '.deskripsi as catatan, ' . $this->table . '.namaPemasok as rekanan, ' . $this->table . '.primeOwing as total, ' . $this->table . '.idSaldoAwalHutang, mperusahaan.nama_perusahaan');
+				$this->db->join('mperusahaan', $this->table . '.perusahaan = mperusahaan.idperusahaan');
+				$this->db->where('perusahaan', $this->perusahaan);
 				return $this->db->get($this->table)->result_array();
 				break;
 			case 'faktur':
-				$this->db->select($this->table0 . '.tanggal, ' . $this->table0 . '.tanggaltempo, ' . $this->table0 . '.notrans, ' . $this->table0 . '.catatan, mkontak.nama as rekanan, ' . $this->table0 . '.total, ' . $this->table0 . '.totaldibayar, (' . $this->table0 . '.total - ' . $this->table0 . '.totaldibayar) as sisaUtang, ' . $this->table0 . '.id');
+				$this->db->select($this->table0 . '.tanggal, ' . $this->table0 . '.tanggaltempo, ' . $this->table0 . '.notrans, ' . $this->table0 . '.catatan, mkontak.nama as rekanan, ' . $this->table0 . '.total, ' . $this->table0 . '.totaldibayar, (' . $this->table0 . '.total - ' . $this->table0 . '.totaldibayar) as sisaUtang, ' . $this->table0 . '.id, mperusahaan.nama_perusahaan');
 				$this->db->join('mkontak', 'tfaktur.kontakid = mkontak.id');
+				$this->db->join('mperusahaan', $this->table0 . '.perusahaanid = mperusahaan.idperusahaan');
+				$this->db->where('perusahaanid', $this->perusahaan);
 				return $this->db->get($this->table0)->result_array();
 				break;
 			
@@ -54,24 +59,6 @@ class Utang_model extends CI_Model {
 		$this->db->order_by('view_laporan_utang_piutang.idfaktur', 'desc');
 		$get = $this->db->get('view_laporan_utang_piutang');
 		return $get->result_array();
-	}
-
-	public function indexDatatables()
-	{
-		// $this->load->library('Datatables');
-		// $this->datatables->select('tfaktur.tanggal, tfaktur.tanggaltempo, tfaktur.notrans, tfaktur.catatan, mkontak.nama as rekanan, tfaktur.total, tfaktur.totaldibayar, (tfaktur.total - tfaktur.totaldibayar) as sisaUtang, tfaktur.id');
-		// $this->datatables->join('mkontak', 'tfaktur.kontakid = mkontak.id');
-		// $this->datatables->from('tfaktur');
-		// return $this->datatables->generate();
-
-		// $this->load->library('Datatables');
-		// $this->datatables->select('tfaktur.tanggal, tfaktur.tanggaltempo, tfaktur.notrans, tfaktur.catatan, mkontak.nama as rekanan, tfaktur.total, tfaktur.totaldibayar, (tfaktur.total - tfaktur.totaldibayar) as sisaUtang, tfaktur.id');
-		// $this->datatables->join('mkontak', 'tfaktur.kontakid = mkontak.id');
-		// $this->datatables->from('tfaktur');
-		// $this->datatables->select('SaldoAwalHutang.tanggal as tanggalsa, SaldoAwalHutang.tanggaltempo as tanggaltemposa, SaldoAwalHutang.noInvoice as notrans, SaldoAwalHutang.deskripsi as catatan, SaldoAwalHutang.namaPemasok as rekanan, SaldoAwalHutang.primeOwing as total, SaldoAwalHutang.idSaldoAwalHutang');
-		// // $this->datatables->join('mkontak', 'tfaktur.kontakid = mkontak.id');
-		// $this->datatables->from('SaldoAwalHutang');
-		// return $this->datatables->generate();
 	}
 
 	public function setGet($jenis = null, $isi = null)

@@ -15,11 +15,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Utang extends User_Controller {
 
 	private $kontakid;
+	private $perusahaanid;
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Utang_model','model');
 		$this->setGet('kontakid', $this->input->get('kontakid'));
+		$this->perusahaan	= $this->input->get('perusahaanid');
 	}
 
 	public function index() {
@@ -27,6 +29,7 @@ class Utang extends User_Controller {
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Utang/index';
 		$data['utang']		= [];
+		$this->model->setGet('perusahaan', $this->perusahaan);
 		array_push($data['utang'], $this->model->get('saldoAwal'));
 		array_push($data['utang'], $this->model->get('faktur'));
 		$data = array_merge($data,path_info());
