@@ -67,7 +67,7 @@ class Faktur_penjualan extends User_Controller {
 
 	public function detail($id = null) {
 		if($id) {
-			$data = $this->model->getfaktur($id, '1');
+			$data = $this->model->getfaktur($id);
 			if($data) {
 				$data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
 				$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
