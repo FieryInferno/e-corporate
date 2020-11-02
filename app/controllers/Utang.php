@@ -23,9 +23,12 @@ class Utang extends User_Controller {
 	}
 
 	public function index() {
-		$data['title'] = lang('Utang');
-		$data['subtitle'] = lang('list');
-		$data['content'] = 'Utang/index';
+		$data['title']		= lang('Utang');
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'Utang/index';
+		$data['utang']		= [];
+		array_push($data['utang'], $this->model->get('saldoAwal'));
+		array_push($data['utang'], $this->model->get('faktur'));
 		$data = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}

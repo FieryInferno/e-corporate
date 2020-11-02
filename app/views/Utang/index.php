@@ -92,7 +92,35 @@
                                             <th class="text-right"><?php echo lang('action') ?></th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>
+                                    <tbody>
+                                        <?php
+                                            foreach ($utang as $key => $value) {
+                                                foreach ($value as $key) { ?>
+                                                    <tr>
+                                                        <td><?= $key['tanggal']; ?></td>
+                                                        <td><?= $key['tanggaltempo']; ?></td>
+                                                        <td><?= $key['notrans']; ?></td>
+                                                        <td><?= $key['catatan']; ?></td>
+                                                        <td><?= $key['rekanan']; ?></td>
+                                                        <td><?= number_format($key['total'],2,',','.'); ?></td>
+                                                        <td><?= isset($key['totaldibayar']) ? number_format($key['totaldibayar'],2,',','.') : '' ; ?></td>
+                                                        <td><?= isset($key['sisaUtang']) ? number_format($key['sisaUtang'],2,',','.') : '' ; ?></td>
+                                                        <td></td>
+                                                        <td>
+                                                            <div class="list-icons"> 
+                                                                <div class="dropdown"> 
+                                                                    <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                                                                    <div class="dropdown-menu dropdown-menu-right">
+
+                                                                    </div> 
+                                                                </div> 
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                <?php }
+                                            }
+                                        ?>
+                                    </tbody>
                                 </table>
                             </div>
                         </div>
@@ -112,59 +140,60 @@
             id: '{perusahaanid}' 
         } 
     });
-    var table = $('.index_datatable').DataTable({
-		ajax: {
-			url: base_url + 'index_datatable',
-			type: 'post',
-		},
-		autoWidth: false,
-		dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
-		language: {
-			search: '<span></span> _INPUT_',
-			searchPlaceholder: 'Type to filter...',
-		},
-		columns: [
-			{data   : 'tanggal'},
-			{data   : 'tanggaltempo'},
-			{data   : 'notrans'}, 
-            {data   : 'catatan'}, 
-			{data	: 'rekanan'},
-            {
-                data	    : 'total',
-                className   : 'text-right',
-                render      : function (data, type, row) {
-                    return formatRupiah(String(data)) + ',00';
-                }
-            },
-            {
-                data	    : 'totaldibayar',
-                className   : 'text-right',
-                render      : function (data, type, row) {
-                    return formatRupiah(String(data)) + ',00';
-                }
-            },
-            {
-                data	    : 'sisaUtang',
-                className   : 'text-right',
-                render      : function (data, type, row) {
-                    return formatRupiah(String(data)) + ',00';
-                }
-            },
-            {data	: 'tanggaltempo'},
-            {
-                data	    : 'id',
-                className   : 'text-center',
-                render      : function (data, type, row) {
-                    return `<div class="list-icons"> 
-                                <div class="dropdown"> 
-                                    <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
-                                    <div class="dropdown-menu dropdown-menu-right">
+    $('.index_datatable').DataTable();
+    // var table = $('.index_datatable').DataTable({
+	// 	ajax: {
+	// 		url: base_url + 'index_datatable',
+	// 		type: 'post',
+	// 	},
+	// 	autoWidth: false,
+	// 	dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
+	// 	language: {
+	// 		search: '<span></span> _INPUT_',
+	// 		searchPlaceholder: 'Type to filter...',
+	// 	},
+	// 	columns: [
+	// 		{data   : 'tanggal'},
+	// 		{data   : 'tanggaltempo'},
+	// 		{data   : 'notrans'}, 
+    //         {data   : 'catatan'}, 
+	// 		{data	: 'rekanan'},
+    //         {
+    //             data	    : 'total',
+    //             className   : 'text-right',
+    //             render      : function (data, type, row) {
+    //                 return formatRupiah(String(data)) + ',00';
+    //             }
+    //         },
+    //         {
+    //             data	    : 'totaldibayar',
+    //             className   : 'text-right',
+    //             render      : function (data, type, row) {
+    //                 return formatRupiah(String(data)) + ',00';
+    //             }
+    //         },
+    //         {
+    //             data	    : 'sisaUtang',
+    //             className   : 'text-right',
+    //             render      : function (data, type, row) {
+    //                 return formatRupiah(String(data)) + ',00';
+    //             }
+    //         },
+    //         {data	: 'tanggaltempo'},
+    //         {
+    //             data	    : 'id',
+    //             className   : 'text-center',
+    //             render      : function (data, type, row) {
+    //                 return `<div class="list-icons"> 
+    //                             <div class="dropdown"> 
+    //                                 <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+    //                                 <div class="dropdown-menu dropdown-menu-right">
 
-                                    </div> 
-                                </div> 
-                            </div>`;
-                }
-            },
-		]
-	});
+    //                                 </div> 
+    //                             </div> 
+    //                         </div>`;
+    //             }
+    //         },
+	// 	]
+	// });
 </script>
