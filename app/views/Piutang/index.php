@@ -27,6 +27,7 @@
                             <div class="form-group">
                                 <label>Usia Piutang : </label>
                                 <select class="form-control" name="usiaHutang">
+                                    <option value="">Pilih Usia Hutang</option>
                                     <option value="kurang30">Kurang Dari 30 Hari</option>
                                     <option value="30">30 Hari</option>
                                     <option value="lebih30">Lebih Dari 30 Hari</option>
@@ -46,13 +47,13 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo lang('start_date') ?>:</label>
-                                <input type="text" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
+                                <input type="text" class="form-control datepicker" name="tanggalawal" placeholder="Tanggal Awal">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo lang('end_date') ?>:</label>
-                                <input type="text" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
+                                <input type="text" class="form-control datepicker" name="tanggalakhir" placeholder="Tanggal Akhir">
                             </div>
                         </div>
                     </div>
@@ -82,6 +83,7 @@
                                             <th>Tgl Inv</th>
                                             <th>Tgl J/T</th>
                                             <th><?php echo lang('No Invoice') ?></th>
+                                            <th>Nama Perusahaan</th>
                                             <th><?php echo lang('Keterangan') ?></th>
                                             <th><?php echo lang('Supplier') ?></th>
                                             <th class="text-center"><?php echo lang('piutang') ?></th>
@@ -98,9 +100,10 @@
                                                     <td><?= $key['tanggal']; ?></td>
                                                     <td><?= $key['tanggalTempo']; ?></td>
                                                     <td><?= $key['noInvoice']; ?></td>
+                                                    <td><?= $key['nama_perusahaan']; ?></td>
                                                     <td><?= $key['deskripsi']; ?></td>
                                                     <td><?= $key['namaPelanggan']; ?></td>
-                                                    <td><?= $key['primeOwing']; ?></td>
+                                                    <td><?= number_format($key['primeOwing'],2,',','.'); ?></td>
                                                     <td></td>
                                                     <td></td>
                                                     <td></td>

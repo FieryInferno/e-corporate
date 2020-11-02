@@ -14,16 +14,20 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Piutang extends User_Controller {
 
+	private $perusahaan;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Piutang_model','model');
+		$this->perusahaan	= $this->input->get('perusahaanid');
 	}
 
 	public function index() {
 		$data['title']		= lang('Piutang');
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Piutang/index';
-		$data['piutang']		= $this->model->get();
+		$this->model->set('perusahaan', $this->perusahaan);
+		$data['piutang']	= $this->model->get();
 		$data = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
