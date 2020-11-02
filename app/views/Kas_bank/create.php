@@ -96,6 +96,8 @@
                                     <div class="tab-content">
                                     <div class="tab-pane fade active show" id="rincian_buku_kas_umum" role="tabpanel" aria-labelledby="custom-tabs-rincian-buku-kas-umump-tab">
                                         <div class="text-center">
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#piutang">Piutang</button>
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#hutang">Hutang</button>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Penjualan">Penjualan</button>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Pembelian">Pembelian</button>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#BudgetEvent">Budget Event</button>
@@ -555,6 +557,86 @@
 </div>
 <!-- End: Modal -->
 
+<!-- Start: Modal Piutang -->
+<div class="modal fade" id="piutang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pilih Deposito</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelPiutang">
+                        <thead>
+                            <tr class="table-active">
+                                <th>Tgl Inv</th>
+                                <th>Tgl J/T</th>
+                                <th><?php echo lang('No Invoice') ?></th>
+                                <th>Nama Perusahaan</th>
+                                <th><?php echo lang('Keterangan') ?></th>
+                                <th><?php echo lang('Supplier') ?></th>
+                                <th class="text-center"><?php echo lang('piutang') ?></th>
+                                <th class="text-center"><?php echo lang('Sudah Dibayar') ?></th>
+                                <th class="text-center"><?php echo lang('Sisa piutang') ?></th>
+                                <th class="text-center"><?php echo lang('Status') ?></th>
+                                <th class="text-right"><?php echo lang('action') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody id="listPiutang"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: Modal -->
+
+<!-- Start: Modal Hutang -->
+<div class="modal fade" id="hutang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pilih Deposito</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="tabelHutang">
+                        <thead>
+                            <tr class="table-active">
+                                <th><?php echo lang('Tanggal') ?></th>
+                                <th>Tgl J/T</th>
+                                <th><?php echo lang('No Invoice') ?></th>
+                                <th>Nama Perusahaan</th>
+                                <th><?php echo lang('Keterangan') ?></th>
+                                <th><?php echo lang('Supplier') ?></th>
+                                <th class="text-center"><?php echo lang('Utang') ?></th>
+                                <th class="text-center"><?php echo lang('Sudah Dibayar') ?></th>
+                                <th class="text-center"><?php echo lang('Sisa Utang') ?></th>
+                                <th class="text-center">Usia Hutang</th>
+                                <th class="text-right"><?php echo lang('action') ?></th>
+                            </tr>
+                        </thead>
+                        <tbody id="listHutang"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: Modal -->
+
 <script type="text/javascript">
     var base_url = '{site_url}Kas_bank/';
     $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
@@ -847,6 +929,9 @@
             
         ],
     })
+
+    var tabelPiutang = $('#tabelPiutang').DataTable();
+    var tabelHutang = $('#tabelHutang').DataTable();
 
     function getListPenjualan() {
         var table = $('#list_penjualan');
