@@ -32,6 +32,7 @@
 											<th>Nama</th>
 											<th>Satuan</th>
 											<th>Kategori</th>
+											<th>Saldo Awal</th>
 											<th>Masuk</th>
 											<th>Keluar</th>
 											<th>Stok</th>
@@ -39,7 +40,24 @@
 											<th>Total Persediaan</th>
                                         </tr>
                                     </thead>
-                                    <tbody></tbody>
+                                    <tbody>
+										<?php
+											foreach ($persediaan as $key) { ?>
+												<tr>
+													<td><?= $key['kode']; ?></td>
+													<td><?= $key['nama']; ?></td>
+													<td><?= $key['satuan']; ?></td>
+													<td><?= $key['kategori']; ?></td>
+													<td><?= $key['quantity']; ?></td>
+													<td><?= $key['masuk'] !== null ? $key['masuk'] : '0' ; ?></td>
+													<td><?= $key['keluar'] !== null ? $key['keluar'] : '0' ; ?></td>
+													<td><?= $key['stok'] !== null ? $key['stok'] : '0' ; ?></td>
+													<td><?= number_format($key['hargabeliterakhir'],2,',','.'); ?></td>
+													<td><?= number_format($key['stok'] * $key['hargabeliterakhir'],2,',','.'); ?></td>
+												</tr>
+											<?php }
+										?>
+									</tbody>
                                 </table>
                             </div>
                         </div>
@@ -51,46 +69,5 @@
 </div>
 <script type="text/javascript">
 	var base_url = '{site_url}Persediaan/';
-	var table = $('.index_datatable').DataTable({
-		ajax: {
-			url     : base_url + 'index_datatable',
-			type    : 'post',
-		},
-		stateSave: true,
-		autoWidth: false,
-		dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
-		language: {
-			search: '<span></span> _INPUT_',
-			searchPlaceholder: 'Type to filter...',
-		},
-		columns: [
-			{
-				data: 'kode',
-				render: function(data, type, row) {
-					return `<button class="btn btn-sm btn-info">${data}</button>`;
-				}
-			},
-			{data: 'nama'},
-			{data: 'satuan'},
-			{data: 'kategori'},
-			{
-				render: function(data, type, row) {
-					return 0;
-				}
-			}, 
-			{
-				render: function(data, type, row) {
-					return 0;
-				}
-			}, 
-			{data	: 'quantity'},
-			{data	: 'hargabeliterakhir'},
-			{
-				data: 'nilaiTotal',
-				render: function(data, type, row) {
-					return formatRupiah(data, 'Rp. ')+',00';
-				}
-			}
-		]
-	});
+	$('.index_datatable').DataTable();
 </script>

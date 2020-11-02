@@ -74,73 +74,52 @@
             <div class="row">
                 <div class="col-12">         
                     <div class="card">
-                        <div class="table-responsive">
-                            <table class="table table-xs table-striped table-borderless table-hover">
-                                <thead>
-                                    <tr class="table-active">
-                                        <th>Tgl Inv</th>
-                                        <th>Tgl J/T</th>
-                                        <th><?php echo lang('No Invoice') ?></th>
-                                        <th><?php echo lang('Keterangan') ?></th>
-                                        <th><?php echo lang('Supplier') ?></th>
-                                        <th class="text-center"><?php echo lang('piutang') ?></th>
-                                        <th class="text-center"><?php echo lang('Sudah Dibayar') ?></th>
-                                        <th class="text-center"><?php echo lang('Sisa piutang') ?></th>
-                                        <th class="text-center"><?php echo lang('Status') ?></th>
-                                        <th class="text-right"><?php echo lang('action') ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <?php if ($get_piutang): ?>
-                                        <?php $totalpiutang = 0; $grandtotaldibayar = 0; $totalsisatagihan = 0 ?>
-                                        <?php foreach ($get_piutang as $row): ?>
-                                            <?php if($row['sisatagihan'] != 0) : ?>
-                                                <?php $totalpiutang = $totalpiutang + $row['total'] ?>
-                                                <?php $grandtotaldibayar = $grandtotaldibayar + $row['totaldibayar'] ?>
-                                                <?php $totalsisatagihan = $totalsisatagihan + $row['sisatagihan'] ?>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-xs table-striped table-borderless table-hover" id="tabelPiutang">
+                                    <thead>
+                                        <tr class="table-active">
+                                            <th>Tgl Inv</th>
+                                            <th>Tgl J/T</th>
+                                            <th><?php echo lang('No Invoice') ?></th>
+                                            <th><?php echo lang('Keterangan') ?></th>
+                                            <th><?php echo lang('Supplier') ?></th>
+                                            <th class="text-center"><?php echo lang('piutang') ?></th>
+                                            <th class="text-center"><?php echo lang('Sudah Dibayar') ?></th>
+                                            <th class="text-center"><?php echo lang('Sisa piutang') ?></th>
+                                            <th class="text-center"><?php echo lang('Status') ?></th>
+                                            <th class="text-right"><?php echo lang('action') ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php
+                                            foreach ($piutang as $key) { ?>
                                                 <tr>
-                                                    <td><?php echo formatdatemonthname($row['tanggal']) ?></td>
+                                                    <td><?= $key['tanggal']; ?></td>
+                                                    <td><?= $key['tanggalTempo']; ?></td>
+                                                    <td><?= $key['noInvoice']; ?></td>
+                                                    <td><?= $key['deskripsi']; ?></td>
+                                                    <td><?= $key['namaPelanggan']; ?></td>
+                                                    <td><?= $key['primeOwing']; ?></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td></td>
                                                     <td>
-                                                        <a href="{site_url}faktur_penjualan/detail/<?php echo $row['idfaktur'] ?>" class="badge badge-info"><?php echo $row['notrans'] ?></a>
-                                                    </td>
-                                                    <td><strong><?php echo $row['namaakun'] ?></strong></td>
-                                                    <td><strong><?php echo $row['kontak'] ?></strong></td>
-                                                    <td class="text-center"><?php echo number_format($row['total']) ?></td>
-                                                    <td class="text-center"><?php echo number_format($row['totaldibayar']) ?></td>
-                                                    <td class="text-center"><?php echo number_format($row['sisatagihan']) ?></td>
-                                                    <td class="text-center">
-                                                        <?php if ($row['status'] == '3'): ?>
-                                                            <label class="badge badge-success">Lunas</label>
-                                                        <?php else: ?>
-                                                            <label class="badge badge-warning">Belum Lunas</label>
-                                                        <?php endif ?>
-                                                    </td>
-                                                    <td class="text-right">
-                                                        <?php if ($row['status'] == '3'): ?>
-                                                            <?php $pembayaran = get_by_id('fakturid',$row['idfaktur'],'tpembayaran'); ?>
-                                                            <a href="{site_url}pembayaran_penjualan/printpdf/<?php echo $row['idfaktur'] ?>" class="btn btn-sm btn-info"><i class="icon icon-printer"></i></a>
-                                                        <?php else: ?>
-                                                            <a href="{site_url}pembayaran_penjualan/create?idfaktur=<?php echo $row['idfaktur'] ?>" class="btn btn-sm btn-primary">Pembayaran</a>
-                                                        <?php endif ?>
+                                                        <div class="list-icons"> 
+                                                            <div class="dropdown"> 
+                                                                <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                                                                <div class="dropdown-menu dropdown-menu-right">
+
+                                                                </div> 
+                                                            </div> 
+                                                        </div>
                                                     </td>
                                                 </tr>
-                                            <?php endif; ?>
-                                        <?php endforeach ?>
-                                        <tr class="bg-grey-300">
-                                            <td colspan="4">Total piutang :</td>
-                                            <td class="text-center font-weight-bold"><?php echo number_format($totalpiutang) ?></td>
-                                            <td class="text-center font-weight-bold"><?php echo number_format($grandtotaldibayar) ?></td>
-                                            <td class="text-center font-weight-bold"><?php echo number_format($totalsisatagihan) ?></td>
-                                            <td>&nbsp;</td>
-                                            <td>&nbsp;</td>
-                                        </tr>
-                                    <?php else: ?>
-                                        <tr>
-                                            <td class="text-center" colspan="8"><?php echo lang('data_not_found') ?></td>
-                                        </tr>
-                                    <?php endif ?>
-                                </tbody>
-                            </table>
+                                            <?php }
+                                        ?>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -158,4 +137,5 @@
             id: '{perusahaanid}' 
         } 
     });
+    $('#tabelPiutang').DataTable();
 </script>

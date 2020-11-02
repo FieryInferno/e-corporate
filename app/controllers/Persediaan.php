@@ -6,6 +6,7 @@ class Persediaan extends User_Controller {
 	{
 		$data['title']      = 'Persediaan';
 		$data['content']    = 'Persediaan/index';	
+		$data['persediaan']	= $this->PersediaanModel->get();
 		$data               = array_merge($data, path_info());
 		$this->parser->parse('template', $data);
     }
