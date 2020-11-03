@@ -788,8 +788,8 @@
                 return intVal(a) + intVal(b); 
             }, 0 );
            
-            $('#penerimaan').val(formatRupiah(String(penerimaan)))
-            $('#pengeluaran').val(formatRupiah(String(pengeluaran)))
+            $('#penerimaan').val(formatRupiah(String(penerimaan)) + ',00')
+            $('#pengeluaran').val(formatRupiah(String(pengeluaran)) + ',00')
             
         }
     })
@@ -826,10 +826,10 @@
                 return intVal(a) + intVal(b); 
             }, 0 );
            
-            $('#tot_saldo_awal').html(formatRupiah(String(tot_saldo_awal)));
-            $('#tot_penerimaan').html(formatRupiah(String(tot_penerimaan)));
-            $('#tot_pengeluaran').html(formatRupiah(String(tot_pengeluaran)));
-            $('#tot_saldo_akhir').html(formatRupiah(String(tot_saldo_akhir)));
+            $('#tot_saldo_awal').html(formatRupiah(String(tot_saldo_awal)) + ',00');
+            $('#tot_penerimaan').html(formatRupiah(String(tot_penerimaan)) + ',00');
+            $('#tot_pengeluaran').html(formatRupiah(String(tot_pengeluaran)) + ',00');
+            $('#tot_saldo_akhir').html(formatRupiah(String(tot_saldo_akhir)) + ',00');
             
         }
     })
@@ -1142,7 +1142,7 @@
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
                             `${element.tanggal}`,
-                            formatRupiah(String(`${element.nominal}`)),
+                            formatRupiah(String(`${element.nominal}`)) + ',00',
                         ]).draw();
                     }
                 }
@@ -1177,7 +1177,7 @@
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
                             `${element.tanggal}`,
-                            formatRupiah(String(`${element.nominal}`)),
+                            formatRupiah(String(`${element.nominal}`)) + ',00',
                         ]).draw();
                     }
                 }
@@ -1213,7 +1213,7 @@
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
                             `${element.tanggal}`,
-                            formatRupiah(String(`${element.nominal}`)),
+                            formatRupiah(String(`${element.nominal}`)) + ',00',
                         ]).draw();
                     }
                 }
@@ -1317,8 +1317,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String('0')),
-                    formatRupiah(String(nominal)),
+                    formatRupiah(String('0')) + ',00',
+                    formatRupiah(String(nominal)) + ',00',
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
@@ -1338,8 +1338,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String(nominal)),
-                    formatRupiah(String('0')),
+                    formatRupiah(String(nominal)) + ',00',
+                    formatRupiah(String('0')) + ',00',
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
@@ -1359,8 +1359,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String('0')),
-                    formatRupiah(String(nominal)),
+                    formatRupiah(String('0')) + ',00',
+                    formatRupiah(String(nominal)) + ',00',
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
@@ -1381,8 +1381,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String('0')),
-                    formatRupiah(String(nominal)),
+                    formatRupiah(String('0')) + ',00',
+                    formatRupiah(String(nominal)) + ',00',
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
@@ -1402,8 +1402,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String(nominal),'Rp. '),
-                    formatRupiah(String('0'),'Rp. '),
+                    formatRupiah(String(nominal)) + ',00',
+                    formatRupiah(String('0')) + ',00',
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
@@ -1423,8 +1423,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String(nominal),'Rp. '),
-                    formatRupiah(String('0'),'Rp. '),
+                    formatRupiah(String(nominal))  + ',00',
+                    formatRupiah(String('0'))  + ',00',
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     ``,
@@ -1444,8 +1444,8 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String(nominal),'Rp. '),
-                    formatRupiah(String('0'),'Rp. '),
+                    formatRupiah(String(nominal))  + ',00',
+                    formatRupiah(String('0'))  + ',00',
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     ``,
@@ -1509,7 +1509,7 @@
                 sumPengeluaranPemindahbukuan = sumPengeluaranPemindahbukuan + 0;
             }
         }
-        document.getElementById('pengeluaran_pemindahbukuan').value=formatRupiah(String(sumPengeluaranPemindahbukuan));
+        document.getElementById('pengeluaran_pemindahbukuan').value=formatRupiah(String(sumPengeluaranPemindahbukuan)) + ',00';
     }
     //simpan data
     function save() {
