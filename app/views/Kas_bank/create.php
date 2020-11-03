@@ -111,9 +111,30 @@
                                         </div>
 
                                         <div class="mb-3 mt-3 table-responsive">
-                                        <table class="table table-bordered" id="table_detail_rincian_buku_kas_umum">
+                                            <div class="table-responsive">
+                                                <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail_rincian_buku_kas_umum">
+                                                    <thead>
+                                                        <tr class="table-active">
+                                                            <th><?php echo lang('ID') ?></th>
+                                                            <th><?php echo lang('') ?></th>
+                                                            <th><?php echo lang('Tipe') ?></th>
+                                                            <th><?php echo lang('date') ?></th>
+                                                            <th><?php echo lang('Nomor Aktivitas') ?></th>
+                                                            <th><?php echo lang('Penerimaan') ?></th>
+                                                            <th><?php echo lang('Pengeluaran') ?></th>
+                                                            <th><?php echo lang('Nomor Akun') ?></th>
+                                                            <th><?php echo lang('Kode Unit') ?></th>
+                                                            <th><?php echo lang('Nama Dapartemen') ?></th>
+                                                            <th><?php echo lang('Sumber Dana') ?></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="isitabel"> </tbody>
+                                                </table>
+                                            </div>
+                                            <!-- <table class="table table-bordered" id="table_detail_rincian_buku_kas_umum">
                                                 <thead id="atastabel">
-                                                    <tr><th><?php echo lang('ID') ?></th>
+                                                    <tr>
+                                                        <th><?php echo lang('ID') ?></th>
                                                         <th><?php echo lang('') ?></th>
                                                         <th><?php echo lang('Tipe') ?></th>
                                                         <th><?php echo lang('date') ?></th>
@@ -129,7 +150,7 @@
                                                 <tbody id="isitabel"> 
 
                                                 </tbody>
-                                            </table>
+                                            </table> -->
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="saldo_sumber_dana" role="tabpanel" aria-labelledby="custom-saldo-sumber-dana-tab">
@@ -559,10 +580,10 @@
 
 <!-- Start: Modal Piutang -->
 <div class="modal fade" id="piutang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pilih Deposito</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Pilih Piutang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -572,17 +593,15 @@
                     <table class="table table-xs table-striped table-borderless table-hover" id="tabelPiutang">
                         <thead>
                             <tr class="table-active">
+                                <th>&nbsp;</th>
                                 <th>Tgl Inv</th>
                                 <th>Tgl J/T</th>
                                 <th><?php echo lang('No Invoice') ?></th>
-                                <th>Nama Perusahaan</th>
                                 <th><?php echo lang('Keterangan') ?></th>
                                 <th><?php echo lang('Supplier') ?></th>
                                 <th class="text-center"><?php echo lang('piutang') ?></th>
                                 <th class="text-center"><?php echo lang('Sudah Dibayar') ?></th>
                                 <th class="text-center"><?php echo lang('Sisa piutang') ?></th>
-                                <th class="text-center"><?php echo lang('Status') ?></th>
-                                <th class="text-right"><?php echo lang('action') ?></th>
                             </tr>
                         </thead>
                         <tbody id="listPiutang"></tbody>
@@ -599,10 +618,10 @@
 
 <!-- Start: Modal Hutang -->
 <div class="modal fade" id="hutang" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pilih Deposito</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Pilih Hutang</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -612,17 +631,16 @@
                     <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="tabelHutang">
                         <thead>
                             <tr class="table-active">
+                                <th>&nbsp;</th>
                                 <th><?php echo lang('Tanggal') ?></th>
                                 <th>Tgl J/T</th>
                                 <th><?php echo lang('No Invoice') ?></th>
-                                <th>Nama Perusahaan</th>
                                 <th><?php echo lang('Keterangan') ?></th>
                                 <th><?php echo lang('Supplier') ?></th>
                                 <th class="text-center"><?php echo lang('Utang') ?></th>
                                 <th class="text-center"><?php echo lang('Sudah Dibayar') ?></th>
                                 <th class="text-center"><?php echo lang('Sisa Utang') ?></th>
                                 <th class="text-center">Usia Hutang</th>
-                                <th class="text-right"><?php echo lang('action') ?></th>
                             </tr>
                         </thead>
                         <tbody id="listHutang"></tbody>
@@ -663,6 +681,8 @@
         tabelreturbeli.clear().draw();
         tabelreturbeli.clear().draw();
         tabeldeposito.clear().draw();
+        tabelPiutang.clear().draw();
+        tabelHutang.clear().draw();
         
         $("#pejabat").val($("#pejabat").data("default-value"));
         $('input[name=penerimaan]').val('0'); 
@@ -677,6 +697,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
+        getPiutang();
+        getHutang();
     })
 
     //combobox nama penerima/pejabat
@@ -691,12 +713,16 @@
         tabelreturbeli.clear().draw();
         tabelreturbeli.clear().draw();
         tabeldeposito.clear().draw();
+        tabelPiutang.clear().draw();
+        tabelHutang.clear().draw();
         
         getListPenjualan();
         getListPembelian();
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
+        getPiutang();
+        getHutang();
     })
 
 
@@ -930,8 +956,12 @@
         ],
     })
 
-    var tabelPiutang = $('#tabelPiutang').DataTable();
-    var tabelHutang = $('#tabelHutang').DataTable();
+    var tabelPiutang = $('#tabelPiutang').DataTable({
+        sort: false
+    });
+    var tabelHutang = $('#tabelHutang').DataTable({
+        sort: false
+    });
 
     function getListPenjualan() {
         var table = $('#list_penjualan');
@@ -1155,7 +1185,7 @@
         });
     }
 
-   function getListSetorKasKecil() {
+    function getListSetorKasKecil() {
         var table = $('#list_SetorKasKecil');
         var idPerusahaan = $('select[name=perusahaan]').val();
         var tgl = $('input[name=tanggal]').val();
@@ -1164,7 +1194,7 @@
             data : {idPerusahaan: idPerusahaan, tgl : tgl},
             url: base_url + 'get_SetorKasKecil',
             success: function(response) {
-               for (let i = 0; i < response.length; i++) {
+                for (let i = 0; i < response.length; i++) {
                     const element = response[i];
 
                     if (i < 0) {
@@ -1189,6 +1219,78 @@
                 }
             }
         });
+    }
+
+    function getPiutang() {
+        var idPerusahaan    = $('select[name=perusahaan]').val();
+        var tgl             = $('input[name=tanggal]').val();
+        $.ajax({
+            type    : 'get',
+            data    : {
+                perusahaanid    : idPerusahaan,
+                tanggal         : tgl
+            },
+            url     : '{site_url}piutang/get',
+            beforeSend: function() {
+                pageBlock();
+            },
+            afterSend: function() {
+                unpageBlock();
+            },
+            success : function (response) {
+                for (let index = 0; index < response.length; index++) {
+                    piutang    = response[index];
+                    tabelPiutang.row.add([
+                        `<input type="checkbox" id="checkboxPiutang${piutang.idSaldoAwalPiutang}" data-id="${piutang.idSaldoAwalPiutang}" data-tipe="Saldo Awal Piutang" data-tgl="${piutang.tanggal}" data-kwitansi="${piutang.noInvoice}" data-nominal="${piutang.primeOwing}" data-namaakun="${piutang.namaakun}" data-noakun="${piutang.akunno}" idAkun="${piutang.idakun}" data-kodeperusahaan="${piutang.kode}" onchange="save_detail(this);">`,
+                        `${piutang.tanggal}`,
+                        `${piutang.tanggalTempo}`,
+                        `${piutang.noInvoice}`,
+                        `${piutang.deskripsi}`,
+                        `${piutang.namaPelanggan}`,
+                        formatRupiah(String(`${piutang.primeOwing}`)) + ',00',
+                        ``,
+                        ``
+                    ]).draw();
+                }
+            }
+        })
+    }
+
+    function getHutang() {
+        var idPerusahaan    = $('select[name=perusahaan]').val();
+        var tgl             = $('input[name=tanggal]').val();
+        $.ajax({
+            type    : 'get',
+            data    : {
+                perusahaanid    : idPerusahaan,
+                tanggal         : tgl
+            },
+            url     : '{site_url}utang/get',
+            beforeSend: function() {
+                pageBlock();
+            },
+            afterSend: function() {
+                unpageBlock();
+            },
+            success : function (response) {
+                response.forEach(element => {
+                    element.forEach(e => {
+                        tabelHutang.row.add([
+                            `<input type="checkbox" id="checkboxHutang${e.id}" data-id="${e.id}" data-tipe="Saldo Awal Hutang" data-tgl="${e.tanggal}" data-kwitansi="${e.notrans}" data-nominal="${e.total}" idAkun="${e.idAkun}" data-namaakun="${e.namaakun}" data-noakun="${e.akunno}" data-kodeperusahaan="${e.kode}" onchange="save_detail(this);">`,
+                            `${e.tanggal}`,
+                            `${e.tanggaltempo}`,
+                            `${e.notrans}`,
+                            `${e.catatan}`,
+                            `${e.rekanan}`,
+                            formatRupiah(String(`${e.total}`)) + ',00',
+                            ``,
+                            ``,
+                            ``
+                        ]).draw();
+                    });
+                });
+            }
+        })
     }
 
     //save items
@@ -1309,6 +1411,48 @@
                 ]).draw( false );
             } else {
                 var rowindex=$('#button_SKK'+id).closest('tr').index();
+                table_detail.row(rowindex).remove().draw();
+            }
+        } else if (tipe == 'Saldo Awal Piutang') {
+            const stat = $(elem).is(":checked");
+            const table = $('#isitabel');  
+            if (stat) {
+                table_detail.row.add([
+                    `${id}`,
+                    `<button type="button" class="btn btn-danger delete_detail" id="buttonPiutang${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+                    `${tipe}`,
+                    `${tgl}`,
+                    `${nokwitansi}`,
+                    formatRupiah(String(nominal),'Rp. '),
+                    formatRupiah(String('0'),'Rp. '),
+                    `${namaakun} ${noakun}`,
+                    `${kodeperusahaan}`,
+                    ``,
+                    ``
+                ]).draw( false );
+            } else {
+                var rowindex=$('#buttonPiutang'+id).closest('tr').index();
+                table_detail.row(rowindex).remove().draw();
+            }
+        } else if (tipe == 'Saldo Awal Hutang') {
+            const stat = $(elem).is(":checked");
+            const table = $('#isitabel');  
+            if (stat) {
+                table_detail.row.add([
+                    `${id}`,
+                    `<button type="button" class="btn btn-danger delete_detail" id="buttonHutang${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+                    `${tipe}`,
+                    `${tgl}`,
+                    `${nokwitansi}`,
+                    formatRupiah(String(nominal),'Rp. '),
+                    formatRupiah(String('0'),'Rp. '),
+                    `${namaakun} ${noakun}`,
+                    `${kodeperusahaan}`,
+                    ``,
+                    ``
+                ]).draw( false );
+            } else {
+                var rowindex=$('#buttonHutang'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }
         }

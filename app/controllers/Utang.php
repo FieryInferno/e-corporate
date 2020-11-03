@@ -4,13 +4,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Utang extends User_Controller {
 
 	private $kontakid;
-	private $perusahaanid;
+	private $perusahaan;
+	private $tanggal;
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Utang_model','model');
 		$this->setGet('kontakid', $this->input->get('kontakid'));
 		$this->perusahaan	= $this->input->get('perusahaanid');
+		$this->tanggal		= $this->input->get('tanggal');
 	}
 
 	public function index() {
@@ -105,6 +107,16 @@ class Utang extends User_Controller {
 			return $this->$jenis;
 		}
 		
+	}
+
+	public function get()
+	{
+		$this->model->setGet('perusahaan', $this->perusahaan);
+		$this->model->setGet('tanggal', $this->tanggal);
+		$data	= [];
+		array_push($data, $this->model->get('saldoAwal'));
+		array_push($data, $this->model->get('faktur'));
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
 }

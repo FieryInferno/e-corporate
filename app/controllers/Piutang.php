@@ -15,11 +15,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Piutang extends User_Controller {
 
 	private $perusahaan;
+	private $tanggal;
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Piutang_model','model');
 		$this->perusahaan	= $this->input->get('perusahaanid');
+		$this->tanggal		= $this->input->get('tanggal');
 	}
 
 	public function index() {
@@ -47,7 +49,7 @@ class Piutang extends User_Controller {
 
 	public function printpdf() {
 		$this->load->library('pdf');
-	    $pdf = $this->pdf;
+		$pdf = $this->pdf;
 
 		$tanggalawal = $this->input->get('tanggalawal');
 		$tanggalakhir = $this->input->get('tanggalakhir');
@@ -70,14 +72,14 @@ class Piutang extends User_Controller {
 		$data['get_piutang'] = $this->model->get_piutang_print($data['tanggalawal'], $data['tanggalakhir'], $data['kontakid']);
 		$data['title'] = lang('Laporan Piutang');
 		$data['subtitle'] = lang('list');
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Piutang/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("laporan-utang-". $time, array("Attachment" => false));
+		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+		$data = array_merge($data,path_info());
+		$html = $this->load->view('Piutang/printpdf', $data, TRUE);
+		$pdf->loadHtml($html);
+		$pdf->setPaper('A4', 'portrait');
+		$pdf->render();
+		$time = time();
+		$pdf->stream("laporan-utang-". $time, array("Attachment" => false));
 	}
 
 	public function select2_kontak($id = null) {
@@ -96,6 +98,14 @@ class Piutang extends User_Controller {
 			$data = $this->db->get('mkontak')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
+	}
+
+	public function get()
+	{
+		$this->model->set('perusahaan', $this->perusahaan);
+		$this->model->set('tanggal', $this->tanggal);
+		$data	= $this->model->get();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
 }

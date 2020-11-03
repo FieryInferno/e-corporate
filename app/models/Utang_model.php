@@ -1,16 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
 
 class Utang_model extends CI_Model {
 
@@ -18,6 +8,7 @@ class Utang_model extends CI_Model {
 	private $table	= 'SaldoAwalHutang';
 	private $table0	= 'tfaktur';
 	private $perusahaan;
+	private $tanggal;
 
 	public function get_count_utang($tanggalawal, $tanggalakhir, $kontakid) {
 		$this->db->where('view_laporan_utang_piutang.tanggal >=', $tanggalawal);
@@ -31,19 +22,30 @@ class Utang_model extends CI_Model {
 	public function get($jenis) {
 		switch ($jenis) {
 			case 'saldoAwal':
-				$this->db->select($this->table . '.tanggal, ' . $this->table . '.tanggaltempo, ' . $this->table . '.noInvoice as notrans, ' . $this->table . '.deskripsi as catatan, ' . $this->table . '.namaPemasok as rekanan, ' . $this->table . '.primeOwing as total, ' . $this->table . '.idSaldoAwalHutang, mperusahaan.nama_perusahaan');
+				$this->db->select($this->table . '.tanggal, ' . $this->table . '.tanggaltempo, ' . $this->table . '.noInvoice as notrans, ' . $this->table . '.deskripsi as catatan, ' . $this->table . '.namaPemasok as rekanan, ' . $this->table . '.primeOwing as total, ' . $this->table . '.idSaldoAwalHutang as id, mperusahaan.nama_perusahaan, mnoakun.idakun, mnoakun.namaakun, mnoakun.akunno, mperusahaan.kode');
 				$this->db->join('mperusahaan', $this->table . '.perusahaan = mperusahaan.idperusahaan');
+				$this->db->join('mnoakun', $this->table . '.akun = mnoakun.idakun');
 				if ($this->perusahaan) {
 					$this->db->where('perusahaan', $this->perusahaan);
+				}
+				if ($this->tanggal) {
+					$this->db->where('tanggal <=', $this->tanggal);
 				}
 				return $this->db->get($this->table)->result_array();
 				break;
 			case 'faktur':
-				$this->db->select($this->table0 . '.tanggal, ' . $this->table0 . '.tanggaltempo, ' . $this->table0 . '.notrans, ' . $this->table0 . '.catatan, mkontak.nama as rekanan, ' . $this->table0 . '.total, ' . $this->table0 . '.totaldibayar, (' . $this->table0 . '.total - ' . $this->table0 . '.totaldibayar) as sisaUtang, ' . $this->table0 . '.id, mperusahaan.nama_perusahaan');
+				$this->db->select($this->table0 . '.tanggal, ' . $this->table0 . '.tanggaltempo, ' . $this->table0 . '.notrans, ' . $this->table0 . '.catatan, mkontak.nama as rekanan, ' . $this->table0 . '.total, ' . $this->table0 . '.totaldibayar, (' . $this->table0 . '.total - ' . $this->table0 . '.totaldibayar) as sisaUtang, ' . $this->table0 . '.id, mperusahaan.nama_perusahaan, mnoakun.idakun, mnoakun.namaakun, mnoakun.akunno, mperusahaan.kode');
 				$this->db->join('mkontak', 'tfaktur.kontakid = mkontak.id');
 				$this->db->join('mperusahaan', $this->table0 . '.perusahaanid = mperusahaan.idperusahaan');
+				$this->db->join('tfakturdetail', $this->table0 . '.id = tfakturdetail.idfaktur');
+				$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
+				$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+				$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 				if ($this->perusahaan) {
 					$this->db->where('perusahaanid', $this->perusahaan);
+				}
+				if ($this->tanggal) {
+					$this->db->where('tanggal <=', $this->tanggal);
 				}
 				return $this->db->get($this->table0)->result_array();
 				break;
