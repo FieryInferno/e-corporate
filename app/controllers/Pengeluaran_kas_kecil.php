@@ -211,13 +211,13 @@ class Pengeluaran_kas_kecil extends User_Controller {
         $this->model->get_pejabat_model($id,$iddep);
     }
  
- 	public function select2_item($id = null, $iddepart=null, $text = null)
+	public function select2_item($id = null, $iddepart=null, $text = null)
 	{
 		$query = $this->db->query("SELECT * FROM mdepartemen WHERE id='$iddepart'");
-        if ($query->num_rows() > 0){
-        	foreach ($query->result() as $depart) {
-        		$nama_departemen=$depart->nama;
-        	}
+		if ($query->num_rows() > 0){
+			foreach ($query->result() as $depart) {
+				$nama_departemen=$depart->nama;
+			}
         }
 		$term = $this->input->get('q');
 		if ($text) {
@@ -229,8 +229,9 @@ class Pengeluaran_kas_kecil extends User_Controller {
 
 			
 		} else {
-			$this->db->select('tanggaranbelanja.*, tanggaranbelanjadetail.id as id, tanggaranbelanjadetail.uraian as text');
+			$this->db->select('tanggaranbelanja.*, tanggaranbelanjadetail.id as id, mitem.nama as text');
 			$this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id=tanggaranbelanjadetail.idanggaran');
+			$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 			$this->db->where('tanggaranbelanja.idperusahaan',$id);
 			$this->db->where('tanggaranbelanja.dept',$nama_departemen);
 			$this->db->where('tanggaranbelanja.status','Validate');
