@@ -53,23 +53,23 @@ class Pengajuan_kas_kecil extends User_Controller {
 
 	public function create()
     {
-    	$q = $this->db->query("SELECT MAX(LEFT(nokwitansi,3)) AS kd_max FROM tpengajuankaskecil");
-        $kd = "";
-        if($q->num_rows()>0){
-            foreach($q->result() as $k){
-                $tmp = ((int)$k->kd_max)+1;
-                $kd = sprintf("%03s", $tmp);
-            }
-        }else{
-            $kd = "001";
-        }  
+		$q = $this->db->query("SELECT MAX(LEFT(nokwitansi,3)) AS kd_max FROM tpengajuankaskecil");
+		$kd = "";
+		if($q->num_rows()>0){
+			foreach($q->result() as $k){
+				$tmp = ((int)$k->kd_max)+1;
+				$kd = sprintf("%03s", $tmp);
+			}
+		}else{
+			$kd = "001";
+		}  
 
-        $query_tahun = $this->db->query("SELECT tahun as thn FROM mtahun ORDER BY tahun DESC LIMIT 1");
-        $tahun="";
-        if ($query_tahun->num_rows() > 0){
-        	foreach ($query_tahun->result() as $t) {
-        		$tahun=$t->thn;
-        	}
+		$query_tahun = $this->db->query("SELECT tahun as thn FROM mtahun ORDER BY tahun DESC LIMIT 1");
+		$tahun="";
+		if ($query_tahun->num_rows() > 0){
+			foreach ($query_tahun->result() as $t) {
+				$tahun=$t->thn;
+			}
         }
 		
 
@@ -90,16 +90,16 @@ class Pengajuan_kas_kecil extends User_Controller {
 				$id=$this->uri->segment(3);
 				$query_pengajuan = $this->db->query("SELECT * FROM tpengajuankaskecil WHERE id='$id'");
 				foreach ($query_pengajuan->result() as $p) {
-        			$idperusahaan=$p->perusahaan;
+					$idperusahaan=$p->perusahaan;
 					$iddepartemen=$p->pejabat;
 					$idakun=$p->kas;
 					$idrek=$p->rekening;
-        		}
+				}
 
-        		$data['perusahaan']=$idperusahaan;
-        		$data['pejabat']=$iddepartemen;
-        		$data['akun']=$idakun;
-        		$data['rekening']=$idrek;
+				$data['perusahaan']=$idperusahaan;
+				$data['pejabat']=$iddepartemen;
+				$data['akun']=$idakun;
+				$data['rekening']=$idrek;
 		
 				$data['title'] = lang('petty_cash_submission');
 				$data['subtitle'] = lang('edit');
@@ -149,16 +149,15 @@ class Pengajuan_kas_kecil extends User_Controller {
 		$term = $this->input->get('q');
 		if ($id) {
 			$this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text');
-			$this->db->where('mnoakun.stdel', '0');
 			$data = $this->db->where('idakun', $id)->get('mnoakun')->row_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text');
-			$this->db->where('mnoakun.noakuntop', '1');
-			$this->db->where('mnoakun.noakunheader', '1');
-			$this->db->where('mnoakun.jenis', '02');
-			$this->db->where('mnoakun.stdel', '0');
-			if($term) $this->db->like('akunno', $term);
+			$this->db->like('mnoakun.akunno', '1', 'after');
+			if($term) {
+				$this->db->like('akunno', $term);
+				$this->db->or_like('namaakun', $term);
+			}
 			$data = $this->db->get('mnoakun')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
