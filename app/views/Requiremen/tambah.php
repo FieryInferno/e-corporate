@@ -114,36 +114,38 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <table class="table table-bordered" id="table_detail">
-                                        <thead class="{bg_header}">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th><?php echo lang('item') ?></th>
-                                                <th class="text-right"><?php echo lang('price') ?></th>
-                                                <th class="text-right" style="width:50px;"><?php echo lang('qty') ?></th>
-                                                <th class="text-right"><?php echo lang('subtotal') ?></th>
-                                                <th class="text-right" style="width:50px;"><?php echo lang('discount') ?></th>
-                                                <th class="text-right" style="width:50px;">Pajak</th>
-                                                <th class="text-right" style="width:50px;">Biaya Pengiriman</th>
-                                                <th class="text-right" style="width:50px;"><?php echo lang('no akun') ?></th>
-                                                <th class="text-right"><?php echo lang('total') ?></th>
-                                                <th class="text-right"><?php echo lang('sisa pagu item') ?></th>
-                                                <th class="text-center" style="width:50px;"><?php echo lang('action') ?></th>
-                                            </tr>
-                                        </thead>
-                                        <tbody> </tbody>
-                                        <tfoot class="bg-light">
-                                            <tr>
-                                                <th>ID</th>
-                                                <th colspan="7">&nbsp;</th>
-                                                <th class="text-right"><?php echo lang('total') ?></th>
-                                                <th class="text-center" id="total_total">
-                                                <th></th>
-                                                <th></th>
-                                                </th>
-                                            </tr>
-                                        </tfoot>
-                                    </table>
+                                    <div class="table-responsive">
+                                        <table class="table table-xs table-striped table-borderless table-hover index_datatable"  id="table_detail">
+                                            <thead>
+                                                <tr class="table-active">
+                                                    <th>ID</th>
+                                                    <th><?php echo lang('item') ?></th>
+                                                    <th class="text-right"><?php echo lang('price') ?></th>
+                                                    <th class="text-right" style="width:50px;"><?php echo lang('qty') ?></th>
+                                                    <th class="text-right"><?php echo lang('subtotal') ?></th>
+                                                    <th class="text-right" style="width:50px;"><?php echo lang('discount') ?></th>
+                                                    <th class="text-right" style="width:50px;">Pajak</th>
+                                                    <th class="text-right" style="width:50px;">Biaya Pengiriman</th>
+                                                    <th class="text-right" style="width:50px;"><?php echo lang('no akun') ?></th>
+                                                    <th class="text-right"><?php echo lang('total') ?></th>
+                                                    <th class="text-right"><?php echo lang('sisa pagu item') ?></th>
+                                                    <th class="text-center" style="width:50px;"><?php echo lang('action') ?></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody></tbody>
+                                            <tfoot class="bg-light">
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th colspan="7">&nbsp;</th>
+                                                    <th class="text-right"><?php echo lang('total') ?></th>
+                                                    <th class="text-center" id="total_total">
+                                                    <th></th>
+                                                    <th></th>
+                                                    </th>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
                                 </div>
                                 <div class="row mb-3">
                                     <div class="col-md-6">
@@ -684,19 +686,19 @@
                                                     <i class="fas fa-plus"></i>Pilih Pajak
                                                 </button>
                                             </div>
-                                            <table class="table table-bordered" style="width:100%" id="pajak">
-                                                <thead class="{bg_header}">
-                                                    <tr>
-                                                        <th class="text-right">Nama Pajak</th>
-                                                        <th class="text-right">Kode Akun</th>
-                                                        <th class="text-right">Nama Akun</th>
-                                                        <th class="text-right">Nominal</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="isi_tbody_pajak${index}${no}">
-                                                    
-                                                </tbody>
-                                            </table>
+                                            <div class="table-responsive">
+                                                <table class="table table-xs table-striped table-borderless table-hover" style="width:100%" id="pajak">
+                                                    <thead>
+                                                        <tr class="table-active">
+                                                            <th class="text-right">Nama Pajak</th>
+                                                            <th class="text-right">Kode Akun</th>
+                                                            <th class="text-right">Nama Akun</th>
+                                                            <th class="text-right">Nominal</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="isi_tbody_pajak${index}${no}"></tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer justify-content-between">
@@ -718,20 +720,20 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <table class="table">
-                                                        <thead class="{bg_header}">
-                                                            <tr>
-                                                                <th>&nbsp;</th>
-                                                                <th>Kode Pajak</th>
-                                                                <th>Nama Pajak</th>
-                                                                <th>Kode Akun</th>
-                                                                <th>Nama Akun</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id='list_pajak${index}${no}'>
-
-                                                        </tbody>
-                                                    </table>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-xs table-striped table-borderless table-hover" style="width:100%" id="pajak">
+                                                            <thead>
+                                                                <tr class="table-active">
+                                                                    <th>&nbsp;</th>
+                                                                    <th>Kode Pajak</th>
+                                                                    <th>Nama Pajak</th>
+                                                                    <th>Kode Akun</th>
+                                                                    <th>Nama Akun</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id='list_pajak${index}${no}'></tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>

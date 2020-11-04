@@ -2,91 +2,92 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{title}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">{title}</li>
+                    </ol>
+                </div>  
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-                <div class="card-header">
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_tambah">
-                        + <?php echo lang('add_new') ?>
-                    </button>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">         
+                    <div class="card">
+                        <div class="card-header">
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal_tambah">
+                                + <?php echo lang('add_new') ?>
+                            </button>
 
-                    <!-- Modal -->
-                    <div id="modal_tambah" class="modal fade">
-                        <div class="modal-dialog modal-lg">
-                            <form action="javascript:simpanPemetaan('tambah')" id="formTambahPemetaan">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title"><?php echo lang('add_new') ?></h5>
-                                    </div>
-                                    <div class="modal-body">
-                                        <div class="form-group">
-                                            <label>Kode Akun</label>
-                                            <select class="kode_akun" name="kode_akun" style="width: 100%" required></select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Kode Pemetaan Akun 1</label>
-                                            <select class="kode_akun_1" name="kode_akun_1" style="width: 100%" required></select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Kode Pemetaan Akun 2</label>
-                                            <select class="kode_akun_2" name="kode_akun_2" style="width: 100%" required></select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Kode Pemetaan Akun 3</label>
-                                            <select class="kode_akun_3" name="kode_akun_3" style="width: 100%" required></select>
-                                        </div>
-                                    </div>
+                            <!-- Modal -->
+                            <div id="modal_tambah" class="modal fade">
+                                <div class="modal-dialog modal-lg">
+                                    <form action="javascript:simpanPemetaan('tambah')" id="formTambahPemetaan">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title"><?php echo lang('add_new') ?></h5>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="form-group">
+                                                    <label>Kode Akun</label>
+                                                    <select class="kode_akun" name="kode_akun" style="width: 100%" required></select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Kode Pemetaan Akun 1</label>
+                                                    <select class="kode_akun_1" name="kode_akun_1" style="width: 100%" required></select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Kode Pemetaan Akun 2</label>
+                                                    <select class="kode_akun_2" name="kode_akun_2" style="width: 100%" required></select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label>Kode Pemetaan Akun 3</label>
+                                                    <select class="kode_akun_3" name="kode_akun_3" style="width: 100%" required></select>
+                                                </div>
+                                            </div>
 
-                                    <div class="modal-footer">
-                                        <div class="btn-group">
-                                            <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
-                                            <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
+                                            <div class="modal-footer">
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
+                                                    <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
+                                                </div>
+                                            </div>
                                         </div>
-                                    </div>
+                                    </form>
                                 </div>
-                            </form>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
+									<thead>
+										<tr class="table-active">
+                                            <th>ID</th>
+                                            <th>Kode Akun</th>
+                                            <th>Nama Akun</th>
+                                            <th>Akun 1</th>
+                                            <th>Akun 2</th>
+                                            <th>Akun 3</th>
+                                            <th class="text-center"><?php echo lang('action') ?></th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
                         </div>
                     </div>
                 </div>
-                <div class="card-body">
-                    <table class="table table-bordered table-striped index_datatable">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Kode Akun</th>
-                                <th>Nama Akun</th>
-                                <th>Akun 1</th>
-                                <th>Akun 2</th>
-                                <th>Akun 3</th>
-                                <th class="text-center"><?php echo lang('action') ?></th>
-                            </tr>
-                        </thead>
-                        <tbody>                          
-                        </tbody>
-                    </table>
-                </div>
             </div>
-          </div>
         </div>
-      </div>
     </section>
 </div>
 

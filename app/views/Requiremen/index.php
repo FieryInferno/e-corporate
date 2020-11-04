@@ -1,66 +1,68 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-              <div class="card-header">
-			  <a href="{site_url}requiremen/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-		</div>
-			<div class="card-body">
-				<table class="table table-bordered table-striped index_datatable">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th><?php echo lang('notrans') ?></th>
-							<!-- <th><?php echo lang('note') ?></th> -->
-							<th><?php echo lang('date') ?></th>
-							<th><?php echo lang('supplier') ?></th>
-							<th>Perusahaan</th>
-							<th>Departement</th>
-							<th>Nominal Total</th>
-							<th><?php echo lang('warehouse') ?></th>
-							<th><?php echo lang('status') ?></th>
-							<th><?php echo lang('Action') ?></th>
-						</tr>
-					</thead>
-					<tbody></tbody>
-					<tfoot>
-						<tr>
-							<th colspan="6" style="text-align:right">Total:</th>
-							<th style="text-align:right"></th>
-							<th></th>
-							<th></th>
-							<th></th>
-						</tr>
-					</tfoot>
-				</table>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
+						<div class="card-header">
+							<a href="{site_url}requiremen/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+                                <table class="table table-xs table-striped table-borderless table-hover index_datatable">
+                                    <thead>
+                                        <tr class="table-active">
+											<th>ID</th>
+											<th><?php echo lang('notrans') ?></th>
+											<!-- <th><?php echo lang('note') ?></th> -->
+											<th><?php echo lang('date') ?></th>
+											<th><?php echo lang('supplier') ?></th>
+											<th>Perusahaan</th>
+											<th>Departement</th>
+											<th>Nominal Total</th>
+											<th><?php echo lang('warehouse') ?></th>
+											<th><?php echo lang('status') ?></th>
+											<th><?php echo lang('Action') ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+										<tr>
+											<th colspan="6" style="text-align:right">Total:</th>
+											<th style="text-align:right"></th>
+											<th></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</tfoot>
+                                </table>
+                            </div>
+						</div>
+					</div>
+				</div>
 			</div>
-            </div>
-          </div>
-        </div>
-      </div>
+		</div>
     </section>
-  </div>
+</div>
 <script type="text/javascript">
 	var base_url = '{site_url}requiremen/';
 	var table = $('.index_datatable').DataTable({

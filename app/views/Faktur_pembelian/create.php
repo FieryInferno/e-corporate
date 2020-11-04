@@ -1,199 +1,207 @@
-total
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{title}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">{title}</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <!-- SELECT2 EXAMPLE -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">{title}</h3>
-            </div>
-          <!-- /.card-header -->
-            <div class="card-body">
-                <form action="javascript:save()" id="form1">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('notrans') ?>:</label>
-                                <input type="text" class="form-control" name="notrans" required placeholder="AUTO" disabled>
-                            </div>
-                            <div class="form-group">
-                                <label><?php echo lang('supplier') ?>:</label>
-                                <select class="form-control kontakid" name="kontakid"></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('date') ?>:</label>
-                                <div class="input-group"> 
-                                    <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
+        <div class="container-fluid">
+            <!-- SELECT2 EXAMPLE -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{title}</h3>
+                </div>
+            <!-- /.card-header -->
+                <div class="card-body">
+                    <form action="javascript:save()" id="form1">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><?php echo lang('notrans') ?>:</label>
+                                    <input type="text" class="form-control" name="notrans" required placeholder="AUTO" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('supplier') ?>:</label>
+                                    <select class="form-control kontakid" name="kontakid"></select>
                                 </div>
                             </div>
-                            <div class="form-group">
-                                <label>Setup Jurnal : </label>
-                                <div class="input-group"> 
-                                    <input type="hidden" name="setupJurnal" id="setupJurnal1">
-                                    <input type="text" class="form-control" disabled id="setupJurnal2">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><?php echo lang('date') ?>:</label>
+                                    <div class="input-group"> 
+                                        <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Setup Jurnal : </label>
+                                    <div class="input-group"> 
+                                        <input type="hidden" name="setupJurnal" id="setupJurnal1">
+                                        <input type="text" class="form-control" disabled id="setupJurnal2">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Perusahaan:</label>
+                                    <div class="input-group"> 
+                                        <select class="form-control perusahaanid" name="perusahaanid"></select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Tanggal Tempo:</label>
+                                    <div class="input-group"> 
+                                        <input type="date" class="form-control" name="tanggalTempo" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Pilih Rekening Bank:</label>
+                                    <div class="input-group"> 
+                                        <select class="form-control rekening" name="rekening"></select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <div class="form-group">
+                                    <label>Sisa Kas Bank:</label>
+                                    <div class="input-group"> 
+                                        <input type="text" class="form-control sisakasbank" name="sisakasbank" required readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Perusahaan:</label>
-                                <div class="input-group"> 
-                                    <select class="form-control perusahaanid" name="perusahaanid"></select>
-                                </div>
+                        <div class="mb-3 mt-3 table-responsive">
+                            <div class="mt-3 mb-3">
+                                <button type="button" class="btn btn-sm btn-primary btn_add_detail"><?php echo lang('add_new') ?></button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail">
+                                    <thead>
+                                        <tr class="table-active">
+                                            <th>ID</th>
+                                            <th class="text-right" style="width:50px;">Nomor Penerimaan</th>
+                                            <th class="text-right" style="width:50px;">Kode Barang</th>
+                                            <th class="text-right">Nama Barang</th>
+                                            <th class="text-right">Departemen</th>
+                                            <th class="text-right" style="width:50px;">Jumlah</th>
+                                            <th class="text-right">Subtotal</th>
+                                            <th class="text-right">Biaya Pengiriman</th>
+                                            <th class="text-center">Pajak</th>
+                                            <th class="text-center">Total Faktur</th>
+                                            <th class="text-center">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th colspan="5">Total</th>
+                                            <th class="text-right"></th>
+                                            <th class="text-right"></th>
+                                            <th class="text-right"></th>
+                                            <th class="text-right"></th>
+                                            <th class="text-right"></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
                             </div>
                         </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Pilih Rekening Bank:</label>
-                                <div class="input-group"> 
-                                    <select class="form-control rekening" name="rekening"></select>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>Sisa Kas Bank:</label>
-                                <div class="input-group"> 
-                                    <input type="text" class="form-control sisakasbank" name="sisakasbank" required readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 mt-3 table-responsive">
-                        <div class="mt-3 mb-3">
-                            <button type="button" class="btn btn-sm btn-primary btn_add_detail"><?php echo lang('add_new') ?></button>
-                        </div>
-                        <table class="table table-bordered" id="table_detail">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th class="text-right" style="width:50px;">Nomor Penerimaan</th>
-                                    <th class="text-right" style="width:50px;">Kode Barang</th>
-                                    <th class="text-right">Nama Barang</th>
-                                    <th class="text-right">Departemen</th>
-                                    <th class="text-right" style="width:50px;">Jumlah</th>
-                                    <th class="text-right">Subtotal</th>
-                                    <th class="text-right">Biaya Pengiriman</th>
-                                    <th class="text-center">Pajak</th>
-                                    <th class="text-center">Total Faktur</th>
-                                    <th class="text-center">Aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody> </tbody>
-                            <tfoot class="bg-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th colspan="5">Total</th>
-                                    <th class="text-right"></th>
-                                    <th class="text-right"></th>
-                                    <th class="text-right"></th>
-                                    <th class="text-right"></th>
-                                    <th class="text-right"></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                    <label><?php echo lang('Uang Muka') ?>:</label>
-                                    <input class="form-control um" name="um" id="a0" onkeyup="format('um'), hitungtum()">
-                                </div>
-                                <div class="row mb-3">                            
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
-                                        <div class="alert alert-danger alert-dismissible" style="display:none" id="alertjumlah">
-                                            <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                            Jumlah Total dan Jumlah Uang Muka tidak sama
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                        <label><?php echo lang('Uang Muka') ?>:</label>
+                                        <input class="form-control um" name="um" id="a0" onkeyup="format('um'), hitungtum()">
+                                    </div>
+                                    <div class="row mb-3">                            
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
+                                            <div class="alert alert-danger alert-dismissible" style="display:none" id="alertjumlah">
+                                                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                                                Jumlah Total dan Jumlah Uang Muka tidak sama
+                                            </div>
+                                            <input type="hidden" name="grandtotal" readonly id="grandtotal">
+                                            <input class="form-control tum" name="tum" readonly id="a2">
                                         </div>
-                                        <input type="hidden" name="grandtotal" readonly id="grandtotal">
-                                        <input class="form-control tum" name="tum" readonly id="a2">
+                                    </div> 
+                                    <div class="col-md-3">                       
+                                        <div class="form-group">
+                                            <label><?php echo lang('Jumlah Term') ?>:</label>
+                                            <input class="form-control jtem" name="jtem" id="a1">
+                                        </div>
                                     </div>
-                                </div> 
-                                <div class="col-md-3">                       
+                                    </div>
+                                    
                                     <div class="form-group">
-                                        <label><?php echo lang('Jumlah Term') ?>:</label>
-                                        <input class="form-control jtem" name="jtem" id="a1">
+                                        <label><?php echo lang('note') ?>:</label>
+                                        <textarea class="form-control catatan" name="catatan" rows="6"></textarea>
+                                    </div>                       
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label><?php echo lang('Term 1') ?>:</label>
+                                        <input type="text" class="form-control" name="a1" placeholder="Angsuran 1" id="a3" onkeyup="format('a3'), hitungterm(), hitungtum()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('Term 2') ?>:</label>
+                                        <input type="text" class="form-control" name="a2" placeholder="Angsuran 2" id="a4" onkeyup="format('a4'), hitungterm(), hitungtum()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('Term 3') ?>:</label>
+                                        <input type="text" class="form-control" name="a3" placeholder="Angsuran 3" id="a5" onkeyup="format('a5'), hitungterm(), hitungtum()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('Term 4') ?>:</label>
+                                        <input type="text" class="form-control" name="a4" placeholder="Angsuran 4" id="a6" onkeyup="format('a6'), hitungterm(), hitungtum()">
                                     </div>
                                 </div>
-                                </div>
-                                
-                                <div class="form-group">
-                                    <label><?php echo lang('note') ?>:</label>
-                                    <textarea class="form-control catatan" name="catatan" rows="6"></textarea>
-                                </div>                       
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label><?php echo lang('Term 1') ?>:</label>
-                                    <input type="text" class="form-control" name="a1" placeholder="Angsuran 1" id="a3" onkeyup="format('a3'), hitungterm(), hitungtum()">
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('Term 2') ?>:</label>
-                                    <input type="text" class="form-control" name="a2" placeholder="Angsuran 2" id="a4" onkeyup="format('a4'), hitungterm(), hitungtum()">
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('Term 3') ?>:</label>
-                                    <input type="text" class="form-control" name="a3" placeholder="Angsuran 3" id="a5" onkeyup="format('a5'), hitungterm(), hitungtum()">
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('Term 4') ?>:</label>
-                                    <input type="text" class="form-control" name="a4" placeholder="Angsuran 4" id="a6" onkeyup="format('a6'), hitungterm(), hitungtum()">
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label><?php echo lang('Term 5') ?>:</label>
+                                        <input type="text" class="form-control" name="a5" placeholder="Angsuran 5" id="a7" onkeyup="format('a7'), hitungterm(), hitungtum()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('Term 6') ?>:</label>
+                                        <input type="text" class="form-control" name="a6" placeholder="Angsuran 6" id="a8" onkeyup="format('a8'), hitungterm(), hitungtum()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('Term 7') ?>:</label>
+                                        <input type="text" class="form-control" name="a7" placeholder="Angsuran 7" id="a9" onkeyup="format('a9'), hitungterm(), hitungtum()">
+                                    </div>
+                                    <div class="form-group">
+                                        <label><?php echo lang('Term 8') ?>:</label>
+                                        <input type="text" class="form-control" name="a8" placeholder="Angsuran 8" id="a10" onkeyup="format('a10'), hitungterm(), hitungtum()">
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label><?php echo lang('Term 5') ?>:</label>
-                                    <input type="text" class="form-control" name="a5" placeholder="Angsuran 5" id="a7" onkeyup="format('a7'), hitungterm(), hitungtum()">
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('Term 6') ?>:</label>
-                                    <input type="text" class="form-control" name="a6" placeholder="Angsuran 6" id="a8" onkeyup="format('a8'), hitungterm(), hitungtum()">
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('Term 7') ?>:</label>
-                                    <input type="text" class="form-control" name="a7" placeholder="Angsuran 7" id="a9" onkeyup="format('a9'), hitungterm(), hitungtum()">
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('Term 8') ?>:</label>
-                                    <input type="text" class="form-control" name="a8" placeholder="Angsuran 8" id="a10" onkeyup="format('a10'), hitungterm(), hitungtum()">
-                                </div>
+                            <input type="hidden" name="detail_array" id="detail_array">
+                        <div class="text-left">
+                            <div class="btn-group">
+                                <a href="{site_url}pemesanan_pembelian" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                                <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
                             </div>
                         </div>
-                        <input type="hidden" name="detail_array" id="detail_array">
-                    <div class="text-left">
-                        <div class="btn-group">
-                            <a href="{site_url}pemesanan_pembelian" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                            <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        <!-- /.card-body -->
-        <div cl   ass="card-footer">          
-    </div>
+                    </form>
+                </div>
+            <!-- /.card-body -->
+            <div class="card-footer">          
+        </div>
+    </section>
 </div>
 
 <div id="modal_add_detail" class="modal fade">

@@ -1,22 +1,22 @@
 
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
@@ -29,29 +29,30 @@
 							<a href="{site_url}Kas_bank/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						</div>
 						<div class="card-body">
-							<table class="table table-striped index_datatable" onload="return data()">
-								<!-- <table class="table table-bordered table-striped index_datatable"> -->
-								<thead>
-									<tr class="text-center">
-										<th><?php echo lang('id') ?></th>
-										<th><?php echo lang('number') ?></th>
-										<th><?php echo lang('date') ?></th>
-										<th>Perusahaan</th>
-										<th><?php echo lang('reception') ?></th>
-										<th><?php echo lang('spending') ?></th>
-										<th><?php echo lang('Aksi') ?></th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-								<tfoot class="bg-light">
-									<tr>
-										<th class="text-right" colspan="3"><?php echo lang('total') ?></th>
-										<th class="text-right"><a1></a1></th>
-										<th class="text-right"><a2></a2></th>
-										<th></th>
-									</tr>
-								</tfoot>
-							</table>
+							<div class="table-responsive">
+								<table class="table table-xs table-striped table-borderless table-hover index_datatable" onload="return data()">
+									<thead>
+										<tr class="table-active">
+											<th><?php echo lang('id') ?></th>
+											<th><?php echo lang('number') ?></th>
+											<th><?php echo lang('date') ?></th>
+											<th>Perusahaan</th>
+											<th><?php echo lang('reception') ?></th>
+											<th><?php echo lang('spending') ?></th>
+											<th><?php echo lang('Aksi') ?></th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+									<tfoot>
+										<tr class="table-active">
+											<th class="text-right" colspan="4"><?php echo lang('total') ?></th>
+											<th class="text-right"><a1></a1></th>
+											<th class="text-right"><a2></a2></th>
+											<th></th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -143,8 +144,8 @@
                 return intVal(a) + intVal(b); 
             }, 0 );
            
-            $('a1').html(formatRupiah(String(total_penerimaan)));
-            $('a2').html(formatRupiah(String(total_pengeluaran)));
+            $('a1').html(formatRupiah(String(total_penerimaan)) + ',00');
+            $('a2').html(formatRupiah(String(total_pengeluaran)) + ',00');
         }
 	});
 

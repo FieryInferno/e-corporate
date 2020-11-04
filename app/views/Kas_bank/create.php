@@ -131,54 +131,35 @@
                                                     <tbody id="isitabel"> </tbody>
                                                 </table>
                                             </div>
-                                            <!-- <table class="table table-bordered" id="table_detail_rincian_buku_kas_umum">
-                                                <thead id="atastabel">
-                                                    <tr>
-                                                        <th><?php echo lang('ID') ?></th>
-                                                        <th><?php echo lang('') ?></th>
-                                                        <th><?php echo lang('Tipe') ?></th>
-                                                        <th><?php echo lang('date') ?></th>
-                                                        <th><?php echo lang('Nomor Aktivitas') ?></th>
-                                                        <th><?php echo lang('Penerimaan') ?></th>
-                                                        <th><?php echo lang('Pengeluaran') ?></th>
-                                                        <th><?php echo lang('Nomor Akun') ?></th>
-                                                        <th><?php echo lang('Kode Unit') ?></th>
-                                                        <th><?php echo lang('Nama Dapartemen') ?></th>
-                                                        <th><?php echo lang('Sumber Dana') ?></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="isitabel"> 
-
-                                                </tbody>
-                                            </table> -->
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="saldo_sumber_dana" role="tabpanel" aria-labelledby="custom-saldo-sumber-dana-tab">
                                         <div class="mb-3 mt-3 table-responsive">
-                                            <table class="table table-bordered" id="table_detail_rincian_saldo_sumber_dana" width="100%">
-                                                <thead id="atastabel" >
-                                                    <tr><th><?php echo lang('ID') ?></th>
-                                                        <th><?php echo lang('Nama Rekening Bank') ?></th>
-                                                        <th><?php echo lang('Saldo Awal') ?></th>
-                                                        <th><?php echo lang('Penerimaan') ?></th>
-                                                        <th><?php echo lang('Pengeluaran') ?></th>
-                                                        <th><?php echo lang('Saldo Akhir') ?></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="isitabel"> 
-                                                    
-                                                </tbody>
-                                                <tfoot>
-                                                    <tr>
-                                                        <td> ID</td>
-                                                        <td> Total</td>
-                                                        <td><div id="tot_saldo_awal"></div></td>
-                                                        <td><div id="tot_penerimaan"></div></td>
-                                                        <td><div id="tot_pengeluaran"></div></td>
-                                                        <td><div id="tot_saldo_akhir"></div></td>
-                                                    </tr>
-                                                </tfoot>
-                                            </table>
+                                            <div class="table-responsive">
+                                                <table class="table table-xs table-striped table-borderless table-hover" id="table_detail_rincian_saldo_sumber_dana" width="100%">
+                                                    <thead id="atastabel" >
+                                                        <tr class="table-active">
+                                                            <th><?php echo lang('ID') ?></th>
+                                                            <th><?php echo lang('Nama Rekening Bank') ?></th>
+                                                            <th><?php echo lang('Saldo Awal') ?></th>
+                                                            <th><?php echo lang('Penerimaan') ?></th>
+                                                            <th><?php echo lang('Pengeluaran') ?></th>
+                                                            <th><?php echo lang('Saldo Akhir') ?></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="isitabel"></tbody>
+                                                    <tfoot>
+                                                        <tr class="table-active">
+                                                            <td> ID</td>
+                                                            <td> Total</td>
+                                                            <td><div id="tot_saldo_awal"></div></td>
+                                                            <td><div id="tot_penerimaan"></div></td>
+                                                            <td><div id="tot_pengeluaran"></div></td>
+                                                            <td><div id="tot_saldo_akhir"></div></td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                     </div>
@@ -231,24 +212,24 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table" id="tabelpenjualan">
-                    <thead>
-                        <tr class="text-center">
-                            <th>&nbsp;</th>
-                            <th>Nominal Bayar</th>
-                            <th>Keterangan</th>
-                            <th>Nomor Faktur</th>
-                            <th>Kontak</th>
-                            <th>Nama Pelanggan</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                            <th>Nama Rekening Bank</th>
-                        </tr>
-                    </thead>
-                    <tbody id='list_penjualan'>
-
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelpenjualan">
+                        <thead>
+                            <tr class="table-active">
+                                <th>&nbsp;</th>
+                                <th>Nominal Bayar</th>
+                                <th>Keterangan</th>
+                                <th>Nomor Faktur</th>
+                                <th>Kontak</th>
+                                <th>Nama Pelanggan</th>
+                                <th>Tanggal</th>
+                                <th>Nominal</th>
+                                <th>Nama Rekening Bank</th>
+                            </tr>
+                        </thead>
+                        <tbody id='list_penjualan'></tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
@@ -656,7 +637,8 @@
 <!-- End: Modal -->
 
 <script type="text/javascript">
-    var base_url = '{site_url}Kas_bank/';
+    var base_url    = '{site_url}Kas_bank/';
+    var saldoSumberData;
     $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
         return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
     })
@@ -697,8 +679,9 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        getPiutang();
-        getHutang();
+        // getPiutang();
+        // getHutang();
+        getSaldoSumberDana();
     })
 
     //combobox nama penerima/pejabat
@@ -721,8 +704,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        getPiutang();
-        getHutang();
+        // getPiutang();
+        // getHutang();
     })
 
 
@@ -772,7 +755,7 @@
             {targets: [1,2,3,4,7,8,9,10] },
             {targets: [5,6], className: 'text-right'}
         ],
-         footerCallback: function ( row, data, start, end, display ) {
+        footerCallback: function ( row, data, start, end, display ) {
             var api = this.api(), data;
             var intVal = function ( i ) {
                 return typeof i === 'string' ?
@@ -787,7 +770,7 @@
             pengeluaran = api.column(6).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
-           
+
             $('#penerimaan').val(formatRupiah(String(penerimaan)) + ',00')
             $('#pengeluaran').val(formatRupiah(String(pengeluaran)) + ',00')
             
@@ -805,7 +788,7 @@
             {targets: [1], className: 'text-left'},
             {targets: [2,3,4,5], className: 'text-right'}
         ],
-         footerCallback: function ( row, data, start, end, display ) {
+        footerCallback: function ( row, data, start, end, display ) {
             var api = this.api(), data;
             var intVal = function ( i ) {
                 return typeof i === 'string' ?
@@ -825,7 +808,7 @@
             tot_saldo_akhir = api.column(5).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
-           
+
             $('#tot_saldo_awal').html(formatRupiah(String(tot_saldo_awal)) + ',00');
             $('#tot_penerimaan').html(formatRupiah(String(tot_penerimaan)) + ',00');
             $('#tot_pengeluaran').html(formatRupiah(String(tot_pengeluaran)) + ',00');
@@ -1023,7 +1006,7 @@
                     }
                     for (let i = 0; i < jumlah; i++) {
                         tabelpenjualan.row.add([
-                            `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${response[index].total}" data-namaakun="" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);">`,
+                            `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${response[index].total}" data-namaakun="" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}">`,
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
@@ -1256,6 +1239,37 @@
         })
     }
 
+    function getSaldoSumberDana() {
+        var idPerusahaan    = $('select[name=perusahaan]').val();
+        var tanggal         = $('input[name=tanggal]').val();
+        $.ajax({
+            type    : 'get',
+            data    : {
+                perusahaan  : idPerusahaan,
+                tanggal     : tanggal
+            },
+            url     : base_url  + '/getSaldoSumberDana',
+            beforeSend: function() {
+                pageBlock();
+            },
+            success : function (response) {
+                unpageBlock();
+                saldoSumberDana = response;
+                for (let index = 0; index < response.length; index++) {
+                    rek    = response[index];
+                    table_detail_SSD.row.add([
+                        rek.id,
+                        rek.nama,
+                        formatRupiah(String(rek.totalSaldo)) + ',00',
+                        `0,00`,
+                        `0,00`,
+                        `0,00`
+                    ]).draw();
+                }
+            }
+        })
+    }
+
     function getHutang() {
         var idPerusahaan    = $('select[name=perusahaan]').val();
         var tgl             = $('input[name=tanggal]').val();
@@ -1306,14 +1320,25 @@
         const namadepartemen = $(elem).attr('data-namadepartemen');
         const namabank = $(elem).attr('data-namabank');
         const norekening = $(elem).attr('data-norekening');
+        const idRekening    = $(elem).attr('idRekening');
+        for (let index = 0; index < saldoSumberDana.length; index++) {
+            const element = saldoSumberDana[index];
+            if (idRekening == element.id) {
+                row = index;
+                break;
+            }
+        }
+        var data          = table_detail_SSD.row(row).data();
+        var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
+        var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;
 
         if ( tipe == 'Penjualan'){
             const stat = $(elem).is(":checked");
-            const table = $('#isitabel');       
+            const table = $('#isitabel');     
             if (stat) {
                 table_detail.row.add([
                     `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="button_JUAL${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+                    `<button type="button" class="btn btn-danger delete_detail" id="button_JUAL${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
@@ -1324,7 +1349,9 @@
                     `${namadepartemen}`,
                     `${namabank} ${norekening}`
                 ]).draw(false);
+                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {
+                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
                 var rowindex=$('#button_JUAL'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }
@@ -1332,9 +1359,9 @@
             const stat = $(elem).is(":checked");
             const table = $('#isitabel');       
             if (stat) {
-               table_detail.row.add([
+                table_detail.row.add([
                     `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="button_BELI${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+                    `<button type="button" class="btn btn-danger delete_detail" id="button_BELI${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
@@ -1345,7 +1372,9 @@
                     `${namadepartemen}`,
                     `${namabank} ${norekening}`
                 ]).draw(false);
+                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
             } else {
+                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
                 var rowindex=$('#button_BELI'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }
@@ -1456,6 +1485,15 @@
                 table_detail.row(rowindex).remove().draw();
             }
         }
+        saldoAkhir  = formatRupiah(String(parseInt(data[2].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(pengeluaran) - parseInt(penerimaan))) + ',00';
+        table_detail_SSD.row(row).data([
+            data[0],
+            data[1],
+            data[2],
+            formatRupiah(String(penerimaan)) + ',00',
+            formatRupiah(String(pengeluaran)) + ',00',
+            saldoAkhir
+        ]).draw();
         detail_array();
         hitungTotalPengeluaranPemindahbukuan();
     }
@@ -1463,9 +1501,24 @@
     function hapus_data(elem) {
         const id = $(elem).attr('data-id');
         const tipe = $(elem).attr('data-tipe');
+        const idRekening    = $(elem).attr('idRekening');
+        for (let index = 0; index < saldoSumberDana.length; index++) {
+            const element = saldoSumberDana[index];
+            if (idRekening == element.id) {
+                row = index;
+                break;
+            }
+        }
+        var data          = table_detail_SSD.row(row).data();
+        var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
+        var pengeluaran = data[4].toString().replace(/([\.]|,00)/g, '')*1;
+        const nominal   = $(elem).attr('nominal');         
+
         if(tipe == 'Penjualan'){
+            pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
             document.getElementById("checkbox_JUAL"+id).checked = false;
         }else if(tipe == 'Pembelian'){
+            penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
             document.getElementById("checkbox_BELI"+id).checked = false;
         }else if(tipe == 'Budget Event'){
             document.getElementById("checkbox_BE"+id).checked = false;
@@ -1483,7 +1536,20 @@
             document.getElementById("checkbox_RB"+id).checked = false;
         }else if(tipe == 'Deposito'){
             document.getElementById("checkbox_DEPO"+id).checked = false;
+        }else if(tipe == 'Saldo Awal Piutang'){
+            document.getElementById("checkboxPiutang"+id).checked = false;
+        }else if(tipe == 'Saldo Awal Hutang'){
+            document.getElementById("checkboxHutang"+id).checked = false;
         }  
+        saldoAkhir  = formatRupiah(String(parseInt(data[2].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(pengeluaran) - parseInt(penerimaan))) + ',00';
+        table_detail_SSD.row(row).data([
+            data[0],
+            data[1],
+            data[2],
+            formatRupiah(String(penerimaan)) + ',00',
+            formatRupiah(String(pengeluaran)) + ',00',
+            saldoAkhir
+        ]).draw();
     }
 
     $('#table_detail_rincian_buku_kas_umum tbody').on('click','.delete_detail',function(){

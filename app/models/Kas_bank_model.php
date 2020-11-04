@@ -15,6 +15,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Kas_bank_model extends CI_Model {
 
 	private $idkasbank;
+	private $perusahaan;
+	private $tanggal;
 
 	function get_kodeperusahaan($id){
         $query = $this->db->get_where('mperusahaan', array('idperusahaan' => $id));
@@ -165,6 +167,71 @@ class Kas_bank_model extends CI_Model {
 	private function get($jenis)
 	{
 		return $this->$jenis;
+	}
+
+	public function getSaldoSumberDana()
+	{
+		$this->db->select('nama, id, akunno');
+		$rekening	= $this->db->get_where('mrekening', [
+			'perusahaan'	=> $this->perusahaan
+		])->result_array();
+		$no	= 0;
+		foreach ($rekening as $key) {
+			$idRekening		= $key['id'];
+			$pemetaanAkun	= $this->db->get_where('tPemetaanAkun', [
+				'kodeAkun'	=> $key['akunno']
+			])->row_array();
+			$totalSaldo	= 0;
+			if ($pemetaanAkun) {
+				$saldoKodeAkun	= $this->db->get_where('tsaldoawaldetail', [
+					'noakun'	=> $pemetaanAkun['kodeAkun']
+				])->result_array();
+				$saldoKodeAkun1	= $this->db->get_where('tsaldoawaldetail', [
+					'noakun'	=> $pemetaanAkun['kodeAkun1']
+				])->result_array();
+				$saldoKodeAkun2	= $this->db->get_where('tsaldoawaldetail', [
+					'noakun'	=> $pemetaanAkun['kodeAkun2']
+				])->result_array();
+				$saldoKodeAkun3	= $this->db->get_where('tsaldoawaldetail', [
+					'noakun'	=> $pemetaanAkun['kodeAkun3']
+				])->result_array();
+				foreach ($saldoKodeAkun as $key) {
+					$totalSaldo	+= $key['debet'];
+				}
+				foreach ($saldoKodeAkun1 as $key) {
+					$totalSaldo	+= $key['debet'];
+				}
+				foreach ($saldoKodeAkun2 as $key) {
+					$totalSaldo	+= $key['debet'];
+				}
+				foreach ($saldoKodeAkun3 as $key) {
+					$totalSaldo	+= $key['debet'];
+				}
+			}
+			$penerimaan	=	$this->db->get_where('tfakturpenjualan', [
+				'idperusahaan'	=> $this->perusahaan,
+				'tanggal <='	=> $this->tanggal,
+				'rekening'		=> $idRekening 
+			])->result_array();
+			if ($penerimaan) {
+				foreach ($penerimaan as $terima) {
+					$totalSaldo	+= $terima['total'];
+				}
+			}
+			$pengeluaran	= $this->db->get_where('tfaktur', [
+				'perusahaanid'	=> $this->perusahaan,
+				'tanggal <='	=> $this->tanggal,
+				'bank'			=> $idRekening
+			])->result_array();
+			if ($pengeluaran) {
+				foreach ($pengeluaran as $keluar) {
+					$totalSaldo	-= $keluar['total'];
+				}
+			}
+			$rekening[$no]['totalSaldo']	= $totalSaldo;
+			$no++;
+		}
+		return $rekening;
 	}
 }
 

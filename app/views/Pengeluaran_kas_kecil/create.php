@@ -99,33 +99,35 @@
                             <div class="mt-3 mb-3" id="btn_add_detail">
                                 <button type="button" class="btn btn-sm btn-primary btn_add_detail"><?php echo lang('Tambah Biaya') ?></button>
                             </div>
-                            <table class="table table-bordered" id="table_detail">
-                                <thead class="{bg_header}">
-                                    <tr>
-                                        <th>ID</th>
-                                        <th><?php echo lang('item') ?></th>
-                                        <th class="text-right"><?php echo lang('price') ?></th>
-                                        <th class="text-right"><?php echo lang('qty') ?></th>
-                                        <th class="text-right"><?php echo lang('subtotal') ?></th>
-                                        <th class="text-right"><?php echo lang('discount') ?></th>
-                                        <th class="text-right"><?php echo lang('Pajak') ?></th>
-                                        <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
-                                        <th class="text-right"><?php echo lang('No akun') ?></th>
-                                        <th class="text-right"><?php echo lang('total') ?></th>
-                                        <th class="text-right"><?php echo lang('sisa pagu item') ?></th>
-                                        <th class="text-center"><?php echo lang('action') ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody> </tbody>
-                                <tfoot class="bg-light">
-                                    <tr>
-                                        <th colspan="9"><?php echo lang('total') ?></th>
-                                        <th class="text-right"><total></total></th>
-                                        <th class="text-center">&nbsp;</th>
-                                        <th></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
+                            <div class="table-responsive">
+                                <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail">
+                                    <thead>
+                                        <tr class="table-active">
+                                            <th>ID</th>
+                                            <th><?php echo lang('item') ?></th>
+                                            <th class="text-right"><?php echo lang('price') ?></th>
+                                            <th class="text-right"><?php echo lang('qty') ?></th>
+                                            <th class="text-right"><?php echo lang('subtotal') ?></th>
+                                            <th class="text-right"><?php echo lang('discount') ?></th>
+                                            <th class="text-right"><?php echo lang('Pajak') ?></th>
+                                            <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
+                                            <th class="text-right"><?php echo lang('No akun') ?></th>
+                                            <th class="text-right"><?php echo lang('total') ?></th>
+                                            <th class="text-right"><?php echo lang('sisa pagu item') ?></th>
+                                            <th class="text-center"><?php echo lang('action') ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot class="bg-light">
+                                        <tr>
+                                            <th colspan="9"><?php echo lang('total') ?></th>
+                                            <th class="text-right"><total></total></th>
+                                            <th class="text-center">&nbsp;</th>
+                                            <th></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
                         </div>
                         <input type="hidden" name="detail_array" id="detail_array">
 

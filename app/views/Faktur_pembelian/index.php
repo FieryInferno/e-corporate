@@ -27,35 +27,37 @@
 							<a href="{site_url}faktur_pembelian/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						</div>
 						<div class="card-body">
-							<table class="table table-bordered table-striped index_datatable">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th><?php echo lang('notrans') ?></th>
-										<th>Perusahaan</th>
-										<th><?php echo lang('date') ?></th>
-										<th><?php echo lang('supplier') ?></th>
-										<th><?php echo lang('warehouse') ?></th>
-										<th>Biaya Pengiriman</th>
-										<th>Pajak</th>
-										<th><?php echo lang('total') ?></th>
-										<th><?php echo lang('status') ?></th>
-										<th>Setup Jurnal</th>
-										<th>Aksi</th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-								<tfoot>
-									<tr>
-										<th colspan="6" class="text-right">Total</th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-										<th></th>
-									</tr>
-								</tfoot>
-							</table>
+							<div class="table-responsive">
+								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
+									<thead>
+										<tr class="table-active">
+											<th>ID</th>
+											<th><?php echo lang('notrans') ?></th>
+											<th>Perusahaan</th>
+											<th><?php echo lang('date') ?></th>
+											<th><?php echo lang('supplier') ?></th>
+											<th><?php echo lang('warehouse') ?></th>
+											<th>Biaya Pengiriman</th>
+											<th>Pajak</th>
+											<th><?php echo lang('total') ?></th>
+											<th><?php echo lang('status') ?></th>
+											<th>Setup Jurnal</th>
+											<th>Aksi</th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+									<tfoot>
+										<tr>
+											<th colspan="6" class="text-right">Total</th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+											<th></th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>

@@ -69,7 +69,8 @@ class Faktur_pembelian_model extends CI_Model {
 			'bank'			    => $this->input->post('rekening'),
 			'ppn'				=> $pajak,
 			'biayaPengiriman'	=> $biayapengiriman,
-			'setupJurnal'		=> $this->input->post('setupJurnal')
+			'setupJurnal'		=> $this->input->post('setupJurnal'),
+			'tanggaltempo'		=> $this->input->post('tanggalTempo')
 		]);
 		if($insert) {
 			$i  = 0;

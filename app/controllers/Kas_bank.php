@@ -14,12 +14,16 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Kas_bank extends User_Controller
 {
     private $idKasBank;
+    private $perusahaan;
+    private $tanggal;
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Kas_bank_model', 'model');
         $this->set('idKasBank', $this->input->post('idKasBank'));
+        $this->perusahaan   = $this->input->get('perusahaan');
+        $this->tanggal      = $this->input->get('tanggal');
     }
 
     public function index()
@@ -190,7 +194,7 @@ class Kas_bank extends User_Controller
 
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, tpemesananpenjualandetail.akunno, mperusahaan.kode, mdepartemen.nama as namaDepartemen, rekanan.nama as rekanan');
+        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, tpemesananpenjualandetail.akunno, mperusahaan.kode, mdepartemen.nama as namaDepartemen, rekanan.nama as rekanan, mrekening.id as idRekening');
         $this->db->join('tpengirimanpenjualan','tfakturpenjualan.pengirimanid=tpengirimanpenjualan.id');
         $this->db->join('tpemesananpenjualan','tpengirimanpenjualan.pemesananid=tpemesananpenjualan.id');
         $this->db->join('tpemesananpenjualanangsuran','tpemesananpenjualan.id=tpemesananpenjualanangsuran.idpemesanan');
@@ -287,5 +291,13 @@ class Kas_bank extends User_Controller
     private function get($jenis)
 	{
 		return $this->$jenis;
-	}
+    }
+    
+    public function getSaldoSumberDana()
+    {
+        $this->model->set('perusahaan', $this->perusahaan);
+        $this->model->set('tanggal', $this->tanggal);
+        $data   = $this->model->getSaldoSumberDana();
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
 }
