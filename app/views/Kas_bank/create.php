@@ -679,8 +679,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        // getPiutang();
-        // getHutang();
+        getPiutang();
+        getHutang();
         getSaldoSumberDana();
     })
 
@@ -704,8 +704,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        // getPiutang();
-        // getHutang();
+        getPiutang();
+        getHutang();
     })
 
 
@@ -1263,7 +1263,7 @@
                         formatRupiah(String(rek.totalSaldo)) + ',00',
                         `0,00`,
                         `0,00`,
-                        `0,00`
+                        formatRupiah(String(rek.totalSaldo)) + ',00'
                     ]).draw();
                 }
             }
@@ -1485,7 +1485,7 @@
                 table_detail.row(rowindex).remove().draw();
             }
         }
-        saldoAkhir  = formatRupiah(String(parseInt(data[2].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(pengeluaran) - parseInt(penerimaan))) + ',00';
+        saldoAkhir  = formatRupiah(String(parseInt(data[2].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(pengeluaran) + parseInt(penerimaan))) + ',00';
         table_detail_SSD.row(row).data([
             data[0],
             data[1],
@@ -1541,7 +1541,7 @@
         }else if(tipe == 'Saldo Awal Hutang'){
             document.getElementById("checkboxHutang"+id).checked = false;
         }  
-        saldoAkhir  = formatRupiah(String(parseInt(data[2].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(pengeluaran) - parseInt(penerimaan))) + ',00';
+        saldoAkhir  = formatRupiah(String(parseInt(data[2].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(pengeluaran) - parseInt(penerimaan))) + ',00';
         table_detail_SSD.row(row).data([
             data[0],
             data[1],
