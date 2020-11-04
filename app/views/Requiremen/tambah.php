@@ -377,6 +377,7 @@
                         <td>${kode_akun}</td>
                         <td>${nama_akun}</td>
                         <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak"></td>
+                        <td><input type="checkbox" name="pengurangan" id="pengurangan${no}${id}"></td>
                     </tr>`;
 			table.append(html);
 		} else {
@@ -388,9 +389,16 @@
     function total_pajak(id, no) {
         var formData    = new FormData($('#form_pajak'+id)[0]);
         var pajak       = formData.getAll('pajak');
+        var pengurangan = formData.getAll('pengurangan');
         var pajak_baru  = 0;
+        var no          = 0;
         pajak.forEach(p => {
-            pajak_baru  += parseInt(p.replace(/[Rp.]/g, ''));
+            if (pengurangan[no] == 'on') {
+                pajak_baru  -= parseInt(p.replace(/[Rp.]/g, ''));
+            } else {
+                pajak_baru  += parseInt(p.replace(/[Rp.]/g, ''));
+            }
+            no++;
         });
         $('#total_pajak'+id).val(pajak_baru);
         $('#modal_pajak'+id).modal('hide');
@@ -690,10 +698,11 @@
                                                 <table class="table table-xs table-striped table-borderless table-hover" style="width:100%" id="pajak">
                                                     <thead>
                                                         <tr class="table-active">
-                                                            <th class="text-right">Nama Pajak</th>
-                                                            <th class="text-right">Kode Akun</th>
-                                                            <th class="text-right">Nama Akun</th>
-                                                            <th class="text-right">Nominal</th>
+                                                            <th>Nama Pajak</th>
+                                                            <th>Kode Akun</th>
+                                                            <th>Nama Akun</th>
+                                                            <th>Nominal</th>
+                                                            <th>Pengurangan</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="isi_tbody_pajak${index}${no}"></tbody>
