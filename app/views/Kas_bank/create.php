@@ -250,22 +250,22 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table" id="tabelpembelian">
-                    <thead>
-                        <tr class="text-center">
-                            <th>&nbsp;</th>
-                            <th>Nominal Bayar</th>
-                            <th>keterangan</th>
-                            <th>Nomor Faktur</th>
-                            <th>Kontak</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody id='list_pembelian'>
-
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelpembelian">
+                        <thead>
+                            <tr class="table-active">
+                                <th>&nbsp;</th>
+                                <th>Nominal Bayar</th>
+                                <th>keterangan</th>
+                                <th>Nomor Faktur</th>
+                                <th>Kontak</th>
+                                <th>Tanggal</th>
+                                <th>Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody id='list_pembelian'></tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
@@ -679,8 +679,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        getPiutang();
-        getHutang();
+        // getPiutang();
+        // getHutang();
         getSaldoSumberDana();
     })
 
@@ -704,8 +704,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        getPiutang();
-        getHutang();
+        // getPiutang();
+        // getHutang();
     })
 
 
@@ -1083,7 +1083,7 @@
                     }
                     for (let i = 0; i < jumlah; i++) {
                         tabelpembelian.row.add([
-                            `<input type="checkbox" id="checkbox_JUAL${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${element.total}" data-namaakun="" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaBank}" data-norekening="${element.norek}" onchange="save_detail(this);">`,
+                            `<input type="checkbox" id="checkbox_BELI${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${element.total}" data-namaakun="" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaBank}" data-norekening="${element.norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}">`,
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
