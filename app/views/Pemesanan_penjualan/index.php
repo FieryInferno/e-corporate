@@ -27,22 +27,31 @@
 							<a href="{site_url}Pemesanan_penjualan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						</div>
 						<div class="card-body">
-							<table class="table table-bordered table-striped index_datatable">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th><?php echo lang('notrans') ?></th>
-										<th><?php echo lang('note') ?></th>
-										<th><?php echo lang('date') ?></th>
-										<th><?php echo lang('supplier') ?></th>
-										<th><?php echo lang('warehouse') ?></th>
-										<th>Nominal Total</th>
-										<th><?php echo lang('status') ?></th>
-										<th><?php echo lang('Aksi') ?></th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
+							<div class="table-responsive">
+								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
+									<thead>
+										<tr class="table-active">
+											<th>ID</th>
+											<th><?php echo lang('notrans') ?></th>
+											<th><?php echo lang('note') ?></th>
+											<th><?php echo lang('date') ?></th>
+											<th><?php echo lang('supplier') ?></th>
+											<th><?php echo lang('warehouse') ?></th>
+											<th>Nominal Total</th>
+											<th><?php echo lang('status') ?></th>
+											<th><?php echo lang('Aksi') ?></th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+									<tfoot>
+										<tr class="table-active">
+											<th class="text-right" colspan="6">Total</th>
+											<th class="text-right"></th>
+											<th class="text-right" colspan="2"></th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -84,7 +93,7 @@
 			{	
 				data: 'total',
 				render: function(data,type,row) {
-					var total=`<div class="text-right">`+formatRupiah(data)+`</div>`;
+					var total=`<div class="text-right">`+formatRupiah(data)+`',00</div>`;
 					return total;
 				}
 			},
@@ -127,7 +136,23 @@
 					return aksi;
 				}
 			},
-        ]
+        ],
+		footerCallback: function ( row, data, start, end, display ) {
+            var api = this.api(), data;
+            var intVal = function ( i ) {
+                return typeof i === 'string' ?
+                    i.replace(/[\Rp.]/g, '').replace(/,00/g, '')*1 :
+                    typeof i === 'number' ?
+                        i : 0;
+            };
+
+            total = api.column(6).data().reduce( function (a, b) {
+                return intVal(a) + intVal(b); 
+            }, 0 );
+			$( api.column( 6 ).footer() ).html(
+				formatRupiah(String(total))+',00'
+			);
+        }
 	});
 
 

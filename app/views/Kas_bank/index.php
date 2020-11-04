@@ -43,9 +43,9 @@
 									<tbody></tbody>
 									<tfoot>
 										<tr class="table-active">
-											<th class="text-right" colspan="4"><?php echo lang('total') ?></th>
-											<th class="text-right"><a1></a1></th>
-											<th class="text-right"><a2></a2></th>
+											<th class="text-right" colspan="4">Total</th>
+											<th class="text-right"></th>
+											<th class="text-right"></th>
 											<th></th>
 										</tr>
 									</tfoot>
@@ -126,7 +126,6 @@
 			}
         ],
         footerCallback: function ( row, data, start, end, display ) {
-
             var api = this.api(), data;
             var intVal = function ( i ) {
                 return typeof i === 'string' ?
@@ -135,15 +134,18 @@
                         i : 0;
             };
 
-            total_penerimaan = api.column(3).data().reduce( function (a, b) {
+            total_penerimaan = api.column(4).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
-            total_pengeluaran = api.column(4).data().reduce( function (a, b) {
+            total_pengeluaran = api.column(5).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
-           
-            $('a1').html(formatRupiah(String(total_penerimaan)) + ',00');
-            $('a2').html(formatRupiah(String(total_pengeluaran)) + ',00');
+			$( api.column( 4 ).footer() ).html(
+				formatRupiah(String(total_penerimaan))+',00'
+			);
+			$( api.column( 5 ).footer() ).html(
+				formatRupiah(String(total_pengeluaran))+',00'
+			);
         }
 	});
 

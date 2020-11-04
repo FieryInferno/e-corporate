@@ -43,8 +43,8 @@ class Kas_bank_model extends CI_Model {
 			$this->db->set('perusahaan',$this->input->post('perusahaan'));
 			$this->db->set('pejabat',$this->input->post('pejabat'));
 			$this->db->set('tanggal',$this->input->post('tanggal'));
-			$this->db->set('penerimaan',preg_replace("/[^0-9]/", "", $this->input->post('penerimaan')));
-			$this->db->set('pengeluaran',preg_replace("/[^0-9]/", "", $this->input->post('pengeluaran')));
+			$this->db->set('penerimaan', preg_replace("/(,00|[^0-9])/", "", $this->input->post('penerimaan')));
+			$this->db->set('pengeluaran', preg_replace("/(,00|[^0-9])/", "", $this->input->post('pengeluaran')));
 			$this->db->set('keterangan',$this->input->post('keterangan'));
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));

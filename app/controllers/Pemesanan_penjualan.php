@@ -265,10 +265,9 @@ class Pemesanan_penjualan extends User_Controller
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
             $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mnoakun.akunno as koderekening');
-            $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid');
-            $this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun');
+            $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid', 'left');
+            $this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun', 'left');
             $this->db->where('tstokmasuk.gudangid', $idgudang);
-            $this->db->where('mitem.stdel', '0');
             $this->db->group_by('tstokmasuk.itemid');
             if ($term) {
                 $this->db->like('mitem.nama', $term);
@@ -329,23 +328,6 @@ class Pemesanan_penjualan extends User_Controller
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         }
     }
-
-
-    // public function select2_item($id = null) {
-    //  $term = $this->input->get('q');
-    //  if($id) {
-    //      $this->db->select('mitem.id, mitem.nama as text');
-    //      $data = $this->db->where('id', $id)->get('mitem')->row_array();
-    //      $this->output->set_content_type('application/json')->set_output(json_encode($data));
-    //  } else {
-    //      $this->db->select('mitem.id, mitem.nama as text');
-    //      $this->db->where('mitem.stdel', '0');
-    //      $this->db->limit(10);
-    //      if($term) $this->db->like('mitem.nama', $term);
-    //      $data = $this->db->get('mitem')->result_array();
-    //      $this->output->set_content_type('application/json')->set_output(json_encode($data));
-    //  }
-    // }
 
     public function select2_kontak($id = null)
     {

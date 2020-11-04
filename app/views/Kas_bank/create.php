@@ -1581,31 +1581,30 @@
     function save() {
         var form = $('#form1')[0];
         var formData = new FormData(form);
-       
-            $.ajax({
-                url: base_url + 'save',
-                dataType: 'json',
-                method: 'post',
-                data: formData,
-                contentType: false,
-                processData: false,
-                beforeSend: function() {
-                    pageBlock();
-                },
-                afterSend: function() {
-                    unpageBlock();
-                },
-                success: function(data) {
-                     if(data.status == 'success') {
+        $.ajax({
+            url: base_url + 'save',
+            dataType: 'json',
+            method: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                pageBlock();
+            },
+            afterSend: function() {
+                unpageBlock();
+            },
+            success: function(data) {
+                if(data.status == 'success') {
                     swal("Berhasil!", "Berhasil Menambah Data", "success");
                     redirect(base_url);
                 } else {
                     swal("Gagal!", "Gagal Menambah Data", "error");
                 }
-                },
-                error: function() {
-                     swal("Gagal!", "Internal Server Error", "error");
-                }
-            })
+            },
+            error: function() {
+                swal("Gagal!", "Internal Server Error", "error");
+            }
+        })
     }
 </script>
