@@ -95,7 +95,7 @@
                 data   : 'noSSP',
                 render  : function (data, type, row) {
                     return `<form action="{site_url}SetorPajak/detail" method="post">
-                                <input type="hidden" value="${row.idpajakPemesananPenjualan}">
+                                <input type="hidden" value="${row.idPajakPemesananPenjualan}" name="idPajakPemesananPenjualan">
                                 <input type="submit" class="btn btn-sm btn-info" value="${data}">
                             </form>`;
                 }

@@ -30,33 +30,6 @@
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6 text-left">
-                            
-                            <div class="btn-group">
-                                <?php if ($this->model->getjumlahsisa($id) > 0): ?>
-                                    <a href="{site_url}Retur_penjualan/create?idfaktur={id}" class="btn btn-outline-primary"> 
-                                        <?php echo lang('return') ?> 
-                                    </a>
-                                <?php endif ?>
-                                <?php if ($status !== '3'): ?>
-                                    <a href="{site_url}Pembayaran_penjualan/create?idfaktur={id}" class="btn btn-outline-primary">
-                                        <?php echo lang('payment') ?>
-                                    </a>
-                                <?php endif ?>
-                            </div>
-                        </div>
-                        <div class="col-md-6 text-right">
-                            <?php if ($status == '1'): ?>
-                                <h1 class="text-danger font-weight-bold text-uppercase"><?php echo lang('pending') ?></h1>
-                            <?php elseif ($status == '2'): ?>
-                                <h1 class="text-warning font-weight-bold text-uppercase"><?php echo lang('partial') ?></h1>
-                            <?php else: ?>
-                                <h1 class="text-success font-weight-bold text-uppercase"><?php echo lang('done') ?></h1>
-                            <?php endif ?>
-                        </div>
-                    </div>
-                    <hr>
                     <div class="row">
                         <div class="col-md-6">
                             <table class="table">
@@ -71,11 +44,11 @@
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('supplier') ?></td>
-                                        <td class="font-weight-bold"><?php echo $kontak['nama'] ?></td>
+                                        <td class="font-weight-bold">{kontak}</td>
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('warehouse') ?></td>
-                                        <td class="font-weight-bold"><?php echo $gudang['nama'] ?></td>
+                                        <td class="font-weight-bold">{gudang}</td>
                                     </tr>
                                     <tr>
                                         <td><?php echo lang('note') ?></td>
@@ -118,21 +91,13 @@
                                     <td class="text-right font-weight-bold"><?= number_format($total, 2, ',','.') ?></td>
                                 </tr>
                                 <?php if ($totalretur > 0): ?>
-                                     <tr>
+                                    <tr>
                                         <td><?php echo lang('Total_Retur') ?></td>
                                         <td class="text-right font-weight-bold">(<?= number_format($totalretur, 2, ',','.') ?>)</td>
                                     </tr>
                                 <?php endif ?>
-                                <tr>
-                                    <td><?php echo lang('Sudah_Dibayar') ?></td>
-                                    <td class="text-right font-weight-bold">(<?= number_format($totaldibayar, 2, ',','.') ?>)</td>
-                                </tr>
-                                <tr class="bg-light">
-                                    <td><?php echo lang('Sisa_Tagihan') ?></td>
-                                    <td class="text-right font-weight-bold"><?= number_format($sisatagihan, 2, ',','.') ?></td>
-                                </tr>
                                 <?php if ($totalkreditmemo > 0): ?>
-                                     <tr>
+                                    <tr>
                                         <td class="font-weight-bold"><?php echo lang('Total_Kredit_Memo') ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalkreditmemo, 2, ',','.') ?></td>
                                     </tr>
@@ -159,29 +124,7 @@
                                             <th class="text-right"><?php echo lang('total') ?></th>
                                         </tr>
                                     </thead>
-                                    <tbody>
-                                        <?php $grandtotal = 0; ?>
-                                        <?php foreach ($fakturdetail as $row): ?>
-                                            <?php $grandtotal = $row['total'] + $grandtotal ?>
-                                            <tr>
-                                                <td><?php echo $row['item'] ?></td>
-                                                <td class="text-right"><?= number_format($row['harga'], 2, ',','.') ?></td>
-                                                <td class="text-right"><?php echo number_format($row['jumlah']) ?></td>
-                                                <td class="text-right"><?= number_format($row['subtotal'], 2, ',','.') ?></td>
-                                                <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                                                <td class="text-right"><?= number_format($row['ppn'], 2, ',','.') ?></td>
-                                                <td class="text-right"><?= number_format($row['biaya_pengiriman'], 2, ',','.') ?></td>
-                                                <td class="text-right"><?= $row['akunno']; ?></td>
-                                                <td class="text-right"><?= number_format($row['total'], 2, ',','.') ?></td>
-                                            </tr>
-                                        <?php endforeach ?>
-                                    </tbody>
-                                    <tfoot>
-                                        <tr class="table-active">
-                                            <td class="font-weight-bold text-right" colspan="8"><?php echo lang('grand_total') ?></td>
-                                            <td class="font-weight-bold text-right"><?= number_format($grandtotal, 2, ',','.') ?></td>
-                                        </tr>
-                                    </tfoot>
+                                    <tbody></tbody>
                                 </table>
                             </div>
                         </div>
