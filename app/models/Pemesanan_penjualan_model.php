@@ -17,9 +17,8 @@ class Pemesanan_penjualan_model extends CI_Model {
 	public function save() {
 		$data_array_item = $this->input->post('detail_array_item');
 		$data_array_item = json_decode($data_array_item);
-		$total_item = preg_replace("/[^0-9]/", "",$this->input->post('total_penjualan'));
-		$total_uangmukaterm = preg_replace("/[^0-9]/", "",$this->input->post('tum'));
-
+		$total_item			= preg_replace("/(Rp. |,00|[^0-9])/", "",$this->input->post('total_penjualan'));
+		$total_uangmukaterm = preg_replace("/(Rp. |,00|[^0-9])/", "",$this->input->post('tum'));
 		if ($data_array_item == ''){
 			$data['status'] = 'error';
 			$data['message'] = "Silahkan isi detail terlebih dulu!";
@@ -66,21 +65,33 @@ class Pemesanan_penjualan_model extends CI_Model {
 
 					$no	= 0;
 					foreach($data_array_item as $row => $value) {
+						$idDetailPemesananPenjualan	= uniqid('PEM-JUAL-DET'); 
 						$this->db->insert('tpemesananpenjualandetail', [
-							'id'			=> uniqid('PEM-JUAL-DET'),
+							'id'			=> $idDetailPemesananPenjualan,
 							'idpemesanan'	=> $id_pemesanan,
 							'itemid'		=> $value[0],
-							'harga'			=> preg_replace("/[^0-9]/", "", $this->input->post('harga')[$no]),
+							'harga'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga')[$no]),
 							'jumlah'		=> $this->input->post('jumlah')[$no],
 							'status'		=> '4',
 							'diskon'		=> $this->input->post('diskon')[$no],
-							'ppn'			=> preg_replace("/[^0-9]/", "", $this->input->post('total_pajak')[$no]),
-							'biaya_pengiriman'=> preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman')[$no]),
+							'ppn'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total_pajak')[$no]),
+							'biaya_pengiriman'=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('biayapengiriman')[$no]),
 							'akunno'		=> $value[9],
-							'subtotal'		=> preg_replace("/[^0-9]/", "", $this->input->post('subtotal')[$no]),
-							'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('total')[$no]),
+							'subtotal'		=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('subtotal')[$no]),
+							'total'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total')[$no]),
 							'tipe'			=> $value[12],
 						]);
+						$idPajak			= explode(',', $this->input->post('idPajak')[$no]);
+						$nominal			= explode(',', $this->input->post('pajak')[$no]);
+						$pengurangan		= explode(',', $this->input->post('pengurangan')[$no]);
+						for ($i=0; $i < count($idPajak); $i++) { 
+							$this->db->insert('pajakPemesananPenjualan', [
+								'idDetailPemesananPenjualan'	=> $idDetailPemesananPenjualan,
+								'idPajak'						=> $idPajak[$i],
+								'nominal'						=> preg_replace("/(Rp. |,00|[^0-9])/", "", $nominal[$i]),
+								'pengurangan'					=> $pengurangan[$i]
+							]);
+						}
 						$no++;
 					}
 
@@ -91,13 +102,13 @@ class Pemesanan_penjualan_model extends CI_Model {
 								'idpemesanan'	=> $id_pemesanan,
 								'nokwitansi'	=> $this->input->post('nokwitansi'),
 								'idbudgetevent'	=> $value[0],
-								'harga'			=> preg_replace("/[^0-9]/", "", $this->input->post('harga1')[$no1]),
+								'harga'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga1')[$no1]),
 								'jumlah'		=> $this->input->post('jumlah1')[$no1],
-								'subtotal'		=> preg_replace("/[^0-9]/", "", $this->input->post('subtotal1')[$no1]),
+								'subtotal'		=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('subtotal1')[$no1]),
 								'diskon'		=> $this->input->post('diskon1')[$no1],
-								'ppn'			=> preg_replace("/[^0-9]/", "", $this->input->post('total_pajak1')[$no1]),
-								'biaya_pengiriman'=> preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman1')[$no1]),
-								'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('total1')[$no1]),
+								'ppn'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total_pajak1')[$no1]),
+								'biaya_pengiriman'=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('biayapengiriman1')[$no1]),
+								'total'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total1')[$no1]),
 								'tanggal'		=> $this->input->post('tanggal'),
 								'perusahaan'	=> $this->input->post('idperusahaan'),
 								'departemen'	=> $this->input->post('dept'),
@@ -115,17 +126,17 @@ class Pemesanan_penjualan_model extends CI_Model {
 					$this->db->insert('tpemesananpenjualanangsuran', [
 						'id'			=> uniqid('PEM-JUAL-ANG'),
 						'idpemesanan'	=> $id_pemesanan,
-						'uangmuka'		=> preg_replace("/[^0-9]/", "", $this->input->post('um')),
+						'uangmuka'		=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('um')),
 						'jumlahterm'	=> $this->input->post('jtem'),
-						'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('tum')),
-						'a1'			=> preg_replace("/[^0-9]/", "", $this->input->post('a1')),
-						'a2'			=> preg_replace("/[^0-9]/", "", $this->input->post('a2')),
-						'a3'			=> preg_replace("/[^0-9]/", "", $this->input->post('a3')),
-						'a4'			=> preg_replace("/[^0-9]/", "", $this->input->post('a4')),
-						'a5'			=> preg_replace("/[^0-9]/", "", $this->input->post('a5')),
-						'a6'			=> preg_replace("/[^0-9]/", "", $this->input->post('a6')),
-						'a7'			=> preg_replace("/[^0-9]/", "", $this->input->post('a7')),
-						'a8'			=> preg_replace("/[^0-9]/", "", $this->input->post('a8')),
+						'total'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('tum')),
+						'a1'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a1')),
+						'a2'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a2')),
+						'a3'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a3')),
+						'a4'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a4')),
+						'a5'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a5')),
+						'a6'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a6')),
+						'a7'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a7')),
+						'a8'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a8')),
 					]);
 
 					$data['status'] = 'success';
@@ -143,9 +154,8 @@ class Pemesanan_penjualan_model extends CI_Model {
 		
 		$data_array_item = $this->input->post('detail_array_item');
 		$data_array_item = json_decode($data_array_item);
-		$total_item = preg_replace("/[^0-9]/", "",$this->input->post('total_penjualan'));
-		$total_uangmukaterm = preg_replace("/[^0-9]/", "",$this->input->post('tum'));
-
+		$total_item			= preg_replace("/(Rp. |,00|[^0-9])/", "",$this->input->post('total_penjualan'));
+		$total_uangmukaterm = preg_replace("/(Rp. |,00|[^0-9])/", "",$this->input->post('tum'));
 		if ($data_array_item == ''){
 			$data['status'] = 'error';
 			$data['message'] = "Silahkan isi detail terlebih dulu!";
@@ -203,15 +213,15 @@ class Pemesanan_penjualan_model extends CI_Model {
 							'id'			=> uniqid('PEM-JUAL-DET'),
 							'idpemesanan'	=> $id_pemesanan,
 							'itemid'		=> $value[0],
-							'harga'			=> preg_replace("/[^0-9]/", "", $this->input->post('harga')[$no]),
+							'harga'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga')[$no]),
 							'jumlah'		=> $this->input->post('jumlah')[$no],
 							'status'		=> '4',
 							'diskon'		=> $this->input->post('diskon')[$no],
-							'ppn'			=> preg_replace("/[^0-9]/", "", $this->input->post('total_pajak')[$no]),
-							'biaya_pengiriman'=> preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman')[$no]),
+							'ppn'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total_pajak')[$no]),
+							'biaya_pengiriman'=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('biayapengiriman')[$no]),
 							'akunno'		=> $value[9],
-							'subtotal'		=> preg_replace("/[^0-9]/", "", $this->input->post('subtotal')[$no]),
-							'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('total')[$no]),
+							'subtotal'		=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('subtotal')[$no]),
+							'total'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total')[$no]),
 							'tipe'			=> $value[12],
 						]);
 						$no++;
@@ -227,13 +237,13 @@ class Pemesanan_penjualan_model extends CI_Model {
 								'idpemesanan'	=> $id_pemesanan,
 								'nokwitansi'	=> $this->input->post('nokwitansi'),
 								'idbudgetevent'	=> $value[0],
-								'harga'			=> preg_replace("/[^0-9]/", "", $this->input->post('harga1')[$no1]),
+								'harga'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga1')[$no1]),
 								'jumlah'		=> $this->input->post('jumlah1')[$no1],
-								'subtotal'		=> preg_replace("/[^0-9]/", "", $this->input->post('subtotal1')[$no1]),
+								'subtotal'		=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('subtotal1')[$no1]),
 								'diskon'		=> $this->input->post('diskon1')[$no1],
-								'ppn'			=> preg_replace("/[^0-9]/", "", $this->input->post('total_pajak1')[$no1]),
-								'biaya_pengiriman'=> preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman1')[$no1]),
-								'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('total1')[$no1]),
+								'ppn'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total_pajak1')[$no1]),
+								'biaya_pengiriman'=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('biayapengiriman1')[$no1]),
+								'total'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total1')[$no1]),
 								'tanggal'		=> $this->input->post('tanggal'),
 								'perusahaan'	=> $this->input->post('idperusahaan'),
 								'departemen'	=> $this->input->post('dept'),
@@ -254,17 +264,17 @@ class Pemesanan_penjualan_model extends CI_Model {
 					$this->db->insert('tpemesananpenjualanangsuran', [
 						'id'			=> uniqid('PEM-JUAL-ANG'),
 						'idpemesanan'	=> $id_pemesanan,
-						'uangmuka'		=> preg_replace("/[^0-9]/", "", $this->input->post('um')),
+						'uangmuka'		=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('um')),
 						'jumlahterm'	=> $this->input->post('jtem'),
-						'total'			=> preg_replace("/[^0-9]/", "", $this->input->post('tum')),
-						'a1'			=> preg_replace("/[^0-9]/", "", $this->input->post('a1')),
-						'a2'			=> preg_replace("/[^0-9]/", "", $this->input->post('a2')),
-						'a3'			=> preg_replace("/[^0-9]/", "", $this->input->post('a3')),
-						'a4'			=> preg_replace("/[^0-9]/", "", $this->input->post('a4')),
-						'a5'			=> preg_replace("/[^0-9]/", "", $this->input->post('a5')),
-						'a6'			=> preg_replace("/[^0-9]/", "", $this->input->post('a6')),
-						'a7'			=> preg_replace("/[^0-9]/", "", $this->input->post('a7')),
-						'a8'			=> preg_replace("/[^0-9]/", "", $this->input->post('a8')),
+						'total'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('tum')),
+						'a1'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a1')),
+						'a2'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a2')),
+						'a3'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a3')),
+						'a4'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a4')),
+						'a5'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a5')),
+						'a6'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a6')),
+						'a7'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a7')),
+						'a8'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a8')),
 					]);
 
 
@@ -280,15 +290,15 @@ class Pemesanan_penjualan_model extends CI_Model {
 	}
 
 	public function tambah_angsuran() {
-		$this->db->set('total',preg_replace("/[^0-9]/", "", $this->input->post('tum')));
-		$this->db->set('a1',preg_replace("/[^0-9]/", "", $this->input->post('a1')));
-		$this->db->set('a2',preg_replace("/[^0-9]/", "", $this->input->post('a2')));
-		$this->db->set('a3',preg_replace("/[^0-9]/", "", $this->input->post('a3')));
-		$this->db->set('a4',preg_replace("/[^0-9]/", "", $this->input->post('a4')));
-		$this->db->set('a5',preg_replace("/[^0-9]/", "", $this->input->post('a5')));
-		$this->db->set('a6',preg_replace("/[^0-9]/", "", $this->input->post('a6')));
-		$this->db->set('a7',preg_replace("/[^0-9]/", "", $this->input->post('a7')));
-		$this->db->set('a8',preg_replace("/[^0-9]/", "", $this->input->post('a8')));
+		$this->db->set('total',preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('tum')));
+		$this->db->set('a1',preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a1')));
+		$this->db->set('a2',preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a2')));
+		$this->db->set('a3',preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a3')));
+		$this->db->set('a4',preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a4')));
+		$this->db->set('a5',preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a5')));
+		$this->db->set('a6',preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a6')));
+		$this->db->set('a7',preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a7')));
+		$this->db->set('a8',preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a8')));
 		$this->db->where('idpemesanan',$this->input->post('idpemesanan'));
 		$this->db->update('tpemesananpenjualanangsuran');
 		$data['status'] = 'success';

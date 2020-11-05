@@ -390,6 +390,7 @@
         var formData    = new FormData($('#form_pajak'+id)[0]);
         var pajak       = formData.getAll('pajak');
         var pengurangan = formData.getAll('pengurangan');
+        console.log(pengurangan);
         var pajak_baru  = 0;
         var no          = 0;
         pajak.forEach(p => {

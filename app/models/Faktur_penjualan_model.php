@@ -292,14 +292,55 @@ class Faktur_penjualan_model extends CI_Model {
 
 	public function validasi()
 	{
-		if ($this->setGet('status') == 1) {
-			$status	= 3;
-		} else {
-			$status	= 1;
+		switch ($this->status) {
+			case '1':
+				$status	= 3;
+				$this->db->select('noSSP');
+				$this->db->order_by('noSSP', 'DESC');
+				$noSSP	= $this->db->get_where('tfakturpenjualan', [
+					'status'	=> '3'
+				])->row_array();
+				if ($noSSP == null) {
+					$noSSPBaru	= '00001/SSP/2020';
+				} else {
+					$no		= (integer) substr($noSSP['noSSP'], 0, 5);
+					$noBaru	= $no + 1;
+					switch (strlen($noBaru)) {
+						case 1:
+							$noBaru	= '0000' . $noBaru;
+							break;
+						case 2:
+							$noBaru	= '000' . $noBaru;
+							break;
+						case 3:
+							$noBaru	= '00' . $noBaru;
+							break;
+						case 4:
+							$noBaru	= '0' . $noBaru;
+							break;
+						case 5:
+							$noBaru	= $noBaru;
+							break;
+						
+						default:
+							# code...
+							break;
+					}
+					$noSSPBaru	= $noBaru . '/SSP/2020';
+				}
+				break;
+			case '3':
+				$status		= 1;
+				$noSSPBaru	= NULL;
+			
+			default:
+				# code...
+				break;
 		}
 		$this->db->where('id', $this->setGet('id'));
 		$validasi	= $this->db->update('tfakturpenjualan', [
-			'status'	=> $status
+			'status'	=> $status,
+			'noSSP'		=> $noSSPBaru
 		]);
 		return $validasi;
 	}

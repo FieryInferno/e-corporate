@@ -93,58 +93,61 @@
                             <button type="button" class="btn btn-sm btn-primary btn_add_detail"><?php echo lang('add_new') ?></button>
                             <button type="button" class="btn btn-sm btn-primary btn_add_detail_budgetevent"><?php echo lang('Budget Event') ?></button>
                         </div>
-                        <table class="table table-bordered" id="table_detail_item" hidden  width="100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th><?php echo lang('item') ?></th>
-                                    <th class="text-right"><?php echo lang('price') ?></th>
-                                    <th class="text-right"><?php echo lang('qty') ?></th>
-                                    <th class="text-right"><?php echo lang('subtotal') ?></th>
-                                    <th class="text-right"><?php echo lang('discount') ?></th>
-                                    <th class="text-right"><?php echo lang('Pajak') ?></th>
-                                    <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
-                                    <th class="text-right"><?php echo lang('total') ?></th>
-                                    <th class="text-center"><?php echo lang('tipe') ?></th>
-                                    <th>ID PENJUAL DETAIL</th>
-                                </tr>
-                            </thead>
-                            <tbody> </tbody>
-                            <tfoot class="bg-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th colspan="6">&nbsp;</th>
-                                    <th class="text-right"><?php echo lang('total') ?></th>
-                                    <th class="text-center"><div id="total"></div></th>
-                                </tr>
-                            </tfoot>
-                        </table>
-
-                        <table class="table table-bordered" id="table_detail_budgetevent" hidden width="100%">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th><?php echo lang('item') ?></th>
-                                    <th class="text-right"><?php echo lang('price') ?></th>
-                                    <th class="text-right"><?php echo lang('qty') ?></th>
-                                    <th class="text-right"><?php echo lang('subtotal') ?></th>
-                                    <th class="text-right"><?php echo lang('discount') ?></th>
-                                    <th class="text-right"><?php echo lang('Pajak') ?></th>
-                                    <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
-                                    <th class="text-right"><?php echo lang('total') ?></th>
-                                    <th class="text-center"><?php echo lang('tipe') ?></th>
-                                </tr>
-                            </thead>
-                            <tbody> </tbody>
-                            <tfoot class="bg-light">
-                                <tr>
-                                    <th>ID</th>
-                                    <th colspan="6">&nbsp;</th>
-                                    <th class="text-right"><?php echo lang('total') ?></th>
-                                    <th class="text-center"><div id="total_budgetevent"></div></th>
-                                </tr>
-                            </tfoot>
-                        </table>
+                        <div class="table-responsive">
+                            <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail_item" hidden  width="100%">
+                                <thead>
+                                    <tr class="table-active">
+                                        <th>ID</th>
+                                        <th><?php echo lang('item') ?></th>
+                                        <th class="text-right"><?php echo lang('price') ?></th>
+                                        <th class="text-right"><?php echo lang('qty') ?></th>
+                                        <th class="text-right"><?php echo lang('subtotal') ?></th>
+                                        <th class="text-right"><?php echo lang('discount') ?></th>
+                                        <th class="text-right"><?php echo lang('Pajak') ?></th>
+                                        <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
+                                        <th class="text-right"><?php echo lang('total') ?></th>
+                                        <th class="text-center"><?php echo lang('tipe') ?></th>
+                                        <th>ID PENJUAL DETAIL</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr class="table-active">
+                                        <th>ID</th>
+                                        <th colspan="6">&nbsp;</th>
+                                        <th class="text-right"><?php echo lang('total') ?></th>
+                                        <th class="text-center"><div id="total"></div></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail_budgetevent" hidden width="100%">
+                                <thead>
+                                    <tr class="table-active">
+                                        <th>ID</th>
+                                        <th><?php echo lang('item') ?></th>
+                                        <th class="text-right"><?php echo lang('price') ?></th>
+                                        <th class="text-right"><?php echo lang('qty') ?></th>
+                                        <th class="text-right"><?php echo lang('subtotal') ?></th>
+                                        <th class="text-right"><?php echo lang('discount') ?></th>
+                                        <th class="text-right"><?php echo lang('Pajak') ?></th>
+                                        <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
+                                        <th class="text-right"><?php echo lang('total') ?></th>
+                                        <th class="text-center"><?php echo lang('tipe') ?></th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                                <tfoot>
+                                    <tr class="table-active">
+                                        <th>ID</th>
+                                        <th colspan="6">&nbsp;</th>
+                                        <th class="text-right"><?php echo lang('total') ?></th>
+                                        <th class="text-center"><div id="total_budgetevent"></div></th>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                     <div class="row mb-3">
                         <div class="col-md-6">

@@ -215,7 +215,7 @@
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('invoice') ?></p></a>
               </li>            
               <li class="nav-item">
-              <a href="SetorPajak" class="nav-link <?php echo menu_is_active('SetorPajak') ?>">
+              <a href="{site_url}SetorPajak" class="nav-link <?php echo menu_is_active('SetorPajak') ?>">
               <i class="far fa-circle nav-icon"></i><p>Setor Pajak</p></a>
               </li>            
               <li class="nav-item">

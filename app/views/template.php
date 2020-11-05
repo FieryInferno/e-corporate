@@ -78,7 +78,7 @@
     <script src="<?= base_url('adminlte')?>/plugins/toastr/toastr.min.js"></script>
     <script>
       function formatRupiah(angka, prefix){
-        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        var number_string = angka.replace(/[.,]/g, '').toString(),
         split           = number_string.split(','),
         sisa             = split[0].length % 3,
         rupiah             = split[0].substr(0, sisa),

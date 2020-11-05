@@ -25,7 +25,7 @@ class Faktur_penjualan extends User_Controller {
 	}
 
 	public function index() {
-		$data['title'] = lang('invoice');
+		$data['title']		= 'Faktur Penjualan';
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Faktur_penjualan/index';
 		$data = array_merge($data,path_info());
@@ -264,8 +264,9 @@ class Faktur_penjualan extends User_Controller {
         $term = $this->input->get('q');
         if ($text) {
 			$this->db->select('tpengirimanpenjualan.id as id, CONCAT(tpengirimanpenjualan.notrans," - ",tpengirimanpenjualan.tanggal," - ",mkontak.nama," - Rp. ",tpengirimanpenjualan.total) as text, tpengirimanpenjualan.total as total_harga');
+			$this->db->join('mkontak','tpengirimanpenjualan.kontakid = mkontak.id');
 			$this->db->where('validasi', '1');
-            $data = $this->db->where('id', $id)->get('tpengirimanpenjualan')->row_array();
+            $data = $this->db->where('mkontak.id', $id)->get('tpengirimanpenjualan')->row_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
             $this->db->select('tpengirimanpenjualan.id as id, CONCAT(tpengirimanpenjualan.notrans," - ",tpengirimanpenjualan.tanggal," - ",mkontak.nama," - Rp. ",tpengirimanpenjualan.total) as text, tpengirimanpenjualan.total as total_harga');

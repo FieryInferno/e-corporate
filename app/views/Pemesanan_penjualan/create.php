@@ -254,6 +254,7 @@
                                     </div>
                                     <input type="hidden" name="detail_array_item" id="detail_array_item">
                                     <input type="hidden" name="detail_array_budgetevent" id="detail_array_budgetevent">
+                                    <div id="detailPajak"></div>
                                 </div>
                                 <div class="text-right">
                                     <div class="btn-group">
@@ -793,7 +794,7 @@
                 detail_array_item();
 
                 modal_pajak = `<div class="modal fade" id="modal_pajak${index}${no}">
-                            <div class="modal-dialog modal-lg">
+                            <div class="modal-dialog modal-xl">
                                 <div class="modal-content">
                                 <div class="modal-header">
                                     <h4 class="modal-title">Pajak</h4>
@@ -809,19 +810,20 @@
                                                     <i class="fas fa-plus"></i>Pilih Pajak
                                                 </button>
                                             </div>
-                                            <table class="table table-bordered" style="width:100%" id="pajak">
-                                                <thead class="bg-dark">
-                                                    <tr>
-                                                        <th class="text-right">Nama Pajak</th>
-                                                        <th class="text-right">Kode Akun</th>
-                                                        <th class="text-right">Nama Akun</th>
-                                                        <th class="text-right">Nominal</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody id="isi_tbody_pajak${index}${no}">
-                                                    
-                                                </tbody>
-                                            </table>
+                                            <div class="table-responsive">
+                                                <table class="table table-xs table-striped table-borderless table-hover index_datatable" style="width:100%" id="pajak">
+                                                    <thead>
+                                                        <tr class="table-active">
+                                                            <th>Nama Pajak</th>
+                                                            <th>Kode Akun</th>
+                                                            <th>Nama Akun</th>
+                                                            <th>Nominal</th>
+                                                            <th>Pengurangan</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="isi_tbody_pajak${index}${no}"></tbody>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="modal-footer justify-content-between">
@@ -843,20 +845,20 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <table class="table">
-                                                        <thead class="bg-dark">
-                                                            <tr>
-                                                                <th>&nbsp;</th>
-                                                                <th>Kode Pajak</th>
-                                                                <th>Nama Pajak</th>
-                                                                <th>Kode Akun</th>
-                                                                <th>Nama Akun</th>
-                                                            </tr>
-                                                        </thead>
-                                                        <tbody id='list_pajak${index}${no}'>
-
-                                                        </tbody>
-                                                    </table>
+                                                    <div class="table-responsive">
+                                                        <table class="table table-xs table-striped table-borderless table-hover index_datatable">
+                                                            <thead>
+                                                                <tr class="table-active">
+                                                                    <th>&nbsp;</th>
+                                                                    <th>Kode Pajak</th>
+                                                                    <th>Nama Pajak</th>
+                                                                    <th>Kode Akun</th>
+                                                                    <th>Nama Akun</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody id='list_pajak${index}${no}'></tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                                 <div class="modal-footer">
                                                     <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
@@ -920,7 +922,7 @@
             $('#form_jasa').attr('action', 'javascript:save_detail('+no_baru+',"jasa")');
             $('#modal_add_jasa').modal('hide');     
                   
-        }else{
+        } else {
             for (let index = 0; index < barang.length; index++) {
                 var id    = barang[index].value;
                 var item  = barang[index].text;
@@ -1086,15 +1088,17 @@
         const nama_pajak    = $(elem).attr('nama_pajak');
         const kode_akun     = $(elem).attr('kode_akun');
         const nama_akun     = $(elem).attr('nama_akun');
+        const idPajak       = $(elem).attr('idPajak');
         const stat          = $(elem).is(":checked");
         const table         = $('#isi_tbody_pajak'+id);
         // var no1              = 0;        
         if (stat) {
             html = `<tr no="${no}">
-                        <td>${kode_pajak}</td>
+                        <td><input type="hidden" name="idPajak" value="${idPajak}">${kode_pajak}</td>
                         <td>${kode_akun}</td>
                         <td>${nama_akun}</td>
                         <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak"></td>
+                        <td><input type="checkbox" name="pengurangan" id="pengurangan${no}${id}"></td>
                     </tr>`;
             table.append(html);
         } else {
@@ -1106,10 +1110,34 @@
     function total_pajak(id, no) {
         var formData    = new FormData($('#form_pajak'+id)[0]);
         var pajak       = formData.getAll('pajak');
+        var pengurangan = formData.getAll('pengurangan');
+        var idPajak     = formData.getAll('idPajak');
         var pajak_baru  = 0;
+        var index       = 0;
         pajak.forEach(p => {
-            pajak_baru  += parseInt(p.replace(/[Rp.]/g, ''));
+            var stat    = $('#pengurangan' + index + id).is(':checked');
+            if (stat) {
+                pajak_baru  -= parseInt(p.replace(/[.]/g, ''));
+                stat        = 1;
+            } else {
+                pajak_baru  += parseInt(p.replace(/[.]/g, ''));
+                stat        = 0;
+            }
+            pengurangan[index]  = stat; 
+            index++;
         });
+        var x   = $('#idPajak' + id);
+        if (x.length == 0) {
+            $('#detailPajak').append(
+                `<input type="hidden" name="idPajak[]" value="${idPajak}" id="idPajak${id}">
+                <input type="hidden" name="pajak[]" value="${pajak}" id="pajak${id}">
+                <input type="hidden" name="pengurangan[]" value="${pengurangan}" id="pengurangan${id}">`
+            );
+        } else {
+            $('#idPajak' + id).val(idPajak);
+            $('#pajak' + id).val(pajak);
+            $('#pengurangan' + id).val(pengurangan);
+        }
         $('#total_pajak'+id).val(pajak_baru);
         $('#modal_pajak'+id).modal('hide');
         sum_total(id, no, "item")
@@ -1129,8 +1157,7 @@
 
     function nominalPajak(no) {
         var nilai   = $('#nominal_pajak' + no).val();
-        var nilai1  = nilai.replace(/[^,\d]/g, '').toString();
-        $('#nominal_pajak' + no).val(formatRupiah(String(nilai), 'Rp. '));
+        $('#nominal_pajak' + no).val(formatRupiah(String(nilai)));
     }
 
     function getListPajak(id) {
@@ -1155,7 +1182,7 @@
                     } else {
                         const html  = `
                             <tr>
-                                <td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}"id="" onchange="addPajak(this, `+i+`, '`+id+`')"></td>
+                                <td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}" idPajak="${element.id_pajak}" onchange="addPajak(this, `+i+`, '`+id+`')"></td>
                                 <td>${element.kode_pajak}</td>
                                 <td>${element.nama_pajak}</td>
                                 <td>${element.akunno}</td>
@@ -1240,7 +1267,7 @@
     function nominalPajak1(no) {
         var nilai   = $('#nominal_pajak1' + no).val();
         var nilai1  = nilai.replace(/[^,\d]/g, '').toString();
-        $('#nominal_pajak1' + no).val(formatRupiah(String(nilai), 'Rp. '));
+        $('#nominal_pajak1' + no).val(formatRupiah(String(nilai)));
     }
 
     function getListPajak1(id) {
@@ -1304,7 +1331,7 @@
     function sum(no, no1, jenis) { 
         if (jenis != 'budgetevent'){
             var txtFirstNumberValue                     = document.getElementById('harga'+no).value.replace(/[^,\d]/g, '').toString(); 
-            document.getElementById('harga'+no).value   = formatRupiah(txtFirstNumberValue, 'Rp.');
+            document.getElementById('harga'+no).value   = formatRupiah(txtFirstNumberValue);
             var txtSecondNumberValue                    = document.getElementById('jumlah'+no).value;
             var result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
             var pajak                                   = document.getElementById('total_pajak'+no).value;
@@ -1324,24 +1351,24 @@
             
             if (!isNaN(result)) {
                 hasilsubtotal = parseInt(txtFirstNumberValue * txtSecondNumberValue);
-                document.getElementById('subtotal'+no).value        = formatRupiah(String(hasilsubtotal), 'Rp.');
+                document.getElementById('subtotal'+no).value        = formatRupiah(String(hasilsubtotal)) + ',00';
                 document.getElementById('subtotal_asli'+no).value   = hasilsubtotal;
-                document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.');
+                document.getElementById('total'+no).value           = formatRupiah(String(result)) + ',00';
             }
             else if(txtFirstNumberValue !=null && txtSecondNumberValue == null){
                 document.getElementById('subtotal'+no).value = txtFirstNumberValue;
                 document.getElementById('total'+no).value = txtFirstNumberValue;
             }else{
                 hasilsubtotal = parseInt(txtFirstNumberValue * txtSecondNumberValue);
-                document.getElementById('subtotal'+no).value        = formatRupiah(String(hasilsubtotal), 'Rp.');
+                document.getElementById('subtotal'+no).value        = formatRupiah(String(hasilsubtotal)) + ',00';
                 document.getElementById('subtotal_asli'+no).value   = hasilsubtotal;
-                document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.');
+                document.getElementById('total'+no).value           = formatRupiah(String(result)) + ',00';
             }
                 total_total_item[no1] = [];
                 total_total_item[no1].push(parseInt(result));
         }else{
             var txtFirstNumberValue                     = document.getElementById('harga1'+no).value.replace(/[^,\d]/g, '').toString(); 
-            document.getElementById('harga1'+no).value   = formatRupiah(txtFirstNumberValue, 'Rp.');
+            document.getElementById('harga1'+no).value   = formatRupiah(txtFirstNumberValue);
             var txtSecondNumberValue                    = document.getElementById('jumlah1'+no).value;
             var result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
             
@@ -1363,18 +1390,18 @@
             
             if (!isNaN(result)) {
                 hasilsubtotal = parseInt(txtFirstNumberValue * txtSecondNumberValue);
-                document.getElementById('subtotal1'+no).value        = formatRupiah(String(hasilsubtotal), 'Rp.');
+                document.getElementById('subtotal1'+no).value        = formatRupiah(String(hasilsubtotal)) + ',00';
                 document.getElementById('subtotal_asli1'+no).value   = hasilsubtotal;
-                document.getElementById('total1'+no).value           = formatRupiah(String(result), 'Rp.');
+                document.getElementById('total1'+no).value           = formatRupiah(String(result)) + ',00';
             }
             else if(txtFirstNumberValue !=null && txtSecondNumberValue == null){
                 document.getElementById('subtotal1'+no).value = txtFirstNumberValue;
                 document.getElementById('total1'+no).value = txtFirstNumberValue;
             }else{
                 hasilsubtotal = parseInt(txtFirstNumberValue * txtSecondNumberValue);
-                document.getElementById('subtotal1'+no).value        = formatRupiah(String(hasilsubtotal), 'Rp.');
+                document.getElementById('subtotal1'+no).value        = formatRupiah(String(hasilsubtotal)) + ',00';
                 document.getElementById('subtotal_asli1'+no).value   = hasilsubtotal;
-                document.getElementById('total1'+no).value           = formatRupiah(String(result), 'Rp.');
+                document.getElementById('total1'+no).value           = formatRupiah(String(result)) + ',00';
             }
             total_total_budgetevent[no1] = [];
             total_total_budgetevent[no1].push(parseInt(result));
@@ -1407,7 +1434,7 @@
             } else {
                 var total   = parseInt(total) + parseInt(pengiriman);
             }
-            document.getElementById('total'+no).value = formatRupiah(String(total), 'Rp.');
+            document.getElementById('total'+no).value = formatRupiah(String(total)) + ',00';
 
             total_total_item[no1]    = [];
             total_total_item[no1].push((parseInt(total)));
@@ -1434,7 +1461,7 @@
             } else {
                 var total   = parseInt(total) + parseInt(pengiriman);
             }
-            document.getElementById('total1'+no).value = formatRupiah(String(total), 'Rp.');
+            document.getElementById('total1'+no).value = formatRupiah(String(total)) + ',00';
             total_total_budgetevent[no1]    = [];
             total_total_budgetevent[no1].push((parseInt(total)));
         }
@@ -1448,7 +1475,7 @@
             total_total_item.forEach(function callback(element, index, array) {
                 a   += parseInt(element);
             })
-            var hasil = formatRupiah(String(a), 'Rp. ');
+            var hasil = formatRupiah(String(a)) + ',00';
             $('#total_total_item').html(hasil);
             $('.total_penjualan').val(hasil);
         }else{
@@ -1456,7 +1483,7 @@
             total_total_budgetevent.forEach(function callback(element, index, array) {
                 b   += parseInt(element);
             })
-            var hasil1 = formatRupiah(String(b), 'Rp. ');
+            var hasil1 = formatRupiah(String(b)) + ',00';
             $('#total_total_budgetevent').html(hasil1);
             $('.total_budgetevent').val(hasil1);
         }
@@ -1627,7 +1654,7 @@
                         return;
                 }
 
-                 noakun   = $('#noakun1'+edit_isiitem[index].value).val();
+                noakun   = $('#noakun1'+edit_isiitem[index].value).val();
                 $('#noakun1'+edit_isiitem[index].value).remove();
 
                 tabel_detail_budgetevent.row(edit_rowindex).data([
@@ -1665,7 +1692,7 @@
     function UbahInputRUpiah(nama_inputan){
         $(nama_inputan).on('keyup',function(){
             var nilai= $(this).val();
-            $(this).val(formatRupiah(String(nilai), 'Rp. '));
+            $(this).val(formatRupiah(String(nilai)));
         });
     }
 
@@ -1706,14 +1733,13 @@
         }else{
             hasil_um_term = parseInt(uang_muka) + parseInt(totalangsuran);
         }
-         
-        $('input[name=tum]').val(formatRupiah(String(hasil_um_term), 'Rp. ')); 
+        $('input[name=tum]').val(formatRupiah(String(hasil_um_term))) + ',00'; 
     }
     
-   function save() {
+    function save() {
         var form = $('#form1')[0];
         var formData = new FormData(form);
-            $.ajax({
+        $.ajax({
             url: base_url + 'save',
             dataType: 'json',
             method: 'post',
@@ -1737,7 +1763,7 @@
             error: function() {
                 swal("Gagal!", "Internal Server Error", "error");
             }
-            })
+        })
     }
 
 </script>
