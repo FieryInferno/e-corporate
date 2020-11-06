@@ -111,14 +111,10 @@
                 }
             },
             {
-                render  : function (data, type, row) {
-                    return '';
-                }
+                data    : 'npwp'
             },
             {
-                render  : function (data, type, row) {
-                    return '';
-                }
+                data    : 'ntpn'
             }
         ]
 	});

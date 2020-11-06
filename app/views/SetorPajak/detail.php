@@ -109,29 +109,155 @@
                     <hr>
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="table-responsive">
-                                <table class="table table-xs table-striped table-borderless">
-                                    <thead>
-                                        <tr class="table-active">
-                                            <th><?php echo lang('item') ?></th>
-                                            <th class="text-right"><?php echo lang('price') ?></th>
-                                            <th class="text-right"><?php echo lang('qty') ?></th>
-                                            <th class="text-right"><?php echo lang('subtotal') ?></th>
-                                            <th class="text-right"><?php echo lang('discount') ?></th>
-                                            <th class="text-right">Pajak</th>
-                                            <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
-                                            <th class="text-right">No Akun</th>
-                                            <th class="text-right"><?php echo lang('total') ?></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                </table>
+                            <ul class="nav nav-pills mb-3 nav-tabs" id="pills-tab" role="tablist">
+                                <li class="nav-item">
+                                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Detil Faktur Penjualan</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Setor Pajak</a>
+                                </li>
+                            </ul>
+                            <div class="tab-content" id="pills-tabContent">
+                                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                    <div class="table-responsive">
+                                        <table class="table table-xs table-striped table-borderless indexDatatables">
+                                            <thead>
+                                                <tr class="table-active">
+                                                    <th><?php echo lang('item') ?></th>
+                                                    <th><?php echo lang('price') ?></th>
+                                                    <th><?php echo lang('qty') ?></th>
+                                                    <th><?php echo lang('subtotal') ?></th>
+                                                    <th><?php echo lang('discount') ?></th>
+                                                    <th>Pajak</th>
+                                                    <th><?php echo lang('Biaya Pengiriman') ?></th>
+                                                    <th>No Akun</th>
+                                                    <th><?php echo lang('total') ?></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{item}</td>
+                                                    <td class="text-right"><?= number_format($harga, 2, ',', '.'); ?></td>
+                                                    <td class="text-right">{jumlah}</td>
+                                                    <td class="text-right"><?= number_format($subtotal, 2, ',', '.'); ?></td>
+                                                    <td>{diskon}%</td>
+                                                    <td class="text-right"><?= number_format($ppn, 2, ',', '.'); ?></td>
+                                                    <td class="text-right"><?= number_format($biaya_pengiriman, 2, ',', '.'); ?></td>
+                                                    <td class="text-right">{akunno}</td>
+                                                    <td class="text-right"><?= number_format($total, 2, ',', '.'); ?></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+                                    <div class="table-responsive">
+                                        <table class="table table-xs table-striped table-borderless" id="tabelSetorPajak">
+                                            <thead>
+                                                <tr class="table-active">
+                                                    <th>Nama Pajak</th>
+                                                    <th>Kode Akun</th>
+                                                    <th>Nama Akun</th>
+                                                    <th>Nominal</th>
+                                                    <th>NPWP</th>
+                                                    <th>NTPN</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>{nama_pajak}</td>
+                                                    <td>{akunPajak}</td>
+                                                    <td>{namaAkunPajak}</td>
+                                                    <td><?= number_format($nominal, 2, ',', '.'); ?></td>
+                                                    <td><input type="text" name="npwp" id="npwp" class="form-control" readonly></td>
+                                                    <td><input type="text" name="ntpn" id="ntpn" class="form-control" readonly></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
                             </div>
                         </div>
                     </div>
-                    
                 </div>
             </div>
         </div>
     </section>
 </div>
+<script>
+    var tabelFakturPenjualan    = $('.indexDatatables').DataTable();
+    var tabelSetorPajak         = $('#tabelSetorPajak').DataTable();
+    var base_url                = '{site_url}SetorPajak/';
+
+    $('#npwp').on('click', function () {
+        $(this).removeAttr('readonly')
+    })
+
+    $('#npwp').on('focusout', function () {
+        $(this).attr('readonly', 'readonly');
+        update('npwp');
+    })
+
+    $('#ntpn').on('click', function () {
+        $(this).removeAttr('readonly')
+    })
+
+    $('#ntpn').on('focusout', function () {
+        $(this).attr('readonly', 'readonly');
+        update('ntpn');
+    })
+
+    $(document).ready(function () {
+        get('npwp');
+        get('ntpn');
+    })
+
+    function get(jenis) {
+        $.ajax({
+            url     : base_url + 'get',
+            type    : 'post',
+            data    : {
+                jenis                       : jenis,
+                idPajakPemesananPenjualan   : '{idPajakPemesananPenjualan}'
+            },
+            success : function (response) {
+                if (response[jenis] !== null) {
+                    $('#' + jenis).val(response[jenis]);
+                }
+            }
+        })
+    }
+
+    function update(jenis) {
+        var isi = $('#' + jenis).val();
+        switch (jenis) {
+            case 'npwp':
+                var data    = {
+                    npwp                        : isi,
+                    idPajakPemesananPenjualan   : '{idPajakPemesananPenjualan}'
+                }
+                break;
+            case 'ntpn':
+                var data    = {
+                    ntpn                        : isi,
+                    idPajakPemesananPenjualan   : '{idPajakPemesananPenjualan}'
+                }
+                break;
+        
+            default:
+                break;
+        }
+        $.ajax({
+            url     : base_url + 'update',
+            type    : 'post',
+            data    : data,
+            beforeSend: function() {
+                pageBlock();
+            },
+            afterSend: function() {
+                unpageBlock();
+            }
+        })
+    }
+</script>

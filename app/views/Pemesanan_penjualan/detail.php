@@ -106,10 +106,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive">
-                                
-                                <table class="table table-bordered">
+                                <table class="table table-xs table-striped table-borderless table-hover">
                                     <thead>
-                                        <tr>
+                                        <tr class="table-active">
                                             <th><?php echo lang('item') ?></th>
                                             <th class="text-right"><?php echo lang('price') ?></th>
                                             <th class="text-right"><?php echo lang('qty') ?></th>
@@ -135,21 +134,23 @@
                                                     }
                                                     ?>    
                                                 </td>
-                                                <td class="text-right"><?= number_format($row['harga'],0,',','.'); ?></td>
+                                                <td class="text-right"><?= number_format($row['harga'],2,',','.'); ?></td>
                                                 <td class="text-right"><?= number_format($row['jumlah']) ?></td>
-                                                <td class="text-right"><?= number_format($row['subtotal'],0,',','.'); ?></td>
+                                                <td class="text-right"><?= number_format($row['subtotal'],2,',','.'); ?></td>
                                                 <td class="text-right"><?= number_format($row['diskon']) ?>%</td>
-                                                <td class="text-right"><?= number_format($row['ppn'],0,',','.') ?></td>
-                                                <td class="text-right"><?= number_format($row['biaya_pengiriman'],0,',','.') ?></td>
+                                                <td class="text-right"><?= number_format($row['ppn'],2,',','.') ?></td>
+                                                <td class="text-right"><?= number_format($row['biaya_pengiriman'],2,',','.') ?></td>
                                                 <td class="text-right"><?=  $row['akunno']; ?></td>
-                                                <td class="text-right"><?= number_format($row['total'],0,',','.'); ?></td>
+                                                <td class="text-right"><?= number_format($row['total'],2,',','.'); ?></td>
                                             </tr>
                                         <?php endforeach ?>
-                                        <tr class="bg-light">
-                                            <td class="font-weight-bold text-right" colspan="7"><?php echo lang('grand_total') ?></td>
-                                            <td class="font-weight-bold text-right"><?= number_format($grandtotal,0,',','.'); ?></td>
-                                        </tr>
                                     </tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
+                                            <td class="font-weight-bold text-right" colspan="8"><?php echo lang('grand_total') ?></td>
+                                            <td class="font-weight-bold text-right"><?= number_format($grandtotal,2,',','.'); ?></td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

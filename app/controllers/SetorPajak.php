@@ -8,7 +8,10 @@ class SetorPajak extends User_Controller {
 	public function __construct()
 	{
 		parent::__construct();
-		$this->idPajakPemesananPenjualan = $this->input->post('idPajakPemesananPenjualan');
+		$this->idPajakPemesananPenjualan	= $this->input->post('idPajakPemesananPenjualan');
+		$this->jenis						= $this->input->post('jenis');
+		$this->npwp							= $this->input->post('npwp');
+		$this->ntpn							= $this->input->post('ntpn');
 	}
 
 	public function index()
@@ -33,5 +36,21 @@ class SetorPajak extends User_Controller {
 		$data['content']    = 'SetorPajak/detail';
 		$data               = array_merge($data, path_info());
 		$this->parser->parse('template', $data);
+	}
+
+	public function get()
+	{
+		$this->SetorPajakModel->set('idPajakPemesananPenjualan', $this->idPajakPemesananPenjualan);
+		$this->SetorPajakModel->set('jenis', $this->jenis);
+		$data	= $this->SetorPajakModel->get();
+		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function update()
+	{
+		$this->SetorPajakModel->set('idPajakPemesananPenjualan', $this->idPajakPemesananPenjualan);
+		$this->SetorPajakModel->set('npwp', $this->npwp);
+		$this->SetorPajakModel->set('ntpn', $this->ntpn);
+		$this->SetorPajakModel->update();
 	}
 }
