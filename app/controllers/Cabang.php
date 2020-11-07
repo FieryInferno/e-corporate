@@ -26,7 +26,7 @@ class Cabang extends User_Controller
         $data['subtitle'] = 'List';
         $data['content'] = 'Cabang/index';
         $data = array_merge($data, path_info());
-        $this->parser->parse('default', $data);
+        $this->parser->parse('template', $data);
     }
 
     public function index_datatable()
