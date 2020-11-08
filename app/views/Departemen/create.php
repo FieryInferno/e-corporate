@@ -60,48 +60,51 @@
           </div>
         </div>
 
-        <script type="text/javascript">
+<script type="text/javascript">
 	var base_url = '{site_url}departemen/';
 	$(document).ready(function(){
-        ajax_select({ id: '.id_perusahaan', url: base_url + 'select2_id_perusahaan', selected: { id: '' } });
-    })
-
-    $(document).ready(function(){
-    })
+    ajax_select({ 
+      id        : '.id_perusahaan', 
+      url       : base_url + 'select2_id_perusahaan', 
+      selected  : { 
+        id  : '' 
+      } 
+    });
+  })
 
 	function rep(){
 		var str = $("#namakey").val();
 		repi=str.replace(/ /g,"_");
-    	$("#nama").val(repi);
+    $("#nama").val(repi);
 	}
 
     function save() {
-    	var form = $('#form1')[0];
-    	var formData = new FormData(form);
-    	$.ajax({
-    		url: base_url + 'save',
-    		dataType: 'json',
-    		method: 'post',
-    		data: formData,
-    		contentType: false,
-    		processData: false,
-    		beforeSend: function() {
-    			pageBlock();
-    		},
+      var form = $('#form1')[0];
+      var formData = new FormData(form);
+      $.ajax({
+        url: base_url + 'save',
+        dataType: 'json',
+        method: 'post',
+        data: formData,
+        contentType: false,
+        processData: false,
+        beforeSend: function() {
+          pageBlock();
+        },
             afterSend: function() {
                 unpageBlock();
             },
-    		success: function(data) {
-    			if(data.status == 'success') {
-    				swal("Berhasil!", "Data Berhasil Disimpan!", "success");
+        success: function(data) {
+          if(data.status == 'success') {
+            swal("Berhasil!", "Data Berhasil Disimpan!", "success");
                     redirect(base_url);
-    			} else {
-    				swal("Gagal!", "Data Gagal Disimpan!", "error");
-    			}
-    		},
-    		error: function() {
-    			swal("Gagal!", "Internal Server Error!", "error");
-    		}
-    	})
+          } else {
+            swal("Gagal!", "Data Gagal Disimpan!", "error");
+          }
+        },
+        error: function() {
+          swal("Gagal!", "Internal Server Error!", "error");
+        }
+      })
     }
 </script>

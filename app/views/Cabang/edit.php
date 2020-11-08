@@ -28,6 +28,10 @@
                                 <div class="col-md-6">
                                     <form action="javascript:save()" id="form1">
                                         <div class="form-group">
+                                            <label><?php echo lang('nama perusahaan') ?>:</label>
+                                            <select class="form-control id_perusahaan" name="perusahaan" required></select>
+                                        </div>
+                                        <div class="form-group">
                                             <label>Kode:</label>
                                             <input type="text" class="form-control" name="kode" required placeholder="AUTO" value="{kode}">
                                         </div>
@@ -55,6 +59,15 @@
 </div>
 <script type="text/javascript">
     var base_url = '{site_url}cabang/';
+    $(document).ready(function(){
+        ajax_select({ 
+            id        : '.id_perusahaan', 
+            url       : '{site_url}perusahaan/select2', 
+            selected  : { 
+                id  : '{perusahaan}' 
+            } 
+        });
+    })
     function save() {
         var form = $('#form1')[0];
         var formData = new FormData(form);

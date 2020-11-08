@@ -32,7 +32,8 @@ class Cabang extends User_Controller
     public function index_datatable()
     {
         $this->load->library('Datatables');
-        $this->datatables->select('mcabang.*');
+        $this->datatables->select('mcabang.*, mperusahaan.nama_perusahaan');
+        $this->datatables->join('mperusahaan', 'mcabang.perusahaan = mperusahaan.idperusahaan');
         $this->datatables->where('mcabang.stdel', '0');
         $this->datatables->from('mcabang');
         return print_r($this->datatables->generate());

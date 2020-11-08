@@ -18,7 +18,7 @@ class Departemen extends User_Controller{
 
 	public function index_datatable() {
 		$this->load->library('Datatables');
-		$this->datatables->select('mdepartemen.*,mperusahaan.*');
+		$this->datatables->select('mdepartemen.*, mperusahaan.*');
 		$this->datatables->join('mperusahaan','mdepartemen.id_perusahaan=mperusahaan.idperusahaan');
 		$this->datatables->where('mdepartemen.sdel', '0');
 		$this->datatables->from('mdepartemen');

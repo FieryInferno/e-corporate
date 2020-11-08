@@ -34,6 +34,7 @@
 											<th>ID</th>
 											<th>Kode</th>
 											<th>Nama</th>
+											<th>Perusahaan</th>
 											<th>Alamat</th>
 											<th class="text-center">Aksi</th>
 										</tr>
@@ -72,6 +73,7 @@
 				}
 			},
 			{data: 'nama'},
+			{data: 'nama_perusahaan'},
 			{data: 'alamat'},
 			{
 				data: 'id', width: 100, orderable: false,
