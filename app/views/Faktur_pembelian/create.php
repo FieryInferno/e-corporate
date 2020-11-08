@@ -75,6 +75,12 @@
                                         <select class="form-control rekening" name="rekening"></select>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label>No. Faktur :</label>
+                                    <div class="input-group"> 
+                                        <input type="text" class="form-control" name="noFaktur" required>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-2">
                                 <div class="form-group">
