@@ -75,7 +75,12 @@
                                     <input type="text" class="form-control">
                                 </div>
                             </div>
-                            <div class="col-md-3">&nbsp;</div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Surat Jalan : </label>
+                                    <input type="text" class="form-control" name="suratJalan">
+                                </div>
+                            </div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo lang('note') ?>:</label>

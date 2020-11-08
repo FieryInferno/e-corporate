@@ -24,10 +24,11 @@ class Pengiriman_pembelian_model extends CI_Model {
 		}
 		$this->db->where('idPenerimaan', $this->input->post('idPenerimaan'));
 		$insertHead = $this->db->update('tPenerimaan', [
-			'tanggal'	=> $this->input->post('tanggal'),
-			'catatan'	=> $this->input->post('catatan'),
-			'tipe'		=> 1,
-			'total'		=> $total['total']
+			'tanggal'		=> $this->input->post('tanggal'),
+			'catatan'		=> $this->input->post('catatan'),
+			'tipe'			=> 1,
+			'total'			=> $total['total'],
+			'suratJalan'	=> $this->input->post('suratJalan')
 		]);
 		if($insertHead) {
 			for ($i=0; $i < count($this->input->post('no', TRUE)); $i++) {

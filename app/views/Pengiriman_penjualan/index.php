@@ -27,9 +27,9 @@
 							<div class="card">
 								<div class="card-body">
 									<div class="table-responsive">
-										<table class="table table-bordered table-striped index_datatable">
+										<table class="table table-xs table-striped table-borderless table-hover index_datatable">
 											<thead>
-												<tr>
+												<tr class="table-active">
 													<th>ID</th>
 													<th><?php echo lang('notrans') ?></th>
 													<th><?php echo lang('order') ?></th>

@@ -67,6 +67,7 @@ class Anggaran_pendapatan_model extends CI_Model
 						'idPendapatan'	=> $idAnggaranPendapatan,
 						'koderekening'	=> $this->input->post('kode_rekening')[$i],
 						'uraian'		=> $this->input->post('uraian')[$i],
+						'cabang'		=> $this->input->post('cabang')[$i],
 						'volume'		=> $this->input->post('volume')[$i],
 						'satuan'		=> $this->input->post('satuan')[$i],
 						'tarif'			=> (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga')[$i]),
@@ -82,8 +83,6 @@ class Anggaran_pendapatan_model extends CI_Model
 				$data['message'] = lang('save_error_message');
 			}
 		}
-		// print_r($nominal);
-		// die();
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
