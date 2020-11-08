@@ -49,6 +49,68 @@
 </div>
 
 <script type="text/javascript">
-	var base_url    = '{site_url}Kas_bank/';
-	var table       = $('.index_datatable').DataTable();
+	var base_url    = '{site_url}SistemPenomoran/';
+	var table       = $('.index_datatable').DataTable({
+		ajax	: base_url + 'indexDatatable',
+		columns	: [
+			{data	: 'formulir'},
+			{data	: 'formatPenomoran'},
+			{
+				data	: 'idPenomoran',
+				render	: function (data, type, row) {
+					var aksi = `
+						<div class="list-icons"> 
+							<div class="dropdown"> 
+								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+								<div class="dropdown-menu dropdown-menu-right">
+									<form action="edit" method="post">
+										<input type="hidden" value="${data}" name="idPenomoran">
+										<button class="dropdown-item" type="submit"><i class="fas fa-pencil-alt"></i> Edit</button>
+									</form>
+									<a class="btn btn-danger btn-sm dropdown-item" href="javascript:deleteData('`+data+`')"><i class="fas fa-trash"></i> Hapus</a>
+								</div> 
+							</div> 
+						</div>`;
+					return aksi;
+				}}
+		]
+	});
+
+	function deleteData(id) {
+		swal("Anda yakin akan menghapus data?", {
+			buttons: {
+				cancel: "Batal",
+				catch: {
+				text: "Ya, Yakin",
+				value: "ya",
+				},
+			},
+		})
+		.then((value) => {
+			switch (value) {
+				case "ya":
+				$.ajax({
+					url: base_url + 'delete/' + id,
+					beforeSend: function() {
+					pageBlock();
+					},
+					afterSend: function() {
+					unpageBlock();
+					},
+					success: function(data) {
+					if(data.status == 'success') {
+						swal("Berhasil!", "Data Berhasil Dihapus!", "success");
+						setTimeout(function() { table.ajax.reload() }, 100);
+					} else {
+						swal("Gagal!", "Pikachu was caught!", "error");
+					}
+					},
+					error: function() {
+					swal("Gagal!", "Internal Server Error!", "error");
+					}
+				})
+				break;
+			}
+		});
+	}
 </script>
