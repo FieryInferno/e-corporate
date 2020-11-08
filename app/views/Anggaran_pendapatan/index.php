@@ -1,58 +1,60 @@
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-              <div class="card-header">
-			  <?php if($this->session->userdata( "userid" )=="1") { ?>
-				<a href="{site_url}anggaran_pendapatan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-  			<?php } ?></div>
-              <div class="card-body">
-                <table class="table table-bordered table-striped index_datatable">
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th><?php echo lang('department name') ?></th>
-							<th><?php echo lang('perusahaan') ?></th>
-							<th><?php echo lang('nominal') ?></th>
-							<th class="text-center"><?php echo lang('action') ?></th>
-						</tr>
-					</thead>
-					<tbody>                          
-					</tbody>
-					<tfoot>
-						<tr>
-							<th colspan="3"><B><?php echo lang('Total') ?><B></th>	
-							<th></th>
-							<th></th>
-						</tr>
-					</tfoot>
-                </table>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
+						<div class="card-header">
+							<?php if($this->session->userdata( "userid" )=="1") { ?>
+								<a href="{site_url}anggaran_pendapatan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+							<?php } ?>
+						</div>
+						<div class="card-body">
+							<div class="table-responsive">
+								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
+									<thead>
+										<tr class="table-active">
+											<th>ID</th>
+											<th><?php echo lang('department name') ?></th>
+											<th><?php echo lang('perusahaan') ?></th>
+											<th><?php echo lang('nominal') ?></th>
+											<th class="text-center"><?php echo lang('action') ?></th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+									<tfoot>
+										<tr class="table-active">
+											<th colspan="3"><B><?php echo lang('Total') ?><B></th>	
+											<th></th>
+											<th></th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
     </section>
 </div>
 <script type="text/javascript">

@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/** 
- * =================================================
- * @package	CGC (CODEIGNITER GENERATE CRUD)
- * @author	isyanto.id@gmail.com
- * @link	https://isyanto.com
- * @since	Version 1.0.0
- * @filesource
- * ================================================= 
- */
-
-
 class Anggaran_pendapatan_model extends CI_Model
 {
 
@@ -42,6 +31,7 @@ class Anggaran_pendapatan_model extends CI_Model
 						'idPendapatan'	=> $id,
 						'koderekening'	=> $this->input->post('kode_rekening')[$i],
 						'uraian'		=> $this->input->post('uraian')[$i],
+						'cabang'		=> $this->input->post('cabang')[$i],
 						'volume'		=> $this->input->post('volume')[$i],
 						'satuan'		=> $this->input->post('satuan')[$i],
 						'tarif'			=> (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga')[$i]),

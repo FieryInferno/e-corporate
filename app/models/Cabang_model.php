@@ -83,4 +83,19 @@ class Cabang_model extends CI_Model
             return jsonOutputDeleteError();
         }
     }
+
+    public function select2($id, $term)
+	{
+        $this->db->select('id, concat(mcabang.kode, " - ", mcabang.nama) as text');
+        if ($id) {
+            $this->db->where('id', $id);
+            return $this->db->get('mcabang')->row_array();
+        } else {
+            if ($term) {
+                $this->db->like('kode', $term);
+                $this->db->or_like('nama', $term);
+            }
+            return $this->db->get('mcabang')->result_array();
+        }
+    }
 }

@@ -74,4 +74,11 @@ class Cabang extends User_Controller
     {
         $this->model->delete();
     }
+
+    public function select2($id = null)
+	{
+		$term	= $this->input->get('q');
+		$data	= $this->model->select2($id, $term);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }

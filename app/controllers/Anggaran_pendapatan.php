@@ -4,17 +4,6 @@ use Dompdf\FrameReflower\Text;
 
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/** 
- * =================================================
- * @package	CGC (CODEIGNITER GENERATE CRUD)
- * @author	isyanto.id@gmail.com
- * @link	https://isyanto.com
- * @since	Version 1.0.0
- * @filesource
- * ================================================= 
- */
-
-
 class Anggaran_pendapatan extends User_Controller
 {
 
