@@ -41,7 +41,7 @@ class SetorPajakModel extends CI_Model {
 		$this->db->join('tpengirimanpenjualan', 'tpengirimanpenjualandetail.idpengiriman = tpengirimanpenjualan.id');
 		$this->db->join($this->tabel, $this->tabel . '.pengirimanid = tpengirimanpenjualan.id');
 		$this->db->join('mkontak', $this->tabel . '.kontakid = mkontak.id');
-		$this->db->join('mgudang', $this->tabel . '.gudangid = mgudang.id');
+		$this->db->join('mgudang', $this->tabel . '.gudangid = mgudang.id', 'left');
 		$this->db->join('mitem', 'tpemesananpenjualandetail.itemid = mitem.id');
 		$this->db->join('mnoakun', 'tpemesananpenjualandetail.akunno = mnoakun.idakun', 'left');
 		$this->db->join('mpajak', $this->tabel1 . '.idPajak = mpajak.id_pajak');
