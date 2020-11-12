@@ -97,10 +97,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive">
-                                
-                                <table class="table table-bordered">
-                                    <thead">
-                                        <tr>
+                                <table class="table table-xs table-striped table-borderless table-hover">
+                                    <thead>
+                                        <tr class="table-active">
                                             <th><?php echo lang('item') ?></th>
                                             <th class="text-right"><?php echo lang('price') ?></th>
                                             <th class="text-right"><?php echo lang('qty') ?></th>
@@ -122,17 +121,80 @@
                                                 <td class="text-right"><?php echo number_format($row['jumlah']) ?></td>
                                                 <td class="text-right"><?= number_format($row['subtotal'],2,',','.'); ?></td>
                                                 <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                                                <td class="text-right"><?= number_format($row['ppn'],2,',','.'); ?></td>
+                                                <td class="text-right">
+                                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalPajak<?= $row['id']; ?>" title="Detail Pajak">
+                                                        <i class="fas fa-balance-scale"></i>
+                                                    </button>
+                                                    <div class="modal fade" id="modalPajak<?= $row['id']; ?>">
+                                                        <div class="modal-dialog modal-xl">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Pajak</h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form id="form_pajak" action="javascript:total_pajak('', '${no}')" enctype="multipart/form-data" method="POST">
+                                                                    <div class="modal-body">
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-xs table-striped table-borderless table-hover index_datatable" style="width:100%" id="pajak">
+                                                                                <thead>
+                                                                                    <tr class="table-active">
+                                                                                        <th>Nama Pajak</th>
+                                                                                        <th>Kode Akun</th>
+                                                                                        <th>Nama Akun</th>
+                                                                                        <th>Nominal</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody id="isi_tbody_pajak">
+                                                                                    <?php
+                                                                                        if ($row['pajak']) {
+                                                                                            foreach ($row['pajak'] as $key) { ?>
+                                                                                                <tr>
+                                                                                                    <td><?= $key['nama_pajak']; ?></td>
+                                                                                                    <td><?= $key['akunno']; ?></td>
+                                                                                                    <td><?= $key['namaakun']; ?></td>
+                                                                                                    <td>
+                                                                                                        <?php 
+                                                                                                            switch ($key['pengurangan']) {
+                                                                                                                case '0':
+                                                                                                                    echo number_format($key['nominal'],2,',','.');
+                                                                                                                    break;
+                                                                                                                case '1':
+                                                                                                                    echo '-' . number_format($key['nominal'],2,',','.');
+                                                                                                                    break;
+                                                                                                                
+                                                                                                                default:
+                                                                                                                    # code...
+                                                                                                                    break;
+                                                                                                            }
+                                                                                                        ?>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            <?php }
+                                                                                        }
+                                                                                    ?>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td class="text-right"><?= number_format($row['biayapengiriman'],2,',','.'); ?></td>
                                                 <td class="text-right"><?= $row['akunno']; ?></td>
                                                 <td class="text-right"><?= number_format($row['total'],2,',','.'); ?></td>
                                             </tr>
                                         <?php endforeach ?>
-                                        <tr class="bg-light">
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
                                             <td class="font-weight-bold text-right" colspan="8"><?php echo lang('grand_total') ?></td>
                                             <td class="font-weight-bold text-right"><?= number_format($grandtotal,2,',','.'); ?></td>
                                         </tr>
-                                    </tbody>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>
@@ -228,25 +290,13 @@
         var base_url = '{site_url}requiremen/';
 
         $(document).ready(function(){
-            // ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: null } });
-            var kontak  = '<?= $kontak['id']; ?>'
-            $.ajax({
-                url: base_url + 'select2_kontak',
-                method: 'get',
-                datatype: 'json',
-                success: function(data) {
-                    isi = "";
-                    for (let index = 0; index < data.length; index++) {
-                        if (kontak == data[index].id) {
-                            isi += `<option value="${data[index].id}" selected>${data[index].text}</option>`
-                        } else {
-                            isi += `<option value="${data[index].id}">${data[index].text}</option>`
-                        }
-                    }
-                    $('.kontakid').append(isi);
-                    $('.kontakid').select2();
-                }
-            })
+            ajax_select({ 
+                id          : '.kontakid', 
+                url         : base_url + 'select2_kontak', 
+                selected    : { 
+                    id  : null 
+                } 
+            });
         });
 
         $(document).on('change','.kontakid',function(){
@@ -256,15 +306,6 @@
                 url: base_url + 'update_kontakid/' + idpemesanan,
                 method: 'post',
                 datatype: 'json',
-                data: {
-                    kontakid: kontakid
-                },
-                beforeSend: function() {
-                    pageBlock();
-                },
-                afterSend: function() {
-                    unpageBlock();
-                },
                 success: function(data) {
                     if(data.status == 'success') {
                         swal("Berhasil!", "Berhasil Mengupdate Data", "success");

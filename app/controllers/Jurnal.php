@@ -200,6 +200,7 @@ class Jurnal extends User_Controller {
 						$no		= 0;
 						foreach ($data0 as $key) {
 							$data0[$no]['detail']	= $this->Faktur_penjualan_model->fakturdetail($key['id'], $key['jenis_pembelian']);
+							$no++;
 						}
 						break;
 					

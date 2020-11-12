@@ -28,28 +28,29 @@
 							<a href="{site_url}anggaran_belanja/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						<?php } ?></div>
 						<div class="card-body">
-							<table class="table table-bordered table-striped index_datatable">
-								<thead>
-								<tr>
-									<th>ID</th>
-									<th><?php echo lang('department name') ?></th>
-										<th><?php echo lang('perusahaan') ?></th>
-									<th><?php echo lang('nominal') ?></th>
-									<th class="text-center"><?php echo lang('action') ?></th>
-								</tr>
-								</thead>
-								<tbody>                          
-								</tbody>
-								<tfoot>
-									<tr>
-										<th></th>
-										<th></th>
-										<th style="text-align:right;"><B><?php echo lang('Total') ?><B></th>				
-										<th></th>
-										<th></th>
-									</tr>
-								</tfoot>
-							</table>
+							<div class="table-responsive">
+								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
+									<thead>
+										<tr class="table-active">
+											<th>ID</th>
+											<th><?php echo lang('department name') ?></th>
+											<th><?php echo lang('perusahaan') ?></th>
+											<th><?php echo lang('nominal') ?></th>
+											<th class="text-center"><?php echo lang('action') ?></th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+									<tfoot>
+										<tr class="table-active">
+											<th></th>
+											<th></th>
+											<th style="text-align:right;"><B><?php echo lang('Total') ?><B></th>				
+											<th></th>
+											<th></th>
+										</tr>
+									</tfoot>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -99,7 +100,7 @@
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<form action="anggaran_belanja/edit" method="post">
+									<form action="{site_url}anggaran_belanja/edit" method="post">
 										<input type="hidden" value="${data}" name="idAnggaranBelanja">
 										<button class="dropdown-item" type="submit"><i class="fas fa-pencil-alt"></i> Edit</button>
 									</form>` + 

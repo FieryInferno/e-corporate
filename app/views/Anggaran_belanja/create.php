@@ -71,22 +71,24 @@
                                         </div>
                                         <br>
                                         <div style="overflow-x:scroll; width:100%">
-                                            <table class="table" style="white-space: nowrap; width: 1500px" id="rekening">
-                                                <thead class="{bg_header}">
-                                                    <tr>
-                                                        <th class="text-center"><?php echo lang('action') ?></th>
-                                                        <th class="text-center">Kode Rekening</th>
-                                                        <th class="text-center">Uraian</th>
-                                                        <th class="text-center">Volume</th>
-                                                        <th class="text-center">Satuan</th>
-                                                        <th class="text-center">Tarif</th>
-                                                        <th class="text-center">Jumlah</th>
-                                                        <th class="text-center">Realisasi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
+											<div class="table-responsive">
+												<table class="table table-xs table-striped table-borderless table-hover" id="rekening">
+													<thead>
+														<tr class="table-active">
+															<th class="text-center"><?php echo lang('action') ?></th>
+															<th class="text-center">Kode Rekening</th>
+															<th class="text-center">Uraian</th>
+															<th class="text-center">Cabang</th>
+															<th class="text-center">Volume</th>
+															<th class="text-center">Satuan</th>
+															<th class="text-center">Tarif</th>
+															<th class="text-center">Jumlah</th>
+															<th class="text-center">Realisasi</th>
+														</tr>
+													</thead>
+													<tbody></tbody>
+												</table>
+											</div>
                                         </div>
                                     </div>
                                 </div>
@@ -124,18 +126,18 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<table class="table">
-					<thead class="{bg_header}">
-						<tr>
-							<th>&nbsp;</th>
-							<th>Kode Rekening</th>
-							<th>Nama Rekening</th>
-						</tr>
-					</thead>
-					<tbody id='list_rekening'>
-
-					</tbody>
-				</table>
+				<div class="table-responsive">
+					<table class="table table-xs table-striped table-borderless table-hover index_datatable" id="rekening">
+						<thead>
+							<tr class="table-active">
+								<th>&nbsp;</th>
+								<th>Kode Rekening</th>
+								<th>Nama Rekening</th>
+							</tr>
+						</thead>
+						<tbody id='list_rekening'></tbody>
+					</table>
+				</div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
@@ -256,6 +258,9 @@
 					</select>
 				</td>
 				<td>
+					<select name="cabang[]" id="cabang${no}${no2}" class="form-control" style="width: 100%;"></select>
+				</td>
+				<td>
 					<input type="text" class="form-control" onkeyup="sum('`+no+no2+`');" name="volume[]" id="volume`+no+no2+`">
 				</td>
 				<td>
@@ -282,7 +287,10 @@
 			`;
 		$(html).insertAfter(tr);
 		$('#a'+no).html(`<button type="button" class="btn btn-primary" onclick="addItem(this,`+no+`,`+no3+`)">+</button>`);
-
+		ajax_select({
+			id	: `#cabang${no}${no2}`,
+			url	: '{site_url}cabang/select2',
+		});
     }
     
 	function sum(no) {
@@ -293,15 +301,15 @@
 		var result = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
 		if (!isNaN(result)) {
 			document.getElementById('jumlah'+no).value = result;
-			document.getElementById('lihat'+no).value = formatRupiah(String(result), 'Rp.')+',00';
+			document.getElementById('lihat'+no).value = formatRupiah(String(result))+',00';
 		}
 		else if(txtFirstNumberValue !=null && txtSecondNumberValue == null){
 			document.getElementById('jumlah'+no).value = txtFirstNumberValue;
 		}else{
 		document.getElementById('jumlah'+no).value = txtSecondNumberValue;
-		document.getElementById('lihat'+no).value = formatRupiah(String(txtSecondNumberValue), 'Rp.')+',00';
+		document.getElementById('lihat'+no).value = formatRupiah(String(txtSecondNumberValue))+',00';
         }
-        document.getElementById('harga'+no).value   = formatRupiah(txtSecondNumberValue, 'Rp.');
+        document.getElementById('harga'+no).value   = formatRupiah(txtSecondNumberValue);
 	}
         function isNumberKey(evt)
         {

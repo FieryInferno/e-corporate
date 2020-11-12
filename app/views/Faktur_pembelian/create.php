@@ -389,16 +389,76 @@
                             $('#setupJurnal2').val(data['kodeJurnal']);
                         }
                     });
+                    var detailPengiriman    = data[index].detail_pengiriman;
+                    var isiPajak            = '';
                     for (let i = 0; i < data[index].detail_pengiriman.length; i++) {
                         var subtotal        = parseInt(data[index].detail_pengiriman[i].jumlahditerima) * parseInt(data[index].detail_pengiriman[i].harga);
                         var biayapengiriman = data[index].detail_pengiriman[i].biayapengiriman;
-                        var pajak           = data[index].detail_pengiriman[i].pajak;
+                        var ppn             = data[index].detail_pengiriman[i].ppn;
+                        for (let j = 0; j < data[index].detail_pengiriman[i].pajak.length; j++) {
+                            const element = data[index].detail_pengiriman[i].pajak[j];
+                            switch (element.pengurangan) {
+                                case '0':
+                                    var nominal = formatRupiah(element.nominal) + ',00';
+                                    break;
+                                case '1':
+                                    var nominal = '-' + formatRupiah(element.nominal) + ',00';
+                                    break;
+                            
+                                default:
+                                    break;
+                            }
+                            isiPajak        += `<tr>
+                                                    <td>${element.nama_pajak}</td>
+                                                    <td>${element.akunno}</td>
+                                                    <td>${element.namaakun}</td>
+                                                    <td>` +
+                                                        nominal
+                                                    + `</td>
+                                                </tr>`;
+                                                console.log(isiPajak);
+                        }
+                        var pajak   =`
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalPajak${detailPengiriman[i].idBarang}" title="Detail Pajak">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                            <div class="modal fade" id="modalPajak${detailPengiriman[i].idBarang}">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Pajak</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form>
+                                            <div class="modal-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-xs table-striped table-borderless table-hover index_datatable" style="width:100%" id="pajak">
+                                                        <thead>
+                                                            <tr class="table-active">
+                                                                <th>Nama Pajak</th>
+                                                                <th>Kode Akun</th>
+                                                                <th>Nama Akun</th>
+                                                                <th>Nominal</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="isi_tbody_pajak">` +
+                                                            isiPajak
+                                                        + `</tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>`;
                         table_detail.row.add([
                             pengiriman[index].value,
                             data[index].notrans,
                             data[index].detail_pengiriman[i].kode_barang + 
                             `<input type="hidden" value="${data[index].detail_pengiriman[i].idbarang}" name="idbarang[]">
-                            <input type="hidden" value="${parseInt(pajak)}" name="pajak[]">
+                            <input type="hidden" value="${parseInt(ppn)}" name="pajak[]">
                             <input type="hidden" value="${parseInt(biayapengiriman)}" name="biaya_pengiriman[]">
                             <input type="hidden" name="idpengiriman[]" value="${pengiriman[index].value}">`,
                             data[index].detail_pengiriman[i].nama_barang,
@@ -406,9 +466,9 @@
                             data[index].detail_pengiriman[i].jumlahditerima,
                             formatRupiah(String(subtotal)) + ',00',
                             formatRupiah(biayapengiriman) + ',00',
-                            formatRupiah(pajak) + ',00',
-                            formatRupiah(String(subtotal + parseInt(biayapengiriman) + parseInt(pajak))) + ',00' +
-                            `<input type="hidden" value="${subtotal + parseInt(biayapengiriman) + parseInt(pajak)}" name="total[]">`,
+                            pajak,
+                            formatRupiah(String(subtotal + parseInt(biayapengiriman) + parseInt(ppn))) + ',00' +
+                            `<input type="hidden" value="${subtotal + parseInt(biayapengiriman) + parseInt(ppn)}" name="total[]">`,
                             `<a href="javascript:void(0)" class="edit_detail" id_barang="${pengiriman[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp;
                             <a href="javascript:void(0)" class="delete_detail text-danger"><i class="fas fa-trash"></i></a>`
                         ]).draw( false );

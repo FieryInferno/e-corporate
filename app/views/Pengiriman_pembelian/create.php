@@ -89,9 +89,9 @@
                             </div>
                         </div>
                         <div class="mb-3 mt-3 table-responsive">
-                            <table class="table table-bordered" id="table_detail">
-                                <thead class="{bg_header}">
-                                    <tr>
+                            <table class="table table-xs table-striped table-borderless table-hover" id="table_detail">
+                                <thead>
+                                    <tr class="table-active">
                                         <th>Kode Barang</th>
                                         <th>Nama Barang</th>
                                         <th>Nomor Akun</th>
@@ -124,7 +124,7 @@
                                     ?>
                                 </tbody>
                                 <tfoot>
-                                    <tr>
+                                    <tr class="table-active">
                                         <td colspan="3" style="text-align:center;">Total Barang</td>
                                         <td id="total_barang" class="text-right"><?= $total_barang; ?></td>
                                         <td id="total_penerimaan" class="text-right">0</td>

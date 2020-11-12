@@ -141,9 +141,9 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive">
-                                <table class="table table-bordered">
+                                <table class="table table-xs table-striped table-borderless table-hover">
                                     <thead>
-                                        <tr>
+                                        <tr class="table-active">
                                             <th><?php echo lang('item') ?></th>
                                             <th class="text-right"><?php echo lang('price') ?></th>
                                             <th class="text-right"><?php echo lang('qty') ?></th>
@@ -165,17 +165,84 @@
                                                 <td class="text-right"><?= $row['jumlah']; ?></td>
                                                 <td class="text-right"><?php echo number_format($row['subtotal'], 2, ',','.') ?></td>
                                                 <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                                                <td class="text-right"><?php echo number_format($row['ppn'], 2, ',','.') ?></td>
+                                                <td class="text-right">
+                                                    <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalPajak<?= $row['idPemesananDetail']; ?>" title="Detail Pajak">
+                                                        <i class="fas fa-balance-scale"></i>
+                                                    </button>
+                                                    <div class="modal fade" id="modalPajak<?= $row['idPemesananDetail']; ?>">
+                                                        <div class="modal-dialog modal-xl">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title">Pajak</h4>
+                                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                                        <span aria-hidden="true">&times;</span>
+                                                                    </button>
+                                                                </div>
+                                                                <form id="form_pajak" action="javascript:total_pajak('', '${no}')" enctype="multipart/form-data" method="POST">
+                                                                    <div class="modal-body">
+                                                                        <div class="table-responsive">
+                                                                            <table class="table table-xs table-striped table-borderless table-hover index_datatable" style="width:100%" id="pajak">
+                                                                                <thead>
+                                                                                    <tr class="table-active">
+                                                                                        <th>Nama Pajak</th>
+                                                                                        <th>Kode Akun</th>
+                                                                                        <th>Nama Akun</th>
+                                                                                        <th>Nominal</th>
+                                                                                    </tr>
+                                                                                </thead>
+                                                                                <tbody id="isi_tbody_pajak">
+                                                                                    <?php
+                                                                                        if ($row['pajak']) {
+                                                                                            foreach ($row['pajak'] as $key) { ?>
+                                                                                                <tr>
+                                                                                                    <td><?= $key['nama_pajak']; ?></td>
+                                                                                                    <td><?= $key['akunno']; ?></td>
+                                                                                                    <td><?= $key['namaakun']; ?></td>
+                                                                                                    <td>
+                                                                                                        <?php 
+                                                                                                            switch ($key['pengurangan']) {
+                                                                                                                case '0':
+                                                                                                                    echo number_format($key['nominal'],2,',','.');
+                                                                                                                    break;
+                                                                                                                case '1':
+                                                                                                                    echo '-' . number_format($key['nominal'],2,',','.');
+                                                                                                                    break;
+                                                                                                                
+                                                                                                                default:
+                                                                                                                    # code...
+                                                                                                                    break;
+                                                                                                            }
+                                                                                                        ?>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            <?php }
+                                                                                        }
+                                                                                    ?>
+                                                                                </tbody>
+                                                                            </table>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer justify-content-between">
+                                                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                        <button type="submit" class="btn btn-primary">Save changes</button>
+                                                                    </div>
+                                                                </form>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </td>
                                                 <td class="text-right"><?php echo number_format($row['biayapengiriman'], 2, ',','.') ?></td>
                                                 <td class="text-right"><?= $row['akunno']; ?></td>
                                                 <td class="text-right"><?php echo number_format($row['total'], 2, ',','.') ?></td>
                                             </tr>
                                         <?php endforeach ?>
-                                        <tr class="bg-light">
+                                    </tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
                                             <td class="font-weight-bold text-right" colspan="8"><?php echo lang('grand_total') ?></td>
                                             <td class="font-weight-bold text-right"><?php echo number_format($grandtotal) ?></td>
                                         </tr>
-                                    </tbody>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

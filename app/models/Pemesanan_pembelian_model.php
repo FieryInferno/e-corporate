@@ -49,8 +49,16 @@ class Pemesanan_pembelian_model extends CI_Model {
 		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id', 'left');
 		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id', 'left');
 		$this->db->where('tpemesanandetail.idpemesanan', $idpemesanan);
-		$get = $this->db->get('tpemesanandetail');
-		return $get->result_array();
+		$data	= $this->db->get('tpemesanandetail')->result_array();
+		for ($i=0; $i < count($data); $i++) { 
+			$this->db->select('mpajak.nama_pajak, mnoakun.akunno, mnoakun.namaakun, pajakPembelian.nominal, pajakPembelian.pengurangan');
+			$this->db->join('mpajak', 'pajakPembelian.idPajak = mpajak.id_pajak');
+			$this->db->join('mnoakun', 'mpajak.akun = mnoakun.idakun');
+			$data[$i]['pajak']	= $this->db->get_where('pajakPembelian', [
+				'idPemesananDetail'	=> $data[$i]['id']
+			])->result_array();
+		}
+		return $data;
 	}
 
 	public function delete() {

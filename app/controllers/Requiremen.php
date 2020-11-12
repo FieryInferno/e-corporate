@@ -52,7 +52,6 @@ class Requiremen extends User_Controller {
 				$data['kontak'] 			= get_by_id('id',$data['kontakid'],'mkontak');
 				$data['gudang'] 			= get_by_id('id',$data['gudangid'],'mgudang');
 				$data['pemesanandetail'] 	= $this->model->pemesanandetail($data['id']);
-				// print_r($data['pemesanandetail']);die();
 				$data['title'] 				= lang('purchase_order');
 				$data['subtitle'] 			= lang('detail');
 				$data['content'] 			= 'Requiremen/detail';

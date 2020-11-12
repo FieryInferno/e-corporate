@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Neraca extends User_Controller {
 
 	public function __construct() {
@@ -31,11 +20,11 @@ class Neraca extends User_Controller {
 		} else {
 			$data['tanggal'] = date('Y-m-d');
 		}
-		$data['getasetlancar'] = $this->model->getasetlancar($data['tanggal']);
-		$data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
-		$data['getliabilitas'] = $this->model->getliabilitas($data['tanggal']);
-		$data['getmodal'] = $this->model->getmodal($data['tanggal']);
-		$data['gettotallabarugi'] = $this->model->gettotallabarugi($data['tanggal']);
+		// $data['getasetlancar'] = $this->model->getasetlancar($data['tanggal']);
+		// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
+		// $data['getliabilitas'] = $this->model->getliabilitas($data['tanggal']);
+		// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
+		// $data['gettotallabarugi'] = $this->model->gettotallabarugi($data['tanggal']);
 		$data['title'] = lang('balance_sheet');
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Neraca/index';

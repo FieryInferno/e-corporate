@@ -177,13 +177,21 @@ class Faktur_pembelian_model extends CI_Model {
 	}
 
 	public function fakturdetail($idfaktur) {
-		$this->db->select('tfakturdetail.*, mitem.nama as item, tpemesanandetail.harga, tpemesanandetail.jumlah, tpemesanandetail.subtotal, tpemesanandetail.diskon, tpemesanandetail.ppn, tpemesanandetail.total, tpemesanandetail.biayapengiriman, tpemesanandetail.akunno, tpemesananangsuran.uangmuka, tpemesananangsuran.jumlahterm, tpemesananangsuran.total, tpemesananangsuran.a1, tpemesananangsuran.a2, tpemesananangsuran.a3, tpemesananangsuran.a4, tpemesananangsuran.a5, tpemesananangsuran.a6, tpemesananangsuran.a7, tpemesananangsuran.a8');
+		$this->db->select('tfakturdetail.*, mitem.nama as item, tpemesanandetail.harga, tpemesanandetail.jumlah, tpemesanandetail.subtotal, tpemesanandetail.diskon, tpemesanandetail.ppn, tpemesanandetail.total, tpemesanandetail.biayapengiriman, tpemesanandetail.akunno, tpemesananangsuran.uangmuka, tpemesananangsuran.jumlahterm, tpemesananangsuran.total, tpemesananangsuran.a1, tpemesananangsuran.a2, tpemesananangsuran.a3, tpemesananangsuran.a4, tpemesananangsuran.a5, tpemesananangsuran.a6, tpemesananangsuran.a7, tpemesananangsuran.a8, tpemesanandetail.id as idPemesananDetail');
 		$this->db->where('tfakturdetail.idfaktur', $idfaktur);
 		$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id', 'left');
 		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id', 'left');
 		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id', 'left');
 		$this->db->join('tpemesananangsuran', 'tpemesanandetail.idpemesanan = tpemesananangsuran.idpemesanan', 'left');
 		$data		= $this->db->get('tfakturdetail')->result_array();
+		for ($i=0; $i < count($data); $i++) { 
+			$this->db->select('mpajak.nama_pajak, mnoakun.akunno, mnoakun.namaakun, pajakPembelian.nominal, pajakPembelian.pengurangan');
+			$this->db->join('mpajak', 'pajakPembelian.idPajak = mpajak.id_pajak');
+			$this->db->join('mnoakun', 'mpajak.akun = mnoakun.idakun');
+			$data[$i]['pajak']	= $this->db->get_where('pajakPembelian', [
+				'idPemesananDetail'	=> $data[$i]['idPemesananDetail']
+			])->result_array();
+		}
 		return $data;
 	}
 

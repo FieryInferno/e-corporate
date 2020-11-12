@@ -58,7 +58,8 @@
                                         </div>
                                         <div class="form-group">
                                             <label>Tgl Pengajuan :</label>
-                                            <input type="date" class="form-control" name="tglpengajuan" required></select>
+											<input type="hidden" name="idAnggaranBelanja" value="{id}">
+                                            <input type="date" class="form-control" name="tglpengajuan" required value="{tglpengajuan}"></select>
                                         </div>
                                     </div>
                                 </div>
@@ -71,22 +72,24 @@
                                         </div>
                                         <br>
                                         <div style="overflow-x:scroll; width:100%">
-                                            <table class="table" style="white-space: nowrap; width: 1500px" id="rekening">
-                                                <thead class="{bg_header}">
-                                                    <tr>
-                                                        <th class="text-center"><?php echo lang('action') ?></th>
-                                                        <th class="text-center">Kode Rekening</th>
-                                                        <th class="text-center">Uraian</th>
-                                                        <th class="text-center">Volume</th>
-                                                        <th class="text-center">Satuan</th>
-                                                        <th class="text-center">Tarif</th>
-                                                        <th class="text-center">Jumlah</th>
-                                                        <th class="text-center">Realisasi</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                </tbody>
-                                            </table>
+											<div class="table-responsive">
+												<table class="table table-xs table-striped table-borderless table-hover" id="rekening">
+													<thead>
+														<tr class="table-active">
+															<th class="text-center"><?php echo lang('action') ?></th>
+															<th class="text-center">Kode Rekening</th>
+															<th class="text-center">Uraian</th>
+															<th class="text-center">Cabang</th>
+															<th class="text-center">Volume</th>
+															<th class="text-center">Satuan</th>
+															<th class="text-center">Tarif</th>
+															<th class="text-center">Jumlah</th>
+															<th class="text-center">Realisasi</th>
+														</tr>
+													</thead>
+													<tbody></tbody>
+												</table>
+											</div>
                                         </div>
                                     </div>
                                 </div>
@@ -146,6 +149,8 @@
 
 <script type="text/javascript">
 	var base_url = '{site_url}anggaran_belanja/';
+	var RekTitle = [];
+    var RekItem;
 	$(document).ready(function() {
 		ajax_select({
 			id			: '#perusahaan',	
@@ -174,45 +179,171 @@
 			var num = deptId.toString().padStart(3, "0")
 			$('#deptCode').val(num);
 			ajax_select({
-				id: '#pejabat',
-				url: base_url + 'select2_mdepartemen_pejabat/' + deptName,
+				id			: '#pejabat',
+				url			: base_url + 'select2_mdepartemen_pejabat',
+				selected	: {
+					id	: '{dept}/{pejabat}'
+				}
 			});
 		})
 
-		getListRekening();
+		get_rekitem();
 	})
 
-	function getListRekening() {
-		var table = $('#list_rekening');
-		$.ajax({
-			type: "get",
-			url: base_url + 'get_rekeningbelanja',
-			success: function(response) {
-				for (let i = 0; i < response.length; i++) {
-					const element = response[i];
-					if (i < 0) {
-						const html = `
+	function get_rekitem() {
+        $.ajax({
+            type: "get",
+            url: base_url + 'get_rekitem/{id}',
+            success: function(response) {
+                RekItem = response;
+                var temp;
+                for (let i = 0; i < response.length; i++) {
+                    const element = response[i];
+                    if (i == 0) {
+                        RekTitle.push(element.koderekening);
+                        temp = element.koderekening;
+                        continue;
+                    }
+                    if (temp != element.koderekening) {
+                        RekTitle.push(element.koderekening);
+                        temp = element.koderekening;
+                    }
+                }
+                getListRekening();
+            }
+        });
+    }
+
+	// function getListRekening() {
+	// 	var table = $('#list_rekening');
+	// 	$.ajax({
+	// 		type: "get",
+	// 		url: base_url + 'get_rekeningbelanja',
+	// 		success: function(response) {
+	// 			for (let i = 0; i < response.length; i++) {
+	// 				const element = response[i];
+	// 				if (i < 0) {
+	// 					const html = `
+	// 						<tr class="bg-light">
+	// 							<td><input type="checkbox" name="" id=""  disabled></td>
+	// 							<td>${element.akunno}</td>
+	// 							<td>${element.namaakun}</td>
+	// 						</tr>
+	// 					`;
+	// 					table.append(html);
+	// 				} else {
+	// 					const html = `
+	// 						<tr>
+	// 							<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, `+i+`)" idRekening="${element.idakun}"></td>
+	// 							<td>${element.akunno}</td>
+	// 							<td>${element.namaakun}</td>
+	// 						</tr>
+	// 					`;
+	// 					table.append(html);
+	// 				}
+	// 			}
+	// 		}
+	// 	});
+	// }
+
+	function getListRekening(a) {
+        var table = $('#list_rekening');
+        var temp;
+        $.ajax({
+            type: "get",
+            url: base_url + 'get_rekeningbelanja',
+            success: function(response) {
+                for (let i = 0; i < response.length; i++) {
+                    const element = response[i];
+                    if (i < 0) {
+                        const html = `
 							<tr class="bg-light">
 								<td><input type="checkbox" name="" id=""  disabled></td>
 								<td>${element.akunno}</td>
 								<td>${element.namaakun}</td>
 							</tr>
 						`;
-						table.append(html);
-					} else {
-						const html = `
+                        table.append(html);
+                    } else {
+                        let checked = '';
+                        if (RekTitle.includes(element.idakun)) {
+                            checked = 'checked';
+                            const table = $('#rekening');
+                            const html = `
+                                        <tr class="bg-light item-title" kode="${element.akunno}">
+                                            <td  id="a${i}">
+                                                <button type="button" class="btn btn-primary" onclick="addItem(this, ${i}, 0)">+</button>
+                                            </td>
+                                            <td>${element.akunno}</td>
+                                            <td>${element.namaakun}</td>
+                                            <td colspan="5"></td>
+                                        </tr>
+                                    `;
+                            table.append(html);
+                            for (let j = 0; j < RekItem.length; j++) {
+                                const item = RekItem[j];
+                                if (element.idakun == item.koderekening) {
+                                    let buah, pak;
+                                    (item.satuan == 'buah') ? buah = 'selected': pak = 'selected';
+                                    const html = `
+                                    <tr class="rek-items" kode="${element.akunno}">
+                                        <td>
+                                            <button type="button" class="btn btn-danger" onclick="removeItem(this)">-</button>
+                                        </td>
+                                        <td>
+                                            <input type="hidden" name="kode_rekening[]" id="kode_rekening${i}${j}${i}${j}" value="${item.koderekening}">
+                                            ${element.akunno}
+                                        </td>
+										<td>
+											<select class="form-control uraian" id="uraian${i}${j}${i}${j}" name="uraian[]" required style="width: 100%"></select>
+										</td>
+                                        <td>
+                                            <select name="cabang[]" id="cabang${i}${j}${i}${j}" class="form-control" style="width: 100%"></select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="volume[]" id="volume${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${item.volume}"></td>
+                                        <td>
+                                            <select type="text" class="form-control" name="satuan">
+                                                <option value="buah" ${buah}>buah</option>
+                                                <option value="pak" ${pak}>pak</option>
+                                            </select>
+                                        </td>
+                                        <td><input type="text" class="form-control" name="harga[]" id="harga${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.tarif))}"></td>
+                                        <td><input type="text" class="form-control" name="jumlah[]" id="jumlah${i}${j}${i}${j}" readonly onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.jumlah))}"></td>
+                                        <td><input type="text" class="form-control" name="keterangan" value="${item.keterangan}"></td>
+                                    </tr>
+                                    `;
+                                    table.append(html);
+                                    ajax_select({
+                                        id	        : `#cabang${i}${j}${i}${j}`,
+                                        url	        : `{site_url}cabang/select2`,
+                                        selected    : {
+                                            id  : item.cabang
+                                        }
+                                    });
+									ajax_select({
+                                        id	        : `#uraian${i}${j}${i}${j}`,
+                                        url	        : `{site_url}anggaran_belanja/select_uraian`,
+                                        selected    : {
+                                            id  : item.uraian
+                                        }
+                                    });
+                                }
+                            }
+                        }
+
+                        const html = `
 							<tr>
-								<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, `+i+`)" idRekening="${element.idakun}"></td>
+								<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, ${i})" idRekening="${element.idakun}" ${checked}></td>
 								<td>${element.akunno}</td>
 								<td>${element.namaakun}</td>
 							</tr>
 						`;
 						table.append(html);
-					}
-				}
-			}
-		});
-	}
+                    }
+                }
+            }
+        });
+    }
 
 	function addRekening(elem, no) {
 		const kodeRekening 	= $(elem).attr('kode-rekening');
@@ -265,6 +396,9 @@
 					</select>
 				</td>
 				<td>
+					<select name="cabang[]" id="cabang${no}${no2}" class="form-control" style="width: 100%;"></select>
+				</td>
+				<td>
 					<input type="text" class="form-control" onkeyup="sum('`+no+no2+`');" name="volume[]" id="volume`+no+no2+`">
 				</td>
 				<td>
@@ -291,7 +425,10 @@
 			`;
 		$(html).insertAfter(tr);
 		$('#a'+no).html(`<button type="button" class="btn btn-primary" onclick="addItem(this,`+no+`,`+no3+`)">+</button>`);
-
+		ajax_select({
+			id	: `#cabang${no}${no2}`,
+			url	: '{site_url}cabang/select2',
+		});
     }
     
 	function sum(no) {
@@ -302,15 +439,15 @@
 		var result = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
 		if (!isNaN(result)) {
 			document.getElementById('jumlah'+no).value = result;
-			document.getElementById('lihat'+no).value = formatRupiah(String(result), 'Rp.')+',00';
+			document.getElementById('lihat'+no).value = formatRupiah(String(result))+',00';
 		}
 		else if(txtFirstNumberValue !=null && txtSecondNumberValue == null){
 			document.getElementById('jumlah'+no).value = txtFirstNumberValue;
 		}else{
 		document.getElementById('jumlah'+no).value = txtSecondNumberValue;
-		document.getElementById('lihat'+no).value = formatRupiah(String(txtSecondNumberValue), 'Rp.')+',00';
+		document.getElementById('lihat'+no).value = formatRupiah(String(txtSecondNumberValue))+',00';
         }
-        document.getElementById('harga'+no).value   = formatRupiah(txtSecondNumberValue, 'Rp.');
+        document.getElementById('harga'+no).value   = formatRupiah(txtSecondNumberValue);
 	}
         function isNumberKey(evt)
         {

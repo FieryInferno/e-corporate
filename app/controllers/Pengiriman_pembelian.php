@@ -32,7 +32,7 @@ class Pengiriman_pembelian extends User_Controller {
 		$this->datatables->select('tPenerimaan.idPenerimaan as id, tPenerimaan.notrans, tPenerimaan.catatan, mperusahaan.nama_perusahaan, tpemesanan.departemen, tpemesanan.tanggal, tpemesanan.total as nominal_pemesanan, mkontak.nama as supplier, tPenerimaan.total as nominal_penerimaan, mgudang.nama as gudang, tPenerimaan.status, tpemesanan.notrans as nopemesanan, tpemesanan.id as idpemesanan');
 		$this->datatables->from('tPenerimaan');
 		$this->datatables->join('tpemesanan', 'tPenerimaan.pemesanan = tpemesanan.id');
-		$this->datatables->join('mkontak','tpemesanan.kontakid = mkontak.id');
+		$this->datatables->join('mkontak','tpemesanan.kontakid = mkontak.id', 'left');
 		$this->datatables->join('mgudang','tPenerimaan.gudang = mgudang.id', 'left');
 		$this->datatables->join('mperusahaan','tpemesanan.idperusahaan = mperusahaan.idperusahaan');
 		$this->datatables->where('tpemesanan.status', '6');

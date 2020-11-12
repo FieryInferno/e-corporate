@@ -170,21 +170,33 @@ class Faktur_penjualan_model extends CI_Model {
 		$this->db->where('tfakturpenjualandetail.idfaktur', $idfaktur);
 		switch ($jenisPembelian) {
 			case 'jasa':
-				$this->db->select('tfakturpenjualandetail.*, concat(mnoakun.akunno, "/", mnoakun.namaakun) as item, mnoakun.akunno, mnoakun.idakun, mnoakun.namaakun');
+				$this->db->select('tfakturpenjualandetail.*, concat(mnoakun.akunno, "/", mnoakun.namaakun) as item, mnoakun.akunno, mnoakun.idakun, mnoakun.namaakun, tfakturpenjualan.id as idFaktur');
 				$this->db->join('mnoakun', 'tfakturpenjualandetail.itemid = mnoakun.idakun', 'left');
+				$this->db->join('tfakturpenjualan', 'tfakturpenjualandetail.idfaktur = tfakturpenjualan.id');
 				break;
 			case 'barang':
-				$this->db->select('tfakturpenjualandetail.*, mitem.nama as item, mnoakun.akunno, mnoakun.idakun, mnoakun.namaakun');
+				$this->db->select('tfakturpenjualandetail.*, mitem.nama as item, mnoakun.akunno, mnoakun.idakun, mnoakun.namaakun, tfakturpenjualan.id as idFaktur');
 				$this->db->join('mitem', 'tfakturpenjualandetail.itemid = mitem.id', 'left');
 				$this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun', 'left');
+				$this->db->join('tfakturpenjualan', 'tfakturpenjualandetail.idfaktur = tfakturpenjualan.id');
 				break;
 			
 			default:
 				# code...
 				break;
 		}
-		$get = $this->db->get('tfakturpenjualandetail');
-		return $get->result_array();
+		$data = $this->db->get('tfakturpenjualandetail')->result_array();
+		for ($i=0; $i < count($data); $i++) {
+			$this->db->select('mpajak.nama_pajak, mnoakun.akunno, mnoakun.namaakun, pajakPemesananPenjualan.nominal, pajakPemesananPenjualan.pengurangan');
+			$this->db->join('mpajak', 'pajakPemesananPenjualan.idPajak = mpajak.id_pajak');
+			$this->db->join('mnoakun', 'mpajak.akun = mnoakun.idakun');
+			$this->db->join('tpengirimanpenjualandetail', 'tpengirimanpenjualandetail.idpenjualdetail = pajakPemesananPenjualan.idDetailPemesananPenjualan');
+			$this->db->join('tfakturpenjualan', 'tfakturpenjualan.pengirimanid = tpengirimanpenjualandetail.idpengiriman');
+			$data[$i]['pajak']	= $this->db->get_where('pajakPemesananPenjualan', [
+				'tfakturpenjualan.id'	=> $data[$i]['idFaktur']
+			])->result_array();
+		}
+		return $data;
 	}
 
 	public function detailitem() {

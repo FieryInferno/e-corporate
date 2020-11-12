@@ -95,8 +95,9 @@ class Requiremen_model extends CI_Model {
 			$detail_array = json_decode($detail_array);
 			$no	= 0;
 			foreach($detail_array as $row => $value) {
+				$idPemesananDetail	= uniqid('PEM-DET');
 				$this->db->insert('tpemesanandetail', [
-					'id'			=> uniqid('PEM-DET'),
+					'id'			=> $idPemesananDetail,
 					'idpemesanan'	=> $id_pemesanan,
 					'itemid'		=> $value[0],
 					'harga'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga')[$no]),
@@ -110,6 +111,17 @@ class Requiremen_model extends CI_Model {
 					'jumlahsisa'	=> $this->input->post('jumlah')[$no],
 					'biayapengiriman'	=> $this->input->post('biayapengiriman')[$no],
 				]);
+				$idPajak			= explode(',', $this->input->post('idPajak')[$no]);
+				$nominal			= explode(',', $this->input->post('pajak')[$no]);
+				$pengurangan		= explode(',', $this->input->post('pengurangan')[$no]);
+				for ($i=0; $i < count($idPajak); $i++) { 
+					$this->db->insert('pajakPembelian', [
+						'idPemesananDetail'	=> $idPemesananDetail,
+						'idPajak'			=> $idPajak[$i],
+						'nominal'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $nominal[$i]),
+						'pengurangan'		=> $pengurangan[$i]
+					]);
+				}
 				$no++;
 			}
 			$angsuran['id']				= uniqid('PEM-ANG');
@@ -234,11 +246,20 @@ class Requiremen_model extends CI_Model {
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 	public function pemesanandetail($idpemesanan) {
-		$this->db->select('tpemesanandetail.*, tanggaranbelanjadetail.uraian as item');
+		$this->db->select('tpemesanandetail.*, mitem.nama as item');
 		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id', 'left');
+		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id', 'left');
 		$this->db->where('tpemesanandetail.idpemesanan', $idpemesanan);
-		$get = $this->db->get('tpemesanandetail');
-		return $get->result_array();
+		$data	= $this->db->get('tpemesanandetail')->result_array();
+		for ($i=0; $i < count($data); $i++) { 
+			$this->db->select('mpajak.nama_pajak, mnoakun.akunno, mnoakun.namaakun, pajakPembelian.nominal, pajakPembelian.pengurangan');
+			$this->db->join('mpajak', 'pajakPembelian.idPajak = mpajak.id_pajak');
+			$this->db->join('mnoakun', 'mpajak.akun = mnoakun.idakun');
+			$data[$i]['pajak']	= $this->db->get_where('pajakPembelian', [
+				'idPemesananDetail'	=> $data[$i]['id']
+			])->result_array();
+		}
+		return $data;
 	}
 
 	public function get($id)

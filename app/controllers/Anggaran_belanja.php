@@ -53,9 +53,11 @@ class Anggaran_belanja extends User_Controller
 			$this->model->setGet('idAnggaranBelanja', $this->idAnggaranBelanja);
 			$data = $this->model->get();
 			if ($data) {
-				$data['title'] = lang('anggaran_belanja');
-				$data['subtitle'] = lang('edit');
-				$data['content'] = 'Anggaran_belanja/edit';
+				$data['title']		= lang('anggaran_belanja');
+				$data['subtitle']	= lang('edit');
+				$data['uraian']		= $this->model->uraianAll();
+				$data['satuan']		= $this->model->satuanAll();
+				$data['content']	= 'Anggaran_belanja/edit';
 				$data = array_merge($data, path_info());
 				$this->parser->parse('default', $data);
 			} else {
@@ -121,10 +123,12 @@ class Anggaran_belanja extends User_Controller
 
 	public function get_rekitem($id)
 	{
-		$this->db->select('koderekening,uraian,volume,satuan,tarif,jumlah,keterangan');
-		$this->db->where('id', $id);
+		$this->db->select('tanggaranbelanjadetail.*, mnoakun.idakun');
+		$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
+		$this->db->join('mcabang', 'tanggaranbelanjadetail.cabang = mcabang.id');
+		$this->db->where('idanggaran', $id);
 		$this->db->order_by('koderekening', 'asc');
-		$data = $this->db->get('tanggaranbelanja')->result_array();
+		$data = $this->db->get('tanggaranbelanjadetail')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 

@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/** 
- * =================================================
- * @package	CGC (CODEIGNITER GENERATE CRUD)
- * @author	isyanto.id@gmail.com
- * @link	https://isyanto.com
- * @since	Version 1.0.0
- * @filesource
- * ================================================= 
- */
-
-
 class Anggaran_belanja_model extends CI_Model
 {
 
@@ -19,10 +8,17 @@ class Anggaran_belanja_model extends CI_Model
 
 	public function save()
 	{
-		$id_anggaran	= uniqid('AB');
+		// print_r($this->input->post());
+		// die();
 		$nominal		= 0;
 		for ($i=0; $i < count($this->input->post('jumlah')); $i++) { 
 			$nominal	+= $this->input->post('jumlah')[$i];
+		}
+		
+		if ($this->input->post('idAnggaranBelanja')) {
+			$id_anggaran	= $this->input->post('idAnggaranBelanja');
+		} else {
+			$id_anggaran	= uniqid('AB');
 		}
 		$data_anggaran	= [
 			'id'			=> $id_anggaran,
@@ -35,14 +31,24 @@ class Anggaran_belanja_model extends CI_Model
 			'cby'			=> get_user('username'),
 			'cdate'			=> date('Y-m-d H:i:s')
 		];
-		$insert	= $this->db->insert('tanggaranbelanja', $data_anggaran);
+		if ($this->input->post('idAnggaranBelanja')) {
+			$this->db->where('tanggaranbelanja.id', $id_anggaran);
+			$insert	= $this->db->update('tanggaranbelanja', $data_anggaran);
+		} else {
+			$insert	= $this->db->insert('tanggaranbelanja', $data_anggaran);
+		}
 		if ($insert) {
+			if ($this->input->post('idAnggaranBelanja')) {
+				$this->db->where('idanggaran', $id_anggaran);
+				$insert	= $this->db->delete('tanggaranbelanjadetail');
+			}
 			for ($i=0; $i < count($this->input->post('kode_rekening')); $i++) { 
 				$this->db->insert('tanggaranbelanjadetail', [
 					'id'			=> uniqid('ABD'),
 					'idanggaran'	=> $id_anggaran,
 					'koderekening'	=> $this->input->post('kode_rekening')[$i],
 					'uraian'		=> $this->input->post('uraian')[$i],
+					'cabang'		=> $this->input->post('cabang')[$i],
 					'volume'		=> $this->input->post('volume')[$i],
 					'satuan'		=> $this->input->post('satuan')[$i],
 					'tarif'			=> $this->input->post('tarif')[$i],
@@ -134,7 +140,7 @@ class Anggaran_belanja_model extends CI_Model
 	public function get()
 	{
 		if ($this->idAnggaranBelanja) {
-			$this->db->select('tanggaranbelanja.idperusahaan, tanggaranbelanja.thnanggaran, tanggaranbelanja.tglpengajuan, tanggaranbelanja.id, tanggaranbelanja.dept');
+			$this->db->select('tanggaranbelanja.idperusahaan, tanggaranbelanja.thnanggaran, tanggaranbelanja.tglpengajuan, tanggaranbelanja.id, tanggaranbelanja.dept, tanggaranbelanja.pejabat, tanggaranbelanja.id');
 			$this->db->where('id', $this->idAnggaranBelanja);
 			$data			= $this->db->get('tanggaranbelanja')->row_array();
 			$data['detail']	= $this->db->get_where('tanggaranbelanjadetail', [
