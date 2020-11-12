@@ -127,18 +127,18 @@
 				</button>
 			</div>
 			<div class="modal-body">
-				<table class="table">
-					<thead class="{bg_header}">
-						<tr>
-							<th>&nbsp;</th>
-							<th>Kode Rekening</th>
-							<th>Nama Rekening</th>
-						</tr>
-					</thead>
-					<tbody id='list_rekening'>
-
-					</tbody>
-				</table>
+				<div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover index_datatable">
+                        <thead>
+                            <tr class="table-active">
+                                <th>&nbsp;</th>
+                                <th>Kode Rekening</th>
+                                <th>Nama Rekening</th>
+                            </tr>
+                        </thead>
+                        <tbody id='list_rekening'></tbody>
+                    </table>
+                </div>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
@@ -213,38 +213,6 @@
             }
         });
     }
-
-	// function getListRekening() {
-	// 	var table = $('#list_rekening');
-	// 	$.ajax({
-	// 		type: "get",
-	// 		url: base_url + 'get_rekeningbelanja',
-	// 		success: function(response) {
-	// 			for (let i = 0; i < response.length; i++) {
-	// 				const element = response[i];
-	// 				if (i < 0) {
-	// 					const html = `
-	// 						<tr class="bg-light">
-	// 							<td><input type="checkbox" name="" id=""  disabled></td>
-	// 							<td>${element.akunno}</td>
-	// 							<td>${element.namaakun}</td>
-	// 						</tr>
-	// 					`;
-	// 					table.append(html);
-	// 				} else {
-	// 					const html = `
-	// 						<tr>
-	// 							<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, `+i+`)" idRekening="${element.idakun}"></td>
-	// 							<td>${element.akunno}</td>
-	// 							<td>${element.namaakun}</td>
-	// 						</tr>
-	// 					`;
-	// 					table.append(html);
-	// 				}
-	// 			}
-	// 		}
-	// 	});
-	// }
 
 	function getListRekening(a) {
         var table = $('#list_rekening');
