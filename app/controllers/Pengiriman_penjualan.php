@@ -68,14 +68,13 @@ class Pengiriman_penjualan extends User_Controller {
 		if($id) {
 			$data = $this->model->getpengiriman($id);
 			if($data) {
-				$data['kontak'] = get_by_id('id',$data['kontakid'],'mkontak');
-				$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
-				$data['pengirimandetail'] = $this->model->pengirimandetail($data['id']);
-				$data['jurpenjualan'] =  get_by_id('refid',$data['id'],'tjurnalpenjualan');
-
-				$data['title'] = lang('delivery');
-				$data['subtitle'] = lang('detail');
-				$data['content'] = 'Pengiriman_penjualan/detail';
+				$data['kontak'] 			= get_by_id('id',$data['kontakid'],'mkontak');
+				$data['gudang'] 			= get_by_id('id',$data['gudangid'],'mgudang');
+				$data['pengirimandetail']	= $this->model->pengirimandetail($data['id']);
+				$data['jurpenjualan'] 		=  get_by_id('refid',$data['id'],'tjurnalpenjualan');
+				$data['title'] 				= lang('delivery');
+				$data['subtitle'] 			= lang('detail');
+				$data['content'] 			= 'Pengiriman_penjualan/detail';
 				$data = array_merge($data,path_info());
 				$this->parser->parse('template',$data);
 			} else {

@@ -21,10 +21,10 @@ class Pengiriman_penjualan_model extends CI_Model {
         $idpemesanan =$pengiriman['pemesananid'];
 
         $qpengiriman= $this->db->query("SELECT * FROM tpengirimanpenjualan WHERE id='$idpengiriman'");
-	        if ($qpengiriman->num_rows() > 0){
-	        	foreach ($qpengiriman->result() as $row) {
-	        		if ($row->status == '2'){
-	        			for ($i=0; $i < count($this->input->post('no', TRUE)); $i++) {
+			if ($qpengiriman->num_rows() > 0){
+				foreach ($qpengiriman->result() as $row) {
+					if ($row->status == '2'){
+						for ($i=0; $i < count($this->input->post('no', TRUE)); $i++) {
 								if ($this->input->post('jumlah', TRUE)[$i]) {
 									$harga = $this->input->post('harga', TRUE)[$i];
 									$jumlah = $this->input->post('jumlah', TRUE)[$i];
@@ -68,52 +68,52 @@ class Pengiriman_penjualan_model extends CI_Model {
 									$this->db->query("UPDATE tpemesananpenjualandetail SET jumlahsisa = jumlahsisa - '$jumlah' WHERE id='$idpenjualdetail' AND itemid='$itemid'");
 
 										$query_pemesanan_detail= $this->db->query("SELECT jumlah,jumlahsisa FROM tpemesananpenjualandetail WHERE id='$idpenjualdetail' AND itemid='$itemid'");
-						        		if ($query_pemesanan_detail->num_rows() > 0){
-							        		foreach ($query_pemesanan_detail->result() as $pemesanandetail) {
-							        			if ($pemesanandetail->jumlahsisa == 0){
-							        				$this->db->query("UPDATE tpemesananpenjualandetail SET status = '3' WHERE id='$idpenjualdetail' AND itemid='$itemid'");
-							        			}else if ($pemesanandetail->jumlah == $pemesanandetail->jumlahsisa){
-							        				$this->db->query("UPDATE tpemesananpenjualandetail SET status = '5' WHERE id='$idpenjualdetail' AND itemid='$itemid'");
-							        			}else{
-							        				$this->db->query("UPDATE tpemesananpenjualandetail SET status = '2' WHERE id='$idpenjualdetail' AND itemid='$itemid'");
-							        			} 
-							        		}
-							        	}
+										if ($query_pemesanan_detail->num_rows() > 0){
+											foreach ($query_pemesanan_detail->result() as $pemesanandetail) {
+												if ($pemesanandetail->jumlahsisa == 0){
+													$this->db->query("UPDATE tpemesananpenjualandetail SET status = '3' WHERE id='$idpenjualdetail' AND itemid='$itemid'");
+												}else if ($pemesanandetail->jumlah == $pemesanandetail->jumlahsisa){
+													$this->db->query("UPDATE tpemesananpenjualandetail SET status = '5' WHERE id='$idpenjualdetail' AND itemid='$itemid'");
+												}else{
+													$this->db->query("UPDATE tpemesananpenjualandetail SET status = '2' WHERE id='$idpenjualdetail' AND itemid='$itemid'");
+												} 
+											}
+										}
 
-							        	//update status pemesanan
-							        	$query_pemesanan1= $this->db->query("SELECT SUM(jumlahsisa) as sumjumlahsisa, SUM(jumlah) as sumjumlah FROM tpemesananpenjualandetail WHERE idpemesanan='$row->pemesananid'");
-						        		if ($query_pemesanan1->num_rows() > 0){
-							        		foreach ($query_pemesanan1->result() as $psn1) {
-							        			if ($psn1->sumjumlahsisa == 0){
-							        				$this->db->query("UPDATE tpemesananpenjualan SET status = '3' WHERE id='$row->pemesananid'");
-							        			}else if ($psn1->sumjumlah == $psn1->sumjumlahsisa){
-							        				$this->db->query("UPDATE tpemesananpenjualan SET status = '5' WHERE id='$row->pemesananid'");
-							        			}else{
-							        				$this->db->query("UPDATE tpemesananpenjualan SET status = '2' WHERE id='$row->pemesananid'");
-							        			}
+										//update status pemesanan
+										$query_pemesanan1= $this->db->query("SELECT SUM(jumlahsisa) as sumjumlahsisa, SUM(jumlah) as sumjumlah FROM tpemesananpenjualandetail WHERE idpemesanan='$row->pemesananid'");
+										if ($query_pemesanan1->num_rows() > 0){
+											foreach ($query_pemesanan1->result() as $psn1) {
+												if ($psn1->sumjumlahsisa == 0){
+													$this->db->query("UPDATE tpemesananpenjualan SET status = '3' WHERE id='$row->pemesananid'");
+												}else if ($psn1->sumjumlah == $psn1->sumjumlahsisa){
+													$this->db->query("UPDATE tpemesananpenjualan SET status = '5' WHERE id='$row->pemesananid'");
+												}else{
+													$this->db->query("UPDATE tpemesananpenjualan SET status = '2' WHERE id='$row->pemesananid'");
+												}
 
-							        			if ($psn->sumjumlahsisa == 0){
-											        $this->db->query("UPDATE tbudgetevent SET status = '3' WHERE idpemesanan='$kirim->pemesananid'");
-											  	}else if ($psn->sumjumlah == $psn->sumjumlahsisa){
-								    				$this->db->query("UPDATE tbudgetevent SET status = '5' WHERE idpemesanan='$kirim->pemesananid'");
-											    }else{
-								    				$this->db->query("UPDATE tbudgetevent SET status = '2' WHERE idpemesanan='$kirim->pemesananid'");
-											    }
+												if ($psn->sumjumlahsisa == 0){
+													$this->db->query("UPDATE tbudgetevent SET status = '3' WHERE idpemesanan='$kirim->pemesananid'");
+												}else if ($psn->sumjumlah == $psn->sumjumlahsisa){
+													$this->db->query("UPDATE tbudgetevent SET status = '5' WHERE idpemesanan='$kirim->pemesananid'");
+												}else{
+													$this->db->query("UPDATE tbudgetevent SET status = '2' WHERE idpemesanan='$kirim->pemesananid'");
+												}
 
-							        			if ($psn1->sumjumlahsisa == 0){
-							        				$this->db->query("UPDATE tpengirimanpenjualan SET status = '3' WHERE id='$idpengiriman'");
-							        			}else if ($psn1->sumjumlah == $psn1->sumjumlahsisa){
-							        				$this->db->query("UPDATE tpengirimanpenjualan SET status = '1' WHERE id='$idpengiriman'");
-							        			}else{
-							        				$this->db->query("UPDATE tpengirimanpenjualan SET status = '2' WHERE id='$idpengiriman'");
-							        			}
-							        		}
-							        	}
+												if ($psn1->sumjumlahsisa == 0){
+													$this->db->query("UPDATE tpengirimanpenjualan SET status = '3' WHERE id='$idpengiriman'");
+												}else if ($psn1->sumjumlah == $psn1->sumjumlahsisa){
+													$this->db->query("UPDATE tpengirimanpenjualan SET status = '1' WHERE id='$idpengiriman'");
+												}else{
+													$this->db->query("UPDATE tpengirimanpenjualan SET status = '2' WHERE id='$idpengiriman'");
+												}
+											}
+										}
 								}
 							}
-	        		}else{
+					}else{
 
-	        			$this->db->set('tanggalterima',$this->input->post('tanggalterima', TRUE));
+						$this->db->set('tanggalterima',$this->input->post('tanggalterima', TRUE));
 						$this->db->set('nomorsuratjalan',$this->input->post('nomorsuratjalan', TRUE));
 						$this->db->set('catatan',$this->input->post('catatan', TRUE));
 						$this->db->where('id',$idpengiriman);
@@ -167,84 +167,84 @@ class Pengiriman_penjualan_model extends CI_Model {
 							}
 
 							$query= $this->db->query("SELECT * FROM tpengirimanpenjualan WHERE id='$idpengiriman'");
-					        if ($query->num_rows() > 0){
-					        	foreach ($query->result() as $kirim) {
-					        		
-					        		$query_detail= $this->db->query("SELECT * FROM tpengirimanpenjualandetail WHERE idpengiriman='$kirim->id'");
-							        if ($query_detail->num_rows() > 0){
-							        	foreach ($query_detail->result() as $krm_detail) {
+							if ($query->num_rows() > 0){
+								foreach ($query->result() as $kirim) {
+									
+									$query_detail= $this->db->query("SELECT * FROM tpengirimanpenjualandetail WHERE idpengiriman='$kirim->id'");
+									if ($query_detail->num_rows() > 0){
+										foreach ($query_detail->result() as $krm_detail) {
 
-							        		$query_psn= $this->db->query("SELECT jumlahsisa FROM tpemesananpenjualandetail WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
-									        if ($query_psn->num_rows() > 0){
-									        	foreach ($query_psn->result() as $psn) {
-									        		if ($psn->jumlahsisa != 0){
-									        			
-									        			
-									        				//update jumlahditerima pemesanan
-									        				$this->db->query("UPDATE tpemesananpenjualandetail SET jumlahditerima = '$krm_detail->jumlah' + jumlahditerima WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
+											$query_psn= $this->db->query("SELECT jumlahsisa FROM tpemesananpenjualandetail WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
+											if ($query_psn->num_rows() > 0){
+												foreach ($query_psn->result() as $psn) {
+													if ($psn->jumlahsisa != 0){
+														
+														
+															//update jumlahditerima pemesanan
+															$this->db->query("UPDATE tpemesananpenjualandetail SET jumlahditerima = '$krm_detail->jumlah' + jumlahditerima WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
 
-									        				//update jumlahsisa pemesanan
+															//update jumlahsisa pemesanan
 															$this->db->query("UPDATE tpemesananpenjualandetail SET jumlahsisa = jumlahsisa - '$krm_detail->jumlah' WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
-									        			
-													    
-													    
+														
+														
+														
 
-										        		//update status pemesanan detail
-										        		$query_pemdetail= $this->db->query("SELECT jumlah,jumlahsisa FROM tpemesananpenjualandetail WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
-										        		if ($query_detail->num_rows() > 0){
-											        		foreach ($query_pemdetail->result() as $psn_detail) {
-											        			if ($psn_detail->jumlahsisa == 0){
-											        				$this->db->query("UPDATE tpemesananpenjualandetail SET status = '3' WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
-											        			}else if ($psn_detail->jumlah == $psn_detail->jumlahsisa){
-											        				$this->db->query("UPDATE tpemesananpenjualandetail SET status = '5' WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
-											        			}else{
-											        				$this->db->query("UPDATE tpemesananpenjualandetail SET status = '2' WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
-											        			} 
-											        		}
-											        	}
+														//update status pemesanan detail
+														$query_pemdetail= $this->db->query("SELECT jumlah,jumlahsisa FROM tpemesananpenjualandetail WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
+														if ($query_detail->num_rows() > 0){
+															foreach ($query_pemdetail->result() as $psn_detail) {
+																if ($psn_detail->jumlahsisa == 0){
+																	$this->db->query("UPDATE tpemesananpenjualandetail SET status = '3' WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
+																}else if ($psn_detail->jumlah == $psn_detail->jumlahsisa){
+																	$this->db->query("UPDATE tpemesananpenjualandetail SET status = '5' WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
+																}else{
+																	$this->db->query("UPDATE tpemesananpenjualandetail SET status = '2' WHERE id='$krm_detail->idpenjualdetail' AND itemid='$krm_detail->itemid'");
+																} 
+															}
+														}
 
-											        	//update status pemesanan
-											        	$query_pemesanan= $this->db->query("SELECT SUM(jumlahsisa) as sumjumlahsisa, SUM(jumlah) as sumjumlah FROM tpemesananpenjualandetail WHERE idpemesanan='$kirim->pemesananid'");
-										        		if ($query_pemesanan->num_rows() > 0){
-											        		foreach ($query_pemesanan->result() as $psn) {
-											        			if ($psn->sumjumlahsisa == 0){
-											        				$this->db->query("UPDATE tpemesananpenjualan SET status = '3' WHERE id='$kirim->pemesananid'");
-											        			}else if ($psn->sumjumlah == $psn->sumjumlahsisa){
-											        				$this->db->query("UPDATE tpemesananpenjualan SET status = '5' WHERE id='$kirim->pemesananid'");
-											        			}else{
-											        				$this->db->query("UPDATE tpemesananpenjualan SET status = '2' WHERE id='$kirim->pemesananid'");
-											        			}
+														//update status pemesanan
+														$query_pemesanan= $this->db->query("SELECT SUM(jumlahsisa) as sumjumlahsisa, SUM(jumlah) as sumjumlah FROM tpemesananpenjualandetail WHERE idpemesanan='$kirim->pemesananid'");
+														if ($query_pemesanan->num_rows() > 0){
+															foreach ($query_pemesanan->result() as $psn) {
+																if ($psn->sumjumlahsisa == 0){
+																	$this->db->query("UPDATE tpemesananpenjualan SET status = '3' WHERE id='$kirim->pemesananid'");
+																}else if ($psn->sumjumlah == $psn->sumjumlahsisa){
+																	$this->db->query("UPDATE tpemesananpenjualan SET status = '5' WHERE id='$kirim->pemesananid'");
+																}else{
+																	$this->db->query("UPDATE tpemesananpenjualan SET status = '2' WHERE id='$kirim->pemesananid'");
+																}
 
-											        			if ($psn->sumjumlahsisa == 0){
-											        				$this->db->query("UPDATE tbudgetevent SET status = '3' WHERE idpemesanan='$kirim->pemesananid'");
-											        			}else if ($psn->sumjumlah == $psn->sumjumlahsisa){
-											        				$this->db->query("UPDATE tbudgetevent SET status = '5' WHERE idpemesanan='$kirim->pemesananid'");
-											        			}else{
-											        				$this->db->query("UPDATE tbudgetevent SET status = '2' WHERE idpemesanan='$kirim->pemesananid'");
-											        			}
+																if ($psn->sumjumlahsisa == 0){
+																	$this->db->query("UPDATE tbudgetevent SET status = '3' WHERE idpemesanan='$kirim->pemesananid'");
+																}else if ($psn->sumjumlah == $psn->sumjumlahsisa){
+																	$this->db->query("UPDATE tbudgetevent SET status = '5' WHERE idpemesanan='$kirim->pemesananid'");
+																}else{
+																	$this->db->query("UPDATE tbudgetevent SET status = '2' WHERE idpemesanan='$kirim->pemesananid'");
+																}
 
-											        			if ($psn->sumjumlahsisa == 0){
-											        				$this->db->query("UPDATE tpengirimanpenjualan SET status = '3' WHERE id='$idpengiriman'");
-											        			}else if ($psn->sumjumlah == $psn->sumjumlahsisa){
-											        				$this->db->query("UPDATE tpengirimanpenjualan SET status = '1' WHERE id='$idpengiriman'");
-											        			}else{
-											        				$this->db->query("UPDATE tpengirimanpenjualan SET status = '2' WHERE id='$idpengiriman'");
-											        			}
+																if ($psn->sumjumlahsisa == 0){
+																	$this->db->query("UPDATE tpengirimanpenjualan SET status = '3' WHERE id='$idpengiriman'");
+																}else if ($psn->sumjumlah == $psn->sumjumlahsisa){
+																	$this->db->query("UPDATE tpengirimanpenjualan SET status = '1' WHERE id='$idpengiriman'");
+																}else{
+																	$this->db->query("UPDATE tpengirimanpenjualan SET status = '2' WHERE id='$idpengiriman'");
+																}
 
 
-											        		}
-											        	}
-									        		}
-									        	}
-									        }
-								        }
-								    }
+															}
+														}
+													}
+												}
+											}
+										}
+									}
 								}
 							}	
 
-	        		}
-	        	}
-	        }
+					}
+				}
+			}
 
 			if ($action == 'save'){
 				$data['status'] = 'success';
@@ -271,14 +271,14 @@ class Pengiriman_penjualan_model extends CI_Model {
 
 		$query= $this->db->query("SELECT * FROM tpengirimanpenjualan WHERE id='$idpengiriman'");
         if ($query->num_rows() > 0){
-        	foreach ($query->result() as $kirim) {
+			foreach ($query->result() as $kirim) {
 
-        		if ($kirim->validasi == '0'){
-        			$this->db->set('status', '4');
-        			$this->db->where('id', $kirim->pemesananid);
+				if ($kirim->validasi == '0'){
+					$this->db->set('status', '4');
+					$this->db->where('id', $kirim->pemesananid);
 					$this->db->update('tpemesananpenjualan');
 
-        			$this->db->where('idpengiriman', $idpengiriman);
+					$this->db->where('idpengiriman', $idpengiriman);
 					$this->db->delete('tpengirimanpenjualandetail');
 					$this->db->where('id', $idpengiriman);
 					$delete = $this->db->delete('tpengirimanpenjualan');
@@ -290,85 +290,85 @@ class Pengiriman_penjualan_model extends CI_Model {
 						$data['message'] = "Data gagal dihapus";
 					}
 
-        		}else{
-        			$query_detail= $this->db->query("SELECT * FROM tpengirimanpenjualandetail WHERE idpengiriman='$kirim->id'");
-			        if ($query_detail->num_rows() > 0){
-			        	foreach ($query_detail->result() as $krm_detail) {
+				}else{
+					$query_detail= $this->db->query("SELECT * FROM tpengirimanpenjualandetail WHERE idpengiriman='$kirim->id'");
+					if ($query_detail->num_rows() > 0){
+						foreach ($query_detail->result() as $krm_detail) {
 
-			        		//mengembalikan jumlah diterima dan jumlah sisa seperti semula
-			        		$query_psndetail= $this->db->query("SELECT * FROM tpemesananpenjualandetail WHERE id='$krm_detail->idpenjualdetail'");
-					        if ($query_psndetail->num_rows() > 0){
-					        	foreach ($query_psndetail->result() as $psn_detail) {
-					        		$hasil_baru_jlmtrm = $psn_detail->jumlahditerima - $krm_detail->jumlah;
-					        		$hasil_baru_jlmsisa = $krm_detail->jumlah - $psn_detail->jumlahsisa;
+							//mengembalikan jumlah diterima dan jumlah sisa seperti semula
+							$query_psndetail= $this->db->query("SELECT * FROM tpemesananpenjualandetail WHERE id='$krm_detail->idpenjualdetail'");
+							if ($query_psndetail->num_rows() > 0){
+								foreach ($query_psndetail->result() as $psn_detail) {
+									$hasil_baru_jlmtrm = $psn_detail->jumlahditerima - $krm_detail->jumlah;
+									$hasil_baru_jlmsisa = $krm_detail->jumlah - $psn_detail->jumlahsisa;
 
-					        		$this->db->set('jumlahditerima',$hasil_baru_jlmtrm);
-			        				$this->db->set('jumlahsisa',$hasil_baru_jlmsisa);
-			        				if ($hasil_baru_jlmsisa == 0){
-			        					$this->db->set('status','3');
-			        				}else if ($krm_detail->jumlah == $hasil_baru_jlmsisa){
-			        					$this->db->set('status','5');
-			        				}else{
-			        					$this->db->set('status','2');
-			        				}
+									$this->db->set('jumlahditerima',$hasil_baru_jlmtrm);
+									$this->db->set('jumlahsisa',$hasil_baru_jlmsisa);
+									if ($hasil_baru_jlmsisa == 0){
+										$this->db->set('status','3');
+									}else if ($krm_detail->jumlah == $hasil_baru_jlmsisa){
+										$this->db->set('status','5');
+									}else{
+										$this->db->set('status','2');
+									}
 									$this->db->where('id', $krm_detail->idpenjualdetail);
 									$this->db->update('tpemesananpenjualandetail');
-					        	}
-					        }
+								}
+							}
 
-					        //mengembalikan stok masuk seperti semula
-					        if ($krm_detail->tipe == 'barang'){
-			        			$query_stokmasuk= $this->db->query("SELECT * FROM tstokmasuk WHERE itemid='$krm_detail->itemid' AND gudangid='$kirim->gudangid'");
-				        		if ($query_stokmasuk->num_rows() > 0){
-				        			foreach ($query_stokmasuk->result() as $stokm) {
-				        				$hasil_baru_keluar = $stokm->keluar - $krm_detail->jumlah;
-				        				$hasil_baru_sisa = $stokm->sisa + $krm_detail->jumlah;
+							//mengembalikan stok masuk seperti semula
+							if ($krm_detail->tipe == 'barang'){
+								$query_stokmasuk= $this->db->query("SELECT * FROM tstokmasuk WHERE itemid='$krm_detail->itemid' AND gudangid='$kirim->gudangid'");
+								if ($query_stokmasuk->num_rows() > 0){
+									foreach ($query_stokmasuk->result() as $stokm) {
+										$hasil_baru_keluar = $stokm->keluar - $krm_detail->jumlah;
+										$hasil_baru_sisa = $stokm->sisa + $krm_detail->jumlah;
 
-				        				$this->db->set('keluar',$hasil_baru_keluar);
-				        				$this->db->set('sisa',$hasil_baru_sisa);
+										$this->db->set('keluar',$hasil_baru_keluar);
+										$this->db->set('sisa',$hasil_baru_sisa);
 										$this->db->where('itemid', $krm_detail->itemid);
 										$this->db->where('gudangid', $kirim->gudangid);
 										$this->db->update('tstokmasuk');
-				        			}
-				        		}
-			        		} 
+									}
+								}
+							} 
 
-			        	}
-			        }
+						}
+					}
 
-			        //mengembalikan status dari pemesanan penjualan
+					//mengembalikan status dari pemesanan penjualan
 					$query_pesan_detail= $this->db->query("SELECT * FROM tpemesananpenjualandetail WHERE idpemesanan='$kirim->pemesananid'");
-			        $total_sisa = 0;
-			        $total_jumlah = 0;
-			        if ($query_pesan_detail->num_rows() > 0){	
-			        	foreach ($query_pesan_detail->result() as $psn_detail) {
-			        		$total_jumlah = $total_jumlah + $psn_detail->jumlah;
-	        				$total_sisa = $total_sisa + $psn_detail->jumlahsisa;
-			        	}
-			        	if ($total_sisa == 0){
-				        	$this->db->set('status','3');
-				        }else if ($total_sisa == $total_jumlah){
-				        	$this->db->set('status','5');
-				        }else if ($total_sisa < $total_jumlah){
-				        	$this->db->set('status','2');
-				        }else{
-				        	$this->db->set('status','1');
-				        }
-				        $this->db->where('id', $kirim->pemesananid);
+					$total_sisa = 0;
+					$total_jumlah = 0;
+					if ($query_pesan_detail->num_rows() > 0){	
+						foreach ($query_pesan_detail->result() as $psn_detail) {
+							$total_jumlah = $total_jumlah + $psn_detail->jumlah;
+							$total_sisa = $total_sisa + $psn_detail->jumlahsisa;
+						}
+						if ($total_sisa == 0){
+							$this->db->set('status','3');
+						}else if ($total_sisa == $total_jumlah){
+							$this->db->set('status','5');
+						}else if ($total_sisa < $total_jumlah){
+							$this->db->set('status','2');
+						}else{
+							$this->db->set('status','1');
+						}
+						$this->db->where('id', $kirim->pemesananid);
 						$this->db->update('tpemesananpenjualan');
 
 						if ($total_sisa == 0){
-				        	$this->db->set('status','3');
-				        }else if ($total_sisa == $total_jumlah){
-				        	$this->db->set('status','5');
-				        }else if ($total_sisa < $total_jumlah){
-				        	$this->db->set('status','2');
-				        }else{
-				        	$this->db->set('status','1');
-				        }
-				        $this->db->where('idpemesanan', $kirim->pemesananid);
+							$this->db->set('status','3');
+						}else if ($total_sisa == $total_jumlah){
+							$this->db->set('status','5');
+						}else if ($total_sisa < $total_jumlah){
+							$this->db->set('status','2');
+						}else{
+							$this->db->set('status','1');
+						}
+						$this->db->where('idpemesanan', $kirim->pemesananid);
 						$this->db->update('tbudgetevent');
-			        }        
+					}        
 
 			        //hapus atau batal stok keluar
 					$this->db->where('refid', $idpengiriman);
@@ -421,8 +421,16 @@ class Pengiriman_penjualan_model extends CI_Model {
 		$this->db->join('tpengirimanpenjualan', 'tpengirimanpenjualandetail.idpengiriman = tpengirimanpenjualan.id');
 		$this->db->join('mnoakun', 'tpengirimanpenjualandetail.itemid = mnoakun.idakun');
 		$this->db->where('tpengirimanpenjualandetail.idpengiriman', $idpengiriman);
-		$get = $this->db->get('tpengirimanpenjualandetail');
-		return $get->result_array();
+		$data	= $this->db->get('tpengirimanpenjualandetail')->result_array();
+		for ($i=0; $i < count($data); $i++) { 
+			$this->db->select('mpajak.nama_pajak, mnoakun.akunno, mnoakun.namaakun, pajakPemesananPenjualan.nominal, pajakPemesananPenjualan.pengurangan');
+			$this->db->join('mpajak', 'pajakPemesananPenjualan.idPajak = mpajak.id_pajak');
+			$this->db->join('mnoakun', 'mpajak.akun = mnoakun.idakun');
+			$data[$i]['pajak']	= $this->db->get_where('pajakPemesananPenjualan', [
+				'idDetailPemesananPenjualan'	=> $data[$i]['idpenjualdetail']
+			])->result_array();
+		}
+		return $data;
 	}
 
 	public function pemesanandetail($idpemesanan) {

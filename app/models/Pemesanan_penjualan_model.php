@@ -395,8 +395,16 @@ class Pemesanan_penjualan_model extends CI_Model {
 		$this->db->join('mitem', 'tpemesananpenjualandetail.itemid = mitem.id');
 		$this->db->join('mnoakun', 'tpemesananpenjualandetail.itemid = mnoakun.idakun');
 		$this->db->where('tpemesananpenjualandetail.idpemesanan', $idpemesanan);
-		$get = $this->db->get('tpemesananpenjualandetail');
-		return $get->result_array();
+		$data	= $this->db->get('tpemesananpenjualandetail')->result_array();
+		for ($i=0; $i < count($data); $i++) { 
+			$this->db->select('mpajak.nama_pajak, mnoakun.akunno, mnoakun.namaakun, pajakPemesananPenjualan.nominal, pajakPemesananPenjualan.pengurangan');
+			$this->db->join('mpajak', 'pajakPemesananPenjualan.idPajak = mpajak.id_pajak');
+			$this->db->join('mnoakun', 'mpajak.akun = mnoakun.idakun');
+			$data[$i]['pajak']	= $this->db->get_where('pajakPemesananPenjualan', [
+				'idDetailPemesananPenjualan'	=> $data[$i]['id']
+			])->result_array();
+		}
+		return $data;
 	}
 
 	function get_detail_angsuran($id){

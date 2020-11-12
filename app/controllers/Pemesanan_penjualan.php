@@ -1,16 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
- * =================================================
- * @package    CGC (CODEIGNITER GENERATE CRUD)
- * @author    isyanto.id@gmail.com
- * @link    https://isyanto.com
- * @since    Version 1.0.0
- * @filesource
- * =================================================
- */
-
 class Pemesanan_penjualan extends User_Controller
 {
 
@@ -72,14 +62,13 @@ class Pemesanan_penjualan extends User_Controller
         if ($id) {
             $data = get_by_id('id', $id, 'tpemesananpenjualan');
             if ($data) {
-                $data['kontak'] = get_by_id('id', $data['kontakid'], 'mkontak');
-                $data['gudang'] = get_by_id('id', $data['gudangid'], 'mgudang');
-                $data['angsuran'] = get_by_id('idpemesanan', $data['id'], 'tpemesananpenjualanangsuran');
-                $data['pemesanandetail'] = $this->model->pemesanandetail($data['id']);
-
-                $data['title'] = lang('sales_order');
-                $data['subtitle'] = lang('detail');
-                $data['content'] = 'Pemesanan_penjualan/detail';
+                $data['kontak']             = get_by_id('id', $data['kontakid'], 'mkontak');
+                $data['gudang']             = get_by_id('id', $data['gudangid'], 'mgudang');
+                $data['angsuran']           = get_by_id('idpemesanan', $data['id'], 'tpemesananpenjualanangsuran');
+                $data['pemesanandetail']    = $this->model->pemesanandetail($data['id']);
+                $data['title']              = lang('sales_order');
+                $data['subtitle']           = lang('detail');
+                $data['content']            = 'Pemesanan_penjualan/detail';
                 $data = array_merge($data, path_info());
                 $this->parser->parse('template', $data);
             } else {
