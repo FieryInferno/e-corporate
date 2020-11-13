@@ -29,15 +29,14 @@ class Pengiriman_penjualan extends User_Controller {
 
 	public function index_datatable() {
 		$this->load->library('Datatables');
-		$this->datatables->select('
-			tpengirimanpenjualan.*, tpemesananpenjualan.id idpemesanan, tpemesananpenjualan.notrans nopemesanan, mkontak.nama as supplier, mgudang.nama as gudang, mdepartemen.nama as departemen
-		');
+		$this->datatables->select('tpengirimanpenjualan.*, tpemesananpenjualan.id idpemesanan, tpemesananpenjualan.notrans nopemesanan, mkontak.nama as supplier, mgudang.nama as gudang, mdepartemen.nama as departemen, tSetupJurnal.kodeJurnal');
 		$this->datatables->where('tpengirimanpenjualan.tipe','2');
 		$this->datatables->where('tpengirimanpenjualan.statusauto','0');
 		$this->datatables->join('tpemesananpenjualan','tpengirimanpenjualan.pemesananid = tpemesananpenjualan.id','left');
 		$this->datatables->join('mdepartemen','tpemesananpenjualan.departemen = mdepartemen.id','left');
 		$this->datatables->join('mkontak','tpemesananpenjualan.kontakid = mkontak.id','left');
 		$this->datatables->join('mgudang','tpemesananpenjualan.gudangid = mgudang.id','left');
+		$this->datatables->join('tSetupJurnal','tpengirimanpenjualan.setupJurnal = tSetupJurnal.idSetupJurnal','left');
 		$this->datatables->from('tpengirimanpenjualan');
 		return print_r($this->datatables->generate());
 	}
@@ -52,8 +51,10 @@ class Pengiriman_penjualan extends User_Controller {
 				$data['subtitle'] = lang('add_new');
 				$data['tanggal'] = date('Y-m-d');
 				$data['pemesanandetail'] = $this->model->pemesanandetail($detailpemesanan['id']);
-				$data['content'] = 'Pengiriman_penjualan/create';
-				
+				$this->SetUpJurnal_Model->setGet('jenis', $detailpemesanan['jenis_pembelian']);
+				$this->SetUpJurnal_Model->setGet('formulir', 'pengirimanBarang');
+				$data['setupJurnal']	= $this->SetUpJurnal_Model->getByJenis();
+				$data['content'] 		= 'Pengiriman_penjualan/create';
 				$data = array_merge($data,path_info(),$detailpemesanan);
 				$this->parser->parse('template',$data);
 			} else {

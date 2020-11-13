@@ -48,7 +48,16 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-md-6"></div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label>Setup Jurnal : </label>
+                                    <div class="input-group"> 
+                                        <input type="hidden" name="setupJurnal" value="<?= $setupJurnal['idSetupJurnal']; ?>">
+                                        <input type="text" class="form-control" value="<?= $setupJurnal['kodeJurnal']; ?>" disabled>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-3"></div>
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label><?php echo lang('Nomor Surat Jalan') ?>:</label>

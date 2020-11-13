@@ -679,8 +679,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        // getPiutang();
-        // getHutang();
+        getPiutang();
+        getHutang();
         getSaldoSumberDana();
     })
 
@@ -704,8 +704,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        // getPiutang();
-        // getHutang();
+        getPiutang();
+        getHutang();
     })
 
 
