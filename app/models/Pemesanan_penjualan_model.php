@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/ 
-
- 
 class Pemesanan_penjualan_model extends CI_Model {
 
 	public function save() {
@@ -51,6 +40,7 @@ class Pemesanan_penjualan_model extends CI_Model {
 					'idperusahaan'		=> $this->input->post('idperusahaan'),
 					'departemen'		=> $this->input->post('dept'),
 					'pejabat'			=> $this->input->post('pejabat'),
+					'cabang'			=> $this->input->post('cabang'),
 					'jenis_pembelian'	=> $this->input->post('jenis_penjualan'),
 					'jenis_barang'		=> $this->input->post('jenis_barang'),
 					'cara_pembayaran'	=> $this->input->post('cara_pembayaran'),

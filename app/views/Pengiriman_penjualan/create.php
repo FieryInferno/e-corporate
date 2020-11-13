@@ -23,14 +23,9 @@
     <section class="content">
         <div class="container-fluid">
             <!-- SELECT2 EXAMPLE -->
-            <div class="card card-danger">
+            <div class="card">
                 <div class="card-header">
                     <h3 class="card-title">Tambah {title}</h3>
-                
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i></button>
-                        <a href="{site_url}Pengiriman_penjualan" class="btn btn-tool"><i class="fas fa-times"></i></a>
-                    </div>
                 </div>
                 <!-- /.card-header -->
                 <div class="card-body">
@@ -100,9 +95,9 @@
                             </div>
                         </div>
                         <div class="mb-3 mt-3 table-responsive">
-                            <table class="table table-bordered" id="table_detail">
-                                <thead class="{bg_header}">
-                                    <tr>
+                            <table class="table table-xs table-striped table-borderless table-hover" id="table_detail">
+                                <thead>
+                                    <tr class="table-active">
                                         <th><?php echo lang('item') ?></th>
                                         <th class="text-right"><?php echo lang('qty_residual') ?></th>
                                         <th class="text-right"><?php echo lang('qty_received') ?></th>
@@ -110,32 +105,32 @@
                                 </thead>
                                 <tbody>
                                     <?php $no = 1; ?>
-                                    <?php foreach ($pemesanandetail as $row): ?>
-                                        <tr>
-                                            <input class="no" type="hidden" name="no[]" value="<?php echo $no ?>">
-                                            <input class="" type="hidden" name="idpenjualdetail[]" value="<?php echo $row['id'] ?>">
-                                            <input class="itemid" type="hidden" name="itemid[]" value="<?php echo $row['itemid'] ?>">
-                                            <input class="harga" type="hidden" name="harga[]" value="<?php echo $row['harga'] ?>">
-                                            <input class="diskon" type="hidden" name="diskon[]" value="<?php echo $row['diskon'] ?>">
-                                            <input class="ppn" type="hidden" name="ppn[]" value="<?php echo $row['ppn'] ?>">
-                                            <input class="biaya_pengiriman" type="hidden" name="biaya_pengiriman[]" value="<?php echo $row['biaya_pengiriman'] ?>">
-                                            <td>
-                                                <?php 
-                                                    if ($row['tipe']=='barang'){
-                                                        echo $row['item']; 
-                                                    }else{
-                                                        echo $row['lain_lain'];
-                                                    }
-                                                ?> 
-                                            </td>
-    
-                                            <td class="text-right" width="20%"><?php echo $row['jumlahsisa'] ?></td>
-                                            <td class="text-right" width="20%">
-                                                <input type="number" min="0" name="jumlah[]" class="form-control jumlah text-right" value="<?php echo $row['jumlahsisa'] ?>">
-                                            </td>
-                                            
-                                            <input type="hidden" name="tipe[]" class="form-control" value="<?php echo $row['tipe'] ?>">
-                                        </tr>
+                                        <?php foreach ($pemesanandetail as $row): ?>
+                                            <tr>
+                                                <input class="no" type="hidden" name="no[]" value="<?php echo $no ?>">
+                                                <input class="" type="hidden" name="idpenjualdetail[]" value="<?php echo $row['id'] ?>">
+                                                <input class="itemid" type="hidden" name="itemid[]" value="<?php echo $row['itemid'] ?>">
+                                                <input class="harga" type="hidden" name="harga[]" value="<?php echo $row['harga'] ?>">
+                                                <input class="diskon" type="hidden" name="diskon[]" value="<?php echo $row['diskon'] ?>">
+                                                <input class="ppn" type="hidden" name="ppn[]" value="<?php echo $row['ppn'] ?>">
+                                                <input class="biaya_pengiriman" type="hidden" name="biaya_pengiriman[]" value="<?php echo $row['biaya_pengiriman'] ?>">
+                                                <td>
+                                                    <?php 
+                                                        if ($row['tipe']=='barang'){
+                                                            echo $row['item']; 
+                                                        }else{
+                                                            echo $row['lain_lain'];
+                                                        }
+                                                    ?> 
+                                                </td>
+        
+                                                <td class="text-right" width="20%"><?php echo $row['jumlahsisa'] ?></td>
+                                                <td class="text-right" width="20%">
+                                                    <input type="number" min="0" name="jumlah[]" class="form-control jumlah text-right" value="<?php echo $row['jumlahsisa'] ?>">
+                                                </td>
+                                                
+                                                <input type="hidden" name="tipe[]" class="form-control" value="<?php echo $row['tipe'] ?>">
+                                            </tr>
                                         <?php $no++ ?>
                                     <?php endforeach ?>
                                 </tbody>

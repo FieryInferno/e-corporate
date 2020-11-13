@@ -75,6 +75,12 @@
                                             <select id="pejabat" class="form-control pejabat" name="pejabat" required></select>
                                             </div>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Cabang : </label>
+                                            <div class="input-group"> 
+                                                <select id="cabang" class="form-control cabang" name="cabang" required></select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                     <div class="form-group">
@@ -559,6 +565,10 @@
         ajax_select({
             id: '#rekening',
             url: base_url + 'select2_mrekening_perusahaan/' + perusahaanId,
+        });
+        ajax_select({
+            id          : '#cabang',
+            url         : '{site_url}cabang/select2_perusahaan/' + perusahaanId
         });
     })
 

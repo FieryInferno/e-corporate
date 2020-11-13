@@ -86,6 +86,12 @@
                                 <label><?php echo lang('Departemen') ?>:</label>
                                 <select class="form-control departemen" name="departemen" disabled></select>
                             </div>
+                            <div class="form-group">
+                                <label>Cabang : </label>
+                                <div class="input-group"> 
+                                    <select id="cabang" class="form-control cabang" name="cabang" disabled></select>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3 mt-3 table-responsive">
@@ -255,8 +261,7 @@
             total = api.column(8).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
-           
-            $('#total').html(formatRupiah(String(total), 'Rp. '));
+            $('#total').html(formatRupiah(String(total)));
         }
     })
 
@@ -285,7 +290,7 @@
                 return intVal(a) + intVal(b); 
             }, 0 );
            
-            $('#total_budgetevent').html(formatRupiah(String(total), 'Rp. '));
+            $('#total_budgetevent').html(formatRupiah(String(total)));
         }
     })
 
@@ -377,18 +382,76 @@
                         nominaldiskon = 0;
                         hasil_diskon = parseInt(hasil_diskon) - parseInt(nominaldiskon);
                     }
+                    var isiPajak    = '';
+                    for (let index = 0; i < data[i].pajak.length; i++) {
+                        const element = data[i].pajak[index];
+                            switch (element.pengurangan) {
+                                case '0':
+                                    var nominal = formatRupiah(element.nominal) + ',00';
+                                    break;
+                                case '1':
+                                    var nominal = '-' + formatRupiah(element.nominal) + ',00';
+                                    break;
+                            
+                                default:
+                                    break;
+                            }
+                        isiPajak        += `<tr>
+                                                <td>${element.nama_pajak}</td>
+                                                <td>${element.akunno}</td>
+                                                <td>${element.namaakun}</td>
+                                                <td>` +
+                                                    nominal
+                                                + `</td>
+                                            </tr>`;
+                    }
+                    var pajak   =`
+                            <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalPajak${data[i].itemid}" title="Detail Pajak">
+                                <i class="fas fa-balance-scale"></i>
+                            </button>
+                            <div class="modal fade" id="modalPajak${data[i].itemid}">
+                                <div class="modal-dialog modal-xl">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h4 class="modal-title">Pajak</h4>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <form>
+                                            <div class="modal-body">
+                                                <div class="table-responsive">
+                                                    <table class="table table-xs table-striped table-borderless table-hover index_datatable" style="width:100%" id="pajak">
+                                                        <thead>
+                                                            <tr class="table-active">
+                                                                <th>Nama Pajak</th>
+                                                                <th>Kode Akun</th>
+                                                                <th>Nama Akun</th>
+                                                                <th>Nominal</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody id="isi_tbody_pajak">` +
+                                                            isiPajak
+                                                        + `</tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>`;
 
                     grandtotal = grandtotal + parseInt(data[i].total);
                     table_detail_item.row.add([
                         data[i].itemid,
                         nama_item,
-                        `${formatRupiah(data[i].harga,'Rp. ')}`,
+                        `${formatRupiah(data[i].harga)}`,
                         `${data[i].jumlah}`,
-                        `${formatRupiah(data[i].subtotal,'Rp. ')}`,
-                        `${formatRupiah(String(hasil_diskon),'Rp. ')}`,
-                        `${formatRupiah(data[i].ppn,'Rp. ')}`,
-                        `${formatRupiah(data[i].biaya_pengiriman,'Rp. ')}`,
-                        `${formatRupiah(data[i].total,'Rp. ')}`,
+                        `${formatRupiah(data[i].subtotal)}`,
+                        `${data[i].diskon}%`,
+                        pajak,
+                        `${formatRupiah(data[i].biaya_pengiriman)}`,
+                        `${formatRupiah(data[i].total)}`,
                         `${data[i].tipe}`,
                         `${data[i].idpenjualdetail}`
                         ]).draw( false );
@@ -409,6 +472,13 @@
                     $('.nomorsuratjalan').val(data[i].nomorsuratjalan); 
                     ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected:{id: data[i].gudangid}});
                     ajax_select({ id: '.departemen', url: base_url + 'select2_departemen', selected:{id: data[i].departemen}});
+                    ajax_select({ 
+                        id          : '#cabang', 
+                        url         : '{site_url}cabang/select2', 
+                        selected    : {
+                            id  : data[i].cabang
+                        }
+                    });
                     $('.carabayar').val(data[i].carabayar);
                     if (data[i].carabayar == 'cash'){
                         $('#tanggal').val('{tanggal}'); 
@@ -469,13 +539,13 @@
                                 table_detail_budgetevent.row.add([
                                     data[i].idbudgetevent,
                                     data[i].budgetevent,
-                                    `${formatRupiah(data[i].harga,'Rp. ')}`,
+                                    `${formatRupiah(data[i].harga)}`,
                                     `${data[i].jumlah}`,
-                                    `${formatRupiah(data[i].subtotal,'Rp. ')}`,
-                                    `${formatRupiah(String(hasil_diskon),'Rp. ')}`,
-                                    `${formatRupiah(data[i].ppn,'Rp. ')}`,
-                                    `${formatRupiah(data[i].biaya_pengiriman,'Rp. ')}`,
-                                    `${formatRupiah(data[i].total,'Rp. ')}`,
+                                    `${formatRupiah(data[i].subtotal)}`,
+                                    `${formatRupiah(String(hasil_diskon))}`,
+                                    `${formatRupiah(data[i].ppn)}`,
+                                    `${formatRupiah(data[i].biaya_pengiriman)}`,
+                                    `${formatRupiah(data[i].total)}`,
                                     `budgetevent`,
                                     ]).draw( false );
                                 no++;

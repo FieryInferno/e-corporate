@@ -1,16 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
- * =================================================
- * @package    CGC (CODEIGNITER GENERATE CRUD)
- * @author    isyanto.id@gmail.com
- * @link    https://isyanto.com
- * @since    Version 1.0.0
- * @filesource
- * =================================================
- */
-
 class Cabang_model extends CI_Model
 {
 
@@ -97,5 +87,17 @@ class Cabang_model extends CI_Model
             }
             return $this->db->get('mcabang')->result_array();
         }
+    }
+
+    public function select2_perusahaan($idPerusahaan, $term)
+	{
+        $this->db->select('id, concat(mcabang.kode, " - ", mcabang.nama) as text');
+        $this->db->join('mperusahaan', 'mcabang.perusahaan = mperusahaan.idperusahaan');
+        $this->db->where('idperusahaan', $idPerusahaan);
+        if ($term) {
+            $this->db->like('kode', $term);
+            $this->db->or_like('nama', $term);
+        }
+        return $this->db->get('mcabang')->result_array();
     }
 }

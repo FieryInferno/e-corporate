@@ -239,7 +239,7 @@ class Faktur_penjualan_model extends CI_Model {
 	}
 
 	function get_data_pengiriman_model($idpengiriman){
-		$this->db->select('tpengirimanpenjualan.*,  tpemesananpenjualan.id as pemesananid, tpemesananpenjualan.tanggal as tgl_pemesanan, tpemesananpenjualan.cara_pembayaran as carabayar');
+		$this->db->select('tpengirimanpenjualan.*,  tpemesananpenjualan.id as pemesananid, tpemesananpenjualan.tanggal as tgl_pemesanan, tpemesananpenjualan.cara_pembayaran as carabayar, tpemesananpenjualan.cabang');
 		$this->db->join('tpemesananpenjualan','tpengirimanpenjualan.pemesananid = tpemesananpenjualan.id', 'LEFT');
 		$this->db->where('tpengirimanpenjualan.id', $idpengiriman);
 		$query = $this->db->get('tpengirimanpenjualan');
@@ -252,14 +252,22 @@ class Faktur_penjualan_model extends CI_Model {
     }
 
     function get_detail_pengiriman($pengirimanid){
-        $this->db->select('tpengirimanpenjualandetail.*, CONCAT(mitem.noakunjual," - ",mitem.nama) as item, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as jasa,  CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as inventeris, tpemesananpenjualan.cara_pembayaran');
+        $this->db->select('tpengirimanpenjualandetail.*, CONCAT(mitem.noakunjual," - ",mitem.nama) as item, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as jasa,  CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as inventeris, tpemesananpenjualan.cara_pembayaran, tpemesananpenjualandetail.id as idDetailPemesananPenjualan, tpemesananpenjualan.cabang');
 		$this->db->join('mitem', 'tpengirimanpenjualandetail.itemid = mitem.id', 'left');
 		$this->db->join('mnoakun', 'tpengirimanpenjualandetail.itemid = mnoakun.idakun', 'left');
 		$this->db->join('tpemesananpenjualandetail', 'tpengirimanpenjualandetail.idpenjualdetail = tpemesananpenjualandetail.id', 'left');
 		$this->db->join('tpemesananpenjualan', 'tpemesananpenjualandetail.idpemesanan = tpemesananpenjualan.id', 'left');
 		$this->db->where('tpengirimanpenjualandetail.idpengiriman', $pengirimanid);
-		$query = $this->db->get('tpengirimanpenjualandetail');
-		return $query;
+		$data	= $this->db->get('tpengirimanpenjualandetail')->result();
+		for ($i=0; $i < count($data); $i++) { 
+			$this->db->select('mpajak.nama_pajak, mnoakun.akunno, mnoakun.namaakun, pajakPemesananPenjualan.nominal, pajakPemesananPenjualan.pengurangan');
+			$this->db->join('mpajak', 'pajakPemesananPenjualan.idPajak = mpajak.id_pajak');
+			$this->db->join('mnoakun', 'mpajak.akun = mnoakun.idakun');
+			$data[$i]->pajak	= $this->db->get_where('pajakPemesananPenjualan', [
+				'idDetailPemesananPenjualan'	=> $data[$i]->idDetailPemesananPenjualan
+			])->result_array();
+		}
+		return $data;
     }
 
     function get_detail_budgetevent($pemesananid){

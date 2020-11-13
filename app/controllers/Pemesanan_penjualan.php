@@ -310,8 +310,9 @@ class Pemesanan_penjualan extends User_Controller
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
             $this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text, mnoakun.akunno as koderekening');
-            $this->db->where('mnoakun.noakuntop', '5');
-            $this->db->where('mnoakun.stdel', '0');
+            $this->db->like('mnoakun.akunno', '1', 'after');
+            $this->db->or_like('mnoakun.akunno', '5', 'after');
+            $this->db->or_like('mnoakun.akunno', '6', 'after');
             if($term) $this->db->like('CONCAT(mnoakun.akunno," / ",mnoakun.namaakun)', $term);
             $data = $this->db->get('mnoakun')->result_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));

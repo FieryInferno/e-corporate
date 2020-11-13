@@ -294,7 +294,7 @@ class Faktur_penjualan extends User_Controller {
 
     public function get_detail_pengiriman(){
         $pengirimanid = $this->input->post('pengirimanid',TRUE);
-        $data = $this->model->get_detail_pengiriman($pengirimanid)->result();
+        $data = $this->model->get_detail_pengiriman($pengirimanid);
         echo json_encode($data);
     }
 

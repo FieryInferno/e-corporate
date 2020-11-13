@@ -1,16 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
- * =================================================
- * @package    CGC (CODEIGNITER GENERATE CRUD)
- * @author    isyanto.id@gmail.com
- * @link    https://isyanto.com
- * @since    Version 1.0.0
- * @filesource
- * =================================================
- */
-
 class Cabang extends User_Controller
 {
 
@@ -80,6 +70,13 @@ class Cabang extends User_Controller
 	{
 		$term	= $this->input->get('q');
 		$data	= $this->model->select2($id, $term);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+    
+    public function select2_perusahaan($idPerusahaan = null)
+	{
+		$term	= $this->input->get('q');
+		$data	= $this->model->select2_perusahaan($idPerusahaan, $term);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 }
