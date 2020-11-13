@@ -1327,6 +1327,7 @@
                 row = index;
                 break;
             }
+            row = index;
         }
         var data          = table_detail_SSD.row(row).data();
         var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
@@ -1382,7 +1383,7 @@
             const stat = $(elem).is(":checked");
             const table = $('#isitabel');       
             if (stat) {
-               table_detail.row.add([
+                table_detail.row.add([
                     `${id}`,
                     `<button type="button" class="btn btn-danger delete_detail" id="button_BE${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
                     `${tipe}`,
@@ -1459,8 +1460,10 @@
                     ``,
                     ``
                 ]).draw( false );
+                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
             } else {
-                var rowindex=$('#buttonPiutang'+id).closest('tr').index();
+                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+                var rowindex=$('#button_PIUTANGI'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }
         } else if (tipe == 'Saldo Awal Hutang') {
@@ -1480,8 +1483,10 @@
                     ``,
                     ``
                 ]).draw( false );
+                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {
-                var rowindex=$('#buttonHutang'+id).closest('tr').index();
+                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+                var rowindex=$('#button_HUTANG'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }
         }
