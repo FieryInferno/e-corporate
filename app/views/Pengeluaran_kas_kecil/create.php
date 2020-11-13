@@ -267,7 +267,7 @@
         //combobox kas/akunno
         ajax_select({
             id: '#kas',
-            url: base_url + 'select2_mnoakun/',
+            url: '{site_url}pengajuan_kas_kecil/select2_mnoakun/',
         });
     })
 
