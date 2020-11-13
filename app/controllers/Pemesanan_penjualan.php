@@ -20,9 +20,10 @@ class Pemesanan_penjualan extends User_Controller
 
     public function index_datatable() {
         $this->load->library('Datatables');
-        $this->datatables->select('tpemesananpenjualan.*, mkontak.nama as supplier, mgudang.nama as gudang');
+        $this->datatables->select('tpemesananpenjualan.*, mkontak.nama as supplier, mgudang.nama as gudang, mcabang.nama as cabang');
         $this->datatables->join('mkontak', 'tpemesananpenjualan.kontakid = mkontak.id','LEFT');
         $this->datatables->join('mgudang', 'tpemesananpenjualan.gudangid = mgudang.id','LEFT');
+        $this->datatables->join('mcabang', 'tpemesananpenjualan.cabang = mcabang.id','LEFT');
         $this->datatables->where('tpemesananpenjualan.tipe', '2');
         $this->datatables->where('tpemesananpenjualan.stdel', '0');
         $this->datatables->from('tpemesananpenjualan');
@@ -246,18 +247,18 @@ class Pemesanan_penjualan extends User_Controller
     public function select2_item($id = null, $idgudang = null,$text = null) {
         $term = $this->input->get('q');
         if ($text) {
-            $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mnoakun.akunno as koderekening');
-            $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid');
+            $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mnoakun.akunno as koderekening, mnoakun.idakun');
+            // $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid');
             $this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun');
-            $this->db->group_by('tstokmasuk.itemid');
+            // $this->db->group_by('tstokmasuk.itemid');
             $data = $this->db->where('mitem.id', $id)->get('mitem')->row_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
             $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mnoakun.akunno as koderekening');
-            $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid', 'left');
-            $this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun', 'left');
-            $this->db->where('tstokmasuk.gudangid', $idgudang);
-            $this->db->group_by('tstokmasuk.itemid');
+            // $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid', 'left');
+            $this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun');
+            // $this->db->where('tstokmasuk.gudangid', $idgudang);
+            // $this->db->group_by('tstokmasuk.itemid');
             if ($term) {
                 $this->db->like('mitem.nama', $term);
             }

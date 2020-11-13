@@ -795,8 +795,8 @@
                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman${index}${no}" title="Tambah Biaya Pengiriman">
                         <i class="fas fa-shipping-fast"></i>
                     </button>`,
-                    `${noakun}`,
-                    `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonlY>`,
+                    `<input type="hidden" name="akunno[]">${noakun}`,
+                    `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonly>`,
                     `<a href="javascript:EditDetail('${barang[index].value}','${jenis_item}','${no}')" class="edit_detail${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp; 
                         <a href="javascript:delete_detail_item('${no}')" class="delete_detail_item text-danger"><i class="fas fa-trash"></i></a>`,
                     `${jenis_item}`

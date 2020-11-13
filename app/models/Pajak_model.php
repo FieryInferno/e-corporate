@@ -3,6 +3,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 class Pajak_model extends CI_Model
 {
+
+	private $idPemesananPenjualan;
+
 	public function save($id_pajak = null)
 	{
 		if ($id_pajak !== null) {
@@ -54,5 +57,22 @@ class Pajak_model extends CI_Model
 	{
 		$this->db->select('mpajak.id_pajak as id, concat("(",mpajak.kode_pajak,") - ",mpajak.nama_pajak) as text');
 		return $this->db->get('mpajak')->result_array();
+	}
+
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
+	}
+
+	public function getPajakPemesananPenjualan()
+	{
+		$this->db->select('mpajak.nama_pajak, mnoakun.akunno, mnoakun.namaakun, pajakPemesananPenjualan.nominal, pajakPemesananPenjualan.pengurangan');
+		$this->db->join('tpemesananpenjualandetail', 'tpemesananpenjualan.id = tpemesananpenjualandetail.idpemesanan');
+		$this->db->join('pajakPemesananPenjualan', 'tpemesananpenjualandetail.id = pajakPemesananPenjualan.idDetailPemesananPenjualan', 'left');
+		$this->db->join('mpajak', 'pajakPemesananPenjualan.idPajak = mpajak.id_pajak');
+		$this->db->join('mnoakun', 'mpajak.akun = mnoakun.idakun');
+		return $this->db->get_where('tpemesananpenjualan', [
+			'tpemesananpenjualan.id'	=> $this->idPemesananPenjualan
+		])->result_array();
 	}
 }

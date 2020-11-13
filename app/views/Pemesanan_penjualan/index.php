@@ -37,7 +37,11 @@
 											<th><?php echo lang('date') ?></th>
 											<th><?php echo lang('supplier') ?></th>
 											<th><?php echo lang('warehouse') ?></th>
+											<th>Cabang</th>
+											<th>Pajak</th>
+											<th>Budget Event</th>
 											<th>Nominal Total</th>
+											<th>Cara</th>
 											<th><?php echo lang('status') ?></th>
 											<th><?php echo lang('Aksi') ?></th>
 										</tr>
@@ -45,9 +49,10 @@
 									<tbody></tbody>
 									<tfoot>
 										<tr class="table-active">
-											<th class="text-right" colspan="6">Total</th>
+											<th class="text-right" colspan="9">Total</th>
 											<th class="text-right"></th>
 											<th class="text-right" colspan="2"></th>
+											<th class="text-right"></th>
 										</tr>
 									</tfoot>
 								</table>
@@ -86,15 +91,32 @@
 					return '<a href="'+link+'" class="btn btn-sm btn-info">'+data+'</a>';
 				}
 			},
-			{data: 'catatan', orderable: false, width: '200px'},
-			{data: 'tanggal'},
-			{data: 'supplier'},
-			{data: 'gudang'},
+			{data	: 'catatan', orderable: false, width: '200px'},
+			{data	: 'tanggal'},
+			{data	: 'supplier'},
+			{data	: 'gudang'},
+			{data	: 'cabang'},
+			{
+				data	: 'id',
+				render	: function (data, type, row) {
+					return getPajak(data);
+				}
+			},
+			{
+				render	: function (data, type, row) {
+					return '';
+				}
+			},
 			{	
 				data: 'total',
 				render: function(data,type,row) {
 					var total=`<div class="text-right">`+formatRupiah(data)+`',00</div>`;
 					return total;
+				}
+			},
+			{
+				render	: function (data, type, row) {
+					return '';
 				}
 			},
 			{
@@ -146,10 +168,10 @@
                         i : 0;
             };
 
-            total = api.column(6).data().reduce( function (a, b) {
+            total = api.column(9).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
-			$( api.column( 6 ).footer() ).html(
+			$( api.column( 9 ).footer() ).html(
 				formatRupiah(String(total))+',00'
 			);
         }
@@ -226,5 +248,20 @@
 				break;
 			}
 		});
+	}
+
+	function getPajak(data) {
+		var pajak;
+		$.ajax({
+						url		: '{site_url}pajak/getPajakPemesananPenjualan',
+						method	: 'post',
+						data	: {
+							idPemesananPenjualan	: data
+						},
+						success: function(response) {
+							pajak = response;
+						},
+					})
+					return pajak;
 	}
 </script>

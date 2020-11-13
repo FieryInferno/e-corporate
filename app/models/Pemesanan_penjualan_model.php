@@ -66,7 +66,7 @@ class Pemesanan_penjualan_model extends CI_Model {
 							'diskon'		=> $this->input->post('diskon')[$no],
 							'ppn'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total_pajak')[$no]),
 							'biaya_pengiriman'=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('biayapengiriman')[$no]),
-							'akunno'		=> $value[9],
+							'akunno'		=> $this->input->post('akunno')[$no],
 							'subtotal'		=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('subtotal')[$no]),
 							'total'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total')[$no]),
 							'tipe'			=> $value[12],

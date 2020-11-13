@@ -169,7 +169,7 @@
     //ubah format nominal
     $(document).on('keyup','.nominal, .nominal',function(){
         var val = $(this).val();
-        $(this).val( formatRupiah(String(val), 'Rp. ') );
+        $(this).val( formatRupiah(String(val)) );
     })
 
     //simpan data

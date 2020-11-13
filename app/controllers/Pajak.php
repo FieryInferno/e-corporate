@@ -3,6 +3,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pajak extends User_Controller {
 
+	private $idPemesananPenjualan;
+
+	public function __construct()
+    {
+        parent::__construct();
+        $this->idPemesananPenjualan	= $this->input->post('idPemesananPenjualan');
+    }
+
 	public function index() {
 		$data['title']      = 'Pajak';
 		$data['content']    = 'Pajak/index';
@@ -58,6 +66,13 @@ class Pajak extends User_Controller {
 	public function get()
 	{
 		$this->output->set_content_type('application/json')->set_output(json_encode($this->Pajak_model->get()));
+	}
+
+	public function getPajakPemesananPenjualan()
+	{
+		$this->Pajak_model->set('idPemesananPenjualan', $this->idPemesananPenjualan);
+		$data	= $this->Pajak_model->getPajakPemesananPenjualan();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 }
 
