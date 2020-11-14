@@ -71,9 +71,9 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="table-responsive">
-                        <table class="table table-bordered">
+                        <table class="table table-xs table-striped table-borderless table-hover">
                             <thead">
-                                <tr>
+                                <tr class="table-active">
                                     <th><?php echo lang('No') ?></th>
                                     <th><?php echo lang('Tipe') ?></th>
                                     <th><?php echo lang('date') ?></th>
@@ -105,13 +105,15 @@
                                         <td><?php echo $row['sumberdana'] ?></td>
                                     </tr>
                                 <?php endforeach ?>
-                                <tr class="bg-light">
-                                    <td class="font-weight-bold text-right" colspan="4"><?php echo lang('grand_total') ?></td>
-                                    <td class="font-weight-bold text-right"><?php echo number_format($total_penerimaan,2,",",".") ?></td>
-                                    <td class="font-weight-bold text-right"><?php echo number_format($total_pengeluaran,2,",",".") ?></td>
-                                    <td colspan="4"></td>
-                                </tr>
                             </tbody>
+                            <tfoot>
+                              <tr class="table-active">
+                                <td class="font-weight-bold text-right" colspan="4"><?php echo lang('grand_total') ?></td>
+                                <td class="font-weight-bold text-right"><?php echo number_format($total_penerimaan,2,",",".") ?></td>
+                                <td class="font-weight-bold text-right"><?php echo number_format($total_pengeluaran,2,",",".") ?></td>
+                                <td colspan="4"></td>
+                              </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>

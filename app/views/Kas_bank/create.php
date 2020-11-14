@@ -383,7 +383,7 @@
 
 <!-- Start: Modal Pengajuan Kas Kecil -->
 <div class="modal fade" id="PengajuanKasKecil" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pilih Kas Kecil</h5>
@@ -392,21 +392,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table" id="tabelkaskecil">
-                    <thead>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>Kode Kwitansi</th>
-                            <th>Keterangan</th>
-                            <th>Departemen</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody id='list_KasKecil'>
-
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelkaskecil">
+                        <thead>
+                            <tr class="table-active">
+                                <th>&nbsp;</th>
+                                <th>Kode Kwitansi</th>
+                                <th>Keterangan</th>
+                                <th>Departemen</th>
+                                <th>Tanggal</th>
+                                <th>Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody id='list_KasKecil'></tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
@@ -1418,7 +1418,9 @@
                     `${namadepartemen}`,
                     `${namabank} ${norekening}`
                 ]).draw(false);
+                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {
+                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
                 var rowindex=$('#button_PKK'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }         

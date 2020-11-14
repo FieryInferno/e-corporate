@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/ 
-
-
 class Kas_bank_model extends CI_Model {
 
 	private $idkasbank;
@@ -59,8 +48,8 @@ class Kas_bank_model extends CI_Model {
 					$this->db->set('tipe',$row[2]);
 					$this->db->set('tanggal',$row[3]);
 					$this->db->set('nokwitansi',$row[4]);
-					$this->db->set('penerimaan',preg_replace("/[^0-9]/", "", $row[5]));
-					$this->db->set('pengeluaran',preg_replace("/[^0-9]/", "", $row[6]));
+					$this->db->set('penerimaan',preg_replace("/(,00|[^0-9])/", "", $row[5]));
+					$this->db->set('pengeluaran',preg_replace("/(,00|[^0-9])/", "", $row[6]));
 					$this->db->set('noakun',$row[7]);
 					$this->db->set('kodeunit',$row[8]);
 					$this->db->set('departemen',$row[9]);
@@ -100,7 +89,7 @@ class Kas_bank_model extends CI_Model {
 				$this->db->set('pejabat',$this->input->post('pejabat'));
 				$this->db->set('tanggal',$this->input->post('tanggal'));
 				$this->db->set('keterangan',$this->input->post('keterangan'));
-				// $this->db->set('nominal',preg_replace("/[^0-9]/", "", $this->input->post('pengeluaran_pemindahbukuan')));
+				// $this->db->set('nominal',preg_replace("/(,00|[^0-9])/", "", $this->input->post('pengeluaran_pemindahbukuan')));
 				$this->db->set('cby',get_user('username'));
 				$this->db->set('cdate',date('Y-m-d H:i:s'));
 				$this->db->insert('tpemindahbukuankaskecil');
@@ -141,6 +130,12 @@ class Kas_bank_model extends CI_Model {
 					$this->db->where('id', $key['idtipe']);
 					$this->db->update('tfakturpenjualan', [
 						'stts_kas'	=> '0'
+					]);
+				}
+				if ($key['tipe'] == 'Pengajuan Kas Kecil') {
+					$this->db->where('id', $key['idtipe']);
+					$this->db->update('tpengajuankaskecil', [
+						'status'	=> '0'
 					]);
 				}
 			}

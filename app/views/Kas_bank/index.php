@@ -114,10 +114,7 @@
                             <div class="dropdown"> 
                                 <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<form method="post" id="formHapus">
-										<input type="hidden" value="${data}" name="idKasBank">
-										<a href="javascript:deleteData()" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
-									</form>
+									<a href="javascript:deleteData('${data}')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
                                 </div> 
                             </div> 
                         </div>`;
@@ -149,7 +146,7 @@
         }
 	});
 
-	function deleteData() {
+	function deleteData(id) {
 		swal("Anda yakin akan menghapus data?", {
 		buttons: {
 			cancel: "Batal",
@@ -162,13 +159,11 @@
 		.then((value) => {
 			switch (value) {
 				case "ya":
-					var form		= new FormData($('#formHapus')[0]);
-					var idKasBank	= form.get('idKasBank');
 					$.ajax({
 						url		: base_url + 'delete',
 						method	: 'post',
 						data	: {
-							"idKasBank"	: idKasBank
+							"idKasBank"	: id
 						},
 						beforeSend: function() {
 							pageBlock();
