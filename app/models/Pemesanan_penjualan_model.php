@@ -426,24 +426,52 @@ class Pemesanan_penjualan_model extends CI_Model {
     }
 
     function get_noakun_item($id,$jenisitem){
-    	if ($jenisitem == 'barang'){
-    		$this->db->select('mitem.noakunjual as koderekening');
-    		$this->db->where('mitem.id',$id);
-    		$query = $this->db->get('mitem');
-    	}else if ($jenisitem == 'inventaris'){
-    		$this->db->select('mnoakun.akunno as koderekening');
-    		$this->db->where('mnoakun.idakun',$id);
-    		$query = $this->db->get('mnoakun');
-    	}else if ($jenisitem == 'jasa'){
-    		$this->db->select('mnoakun.akunno as koderekening');
-    		$this->db->where('mnoakun.idakun',$id);
-    		$query = $this->db->get('mnoakun');
-    	}else if ($jenisitem == 'budgetevent'){
-    		$this->db->select('mnoakun.akunno as koderekening');
-    		$this->db->where('mnoakun.idakun',$id);
-    		$query = $this->db->get('mnoakun');
-    	}
+		if ($jenisitem == 'barang'){
+			$this->db->select('mitem.noakunjual as koderekening');
+			$this->db->where('mitem.id',$id);
+			$query = $this->db->get('mitem');
+		}else if ($jenisitem == 'inventaris'){
+			$this->db->select('mnoakun.akunno as koderekening');
+			$this->db->where('mnoakun.idakun',$id);
+			$query = $this->db->get('mnoakun');
+		}else if ($jenisitem == 'jasa'){
+			$this->db->select('mnoakun.akunno as koderekening');
+			$this->db->where('mnoakun.idakun',$id);
+			$query = $this->db->get('mnoakun');
+		}else if ($jenisitem == 'budgetevent'){
+			$this->db->select('mnoakun.akunno as koderekening');
+			$this->db->where('mnoakun.idakun',$id);
+			$query = $this->db->get('mnoakun');
+		}
         return $query;
-    }
+	}
+	
+	public function get()
+	{
+		$this->db->select('tpemesananpenjualan.*, mkontak.nama as supplier, mgudang.nama as gudang, mcabang.nama as cabang');
+        $this->db->join('mkontak', 'tpemesananpenjualan.kontakid = mkontak.id','LEFT');
+        $this->db->join('mgudang', 'tpemesananpenjualan.gudangid = mgudang.id','LEFT');
+        $this->db->join('mcabang', 'tpemesananpenjualan.cabang = mcabang.id','LEFT');
+        $this->db->where('tpemesananpenjualan.tipe', '2');
+        $this->db->where('tpemesananpenjualan.stdel', '0');
+		$data	= $this->db->get('tpemesananpenjualan')->result_array();
+		for ($i=0; $i < count($data); $i++) { 
+			$this->db->select('mpajak.nama_pajak, mnoakun.akunno, mnoakun.namaakun, pajakPemesananPenjualan.nominal, pajakPemesananPenjualan.pengurangan');
+			$this->db->join('tpemesananpenjualandetail', 'tpemesananpenjualan.id = tpemesananpenjualandetail.idpemesanan');
+			$this->db->join('pajakPemesananPenjualan', 'tpemesananpenjualandetail.id = pajakPemesananPenjualan.idDetailPemesananPenjualan');
+			$this->db->join('mpajak', 'pajakPemesananPenjualan.idPajak = mpajak.id_pajak');
+			$this->db->join('mnoakun', 'mpajak.akun = mnoakun.idakun');
+			$data[$i]['pajak']	= $this->db->get_where('tpemesananpenjualan', [
+				'tpemesananpenjualan.id'	=> $data[$i]['id']
+			])->result_array();
+			$this->db->select('tbudgetevent.nokwitansi, concat(mnoakun.akunno, "-", mnoakun.namaakun) as item, tbudgetevent.total, mrekening.nama as rekening');
+			$this->db->join('mnoakun', 'tbudgetevent.idbudgetevent = mnoakun.idakun');
+			$this->db->join('mrekening', 'tbudgetevent.rekening = mrekening.id');
+			$data[$i]['budgetEvent']	= $this->db->get_where('tbudgetevent', [
+				'idpemesanan'	=> $data[$i]['id']
+			])->result_array();
+		}
+		return $data;
+	}
 }
 

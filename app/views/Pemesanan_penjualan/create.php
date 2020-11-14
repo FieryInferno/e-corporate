@@ -708,7 +708,7 @@
                 isi = "";
                 detail="";
                 for ( index = 0; index < data.length; index++) {
-                     detail += `<input type="hidden" class="form-control" id="noakun`+data[index].id+`" name="noakun[]" required value="${data[index].koderekening}">`;
+                    detail += `<input type="hidden" class="form-control" id="noakun`+data[index].id+`" name="noakun[]" required value="${data[index].koderekening}">`;
                     isi += `<option value="${data[index].id}">${data[index].text}</option>`
                 }
                 $('#detail_jasa').html(detail);

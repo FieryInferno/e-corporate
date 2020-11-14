@@ -11,10 +11,11 @@ class Pemesanan_penjualan extends User_Controller
     }
 
     public function index() {
-        $data['title'] = lang('sales_order');
-        $data['subtitle'] = lang('list');
-        $data['content'] = 'Pemesanan_penjualan/index';;
-        $data = array_merge($data,path_info());
+        $data['title']      = lang('sales_order');
+        $data['subtitle']   = lang('list');
+        $data['content']    = 'Pemesanan_penjualan/index';
+        $data['pemesanan']  = $this->model->get(); 
+        $data               = array_merge($data,path_info());
         $this->parser->parse('template',$data);
     }
 
