@@ -6,6 +6,7 @@ class Kas_bank_model extends CI_Model {
 	private $idkasbank;
 	private $perusahaan;
 	private $tanggal;
+	private $idRekening;
 
 	function get_kodeperusahaan($id){
         $query = $this->db->get_where('mperusahaan', array('idperusahaan' => $id));
@@ -40,8 +41,9 @@ class Kas_bank_model extends CI_Model {
 			$insert_kasbank = $this->db->insert('tkasbank');
 			if($insert_kasbank)  {
 				$nomor_kas_bank = $this->db->insert_id();
-				$detail_array1 = $this->input->post("detail_array");
-				$detail_array = json_decode($detail_array1);
+				$detail_array1 	= $this->input->post("detail_array");
+				$detail_array 	= json_decode($detail_array1);
+				$no				= 0;
 				foreach($detail_array as $row) {
 					$this->db->set('idkasbank',$nomor_kas_bank);
 					$this->db->set('idtipe',$row[0]);
@@ -53,7 +55,7 @@ class Kas_bank_model extends CI_Model {
 					$this->db->set('noakun',$row[7]);
 					$this->db->set('kodeunit',$row[8]);
 					$this->db->set('departemen',$row[9]);
-					$this->db->set('sumberdana',$row[10]);
+					$this->db->set('sumberdana', $this->input->post('idRekening')[$no]);
 					$this->db->insert('tkasbankdetail');
 
 					$id=$row[0];
@@ -62,19 +64,19 @@ class Kas_bank_model extends CI_Model {
 						$this->db->set('stts_kas','1');
 						$this->db->where('id', $id);
 						$this->db->update('tfakturpenjualan');
-            			
+						
 					}else if ($tipe == 'Budget Event'){
 						$this->db->set('status_kas','1');
 						$this->db->where('id', $id);
 						$this->db->update('tbudgetevent');
-            			
+						
 					}else if ($tipe == 'Pengajuan Kas Kecil'){
 						$this->db->set('status','1');
 						$this->db->set('uby',get_user('username'));
 						$this->db->set('udate',date('Y-m-d H:i:s'));
 						$this->db->where('id', $id);
 						$this->db->update('tpengajuankaskecil');
-            			
+						
 					}else if ($tipe == 'Setor Kas Kecil'){
 						$this->db->set('status','1');
 						$this->db->set('uby',get_user('username'));
@@ -82,6 +84,7 @@ class Kas_bank_model extends CI_Model {
 						$this->db->where('id', $id);
 						$this->db->update('tsetorkaskecil');
 					}
+					$no++;
 				}
 				
 				$this->db->set('nomor_kas_bank',$this->input->post('nomor_kas_bank'));
@@ -152,9 +155,14 @@ class Kas_bank_model extends CI_Model {
 		$this->$jenis	= $isi;
 	}
 
-    public function kasbankdetail($idkasbank) {
+    public function kasbankdetail($idkasbank = null) {
 		$this->db->select('tkasbankdetail.*');
-		$this->db->where('tkasbankdetail.idkasbank', $idkasbank);
+		if ($idkasbank) {
+			$this->db->where('tkasbankdetail.idkasbank', $idkasbank);
+		}
+		if ($this->idRekening) {
+			$this->db->where('tkasbankdetail.sumberdana', $this->idRekening);
+		}
 		$get = $this->db->get('tkasbankdetail');
 		return $get->result_array();
 	}
@@ -166,10 +174,17 @@ class Kas_bank_model extends CI_Model {
 
 	public function getSaldoSumberDana()
 	{
+		if ($this->idRekening) {
+			$data	= [
+				'id'	=> $this->idRekening
+			];
+		} else {
+			$data	= [
+				'perusahaan'	=> $this->perusahaan
+			];
+		}
 		$this->db->select('nama, id, akunno');
-		$rekening	= $this->db->get_where('mrekening', [
-			'perusahaan'	=> $this->perusahaan
-		])->result_array();
+		$rekening	= $this->db->get_where('mrekening', $data)->result_array();
 		$no	= 0;
 		foreach ($rekening as $key) {
 			$idRekening		= $key['id'];
@@ -203,21 +218,35 @@ class Kas_bank_model extends CI_Model {
 					$totalSaldo	+= $key['debet'];
 				}
 			}
-			$penerimaan	=	$this->db->get_where('tfakturpenjualan', [
-				'idperusahaan'	=> $this->perusahaan,
-				'tanggal <='	=> $this->tanggal,
-				'rekening'		=> $idRekening 
-			])->result_array();
+			if ($this->idRekening) {
+				$data	= [
+					'rekening'	=> $this->idRekening
+				];
+			} else {
+				$data	= [
+					'idperusahaan'	=> $this->perusahaan,
+					'tanggal <='	=> $this->tanggal,
+					'rekening'		=> $idRekening 
+				];
+			}
+			$penerimaan	=	$this->db->get_where('tfakturpenjualan', $data)->result_array();
 			if ($penerimaan) {
 				foreach ($penerimaan as $terima) {
 					$totalSaldo	+= $terima['total'];
 				}
 			}
-			$pengeluaran	= $this->db->get_where('tfaktur', [
-				'perusahaanid'	=> $this->perusahaan,
-				'tanggal <='	=> $this->tanggal,
-				'bank'			=> $idRekening
-			])->result_array();
+			if ($this->idRekening) {
+				$data	= [
+					'bank'	=> $this->idRekening
+				];
+			} else {
+				$data	= [
+					'idperusahaan'	=> $this->perusahaan,
+					'tanggal <='	=> $this->tanggal,
+					'bank'		=> $idRekening 
+				];
+			}
+			$pengeluaran	= $this->db->get_where('tfaktur', $data)->result_array();
 			if ($pengeluaran) {
 				foreach ($pengeluaran as $keluar) {
 					$totalSaldo	-= $keluar['total'];
@@ -227,6 +256,18 @@ class Kas_bank_model extends CI_Model {
 			$no++;
 		}
 		return $rekening;
+	}
+
+	public function sisaKasBank()
+	{
+		$data			= $this->getSaldoSumberDana();
+		$kasBank		= $this->kasbankdetail();
+		$sisaKasBank	= $data[0]['totalSaldo'];
+		foreach ($kasBank as $key) {
+			$sisaKasBank	+= (integer) $key['penerimaan'];
+			$sisaKasBank	-= (integer) $key['pengeluaran'];
+		}
+		return $sisaKasBank;
 	}
 }
 

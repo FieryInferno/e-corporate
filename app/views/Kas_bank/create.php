@@ -1348,7 +1348,7 @@
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
-                    `${namabank} ${norekening}`
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
                 ]).draw(false);
                 pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {

@@ -74,8 +74,12 @@ class Pengajuan_kas_kecil_model extends CI_Model {
 	}
 
     function get_hitungsisakaskecil($idper){
-
-		$query_pemindahbukuan = $this->db->query("SELECT penerimaan,pengeluaran FROM tpemindahbukuankaskecil WHERE perusahaan='$idper' ");
+		$this->db->select('penerimaan, pengeluaran');
+		$this->db->join('tkasbank', 'tpemindahbukuankaskecil.nomor_kas_bank = tkasbank.nomor_kas_bank');
+		$query_pemindahbukuan	= $this->db->get_where('tpemindahbukuankaskecil', [
+			'tpemindahbukuankaskecil.perusahaan'	=> $idper
+		]);
+		// $query_pemindahbukuan = $this->db->query("SELECT penerimaan, pengeluaran FROM tpemindahbukuankaskecil WHERE perusahaan='$idper' ");
 		$jumlah_penerimaan=0;
 		$jumlah_pengeluaran=0;
 		if($query_pemindahbukuan->num_rows()>0){

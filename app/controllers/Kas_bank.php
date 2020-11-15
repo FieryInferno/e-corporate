@@ -6,6 +6,7 @@ class Kas_bank extends User_Controller
     private $idKasBank;
     private $perusahaan;
     private $tanggal;
+    private $idRekening;
 
     public function __construct()
     {
@@ -14,6 +15,7 @@ class Kas_bank extends User_Controller
         $this->set('idKasBank', $this->input->post('idKasBank'));
         $this->perusahaan   = $this->input->get('perusahaan');
         $this->tanggal      = $this->input->get('tanggal');
+        $this->idRekening   = $this->input->post('idRekening');
     }
 
     public function index()
@@ -288,6 +290,13 @@ class Kas_bank extends User_Controller
         $this->model->set('perusahaan', $this->perusahaan);
         $this->model->set('tanggal', $this->tanggal);
         $data   = $this->model->getSaldoSumberDana();
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function sisaKasBank()
+    {
+        $this->model->set('idRekening', $this->idRekening);
+        $data   = $this->model->sisaKasBank();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 }

@@ -62,6 +62,10 @@
                                     <select id="rekening" class="form-control rekening" name="rekening" required></select>
                                 </div>
                                 <div class="form-group">
+                                    <label>Sisa Kas Bank : </label>
+                                    <input type="text" name="sisaKasBank" id="sisaKasBank" disabled class="form-control text-right">
+                                </div>
+                                <div class="form-group">
                                     <label><?php echo lang('remaining_petty_cash') ?>:</label>
                                     <input type="text" id="sisa_kas_kecil" class="form-control sisa_kas_kecil text-right" name="" readonly>
                                 </div>               
@@ -123,7 +127,6 @@
             id: '#rekening',
             url: base_url + 'select2_mrekening_perusahaan/' + perusahaanId,
         });
-
     })
 
     //hitung sisa kas kecil
@@ -136,7 +139,7 @@
                     idper: $('select[name=perusahaan]').val(),
                 },
             success: function(data){
-                $('input[id=sisa_kas_kecil]').val(formatRupiah(String(data.hasil), 'Rp. ')+',00');     
+                $('input[id=sisa_kas_kecil]').val(formatRupiah(String(data.hasil))+',00');     
             }
         });
         return false;
@@ -202,4 +205,18 @@
             }
         })
     }
+
+    $('#rekening').change(function(){ 
+        $.ajax({
+            url         : '{site_url}kas_bank/sisaKasBank',
+            method      : 'post',
+            datatype    : 'json',
+            data        : {
+                idRekening  : $('#rekening').val()
+            },
+            success     : function (data) {
+                $('#sisaKasBank').val(formatRupiah(String(data)) + ',00');
+            }
+        })
+    }); 
 </script>
