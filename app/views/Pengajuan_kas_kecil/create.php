@@ -45,7 +45,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('nominal') ?>:</label>
-                                    <input type="text" class="form-control nominal text-right" id="nominal" name="nominal" required>
+                                    <input type="text" class="form-control nominal" id="nominal" name="nominal" required>
                                 </div> 
                             </div>
                             <div class="col-md-3">

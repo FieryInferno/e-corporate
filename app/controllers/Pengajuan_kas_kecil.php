@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* =================================================  
-*/
-  
- 
 class Pengajuan_kas_kecil extends User_Controller {
 
 	public function __construct() {
@@ -195,12 +184,12 @@ class Pengajuan_kas_kecil extends User_Controller {
         $data = $this->model->get_kodeperusahaan($id)->result();
         echo json_encode($data);
     }
- 
+
     public function printpdf() {
 		$this->load->library('pdf');
-	    $pdf = $this->pdf;
-	    
-	    $tanggalawal = $this->input->get('tanggalawal');
+		$pdf = $this->pdf;
+		
+		$tanggalawal = $this->input->get('tanggalawal');
 		$tanggalakhir = $this->input->get('tanggalakhir');
 
 		if($tanggalawal && $tanggalakhir) {
@@ -212,20 +201,30 @@ class Pengajuan_kas_kecil extends User_Controller {
 		$data['getdata'] = $this->model->cetakdata($tanggalawal,$tanggalakhir);
 		$data['title'] = lang('Laporan Pengajuan Kas Kecil');
 		$data['subtitle'] = lang('list');
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Pengajuan_kas_kecil/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("laporan-pengajuan-kas-kecil-". $time, array("Attachment" => false));
+		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+		$data = array_merge($data,path_info());
+		$html = $this->load->view('Pengajuan_kas_kecil/printpdf', $data, TRUE);
+		$pdf->loadHtml($html);
+		$pdf->setPaper('A4', 'portrait');
+		$pdf->render();
+		$time = time();
+		$pdf->stream("laporan-pengajuan-kas-kecil-". $time, array("Attachment" => false));
 	}
 
 	
     public function get_hitungsisakaskecil(){
 		$idper = $this->input->post('idper',TRUE);
         $this->model->get_hitungsisakaskecil($idper);
-    }
+	}
+	
+	public function validasi($id, $status)
+	{
+		$this->model->set('id', $id);
+		$this->model->set('status', $status);
+		$this->model->validasi();
+		$data['status'] = 'success';
+		$data['message'] = lang('save_success_message');
+		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 
 }

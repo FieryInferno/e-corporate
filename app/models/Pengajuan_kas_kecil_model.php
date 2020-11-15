@@ -1,18 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0 
-* @filesource
-* ================================================= 
-*/
- 
- 
 class Pengajuan_kas_kecil_model extends CI_Model {
+
+	private $id;
+	private $status;
 
 	public function save() {
 		$id = $this->uri->segment(3);
@@ -83,36 +75,61 @@ class Pengajuan_kas_kecil_model extends CI_Model {
 
     function get_hitungsisakaskecil($idper){
 
-    	$query_pemindahbukuan = $this->db->query("SELECT penerimaan,pengeluaran FROM tpemindahbukuankaskecil WHERE perusahaan='$idper' ");
-    	$jumlah_penerimaan=0;
-    	$jumlah_pengeluaran=0;
-        if($query_pemindahbukuan->num_rows()>0){
-            foreach($query_pemindahbukuan->result() as $p){
-                $jumlah_penerimaan=$jumlah_penerimaan+$p->penerimaan;
-    			$jumlah_pengeluaran=$jumlah_pengeluaran+$p->pengeluaran;
-            }
-        }
-        $nominal_pemindahbukuan = $jumlah_penerimaan - $jumlah_pengeluaran;
+		$query_pemindahbukuan = $this->db->query("SELECT penerimaan,pengeluaran FROM tpemindahbukuankaskecil WHERE perusahaan='$idper' ");
+		$jumlah_penerimaan=0;
+		$jumlah_pengeluaran=0;
+		if($query_pemindahbukuan->num_rows()>0){
+			foreach($query_pemindahbukuan->result() as $p){
+				$jumlah_penerimaan=$jumlah_penerimaan+$p->penerimaan;
+				$jumlah_pengeluaran=$jumlah_pengeluaran+$p->pengeluaran;
+			}
+		}
+		$nominal_pemindahbukuan = $jumlah_penerimaan - $jumlah_pengeluaran;
 
-        $query_pengeluaran = $this->db->query("SELECT subtotal FROM tpengeluarankaskecil WHERE perusahaan='$idper' AND stdel='0'");
-    	$jumlah_nominal_pengeluaran =0;
-        if($query_pengeluaran->num_rows()>0){
-            foreach($query_pengeluaran->result() as $p){
-                $jumlah_nominal_pengeluaran=$jumlah_nominal_pengeluaran+$p->subtotal;
-            }
-        }
+		$query_pengeluaran = $this->db->query("SELECT subtotal FROM tpengeluarankaskecil WHERE perusahaan='$idper' AND stdel='0'");
+		$jumlah_nominal_pengeluaran =0;
+		if($query_pengeluaran->num_rows()>0){
+			foreach($query_pengeluaran->result() as $p){
+				$jumlah_nominal_pengeluaran=$jumlah_nominal_pengeluaran+$p->subtotal;
+			}
+		}
 
-        $query_setor = $this->db->query("SELECT nominal FROM tsetorkaskecil WHERE perusahaan='$idper'AND stdel='0' AND status='0'");
-    	$jumlah_nominal_setor =0;
-        if($query_setor->num_rows()>0){
-            foreach($query_setor->result() as $p){
-                $jumlah_nominal_setor=$jumlah_nominal_setor+$p->nominal;
-            }
-        }
+		$query_setor = $this->db->query("SELECT nominal FROM tsetorkaskecil WHERE perusahaan='$idper'AND stdel='0' AND status='0'");
+		$jumlah_nominal_setor =0;
+		if($query_setor->num_rows()>0){
+			foreach($query_setor->result() as $p){
+				$jumlah_nominal_setor=$jumlah_nominal_setor+$p->nominal;
+			}
+		}
 
-        $hasil = $nominal_pemindahbukuan - $jumlah_nominal_pengeluaran - $jumlah_nominal_setor;
-    	$data['hasil'] = $hasil;
+		$hasil = $nominal_pemindahbukuan - $jumlah_nominal_pengeluaran - $jumlah_nominal_setor;
+		$data['hasil'] = $hasil;
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
-    }
+	}
+
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
+	}
+	
+	public function validasi()
+	{
+		switch ($this->status) {
+			case '0':
+				$status	= 1;
+				break;
+			case '1':
+				$status	= 0;
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+		$this->db->where('id', $this->id);
+		return $this->db->update('tpengajuankaskecil', [
+			'status' => $status
+		]);
+	}
 }
 
