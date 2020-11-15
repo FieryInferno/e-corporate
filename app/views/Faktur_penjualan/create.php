@@ -88,8 +88,9 @@
                             </div>
                             <div class="form-group">
                                 <label>Cabang : </label>
-                                <div class="input-group"> 
-                                    <select id="cabang" class="form-control cabang" name="cabang" disabled></select>
+                                <div class="input-group">
+                                    <input type="hidden" name="cabang" id="cabang"> 
+                                    <select class="form-control cabang" disabled></select>
                                 </div>
                             </div>
                         </div>
@@ -459,8 +460,8 @@
                 }
             }
         })
-       
-       $.ajax({
+
+        $.ajax({
             url : base_url + 'get_data_pengiriman',
             method : "POST",
             data : {idpengiriman: idpengiriman},
@@ -473,12 +474,13 @@
                     ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected:{id: data[i].gudangid}});
                     ajax_select({ id: '.departemen', url: base_url + 'select2_departemen', selected:{id: data[i].departemen}});
                     ajax_select({ 
-                        id          : '#cabang', 
+                        id          : '.cabang', 
                         url         : '{site_url}cabang/select2', 
                         selected    : {
                             id  : data[i].cabang
                         }
                     });
+                    $('#cabang').val(data[i].cabang);
                     $('.carabayar').val(data[i].carabayar);
                     if (data[i].carabayar == 'cash'){
                         $('#tanggal').val('{tanggal}'); 
@@ -490,7 +492,7 @@
                         document.getElementById("tanggalJT").readOnly = false; 
                     }
                     $('.tanggaluangmuka').val(data[i].tgl_pemesanan); 
-           
+    
                     $(".rekening").attr("disabled", false);
                     ajax_select({ id: '.rekening', url: base_url + 'select2_rekening/'+ data[i].idperusahaan });
 

@@ -36,11 +36,11 @@
         <?php $menu = array('item', 'kategori', 'satuan')?>  
           <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
             <a href="#" class="nav-link
-              <?php
-                if ($this->uri->segment(1) == 'kategori' || $this->uri->segment(1) == 'item' || $this->uri->segment(1) == 'satuan') {
-                  echo 'active';
-                }
-              ?>"><i class="nav-icon fas fa-list"></i>
+            <?php
+              if (in_array($this->uri->segment(1), $menu)) {
+                echo 'active';
+              }
+            ?>"><i class="nav-icon fas fa-list"></i>
               <p><?php echo lang('item') ?><i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('item') ?>">
@@ -193,15 +193,14 @@
             </ul>
           </li>	
 
-          <?php $menu = array(
-    'pemesanan_penjualan',
-    'pengiriman_penjualan',
-    'faktur_penjualan',
-    'pembayaran_penjualan',
-    'retur_penjualan',
-)?>
- <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
-            <a href="#" class="nav-link"><i class="nav-icon fas fa-shopping-cart"></i>
+          <?php $menu = array('pemesanan_penjualan', 'pengiriman_penjualan', 'faktur_penjualan', 'pembayaran_penjualan', 'retur_penjualan'); ?>
+          <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
+            <a href="#" class="nav-link 
+              <?php
+                if (in_array($this->uri->segment(1), $menu)) {
+                  echo 'active';
+                }
+              ?>"><i class="nav-icon fas fa-shopping-cart"></i>
               <p><?php echo lang('selling') ?><i class="fas fa-angle-left right"></i></p>
             </a>
             <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('selling') ?>">                        
@@ -227,14 +226,11 @@
               </li>        
             </ul>
           </li>	          
-        <?php $menu = array(
-            'kas_bank',
-            'kas_kecil',
-        )?>
+        <?php $menu = array('kas_bank', 'pemindahbukuan', 'pengeluaran_kas_kecil', 'setor_kas_kecil', 'pengajuan_kas_kecil'); ?>
           <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
             <a href="#" class="nav-link
               <?php
-                if ($this->uri->segment(1) == 'kas_bank' || $this->uri->segment(1) == 'pengeluaran_kas_kecil') {
+                if (in_array($this->uri->segment(1), $menu)) {
                   echo 'active';
                 }
               ?>"><i class="nav-icon fas fa-coins"></i>
@@ -245,12 +241,7 @@
                 <a href="{site_url}kas_bank" class="nav-link <?php echo menu_is_active('kas_bank') ?>">
                 <i class="far fa-circle nav-icon"></i><p><?php echo lang('bank_cash') ?></p></a>
               </li>
-              <?php $menu1 = array(
-                'pengajuan_kas_kecil',
-                'pemindahbukuan',
-                'pengeluaran_kas_kecil',
-                'setor_kas_kecil',
-              )?>
+              <?php $menu1 = array('pengajuan_kas_kecil', 'pemindahbukuan', 'pengeluaran_kas_kecil', 'setor_kas_kecil'); ?>
               <li class="nav-item has-treeview  <?php echo menu_is_open($menu1) ?>">
                 <a href="#" class="nav-link"><i class="nav-icon far fa-circle"></i>
                   <p><?php echo lang('petty_cash') ?><i class="fas fa-angle-left right"></i></p>

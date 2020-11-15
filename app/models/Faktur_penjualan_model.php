@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Faktur_penjualan_model extends CI_Model {
 
 	private	$id;
@@ -40,6 +29,7 @@ class Faktur_penjualan_model extends CI_Model {
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
 			$this->db->set('setupJurnal', $this->input->post('setupJurnal'));
+			$this->db->set('cabang', $this->input->post('cabang'));
 			$insertHead = $this->db->insert('tfakturpenjualan');
 			if($insertHead) {
 				$this->db->set('validasi','2');

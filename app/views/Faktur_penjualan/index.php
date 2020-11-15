@@ -37,8 +37,10 @@
                         <th>ID</th>
                         <th><?php echo lang('notrans') ?></th>
                         <th><?php echo lang('Surat Jalan') ?></th>
-                        <th><?php echo lang('note') ?></th>
+                        <th>Nama Perusahaan</th>
                         <th><?php echo lang('Departemen') ?></th>
+                        <th>Cabang</th>
+                        <th><?php echo lang('note') ?></th>
                         <th><?php echo lang('date') ?></th>
                         <th><?php echo lang('date') ?>J/T</th>
                         <th><?php echo lang('supplier') ?></th>
@@ -53,9 +55,7 @@
                     <tbody></tbody>
                     <tfoot>
                       <tr class="table-active">
-                        <th>ID</th>
-                        <th colspan="6">&nbsp;</th>
-                        <th colspan="3" class="text-right"><?php echo lang('Total Faktur Penjualan') ?></th>
+                        <th colspan="12" class="text-right"><?php echo lang('Total Faktur Penjualan') ?></th>
                         <th class="text-center"><div id="total"></div></th>
                         <th class="text-center"></th>
                         <th class="text-center"></th>
@@ -97,8 +97,10 @@
         }
       },
       {data: 'nomorsuratjalan'},
-      {data: 'catatan', orderable: false},
+      {data: 'nama_perusahaan'},
       {data: 'namadepartemen'},
+      {data: 'cabang'},
+      {data: 'catatan', orderable: false},
       {data: 'tanggal'},
       {data: 'tanggaltempo'},
       {data: 'supplier'},
@@ -167,7 +169,7 @@
                     i : 0;
         };
 
-        total = api.column(10).data().reduce( function (a, b) {
+        total = api.column(12).data().reduce( function (a, b) {
             return intVal(a) + intVal(b); 
         }, 0 );
         $('#total').html(formatRupiah(String(total)) + ',00');

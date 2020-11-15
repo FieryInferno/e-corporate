@@ -32,6 +32,7 @@
 									<thead>
 										<tr class="table-active">
 											<th><?php echo lang('notrans') ?></th>
+											<th>Perusahaan</th>
 											<th><?php echo lang('note') ?></th>
 											<th><?php echo lang('date') ?></th>
 											<th><?php echo lang('supplier') ?></th>
@@ -50,6 +51,7 @@
 											foreach ($pemesanan as $key) { ?>
 												<tr>
 													<td><?= $key['notrans']; ?></td>
+													<td><?= $key['nama_perusahaan']; ?></td>
 													<td><?= $key['catatan']; ?></td>
 													<td><?= $key['tanggal']; ?></td>
 													<td><?= $key['supplier']; ?></td>
@@ -223,7 +225,7 @@
 									</tbody>
 									<tfoot>
 										<tr class="table-active">
-											<th class="text-right" colspan="8">Total</th>
+											<th class="text-right" colspan="9">Total</th>
 											<th></th>
 											<th class="text-right" colspan="3"></th>
 										</tr>
@@ -251,10 +253,10 @@
                         i : 0;
             };
 
-            total = api.column(8).data().reduce( function (a, b) {
+            total = api.column(9).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
-			$( api.column( 8 ).footer() ).html(
+			$( api.column( 9 ).footer() ).html(
 				formatRupiah(String(total))+',00'
 			);
         }

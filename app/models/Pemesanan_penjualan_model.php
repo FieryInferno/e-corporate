@@ -448,10 +448,11 @@ class Pemesanan_penjualan_model extends CI_Model {
 	
 	public function get()
 	{
-		$this->db->select('tpemesananpenjualan.*, mkontak.nama as supplier, mgudang.nama as gudang, mcabang.nama as cabang');
+		$this->db->select('tpemesananpenjualan.*, mkontak.nama as supplier, mgudang.nama as gudang, mcabang.nama as cabang, mperusahaan.nama_perusahaan');
         $this->db->join('mkontak', 'tpemesananpenjualan.kontakid = mkontak.id','LEFT');
         $this->db->join('mgudang', 'tpemesananpenjualan.gudangid = mgudang.id','LEFT');
         $this->db->join('mcabang', 'tpemesananpenjualan.cabang = mcabang.id','LEFT');
+        $this->db->join('mperusahaan', 'tpemesananpenjualan.idperusahaan = mperusahaan.idperusahaan','LEFT');
         $this->db->where('tpemesananpenjualan.tipe', '2');
         $this->db->where('tpemesananpenjualan.stdel', '0');
 		$data	= $this->db->get('tpemesananpenjualan')->result_array();
