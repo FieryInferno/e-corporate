@@ -156,12 +156,42 @@
                             <a href="javascript:hapus('${nomor}')" type="button" class="btn btn-danger">-</a>
                         </div>
                         <div class="col-10">
-                            <select name="elemen${tipe}[]" id="elemen" class="form-control elemen">
+                            <select name="elemen${tipe}[]" id="elemen${nomor}" class="form-control elemen">
                                 <option value="" disabled selected>Pilih Elemen</option>
                                 <option value="kodeAkun">Kode Akun</option>
                                 <option value="mapAkun1">Map Akun 1</option>
                                 <option value="mapAkun2">Map Akun 2</option>
                                 <option value="mapAkun3">Map Akun 3</option>
+                                <option value="sumberDanaPiutang">Sumber Dana Piutang</option>
+                                <option value="sumberDanaPiutang1">Map Sumber Dana Piutang 1</option>
+                                <option value="sumberDanaPiutang2">Map Sumber Dana Piutang 2</option>
+                                <option value="sumberDanaPiutang3">Map Sumber Dana Piutang 3</option>
+                                <option value="sumberDanaHutang">Sumber Dana Hutang</option>
+                                <option value="sumberDanaHutang1">Map Sumber Dana Hutang 1</option>
+                                <option value="sumberDanaHutang2">Map Sumber Dana Hutang 2</option>
+                                <option value="sumberDanaHutang3">Map Sumber Dana Hutang 3</option>
+                                <option value="sumberDanaPenjualan">Sumber Dana Penjualan</option>
+                                <option value="sumberDanaPenjualan1">Map Sumber Dana Penjualan 1</option>
+                                <option value="sumberDanaPenjualan2">Map Sumber Dana Penjualan 2</option>
+                                <option value="sumberDanaPenjualan3">Map Sumber Dana Penjualan 3</option>
+                                <option value="sumberDanaPembelian">Sumber Dana Pembelian</option>
+                                <option value="sumberDanaPembelian1">Map Sumber Dana Pembelian 1</option>
+                                <option value="sumberDanaPembelian2">Map Sumber Dana Pembelian 2</option>
+                                <option value="sumberDanaPembelian3">Map Sumber Dana Pembelian 3</option>
+                                <option value="sumberDanaPengajuanKasKecil">Sumber Dana Pengajuan Kas Kecil</option>
+                                <option value="sumberDanaPengajuanKasKecil1">Map Sumber Dana Pengajuan Kas Kecil 1</option>
+                                <option value="sumberDanaPengajuanKasKecil2">Map Sumber Dana Pengajuan Kas Kecil 2</option>
+                                <option value="sumberDanaPengajuanKasKecil3">Map Sumber Dana Pengajuan Kas Kecil 3</option>
+                                <option value="sumberDanaSetorKasKecil">Sumber Dana Stor Kas Kecil</option>
+                                <option value="sumberDanaSetorKasKecil1">Map Sumber Dana Stor Kas Kecil 1</option>
+                                <option value="sumberDanaSetorKasKecil2">Map Sumber Dana Stor Kas Kecil 2</option>
+                                <option value="sumberDanaSetorKasKecil3">Map Sumber Dana Stor Kas Kecil 3</option>
+                                <option value="sumberDanaSetorPajak">Sumber Dana Setor Pajak</option>
+                                <option value="sumberDanaSetorPajak1">Map Sumber Dana Setor Pajak 1</option>
+                                <option value="sumberDanaSetorPajak2">Map Sumber Dana Setor Pajak 2</option>
+                                <option value="sumberDanaSetorPajak3">Map Sumber Dana Setor Pajak 3</option>
+                                <option value="sumberDanaPenerimaanPindahBuku">Sumber Dana Penerimaan Pindah Buku</option>
+                                <option value="sumberDanaPengeluaranPindahBuku">Sumber Dana Pengeluaran Pindah Buku</option>
                                 ${option}
                             </select>
                         </div>
@@ -193,6 +223,7 @@
         }
         $('#tambahAnggaran').attr('href', 'javascript:tambah("jurnalAnggaran", ' + nomorBaru +')');
         $('#tambahFinansial').attr('href', 'javascript:tambah("jurnalFinansial", ' + nomorBaru +')');
+        $(`#elemen${nomor}`).select2();
     }
 
     function hapus(nomor) {
@@ -257,4 +288,5 @@
             $('#tipeTransaksi').empty();
         }
     }
+
 </script>
