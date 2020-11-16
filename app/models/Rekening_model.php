@@ -3,6 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Rekening_model extends CI_Model {
 
+	private $idPerusahaan;
+	private $table	= 'mrekening';
+
 	public function save() {
 		$id = $this->uri->segment(3);
 		if($id) {
@@ -61,6 +64,20 @@ class Rekening_model extends CI_Model {
 		$this->db->get_where('mrekening', [
 			'id'	=> $this->id
 		])->row_array();
+	}
+
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
+	}
+
+	public function get()
+	{
+		$this->db->select($this->table . '.*, concat(mnoakun.akunno, " - ", mnoakun.namaakun) as akun, mnoakun.idakun');
+		$this->db->join('mnoakun', $this->table . '.akunno = mnoakun.idakun');
+		return $this->db->get_where($this->table, [
+			'perusahaan'	=> $this->idPerusahaan
+		])->result_array();
 	}
 }
 

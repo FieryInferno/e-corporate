@@ -108,6 +108,7 @@
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ReturJual">Retur Jual</button>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ReturBeli">Retur Beli</button>
                                             <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Deposito">Deposito</button>
+                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#pindahBuku">Pindah Buku</button>
                                         </div>
 
                                         <div class="mb-3 mt-3 table-responsive">
@@ -636,6 +637,43 @@
 </div>
 <!-- End: Modal -->
 
+<!-- Start: Modal Pindah Buku -->
+<div class="modal fade" id="pindahBuku" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Pilih Pindah Buku</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="formPindahBuku">
+                    <div class="table-responsive">
+                        <table class="table table-xs table-striped table-borderless table-hover" id="tabelPindahBuku">
+                            <thead>
+                                <tr class="table-active">
+                                    <th>Tipe</th>
+                                    <th>Sumber Dana</th>
+                                    <th>Nomor Akun</th>
+                                    <th>Penerimaan</th>
+                                    <th>Pengeluaran</th>
+                                </tr>
+                            </thead>
+                            <tbody id='list_pindahBuku'></tbody>
+                        </table>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="simpanPindahBuku()">Simpan</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Oke</button>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End: Modal -->
+
 <script type="text/javascript">
     var base_url    = '{site_url}Kas_bank/';
     var saldoSumberDana;
@@ -652,6 +690,32 @@
         });
     })
 
+    function simpanPindahBuku(no) {
+        var pindahBuku  = tabelPindahBuku.data().toArray();
+        var formData    = new FormData($('#formPindahBuku')[0]);
+        var penerimaan  = formData.getAll('penerimaanPindahBuku');
+        var pengeluaran = formData.getAll('pengeluaranPindahBuku');
+        var idakun      = formData.getAll('idakun');
+        var idRekening  = formData.getAll('idRekening');
+        var i           = 0;
+        pindahBuku.forEach(element => {
+            table_detail.row.add([
+                ``,
+                `<button type="button" class="btn btn-danger delete_detail" id="button_pindahBuku${no}" onclick="hapus_data(this);">-</button>`,
+                `${element[0]}`,
+                ``,
+                ``,
+                formatRupiah(String(penerimaan[i])) + ',00',
+                formatRupiah(String(pengeluaran[i])) + ',00',
+                `<input type="hidden" name="idakun[]" value="${idakun[i]}">${element[2]}`,
+                ``,
+                ``,
+                `<input type="hidden" name="idRekening[]" value="${idRekening[i]}">${element[1]}`
+            ]).draw(false);
+            i++;
+        });
+    }
+
     //combobox nama penerima/pejabat
     $('#id_perusahaan').change(function(e) {
         tabelpenjualan.clear().draw();
@@ -666,7 +730,8 @@
         tabeldeposito.clear().draw();
         tabelPiutang.clear().draw();
         tabelHutang.clear().draw();
-        
+        tabelPindahBuku.clear().draw();
+
         $("#pejabat").val($("#pejabat").data("default-value"));
         $('input[name=penerimaan]').val('0'); 
         $('input[name=pengeluaran]').val('0');
@@ -681,9 +746,10 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        getPiutang();
-        getHutang();
+        // getPiutang();
+        // getHutang();
         getSaldoSumberDana();
+        getPindahBuku();
     })
 
     //combobox nama penerima/pejabat
@@ -706,8 +772,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        getPiutang();
-        getHutang();
+        // getPiutang();
+        // getHutang();
     })
 
 
@@ -944,7 +1010,12 @@
     var tabelPiutang = $('#tabelPiutang').DataTable({
         sort: false
     });
+
     var tabelHutang = $('#tabelHutang').DataTable({
+        sort: false
+    });
+
+    var tabelPindahBuku = $('#tabelPindahBuku').DataTable({
         sort: false
     });
 
@@ -1108,7 +1179,7 @@
             data : {idPerusahaan: idPerusahaan, tgl: tgl },
             url: base_url + 'get_BudgetEvent',
             success: function(response) {
-               for (let i = 0; i < response.length; i++) {
+                for (let i = 0; i < response.length; i++) {
                     const element = response[i];
 
                     if (i < 0) {
@@ -1130,6 +1201,29 @@
                             formatRupiah(String(`${element.nominal}`)) + ',00',
                         ]).draw();
                     }
+                }
+            }
+        });
+    }
+
+    function getPindahBuku() {
+        var idPerusahaan    = $('select[name=perusahaan]').val();
+        $.ajax({
+            type    : "get",
+            data    : {
+                idPerusahaan    : idPerusahaan
+            },
+            url     : '{site_url}rekening/get',
+            success: function(response) {
+                for (let i = 0; i < response.length; i++) {
+                    const element = response[i];
+                    tabelPindahBuku.row.add([
+                        `PB`,
+                        `<input type="hidden" name="idRekening" value="${element.id}">` + element.nama,
+                        `<input type="hidden" name="idakun" value="${element.idakun}">` + element.akun,
+                        `<input type="text" name="penerimaanPindahBuku" id="penerimaanPindahBuku" class="form-control">`,
+                        `<input type="text" name="pengeluaranPindahBuku" id="pengeluaranPindahBuku" class="form-control">`
+                    ]).draw();
                 }
             }
         });
