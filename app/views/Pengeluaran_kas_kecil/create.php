@@ -66,10 +66,16 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo lang('cash') ?>:</label>
                                     <select id="kas" class="form-control kas" name="akunno" required></select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Cabang : </label>
+                                    <select id="cabang" class="form-control cabang" name="cabang" required></select>
                                 </div>
                             </div>
                         </div>
@@ -269,6 +275,10 @@
             id: '#kas',
             url: '{site_url}pengajuan_kas_kecil/select2_mnoakun/',
         });
+        ajax_select({
+			id	: `#cabang`,
+			url	: '{site_url}cabang/select2',
+		});
     })
 
     //combobox departemen

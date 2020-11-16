@@ -75,25 +75,25 @@
                 <div class="content">
                     <div class="card">
                         <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-bordered table-striped index_datatable">
-                                <thead>
-                                    <tr>
-                                        <th><?php echo lang('id') ?></th>
-                                        <th><?php echo lang('no_receipt') ?></th>
-                                        <th><?php echo lang('information') ?></th>
-                                        <th><?php echo lang('date') ?></th>
-                                        <th><?php echo lang('company') ?></th>
-                                        <th><?php echo lang('Departemen') ?></th>
-                                        <th><?php echo lang('nominal') ?></th>
-                                        <th><?php echo lang('Status') ?></th>
-                                        <th>Setup Jurnal</th>
-                                        <th><?php echo lang('action') ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
-                        </div>
+                            <div class="table-responsive">
+                                <table class="table table-xs table-striped table-borderless table-hover index_datatable">
+                                    <thead>
+                                        <tr class="table-active">
+                                            <th><?php echo lang('id') ?></th>
+                                            <th><?php echo lang('no_receipt') ?></th>
+                                            <th><?php echo lang('information') ?></th>
+                                            <th><?php echo lang('date') ?></th>
+                                            <th><?php echo lang('company') ?></th>
+                                            <th><?php echo lang('Departemen') ?></th>
+                                            <th><?php echo lang('nominal') ?></th>
+                                            <th><?php echo lang('Status') ?></th>
+                                            <th>Setup Jurnal</th>
+                                            <th><?php echo lang('action') ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
