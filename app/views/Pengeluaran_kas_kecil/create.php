@@ -331,7 +331,7 @@
             datatype: 'json',
             data: { idper: $('select[name=perusahaan]').val() },
             success: function(data){
-                $('input[id=sisa_kas_kecil]').val( formatRupiah(String(data.hasil), 'Rp. ')); 
+                $('input[id=sisa_kas_kecil]').val( formatRupiah(String(data.hasil))); 
             }
         });
         return false;
@@ -392,7 +392,7 @@
             $('#noakun'+index).remove();
             $('#sisapaguitem'+index).remove();
 
-            sisapaguitem_tabel  = `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(sisapaguitem, 'Rp.')}" readonly>`;
+            sisapaguitem_tabel  = `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(sisapaguitem)}" readonly>`;
             
             table_detail.row.add([
                 barang[index].value,
@@ -615,7 +615,7 @@
     function nominalPajak(no) {
         var nilai   = $('#nominal_pajak' + no).val();
         var nilai1  = nilai.replace(/[^,\d]/g, '').toString();
-        $('#nominal_pajak' + no).val(formatRupiah(String(nilai), 'Rp. '));
+        $('#nominal_pajak' + no).val(formatRupiah(String(nilai)));
     }
 
     function getListPajak(id) {
@@ -662,7 +662,7 @@
 
     function sum(no, no1) {  
         var txtFirstNumberValue                     = document.getElementById('harga'+no).value.replace(/[^,\d]/g, '').toString();    
-        document.getElementById('harga'+no).value   = formatRupiah(txtFirstNumberValue, 'Rp.');
+        document.getElementById('harga'+no).value   = formatRupiah(txtFirstNumberValue);
         var txtSecondNumberValue                    = document.getElementById('jumlah'+no).value;
         var result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
         var pajak                 = document.getElementById('total_pajak'+no).value;
@@ -684,20 +684,20 @@
         var sisapaguitem_baru       = String(parseInt(sisapaguitem) - result);
         
         if (!isNaN(result)) {
-            document.getElementById('subtotal'+no).value        = formatRupiah(String(result), 'Rp.');
+            document.getElementById('subtotal'+no).value        = formatRupiah(String(result));
             document.getElementById('subtotal_asli'+no).value   = result;
-            document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.');
+            document.getElementById('total'+no).value           = formatRupiah(String(result));
         }
         else if(txtFirstNumberValue !=null && txtSecondNumberValue == null){
             document.getElementById('subtotal'+no).value = txtFirstNumberValue;
             document.getElementById('total'+no).value = txtFirstNumberValue;
         }else{
-            document.getElementById('subtotal'+no).value        = formatRupiah(String(result), 'Rp.');
+            document.getElementById('subtotal'+no).value        = formatRupiah(String(result));
             document.getElementById('subtotal_asli'+no).value   = result;
-            document.getElementById('total'+no).value           = formatRupiah(String(result), 'Rp.');
+            document.getElementById('total'+no).value           = formatRupiah(String(result));
         }
         
-        document.getElementById('sisapaguitem_baru'+no).value = formatRupiah(sisapaguitem_baru, 'Rp.');
+        document.getElementById('sisapaguitem_baru'+no).value = formatRupiah(sisapaguitem_baru);
         
         total_total[no1] = [];
         total_total[no1].push(parseInt(result));
@@ -731,9 +731,9 @@
         var sisapaguitem            = document.getElementById('sisapaguitem_lama'+no).value;
         var sisapaguitem_baru       = String(parseInt(sisapaguitem) - total);
         
-        document.getElementById('total'+no).value = formatRupiah(String(total), 'Rp.');
+        document.getElementById('total'+no).value = formatRupiah(String(total));
         
-        document.getElementById('sisapaguitem_baru'+no).value = formatRupiah(sisapaguitem_baru, 'Rp.');
+        document.getElementById('sisapaguitem_baru'+no).value = formatRupiah(sisapaguitem_baru);
         
         total_total[no1]    = [];
         total_total[no1].push((parseInt(total)));
@@ -745,8 +745,8 @@
         total_total.forEach(function callback(element, index, array) {
             a   += parseInt(element);
         })
-        $('total').html(formatRupiah(String(a), 'Rp. '));
-        $('.nominal').val(formatRupiah(String(a), 'Rp. '));
+        $('total').html(formatRupiah(String(a)));
+        $('.nominal').val(formatRupiah(String(a)));
     }
 
 
@@ -814,7 +814,7 @@
                 </button>`,
                 noakun,
                 `<input type="text" class="form-control" name="total[]" id="total${index}${nmr_urut}" readonly>`,
-                `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${nmr_urut}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${nmr_urut}" value="${formatRupiah(sisapaguitem, 'Rp.')}" readonly name="sisapaguitem_baru[]" >`,
+                `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${nmr_urut}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${nmr_urut}" value="${formatRupiah(sisapaguitem)}" readonly name="sisapaguitem_baru[]" >`,
                 `<a href="javascript:edit_detail('${barang[index].value}','${nmr_urut}')" class="edit_detail"><i class="fas fa-pencil-alt"></i></a>&nbsp;
                 <a href="javascript:delete_detail('${nmr_urut}')" class="delete_detail text-danger"><i class="fas fa-trash"></i></a>`
             ]).draw( false );
