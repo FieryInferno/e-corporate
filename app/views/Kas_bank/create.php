@@ -639,6 +639,7 @@
 <script type="text/javascript">
     var base_url    = '{site_url}Kas_bank/';
     var saldoSumberDana;
+    var idPerusahaan;
     $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
         return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
     })
@@ -669,7 +670,8 @@
         $("#pejabat").val($("#pejabat").data("default-value"));
         $('input[name=penerimaan]').val('0'); 
         $('input[name=pengeluaran]').val('0');
-        var perusahaanId = $('#id_perusahaan').children('option:selected').val();
+        var perusahaanId    = $('#id_perusahaan').children('option:selected').val();
+        idPerusahaan        = perusahaanId;
         ajax_select({
             id: '#pejabat',
             url: base_url + 'select2_mdepartemen_pejabat/' + perusahaanId,
@@ -1460,7 +1462,7 @@
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     ``,
-                    ``
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`
                 ]).draw( false );
                 penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
             } else {
@@ -1483,7 +1485,7 @@
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     ``,
-                    ``
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`
                 ]).draw( false );
                 pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {
@@ -1503,6 +1505,14 @@
         ]).draw();
         detail_array();
         hitungTotalPengeluaranPemindahbukuan();
+        ajax_select({
+            id  : '.pilihRekening',
+            url : '{site_url}rekening/select2/' + idPerusahaan,
+        });
+    }
+
+    function pilihRekening(elemen, id) {
+        $('#' + id).val($(elemen).val());
     }
 
     function hapus_data(elem) {

@@ -92,10 +92,13 @@ class Rekening extends User_Controller{
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}	
 	
-	public function select2()
+	public function select2($idPerusahaan)
 	{
 		$this->db->select('mrekening.id, mrekening.nama as text');
 		$this->db->where('stdel', 0);
+		if ($idPerusahaan) {
+			$this->db->where('perusahaan', $idPerusahaan);
+		}
 		$data = $this->db->get('mrekening')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
