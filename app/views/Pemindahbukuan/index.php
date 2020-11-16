@@ -101,18 +101,37 @@
     </section>
 </div>
 
-  
-<!-- jQuery -->
-<script src="<?= base_url('adminlte')?>/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<?= base_url('adminlte')?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables -->
-<script src="<?= base_url('adminlte')?>/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<!-- notifikasi -->
-
+<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelDetail">
+                        <thead>
+                            <tr class="table-active">
+                                <th>Tanggal</th>
+                                <th>Nomor Aktifitas</th>
+                                <th>Penerimaan</th>
+                                <th>Nomor Akun</th>
+                                <th>Nama Perusahaan</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
 <script type="text/javascript">
 	var base_url = '{site_url}Pemindahbukuan/';
 
@@ -132,8 +151,10 @@
             {
                 data: 'nomor_kas_bank', 
                 render: function(data,type,row) {
-                    var nomor_kas_bank=`<label class="btn btn-sm btn-info">`+data+`</label>`;
-                    return nomor_kas_bank;
+                    return ` 
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#detail" idPemindahbukuan="${row.id}" onclick="detail(this)">
+                        ${data}
+                    </button>`;
                 }
             },
             {data: 'nama_perusahaan'},
@@ -150,7 +171,29 @@
         ]
 	});
 
-function formatRupiah(angka, prefix){
+    var tabelDetail = $('#tabelDetail').DataTable();
+
+    function detail(elemen) {
+        tabelDetail.clear().draw();
+        $.ajax({
+            url     : base_url + 'detail',
+            method  : 'post',
+            data    : {
+                idPemindahbukuan    : $(elemen).attr('idPemindahbukuan')
+            },
+            success : function (response) {
+                tabelDetail.row.add([
+                    response.tanggal,
+                    response.nomor_kas_bank,
+                    formatRupiah(response.pengeluaran) + ',00',
+                    response.akun,
+                    response.nama_perusahaan
+                ]).draw();
+            }
+        })
+    }
+
+    function formatRupiah(angka, prefix){
             var number_string = angka.replace(/[^,\d]/g, '').toString(),
             split           = number_string.split(','),
             sisa             = split[0].length % 3,

@@ -3,9 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Pemindahbukuan extends User_Controller {
 
+	private $idPemindahbukuan;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Pemindahbukuan_model','model');
+		$this->idPemindahbukuan	= $this->input->post('idPemindahbukuan');
 	}
 
 	public function index() {
@@ -24,7 +27,7 @@ class Pemindahbukuan extends User_Controller {
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Pemindahbukuan/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function index_datatable() {
@@ -38,9 +41,9 @@ class Pemindahbukuan extends User_Controller {
 
 	public function printpdf() {
 		$this->load->library('pdf');
-	    $pdf = $this->pdf;
-	    
-	    $tanggalawal = $this->input->get('tanggalawal');
+		$pdf = $this->pdf;
+		
+		$tanggalawal = $this->input->get('tanggalawal');
 		$tanggalakhir = $this->input->get('tanggalakhir');
 		if($tanggalawal && $tanggalakhir) {
 			$data['tipe_cetak'] = '0';
@@ -50,13 +53,20 @@ class Pemindahbukuan extends User_Controller {
 		$data['getdata'] = $this->model->cetakdata($tanggalawal,$tanggalakhir);
 		$data['title'] = lang('Laporan Pemindahbukuan Kas Kecil');
 		$data['subtitle'] = lang('list');
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Pemindahbukuan/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("laporan-pemindahbukuan-kas-kecil-". $time, array("Attachment" => false));
+		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+		$data = array_merge($data,path_info());
+		$html = $this->load->view('Pemindahbukuan/printpdf', $data, TRUE);
+		$pdf->loadHtml($html);
+		$pdf->setPaper('A4', 'portrait');
+		$pdf->render();
+		$time = time();
+		$pdf->stream("laporan-pemindahbukuan-kas-kecil-". $time, array("Attachment" => false));
+	}
+
+	public function detail()
+	{
+		$this->model->set('idPemindahbukuan', $this->idPemindahbukuan);
+		$data	= $this->model->get();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 }

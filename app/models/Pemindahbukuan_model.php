@@ -1,20 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/ 
-
-
 class Pemindahbukuan_model extends CI_Model {
 
-	 public function cetakdata($tanggalawal,$tanggalakhir) {
+	private $idPemindahbukuan;
+
+	public function cetakdata($tanggalawal,$tanggalakhir) {
 		// $this->db->select('tpemindahbukuankaskecil.*,mperusahaan.nama_perusahaan, mnoakun.akunno as nomor_akun');
 		$this->db->select('tpemindahbukuankaskecil.*,mperusahaan.nama_perusahaan');
 		$this->db->join('mperusahaan','tpemindahbukuankaskecil.perusahaan=mperusahaan.idperusahaan');
@@ -25,6 +16,23 @@ class Pemindahbukuan_model extends CI_Model {
 		}
 		$get = $this->db->get('tpemindahbukuankaskecil');
 		return $get->result_array();
+	}
+
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
+	}
+
+	public function get()
+	{
+		$this->db->select('tpemindahbukuankaskecil.*, tkasbankdetail.pengeluaran, concat(mnoakun.namaakun, " ", mnoakun.akunno) as akun, mperusahaan.nama_perusahaan');
+		$this->db->join('tkasbank', 'tpemindahbukuankaskecil.nomor_kas_bank = tkasbank.nomor_kas_bank');
+		$this->db->join('tkasbankdetail', 'tkasbank.id = tkasbankdetail.idkasbank');
+		$this->db->join('mnoakun', 'tkasbankdetail.noakun = mnoakun.idakun');
+		$this->db->join('mperusahaan', 'tpemindahbukuankaskecil.perusahaan = mperusahaan.idperusahaan');
+		return $this->db->get_where('tpemindahbukuankaskecil', [
+			'tpemindahbukuankaskecil.id'	=> 3
+		])->row_array();
 	}
 
 }
