@@ -51,13 +51,13 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><?php echo lang('start_date') ?>:</label>
-                                                <input type="text" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
+                                                <input type="text" class="form-control datepicker" name="tanggalawal" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><?php echo lang('end_date') ?>:</label>
-                                                <input type="text" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
+                                                <input type="text" class="form-control datepicker" name="tanggalakhir" required>
                                             </div>
                                         </div>
                                     </div>
@@ -119,8 +119,6 @@
 	var table = $('.index_datatable').DataTable({
 		ajax: {
 			url: base_url + 'index_datatable',
-			type: 'post',
-			data : {tanggalawal: '{tanggalawal}', tanggalakhir: '{tanggalakhir}'},
 		},
 		stateSave: true,
 		autoWidth: false,
@@ -134,7 +132,7 @@
             {
                 data: 'nomor_kas_bank', 
                 render: function(data,type,row) {
-                    var nomor_kas_bank=`<label class="badge badge-info">`+data+`</label>`;
+                    var nomor_kas_bank=`<label class="btn btn-sm btn-info">`+data+`</label>`;
                     return nomor_kas_bank;
                 }
             },

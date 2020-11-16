@@ -92,7 +92,7 @@ class Kas_bank_model extends CI_Model {
 				$this->db->set('pejabat',$this->input->post('pejabat'));
 				$this->db->set('tanggal',$this->input->post('tanggal'));
 				$this->db->set('keterangan',$this->input->post('keterangan'));
-				// $this->db->set('nominal',preg_replace("/(,00|[^0-9])/", "", $this->input->post('pengeluaran_pemindahbukuan')));
+				$this->db->set('nominal',preg_replace("/(,00|[^0-9])/", "", $this->input->post('pengeluaran_pemindahbukuan')));
 				$this->db->set('cby',get_user('username'));
 				$this->db->set('cdate',date('Y-m-d H:i:s'));
 				$this->db->insert('tpemindahbukuankaskecil');
@@ -122,6 +122,9 @@ class Kas_bank_model extends CI_Model {
 
 	public function delete() {
 		$id	= $this->get('idKasBank');
+		$kasBank	= $this->db->get_where('tkasbank', [
+			'id'	=> $id
+		])->row_array();
 		$this->db->where('id', $id);
 		$update = $this->db->delete('tkasbank');
 		if($update) {
@@ -144,6 +147,8 @@ class Kas_bank_model extends CI_Model {
 			}
 			$this->db->where('idkasbank', $id);
 			$this->db->delete('tkasbankdetail');
+			$this->db->where('nomor_kas_bank', $kasBank['nomor_kas_bank']);
+			$this->db->delete('tpemindahbukuankaskecil');
 			return TRUE;
 		} else {
 			return FALSE;
@@ -241,7 +246,7 @@ class Kas_bank_model extends CI_Model {
 				];
 			} else {
 				$data	= [
-					'idperusahaan'	=> $this->perusahaan,
+					'perusahaanid'	=> $this->perusahaan,
 					'tanggal <='	=> $this->tanggal,
 					'bank'		=> $idRekening 
 				];

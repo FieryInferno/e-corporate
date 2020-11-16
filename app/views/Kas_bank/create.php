@@ -638,7 +638,7 @@
 
 <script type="text/javascript">
     var base_url    = '{site_url}Kas_bank/';
-    var saldoSumberData;
+    var saldoSumberDana;
     $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
         return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
     })
@@ -1155,7 +1155,7 @@
                         ]).draw();
                     } else {
                         tabelkaskecil.row.add([
-                            `<input type="checkbox" id="checkbox_PKK${element.id}" name="" data-id="${element.id}" data-tipe="Pengajuan Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this)">`,
+                            `<input type="checkbox" id="checkbox_PKK${element.id}" name="" data-id="${element.id}" data-tipe="Pengajuan Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" idRekening="${element.idRekening}" onchange="save_detail(this)">`,
                             `${element.nokwitansi}`,
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
@@ -1371,7 +1371,7 @@
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
-                    `${namabank} ${norekening}`
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
                 ]).draw(false);
                 penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
             } else {
@@ -1394,7 +1394,7 @@
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
-                    `${namabank} ${norekening}`
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
                 ]).draw(false);
             } else {
                 var rowindex=$('#button_BE'+id).closest('tr').index();
@@ -1416,7 +1416,7 @@
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
-                    `${namabank} ${norekening}`
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
                 ]).draw(false);
                 pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {
@@ -1439,7 +1439,7 @@
                     `${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
-                    `${namabank} ${norekening}`
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
                 ]).draw( false );
             } else {
                 var rowindex=$('#button_SKK'+id).closest('tr').index();

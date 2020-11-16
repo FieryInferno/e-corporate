@@ -245,7 +245,7 @@ class Kas_bank extends User_Controller
     {
         $idperusahaan = $this->input->get('idPerusahaan');
         $tgl = $this->input->get('tgl');
-        $this->db->select('tpengajuankaskecil.*, mperusahaan.kode, mdepartemen.nama as nama_departemen, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening');
+        $this->db->select('tpengajuankaskecil.*, mperusahaan.kode, mdepartemen.nama as nama_departemen, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening, mrekening.id as idRekening');
         $this->db->join('mperusahaan','tpengajuankaskecil.perusahaan=mperusahaan.idperusahaan');
         $this->db->join('mdepartemen','tpengajuankaskecil.pejabat=mdepartemen.id');
         $this->db->join('mnoakun','tpengajuankaskecil.kas=mnoakun.idakun');

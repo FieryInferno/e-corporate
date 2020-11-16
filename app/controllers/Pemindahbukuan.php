@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* =================================================  
-*/
-
-
 class Pemindahbukuan extends User_Controller {
 
 	public function __construct() {
@@ -39,14 +28,10 @@ class Pemindahbukuan extends User_Controller {
 	}
 
 	public function index_datatable() {
-		$tgl_awal = $this->input->post('tanggalawal',TRUE);
-		$tgl_akhir = $this->input->post('tanggalakhir',TRUE);
 		$this->load->library('Datatables');
 		$this->datatables->select('tpemindahbukuankaskecil.*,mperusahaan.nama_perusahaan');
 		$this->datatables->join('mperusahaan','tpemindahbukuankaskecil.perusahaan=mperusahaan.idperusahaan');
 		$this->datatables->join('mdepartemen','tpemindahbukuankaskecil.pejabat=mdepartemen.id');
-		$this->db->where('tpemindahbukuankaskecil.tanggal >=',$tgl_awal);
-		$this->db->where('tpemindahbukuankaskecil.tanggal <=',$tgl_akhir);
 		$this->datatables->from('tpemindahbukuankaskecil');
 		return print_r($this->datatables->generate());
 	}
