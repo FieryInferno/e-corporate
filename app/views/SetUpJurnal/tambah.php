@@ -192,6 +192,10 @@
                                 <option value="sumberDanaSetorPajak3">Map Sumber Dana Setor Pajak 3</option>
                                 <option value="sumberDanaPenerimaanPindahBuku">Sumber Dana Penerimaan Pindah Buku</option>
                                 <option value="sumberDanaPengeluaranPindahBuku">Sumber Dana Pengeluaran Pindah Buku</option>
+                                <option value="rekeningKasKecil">Rekening Kas Kecil</option>
+                                <option value="rekeningKasKecil1">Map Kas Kecil 1</option>
+                                <option value="rekeningKasKecil2">Map Kas Kecil 2</option>
+                                <option value="rekeningKasKecil3">Map Kas Kecil 3</option>
                                 ${option}
                             </select>
                         </div>
