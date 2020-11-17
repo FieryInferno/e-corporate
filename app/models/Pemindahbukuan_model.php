@@ -31,7 +31,7 @@ class Pemindahbukuan_model extends CI_Model {
 		$this->db->join('mnoakun', 'tkasbankdetail.noakun = mnoakun.idakun');
 		$this->db->join('mperusahaan', 'tpemindahbukuankaskecil.perusahaan = mperusahaan.idperusahaan');
 		return $this->db->get_where('tpemindahbukuankaskecil', [
-			'tpemindahbukuankaskecil.id'	=> 3
+			'tpemindahbukuankaskecil.id'	=> $this->idPemindahbukuan
 		])->row_array();
 	}
 
