@@ -44,6 +44,7 @@ class Kas_bank_model extends CI_Model {
 				$detail_array1 	= $this->input->post("detail_array");
 				$detail_array 	= json_decode($detail_array1);
 				$no				= 0;
+				$noIdakun		= 0;
 				foreach($detail_array as $row) {
 					$this->db->set('idkasbank',$nomor_kas_bank);
 					$this->db->set('idtipe',$row[0]);
@@ -52,7 +53,12 @@ class Kas_bank_model extends CI_Model {
 					$this->db->set('nokwitansi',$row[4]);
 					$this->db->set('penerimaan',preg_replace("/(,00|[^0-9])/", "", $row[5]));
 					$this->db->set('pengeluaran',preg_replace("/(,00|[^0-9])/", "", $row[6]));
-					$this->db->set('noakun',$row[7]);
+					if ($row[2] == 'PB') {
+						$this->db->set('noakun',$this->input->post('idakun')[$noIdakun]);
+						$noIdakun++;
+					} else {
+						$this->db->set('noakun',$row[7]);
+					}
 					$this->db->set('kodeunit',$row[8]);
 					$this->db->set('departemen',$row[9]);
 					$this->db->set('sumberdana', $this->input->post('idRekening')[$no]);
@@ -83,20 +89,19 @@ class Kas_bank_model extends CI_Model {
 						$this->db->set('udate',date('Y-m-d H:i:s'));
 						$this->db->where('id', $id);
 						$this->db->update('tsetorkaskecil');
+					} else if ($tipe == 'PB') {
+						$this->db->set('nomor_kas_bank',$this->input->post('nomor_kas_bank'));
+						$this->db->set('perusahaan',$this->input->post('perusahaan'));
+						$this->db->set('pejabat',$this->input->post('pejabat'));
+						$this->db->set('tanggal',$this->input->post('tanggal'));
+						$this->db->set('keterangan',$this->input->post('keterangan'));
+						$this->db->set('nominal',preg_replace("/(,00|[^0-9])/", "", $this->input->post('pengeluaran_pemindahbukuan')));
+						$this->db->set('cby',get_user('username'));
+						$this->db->set('cdate',date('Y-m-d H:i:s'));
+						$this->db->insert('tpemindahbukuankaskecil');
 					}
 					$no++;
 				}
-				
-				$this->db->set('nomor_kas_bank',$this->input->post('nomor_kas_bank'));
-				$this->db->set('perusahaan',$this->input->post('perusahaan'));
-				$this->db->set('pejabat',$this->input->post('pejabat'));
-				$this->db->set('tanggal',$this->input->post('tanggal'));
-				$this->db->set('keterangan',$this->input->post('keterangan'));
-				$this->db->set('nominal',preg_replace("/(,00|[^0-9])/", "", $this->input->post('pengeluaran_pemindahbukuan')));
-				$this->db->set('cby',get_user('username'));
-				$this->db->set('cdate',date('Y-m-d H:i:s'));
-				$this->db->insert('tpemindahbukuankaskecil');
-				
 
 				$data['status'] = 'success';
 				$data['message'] = lang('save_success_message');

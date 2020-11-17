@@ -714,6 +714,7 @@
             ]).draw(false);
             i++;
         });
+        detail_array();
     }
 
     //combobox nama penerima/pejabat
@@ -746,8 +747,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        // getPiutang();
-        // getHutang();
+        getPiutang();
+        getHutang();
         getSaldoSumberDana();
         getPindahBuku();
     })
@@ -772,8 +773,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        // getPiutang();
-        // getHutang();
+        getPiutang();
+        getHutang();
     })
 
 
