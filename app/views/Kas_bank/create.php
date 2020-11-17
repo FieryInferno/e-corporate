@@ -715,6 +715,7 @@
             i++;
         });
         detail_array();
+        $('#pindahBuku').modal('hide');
     }
 
     //combobox nama penerima/pejabat
