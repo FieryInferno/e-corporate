@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource 
-* ================================================= 
-*/ 
- 
-
 class Setor_kas_kecil extends User_Controller {
 
 	public function __construct() {
@@ -35,7 +24,7 @@ class Setor_kas_kecil extends User_Controller {
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Setor_kas_kecil/index';
 		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$this->parser->parse('template',$data);
 	}
 
 	public function index_datatable() {
@@ -53,23 +42,23 @@ class Setor_kas_kecil extends User_Controller {
 
 	public function create()
     {
-    	$q = $this->db->query("SELECT MAX(LEFT(nokwitansi,3)) AS kd_max FROM tsetorkaskecil");
-        $kd = "";
-        if($q->num_rows()>0){
-            foreach($q->result() as $k){
-                $tmp = ((int)$k->kd_max)+1;
-                $kd = sprintf("%03s", $tmp);
-            }
-        }else{
-            $kd = "001";
-        }  
+		$q = $this->db->query("SELECT MAX(LEFT(nokwitansi,3)) AS kd_max FROM tsetorkaskecil");
+		$kd = "";
+		if($q->num_rows()>0){
+			foreach($q->result() as $k){
+				$tmp = ((int)$k->kd_max)+1;
+				$kd = sprintf("%03s", $tmp);
+			}
+		}else{
+			$kd = "001";
+		}  
 
-        $query_tahun = $this->db->query("SELECT tahun as thn FROM mtahun ORDER BY tahun DESC LIMIT 1");
-        $tahun="";
-        if ($query_tahun->num_rows() > 0){
-        	foreach ($query_tahun->result() as $t) {
-        		$tahun=$t->thn;
-        	}
+		$query_tahun = $this->db->query("SELECT tahun as thn FROM mtahun ORDER BY tahun DESC LIMIT 1");
+		$tahun="";
+		if ($query_tahun->num_rows() > 0){
+			foreach ($query_tahun->result() as $t) {
+				$tahun=$t->thn;
+			}
         } 
 		
         $data['tahun'] = $tahun;
@@ -122,9 +111,7 @@ class Setor_kas_kecil extends User_Controller {
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text');
-			$this->db->where('mnoakun.noakuntop', '1');
-			$this->db->where('mnoakun.noakunheader', '1');
-			$this->db->where('mnoakun.jenis', '02');
+			$this->db->like('mnoakun.akunno', '1', 'after');
 			$this->db->where('mnoakun.stdel', '0');
 			if($term) $this->db->like('akunno', $term);
 			$data = $this->db->get('mnoakun')->result_array();
@@ -158,14 +145,14 @@ class Setor_kas_kecil extends User_Controller {
     }
 
     public function get_no_rekening(){
-    	$idakun = $this->input->post('idakun',TRUE);
+		$idakun = $this->input->post('idakun',TRUE);
         $this->model->get_nomorrekening($idakun);
     }
 
     public function save() {
 		$this->model->save();
 	}
- 
+
 	public function delete() {
 		$this->model->delete();
 	}
@@ -177,16 +164,16 @@ class Setor_kas_kecil extends User_Controller {
 				$id=$this->uri->segment(3);
 				$query_pengajuan = $this->db->query("SELECT * FROM tsetorkaskecil WHERE id='$id'");
 				foreach ($query_pengajuan->result() as $p) {
-        			$idperusahaan=$p->perusahaan;
+					$idperusahaan=$p->perusahaan;
 					$iddepartemen=$p->pejabat;
 					$idakun=$p->kas;
 					$idrek = $p->rekening;
-        		}
+				}
 
 				$data['perusahaan']=$idperusahaan;
-        		$data['pejabat']=$iddepartemen;
-        		$data['akun']=$idakun;
-        		$data['rekening']=$idrek;
+				$data['pejabat']=$iddepartemen;
+				$data['akun']=$idakun;
+				$data['rekening']=$idrek;
 
 				$data['title'] = lang('petty_cash_deposit');
 				$data['subtitle'] = lang('edit');
@@ -203,9 +190,9 @@ class Setor_kas_kecil extends User_Controller {
 
 	public function printpdf() {
 		$this->load->library('pdf');
-	    $pdf = $this->pdf;
-	    
-	    $tanggalawal = $this->input->get('tanggalawal');
+		$pdf = $this->pdf;
+		
+		$tanggalawal = $this->input->get('tanggalawal');
 		$tanggalakhir = $this->input->get('tanggalakhir');
 
 		if($tanggalawal && $tanggalakhir) {
@@ -217,14 +204,14 @@ class Setor_kas_kecil extends User_Controller {
 		$data['getdata'] = $this->model->cetakdata($tanggalawal,$tanggalakhir);
 		$data['title'] = lang('Laporan Setor Kas Kecil');
 		$data['subtitle'] = lang('list');
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Pengajuan_kas_kecil/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("laporan-setor-kas-kecil-". $time, array("Attachment" => false));
+		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+		$data = array_merge($data,path_info());
+		$html = $this->load->view('Pengajuan_kas_kecil/printpdf', $data, TRUE);
+		$pdf->loadHtml($html);
+		$pdf->setPaper('A4', 'portrait');
+		$pdf->render();
+		$time = time();
+		$pdf->stream("laporan-setor-kas-kecil-". $time, array("Attachment" => false));
 	}
 
     public function get_hitungsisakaskecil(){

@@ -148,7 +148,6 @@
                 var tahun = '{tahun}';
                 var kodeperusahaan = kodeper;
                 document.getElementById("form1").nokwitansi.value = nomor+'/'+kodeperusahaan+'/'+tipe+'/'+tahun;
- 
             }
         });
         return false;
@@ -164,12 +163,12 @@
                     idper: $('select[name=perusahaan]').val(),
                 },
             success: function(data){
-                $('input[id=sisa_kas_kecil]').val(formatRupiah(String(data.hasil), 'Rp. ')+',00');  
+                $('input[id=sisa_kas_kecil]').val(formatRupiah(String(data.hasil))+',00');  
             }
         });
         return false;
     }); 
-   
+
     //ubah format nominal
     $(document).on('keyup','.nominal, .nominal',function(){
         var val = $(this).val();

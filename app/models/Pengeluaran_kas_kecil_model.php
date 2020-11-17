@@ -52,11 +52,9 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 		$query_pengeluaran	= $this->db->get_where('tpengeluarankaskecil', [
 			'perusahaan'	=> $idper
 		]);
-		// $query_pengeluaran = $this->db->query("SELECT nominal FROM tpengajuankaskecil WHERE perusahaan='$idper' AND status='1' AND stdel='0'");
 		$jumlah_nominal_pengajuan = 0;
 		if($query_pengeluaran->num_rows()>0){
 			foreach($query_pengeluaran->result() as $p){
-				// $jumlah_nominal_pengajuan	+= (integer) $p->nominal;
 				$jumlah_nominal_pengajuan	+= (integer) $p->total;
 			}
 		}

@@ -1,125 +1,109 @@
-   <!-- Content Wrapper. Contains page content -->
-   <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{title}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">{title}</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-                <div class="card-header">
-                    <!-- bagian button print -->
-                    <div class="header-elements d-none">
-                        <div class="d-flex justify-content-center">
-                            
-                        </div>
-                    </div>
-                    <!-- ini bagian search -->
-                    <div class="m-3">
-                        <a href="{site_url}setor_kas_kecil/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a> &nbsp;
-                        <div class="btn-group">
-                            <?php $currentURL = current_url(); ?>
-                            <?php $params = $_SERVER['QUERY_STRING']; ?>
-                            <?php $fullURL = $currentURL . '/printpdf?' . $params; ?>
-                            <?php $fullURLChange = $fullURL ?>
-                            <?php if ($this->uri->segment(2)): ?>
-                                <?php $fullURL = $currentURL . '?' . $params; ?>
-                                <?php $fullURLChange = str_replace('index', 'printpdf', $fullURL) ?>
-                            <?php endif ?>
-                            <a href="<?php echo $fullURLChange ?>" target="_blank" class="btn btn-warning"><?php echo lang('print') ?></a>
-                        </div>
-                        <form action="{site_url}setor_kas_kecil/index" id="form1" method="GET">
-                            <div class="row">
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label><?php echo lang('start_date') ?>:</label>
-                                        <input type="text" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
-                                    </div>
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-12">         
+                    <div class="card">
+                        <div class="card-header">
+                            <!-- ini bagian search -->
+                            <div class="m-3">
+                                <a href="{site_url}setor_kas_kecil/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a> &nbsp;
+                                <div class="btn-group">
+                                    <?php $currentURL = current_url(); ?>
+                                    <?php $params = $_SERVER['QUERY_STRING']; ?>
+                                    <?php $fullURL = $currentURL . '/printpdf?' . $params; ?>
+                                    <?php $fullURLChange = $fullURL ?>
+                                    <?php if ($this->uri->segment(2)): ?>
+                                        <?php $fullURL = $currentURL . '?' . $params; ?>
+                                        <?php $fullURLChange = str_replace('index', 'printpdf', $fullURL) ?>
+                                    <?php endif ?>
+                                    <a href="<?php echo $fullURLChange ?>" target="_blank" class="btn btn-warning"><?php echo lang('print') ?></a>
                                 </div>
-                                <div class="col-md-3">
-                                    <div class="form-group">
-                                        <label><?php echo lang('end_date') ?>:</label>
-                                        <input type="text" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
+                                <form action="{site_url}setor_kas_kecil/index" id="form1" method="GET">
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label><?php echo lang('start_date') ?>:</label>
+                                                <input type="text" class="form-control datepicker" name="tanggalawal" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label><?php echo lang('end_date') ?>:</label>
+                                                <input type="text" class="form-control datepicker" name="tanggalakhir" required>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="text-right">
+                                                <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="text-right">
-                                        <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
                     </div>
-			</div>
 
-			</div>            							
-            <div class="content">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-striped index_datatable">
-                                <thead class="{bg_header}">
-                                    <tr>
-                                        <th><?php echo lang('id') ?></th>
-                                        <th><?php echo lang('no_receipt') ?></th>
-                                        <th><?php echo lang('information') ?></th>
-                                        <th><?php echo lang('date') ?></th>
-                                        <th><?php echo lang('company') ?></th>
-                                        <th><?php echo lang('nominal') ?></th>
-                                        <th><?php echo lang('action') ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+                    </div>            							
+                    <div class="content">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-xs table-striped table-borderless table-hover index_datatable">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th><?php echo lang('id') ?></th>
+                                                <th><?php echo lang('no_receipt') ?></th>
+                                                <th><?php echo lang('information') ?></th>
+                                                <th><?php echo lang('date') ?></th>
+                                                <th><?php echo lang('company') ?></th>
+                                                <th><?php echo lang('nominal') ?></th>
+                                                <th><?php echo lang('action') ?></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
+                    </div>
                     </div>
                 </div>
             </div>
-            </div>
-          </div>
         </div>
-      </div>
     </section>
-  </div>
-
-  
-<!-- jQuery -->
-<script src="<?= base_url('adminlte')?>/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<?= base_url('adminlte')?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables -->
-<script src="<?= base_url('adminlte')?>/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<!-- notifikasi -->
+</div>
 
 <script type="text/javascript">
 	var base_url = '{site_url}setor_kas_kecil/';
 
 	var table = $('.index_datatable').DataTable({
 		ajax: {
-			url: base_url + 'index_datatable',
-			type: 'post',
-			data : {tanggalawal: '{tanggalawal}', tanggalakhir: '{tanggalakhir}'},
+			url     : base_url + 'index_datatable',
+			type    : 'post',
+			data    : {
+                tanggalawal     : '{tanggalawal}', 
+                tanggalakhir    : '{tanggalakhir}'},
 		},
 		pageLength: 100,
 		stateSave: true,
