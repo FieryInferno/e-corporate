@@ -1253,7 +1253,7 @@
                         ]).draw();
                     } else {
                         tabelkaskecil.row.add([
-                            `<input type="checkbox" id="checkbox_PKK${element.id}" name="" data-id="${element.id}" data-tipe="Pengajuan Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" idRekening="${element.idRekening}" onchange="save_detail(this)">`,
+                            `<input type="checkbox" id="checkbox_PKK${element.id}" name="" data-id="${element.id}" data-tipe="Pengajuan Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" idRekening="${element.idRekening}" onchange="save_detail(this)" idAkun="${element.idakun}">`,
                             `${element.nokwitansi}`,
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
@@ -1419,6 +1419,7 @@
         const namabank = $(elem).attr('data-namabank');
         const norekening = $(elem).attr('data-norekening');
         const idRekening    = $(elem).attr('idRekening');
+        const idAkun        = $(elem).attr('idAkun');
         for (let index = 0; index < saldoSumberDana.length; index++) {
             const element = saldoSumberDana[index];
             if (idRekening == element.id) {
@@ -1511,7 +1512,7 @@
                     `${nokwitansi}`,
                     formatRupiah(String('0')) + ',00',
                     formatRupiah(String(nominal)) + ',00',
-                    `${namaakun} ${noakun}`,
+                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`

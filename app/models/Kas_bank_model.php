@@ -82,14 +82,7 @@ class Kas_bank_model extends CI_Model {
 						$this->db->set('udate',date('Y-m-d H:i:s'));
 						$this->db->where('id', $id);
 						$this->db->update('tpengajuankaskecil');
-						
-					}else if ($tipe == 'Setor Kas Kecil'){
-						$this->db->set('status','1');
-						$this->db->set('uby',get_user('username'));
-						$this->db->set('udate',date('Y-m-d H:i:s'));
-						$this->db->where('id', $id);
-						$this->db->update('tsetorkaskecil');
-					} else if ($tipe == 'PB') {
+
 						$this->db->set('nomor_kas_bank',$this->input->post('nomor_kas_bank'));
 						$this->db->set('perusahaan',$this->input->post('perusahaan'));
 						$this->db->set('pejabat',$this->input->post('pejabat'));
@@ -99,6 +92,13 @@ class Kas_bank_model extends CI_Model {
 						$this->db->set('cby',get_user('username'));
 						$this->db->set('cdate',date('Y-m-d H:i:s'));
 						$this->db->insert('tpemindahbukuankaskecil');
+						
+					}else if ($tipe == 'Setor Kas Kecil'){
+						$this->db->set('status','1');
+						$this->db->set('uby',get_user('username'));
+						$this->db->set('udate',date('Y-m-d H:i:s'));
+						$this->db->where('id', $id);
+						$this->db->update('tsetorkaskecil');
 					}
 					$no++;
 				}
