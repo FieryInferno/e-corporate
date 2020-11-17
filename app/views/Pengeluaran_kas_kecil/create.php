@@ -39,7 +39,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo lang('date') ?>:</label>
-                                    <input type="text" class="form-control datepicker" name="tanggal" required value="{tanggal}">
+                                    <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
                                 </div>
                             </div>
                         </div>

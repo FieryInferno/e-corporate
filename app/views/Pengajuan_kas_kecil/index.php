@@ -109,7 +109,7 @@
 		ajax: {
 			url: base_url + 'index_datatable',
 			type: 'post',
-			data : {tanggalawal: '{tanggalawal}', tanggalakhir: '{tanggalakhir}'},
+			// data : {tanggalawal: '{tanggalawal}', tanggalakhir: '{tanggalakhir}'},
 		},
 		pageLength: 100,
 		stateSave: true,

@@ -33,8 +33,12 @@ class Pengajuan_kas_kecil extends User_Controller {
 		$this->load->library('Datatables');
 		$this->datatables->select('tpengajuankaskecil.*,mperusahaan.*');
 		$this->datatables->join('mperusahaan','tpengajuankaskecil.perusahaan=mperusahaan.idperusahaan');
-		$this->db->where('tpengajuankaskecil.tanggal >=',$tgl_awal);
-		$this->db->where('tpengajuankaskecil.tanggal <=',$tgl_akhir);
+		if ($tgl_awal) {
+			$this->db->where('tpengajuankaskecil.tanggal >=',$tgl_awal);
+		}
+		if ($tgl_akhir) {
+			$this->db->where('tpengajuankaskecil.tanggal <=',$tgl_akhir);
+		}
 		$this->datatables->where('tpengajuankaskecil.stdel', '0');
 		$this->datatables->from('tpengajuankaskecil');
 		return print_r($this->datatables->generate());
