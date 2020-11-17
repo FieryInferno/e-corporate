@@ -331,7 +331,7 @@
             datatype: 'json',
             data: { idper: $('select[name=perusahaan]').val() },
             success: function(data){
-                $('input[id=sisa_kas_kecil]').val( formatRupiah(String(data.hasil))); 
+                $('input[id=sisa_kas_kecil]').val( formatRupiah(String(data.hasil)) + ',00' ); 
             }
         });
         return false;
