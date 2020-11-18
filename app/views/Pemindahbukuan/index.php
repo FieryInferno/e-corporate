@@ -51,13 +51,13 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><?php echo lang('start_date') ?>:</label>
-                                                <input type="text" class="form-control datepicker" name="tanggalawal" required>
+                                                <input type="date" class="form-control datepicker" name="tanggalawal" required>
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><?php echo lang('end_date') ?>:</label>
-                                                <input type="text" class="form-control datepicker" name="tanggalakhir" required>
+                                                <input type="date" class="form-control datepicker" name="tanggalakhir" required>
                                             </div>
                                         </div>
                                     </div>
@@ -199,13 +199,13 @@
             sisa             = split[0].length % 3,
             rupiah             = split[0].substr(0, sisa),
             ribuan             = split[0].substr(sisa).match(/\d{3}/gi);
- 
+
             // tambahkan titik jika yang di input sudah menjadi angka satuan ribuan
             if(ribuan){
                 separator = sisa ? '.' : '';
                 rupiah += separator + ribuan.join('.');
             }
- 
+
             rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
             return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
         }

@@ -318,45 +318,47 @@
               <i class="nav-icon fas fa-tachometer-alt"></i><p><?php echo lang('Stock_Opname') ?></p></a>
           </li>
 
-          <?php $menu = array(
-              'laporan_pembelian',
-              'laporan_penjualan',
-              'laporan_retur_pembelian',
-              'laporan_retur_penjualan',
-              'laporan_stok',
-              'laporan_stok_akhir_barang',
-          )?>
-        <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
-            <a href="#" class="nav-link"><i class="nav-icon fas fa-copy"></i>
-              <p><?php echo lang('report') ?><i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('report') ?>">                        
-              <li class="nav-item">
+        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank'); ?>
+        <li class="nav-item has-treeview  <?php echo menu_is_open($menuLaporan) ?>">
+          <a href="#" class="nav-link
+          <?php
+            if (in_array($this->uri->segment(1), $menuLaporan)) {
+              echo 'active';
+            }
+          ?>"><i class="nav-icon fas fa-copy"></i>
+            <p><?php echo lang('report') ?><i class="fas fa-angle-left right"></i></p>
+          </a>
+          <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('report') ?>">                        
+            <li class="nav-item">
               <a href="{site_url}laporan_pembelian" class="nav-link <?php echo menu_is_active('laporan_pembelian') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('purchasing_report') ?></p></a>
-              </li>            
-              <li class="nav-item">
+            </li>            
+            <li class="nav-item">
               <a href="{site_url}laporan_penjualan" class="nav-link <?php echo menu_is_active('laporan_penjualan') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('selling_report') ?></p></a>
-              </li>            
-              <li class="nav-item">
+            </li>            
+            <li class="nav-item">
               <a href="{site_url}laporan_retur_pembelian" class="nav-link <?php echo menu_is_active('laporan_retur_pembelian') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('Laporan Retur') ?></p></a>
-              </li>            
-              <li class="nav-item">
+            </li>            
+            <li class="nav-item">
               <a href="{site_url}laporan_retur_penjualan" class="nav-link <?php echo menu_is_active('laporan_retur_penjualan') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('sales_return_report') ?></p></a>
-              </li>            
-              <li class="nav-item">
+            </li>            
+            <li class="nav-item">
               <a href="{site_url}laporan_stok" class="nav-link <?php echo menu_is_active('laporan_stok') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('stock_report') ?> (In/Out)</p></a>
-              </li>            
-              <li class="nav-item">
+            </li>            
+            <li class="nav-item">
               <a href="{site_url}laporan_stok_akhir_barang" class="nav-link <?php echo menu_is_active('laporan_stok_akhir_barang') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('Lap Stok Akhir Barang') ?></p></a>
-              </li>     
-            </ul>
-          </li>	
+            </li>  
+            <li class="nav-item">
+              <a href="laporan_kas_bank" class="nav-link <?php echo menu_is_active('laporan_kas_bank') ?>">
+              <i class="far fa-circle nav-icon"></i><p>laporan Kas Bank</p></a>
+            </li>     
+          </ul>
+        </li>	
 
         <li class="nav-header">AKUNTANSI</li>  
 
@@ -364,7 +366,7 @@
         <li class="nav-item has-treeview <?= menu_is_open($menuSaldoAwal) ?>">
           <a href="#" class="nav-link
             <?php
-              if ($this->uri->segment(1) == 'saldo_awal' || $this->uri->segment(1) == 'SaldoAwalHutang' || $this->uri->segment(1) == 'SaldoAwalPiutang' || $this->uri->segment(1) == 'SaldoAwalInventaris' || $this->uri->segment(1) == 'SaldoAwalPersediaan') {
+              if (in_array($this->uri->segment(1), $menuSaldoAwal)) {
                 echo 'active';
               }
             ?>"><i class="nav-icon fas fa-copy"></i>
