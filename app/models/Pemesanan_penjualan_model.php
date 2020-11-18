@@ -52,7 +52,6 @@ class Pemesanan_penjualan_model extends CI_Model {
 					'cdate'				=> date('Y-m-d H:i:s')
 				]);
 				if ($insertHead){
-
 					$no	= 0;
 					foreach($data_array_item as $row => $value) {
 						$idDetailPemesananPenjualan	= uniqid('PEM-JUAL-DET'); 
@@ -306,11 +305,10 @@ class Pemesanan_penjualan_model extends CI_Model {
 
 	public function delete() {
 		$id = $this->uri->segment(3);
-		$this->db->set('stdel', '1');
-		$this->db->set('dby', get_user('username'));
-		$this->db->set('ddate', date('Y-m-d H:i:s'));
+		$this->db->where('idpemesanan', $id);
+		$update_pesanan = $this->db->delete('tpemesananpenjualandetail');
 		$this->db->where('id', $id);
-		$update_pesanan = $this->db->update('tpemesananpenjualan');
+		$update_pesanan = $this->db->delete('tpemesananpenjualan');
 		if ($update_pesanan) {
 			$data['status'] = 'success';
 			$data['message'] = 'Berhasil menghapus data';

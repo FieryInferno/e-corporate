@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Saldo_awal_model extends CI_Model {
 
 	private $title	= 'Saldo Awal';
@@ -110,32 +99,11 @@ class Saldo_awal_model extends CI_Model {
 
 	public function indexDatatables()
 	{
-		$data	= $this->db->get('tsaldoawal')->result_array();
-		if ($data) {
-			foreach ($data as $key) {
-				$data0	= $this->db->get_where('tsaldoawaldetail', [
-					'idsaldoawal'	=> $key['idSaldoAwal']
-				])->result_array();
-				$debit	= 0;
-				$kredit	= 0;
-				foreach ($data0 as $key) {
-					$debit	+= $key['debet'];
-					$kredit	+= $key['kredit'];
-				}
-				$data['debit']	= $debit;
-				$data['kredit']	= $kredit;
-			}
-		} else {
-			$data['debit']	= '';
-			$data['kredit']	= '';
-		}
-		
 		$this->load->library('Datatables');
-		$this->datatables->select('tsaldoawal.*, mperusahaan.nama_perusahaan');
+		$this->datatables->select('tsaldoawal.*, mperusahaan.nama_perusahaan, tsaldoawaldetail.debet, tsaldoawaldetail.kredit');
 		$this->datatables->join('mperusahaan', 'tsaldoawal.perusahaan = mperusahaan.idperusahaan');
+		$this->datatables->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
 		$this->datatables->from('tsaldoawal');
-		$this->datatables->add_column('debit', $data['debit']);
-		$this->datatables->add_column('kredit', $data['kredit']);
 		return $this->datatables->generate();
 	}
 

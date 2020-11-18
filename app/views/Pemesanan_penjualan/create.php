@@ -681,7 +681,9 @@
                 isi = "";
                 detail = "";
                 for ( index = 0; index < data.length; index++) {
-                    detail += `<input type="hidden" class="form-control" id="noakun`+data[index].id+`" name="noakun[]" required value="${data[index].koderekening}">`;
+                    detail += `
+                    <input type="hidden" id="noakun`+data[index].id+`" name="noakun[]" value="${data[index].koderekening}">
+                    <input type="hidden" id="idAkun`+data[index].id+`" name="idAkun[]" value="${data[index].idakun}">`;
                     isi += `<option value="${data[index].id}">${data[index].text}</option>`
                 }
                 $('#detail_barang_inventaris').html(detail);
@@ -778,6 +780,8 @@
                     return;
                 }
                 noakun   = $('#noakun'+barang[index].value).val();
+                idAkun   = $('#idAkun'+barang[index].value).val();
+                console.log(idAkun);
                 $('#noakun'+barang[index].value).remove();
                 tabel_detail_item.row.add([
                     barang[index].value,
@@ -795,7 +799,7 @@
                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman${index}${no}" title="Tambah Biaya Pengiriman">
                         <i class="fas fa-shipping-fast"></i>
                     </button>`,
-                    `<input type="hidden" name="akunno[]">${noakun}`,
+                    `<input type="hidden" name="akunno[]" value="${idAkun}">${noakun}`,
                     `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonly>`,
                     `<a href="javascript:EditDetail('${barang[index].value}','${jenis_item}','${no}')" class="edit_detail${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp; 
                         <a href="javascript:delete_detail_item('${no}')" class="delete_detail_item text-danger"><i class="fas fa-trash"></i></a>`,
@@ -925,13 +929,10 @@
                 no++;
             }
             var no_baru = no;
-   
             $('#form_barang_inventaris').attr('action', 'javascript:save_detail('+no_baru+',"barang_inventaris")');    
             $('#modal_add_barang_inventaris').modal('hide');    
-         
             $('#form_jasa').attr('action', 'javascript:save_detail('+no_baru+',"jasa")');
             $('#modal_add_jasa').modal('hide');     
-                  
         } else {
             for (let index = 0; index < barang.length; index++) {
                 var id    = barang[index].value;
@@ -940,7 +941,7 @@
                     swal("Gagal!", "Item sudah ada", "error");
                     return;
                 }
-                 noakun   = $('#noakun1'+barang[index].value).val();
+                noakun   = $('#noakun1'+barang[index].value).val();
                 $('#noakun1'+barang[index].value).remove();
                 tabel_detail_budgetevent.row.add([
                     barang[index].value,
@@ -1743,7 +1744,7 @@
         }else{
             hasil_um_term = parseInt(uang_muka) + parseInt(totalangsuran);
         }
-        $('input[name=tum]').val(formatRupiah(String(hasil_um_term))) + ',00'; 
+        $('input[name=tum]').val(formatRupiah(String(hasil_um_term)) + ',00'); 
     }
     
     function save() {

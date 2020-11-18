@@ -748,8 +748,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        getPiutang();
-        getHutang();
+        // getPiutang();
+        // getHutang();
         getSaldoSumberDana();
         getPindahBuku();
     })
@@ -774,8 +774,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        getPiutang();
-        getHutang();
+        // getPiutang();
+        // getHutang();
     })
 
 
@@ -1081,7 +1081,7 @@
                     }
                     for (let i = 0; i < jumlah; i++) {
                         tabelpenjualan.row.add([
-                            `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${response[index].total}" data-namaakun="" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}">`,
+                            `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${response[index].namaakun}" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${response[index].idakun}">`,
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
@@ -1442,16 +1442,16 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String('0')) + ',00',
                     formatRupiah(String(nominal)) + ',00',
-                    `${namaakun} ${noakun}`,
+                    formatRupiah(String('0')) + ',00',
+                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun}/${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
                 ]).draw(false);
-                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {
-                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
                 var rowindex=$('#button_JUAL'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }
@@ -1472,9 +1472,9 @@
                     `${namadepartemen}`,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
                 ]).draw(false);
-                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
+                pengeluaran = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
             } else {
-                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+                pengeluaran = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
                 var rowindex=$('#button_BELI'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }

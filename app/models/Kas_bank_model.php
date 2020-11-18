@@ -53,7 +53,7 @@ class Kas_bank_model extends CI_Model {
 					$this->db->set('nokwitansi',$row[4]);
 					$this->db->set('penerimaan',preg_replace("/(,00|[^0-9])/", "", $row[5]));
 					$this->db->set('pengeluaran',preg_replace("/(,00|[^0-9])/", "", $row[6]));
-					if ($row[2] == 'PB' || $row[2] == 'Pengajuan Kas Kecil') {
+					if ($row[2] == 'PB' || $row[2] == 'Pengajuan Kas Kecil' || $row[2] == 'Penjualan') {
 						$this->db->set('noakun',$this->input->post('idakun')[$noIdakun]);
 						$noIdakun++;
 					} else {

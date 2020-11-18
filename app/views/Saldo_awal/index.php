@@ -78,15 +78,15 @@
             {data : 'nama_perusahaan'},
             {data : 'keterangan'},
             {
-              data  : "debit",
+              data  : "debet",
               render: function(data,type,row) {
-                return formatRupiah(row.debit, 'Rp. ') + ',00';
+                return formatRupiah(data) + ',00';
               }
             },
             {
               data  : "kredit",
               render: function(data,type,row) {
-                return formatRupiah(row.kredit, 'Rp. ') + ',00';
+                return formatRupiah(data) + ',00';
               }
             },
             {
@@ -130,22 +130,13 @@
             .reduce( function (a, b) {
               return intVal(a) + intVal(b);
             }, 0 );
-            
-
-          // Total over this page
-          // pageTotal = api
-          // 	.column( 3, { page: 'current'} )
-          // 	.data()
-          // 	.reduce( function (a, b) {
-          // 		return intVal(a) + intVal(b);
-          // 	}, 0 );
 
           // Update footer
           $( api.column( 4 ).footer() ).html(
-            formatRupiah(String(totalDebit), 'Rp.')+',00'
+            formatRupiah(String(totalDebit))+',00'
           );
           $( api.column( 5 ).footer() ).html(
-            formatRupiah(String(totalKredit), 'Rp.')+',00'
+            formatRupiah(String(totalKredit))+',00'
           );
         }
       });

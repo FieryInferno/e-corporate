@@ -191,12 +191,13 @@
 														<?php
 															$tombol	= '';
 															$cetak 	= '';
+															$id		= "'" . $key['id'] . "'";
 															switch ($key['status']) {
 																case '4':
 																	$tombol	.= '
 																	<a class="dropdown-item" href="javascript:validasi("' . $key['id'] . '")"><i class="fas fa-check"></i> Validasi</a>
 																	<a class="dropdown-item" href="' . base_url() . 'edit/' . $key['id'] . '"><i class="fas fa-pencil-alt"></i> Ubah</a>
-																	<a href="javascript:deleteData("' . $key['id'] . '")" class="dropdown-item delete"><i class="fas fa-trash"></i> Hapus</a>'; 
+																	<a href="javascript:deleteData(' . $id . ')" class="dropdown-item delete"><i class="fas fa-trash"></i> Hapus</a>'; 
 																	break;
 																case '5':
 																	$tombol	.= '<a class="dropdown-item" href="javascript:batalvalidasi("' . $key['id'] . '")"><i class="fas fa-times"></i> Batal Validasi</a>'; 
@@ -320,7 +321,7 @@
 					success: function(data) {
 						if(data.status == 'success') {
 							swal("Berhasil!", data.message, "success");
-							setTimeout(function() { table.ajax.reload() }, 100);
+							redirect(base_url);
 						} else {
 							swal("Gagal!", data.message, "error");
 						}

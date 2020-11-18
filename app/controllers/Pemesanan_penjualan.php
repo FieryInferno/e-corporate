@@ -255,7 +255,7 @@ class Pemesanan_penjualan extends User_Controller
             $data = $this->db->where('mitem.id', $id)->get('mitem')->row_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
-            $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mnoakun.akunno as koderekening');
+            $this->db->select('mitem.id as id, CONCAT(mitem.noakunjual," - ",mitem.nama) as text, mnoakun.akunno as koderekening, mnoakun.idakun');
             // $this->db->join('tstokmasuk', 'mitem.id = tstokmasuk.itemid', 'left');
             $this->db->join('mnoakun', 'mitem.noakunjual = mnoakun.idakun');
             // $this->db->where('tstokmasuk.gudangid', $idgudang);

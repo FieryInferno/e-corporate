@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Saldo_awal extends User_Controller {
 
 	private $title	= 'Saldo Awal';

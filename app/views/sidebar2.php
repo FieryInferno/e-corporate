@@ -354,7 +354,7 @@
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('Lap Stok Akhir Barang') ?></p></a>
             </li>  
             <li class="nav-item">
-              <a href="laporan_kas_bank" class="nav-link <?php echo menu_is_active('laporan_kas_bank') ?>">
+              <a href="{site_url}laporan_kas_bank" class="nav-link <?php echo menu_is_active('laporan_kas_bank') ?>">
               <i class="far fa-circle nav-icon"></i><p>laporan Kas Bank</p></a>
             </li>     
           </ul>

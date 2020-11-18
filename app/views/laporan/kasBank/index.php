@@ -23,7 +23,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Perusahaan:</label>
-                                        <select class="form-control" name="perusahaan" id="perusahaan"></select>
+                                        <select class="form-control" name="perusahaan" id="perusahaan" required></select>
                                     </div>
                                 </div>
                             </div>
@@ -31,7 +31,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Rekening : </label>
-                                        <select class="form-control" name="rekening" id="rekening"></select>
+                                        <select class="form-control" name="rekening" id="rekening" required></select>
                                     </div>
                                 </div>
                             </div>
@@ -39,7 +39,7 @@
                                 <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Tanggal : </label>
-                                        <input type="date" class="form-control" name="tanggal" placeholder="Tanggal">
+                                        <input type="date" class="form-control" name="tanggal" placeholder="Tanggal" required>
                                     </div>
                                 </div>
                             </div>
@@ -74,7 +74,28 @@
                                             <th class="text-center">Pengeluaran</th>
 										</tr>
 									</thead>
-									<tbody></tbody>
+									<tbody>
+                                        <?php
+                                            if ($laporan !== null) { ?>
+                                                <tr>
+                                                    <td></td>
+                                                    <td class="text-center"><strong>Jumlah Sampai dengan Tanggal {tanggal}</strong></td>
+                                                    <td></td>
+                                                    <td></td>
+                                                </tr>
+                                                <?php foreach ($laporan as $key) {
+                                                    foreach ($key as $value) { ?>
+                                                        <tr>
+                                                            <td class="text-center"><?= $value['no']; ?></td>
+                                                            <td class="text-center"><?= $value['keterangan']; ?></td>
+                                                            <td class="text-center"><?= number_format($value['debet'],2,',','.'); ?></td>
+                                                            <td class="text-center"><?= number_format($value['kredit'],2,',','.'); ?></td>
+                                                        </tr>
+                                                    <?php }
+                                                }
+                                            }
+                                        ?>
+                                    </tbody>
 								</table>
 							</div>
                         </div>
