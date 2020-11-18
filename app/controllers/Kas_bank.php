@@ -208,7 +208,7 @@ class Kas_bank extends User_Controller
     {
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tpemesananangsuran.*, tfaktur.notrans, tfaktur.tanggal, tfaktur.total, tfaktur.id as idfaktur, mnoakun.akunno, mperusahaan.kode, tpemesanan.departemen as namaDepartemen, mrekening.nama as namaBank, mrekening.norek, mkontak.nama as rekanan, mrekening.id as idRekening');
+        $this->db->select('tpemesananangsuran.*, tfaktur.notrans, tfaktur.tanggal, tfaktur.total, tfaktur.id as idfaktur, mnoakun.akunno, mnoakun.namaakun, mnoakun.idakun, mperusahaan.kode, tpemesanan.departemen as namaDepartemen, mrekening.nama as namaBank, mrekening.norek, mkontak.nama as rekanan, mrekening.id as idRekening');
         $this->db->join('tfakturdetail', 'tfaktur.id = tfakturdetail.idfaktur');
         $this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
         $this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
@@ -228,10 +228,11 @@ class Kas_bank extends User_Controller
     {
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tbudgetevent.*, mperusahaan.kode, mdepartemen.nama as nama_departemen, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening, mrekening.akunno, SUM(tbudgetevent.total) as nominal');
+        $this->db->select('tbudgetevent.*, mperusahaan.kode, mdepartemen.nama as nama_departemen, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening, SUM(tbudgetevent.total) as nominal, mnoakun.akunno, mnoakun.namaakun, mnoakun.idakun, mrekening.id as idRekening');
         $this->db->join('mperusahaan','tbudgetevent.perusahaan=mperusahaan.idperusahaan');
         $this->db->join('mdepartemen','tbudgetevent.departemen=mdepartemen.id');
         $this->db->join('mrekening','tbudgetevent.rekening=mrekening.id'); 
+        $this->db->join('mnoakun','tbudgetevent.akunno = mnoakun.idakun'); 
         $this->db->where('tbudgetevent.tanggal <=',$tgl);
         $this->db->where('tbudgetevent.perusahaan', $idperusahaan);
         $this->db->where('tbudgetevent.status', '3');

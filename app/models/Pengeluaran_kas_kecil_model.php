@@ -88,17 +88,19 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
- 	public function get_detail_item() {
+	public function get_detail_item() {
 		$itemid = $this->input->post('itemid');
 		$data	= [];
 		if(is_array($itemid)) {
 			for ($i=0; $i < count($itemid); $i++) {
-				$this->db->select('tanggaranbelanjadetail.*');
+				$this->db->select('tanggaranbelanjadetail.*, mnoakun.idakun, concat(mnoakun.akunno, "-", mnoakun.namaakun) as akun');
+				$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 				$this->db->where('tanggaranbelanjadetail.id', $itemid[$i]);
 				$data[$i] = $this->db->get('tanggaranbelanjadetail')->row_array();
 			}
 		} else {
-			$this->db->select('tanggaranbelanjadetail.*');
+			$this->db->select('tanggaranbelanjadetail.*, mnoakun.idakun, concat(mnoakun.akunno, "-", mnoakun.namaakun) as akun');
+				$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 			$this->db->where('tanggaranbelanjadetail.id', $itemid);
 			$data[0] = $this->db->get('tanggaranbelanjadetail')->row_array();
 		}
@@ -113,24 +115,24 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 		$sisa_kas_kecil = preg_replace("/[^0-9]/", "", $this->input->post('sisa_kas_kecil'));
 
 		$query_departemen = $this->db->query("SELECT * FROM mdepartemen WHERE id='$iddep'");
-	    if ($query_departemen->num_rows() > 0){
-	   		foreach ($query_departemen->result() as $dep) {
-	        	$nama_departemen=$dep->nama;
-	        }
-	    }
-	    $detail_array = $this->input->post('detail_array');
+		if ($query_departemen->num_rows() > 0){
+			foreach ($query_departemen->result() as $dep) {
+				$nama_departemen=$dep->nama;
+			}
+		}
+		$detail_array = $this->input->post('detail_array');
 		$detail_array = json_decode($detail_array);
-	    $jumlah_item=0;
-	    $jumlah_data_anggaran=0;
-	    foreach($detail_array as $row) {
+		$jumlah_item=0;
+		$jumlah_data_anggaran=0;
+		foreach($detail_array as $row) {
 			$itemid=$row[0];
-		    $query_detail = $this->db->query("SELECT tanggaranbelanja.id, tanggaranbelanjadetail.id FROM tanggaranbelanja INNER JOIN tanggaranbelanjadetail ON tanggaranbelanja.id = tanggaranbelanjadetail.idanggaran WHERE tanggaranbelanja.idperusahaan = '$idper' AND tanggaranbelanja.dept='$nama_departemen' AND tanggaranbelanjadetail.id='$itemid'");
-		    if($query_detail->num_rows()>0){
+			$query_detail = $this->db->query("SELECT tanggaranbelanja.id, tanggaranbelanjadetail.id FROM tanggaranbelanja INNER JOIN tanggaranbelanjadetail ON tanggaranbelanja.id = tanggaranbelanjadetail.idanggaran WHERE tanggaranbelanja.idperusahaan = '$idper' AND tanggaranbelanja.dept='$nama_departemen' AND tanggaranbelanjadetail.id='$itemid'");
+			if($query_detail->num_rows()>0){
 				foreach($query_detail->result() as $p){
-		           	$jumlah_data_anggaran=$jumlah_data_anggaran+1;
-		        }
-		    }
-	        $jumlah_item = $jumlah_item + 1;
+					$jumlah_data_anggaran=$jumlah_data_anggaran+1;
+				}
+			}
+			$jumlah_item = $jumlah_item + 1;
 		}
 
 		if ($jumlah_item != $jumlah_data_anggaran){
@@ -163,7 +165,7 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 					$this->db->set('diskon',$this->input->post('diskon')[$no]);
 					$this->db->set('pajak',preg_replace("/[^0-9]/", "", $this->input->post('total_pajak')[$no]));
 					$this->db->set('biaya_pengiriman',preg_replace("/[^0-9]/", "", $this->input->post('biayapengiriman')[$no]));
-					$this->db->set('akunno',$row[8]);
+					$this->db->set('akunno', $this->input->post('akunDetail')[$no]);
 					$this->db->insert('tpengeluarankaskecildetail');
 				}
 				$data['status'] = 'success';

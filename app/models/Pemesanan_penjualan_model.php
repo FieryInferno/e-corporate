@@ -56,19 +56,19 @@ class Pemesanan_penjualan_model extends CI_Model {
 					foreach($data_array_item as $row => $value) {
 						$idDetailPemesananPenjualan	= uniqid('PEM-JUAL-DET'); 
 						$this->db->insert('tpemesananpenjualandetail', [
-							'id'			=> $idDetailPemesananPenjualan,
-							'idpemesanan'	=> $id_pemesanan,
-							'itemid'		=> $value[0],
-							'harga'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga')[$no]),
-							'jumlah'		=> $this->input->post('jumlah')[$no],
-							'status'		=> '4',
-							'diskon'		=> $this->input->post('diskon')[$no],
-							'ppn'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total_pajak')[$no]),
+							'id'				=> $idDetailPemesananPenjualan,
+							'idpemesanan'		=> $id_pemesanan,
+							'itemid'			=> $value[0],
+							'harga'				=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('harga')[$no]),
+							'jumlah'			=> $this->input->post('jumlah')[$no],
+							'status'			=> '4',
+							'diskon'			=> $this->input->post('diskon')[$no],
+							'ppn'				=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total_pajak')[$no]),
 							'biaya_pengiriman'=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('biayapengiriman')[$no]),
-							'akunno'		=> $this->input->post('akunno')[$no],
-							'subtotal'		=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('subtotal')[$no]),
-							'total'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total')[$no]),
-							'tipe'			=> $value[12],
+							'akunno'			=> $this->input->post('akunno')[$no],
+							'subtotal'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('subtotal')[$no]),
+							'total'				=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total')[$no]),
+							'tipe'				=> $value[12],
 						]);
 						$idPajak			= explode(',', $this->input->post('idPajak')[$no]);
 						$nominal			= explode(',', $this->input->post('pajak')[$no]);
@@ -106,7 +106,8 @@ class Pemesanan_penjualan_model extends CI_Model {
 								'rekening'		=> $this->input->post('rekening'),
 								'status'		=> '4',
 								'cby'			=> get_user('username'),
-								'cdate'			=> date('Y-m-d H:i:s')
+								'cdate'			=> date('Y-m-d H:i:s'),
+								'akunno'		=> $this->input->post('akunnoBudgetEvent')[$no]
 							]);
 							$no1++;
 						}

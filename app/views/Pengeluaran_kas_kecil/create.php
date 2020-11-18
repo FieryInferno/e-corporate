@@ -369,7 +369,8 @@
                 var detail_barang   = '';
                 for (let index = 0; index < data.length; index++) {
                     detail_barang +=  `
-                        <input type="hidden" class="form-control" id="noakun`+index+`" name="noakun[]" required value="${data[index].koderekening}">
+                        <input type="hidden" class="form-control" id="noakun`+index+`" name="noakun[]" required value="${data[index].akun}">
+                        <input type="hidden" id="idAkun`+index+`" value="${data[index].idakun}">
                         <input type="hidden" class="form-control" id="sisapaguitem`+index+`" name="sisapaguitem[]" required value="${data[index].jumlah}">`;
                 }
                 $('#detail_barang').html(detail_barang);
@@ -388,11 +389,12 @@
                 return;
             }
             noakun          = $('#noakun'+index).val();
+            idAkun          = $('#idAkun'+index).val();
             sisapaguitem    = $('#sisapaguitem'+index).val();
             $('#noakun'+index).remove();
             $('#sisapaguitem'+index).remove();
 
-            sisapaguitem_tabel  = `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(sisapaguitem)}" readonly>`;
+            sisapaguitem_tabel  = `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(String(sisapaguitem))}" readonly>`;
             
             table_detail.row.add([
                 barang[index].value,
@@ -409,7 +411,7 @@
                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman${index}${no}" title="Tambah Biaya Pengiriman">
                     <i class="fas fa-shipping-fast"></i>
                 </button>`,
-                noakun,
+                `<input type="hidden" value="${idAkun}" name="akunDetail[]">` + noakun,
                 `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonly onchange="sum_total('${index}${no}', '${no}');">`,
                 sisapaguitem_tabel,
                 `<a href="javascript:edit_detail('${barang[index].value}','${no}')" class="edit_detail"><i class="fas fa-pencil-alt"></i></a>&nbsp;

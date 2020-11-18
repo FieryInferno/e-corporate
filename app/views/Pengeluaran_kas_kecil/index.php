@@ -130,7 +130,7 @@
                 data: 'nokwitansi', 
                 render: function(data,type,row) {
                     var link = base_url + 'detail/' + row.id;
-                    return '<a href="'+link+'" class="badge badge-info">'+data+'</a>';
+                    return '<a href="'+link+'" class="btn btn-sm btn-info">'+data+'</a>';
                 }
             },
             {data: 'keterangan'},
@@ -140,7 +140,7 @@
             {
                 data: 'total',
                 render: function(data,type,row) {
-                    var nominal=`<div class="text-right">`+formatRupiah(data, 'Rp. ')+`</div>`;
+                    var nominal=`<div class="text-right">`+formatRupiah(data)+`</div>`;
                     return nominal;
                 }
             },
@@ -160,20 +160,22 @@
                 data: 'id', data: 'status', width: 40, orderable: false, class: 'text-center',
                 render: function(data,type,row) {
                     var aksi = '';
-                    if (row.status != '1')
-                    {
+                    if (row.status != '1') {
+                        validasi = `<a href="` + base_url + `validasi/` + row.id + `" class="dropdown-item validasi" title="validasi"><i class="fas fa-check"></i> Validasi</a>`;
+                    } else {
+                        validasi = `<a href="` + base_url + `validasi/` + row.id + `" class="dropdown-item validasi" title="validasi"><i class="fas fa-times"></i> Batal Validasi</a>`;
+                    }
                     var aksi = `
                         <div class="list-icons"> 
                             <div class="dropdown"> 
                                 <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="` + base_url + `validasi/` + row.id + `" class="dropdown-item validasi" title="validasi"><i class="fas fa-check"></i> Validasi</a>  
-                                    <a href="`+base_url+`edit/`+row.id+`" class="dropdown-item" title="edit"><i class="fas fa-pencil-alt"></i> Ubah</a>    
+                                <div class="dropdown-menu dropdown-menu-right">`
+                                    + validasi +
+                                    `<a href="`+base_url+`edit/`+row.id+`" class="dropdown-item" title="edit"><i class="fas fa-pencil-alt"></i> Ubah</a>    
                                     <a href="javascript:deleteData(`+row.id+`)" class="dropdown-item delete" title="hapus"><i class="fas fa-trash"></i> Hapus</a>
                                 </div> 
                             </div> 
                         </div>`;
-                    }
                     return aksi;
                     
                 }

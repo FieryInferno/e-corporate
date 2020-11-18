@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-  
-
 class Pengeluaran_kas_kecil extends User_Controller {
 
 	public function __construct() {
@@ -22,7 +11,7 @@ class Pengeluaran_kas_kecil extends User_Controller {
 	public function index() {
 		$tanggalawal = $this->input->get('tanggalawal');
 		$tanggalakhir = $this->input->get('tanggalakhir');
- 
+
 		if($tanggalawal && $tanggalakhir) {
 			$data['tanggalawal'] = $tanggalawal;
 			$data['tanggalakhir'] = $tanggalakhir;
@@ -54,23 +43,23 @@ class Pengeluaran_kas_kecil extends User_Controller {
 
 	public function create()
     {
-    	$q = $this->db->query("SELECT MAX(LEFT(nokwitansi,3)) AS kd_max FROM tpengeluarankaskecil");
-        $kd = "";
-        if($q->num_rows()>0){
-            foreach($q->result() as $k){
-                $tmp = ((int)$k->kd_max)+1;
-                $kd = sprintf("%03s", $tmp);
-            }
-        }else{
-            $kd = "001";
-        }  
+		$q = $this->db->query("SELECT MAX(LEFT(nokwitansi,3)) AS kd_max FROM tpengeluarankaskecil");
+		$kd = "";
+		if($q->num_rows()>0){
+			foreach($q->result() as $k){
+				$tmp = ((int)$k->kd_max)+1;
+				$kd = sprintf("%03s", $tmp);
+			}
+		}else{
+			$kd = "001";
+		}  
 
-        $query_tahun = $this->db->query("SELECT tahun as thn FROM mtahun ORDER BY tahun DESC LIMIT 1");
-        $tahun="";
-        if ($query_tahun->num_rows() > 0){
-        	foreach ($query_tahun->result() as $t) {
-        		$tahun=$t->thn;
-        	}
+		$query_tahun = $this->db->query("SELECT tahun as thn FROM mtahun ORDER BY tahun DESC LIMIT 1");
+		$tahun="";
+		if ($query_tahun->num_rows() > 0){
+			foreach ($query_tahun->result() as $t) {
+				$tahun=$t->thn;
+			}
         }
 		
         $data['tahun'] = $tahun;
@@ -161,9 +150,23 @@ class Pengeluaran_kas_kecil extends User_Controller {
 
     public function validasi($id = null)
 	{
+		$data	= $this->db->get_where('tpengeluarankaskecil', [
+			'id'	=> $id
+		])->row_array();
 		$this->db->set('uby',get_user('username'));
 		$this->db->set('udate',date('Y-m-d H:i:s'));
-		$this->db->set('status','1');
+		switch ($data['status']) {
+			case '0':
+				$this->db->set('status','1');
+				break;
+			case '1':
+				$this->db->set('status','0');
+				break;
+			
+			default:
+				# code...
+				break;
+		}
 		$this->db->where('id', $id);
 		$update = $this->db->update('tpengeluarankaskecil');
 		if($update) {
@@ -178,9 +181,9 @@ class Pengeluaran_kas_kecil extends User_Controller {
 
 	public function printpdf() {
 		$this->load->library('pdf');
-	    $pdf = $this->pdf;
-	    
-	    $tanggalawal = $this->input->get('tanggalawal');
+		$pdf = $this->pdf;
+		
+		$tanggalawal = $this->input->get('tanggalawal');
 		$tanggalakhir = $this->input->get('tanggalakhir');
 		if($tanggalawal && $tanggalakhir) {
 			$data['tipe_cetak'] = '0';
@@ -190,14 +193,14 @@ class Pengeluaran_kas_kecil extends User_Controller {
 		$data['getdata'] = $this->model->cetakdata($tanggalawal,$tanggalakhir);
 		$data['title'] = lang('Laporan Pengeluaran Kas Kecil');
 		$data['subtitle'] = lang('list');
-	    $data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-	    $data = array_merge($data,path_info());
-	    $html = $this->load->view('Pengeluaran_kas_kecil/printpdf', $data, TRUE);
-	    $pdf->loadHtml($html);
-	    $pdf->setPaper('A4', 'portrait');
-	    $pdf->render();
-	    $time = time();
-	    $pdf->stream("laporan-pengeluaran-kas-kecil-". $time, array("Attachment" => false));
+		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
+		$data = array_merge($data,path_info());
+		$html = $this->load->view('Pengeluaran_kas_kecil/printpdf', $data, TRUE);
+		$pdf->loadHtml($html);
+		$pdf->setPaper('A4', 'portrait');
+		$pdf->render();
+		$time = time();
+		$pdf->stream("laporan-pengeluaran-kas-kecil-". $time, array("Attachment" => false));
 	}
 
     public function get_hitungsisakaskecil(){
@@ -206,11 +209,11 @@ class Pengeluaran_kas_kecil extends User_Controller {
     }
 
     public function get_pejabat(){
-    	$id = $this->input->post('id',TRUE);
-    	$iddep = $this->input->post('iddep',TRUE);
+		$id = $this->input->post('id',TRUE);
+		$iddep = $this->input->post('iddep',TRUE);
         $this->model->get_pejabat_model($id,$iddep);
     }
- 
+
 	public function select2_item($id = null, $iddepart=null, $text = null)
 	{
 		$query = $this->db->query("SELECT * FROM mdepartemen WHERE id='$iddepart'");

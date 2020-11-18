@@ -738,7 +738,9 @@
                 isi = "";
                 detail="";
                 for ( index = 0; index < data.length; index++) {
-                    detail += `<input type="hidden" class="form-control" id="noakun1`+data[index].id+`" name="noakun1[]" required value="${data[index].koderekening}">`;
+                    detail += `
+                        <input type="hidden" id="noakun1`+data[index].id+`" name="noakun1[]" value="${data[index].koderekening}">
+                        <input type="hidden" id="idAkun1`+data[index].id+`" name="idAkun1[]" value="${data[index].idakun}">`; 
                     isi += `<option value="${data[index].id}">${data[index].text}</option>`
                 }
                 $('#detail_budgetevent').html(detail);
@@ -781,7 +783,6 @@
                 }
                 noakun   = $('#noakun'+barang[index].value).val();
                 idAkun   = $('#idAkun'+barang[index].value).val();
-                console.log(idAkun);
                 $('#noakun'+barang[index].value).remove();
                 tabel_detail_item.row.add([
                     barang[index].value,
@@ -942,6 +943,7 @@
                     return;
                 }
                 noakun   = $('#noakun1'+barang[index].value).val();
+                idAkun   = $('#idAkun1'+barang[index].value).val();
                 $('#noakun1'+barang[index].value).remove();
                 tabel_detail_budgetevent.row.add([
                     barang[index].value,
@@ -959,7 +961,7 @@
                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman1${index}${no}" title="Tambah Biaya Pengiriman">
                         <i class="fas fa-shipping-fast"></i>
                     </button>`,
-                    `${noakun}`,
+                    `<input type="hidden" name="akunnoBudgetEvent[]" value="${idAkun}">${noakun}`,
                     `<input type="text" class="form-control" name="total1[]" id="total1${index}${no}" readonly>`,
                     `<a href="javascript:EditDetail('${barang[index].value}','${jenis}','${no}')" class="edit_detail${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp; 
                         <a href="javascript:delete_detail_budgetevent('${no}')" class="delete_detail_budgetevent text-danger"><i class="fas fa-trash"></i></a>`,
@@ -1589,7 +1591,7 @@
                         }else{
                             isi += `<option value="${data[index].id}" selected>${data[index].text}</option>`
                         }
-                        detail += `<input type="hidden" class="form-control" id="noakun1`+data[index].id+`" name="noakun1[]" required value="${data[index].koderekening}">`;     
+                             
                     }
                     $('#edit_detail_budgetevent').html(detail);
                     $('.edit_budgeteventid').append(isi);

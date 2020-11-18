@@ -278,7 +278,7 @@
 
 <!-- Start: Modal budget event -->
 <div class="modal fade" id="BudgetEvent" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pilih Budget Event</h5>
@@ -287,21 +287,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table" id="tabelbudgetevent">
-                    <thead>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>Kode Kwitansi</th>
-                            <th>Keterangan</th>
-                            <th>Departemen</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody id='list_budgetevent'>
-
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelbudgetevent">
+                        <thead>
+                            <tr class="table-active">
+                                <th>&nbsp;</th>
+                                <th>Kode Kwitansi</th>
+                                <th>Keterangan</th>
+                                <th>Departemen</th>
+                                <th>Tanggal</th>
+                                <th>Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody id='list_budgetevent'></tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
@@ -695,25 +695,55 @@
         var formData    = new FormData($('#formPindahBuku')[0]);
         var penerimaan  = formData.getAll('penerimaanPindahBuku');
         var pengeluaran = formData.getAll('pengeluaranPindahBuku');
-        var idakun      = formData.getAll('idakun');
-        var idRekening  = formData.getAll('idRekening');
+        var idakun      = formData.getAll('akun');
+        var idRekening  = formData.getAll('rekening');
         var i           = 0;
+        for (let index = 0; index < saldoSumberDana.length; index++) {
+            const element = saldoSumberDana[index];
+            if (idRekening == element.id) {
+                row = index;
+                break;
+            }
+            row = index;
+        }
+        var data    = table_detail_SSD.row(row).data();
+        var terima  = data[3].toString().replace(/([\.]|,00)/g, '')*1;
+        var keluar  = data[4].toString().replace(/([\.]|,00)/g, '')*1;
         pindahBuku.forEach(element => {
-            table_detail.row.add([
-                ``,
-                `<button type="button" class="btn btn-danger delete_detail" id="button_pindahBuku${no}" onclick="hapus_data(this);">-</button>`,
-                `${element[0]}`,
-                ``,
-                ``,
-                formatRupiah(String(penerimaan[i])) + ',00',
-                formatRupiah(String(pengeluaran[i])) + ',00',
-                `<input type="hidden" name="idakun[]" value="${idakun[i]}">${element[2]}`,
-                ``,
-                ``,
-                `<input type="hidden" name="idRekening[]" value="${idRekening[i]}">${element[1]}`
-            ]).draw(false);
+            if (penerimaan[i] !== '' || pengeluaran[i] !== '') {
+                if (penerimaan[i] == '') {
+                    penerimaan[i]  = 0;
+                }
+                if (pengeluaran[i] == '') {
+                    pengeluaran[i]  = 0;
+                }
+                table_detail.row.add([
+                    ``,
+                    `<button type="button" class="btn btn-danger delete_detail" id="button_pindahBuku${no}" onclick="hapus_data(this);">-</button>`,
+                    `${element[0]}`,
+                    ``,
+                    ``,
+                    formatRupiah(String(penerimaan[i])) + ',00',
+                    formatRupiah(String(pengeluaran[i])) + ',00',
+                    `<input type="hidden" name="idakun[]" value="${idakun[i]}">${element[2]}`,
+                    ``,
+                    ``,
+                    `<input type="hidden" name="idRekening[]" value="${idRekening[i]}">${element[1]}`
+                ]).draw(false);
+                terima  += parseInt(penerimaan[i]);
+                keluar  += parseInt(pengeluaran[i]);
+            }
             i++;
         });
+        saldoAkhir  = formatRupiah(String(parseInt(data[2].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(keluar) + parseInt(terima))) + ',00';
+        table_detail_SSD.row(row).data([
+            data[0],
+            data[1],
+            data[2],
+            formatRupiah(String(terima)) + ',00',
+            formatRupiah(String(keluar)) + ',00',
+            saldoAkhir
+        ]).draw();
         detail_array();
         $('#pindahBuku').modal('hide');
     }
@@ -1158,7 +1188,7 @@
                     }
                     for (let i = 0; i < jumlah; i++) {
                         tabelpembelian.row.add([
-                            `<input type="checkbox" id="checkbox_BELI${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${element.total}" data-namaakun="" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaBank}" data-norekening="${element.norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}">`,
+                            `<input type="checkbox" id="checkbox_BELI${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${element.namaakun}" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaBank}" data-norekening="${element.norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${element.idakun}">`,
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
@@ -1195,7 +1225,7 @@
                         ]).draw();
                     } else {
                         tabelbudgetevent.row.add([
-                            `<input type="checkbox" id="checkbox_BE${element.id}" name="" data-id="${element.id}" data-tipe="Budget Event" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this);">`,
+                            `<input type="checkbox" id="checkbox_BE${element.id}" name="" data-id="${element.id}" data-tipe="Budget Event" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.namaakun}" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this);" idAkun="${element.idakun}" idRekening="${element.idRekening}">`,
                             `${element.nokwitansi}`,
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
@@ -1221,8 +1251,8 @@
                     const element = response[i];
                     tabelPindahBuku.row.add([
                         `PB`,
-                        `<input type="hidden" name="idRekening" value="${element.id}">` + element.nama,
-                        `<input type="hidden" name="idakun" value="${element.idakun}">` + element.akun,
+                        `<input type="hidden" name="rekening" value="${element.id}">` + element.nama,
+                        `<input type="hidden" name="akun" value="${element.idakun}">` + element.akun,
                         `<input type="text" name="penerimaanPindahBuku" id="penerimaanPindahBuku" class="form-control">`,
                         `<input type="text" name="pengeluaranPindahBuku" id="pengeluaranPindahBuku" class="form-control">`
                     ]).draw();
@@ -1465,9 +1495,9 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String(nominal)) + ',00',
                     formatRupiah(String('0')) + ',00',
-                    `${namaakun} ${noakun}`,
+                    formatRupiah(String(nominal)) + ',00',
+                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
@@ -1490,7 +1520,7 @@
                     `${nokwitansi}`,
                     formatRupiah(String('0')) + ',00',
                     formatRupiah(String(nominal)) + ',00',
-                    `${namaakun} ${noakun}`,
+                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
@@ -1556,7 +1586,7 @@
                     `${nokwitansi}`,
                     formatRupiah(String(nominal))  + ',00',
                     formatRupiah(String('0'))  + ',00',
-                    `${namaakun} ${noakun}`,
+                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     ``,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`

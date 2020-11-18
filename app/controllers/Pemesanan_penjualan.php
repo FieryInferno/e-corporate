@@ -306,12 +306,12 @@ class Pemesanan_penjualan extends User_Controller
     public function select2_budgetevent($id=null) {
         $term = $this->input->get('q');
         if ($id) {
-            $this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text, mnoakun.akunno as koderekening');
+            $this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text, mnoakun.akunno as koderekening, mnoakun.idakun');
             $this->db->where('mnoakun.stdel', '0');
             $data = $this->db->where('idakun', $id)->get('mnoakun')->row_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
-            $this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text, mnoakun.akunno as koderekening');
+            $this->db->select('mnoakun.idakun as id, CONCAT(mnoakun.akunno," / ",mnoakun.namaakun) as text, mnoakun.akunno as koderekening, mnoakun.idakun');
             $this->db->like('mnoakun.akunno', '1', 'after');
             $this->db->or_like('mnoakun.akunno', '5', 'after');
             $this->db->or_like('mnoakun.akunno', '6', 'after');
