@@ -38,6 +38,7 @@ class Kas_bank_model extends CI_Model {
 			$this->db->set('keterangan',$this->input->post('keterangan'));
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
+			$this->db->set('setupJurnal', $this->input->post('idSetupJurnal'));
 			$insert_kasbank = $this->db->insert('tkasbank');
 			if($insert_kasbank)  {
 				$nomor_kas_bank = $this->db->insert_id();

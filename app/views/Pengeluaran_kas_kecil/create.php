@@ -96,7 +96,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Setup Jurnal : </label>
-                                    <input type="hidden" name="setupJurnal" id="idSetupJurnal">
+                                    <input type="hidden" name="idSetupJurnal" id="idSetupJurnal">
                                     <input type="text" class="form-control" id="setupJurnal" readonly>
                                 </div>
                             </div>

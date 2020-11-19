@@ -57,9 +57,9 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-xs index_datatable">
+                <table class="table table-xs table-striped table-borderless table-hover index_datatable">
                   <thead>
-                    <tr>
+                    <tr class="table-active">
                       <th>Tanggal</th>
                       <th>Tipe</th>
                       <th>No Trans</th>

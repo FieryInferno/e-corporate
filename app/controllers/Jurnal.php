@@ -245,7 +245,7 @@ class Jurnal extends User_Controller {
 				$this->db->join('mnoakun', 'tpengeluarankaskecildetail.akunno = mnoakun.idakun');
 				$this->db->join('mperusahaan', 'tpengeluarankaskecil.perusahaan = mperusahaan.idperusahaan');
 				if (!empty($this->tglMulai) && !empty($this->tglSampai)) {
-					$this->db->where('tPenerimaan.tanggal BETWEEN "' . $this->tglMulai . '" AND "' . $this->tglSampai . '"');
+					$this->db->where('tpengeluarankaskecil.tanggal BETWEEN "' . $this->tglMulai . '" AND "' . $this->tglSampai . '"');
 				}
 				if (!empty($this->akunno)) {
 					$this->db->where('mnoakun.akunno', $this->akunno);
@@ -280,10 +280,58 @@ class Jurnal extends User_Controller {
 						}
 					}
 				}
+			} elseif ($formulir[$i] == 'kasBank') {
+				// $this->db->select('tkasbankdetail.tanggal, tkasbank.nomor_kas_bank, mperusahaan.nama_perusahaan, mnoakun.akunno, mnoakun.namaakun, tkasbankdetail.penerimaan, tkasbankdetail.pengeluaran, mnoakun.idakun, tkasbank.setupJurnal');
+				// $this->db->join('tkasbankdetail', 'tkasbank.id = tkasbankdetail.idkasbank');
+				// $this->db->join('mnoakun', 'tkasbankdetail.noakun = mnoakun.idakun');
+				// $this->db->join('mperusahaan', 'tkasbank.perusahaan = mperusahaan.idperusahaan');
+				// if (!empty($this->tglMulai) && !empty($this->tglSampai)) {
+				// 	$this->db->where('tPenerimaan.tanggal BETWEEN "' . $this->tglMulai . '" AND "' . $this->tglSampai . '"');
+				// }
+				// if (!empty($this->akunno)) {
+				// 	$this->db->where('mnoakun.akunno', $this->akunno);
+				// }
+				// $data0	= $this->db->get('tkasbank')->result_array();
+				// if ($data0) {
+				// 	foreach ($data0 as $key) {
+				// 		// if (substr($key['akunno'], 0, 1) == 1 || substr($key['akunno'], 0, 1) == 2 || substr($key['akunno'], 0, 1) == 3 || substr($key['akunno'], 0, 1) == 8 || substr($key['akunno'], 0, 1) == 9 || substr($key['akunno'], 0, 1) == 6) {
+				// 			$this->db->select('tJurnalFinansial.elemen, tJurnalFinansial.jenis, tSetupJurnal.formulir');
+				// 			$this->db->join('tJurnalFinansial', 'tSetupJurnal.idSetupJurnal = tJurnalFinansial.idSetupJurnal');
+				// 		// } else {
+				// 		// 	$this->db->select('tJurnalAnggaran.elemen, tJurnalAnggaran.jenis, tSetupJurnal.formulir');
+				// 		// 	$this->db->join('tJurnalAnggaran', 'tSetupJurnal.idSetupJurnal = tJurnalAnggaran.idSetupJurnal');
+				// 		// }
+				// 		$this->db->where('formulir', 'kasBank');
+				// 		$this->db->where('tSetupJurnal.idSetupJurnal', $key['setupJurnal']);
+				// 		$data1	= $this->db->get('tSetupJurnal')->row_array();
+				// 		$data2	= $this->db->get_where('tPemetaanAkun', [
+				// 			$data1['elemen']	=> $key['idakun']
+				// 		])->row_Array();
+				// 		if ($key['penerimaan'] == '0') {
+				// 			$total	= $key['pengeluaran'];
+				// 		} else {
+				// 			$total	= $key['penerimaan'];
+				// 		}
+				// 		if ($data2) {
+				// 			array_push($data['jurnalUmum'], [
+				// 				'tanggal'			=> $key['tanggal'],
+				// 				'formulir'			=> $data1['formulir'],
+				// 				'noTrans'			=> $key['nomor_kas_bank'],
+				// 				'departemen'		=> '',
+				// 				'nama_perusahaan' 	=> $key['nama_perusahaan'],
+				// 				'akunno'			=> $key['akunno'],
+				// 				'namaakun'			=> $key['namaakun'],
+				// 				'jenis'				=> $data1['jenis'],
+				// 				'total'				=> $total
+				// 			]);
+				// 		}
+				// 	}
+				// }
 			} else {
 				$table = null;
 			}
 		}
+		// die();
 		$data = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}

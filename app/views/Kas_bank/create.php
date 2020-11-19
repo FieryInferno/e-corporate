@@ -63,7 +63,8 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Setup Jurnal : </label>
-                                            <input type="text" class="form-control" id="setupJurnal" name="setupJurnal" readonly>
+                                            <input type="hidden" name="idSetupJurnal" id="idSetupJurnal">
+                                            <input type="text" class="form-control" id="setupJurnal" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -782,7 +783,18 @@
         getSaldoSumberDana();
         getPindahBuku();
         getSetorPajak();
-        $('#setupJurnal').val('KAS')
+        $.ajax({
+            url     : '{site_url}SetUpJurnal/get',
+            method  : 'post',
+            data    : {
+                jenis       : 'kas bank',
+                formulir    : 'kasBank'
+            },
+            success : function (response) {
+                $("#setupJurnal").val(response.kodeJurnal);
+                $("#idSetupJurnal").val(response.idSetupJurnal);
+            }
+        })
     })
 
     //combobox nama penerima/pejabat
