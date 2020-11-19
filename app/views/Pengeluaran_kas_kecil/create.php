@@ -96,7 +96,8 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Setup Jurnal : </label>
-                                    <input type="text" class="form-control" id="setupJurnal" name="setupJurnal" readonly>
+                                    <input type="hidden" name="setupJurnal" id="idSetupJurnal">
+                                    <input type="text" class="form-control" id="setupJurnal" readonly>
                                 </div>
                             </div>
                         </div>
@@ -303,7 +304,18 @@
     })
 
     $('#kas').change(function(e) {
-        $("#setupJurnal").val('KK');
+        $.ajax({
+            url     : '{site_url}SetUpJurnal/get',
+            method  : 'post',
+            data    : {
+                jenis       : 'kas kecil',
+                formulir    : 'pengeluaranKasKecil'
+            },
+            success : function (response) {
+                $("#setupJurnal").val(response.kodeJurnal);
+                $("#idSetupJurnal").val(response.idSetupJurnal);
+            }
+        })
     })
     
     $('#perusahaan').change(function(){ 

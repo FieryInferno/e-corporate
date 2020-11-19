@@ -84,7 +84,7 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
                 $hasil=$p->pejabat;
             }
         }
-    	$data['hasil'] = $hasil;
+		$data['hasil'] = $hasil;
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
@@ -152,6 +152,7 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 			$this->db->set('status','');
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
+			$this->db->set('setupJurnal', $this->input->post('idSetupJurnal'));
 			$insertHead = $this->db->insert('tpengeluarankaskecil');
 			if($insertHead) {
 				$idpengeluaran = $this->db->insert_id();

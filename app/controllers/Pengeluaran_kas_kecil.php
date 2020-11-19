@@ -16,8 +16,8 @@ class Pengeluaran_kas_kecil extends User_Controller {
 			$data['tanggalawal'] = $tanggalawal;
 			$data['tanggalakhir'] = $tanggalakhir;
 		} else {
-			$data['tanggalawal'] = date('Y-m-01');
-			$data['tanggalakhir'] = date('Y-m-t');
+			$data['tanggalawal']	= NULL;
+			$data['tanggalakhir']	= NULL;
 		}
 
 		$data['title'] = lang('petty_cash_outlay');
@@ -31,11 +31,14 @@ class Pengeluaran_kas_kecil extends User_Controller {
 		$tgl_awal = $this->input->post('tanggalawal',TRUE);
 		$tgl_akhir = $this->input->post('tanggalakhir',TRUE);
 		$this->load->library('Datatables');
-		$this->datatables->select('tpengeluarankaskecil.*,mperusahaan.nama_perusahaan, mdepartemen.nama');
+		$this->datatables->select('tpengeluarankaskecil.*,mperusahaan.nama_perusahaan, mdepartemen.nama, tSetupJurnal.kodeJurnal');
 		$this->datatables->join('mperusahaan','tpengeluarankaskecil.perusahaan=mperusahaan.idperusahaan');
 		$this->datatables->join('mdepartemen','tpengeluarankaskecil.departemen=mdepartemen.id');
-		$this->db->where('tpengeluarankaskecil.tanggal >=',$tgl_awal);
-		$this->db->where('tpengeluarankaskecil.tanggal <=',$tgl_akhir);
+		$this->datatables->join('tSetupJurnal','tpengeluarankaskecil.setupJurnal = tSetupJurnal.idSetupJurnal');
+		if ($tgl_awal && $tgl_akhir) {
+			$this->db->where('tpengeluarankaskecil.tanggal >=', $tgl_awal);
+			$this->db->where('tpengeluarankaskecil.tanggal <=', $tgl_akhir);
+		}
 		$this->datatables->where('tpengeluarankaskecil.stdel', '0');
 		$this->datatables->from('tpengeluarankaskecil');
 		return print_r($this->datatables->generate());

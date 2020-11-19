@@ -151,11 +151,7 @@
                     else return '<span class="badge badge-danger"><?php echo lang('pending') ?></sapan>';
                 }
             },
-            {
-                render: function(data) {
-                    return '';
-                }
-            },
+            {data   : 'kodeJurnal'},
             {
                 data: 'id', data: 'status', width: 40, orderable: false, class: 'text-center',
                 render: function(data,type,row) {
