@@ -362,7 +362,7 @@
 
         <li class="nav-header">AKUNTANSI</li>  
 
-        <?php $menuSaldoAwal = ['saldo_awal', 'saldoawalhutang', 'saldoawalpiutang', 'saldoawalinventaris', 'saldoawalpersediaan']; ?>
+        <?php $menuSaldoAwal = ['saldo_awal', 'saldo_awal_hutang', 'saldo_awal_piutang', 'saldoawalinventaris', 'saldoawalpersediaan']; ?>
         <li class="nav-item has-treeview <?= menu_is_open($menuSaldoAwal) ?>">
           <a href="#" class="nav-link
             <?php
@@ -379,12 +379,12 @@
               </a>
             </li>            
             <li class="nav-item">
-              <a href="{site_url}SaldoAwalHutang" class="nav-link <?php echo menu_is_active('SaldoAwalHutang') ?>">
+              <a href="{site_url}saldo_awal_hutang" class="nav-link <?php echo menu_is_active('saldo_awal_hutang') ?>">
                 <i class="far fa-circle nav-icon"></i><p> Saldo Awal Hutang</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{site_url}SaldoAwalPiutang" class="nav-link <?php echo menu_is_active('SaldoAwalPiutang') ?>">
+              <a href="{site_url}saldo_awal_piutang" class="nav-link <?php echo menu_is_active('saldo_awal_piutang') ?>">
                 <i class="far fa-circle nav-icon"></i><p> Saldo Awal Piutang</p>
               </a>
             </li>

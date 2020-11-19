@@ -9,7 +9,11 @@ class SistemPenomoran extends User_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		$this->formulir			= $this->input->post('formulir');
+		if ($this->input->post('formulir')) {
+			$this->formulir	= $this->input->post('formulir');
+		} else {
+			$this->formulir	= $this->input->get('formulir');
+		}
 		$this->formatPenomoran	= $this->input->post('formatPenomoran');
 		$this->idPenomoran		= $this->input->post('idPenomoran');
 	}
@@ -19,6 +23,11 @@ class SistemPenomoran extends User_Controller {
 		$data['title']		= $this->title;
 		$data['subtitle']	= 'Daftar';
 		$data['content']	= 'SistemPenomoran/index';
+		if ($this->formulir) {
+			$data['formulir']	= $this->formulir;
+		} else {
+			$data['formulir']	= null;
+		}
 		$data				= array_merge($data, path_info());
 		$this->parser->parse('template', $data);
 	}
@@ -46,6 +55,9 @@ class SistemPenomoran extends User_Controller {
 
 	public function indexDatatable()
 	{
+		if ($this->formulir) {
+			$this->SistemPenomoranModel->set('formulir', $this->formulir);
+		}
 		$data	= $this->SistemPenomoranModel->indexDatatable();
 		return print_r($data);
 	}

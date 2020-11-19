@@ -24,6 +24,31 @@
 			<div class="row">
 				<div class="col-12">         
 					<div class="card">
+						<div class="card-body">
+							<form action="{site_url}SistemPenomoran" id="form1" method="GET">
+								<div class="row">
+									<div class="col-md-3">
+										<div class="form-group">
+											<label>Formulir : </label>
+											<input type="text" class="form-control" name="formulir" required>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<div class="text-right">
+											<button type="submit" class="btn-block btn bg-success"><i class="fas fa-filter"></i> Filter</button>
+										</div>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
 						<div class="card-header">
 							<a href="{site_url}SistemPenomoran/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						</div>
@@ -51,7 +76,13 @@
 <script type="text/javascript">
 	var base_url    = '{site_url}SistemPenomoran/';
 	var table       = $('.index_datatable').DataTable({
-		ajax	: base_url + 'indexDatatable',
+		ajax	: {
+			url		: base_url + 'indexDatatable',
+			type	: 'post',
+			data	: {
+				formulir	: '{formulir}'
+			}
+		},
 		columns	: [
 			{data	: 'formulir'},
 			{data	: 'formatPenomoran'},

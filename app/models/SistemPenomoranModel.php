@@ -33,7 +33,10 @@ class SistemPenomoranModel extends CI_Model {
     public function indexDatatable()
     {
         $this->load->library('Datatables');
-		$this->datatables->select($this->table . '.*');
+        $this->datatables->select($this->table . '.*');
+        if ($this->formulir) {
+            $this->datatables->like('formulir', $this->formulir);
+        }
         $this->datatables->from($this->table);
         return $this->datatables->generate();
     }
