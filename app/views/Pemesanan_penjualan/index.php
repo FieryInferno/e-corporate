@@ -195,12 +195,12 @@
 															switch ($key['status']) {
 																case '4':
 																	$tombol	.= '
-																	<a class="dropdown-item" href="javascript:validasi("' . $key['id'] . '")"><i class="fas fa-check"></i> Validasi</a>
+																	<a class="dropdown-item" href="javascript:validasi(' . $id . ')"><i class="fas fa-check"></i> Validasi</a>
 																	<a class="dropdown-item" href="' . base_url() . 'edit/' . $key['id'] . '"><i class="fas fa-pencil-alt"></i> Ubah</a>
 																	<a href="javascript:deleteData(' . $id . ')" class="dropdown-item delete"><i class="fas fa-trash"></i> Hapus</a>'; 
 																	break;
 																case '5':
-																	$tombol	.= '<a class="dropdown-item" href="javascript:batalvalidasi("' . $key['id'] . '")"><i class="fas fa-times"></i> Batal Validasi</a>'; 
+																	$tombol	.= '<a class="dropdown-item" href="javascript:batalvalidasi(' . $id . ')"><i class="fas fa-times"></i> Batal Validasi</a>'; 
 																	break;
 																case '3':
 																	$cetak .= '<a class="dropdown-item" href="' . base_url() . 'printpdf/' . $key['id'] . '"><i class="fas fa-print"></i> Cetak</a>'; 
