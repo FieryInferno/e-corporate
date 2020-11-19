@@ -78,7 +78,17 @@
                                         <?php
                                             if ($laporan !== null) { 
                                                 $jumlahDebet    = 0;
-                                                $jumlahKredit   = 0; ?>
+                                                $jumlahKredit   = 0; 
+
+                                                function terbilang($nilai) {
+                                                    if($nilai<0) {
+                                                        $hasil = "minus ". trim(penyebut($nilai));
+                                                    } else {
+                                                        $hasil = trim(penyebut($nilai));
+                                                    }     		
+                                                    return $hasil;
+                                                }
+                                                ?>
                                                 <tr>
                                                     <td></td>
                                                     <td class="text-center"><strong>Jumlah Sampai dengan Tanggal {tanggal}</strong></td>
@@ -107,6 +117,19 @@
                                                     <td class="text-center" colspan="2"><strong>Jumlah Sampai dengan Tanggal {tanggalAwal}</strong></td>
                                                     <td class="text-center"><strong><?= number_format($jumlahDebetAwal,2,',','.'); ?></strong></td>
                                                     <td class="text-center"><strong><?= number_format($jumlahKreditAwal,2,',','.'); ?></strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center" colspan="2"><strong>Jumlah Sampai dengan Tanggal {tanggal}</strong></td>
+                                                    <td class="text-center"><strong><?= number_format(($jumlahDebetAwal + $jumlahDebet),2,',','.'); ?></strong></td>
+                                                    <td class="text-center"><strong><?= number_format(($jumlahKreditAwal + $jumlahKredit),2,',','.'); ?></strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center" colspan="2"><strong>Saldo Hari ini Tanggal {tanggal}</strong></td>
+                                                    <td class="text-center"></td>
+                                                    <td class="text-center"><strong><?= number_format((($jumlahDebetAwal + $jumlahDebet) - ($jumlahKreditAwal + $jumlahKredit)),2,',','.'); ?></strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td colspan="4"><strong>Sisa dengan huruf : <?= strtoupper(terbilang((($jumlahDebetAwal + $jumlahDebet) - ($jumlahKreditAwal + $jumlahKredit)))) . ' Rupiah'; ?></strong></td>
                                                 </tr>
                                             <?php }
                                         ?>
