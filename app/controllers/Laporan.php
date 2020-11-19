@@ -21,8 +21,20 @@ class Laporan extends User_Controller {
 			$this->LaporanModel->set('perusahaan', $this->perusahaan);
 			$this->LaporanModel->set('rekening', $this->rekening);
 			$this->LaporanModel->set('tanggal', $this->tanggal);
-			$data['laporan']	= $this->LaporanModel->get();
-			$data['tanggal']	= $this->tgl_indo($this->tanggal);
+			$data['laporan']		= $this->LaporanModel->get();
+			$data['tanggal']		= $this->tgl_indo($this->tanggal);
+			$tanggalAwal			= date('Y-m-d', strtotime('-1 days', strtotime($this->tanggal)));
+			$data['tanggalAwal']	= $this->tgl_indo($tanggalAwal);
+			$this->LaporanModel->set('tanggal', $tanggalAwal);
+			$kasBank			= $this->LaporanModel->get('total');
+			$data['jumlahDebetAwal']	= 0;
+			$data['jumlahKreditAwal']	= 0;
+			foreach ($kasBank as $key) {
+				foreach ($key as $value) {
+					$data['jumlahDebetAwal']	+= $value['debet'];
+					$data['jumlahKreditAwal']	+= $value['kredit'];
+				}
+			}
 		}
 		$data['title']		= 'Laporan Kas Bank';
 		$data['subtitle']	= lang('list');

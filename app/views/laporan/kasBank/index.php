@@ -76,7 +76,9 @@
 									</thead>
 									<tbody>
                                         <?php
-                                            if ($laporan !== null) { ?>
+                                            if ($laporan !== null) { 
+                                                $jumlahDebet    = 0;
+                                                $jumlahKredit   = 0; ?>
                                                 <tr>
                                                     <td></td>
                                                     <td class="text-center"><strong>Jumlah Sampai dengan Tanggal {tanggal}</strong></td>
@@ -91,9 +93,22 @@
                                                             <td class="text-center"><?= number_format($value['debet'],2,',','.'); ?></td>
                                                             <td class="text-center"><?= number_format($value['kredit'],2,',','.'); ?></td>
                                                         </tr>
-                                                    <?php }
-                                                }
-                                            }
+                                                    <?php 
+                                                        $jumlahDebet    += $value['debet'];
+                                                        $jumlahKredit   += $value['kredit'];
+                                                    }
+                                                } ?>
+                                                <tr>
+                                                    <td class="text-center" colspan="2"><strong>Jumlah Tanggal {tanggal}</strong></td>
+                                                    <td class="text-center"><strong><?= number_format($jumlahDebet,2,',','.'); ?></strong></td>
+                                                    <td class="text-center"><strong><?= number_format($jumlahKredit,2,',','.'); ?></strong></td>
+                                                </tr>
+                                                <tr>
+                                                    <td class="text-center" colspan="2"><strong>Jumlah Sampai dengan Tanggal {tanggalAwal}</strong></td>
+                                                    <td class="text-center"><strong><?= number_format($jumlahDebetAwal,2,',','.'); ?></strong></td>
+                                                    <td class="text-center"><strong><?= number_format($jumlahKreditAwal,2,',','.'); ?></strong></td>
+                                                </tr>
+                                            <?php }
                                         ?>
                                     </tbody>
 								</table>
