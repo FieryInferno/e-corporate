@@ -349,7 +349,7 @@
 
 <!-- Start: Modal SetorPajak -->
 <div class="modal fade" id="SetorPajak" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Pilih Setor Pajak</h5>
@@ -358,21 +358,20 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table" id="tabelsetorpajak">
-                    <thead>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>Kode Kwitansi</th>
-                            <th>Keterangan</th>
-                            <th>Departemen</th>
-                            <th>Tanggal</th>
-                            <th>Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody id='list_setorpajak'>
-
-                    </tbody>
-                </table>
+                <div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelsetorpajak">
+                        <thead>
+                            <tr class="table-active">
+                                <th>&nbsp;</th>
+                                <th>Kode Kwitansi</th>
+                                <th>Departemen</th>
+                                <th>Tanggal</th>
+                                <th>Nominal</th>
+                            </tr>
+                        </thead>
+                        <tbody id='list_setorpajak'></tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
@@ -779,9 +778,10 @@
         getListKasKecil();
         getListSetorKasKecil();
         // getPiutang();
-        // getHutang();
+        getHutang();
         getSaldoSumberDana();
         getPindahBuku();
+        getSetorPajak();
     })
 
     //combobox nama penerima/pejabat
@@ -805,7 +805,8 @@
         getListKasKecil();
         getListSetorKasKecil();
         // getPiutang();
-        // getHutang();
+        getHutang();
+        getSetorPajak();
     })
 
 
@@ -973,8 +974,8 @@
         searching   : true,
         paging: false,
         columnDefs: [
-            {targets: [0,1,2,3,4] },
-            {targets: [5] , className: 'text-right'},
+            {targets: [0,1,2,3] },
+            {targets: [4] , className: 'text-right'},
             
         ],
     })
@@ -1238,6 +1239,42 @@
         });
     }
 
+    function getSetorPajak() {
+        var idPerusahaan    = $('select[name=perusahaan]').val();
+        var tgl             = $('input[name=tanggal]').val();
+        $.ajax({
+            type    : "post",
+            data    : {
+                idPerusahaan    : idPerusahaan, 
+                tanggal         : tgl 
+            },
+            url     : '{site_url}SetorPajak/get',
+            success: function(response) {
+                for (let i = 0; i < response.length; i++) {
+                    const element = response[i];
+                    if (i < 0) {
+                        tabelsetorpajak.row.add([
+                            `<input type="checkbox" name="" id=""  disabled>`,
+                            `${element.nokwitansi}`,
+                            `${element.keterangan}`,
+                            `${element.nama_departemen}`,
+                            `${element.tanggal}`,
+                            `${element.nominal}`,
+                        ]).draw();
+                    } else {
+                        tabelsetorpajak.row.add([
+                            `<input type="checkbox" id="checkbox_SetorPajak${element.idPajakPemesananPenjualan}" name="" data-id="${element.idPajakPemesananPenjualan}" data-tipe="Setor Pajak" data-tgl="${element.tanggal}" data-kwitansi="${element.noSSP}" data-nominal="${element.nominal}" data-namaakun="${element.namaAkunPajak}" data-noakun="${element.akunPajak}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaRekening}" data-norekening="${element.norek}" onchange="save_detail(this);" idAkun="${element.idAkunPajak}" idRekening="${element.idRekening}">`,
+                            `${element.noSSP}`,
+                            `${element.namaDepartemen}`,
+                            `${element.tanggal}`,
+                            formatRupiah(String(`${element.nominal}`)) + ',00',
+                        ]).draw();
+                    }
+                }
+            }
+        });
+    }
+
     function getPindahBuku() {
         var idPerusahaan    = $('select[name=perusahaan]').val();
         $.ajax({
@@ -1418,7 +1455,7 @@
                 response.forEach(element => {
                     element.forEach(e => {
                         tabelHutang.row.add([
-                            `<input type="checkbox" id="checkboxHutang${e.id}" data-id="${e.id}" data-tipe="Saldo Awal Hutang" data-tgl="${e.tanggal}" data-kwitansi="${e.notrans}" data-nominal="${e.total}" idAkun="${e.idAkun}" data-namaakun="${e.namaakun}" data-noakun="${e.akunno}" data-kodeperusahaan="${e.kode}" onchange="save_detail(this);">`,
+                            `<input type="checkbox" id="checkboxHutang${e.id}" data-id="${e.id}" data-tipe="Saldo Awal Hutang" data-tgl="${e.tanggal}" data-kwitansi="${e.notrans}" data-nominal="${e.total}" idAkun="${e.idakun}" data-namaakun="${e.namaakun}" data-noakun="${e.akunno}" data-kodeperusahaan="${e.kode}" onchange="save_detail(this);">`,
                             `${e.tanggal}`,
                             `${e.tanggaltempo}`,
                             `${e.notrans}`,
@@ -1607,9 +1644,9 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String(nominal))  + ',00',
                     formatRupiah(String('0'))  + ',00',
-                    `${namaakun} ${noakun}`,
+                    formatRupiah(String(nominal))  + ',00',
+                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     ``,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`
@@ -1618,6 +1655,28 @@
             } else {
                 pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
                 var rowindex=$('#button_HUTANG'+id).closest('tr').index();
+                table_detail.row(rowindex).remove().draw();
+            }
+        } else if (tipe == 'Setor Pajak') {
+            const stat = $(elem).is(":checked");
+            if (stat) {
+                table_detail.row.add([
+                    `${id}`,
+                    `<button type="button" class="btn btn-danger delete_detail" id="buttonSetorPajak${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+                    `${tipe}`,
+                    `${tgl}`,
+                    `${nokwitansi}`,
+                    formatRupiah(String('0'))  + ',00',
+                    formatRupiah(String(nominal))  + ',00',
+                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+                    `${kodeperusahaan}`,
+                    ``,
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}">${namabank} ${norekening}`
+                ]).draw( false );
+                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+            } else {
+                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+                var rowindex=$('#button_SetorPajak'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }
         }

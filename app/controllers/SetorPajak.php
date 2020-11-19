@@ -4,6 +4,10 @@ class SetorPajak extends User_Controller {
 
 	private $idPajakPemesananPenjualan;
 	private $title	= 'Setor Pajak';
+	private $perusahaan;
+	private $tanggal;
+	private $npwp;
+	private $ntpn;
 
 	public function __construct()
 	{
@@ -12,6 +16,8 @@ class SetorPajak extends User_Controller {
 		$this->jenis						= $this->input->post('jenis');
 		$this->npwp							= $this->input->post('npwp');
 		$this->ntpn							= $this->input->post('ntpn');
+		$this->perusahaan					= $this->input->post('perusahaan');
+		$this->tanggal						= $this->input->post('tanggal');
 	}
 
 	public function index()
@@ -42,6 +48,8 @@ class SetorPajak extends User_Controller {
 	{
 		$this->SetorPajakModel->set('idPajakPemesananPenjualan', $this->idPajakPemesananPenjualan);
 		$this->SetorPajakModel->set('jenis', $this->jenis);
+		$this->SetorPajakModel->set('perusahaan', $this->perusahaan);
+		$this->SetorPajakModel->set('tanggal', $this->tanggal);
 		$data	= $this->SetorPajakModel->get();
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}

@@ -48,7 +48,7 @@ class Utang extends User_Controller {
 
 	public function printpdf() {
 		$this->load->library('pdf');
-	    $pdf = $this->pdf;
+		$pdf = $this->pdf;
 
 		$tanggalawal = $this->input->get('tanggalawal');
 		$tanggalakhir = $this->input->get('tanggalakhir');
