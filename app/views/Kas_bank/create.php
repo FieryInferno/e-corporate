@@ -63,7 +63,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Setup Jurnal : </label>
-                                            <input type="text" class="form-control">
+                                            <input type="text" class="form-control" id="setupJurnal" name="setupJurnal" readonly>
                                         </div>
                                     </div>
                                 </div>
@@ -777,11 +777,12 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        // getPiutang();
+        getPiutang();
         getHutang();
         getSaldoSumberDana();
         getPindahBuku();
         getSetorPajak();
+        $('#setupJurnal').val('KAS')
     })
 
     //combobox nama penerima/pejabat
@@ -804,7 +805,7 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        // getPiutang();
+        getPiutang();
         getHutang();
         getSetorPajak();
     })

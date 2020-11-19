@@ -129,7 +129,7 @@
                                                     <td class="text-center"><strong><?= number_format((($jumlahDebetAwal + $jumlahDebet) - ($jumlahKreditAwal + $jumlahKredit)),2,',','.'); ?></strong></td>
                                                 </tr>
                                                 <tr>
-                                                    <td colspan="4"><strong>Sisa dengan huruf : <?= strtoupper(terbilang((($jumlahDebetAwal + $jumlahDebet) - ($jumlahKreditAwal + $jumlahKredit)))) . ' Rupiah'; ?></strong></td>
+                                                    <td colspan="4"><strong>Sisa dengan huruf : <?= strtoupper(terbilang((($jumlahDebetAwal + $jumlahDebet) - ($jumlahKreditAwal + $jumlahKredit)))) . ' RUPIAH'; ?></strong></td>
                                                 </tr>
                                             <?php }
                                         ?>

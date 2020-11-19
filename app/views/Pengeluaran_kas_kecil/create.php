@@ -96,7 +96,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label>Setup Jurnal : </label>
-                                    <input type="text" class="form-control">
+                                    <input type="text" class="form-control" id="setupJurnal" name="setupJurnal" readonly>
                                 </div>
                             </div>
                         </div>
@@ -302,6 +302,9 @@
         });
     })
 
+    $('#kas').change(function(e) {
+        $("#setupJurnal").val('KK');
+    })
     
     $('#perusahaan').change(function(){ 
         var id=document.getElementById("form1").perusahaan.value;
@@ -897,5 +900,4 @@
             }
         })
     }
-
 </script>
