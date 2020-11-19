@@ -5,6 +5,7 @@ class Piutang_model extends CI_Model {
 
 	private $table	= 'SaldoAwalPiutang';
 	private $perusahaan;
+	private $tanggal;
 
 	public function get() {
 		$this->db->select($this->table . '.tanggal, ' . $this->table . '.tanggalTempo, '  . $this->table . '.noInvoice, ' . $this->table . '.deskripsi, ' . $this->table . '.namaPelanggan, ' . $this->table . '.primeOwing, ' . $this->table . '.idSaldoAwalPiutang, mperusahaan.nama_perusahaan, mnoakun.idakun, mnoakun.namaakun, mnoakun.akunno, mperusahaan.kode');
