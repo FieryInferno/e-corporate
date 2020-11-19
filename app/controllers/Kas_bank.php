@@ -263,10 +263,10 @@ class Kas_bank extends User_Controller
     {
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tsetorkaskecil.*,mperusahaan.kode, mdepartemen.nama as nama_departemen, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening');
+        $this->db->select('tsetorkaskecil.*,mperusahaan.kode, mdepartemen.nama as nama_departemen, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening, mnoakun.idakun, mrekening.id as idRekening');
         $this->db->join('mperusahaan','tsetorkaskecil.perusahaan=mperusahaan.idperusahaan');
         $this->db->join('mdepartemen','tsetorkaskecil.pejabat=mdepartemen.id');
-        $this->db->join('mnoakun','tsetorkaskecil.kas=mnoakun.idakun');
+        $this->db->join('mnoakun','tsetorkaskecil.kas = mnoakun.idakun');
         $this->db->join('mrekening','tsetorkaskecil.rekening=mrekening.id');
         $this->db->where('tsetorkaskecil.perusahaan', $idperusahaan);
         $this->db->where('tsetorkaskecil.tanggal <=',$tgl);

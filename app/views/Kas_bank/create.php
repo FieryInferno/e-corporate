@@ -428,21 +428,21 @@
                 </button>
             </div>
             <div class="modal-body">
-                <table class="table" id="tabelsetorkaskecil">
-                    <thead>
-                        <tr>
+                <div class="table-responsive">
+                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelsetorkaskecil">
+                        <thead>
+                            <tr class="table-active">
                             <th>&nbsp;</th>
                             <th>Kode Kwitansi</th>
                             <th>Keterangan</th>
                             <th>Departemen</th>
                             <th>Tanggal</th>
                             <th>Nominal</th>
-                        </tr>
-                    </thead>
-                    <tbody id='list_SetorKasKecil'>
-
-                    </tbody>
-                </table>
+                            </tr>
+                        </thead>
+                        <tbody id='list_SetorKasKecil'></tbody>
+                    </table>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
@@ -1369,7 +1369,7 @@
                         ]).draw();
                     } else {
                         tabelsetorkaskecil.row.add([
-                            `<input type="checkbox" id="checkbox_SKK${element.id}" data-id="${element.id}" data-tipe="Setor Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this);">`,
+                            `<input type="checkbox" id="checkbox_SKK${element.id}" data-id="${element.id}" data-tipe="Setor Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this);" idAkun="${element.idakun}" idRekening="${element.idRekening}">`,
                             `${element.nokwitansi}`,
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
@@ -1615,7 +1615,7 @@
                     `${nokwitansi}`,
                     formatRupiah(String(nominal)) + ',00',
                     formatRupiah(String('0')) + ',00',
-                    `${namaakun} ${noakun}`,
+                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
