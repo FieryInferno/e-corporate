@@ -13,7 +13,7 @@ class Saldo_awal extends User_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		if(get_user('permissionid') == '2') redirect('Forbidden','refresh');
+		// if(get_user('permissionid') == '2') redirect('Forbidden','refresh');
 		$this->load->model('Saldo_awal_model','model');
 		$this->setPerusahaan($this->input->post('perusahaan'));
 		$this->setNomor($this->input->post('nomor'));
