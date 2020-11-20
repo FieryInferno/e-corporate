@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Jurnal_penyesuaian extends User_Controller {
 
 	private $idJurnalPenyesuaian;
@@ -58,7 +47,7 @@ class Jurnal_penyesuaian extends User_Controller {
 		$data['title']		= lang('adjusting_entries');
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Jurnal_penyesuaian/index';
-		$data = array_merge($data,path_info());
+		$data				= array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 
@@ -149,7 +138,8 @@ class Jurnal_penyesuaian extends User_Controller {
 	}
 
 	public function index_datatable() {
-		$data	= $this->model->index_datatable();
+		$perusahaan	= $this->session->idperusahaan;
+		$data		= $this->model->index_datatable($perusahaan);
         return print_r($data);
 	}
 	

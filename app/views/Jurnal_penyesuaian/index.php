@@ -28,9 +28,9 @@
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-xs index_datatable">
-                                    <thead>
-                                        <tr>
+								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
+									<thead>
+										<tr class="table-active">
                                             <th>Nomor</th>
                                             <th>Tanggal</th>
                                             <th>Perusahaan</th>
@@ -38,19 +38,19 @@
                                             <th>Debit</th>
                                             <th>Kredit</th>
                                             <th>Opsi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                    <tfoot>
-                                        <tr>
+										</tr>
+									</thead>
+									<tbody></tbody>
+									<tfoot>
+                                        <tr class="table-active">
                                             <th colspan="4" class="text-left"><B>Total<B></th>
                                             <th></th>
                                             <th></th>
                                             <th></th>
                                         </tr>
                                     </tfoot>
-                                </table>
-                            </div>
+								</table>
+							</div>
                         </div>
                     </div>
                 </div>
@@ -59,8 +59,8 @@
     </section>
 </div>
 <script>
-  var base_url = '{site_url}jurnal_penyesuaian/';
-  var table = $('.index_datatable').DataTable({
+    var base_url = '{site_url}jurnal_penyesuaian/';
+    var table = $('.index_datatable').DataTable({
 		ajax: {
 			url     : base_url + 'index_datatable',
 			type    : 'post',

@@ -50,13 +50,13 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><?php echo lang('start_date') ?>:</label>
-                                                <input type="date" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}">
+                                                <input type="date" class="form-control datepicker" name="tanggalawal" required value="{tanggalawal}" placeholder="Tanggal Awal">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><?php echo lang('end_date') ?>:</label>
-                                                <input type="date" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}">
+                                                <input type="date" class="form-control datepicker" name="tanggalakhir" required value="{tanggalakhir}" placeholder="Tanggal Akhir">
                                             </div>
                                         </div>
                                     </div>

@@ -17,17 +17,29 @@
             <div class="m-3">
                 <form action="{site_url}piutang/index" id="form1" method="get">
                     <div class="row">
+                        <?php
+                            if ($this->session->userid !== '1') { ?>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Perusahaan : </label>
+                                        <input type="hidden" name="perusahaanid" value="<?= $this->session->idperusahaan; ?>">
+                                        <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                    </div>
+                                </div>
+                            <?php } else { ?>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Perusahaan : </label>
+                                        <select class="form-control perusahaanid" name="perusahaanid"></select>
+                                    </div>
+                                </div>
+                            <?php }
+                        ?>
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label><?php echo lang('Kontak') ?>:</label>
-                                <select class="form-control kontakid" name="kontakid"></select>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Usia Piutang : </label>
+                                <label>Usia Hutang : </label>
                                 <select class="form-control" name="usiaHutang">
-                                    <option value="">Pilih Usia Hutang</option>
+                                    <option value="" disabled selected>Pilih Usia Utang</option>
                                     <option value="kurang30">Kurang Dari 30 Hari</option>
                                     <option value="30">30 Hari</option>
                                     <option value="lebih30">Lebih Dari 30 Hari</option>
@@ -38,8 +50,8 @@
                     <div class="row">
                         <div class="col-md-4">
                             <div class="form-group">
-                                <label>Perusahaan:</label>
-                                <select class="form-control perusahaanid" name="perusahaanid"></select>
+                                <label><?php echo lang('Kontak') ?>:</label>
+                                <select class="form-control kontakid" name="kontakid"></select>
                             </div>
                         </div>
                     </div>
@@ -47,20 +59,21 @@
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo lang('start_date') ?>:</label>
-                                <input type="date" class="form-control datepicker" name="tanggalawal" placeholder="Tanggal Awal">
+                                <input type="date" class="form-control datepicker" name="tanggalawal">
                             </div>
                         </div>
                         <div class="col-md-2">
                             <div class="form-group">
                                 <label><?php echo lang('end_date') ?>:</label>
-                                <input type="date" class="form-control datepicker" name="tanggalakhir" placeholder="Tanggal Akhir">
+                                <input type="date" class="form-control datepicker" name="tanggalakhir">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                             <div class="text-right">
-                                <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                                <button class="btn-block btn btn-success" type="submit"><i class="fas fa-filter"></i> Filter</button>
+                                <button class="btn-block btn btn-warning">Reset</button>
                             </div>
                         </div>
                     </div>
@@ -132,13 +145,32 @@
   </div>
 <script type="text/javascript">
 	var base_url = '{site_url}piutang/';
-	ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: '{kontakid}' } });
-    ajax_select({ 
-        id          : '.perusahaanid', 
-        url         : '{site_url}perusahaan/select2', 
-        selected    : { 
-            id: '{perusahaanid}' 
-        } 
-    });
+	if ('<?= $this->session->userid; ?>' == '1') {
+        ajax_select({ 
+            id          : '.perusahaanid', 
+            url         : '{site_url}perusahaan/select2', 
+            selected    : { 
+                id: '{perusahaanid}' 
+            } 
+        });
+        $('.perusahaanid').change(function(e) {
+            var perusahaan  = $('.perusahaanid').children('option:selected').val();
+            ajax_select({ 
+                id          : '.kontakid', 
+                url         : base_url + 'select2_kontak/' + perusahaan, 
+                selected    : { 
+                    id: '{kontakid}' 
+                } 
+            });
+        })
+    } else {
+        ajax_select({ 
+            id          : '.kontakid', 
+            url         : base_url + 'select2_kontak/<?= $this->session->idperusahaan; ?>', 
+            selected    : { 
+                id: '{kontakid}' 
+            } 
+        });
+    }
     $('#tabelPiutang').DataTable();
 </script>

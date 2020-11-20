@@ -14,12 +14,15 @@ class SaldoAwalPiutangModel extends CI_Model {
     private $primeOwing;
     private $taxOwing;
 
-    public function indexDatatable()
+    public function indexDatatable($perusahaan)
     {
         $this->load->library('Datatables');
         $this->datatables->select('SaldoAwalPiutang.*, mperusahaan.nama_perusahaan');
-		$this->datatables->from('SaldoAwalPiutang');
 		$this->datatables->join('mperusahaan', 'SaldoAwalPiutang.perusahaan = mperusahaan.idperusahaan');
+        if ($perusahaan) {
+            $this->datatables->where('perusahaan', $perusahaan);
+        }
+		$this->datatables->from('SaldoAwalPiutang');
 		return $this->datatables->generate();
     }
 

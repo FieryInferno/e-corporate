@@ -27,31 +27,33 @@
 							<a href="{site_url}item/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						</div>
 						<div class="card-body">
-							<table class="table table-bordered table-striped index_datatable">
-								<thead>
-									<tr>
-										<th>ID</th>
-										<th><?php echo lang('code') ?></th>
-										<th><?php echo lang('name') ?></th>
-										<th><?php echo lang('unit') ?></th>
-										<th><?php echo lang('category') ?></th>
-										<!-- <th><?php echo lang('stock') ?></th> -->
-										<th><?php echo lang('Hrg Beli Terakhir') ?></th>
-										<!-- <th><?php echo lang('Total Persediaan') ?></th> -->
-										<th class="text-center"><?php echo lang('action') ?></th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
+							<div class="table-responsive">
+								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
+									<thead>
+										<tr class="table-active">
+											<th>ID</th>
+											<th><?php echo lang('code') ?></th>
+											<th><?php echo lang('name') ?></th>
+											<th><?php echo lang('unit') ?></th>
+											<th><?php echo lang('category') ?></th>
+											<!-- <th><?php echo lang('stock') ?></th> -->
+											<th><?php echo lang('Hrg Beli Terakhir') ?></th>
+											<!-- <th><?php echo lang('Total Persediaan') ?></th> -->
+											<th class="text-center"><?php echo lang('action') ?></th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
     </section>
-  </div>
+</div>
 
-  <script type="text/javascript">
+<script type="text/javascript">
 	var base_url = '{site_url}item/';
 	var table = $('.index_datatable').DataTable({
 		ajax: {

@@ -1,23 +1,15 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Kontak_model extends CI_Model {
 
 	public function save() {
 		$id = $this->uri->segment(3);
 		if($id) {
 			foreach($this->input->post() as $key => $val) $this->db->set($key,strip_tags($val));
+			if ($this->session->userid !== '1') {
+				$this->db->set('perusahaan', $this->session->idperusahaan);
+			}
 			$this->db->set('uby',get_user('username'));
 			$this->db->set('udate',date('Y-m-d H:i:s'));
 			$this->db->where('id', $id);

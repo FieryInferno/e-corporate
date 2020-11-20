@@ -29,7 +29,14 @@
                                     <form action="javascript:save()" id="form1">
                                         <div class="form-group">
                                             <label><?php echo lang('nama perusahaan') ?>:</label>
-                                            <select class="form-control id_perusahaan" name="perusahaan" required></select>
+                                            <?php
+                                                if ($this->session->userid !== '1') { ?>
+                                                    <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                                                    <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                <?php } else { ?>
+                                                    <select class="form-control perusahaan" name="perusahaan" style="width: 100%;"></select>
+                                                <?php }
+                                            ?>
                                         </div>
                                         <div class="form-group">
                                             <label>Kode:</label>

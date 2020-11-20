@@ -12,12 +12,15 @@ class SaldoAwalPersediaanModel extends CI_Model {
     private $idSaldoAwalPersediaan;
     private $table  = 'saldoAwalPersediaan';
 
-    public function indexDatatable()
+    public function indexDatatable($perusahaan)
     {
         $this->load->library('Datatables');
         $this->datatables->select($this->table . '.*, mperusahaan.nama_perusahaan, ' . $this->table . '.quantity, ' . $this->table . '.unitPrice');
 		$this->datatables->from($this->table);
         $this->datatables->join('mperusahaan', $this->table . '.perusahaan = mperusahaan.idperusahaan');
+        if ($perusahaan) {
+            $this->datatables->where('perusahaan', $perusahaan);
+        }
 		return $this->datatables->generate();
     }
 

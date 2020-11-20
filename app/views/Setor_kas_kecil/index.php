@@ -43,13 +43,13 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><?php echo lang('start_date') ?>:</label>
-                                                <input type="text" class="form-control datepicker" name="tanggalawal" required>
+                                                <input type="date" class="form-control datepicker" name="tanggalawal" required placeholder="Tanggal Awal">
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label><?php echo lang('end_date') ?>:</label>
-                                                <input type="text" class="form-control datepicker" name="tanggalakhir" required>
+                                                <input type="date" class="form-control datepicker" name="tanggalakhir" required placeholder="Tanggal Akhir">
                                             </div>
                                         </div>
                                     </div>
@@ -118,7 +118,7 @@
             {
                 data: 'nokwitansi', 
                 render: function(data,type,row) {
-                    var nokwitansi=`<label class="badge badge-info">`+data+`</label>`;
+                    var nokwitansi=`<label class="btn btn-sm btn-info">`+data+`</label>`;
                     return nokwitansi;
                 }
             },
@@ -128,7 +128,7 @@
             {
                 data: 'nominal',
                 render: function(data,type,row) {
-                    var nominal=`<div class="text-right">`+formatRupiah(data, 'Rp. ')+`,00</div>`;
+                    var nominal=`<div class="text-right">`+formatRupiah(data)+`,00</div>`;
                     return nominal;
                 }
             },

@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Jurnal_penyesuaian_model extends CI_Model {
 
 	private $idJurnalPenyesuaian;
@@ -129,15 +118,21 @@ class Jurnal_penyesuaian_model extends CI_Model {
 			$this->db->join('mperusahaan', 'tjurnal.perusahaan = mperusahaan.idperusahaan');
 			$this->db->join('tjurnaldetail', 'tjurnal.idJurnalPenyesuaian = tjurnaldetail.idjurnal');
 			$this->db->join('mnoakun', 'tjurnaldetail.noakun = mnoakun.idakun');
+			if ($this->session->userid !== '1') {
+				$this->db->where('tjurnal.perusahaan', $this->session->idperusahaan);
+			}
 			return $this->db->get('tjurnal')->result_array();
 		}
 	}
 
-	public function index_datatable()
+	public function index_datatable($perusahaan)
 	{
 		$this->load->library('Datatables');
 		$this->datatables->select('tjurnal.notrans, tjurnal.tanggal, mperusahaan.nama_perusahaan, tjurnal.keterangan, tjurnal.totaldebet, tjurnal.totalkredit, tjurnal.idJurnalPenyesuaian');
 		$this->datatables->join('mperusahaan', 'tjurnal.perusahaan = mperusahaan.idperusahaan');
+		if ($perusahaan) {
+			$this->datatables->where('tjurnal.perusahaan', $perusahaan);
+		}
         $this->datatables->from('tjurnal');
 		return $this->datatables->generate();
 	}

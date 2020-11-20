@@ -59,7 +59,14 @@
                                         <div class="form-group">
                                             <label><?php echo lang('Perusahaan') ?>:</label>
                                             <div class="input-group"> 
-                                                <select id="perusahaan" class="form-control perusahaan" name="idperusahaan" required style="width: 100%;"></select>
+                                                <?php
+                                                    if ($this->session->userid !== '1') { ?>
+                                                        <input type="hidden" name="idperusahaan" value="<?= $this->session->idperusahaan; ?>" id="perusahaan">
+                                                        <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                    <?php } else { ?>
+                                                        <select class="form-control perusahaan" name="idperusahaan" style="width: 100%;" id="perusahaan"></select>
+                                                    <?php }
+                                                ?>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -514,16 +521,24 @@
 
     $(document).ready(function(){
         ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: null } });
-        ajax_select({id: '#perusahaan',	url: base_url + 'select2_mperusahaan', selected: { id: null } });			
-		$('#perusahaan').change(function(e) {
-			var perusahaanId = $('#perusahaan').children('option:selected').val();
-			var num = perusahaanId.toString().padStart(3, "0")
-			$('#corpCode').val(num);
+        if ('<?= $this->session->userid; ?>' == '1') {
+            ajax_select({id: '#perusahaan',	url: base_url + 'select2_mperusahaan', selected: { id: null } });			
+            $('#perusahaan').change(function(e) {
+                var perusahaanId = $('#perusahaan').children('option:selected').val();
+                var num = perusahaanId.toString().padStart(3, "0")
+                $('#corpCode').val(num);
+                ajax_select({
+                    id: '#department',
+                    url: base_url + 'select2_mdepartemen/' + perusahaanId,
+                });
+            })
+        } else {
             ajax_select({
-				id: '#department',
-				url: base_url + 'select2_mdepartemen/' + perusahaanId,
-			});
-		})
+                id: '#department',
+                url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
+            });
+        }
+        
 
 		$('#department').change(function(e) {
 			var deptName = $('#department').children('option:selected').text();

@@ -60,7 +60,14 @@
                                         <div class="form-group">
                                             <label><?php echo lang('Perusahaan') ?>:</label>
                                             <div class="input-group"> 
-                                                <select id="perusahaan" class="form-control perusahaan" name="idperusahaan" required style="width: 100%;"></select>
+                                                <?php
+                                                    if ($this->session->userid !== '1') { ?>
+                                                        <input type="hidden" name="idperusahaan" value="<?= $this->session->idperusahaan; ?>" id="perusahaan">
+                                                        <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                    <?php } else { ?>
+                                                        <select class="form-control perusahaan" name="idperusahaan" style="width: 100%;" id="perusahaan"></select>
+                                                    <?php }
+                                                ?>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -518,8 +525,46 @@
         //isi combobox kontak, gudang, perusahaan, departemen, pejabat
         ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: null } });
         ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: null } });
-        ajax_select({id: '#perusahaan', url: base_url + 'select2_mperusahaan', selected: { id: null } });           
-
+        if ('<?= $this->session->userid; ?>' == '1') {
+            ajax_select({
+                id          : '#perusahaan', 
+                url         : base_url + 'select2_mperusahaan', 
+                selected    : { 
+                    id  : null 
+                } 
+            }); 
+            $('#perusahaan').change(function(e) {
+                $("#departemen").val($("#departemen").data("default-value"));
+                $("#pejabat").val($("#pejabat").data("default-value"));
+                $("#rekening").val($("#rekening").data("default-value"));
+                var perusahaanId = $('#perusahaan').children('option:selected').val();
+                ajax_select({
+                    id: '#departemen',
+                    url: base_url + 'select2_mdepartemen/' + perusahaanId,
+                });
+                ajax_select({
+                    id: '#rekening',
+                    url: base_url + 'select2_mrekening_perusahaan/' + perusahaanId,
+                });
+                ajax_select({
+                    id          : '#cabang',
+                    url         : '{site_url}cabang/select2_perusahaan/' + perusahaanId
+                });
+            })
+        } else {
+            ajax_select({
+                id: '#departemen',
+                url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
+            });
+            ajax_select({
+                id: '#rekening',
+                url: base_url + 'select2_mrekening_perusahaan/<?= $this->session->idperusahaan; ?>',
+            });
+            ajax_select({
+                id          : '#cabang',
+                url         : '{site_url}cabang/select2_perusahaan/<?= $this->session->idperusahaan; ?>'
+            });
+        }
         //menyembunyikan button tambah
         $('.btn_add_detail_barang').attr("hidden", false);
         $('.btn_add_detail_jasa').attr("hidden", true);
@@ -552,25 +597,6 @@
         $('#tabel_detail_item').attr("hidden", false);
         $('#tabel_detail_budgetevent').attr("hidden", true);
     }) 
-
-    $('#perusahaan').change(function(e) {
-        $("#departemen").val($("#departemen").data("default-value"));
-        $("#pejabat").val($("#pejabat").data("default-value"));
-        $("#rekening").val($("#rekening").data("default-value"));
-        var perusahaanId = $('#perusahaan').children('option:selected').val();
-        ajax_select({
-            id: '#departemen',
-            url: base_url + 'select2_mdepartemen/' + perusahaanId,
-        });
-        ajax_select({
-            id: '#rekening',
-            url: base_url + 'select2_mrekening_perusahaan/' + perusahaanId,
-        });
-        ajax_select({
-            id          : '#cabang',
-            url         : '{site_url}cabang/select2_perusahaan/' + perusahaanId
-        });
-    })
 
     $('#departemen').change(function(e) {
         $("#pejabat").val($("#pejabat").data("default-value"));

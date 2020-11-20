@@ -73,7 +73,8 @@ class SaldoAwalPiutang extends User_Controller {
 
     public function indexDatatable()
     {
-        $data   = $this->SaldoAwalPiutangModel->indexDatatable();
+        $perusahaan = $this->session->idperusahaan;
+        $data       = $this->SaldoAwalPiutangModel->indexDatatable($perusahaan);
         return print_r($data);
     }
 

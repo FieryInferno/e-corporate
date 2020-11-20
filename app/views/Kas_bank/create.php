@@ -57,7 +57,14 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label><?php echo lang('company') ?>:</label>
-                                            <select id="id_perusahaan" class="form-control id_perusahaan" name="perusahaan" required></select>
+                                            <?php
+                                                if ($this->session->userid !== '1') { ?>
+                                                    <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>" id="id_perusahaan">
+                                                    <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                <?php } else { ?>
+                                                    <select class="form-control id_perusahaan" name="perusahaan" style="width: 100%;" id="id_perusahaan"></select>
+                                                <?php }
+                                            ?>
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -683,11 +690,40 @@
     })
 
     $(document).ready(function(){
-        //combobox perusahaan
-        ajax_select({
-            id: '#id_perusahaan',
-            url: base_url + 'select2_mperusahaan',
-        });
+        if ('<?= $this->session->userid; ?>' !== '1') {
+            ajax_select({
+                id: '#pejabat',
+                url: base_url + 'select2_mdepartemen_pejabat/<?= $this->session->idperusahaan; ?>',
+            });
+            getListPenjualan();
+            getListPembelian();
+            getListBudgetEvent();
+            getListKasKecil();
+            getListSetorKasKecil();
+            getPiutang();
+            getHutang();
+            getSaldoSumberDana();
+            getPindahBuku();
+            getSetorPajak();
+            $.ajax({
+                url     : '{site_url}SetUpJurnal/get',
+                method  : 'post',
+                data    : {
+                    jenis       : 'kas bank',
+                    formulir    : 'kasBank'
+                },
+                success : function (response) {
+                    $("#setupJurnal").val(response.kodeJurnal);
+                    $("#idSetupJurnal").val(response.idSetupJurnal);
+                }
+            })
+        } else {
+            //combobox perusahaan
+            ajax_select({
+                id: '#id_perusahaan',
+                url: base_url + 'select2_mperusahaan',
+            });
+        }
     })
 
     function simpanPindahBuku(no) {
@@ -1067,7 +1103,7 @@
 
     function getListPenjualan() {
         var table = $('#list_penjualan');
-        var idPerusahaan = $('select[name=perusahaan]').val();
+        var idPerusahaan    = $('#id_perusahaan').val();
         var tgl = $('input[name=tanggal]').val();
         $.ajax({
             type: "get",
@@ -1143,7 +1179,7 @@
 
     function getListPembelian() {
         var table = $('#list_pembelian');
-        var idPerusahaan = $('select[name=perusahaan]').val();
+        var idPerusahaan = $('#id_perusahaan').val();
         var tgl = $('input[name=tanggal]').val();
         $.ajax({
             type: "get",
@@ -1218,7 +1254,7 @@
 
     function getListBudgetEvent() {
         var table = $('#list_budgetevent');
-        var idPerusahaan = $('select[name=perusahaan]').val();
+        var idPerusahaan = $('#id_perusahaan').val();
         var tgl = $('input[name=tanggal]').val();
         $.ajax({
             type: "get",
@@ -1253,7 +1289,7 @@
     }
 
     function getSetorPajak() {
-        var idPerusahaan    = $('select[name=perusahaan]').val();
+        var idPerusahaan    = $('#id_perusahaan').val();
         var tgl             = $('input[name=tanggal]').val();
         $.ajax({
             type    : "post",
@@ -1289,7 +1325,7 @@
     }
 
     function getPindahBuku() {
-        var idPerusahaan    = $('select[name=perusahaan]').val();
+        var idPerusahaan    = $('#id_perusahaan').val();
         $.ajax({
             type    : "get",
             data    : {
@@ -1313,7 +1349,7 @@
 
     function getListKasKecil() {
         var table = $('#list_KasKecil');
-        var idPerusahaan = $('select[name=perusahaan]').val();
+        var idPerusahaan = $('#id_perusahaan').val();
         var tgl = $('input[name=tanggal]').val();
         $.ajax({
             type: "get",
@@ -1348,7 +1384,7 @@
 
     function getListSetorKasKecil() {
         var table = $('#list_SetorKasKecil');
-        var idPerusahaan = $('select[name=perusahaan]').val();
+        var idPerusahaan = $('#id_perusahaan').val();
         var tgl = $('input[name=tanggal]').val();
         $.ajax({
             type: "get",
@@ -1383,7 +1419,7 @@
     }
 
     function getPiutang() {
-        var idPerusahaan    = $('select[name=perusahaan]').val();
+        var idPerusahaan    = $('#id_perusahaan').val();
         var tgl             = $('input[name=tanggal]').val();
         $.ajax({
             type    : 'get',
@@ -1418,7 +1454,7 @@
     }
 
     function getSaldoSumberDana() {
-        var idPerusahaan    = $('select[name=perusahaan]').val();
+        var idPerusahaan    = $('#id_perusahaan').val();
         var tanggal         = $('input[name=tanggal]').val();
         $.ajax({
             type    : 'get',
@@ -1449,7 +1485,7 @@
     }
 
     function getHutang() {
-        var idPerusahaan    = $('select[name=perusahaan]').val();
+        var idPerusahaan    = $('#id_perusahaan').val();
         var tgl             = $('input[name=tanggal]').val();
         $.ajax({
             type    : 'get',

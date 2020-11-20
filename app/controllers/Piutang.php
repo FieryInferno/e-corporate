@@ -71,18 +71,19 @@ class Piutang extends User_Controller {
 		$pdf->stream("laporan-utang-". $time, array("Attachment" => false));
 	}
 
-	public function select2_kontak($id = null) {
+	public function select2_kontak($idPerusahaan = null, $idKontak = null) {
 		$term = $this->input->get('q');
-		if($id) {
+		if($idKontak) {
 			$this->db->select('mkontak.id, mkontak.nama as text');
-			$data = $this->db->where('id', $id)->get('mkontak')->row_array();
+			$this->db->where('mkontak.perusahaan', $idPerusahaan);
+			$data = $this->db->where('id', $idKontak)->get('mkontak')->row_array();
 			$this->db->where('mkontak.tipe', '1');
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mkontak.id, mkontak.nama as text');
-			$this->db->where('mkontak.stdel', '0');
-			$this->db->where('mkontak.tipe', '2');
-			$this->db->limit(10);
+			$this->db->where('mkontak.tipe', '1');
+			$this->db->where('mkontak.perusahaan', $idPerusahaan);
+			// $this->db->limit(10);
 			if($term) $this->db->like('mkontak.nama', $term);
 			$data = $this->db->get('mkontak')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));

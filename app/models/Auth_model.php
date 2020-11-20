@@ -16,7 +16,8 @@ class Auth_model extends CI_Model {
 				])->row_array();
 				$this->session->set_userdata( array(
 					'userid' 		=> $rowuser['id'],
-					'perusahaan'	=> $data['nama_perusahaan']
+					'perusahaan'	=> $data['nama_perusahaan'],
+					'idperusahaan'	=> $rowuser['perusahaan']
 				) );
 			} else {
 				$this->session->set_userdata( array('userid' => $rowuser['id']) );

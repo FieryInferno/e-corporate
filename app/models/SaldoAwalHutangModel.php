@@ -13,13 +13,17 @@ class SaldoAwalHutangModel extends CI_Model {
     private $nilaiHutang;
     private $primeOwing;
     private $taxOwing;
+    private $perusahaan;
 
-    public function indexDatatable()
+    public function indexDatatable($perusahaan)
     {
         $this->load->library('Datatables');
         $this->datatables->select('SaldoAwalHutang.*, mperusahaan.nama_perusahaan');
-		$this->datatables->from('SaldoAwalHutang');
 		$this->datatables->join('mperusahaan', 'SaldoAwalHutang.perusahaan = mperusahaan.idperusahaan');
+        if ($perusahaan) {
+            $this->datatables->where('perusahaan', $perusahaan);
+        }
+		$this->datatables->from('SaldoAwalHutang');
 		return $this->datatables->generate();
     }
 
@@ -44,7 +48,8 @@ class SaldoAwalHutangModel extends CI_Model {
             'jumlah'        => $this->nilaiHutang,
             'primeOwing'    => $this->primeOwing,
             'taxOwing'      => $this->taxOwing,
-            'ageFrDue'      => (strtotime($this->tanggalTempo) - strtotime($this->tanggal))/86400
+            'ageFrDue'      => (strtotime($this->tanggalTempo) - strtotime($this->tanggal))/86400,
+            'perusahaan'    => $this->perusahaan
         ];
         if ($this->idSaldoAwalHutang) {
             $this->db->where('idSaldoAwalHutang', $this->idSaldoAwalHutang);

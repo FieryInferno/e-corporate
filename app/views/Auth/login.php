@@ -35,8 +35,7 @@
   <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
     <div class="container">
       <a href="<?= base_url('')?>" class="navbar-brand">
-        <img src="<?= base_url('adminlte')?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
-             style="opacity: .8">
+        <img src="<?= base_url('adminlte')?>/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
         <span class="brand-text font-weight-light">AdminLTE 3</span>
       </a>
       
@@ -112,10 +111,10 @@
           <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
             <span class="dropdown-header">Login</span>
             <div class="dropdown-divider"></div>
-            <a href="#" class="dropdown-item">
+            <a class="dropdown-item">
               <input type="text" class="form-control" id="username" placeholder="Masukkan Username" autocomplete="off" required name="username">
             </a>          
-            <a href="#" class="dropdown-item">
+            <a class="dropdown-item">
               <input type="password" class="form-control" id="password" required name="password" placeholder="Masukkan Password">
             </a>
             <div class="dropdown-divider"></div>

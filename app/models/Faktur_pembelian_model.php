@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Faktur_pembelian_model extends CI_Model {
 
 	public function save() {
@@ -229,6 +218,9 @@ class Faktur_pembelian_model extends CI_Model {
 		$this->db->join('mperusahaan','tfaktur.perusahaanid = mperusahaan.idperusahaan','left');
 		if ($id) {
 			$this->db->where('tfaktur.id', $id);
+			if ($this->session->userid !== '1') {
+				$this->db->where('tfaktur.perusahaanid', $this->session->idperusahaan);
+			}
 			$data	= $this->db->get('tfaktur')->row_array();
 			$this->db->where('idfaktur', $data['id']);
 			$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');

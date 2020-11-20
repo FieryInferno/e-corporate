@@ -6,6 +6,7 @@ class Jurnal extends User_Controller {
 	private	$tglMulai;
 	private	$tglSampai;
 	private	$akunno;
+	private	$perusahaan;
 
 	public function __construct() {
 		parent::__construct();
@@ -14,6 +15,9 @@ class Jurnal extends User_Controller {
 		$this->tglSampai	= $this->input->get('tglSampai');
 		$this->akunno		= $this->input->get('kodeAkun');
 		$this->tipe			= $this->input->get('tipe');
+		if ($this->session->userid !== '1') {
+			$this->perusahaan	= $this->session->idperusahaan;
+		}
 	}
 
 	public function index() {
@@ -42,6 +46,9 @@ class Jurnal extends User_Controller {
 				}
 				if (!empty($this->akunno)) {
 					$this->db->where('mnoakun.akunno', $this->akunno);
+				}
+				if ($this->perusahaan) {
+					$this->db->where('tpemesanan.idperusahaan', $this->perusahaan);
 				}
 				$data0	= $this->db->get('tPenerimaan')->result_array();
 				foreach ($data0 as $key) {
@@ -81,6 +88,9 @@ class Jurnal extends User_Controller {
 				}
 				if (!empty($this->akunno)) {
 					$this->db->where('mnoakun.akunno', $this->akunno);
+				}
+				if ($this->perusahaan) {
+					$this->db->where('tsaldoawal.perusahaan', $this->perusahaan);
 				}
 				$data0	= $this->db->get('tsaldoawal')->result_array();
 				if ($data0) {
@@ -244,6 +254,9 @@ class Jurnal extends User_Controller {
 				$this->db->join('tpengeluarankaskecildetail', 'tpengeluarankaskecil.id = tpengeluarankaskecildetail.idpengeluaran');
 				$this->db->join('mnoakun', 'tpengeluarankaskecildetail.akunno = mnoakun.idakun');
 				$this->db->join('mperusahaan', 'tpengeluarankaskecil.perusahaan = mperusahaan.idperusahaan');
+				if ($this->perusahaan) {
+					$this->db->where('tpengeluarankaskecil.perusahaan', $this->perusahaan);
+				}
 				if (!empty($this->tglMulai) && !empty($this->tglSampai)) {
 					$this->db->where('tpengeluarankaskecil.tanggal BETWEEN "' . $this->tglMulai . '" AND "' . $this->tglSampai . '"');
 				}

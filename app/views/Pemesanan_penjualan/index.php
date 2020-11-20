@@ -50,7 +50,7 @@
 										<?php
 											foreach ($pemesanan as $key) { ?>
 												<tr>
-													<td><?= $key['notrans']; ?></td>
+													<td><span class="btn btn-sm btn-info"><?= $key['notrans']; ?></span></td>
 													<td><?= $key['nama_perusahaan']; ?></td>
 													<td><?= $key['catatan']; ?></td>
 													<td><?= $key['tanggal']; ?></td>
@@ -149,7 +149,7 @@
 																							if ($key['budgetEvent']) {
 																								foreach ($key['budgetEvent'] as $budgetEvent) { ?>
 																									<tr>
-																										<td><?= $budgetEvent['nokwitansi']; ?></td>
+																										<td><span class="btn btn-sm btn-info"><?= $budgetEvent['nokwitansi']; ?></span></td>
 																										<td><?= $budgetEvent['item']; ?></td>
 																										<td><?= number_format($budgetEvent['total'], 2, ',', '.'); ?></td>
 																										<td><?= $budgetEvent['rekening']; ?></td>

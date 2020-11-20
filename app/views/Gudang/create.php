@@ -22,7 +22,7 @@
     <section class="content">
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
-        <div class="card card-danger">
+        <div class="card">
           <div class="card-header">
             <h3 class="card-title">{title}</h3>
           </div>
@@ -54,7 +54,7 @@
         <script type="text/javascript">
 	var base_url = '{site_url}gudang/';
     $(document).ready(function(){
-    	ajax_select({ id: '.idhakakses', url: base_url + 'select2_mpegawaihakakses', selected: { id: null } });
+      ajax_select({ id: '.idhakakses', url: base_url + 'select2_mpegawaihakakses', selected: { id: null } });
     })
     function save() {
         var form = $('#form1')[0];

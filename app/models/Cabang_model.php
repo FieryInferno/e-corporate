@@ -74,13 +74,16 @@ class Cabang_model extends CI_Model
         }
     }
 
-    public function select2($id, $term)
+    public function select2($perusahaan, $id, $term)
 	{
         $this->db->select('id, concat(mcabang.kode, " - ", mcabang.nama) as text');
         if ($id) {
             $this->db->where('id', $id);
             return $this->db->get('mcabang')->row_array();
         } else {
+            if ($perusahaan) {
+                $this->db->where('perusahaan', $perusahaan);
+            }
             if ($term) {
                 $this->db->like('kode', $term);
                 $this->db->or_like('nama', $term);

@@ -1,206 +1,206 @@
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid --> 
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{title}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">{title}</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid --> 
     </section>
- 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
+        <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">Tambah {title}</h3>
-            </div>
-            <!-- /.card-header -->
-            <div class="card-body">
-                <form action="javascript:save()" id="form1">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <input type="hidden" name="statusauto" value="0">
-                            <input type="hidden" class="form-control pengirimanid" name="pengirimanid" readonly>
-                            <div class="form-group">
-                                <label><?php echo lang('notrans') ?>:</label>
-                                <input type="text" class="form-control" name="notrans" readonly placeholder="AUTO">
-                            </div>
-                            <div class="form-group">
-                                <label><?php echo lang('supplier') ?>:</label>
-                                <select class="form-control kontakid" name="kontakid" required></select>
-                            </div>
-                            <div class="form-group">
-                                <label>Setup Jurnal : </label>
-                                <div class="input-group"> 
-                                    <input type="hidden" name="setupJurnal" id="setupJurnal1">
-                                    <input type="text" class="form-control" disabled id="setupJurnal2">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Tambah {title}</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body">
+                    <form action="javascript:save()" id="form1">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <input type="hidden" name="statusauto" value="0">
+                                <input type="hidden" class="form-control pengirimanid" name="pengirimanid" readonly>
+                                <div class="form-group">
+                                    <label><?php echo lang('notrans') ?>:</label>
+                                    <input type="text" class="form-control" name="notrans" readonly placeholder="AUTO">
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('date') ?>:</label>
-                                <div class="input-group"> 
-                                    <input type="date" id="tanggal" class="form-control datepicker" name="tanggal" value="{tanggal}" readonly>
+                                <div class="form-group">
+                                    <label><?php echo lang('supplier') ?>:</label>
+                                    <select class="form-control kontakid" name="kontakid" required></select>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label><?php echo lang('warehouse') ?>:</label>
-                                <select class="form-control gudangid" name="gudangid" disabled></select>
-                            </div>
-                            <div class="form-group">
-                                <label><?php echo lang('Rekening') ?>:</label>
-                                <select class="form-control rekening" name="rekening" disabled required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('date') ?> Jatuh Tempo:</label>
-                                <div class="input-group"> 
-                                    <input type="date" id="tanggalJT"class="form-control datepicker" name="tanggalJT" required>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label><?php echo lang('Nomor Surat Jalan') ?>:</label>
-                                <input type="text" id="nomorsuratjalan" class="form-control nomorsuratjalan" name="nomorsuratjalan" readonly>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label><?php echo lang('Cara Bayar') ?>:</label>
-                                <input type="text" class="form-control carabayar" name="carabayar" required readonly></select>
-                            </div>
-                            <div class="form-group">
-                                <label><?php echo lang('Departemen') ?>:</label>
-                                <select class="form-control departemen" name="departemen" disabled></select>
-                            </div>
-                            <div class="form-group">
-                                <label>Cabang : </label>
-                                <div class="input-group">
-                                    <input type="hidden" name="cabang" id="cabang"> 
-                                    <select class="form-control cabang" disabled></select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="mb-3 mt-3 table-responsive">
-                        <div class="mt-3 mb-3">
-                            <button type="button" class="btn btn-sm btn-primary btn_add_detail"><?php echo lang('add_new') ?></button>
-                            <button type="button" class="btn btn-sm btn-primary btn_add_detail_budgetevent"><?php echo lang('Budget Event') ?></button>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail_item" hidden  width="100%">
-                                <thead>
-                                    <tr class="table-active">
-                                        <th>ID</th>
-                                        <th><?php echo lang('item') ?></th>
-                                        <th class="text-right"><?php echo lang('price') ?></th>
-                                        <th class="text-right"><?php echo lang('qty') ?></th>
-                                        <th class="text-right"><?php echo lang('subtotal') ?></th>
-                                        <th class="text-right"><?php echo lang('discount') ?></th>
-                                        <th class="text-right"><?php echo lang('Pajak') ?></th>
-                                        <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
-                                        <th class="text-right"><?php echo lang('total') ?></th>
-                                        <th class="text-center"><?php echo lang('tipe') ?></th>
-                                        <th>ID PENJUAL DETAIL</th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr class="table-active">
-                                        <th>ID</th>
-                                        <th colspan="6">&nbsp;</th>
-                                        <th class="text-right"><?php echo lang('total') ?></th>
-                                        <th class="text-center"><div id="total"></div></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div class="table-responsive">
-                            <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail_budgetevent" hidden width="100%">
-                                <thead>
-                                    <tr class="table-active">
-                                        <th>ID</th>
-                                        <th><?php echo lang('item') ?></th>
-                                        <th class="text-right"><?php echo lang('price') ?></th>
-                                        <th class="text-right"><?php echo lang('qty') ?></th>
-                                        <th class="text-right"><?php echo lang('subtotal') ?></th>
-                                        <th class="text-right"><?php echo lang('discount') ?></th>
-                                        <th class="text-right"><?php echo lang('Pajak') ?></th>
-                                        <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
-                                        <th class="text-right"><?php echo lang('total') ?></th>
-                                        <th class="text-center"><?php echo lang('tipe') ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                                <tfoot>
-                                    <tr class="table-active">
-                                        <th>ID</th>
-                                        <th colspan="6">&nbsp;</th>
-                                        <th class="text-right"><?php echo lang('total') ?></th>
-                                        <th class="text-center"><div id="total_budgetevent"></div></th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                    </div>
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label><?php echo lang('note') ?>:</label>
-                                <textarea class="form-control catatan" name="catatan" rows="6"></textarea>
-                            </div>                       
-                        </div>
-                        <div class="col-md-6">
-                            <div class="row">
-                                <div class="col-sm-8">
-                                    <div class="form-group">
-                                        <label><?php echo lang('Uang Muka') ?>:</label>
-                                        <input type="text" class="form-control um" name="um" readonly>
-                                    </div>
-                                </div>
-                                <div class="col-sm-4">
-                                    <div class="form-group">
-                                        <label><?php echo lang('Tanggal uang muka') ?>:</label>
-                                        <input type="date" class="form-control tanggaluangmuka" name="tanggaluangmuka" readonly>
+                                <div class="form-group">
+                                    <label>Setup Jurnal : </label>
+                                    <div class="input-group"> 
+                                        <input type="hidden" name="setupJurnal" id="setupJurnal1">
+                                        <input type="text" class="form-control" disabled id="setupJurnal2">
                                     </div>
                                 </div>
                             </div>
-                        
-                                <div class="form-group col-sm-4">
-                                    <label><?php echo lang('Jumlah Term') ?>:</label>
-                                    <input type="number" class="form-control jtem" name="jtem" readonly>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><?php echo lang('date') ?>:</label>
+                                    <div class="input-group"> 
+                                        <input type="date" id="tanggal" class="form-control datepicker" name="tanggal" value="{tanggal}" readonly>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('warehouse') ?>:</label>
+                                    <select class="form-control gudangid" name="gudangid" disabled></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('Rekening') ?>:</label>
+                                    <select class="form-control rekening" name="rekening" disabled required></select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><?php echo lang('date') ?> Jatuh Tempo:</label>
+                                    <div class="input-group"> 
+                                        <input type="date" id="tanggalJT"class="form-control datepicker" name="tanggalJT" required>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('Nomor Surat Jalan') ?>:</label>
+                                    <input type="text" id="nomorsuratjalan" class="form-control nomorsuratjalan" name="nomorsuratjalan" readonly>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label><?php echo lang('Cara Bayar') ?>:</label>
+                                    <input type="text" class="form-control carabayar" name="carabayar" required readonly></select>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('Departemen') ?>:</label>
+                                    <select class="form-control departemen" name="departemen" disabled></select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Cabang : </label>
+                                    <div class="input-group">
+                                        <input type="hidden" name="cabang" id="cabang"> 
+                                        <select class="form-control cabang" disabled></select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 mt-3 table-responsive">
+                            <div class="mt-3 mb-3">
+                                <button type="button" class="btn btn-sm btn-primary btn_add_detail"><?php echo lang('add_new') ?></button>
+                                <button type="button" class="btn btn-sm btn-primary btn_add_detail_budgetevent"><?php echo lang('Budget Event') ?></button>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail_item" hidden  width="100%">
+                                    <thead>
+                                        <tr class="table-active">
+                                            <th>ID</th>
+                                            <th><?php echo lang('item') ?></th>
+                                            <th class="text-right"><?php echo lang('price') ?></th>
+                                            <th class="text-right"><?php echo lang('qty') ?></th>
+                                            <th class="text-right"><?php echo lang('subtotal') ?></th>
+                                            <th class="text-right"><?php echo lang('discount') ?></th>
+                                            <th class="text-right"><?php echo lang('Pajak') ?></th>
+                                            <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
+                                            <th class="text-right"><?php echo lang('total') ?></th>
+                                            <th class="text-center"><?php echo lang('tipe') ?></th>
+                                            <th>ID PENJUAL DETAIL</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
+                                            <th>ID</th>
+                                            <th colspan="6">&nbsp;</th>
+                                            <th class="text-right"><?php echo lang('total') ?></th>
+                                            <th class="text-center"><div id="total"></div></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail_budgetevent" hidden width="100%">
+                                    <thead>
+                                        <tr class="table-active">
+                                            <th>ID</th>
+                                            <th><?php echo lang('item') ?></th>
+                                            <th class="text-right"><?php echo lang('price') ?></th>
+                                            <th class="text-right"><?php echo lang('qty') ?></th>
+                                            <th class="text-right"><?php echo lang('subtotal') ?></th>
+                                            <th class="text-right"><?php echo lang('discount') ?></th>
+                                            <th class="text-right"><?php echo lang('Pajak') ?></th>
+                                            <th class="text-right"><?php echo lang('Biaya Pengiriman') ?></th>
+                                            <th class="text-right"><?php echo lang('total') ?></th>
+                                            <th class="text-center"><?php echo lang('tipe') ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
+                                            <th>ID</th>
+                                            <th colspan="6">&nbsp;</th>
+                                            <th class="text-right"><?php echo lang('total') ?></th>
+                                            <th class="text-center"><div id="total_budgetevent"></div></th>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><?php echo lang('note') ?>:</label>
+                                    <textarea class="form-control catatan" name="catatan" rows="6"></textarea>
+                                </div>                       
+                            </div>
+                            <div class="col-md-6">
+                                <div class="row">
+                                    <div class="col-sm-8">
+                                        <div class="form-group">
+                                            <label><?php echo lang('Uang Muka') ?>:</label>
+                                            <input type="text" class="form-control um" name="um" readonly>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4">
+                                        <div class="form-group">
+                                            <label><?php echo lang('Tanggal uang muka') ?>:</label>
+                                            <input type="date" class="form-control tanggaluangmuka" name="tanggaluangmuka" readonly>
+                                        </div>
+                                    </div>
                                 </div>
                             
-                            <div class="form-group">
-                                <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
-                                <input type="text" class="form-control tum" name="tum" readonly>
+                                    <div class="form-group col-sm-4">
+                                        <label><?php echo lang('Jumlah Term') ?>:</label>
+                                        <input type="number" class="form-control jtem" name="jtem" readonly>
+                                    </div>
+                                
+                                <div class="form-group">
+                                    <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
+                                    <input type="text" class="form-control tum" name="tum" readonly>
+                                </div>
+                            </div>
+                            <input type="hidden" name="detail_array" id="detail_array">
+                        </div>
+                        <div class="text-right">
+                            <div class="btn-group">
+                                <a href="{site_url}Faktur_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                                <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
                             </div>
                         </div>
-                        <input type="hidden" name="detail_array" id="detail_array">
-                    </div>
-                    <div class="text-right">
-                        <div class="btn-group">
-                            <a href="{site_url}Faktur_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                            <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 
 <div id="modal_add_detail" class="modal fade">

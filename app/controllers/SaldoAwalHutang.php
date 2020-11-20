@@ -14,6 +14,7 @@ class SaldoAwalHutang extends User_Controller {
     private $primeOwing;
     private $taxOwing;
     private $idSaldoAwalHutang;
+    private $perusahaan;
 
 	public function __construct() {
         parent::__construct();
@@ -27,6 +28,7 @@ class SaldoAwalHutang extends User_Controller {
         $this->setGet('nilaiHutang', $this->input->post('nilaiHutang'));
         $this->setGet('primeOwing', $this->input->post('primeOwing'));
         $this->setGet('taxOwing', $this->input->post('taxOwing'));
+        $this->perusahaan   = $this->input->post('perusahaan');
 	}
 
 	public function index() {
@@ -70,7 +72,8 @@ class SaldoAwalHutang extends User_Controller {
 
     public function indexDatatable()
     {
-        $data   = $this->SaldoAwalHutangModel->indexDatatable();
+        $perusahaan = $this->session->idperusahaan;
+        $data       = $this->SaldoAwalHutangModel->indexDatatable($perusahaan);
         return print_r($data);
     }
 
@@ -87,6 +90,7 @@ class SaldoAwalHutang extends User_Controller {
             $this->SaldoAwalHutangModel->setGet('primeOwing', $this->primeOwing);
             $this->SaldoAwalHutangModel->setGet('taxOwing', $this->taxOwing);
             $this->SaldoAwalHutangModel->setGet('namaPemasok', $this->namaPemasok);
+            $this->SaldoAwalHutangModel->setGet('perusahaan', $this->perusahaan);
             $data   = $this->SaldoAwalHutangModel->save();
             if ($data) {
                 $data0['status'] = 'success';

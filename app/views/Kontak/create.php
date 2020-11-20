@@ -1,88 +1,90 @@
 
-  <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1>{title}</h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">{title}</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <!-- SELECT2 EXAMPLE -->
-        <div class="card">
-            <div class="card-header">
-                <h3 class="card-title">{title}</h3>
-            </div>
-            <!-- /.card-header -->
-            <form action="javascript:save()" id="form1">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label><?php echo lang('name') ?>:</label>
-                                <input type="text" class="form-control" name="nama" required>
+        <div class="container-fluid">
+            <!-- SELECT2 EXAMPLE -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{title}</h3>
+                </div>
+                <!-- /.card-header -->
+                <form action="javascript:save()" id="form1">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label><?php echo lang('name') ?>:</label>
+                                    <input type="text" class="form-control" name="nama" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('email') ?>:</label>
+                                    <input type="text" class="form-control" name="email">
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('Telepon') ?>:</label>
+                                    <input type="text" class="form-control" name="telepon" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('Contact Person') ?>:</label>
+                                    <input type="text" class="form-control" name="cp" required>
+                                </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('type') ?>:</label>
+                                    <select class="form-control tipe" name="tipe" required></select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label><?php echo lang('email') ?>:</label>
-                                <input type="text" class="form-control" name="email">
-                            </div>
-                            <div class="form-group">
-                                <label><?php echo lang('Telepon') ?>:</label>
-                                <input type="text" class="form-control" name="telepon" required>
-                            </div>
-                            <div class="form-group">
-                                <label><?php echo lang('Contact Person') ?>:</label>
-                                <input type="text" class="form-control" name="cp" required>
-                            </div>
-                            <div class="form-group">
-                                <label><?php echo lang('type') ?>:</label>
-                                <select class="form-control tipe" name="tipe" required></select>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Perusahaan :</label>
-                                <select class="form-control perusahaan" name="perusahaan" required></select>
-                            </div>
+                            <?php
+                                if ($this->session->userid == '1') { ?>
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label>Perusahaan :</label>
+                                            <select class="form-control perusahaan" name="perusahaan" required></select>
+                                        </div>
+                                    </div>
+                                <?php }
+                            ?>
                         </div>
                     </div>
-                </div>
-                <div class="card-footer">
-                    <div class="text-left">
-                        <a href="{site_url}kontak" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                        <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+                    <div class="card-footer">
+                        <div class="text-left">
+                            <a href="{site_url}kontak" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                            <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+                        </div>
                     </div>
-                </div>
-            </form>
-            <!-- /.col -->
+                </form>
+                <!-- /.col -->
             </div>
             <!-- /.row -->
-          </div>
-          <!-- /.card-body -->
-          <div class="card-footer">          
-          </div>
         </div>
-        <script type="text/javascript">
+    </section>
+</div>
+<script type="text/javascript">
 	var base_url = '{site_url}kontak/';
 
     var noakunpiutang = '<?php echo get_pengaturan_akun(14) ?>'
     var noakunhutang = '<?php echo get_pengaturan_akun(15) ?>'
     $(document).ready(function(){
         ajax_select({ id: '.noakunpiutang', url: base_url + 'select2_mnoakun_piutang', selected: { id: noakunpiutang } });
-    	ajax_select({ id: '.noakunutang', url: base_url + 'select2_mnoakun_utang', selected: { id: noakunhutang } });
+        ajax_select({ id: '.noakunutang', url: base_url + 'select2_mnoakun_utang', selected: { id: noakunhutang } });
         $('.tipe').select2({
             placeholder: 'Select an Option',
             data: [

@@ -33,7 +33,14 @@
                         <form action="javascript:save()" id="form1">
                             <div class="form-group">
                                 <label><?php echo lang('nama perusahaan') ?>:</label>
-                                <select class="form-control id_perusahaan" name="id_perusahaan" required></select>
+                                <?php
+                                  if ($this->session->userid !== '1') { ?>
+                                      <input type="hidden" name="id_perusahaan" value="<?= $this->session->idperusahaan; ?>" id="perusahaan">
+                                      <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                  <?php } else { ?>
+                                      <select class="form-control id_perusahaan" name="id_perusahaan" style="width: 100%;" id="perusahaan"></select>
+                                  <?php }
+                                ?>
                                 <label><?php echo lang('nama departemen') ?>:</label>
                                 <input type="text" class="form-control" id="namakey" onkeyup="rep()" required>
                                 <input type="hidden" class="form-control" name="nama" id="nama" onkeyup="rep()" required>
@@ -63,13 +70,15 @@
 <script type="text/javascript">
 	var base_url = '{site_url}departemen/';
 	$(document).ready(function(){
-    ajax_select({ 
-      id        : '.id_perusahaan', 
-      url       : base_url + 'select2_id_perusahaan', 
-      selected  : { 
-        id  : '' 
-      } 
-    });
+    if ('<?= $this->session->userid; ?>' == '1') {
+      ajax_select({ 
+        id        : '.id_perusahaan', 
+        url       : base_url + 'select2_id_perusahaan', 
+        selected  : { 
+          id  : '' 
+        } 
+      });
+    }
   })
 
 	function rep(){

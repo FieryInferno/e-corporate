@@ -47,7 +47,14 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label><?php echo lang('company') ?>:</label>
-                                    <select id="perusahaan" class="form-control perusahaan" name="perusahaan" required></select>
+                                    <?php
+                                        if ($this->session->userid !== '1') { ?>
+                                            <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                                            <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                        <?php } else { ?>
+                                            <select class="form-control perusahaan" name="perusahaan" style="width: 100%;"></select>
+                                        <?php }
+                                    ?>
                                 </div>
                             </div>
                         </div>
@@ -266,32 +273,50 @@
     })
 
     $(document).ready(function(){  
-        //combobox perusahaan      
-        ajax_select({
-            id: '#perusahaan',
-            url: base_url + 'select2_mperusahaan',
-        });
         //combobox kas/akunno
         ajax_select({
             id: '#kas',
             url: '{site_url}pengajuan_kas_kecil/select2_mnoakun/',
         });
-        ajax_select({
-			id	: `#cabang`,
-			url	: '{site_url}cabang/select2',
-		});
-    })
-
-    //combobox departemen
-    $('#perusahaan').change(function(e) {
-        $("#departemen").val($("#departemen").data("default-value"));
-        $('input[name=pejabat]').val(''); 
-        $('input[id=sisa_kas_kecil]').val('0'); 
-        var peru = $('#perusahaan').children('option:selected').val();
-        ajax_select({
-            id: '#departemen',
-            url: base_url + 'select2_mdepartemen/' + peru,
-        });
+        if ('<?= $this->session->userid; ?>' == '1') {
+            ajax_select({ 
+                id          : '.perusahaan', 
+                url         : '{site_url}perusahaan/select2', 
+                selected    : { 
+                    id: '{perusahaanid}' 
+                } 
+            });
+            $('.perusahaanid').change(function(e) {
+                var perusahaan  = $('.perusahaan').children('option:selected').val();
+                ajax_select({
+                    id	        : `#cabang`,
+                    url	        : '{site_url}cabang/select2/' + perusahaan,
+                    selected    : { 
+                        id: '{cabang}' 
+                    }
+                });
+                $("#departemen").val($("#departemen").data("default-value"));
+                $('input[name=pejabat]').val(''); 
+                $('input[id=sisa_kas_kecil]').val('0'); 
+                var peru = $('.perusahaan').children('option:selected').val();
+                ajax_select({
+                    id: '#departemen',
+                    url: base_url + 'select2_mdepartemen/' + peru,
+                });
+            })
+        } else {
+            ajax_select({ 
+                id          : '#cabang', 
+                url         : '{site_url}cabang/select2/<?= $this->session->idperusahaan; ?>', 
+                selected    : { 
+                    id: '{cabang}' 
+                } 
+            });
+            ajax_select({
+                id: '#departemen',
+                url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
+            });
+        }
     })
 
     $('#departemen').change(function(e) {

@@ -362,7 +362,7 @@
 
         <li class="nav-header">AKUNTANSI</li>  
 
-        <?php $menuSaldoAwal = ['saldo_awal', 'saldo_awal_hutang', 'saldo_awal_piutang', 'saldoawalinventaris', 'saldoawalpersediaan']; ?>
+        <?php $menuSaldoAwal = ['saldo_awal', 'saldo_awal_hutang', 'saldo_awal_piutang', 'saldo_awal_inventaris', 'saldo_awal_persediaan']; ?>
         <li class="nav-item has-treeview <?= menu_is_open($menuSaldoAwal) ?>">
           <a href="#" class="nav-link
             <?php
@@ -389,12 +389,12 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="{site_url}SaldoAwalInventaris" class="nav-link <?php echo menu_is_active('SaldoAwalInventaris') ?>">
+              <a href="{site_url}saldo_awal_inventaris" class="nav-link <?php echo menu_is_active('saldo_awal_inventaris') ?>">
                 <i class="far fa-circle nav-icon"></i><p> Saldo Awal Inventaris</p>
               </a>
             </li>
             <li class="nav-item">
-              <a href="{site_url}SaldoAwalPersediaan" class="nav-link <?php echo menu_is_active('SaldoAwalPersediaan') ?>">
+              <a href="{site_url}saldo_awal_persediaan" class="nav-link <?php echo menu_is_active('saldo_awal_persediaan') ?>">
                 <i class="far fa-circle nav-icon"></i><p> Saldo Awal Persediaan</p>
               </a>
             </li>                                           
@@ -415,19 +415,24 @@
 					</a>
         </li>
 
-        <?php $menu = ['utang', 'piutang']; ?>
-        <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
-          <a href="#" class="nav-link"><i class="nav-icon fas fa-copy"></i>
+        <?php $menuUtangPiutang = ['utang', 'piutang']; ?>
+        <li class="nav-item has-treeview  <?php echo menu_is_open($menuUtangPiutang) ?>">
+          <a href="#" class="nav-link
+            <?php
+              if (in_array($this->uri->segment(1), $menuUtangPiutang)) {
+                echo 'active';
+              }
+            ?>"><i class="nav-icon fas fa-copy"></i>
             <p><?php echo lang('Utang &amp; Piutang') ?><i class="fas fa-angle-left right"></i></p>
           </a>
           <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('Utang &amp; Piutang') ?>">                        
             <li class="nav-item">
-              <a href="{site_url}utang" class="nav-link <?php echo menu_is_active('pemesanan_pembelian') ?>">
+              <a href="{site_url}utang" class="nav-link <?php echo menu_is_active('utang') ?>">
                 <i class="far fa-circle nav-icon"></i><p><?php echo lang('Utang Usaha') ?></p>
               </a>
             </li>            
             <li class="nav-item">
-              <a href="{site_url}piutang" class="nav-link <?php echo menu_is_active('pengiriman_pembelian') ?>">
+              <a href="{site_url}piutang" class="nav-link <?php echo menu_is_active('piutang') ?>">
                 <i class="far fa-circle nav-icon"></i><p><?php echo lang('Piutang Usaha') ?></p>
               </a>
             </li>                                           

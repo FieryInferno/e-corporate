@@ -49,8 +49,8 @@
                     <input type="text" name="kodeAkun" placeholder="Kode Akun" class="form-control">
                   </div>
                   <div class="col-2">
-                    <button class="btn btn-info" type="submit">Filter</button>
-                    <button class="btn btn-danger">Reset</button>
+                    <button class="btn btn-success" type="submit"><i class="fas fa-filter"></i> Filter</button>
+                    <button class="btn btn-warning">Reset</button>
                   </div>
                 </div>
               </form>

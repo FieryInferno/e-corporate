@@ -136,6 +136,9 @@ class Faktur_penjualan_model extends CI_Model {
 		$this->db->join('tpengirimanpenjualan', 'tfakturpenjualan.pengirimanid = tpengirimanpenjualan.id','left');
 		$this->db->join('tpemesananpenjualan', 'tpengirimanpenjualan.pemesananid = tpemesananpenjualan.id','left');
 		$this->db->join('mperusahaan', 'tfakturpenjualan.idperusahaan = mperusahaan.idperusahaan','left');
+		if ($this->session->userid !== '1') {
+			$this->db->where('tfakturpenjualan.idperusahaan', $this->session->idperusahaan);
+		}
 		switch ($validasi) {
 			case '1':
 				$this->db->where('tpengirimanpenjualan.validasi', 1);

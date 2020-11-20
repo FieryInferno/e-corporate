@@ -37,7 +37,14 @@
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('company') ?>:</label>
-                                    <select id="perusahaan" class="form-control perusahaan" name="perusahaan" required></select>
+                                    <?php
+                                        if ($this->session->userid !== '1') { ?>
+                                            <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                                            <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                        <?php } else { ?>
+                                            <select class="form-control perusahaan" name="perusahaan" style="width: 100%;"></select>
+                                        <?php }
+                                    ?>
                                 </div>   
                                 <div class="form-group">
                                     <label><?php echo lang('cash') ?>:</label>
@@ -113,52 +120,83 @@
         });
     })
 
-    //combobox pejabat dan rekening
-    $('#perusahaan').change(function(e) {
-        $("#pejabat").val($("#pejabat").data("default-value"));
-        $("#rekening").val($("#rekening").data("default-value"));
-        $('input[id=sisa_kas_kecil]').val('0'); 
-        var perusahaanId = $('select[name=perusahaan]').val();
+    if ('<?= $this->session->userid; ?>' == '1') {
+        $('#perusahaan').change(function(e) {
+            $("#pejabat").val($("#pejabat").data("default-value"));
+            $("#rekening").val($("#rekening").data("default-value"));
+            $('input[id=sisa_kas_kecil]').val('0'); 
+            var perusahaanId = $('select[name=perusahaan]').val();
+            ajax_select({
+                id: '#pejabat',
+                url: base_url + 'select2_mdepartemen_pejabat/' + perusahaanId,
+            });
+            ajax_select({
+                id: '#rekening',
+                url: base_url + 'select2_mrekening_perusahaan/' + perusahaanId,
+            });
+            $.ajax({
+                url: base_url + 'get_hitungsisakaskecil',
+                method: 'post',
+                datatype: 'json',
+                data: {
+                        idper: $('select[name=perusahaan]').val(),
+                    },
+                success: function(data){
+                    $('input[id=sisa_kas_kecil]').val(formatRupiah(String(data.hasil))+',00');     
+                }
+            });
+            var id=$('select[name=perusahaan]').val();
+            $.ajax({
+                url : base_url + 'get_kode_perusahaan',
+                method : "POST",
+                data : {id: id},
+                async : true,
+                dataType : 'json',
+                success: function(data){
+                    var kodeper = '';
+                    var i;
+                    for(i=0; i<data.length; i++){ kodeper += data[i].kode; }
+                            
+                    var nomor = '{kode_otomatis}';
+                    var tipe = 'KK';
+                    var tahun = '{tahun}';
+                    var kodeperusahaan = kodeper;
+                    document.getElementById("form1").nokwitansi.value = nomor+'/'+kodeperusahaan+'/'+tipe+'/'+tahun;
+                }
+            });
+        })
+    } else {
         ajax_select({
             id: '#pejabat',
-            url: base_url + 'select2_mdepartemen_pejabat/' + perusahaanId,
+            url: base_url + 'select2_mdepartemen_pejabat/<?= $this->session->idperusahaan; ?>',
         });
         ajax_select({
             id: '#rekening',
-            url: base_url + 'select2_mrekening_perusahaan/' + perusahaanId,
+            url: base_url + 'select2_mrekening_perusahaan/<?= $this->session->idperusahaan; ?>',
         });
-    })
-
-    //hitung sisa kas kecil
-    $('#perusahaan').change(function(){ 
         $.ajax({
             url: base_url + 'get_hitungsisakaskecil',
             method: 'post',
             datatype: 'json',
             data: {
-                    idper: $('select[name=perusahaan]').val(),
+                    idper   : '<?= $this->session->idperusahaan; ?>',
                 },
             success: function(data){
                 $('input[id=sisa_kas_kecil]').val(formatRupiah(String(data.hasil))+',00');     
             }
         });
-        return false;
-    }); 
-    
-    //nomor kwitansi
-    $('#perusahaan').change(function(){ 
-        var id=$('select[name=perusahaan]').val();
         $.ajax({
             url : base_url + 'get_kode_perusahaan',
             method : "POST",
-            data : {id: id},
+            data : {
+                id: '<?= $this->session->idperusahaan; ?>'
+            },
             async : true,
             dataType : 'json',
             success: function(data){
                 var kodeper = '';
                 var i;
                 for(i=0; i<data.length; i++){ kodeper += data[i].kode; }
-                        
                 var nomor = '{kode_otomatis}';
                 var tipe = 'KK';
                 var tahun = '{tahun}';
@@ -166,9 +204,8 @@
                 document.getElementById("form1").nokwitansi.value = nomor+'/'+kodeperusahaan+'/'+tipe+'/'+tahun;
             }
         });
-        return false;
-    }); 
-    
+    }
+
     //ubah format nominal
     $(document).on('keyup','.nominal, .nominal',function(){
         var val = $(this).val();

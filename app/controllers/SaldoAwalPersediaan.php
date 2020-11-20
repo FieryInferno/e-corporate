@@ -60,7 +60,8 @@ class SaldoAwalPersediaan extends User_Controller {
 
     public function indexDatatable()
     {
-        $data   = $this->SaldoAwalPersediaanModel->indexDatatable();
+        $perusahaan = $this->session->idperusahaan;
+        $data       = $this->SaldoAwalPersediaanModel->indexDatatable($perusahaan);
         return print_r($data);
     }
 

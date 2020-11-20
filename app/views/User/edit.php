@@ -63,7 +63,7 @@
                                     <form action="javascript:change_password()" id="form2">
                                         <div class="form-group">
                                             <label><?php echo lang('new_password') ?>:</label>
-                                            <input type="text" class="form-control" name="password" required>
+                                            <input type="password" class="form-control" name="password" required>
                                         </div>
                                         <div class="text-right">
                                             <button type="submit" class="btn bg-success"><?php echo lang('change_password') ?></button>

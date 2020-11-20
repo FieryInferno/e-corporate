@@ -71,7 +71,8 @@ class SaldoAwalInventaris extends User_Controller {
 
     public function indexDatatable()
     {
-        $data   = $this->SaldoAwalInventarisModel->indexDatatable();
+        $perusahaan = $this->session->idperusahaan;
+        $data       = $this->SaldoAwalInventarisModel->indexDatatable($perusahaan);
         return print_r($data);
     }
 

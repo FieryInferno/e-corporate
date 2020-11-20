@@ -16,13 +16,16 @@ class SaldoAwalInventarisModel extends CI_Model {
     private $namaInventaris;
     private $table  = 'saldoAwalInventaris';
 
-    public function indexDatatable()
+    public function indexDatatable($perusahaan)
     {
         $this->load->library('Datatables');
         $this->datatables->select('saldoAwalInventaris.*, mperusahaan.nama_perusahaan, mnoakun.namaakun');
 		$this->datatables->from('saldoAwalInventaris');
 		$this->datatables->join('mperusahaan', 'saldoAwalInventaris.perusahaan = mperusahaan.idperusahaan');
-		$this->datatables->join('mnoakun', 'saldoAwalInventaris.noAkun = mnoakun.idakun');
+        $this->datatables->join('mnoakun', 'saldoAwalInventaris.noAkun = mnoakun.idakun');
+        if ($perusahaan) {
+            $this->datatables->where('perusahaan', $perusahaan);
+        }
 		return $this->datatables->generate();
     }
 

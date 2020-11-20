@@ -8,3 +8,7 @@ $route['SetorPajak']            = 'SetorPajak';
 $route['laporan_kas_bank']      = 'Laporan/kasBank';
 $route['saldo_awal_hutang']     = 'SaldoAwalHutang';
 $route['saldo_awal_piutang']    = 'SaldoAwalPiutang';
+$route['saldo_awal_inventaris'] = 'SaldoAwalInventaris';
+$route['saldo_awal_inventaris/create']  = 'SaldoAwalInventaris/create';
+$route['saldo_awal_persediaan'] = 'SaldoAwalPersediaan';
+$route['saldo_awal_persediaan/create'] = 'SaldoAwalPersediaan/create';

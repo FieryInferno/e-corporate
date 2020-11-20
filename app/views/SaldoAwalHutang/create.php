@@ -50,16 +50,29 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div class="col-6">
+                                    <div class="col-4">
                                         <div class="form-group">
-                                            <label>Nama Pemasok</label>
-                                            <select id="pemasok" class="form-control" name="pemasok" required></select>
+                                            <label>Perusahaan</label>
+                                            <?php
+                                                if ($this->session->userid !== '1') { ?>
+                                                    <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                                                    <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                <?php } else { ?>
+                                                    <select class="form-control perusahaan" name="perusahaan" style="width: 100%;"></select>
+                                                <?php }
+                                            ?>
                                         </div>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-4">
+                                        <div class="form-group">
+                                            <label>Nama Pemasok</label>
+                                            <select id="pemasok" class="form-control" name="pemasok" required style="width: 100%;"></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label>No. Akun</label>
-                                            <select id="noAkun" class="form-control" name="noAkun" required></select>
+                                            <select id="noAkun" class="form-control" name="noAkun" required style="width: 100%;"></select>
                                         </div>
                                     </div>
                                 </div>
