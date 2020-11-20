@@ -24,9 +24,7 @@
 				<div class="col-12">         
 					<div class="card">
 						<div class="card-header">
-							<?php if($this->session->userdata( "userid" )=="1") { ?>
-								<a href="{site_url}anggaran_pendapatan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-							<?php } ?>
+							<a href="{site_url}anggaran_pendapatan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">

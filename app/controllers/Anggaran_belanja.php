@@ -29,10 +29,14 @@ class Anggaran_belanja extends User_Controller
 
 	public function index_datatable()
 	{
+		$perusahaan	= $this->session->idperusahaan;
 		$this->load->library('Datatables');
 		$this->datatables->select('tanggaranbelanja.*,mperusahaan.*');
 		$this->datatables->join('mperusahaan','tanggaranbelanja.idperusahaan=mperusahaan.idperusahaan');
 		$this->datatables->where('tanggaranbelanja.stdel', '0');
+		if ($perusahaan) {
+			$this->datatables->where('tanggaranbelanja.idperusahaan', $perusahaan);
+		}
 		$this->datatables->from('tanggaranbelanja');
 		return print_r($this->datatables->generate());
 	}

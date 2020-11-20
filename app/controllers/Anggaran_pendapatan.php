@@ -25,9 +25,13 @@ class Anggaran_pendapatan extends User_Controller
 
 	public function index_datatable()
 	{
-	$this->load->library('Datatables');
+		$perusahaan	= $this->session->idperusahaan;
+		$this->load->library('Datatables');
 		$this->datatables->select('tanggaranpendapatan.*,mperusahaan.*');
 		$this->datatables->join('mperusahaan','tanggaranpendapatan.idperusahaan=mperusahaan.idperusahaan');
+		if ($perusahaan) {
+			$this->datatables->where('tanggaranpendapatan.idperusahaan', $perusahaan);
+		}
 		$this->datatables->from('tanggaranpendapatan');
 		return print_r($this->datatables->generate());
 	}

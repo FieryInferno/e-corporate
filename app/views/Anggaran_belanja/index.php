@@ -24,9 +24,8 @@
 				<div class="col-12">         
 					<div class="card">
 						<div class="card-header">
-						<?php if($this->session->userdata( "userid" )=="1") { ?>
 							<a href="{site_url}anggaran_belanja/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-						<?php } ?></div>
+						</div>
 						<div class="card-body">
 							<div class="table-responsive">
 								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
