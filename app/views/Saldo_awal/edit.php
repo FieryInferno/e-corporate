@@ -160,7 +160,7 @@
 
 	$(document).ready(function() {
         if ('<?= $this->session->userid; ?>' == 1) {
-            var idPerusahaan    = null; 
+            var idPerusahaan    = '<?= $saldoAwal['perusahaan']; ?>'; 
         } else {
             var idperusahaan    = '<?= $this->session->perusahaan; ?>';
             $('#perusahaan').attr('readonly'); 
@@ -308,7 +308,7 @@
             swal("Gagal!", "Angka Debit dan Kredit Tidak Sama", "error");
         } else {
             $.ajax({
-                url: base_url + 'save',
+                url: base_url + 'save/' + '<?= $this->uri->segment(3); ?>',
                 dataType: 'json',
                 method: 'post',
                 data: formData,

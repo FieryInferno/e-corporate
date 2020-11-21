@@ -45,14 +45,14 @@ class Saldo_awal extends User_Controller {
 		}
 	}
 
-	public function save() {
+	public function save($idSaldoAwal = null) {
 		$this->model->setIdSaldoAwal($this->getIdSaldoAwal());
 		$this->model->setNomor($this->getNomor());
 		$this->model->setTanggal($this->getTanggal());
 		$this->model->setPerusahaan($this->getPerusahaan());
 		$this->model->setKeterangan($this->getKeterangan());
 		$this->model->setDetail($this->getDetail());
-		$data	= $this->model->save();
+		$data	= $this->model->save($idSaldoAwal);
 		if ($data) {
 			$data0['status'] = 'success';
 			$data0['message'] = lang('save_success_message');

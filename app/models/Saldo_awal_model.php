@@ -22,7 +22,7 @@ class Saldo_awal_model extends CI_Model {
 		return $get->result_array();
 	}
 
-	public function save() {
+	public function save($idSaldoAwal) {
 		$totalDebit		= 0;
 		$totalKredit	= 0;
 		for ($i=0; $i < count($this->detail['idAkun']); $i++) { 
@@ -37,7 +37,7 @@ class Saldo_awal_model extends CI_Model {
 				$totalKredit	= 0;
 			}
 		}
-		if ($this->uri->segment(3)) {
+		if ($idSaldoAwal) {
 			$this->db->where('idSaldoAwal', $this->idSaldoAwal);
 			$data	= $this->db->update('tsaldoawal', [
 				'idSaldoAwal'	=> $this->idSaldoAwal,
