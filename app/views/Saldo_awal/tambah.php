@@ -132,8 +132,8 @@
                                             <tfoot>
                                                 <tr>
                                                     <th colspan="2" class="text-right">Total :</th>
-                                                    <th class="text-right" id="totalDebit">Rp. 0,00</th>
-                                                    <th class="text-right" id="totalKredit">Rp. 0,00</th>
+                                                    <th class="text-right" id="totalDebit">0,00</th>
+                                                    <th class="text-right" id="totalKredit">0,00</th>
                                                 </tr>
                                             </tfoot>
                                         </table>
@@ -226,7 +226,7 @@
 
     function nilai(elemen) {
         var nilai   = $(elemen).val();
-        $(elemen).val(formatRupiah(String(nilai), 'Rp. '));
+        $(elemen).val(formatRupiah(String(nilai)));
     }
 
     function hitung(jenis) {
@@ -238,7 +238,7 @@
                 data0.forEach(element => {
                     data1   += element.replace(/[^,\d]/g, '')*1;
                 });
-                $('#totalDebit').html(formatRupiah(String(data1), 'Rp. ') + ',00');
+                $('#totalDebit').html(formatRupiah(String(data1)) + ',00');
                 break;
             case 'kredit':
                 data    = new FormData($('#formSaldoAwal')[0]);
@@ -247,7 +247,7 @@
                 data0.forEach(element => {
                     data1   += element.replace(/[^,\d]/g, '')*1;
                 });
-                $('#totalKredit').html(formatRupiah(String(data1), 'Rp. ') + ',00');
+                $('#totalKredit').html(formatRupiah(String(data1)) + ',00');
                 break;
         
             default:
