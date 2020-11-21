@@ -20,7 +20,7 @@
                     <div class="m-3">
                         <form action="" id="form1" method="get">
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label>Perusahaan:</label>
                                         <?php
@@ -35,23 +35,29 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <div class="form-group">
-                                        <label>Rekening : </label>
-                                        <select class="form-control" name="rekening" id="rekening" required></select>
+                                        <label>Rekening Kas Kecil : </label>
+                                        <select class="form-control" name="kasKecil" id="kasKecil" required></select>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
+                                <div class="col-md-3">
                                     <div class="form-group">
-                                        <label>Tanggal : </label>
-                                        <input type="date" class="form-control" name="tanggal" placeholder="Tanggal" required>
+                                        <label>Tanggal Awal : </label>
+                                        <input type="date" class="form-control" name="tanggalAwal" placeholder="Tanggal" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label>Tanggal Akhir : </label>
+                                        <input type="date" class="form-control" name="tanggalAkhir" placeholder="Tanggal" required>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                            <div class="col-md-4">
+                            <div class="col-md-6">
                                 <div class="text-right">
                                     <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
                                 </div>
@@ -157,18 +163,11 @@
                 id: '#perusahaan',
                 url: '{site_url}perusahaan/select2'
             });
-            $('#perusahaan').change(function(e) {
-                var perusahaan  = $('#perusahaan').children('option:selected').val();
-                ajax_select({
-                    id  : '#rekening',
-                    url : '{site_url}rekening/select2/' + perusahaan,
-                });
-            })   
-        } else {
-            ajax_select({
-                id  : '#rekening',
-                url : '{site_url}rekening/select2/<?= $this->session->idperusahaan; ?>',
-            });
         }
+
+        ajax_select({
+            id  : '#kasKecil',
+            url : '{site_url}pengajuan_kas_kecil/select2_mnoakun/',
+        });
     })
 </script>

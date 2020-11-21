@@ -318,7 +318,7 @@
               <i class="nav-icon fas fa-tachometer-alt"></i><p><?php echo lang('Stock_Opname') ?></p></a>
           </li>
 
-        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank'); ?>
+        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank', 'laporan_buku_pembantu_kas_kecil'); ?>
         <li class="nav-item has-treeview  <?php echo menu_is_open($menuLaporan) ?>">
           <a href="#" class="nav-link
           <?php
@@ -356,6 +356,10 @@
             <li class="nav-item">
               <a href="{site_url}laporan_kas_bank" class="nav-link <?php echo menu_is_active('laporan_kas_bank') ?>">
               <i class="far fa-circle nav-icon"></i><p>laporan Kas Bank</p></a>
+            </li>
+            <li class="nav-item">
+              <a href="{site_url}laporan_buku_pembantu_kas_kecil" class="nav-link <?php echo menu_is_active('laporan_buku_pembantu_kas_kecil') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Laporan Buku Pembantu Kas Kecil</p></a>
             </li>     
           </ul>
         </li>	

@@ -1626,16 +1626,16 @@
                     `${tipe}`,
                     `${tgl}`,
                     `${nokwitansi}`,
-                    formatRupiah(String('0')) + ',00',
                     formatRupiah(String(nominal)) + ',00',
+                    formatRupiah(String('0')) + ',00',
                     `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
                 ]).draw(false);
-                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+                penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {
-                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+                penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
                 var rowindex=$('#button_PKK'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }         

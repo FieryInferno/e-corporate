@@ -32,24 +32,19 @@
             <div class="m-3">
                 <form action="{site_url}neraca/index" id="form1" method="get">
                     <div class="row">
-                        <?php
-                            if ($this->session->userid !== '1') { ?>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Perusahaan : </label>
-                                        <input type="hidden" name="perusahaanid" value="<?= $this->session->idperusahaan; ?>">
+                        <div class="col-md-4">
+                            <div class="form-group">
+                                <label>Perusahaan : </label>
+                                <?php
+                                    if ($this->session->userid !== '1') { ?>
+                                        <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
                                         <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
-                                    </div>
-                                </div>
-                            <?php } else { ?>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Perusahaan : </label>
-                                        <select class="form-control perusahaanid" name="perusahaanid"></select>
-                                    </div>
-                                </div>
-                            <?php }
-                        ?>
+                                    <?php } else { ?>
+                                        <select class="form-control perusahaan" name="perusahaan" style="width: 100%;"></select>
+                                    <?php }
+                                ?>
+                            </div>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-4">

@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Noakun extends User_Controller {
 
 	public function __construct() {
@@ -153,6 +142,7 @@ class Noakun extends User_Controller {
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
 	}
+	
 	public function select2_akunno($id = null, $akunno=null) {
 		$term = $this->input->get('q');
 		if($akunno) {
