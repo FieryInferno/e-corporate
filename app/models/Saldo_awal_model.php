@@ -11,22 +11,56 @@ class Saldo_awal_model extends CI_Model {
 	private	$detail;
 
 	public function get_saldoawaldetail() {
-		$this->db->select('tsaldoawaldetail.*, mnoakun.namaakun');
-		$this->db->join('mnoakun', 'mnoakun.noakun = tsaldoawaldetail.noakun');
-		$this->db->where('mnoakun.stbayar', '1');
+		$this->db->select('tsaldoawaldetail.*, mnoakun.namaakun, mnoakun.idakun, mnoakun.akunno as noAkun');
+		$this->db->join('mnoakun', 'mnoakun.idakun = tsaldoawaldetail.noakun');
+		// $this->db->where('mnoakun.stbayar', '1');
+		if ($this->idSaldoAwal) {
+			$this->db->where('idsaldoawal', $this->idSaldoAwal);
+		}
 		$this->db->order_by('mnoakun.noakun', 'ASC');
 		$get = $this->db->get('tsaldoawaldetail');
 		return $get->result_array();
 	}
 
 	public function save() {
-		$data	= $this->db->insert('tsaldoawal', [
-			'idSaldoAwal'	=> $this->idSaldoAwal,
-			'no'			=> $this->nomor,
-			'tanggal'		=> $this->tanggal,
-			'perusahaan'	=> $this->perusahaan,
-			'keterangan'	=> $this->keterangan
-		]);
+		$totalDebit		= 0;
+		$totalKredit	= 0;
+		for ($i=0; $i < count($this->detail['idAkun']); $i++) { 
+			if ($this->detail['debit'][$i] !== '') {
+				$totalDebit	+= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->detail['debit'][$i]);
+			} else {
+				$totalDebit	= 0;
+			}
+			if ($this->detail['kredit'][$i] !== '') {
+				$totalKredit	+= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->detail['kredit'][$i]);
+			} else {
+				$totalKredit	= 0;
+			}
+		}
+		if ($this->uri->segment(3)) {
+			$this->db->where('idSaldoAwal', $this->idSaldoAwal);
+			$data	= $this->db->update('tsaldoawal', [
+				'idSaldoAwal'	=> $this->idSaldoAwal,
+				'no'			=> $this->nomor,
+				'tanggal'		=> $this->tanggal,
+				'perusahaan'	=> $this->perusahaan,
+				'keterangan'	=> $this->keterangan,
+				'debit'			=> $totalDebit,
+				'kredit'		=> $totalKredit
+			]);
+			$this->db->where('idsaldoawal', $this->idSaldoAwal);
+			$this->db->delete('tsaldoawaldetail');
+		} else {
+			$data	= $this->db->insert('tsaldoawal', [
+				'idSaldoAwal'	=> $this->idSaldoAwal,
+				'no'			=> $this->nomor,
+				'tanggal'		=> $this->tanggal,
+				'perusahaan'	=> $this->perusahaan,
+				'keterangan'	=> $this->keterangan,
+				'debit'			=> $totalDebit,
+				'kredit'		=> $totalKredit
+			]);
+		}
 		if ($data) {
 			for ($i=0; $i < count($this->detail['idAkun']); $i++) { 
 				if ($this->detail['debit'][$i] !== '') {
@@ -99,10 +133,13 @@ class Saldo_awal_model extends CI_Model {
 
 	public function indexDatatables()
 	{
+		$perusahaan	= $this->session->idperusahaan;
 		$this->load->library('Datatables');
-		$this->datatables->select('tsaldoawal.*, mperusahaan.nama_perusahaan, tsaldoawaldetail.debet, tsaldoawaldetail.kredit');
+		$this->datatables->select('tsaldoawal.*, mperusahaan.nama_perusahaan');
 		$this->datatables->join('mperusahaan', 'tsaldoawal.perusahaan = mperusahaan.idperusahaan');
-		$this->datatables->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
+		if ($perusahaan) {
+			$this->datatables->where('tsaldoawal.perusahaan', $perusahaan);
+		}
 		$this->datatables->from('tsaldoawal');
 		return $this->datatables->generate();
 	}
@@ -127,6 +164,5 @@ class Saldo_awal_model extends CI_Model {
 	{
 		return $this->$jenis;
 	}
-
 }
 

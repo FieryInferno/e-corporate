@@ -32,6 +32,7 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Nomor :</label>
+                                            <input type="hidden" name="idSaldoAwal" value="<?= $this->uri->segment(3); ?>">
                                             <input type="text" class="form-control" placeholder="(Auto)" name="nomor" readonly value="<?= $saldoAwal['no']; ?>">
                                         </div>
                                     </div>
@@ -57,7 +58,14 @@
                                     <div class="col-6">
                                         <div class="form-group">
                                             <label>Perusahaan :</label>
-                                            <select name="perusahaan" id="perusahaan" class="form-control" required></select>
+                                            <?php
+                                                if ($this->session->userid !== '1') { ?>
+                                                    <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                                                    <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                <?php } else { ?>
+                                                    <select class="form-control perusahaan" name="perusahaan" style="width: 100%;" id="perusahaan"></select>
+                                                <?php }
+                                            ?>
                                         </div>
                                     </div>
                                 </div>
@@ -147,7 +155,9 @@
     <!-- /.content -->
 </div>
 <script>
-    base_url    = '{site_url}saldo_awal/';
+    var base_url        = '{site_url}saldo_awal/';
+    var detailSaldoAwal = []; 
+
 	$(document).ready(function() {
         if ('<?= $this->session->userid; ?>' == 1) {
             var idPerusahaan    = null; 
@@ -162,34 +172,75 @@
                 id	: idPerusahaan
             }
         });
+        
+        $.ajax({
+            url     : base_url + 'getDetailSaldoAwal',
+            type    : 'post',
+            data    : {
+                idSaldoAwal : '<?= $this->uri->segment(3); ?>'
+            },
+            success : function (response) {
+                data1   = 0;
+                data2   = 0;
+                response.forEach(element => {
+                    detailSaldoAwal.push(element.idakun);
+                    $('#rincianAkun').append(
+                        `<tr idAkun="${element.idakun}">
+                            <td>
+                                <input type="hidden" value="${element.idakun}" name="idAkun[]">
+                                ${element.noAkun}
+                            </td>
+                            <td>${element.namaakun}</td>
+                            <td>
+                                <input type="text" name="debit[]" onkeyup="nilai(this), hitung('debit')" class="form-control" value="${formatRupiah(element.debet)}">
+                            </td>
+                            <td>
+                                <input type="text" name="kredit[]" onkeyup="nilai(this), hitung('kredit')" class="form-control" value="${formatRupiah(element.kredit)}">
+                            </td>
+                        </tr>`
+                    )
+                    data1   += parseInt(element.debet);
+                    data2   += parseInt(element.kredit);
+                });
+                $('#totalDebit').html(formatRupiah(String(data1)) + ',00');
+                $('#totalKredit').html(formatRupiah(String(data2)) + ',00');
+            }
+        })
+
+        $('#tabelNoAkun').DataTable({
+            ajax: {
+                url     : '{site_url}noakun/index_datatable/123',
+                type    : 'post',
+            },
+            stateSave: true,
+            autoWidth: false,
+            dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
+            language: {
+                search: '<span></span> _INPUT_',
+                searchPlaceholder: 'Type to filter...',
+            },
+            columns: [
+                {
+                    data    : 'idakun',
+                    render  : function(data,type,row) {
+                        if (detailSaldoAwal.includes(data)) {
+                            var checked = 'checked';
+                        } else {
+                            var checked = '';
+                        }
+                        return `
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onchange="tambahAkun(this)" idAkun="${data}" noAkun="${row.akunno}" namaAkun="${row.namaakun}" ${checked}>
+                            </div>`;
+                    }
+                },
+                {data: 'akunno'},
+                {data: 'namaakun'},
+            ]
+        });
     })
 
-    var table = $('#tabelNoAkun').DataTable({
-		ajax: {
-			url     : '{site_url}noakun/index_datatable/123',
-			type    : 'post',
-		},
-		stateSave: true,
-		autoWidth: false,
-        dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
-        language: {
-            search: '<span></span> _INPUT_',
-            searchPlaceholder: 'Type to filter...',
-        },
-        columns: [
-            {
-                data    : 'idakun',
-                render  : function(data,type,row) {
-                    return `
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" value="" id="defaultCheck1" onchange="tambahAkun(this)" idAkun="${data}" noAkun="${row.akunno}" namaAkun="${row.namaakun}">
-                        </div>`;
-                }
-            },
-            {data: 'akunno'},
-            {data: 'namaakun'},
-        ]
-	});
+    
 
     function tambahAkun(elemen) {
         var idAkun      = $(elemen).attr('idAkun');
@@ -219,7 +270,7 @@
 
     function nilai(elemen) {
         var nilai   = $(elemen).val();
-        $(elemen).val(formatRupiah(String(nilai), 'Rp. '));
+        $(elemen).val(formatRupiah(String(nilai)));
     }
 
     function hitung(jenis) {
@@ -231,7 +282,7 @@
                 data0.forEach(element => {
                     data1   += element.replace(/[^,\d]/g, '')*1;
                 });
-                $('#totalDebit').html(formatRupiah(String(data1), 'Rp. ') + ',00');
+                $('#totalDebit').html(formatRupiah(String(data1)) + ',00');
                 break;
             case 'kredit':
                 data    = new FormData($('#formSaldoAwal')[0]);
@@ -240,7 +291,7 @@
                 data0.forEach(element => {
                     data1   += element.replace(/[^,\d]/g, '')*1;
                 });
-                $('#totalKredit').html(formatRupiah(String(data1), 'Rp. ') + ',00');
+                $('#totalKredit').html(formatRupiah(String(data1)) + ',00');
                 break;
         
             default:

@@ -73,12 +73,17 @@
             searchPlaceholder: 'Type to filter...',
         },
         columns: [
-            {data : 'no'},
+            {
+              data    : 'no',
+              render  : function (data, type, row) {
+                return `<span class="btn btn-sm btn-info">${data}</span>`;
+              }
+            },
             {data : 'tanggal'},
             {data : 'nama_perusahaan'},
             {data : 'keterangan'},
             {
-              data  : "debet",
+              data  : "debit",
               render: function(data,type,row) {
                 return formatRupiah(data) + ',00';
               }

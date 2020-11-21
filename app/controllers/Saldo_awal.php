@@ -194,7 +194,7 @@ class Saldo_awal extends User_Controller {
 		if($id) {
 			$this->model->set('idSaldoAwal', $id);
 			$data['saldoAwal']	= $this->model->getData();
-			$data['title'] = 'Saldo Awal';
+			$data['title']	= 'Saldo Awal';
 			$data['subtitle'] = lang('edit');
 			$data['content'] = 'Saldo_awal/edit';
 			$data['a']			= 'a';
@@ -203,6 +203,13 @@ class Saldo_awal extends User_Controller {
 		} else {
 			show_404();
 		}
+	}
+
+	public function getDetailSaldoAwal()
+	{
+		$this->model->setIdSaldoAwal($this->getIdSaldoAwal());
+		$data	= $this->model->get_saldoawaldetail();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 }
 
