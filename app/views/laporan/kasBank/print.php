@@ -59,7 +59,7 @@
                         ?>
                         <tr>
                             <td></td>
-                            <td class="text-center"><strong>Jumlah Sampai dengan Tanggal {tanggal}</strong></td>
+                            <td class="text-center"><strong>Jumlah Sampai dengan Tanggal <?= $tanggal; ?></strong></td>
                             <td></td>
                             <td></td>
                         </tr>
@@ -77,22 +77,22 @@
                             }
                         } ?>
                         <tr>
-                            <td class="text-center" colspan="2"><strong>Jumlah Tanggal {tanggal}</strong></td>
+                            <td class="text-center" colspan="2"><strong>Jumlah Tanggal <?= $tanggal; ?></strong></td>
                             <td class="text-center"><strong><?= number_format($jumlahDebet,2,',','.'); ?></strong></td>
                             <td class="text-center"><strong><?= number_format($jumlahKredit,2,',','.'); ?></strong></td>
                         </tr>
                         <tr>
-                            <td class="text-center" colspan="2"><strong>Jumlah Sampai dengan Tanggal {tanggalAwal}</strong></td>
+                            <td class="text-center" colspan="2"><strong>Jumlah Sampai dengan Tanggal <?= $tanggalAwal; ?></strong></td>
                             <td class="text-center"><strong><?= number_format($jumlahDebetAwal,2,',','.'); ?></strong></td>
                             <td class="text-center"><strong><?= number_format($jumlahKreditAwal,2,',','.'); ?></strong></td>
                         </tr>
                         <tr>
-                            <td class="text-center" colspan="2"><strong>Jumlah Sampai dengan Tanggal {tanggal}</strong></td>
+                            <td class="text-center" colspan="2"><strong>Jumlah Sampai dengan Tanggal <?= $tanggal; ?></strong></td>
                             <td class="text-center"><strong><?= number_format(($jumlahDebetAwal + $jumlahDebet),2,',','.'); ?></strong></td>
                             <td class="text-center"><strong><?= number_format(($jumlahKreditAwal + $jumlahKredit),2,',','.'); ?></strong></td>
                         </tr>
                         <tr>
-                            <td class="text-center" colspan="2"><strong>Saldo Hari ini Tanggal {tanggal}</strong></td>
+                            <td class="text-center" colspan="2"><strong>Saldo Hari ini Tanggal <?= $tanggal; ?></strong></td>
                             <td class="text-center"></td>
                             <td class="text-center"><strong><?= number_format((($jumlahDebetAwal + $jumlahDebet) - ($jumlahKreditAwal + $jumlahKredit)),2,',','.'); ?></strong></td>
                         </tr>
