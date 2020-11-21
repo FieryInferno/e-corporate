@@ -3,9 +3,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Neraca extends User_Controller {
 
+	private $perusahaan;
+	private $tanggalAkhir;
+	private $tanggalAwal;
+
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Neraca_model','model');
+		$this->perusahaan	= $this->input->get('perusahaan');
+		$this->tanggalAwal	= $this->input->get('tanggalAwal');
+		$this->tanggalAkhir	= $this->input->get('tanggalAkhir');
 	}
 
 	public function testing() {
@@ -13,22 +20,27 @@ class Neraca extends User_Controller {
 	}
 
 	public function index() {
-		$tanggal = $this->input->get('tanggal');
-
-		if($tanggal) {
-			$data['tanggal'] = $tanggal;
+		if ($this->perusahaan) {
+			$this->model->set('perusahaan', $this->perusahaan);
+			$this->model->set('tanggalAwal', $this->tanggalAwal);
+			$this->model->set('tanggalAkhir', $this->tanggalAkhir);
+			$data['getasetlancar']	= $this->model->getasetlancar();
+			// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
+			// $data['getliabilitas'] = $this->model->getliabilitas($data['tanggal']);
+			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
+			// $data['gettotallabarugi'] = $this->model->gettotallabarugi($data['tanggal']);
+			$data['ekuitas']		= $this->model->getEkuitas();
 		} else {
-			$data['tanggal'] = date('Y-m-d');
+			$data['getasetlancar']	= null;
+			// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
+			// $data['getliabilitas'] = $this->model->getliabilitas($data['tanggal']);
+			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
+			// $data['gettotallabarugi'] = $this->model->gettotallabarugi($data['tanggal']);
 		}
-		// $data['getasetlancar'] = $this->model->getasetlancar($data['tanggal']);
-		// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
-		// $data['getliabilitas'] = $this->model->getliabilitas($data['tanggal']);
-		// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
-		// $data['gettotallabarugi'] = $this->model->gettotallabarugi($data['tanggal']);
-		$data['title'] = lang('balance_sheet');
-		$data['subtitle'] = lang('list');
-		$data['content'] = 'Neraca/index';
-		$data = array_merge($data,path_info());
+		$data['title']		= lang('balance_sheet');
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'Neraca/index';
+		$data				= array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 

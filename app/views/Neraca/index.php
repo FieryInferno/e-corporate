@@ -15,44 +15,45 @@
                 </div>
             </div>
             <div class="m-3">
-                <form action="{site_url}neraca/index" id="form1" method="get">
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Perusahaan : </label>
-                                <?php
-                                    if ($this->session->userid !== '1') { ?>
-                                        <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
-                                        <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
-                                    <?php } else { ?>
-                                        <select class="form-control perusahaan" name="perusahaan" style="width: 100%;"></select>
-                                    <?php }
-                                ?>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="{site_url}neraca/index" id="form1" method="get">
+                            <div class="row">
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label>Perusahaan : </label>
+                                        <?php
+                                            if ($this->session->userid !== '1') { ?>
+                                                <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                                                <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                            <?php } else { ?>
+                                                <select class="form-control perusahaan" name="perusahaan" style="width: 100%;"></select>
+                                            <?php }
+                                        ?>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label><?php echo lang('date') ?>:</label>
+                                        <input type="date" class="form-control datepicker" name="tanggalAwal" required>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <input type="date" class="form-control datepicker" name="tanggalAkhir" required>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label><?php echo lang('date') ?>:</label>
-                                <input type="date" class="form-control datepicker" name="tanggal" required>
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label>&nbsp;</label>
-                                <input type="date" class="form-control datepicker" name="tanggal" required>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="text-right">
-                                <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
@@ -74,9 +75,22 @@
                                     <tr class="bg-grey-300">
                                         <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Aset Lancar') ?></td>
                                     </tr>
+                                    <?php
+                                        $totalAsetLancar    = 0;
+                                        if ($getasetlancar) {
+                                            foreach ($getasetlancar as $key) { ?>
+                                                <tr class="table-active">
+                                                    <td><?= $key['namaakun']; ?></td>
+                                                    <td></td>
+                                                    <td class="text-right"><?= number_format($key['debet'],2,',','.'); ?></td>
+                                                </tr>
+                                            <?php 
+                                                $totalAsetLancar    += $key['debet'];
+                                            }
+                                        } ?>
                                     <tr class="">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Aset Lancar') ?></td>
-                                        <td class="text-right font-weight-bold"></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($totalAsetLancar,2,',','.'); ?></td>
                                     </tr>
                                     <tr class="bg-grey-300">
                                         <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Aset Tetap') ?></td>
@@ -103,6 +117,19 @@
                                     <tr class="bg-grey-300">
                                         <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Ekuitas') ?></td>
                                     </tr>
+                                    <?php
+                                        $totalEkuitas    = 0;
+                                        if ($ekuitas) {
+                                            foreach ($ekuitas as $key) { ?>
+                                                <tr class="table-active">
+                                                    <td><?= $key['namaakun']; ?></td>
+                                                    <td></td>
+                                                    <td class="text-right"><?= number_format($key['kredit'],2,',','.'); ?></td>
+                                                </tr>
+                                            <?php 
+                                                $totalEkuitas    += $key['kredit'];
+                                            }
+                                        } ?>
                                     <tr>
                                         <td colspan="2"> <?php echo lang("Laba / Rugi Bersih Berjalan") ?> </td>
                                         <td class="text-right"></td>
