@@ -27,7 +27,7 @@
                                                 <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
                                                 <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
                                             <?php } else { ?>
-                                                <select class="form-control perusahaan" name="perusahaan" style="width: 100%;"></select>
+                                                <select class="form-control perusahaanid" name="perusahaan" style="width: 100%;"></select>
                                             <?php }
                                         ?>
                                     </div>
