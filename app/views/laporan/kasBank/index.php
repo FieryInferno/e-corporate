@@ -51,12 +51,12 @@
                                 </div>
                             </div>
                             <div class="row">
-                            <div class="col-md-4">
-                                <div class="text-right">
-                                    <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                                <div class="col-md-4">
+                                    <div class="text-right">
+                                        <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
                         </form>
                     </div>
                 </div>
@@ -70,6 +70,19 @@
             <div class="row">
                 <div class="col-12">         
                     <div class="card">
+                        <?php
+                            if ($laporan) { ?>
+                                <div class="card-header">
+                                    <form action="{site_url}laporan/print" method="get">
+                                        <input type="hidden" name="perusahaan" value="{perusahaan}">
+                                        <input type="hidden" name="rekening" value="{rekening}">
+                                        <input type="hidden" name="tanggal" value="{tanggalA}">
+                                        <button type="submit" class="btn btn-primary" name="tombol" value="pdf">PDF</button>
+                                        <button type="submit" class="btn btn-primary" name="tombol" value="excel">Excel</button>
+                                    </form>
+                                </div>
+                            <?php }
+                        ?>
                         <div class="card-body">
                             <div class="table-responsive">
 								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
@@ -105,7 +118,7 @@
                                                 <?php foreach ($laporan as $key) {
                                                     foreach ($key as $value) { ?>
                                                         <tr>
-                                                            <td class="text-center"><?= $value['no']; ?></td>
+                                                            <td class="text-center"><span class="btn btn-sm btn-info"><?= $value['no']; ?></span></td>
                                                             <td class="text-center"><?= $value['keterangan']; ?></td>
                                                             <td class="text-center"><?= number_format($value['debet'],2,',','.'); ?></td>
                                                             <td class="text-center"><?= number_format($value['kredit'],2,',','.'); ?></td>
