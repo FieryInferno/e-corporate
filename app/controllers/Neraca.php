@@ -36,6 +36,7 @@ class Neraca extends User_Controller {
 			// $data['getliabilitas'] = $this->model->getliabilitas($data['tanggal']);
 			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
 			// $data['gettotallabarugi'] = $this->model->gettotallabarugi($data['tanggal']);
+			$data['ekuitas']		= null;
 		}
 		$data['title']		= lang('balance_sheet');
 		$data['subtitle']	= lang('list');
