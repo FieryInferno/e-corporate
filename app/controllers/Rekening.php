@@ -12,18 +12,22 @@ class Rekening extends User_Controller{
     }	
     
     public function index() {
-		$data['title'] = lang('rekening');
-		$data['subtitle'] = lang('list');
-		$data['content'] = 'Rekening/index';
-		$data = array_merge($data,path_info());
+		$data['title']		= lang('rekening');
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'Rekening/index';
+		$data				= array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 
 	public function index_datatable() {
+		$perusahaan	= $this->session->idperusahaan;
 		$this->load->library('Datatables');
-		$this->datatables->select('mrekening.*,mperusahaan.*');
-		$this->datatables->join('mperusahaan','mrekening.perusahaan=mperusahaan.idperusahaan');
-		$this->datatables->where('mrekening.stdel', '0');
+		$this->datatables->select('mperusahaan.nama_perusahaan, mrekening.nama, mrekening.norek, mnoakun.akunno, mnoakun.namaakun, mrekening.id');
+		$this->datatables->join('mperusahaan', 'mrekening.perusahaan = mperusahaan.idperusahaan');
+		$this->datatables->join('mnoakun', 'mrekening.akunno = mnoakun.idakun');
+		if ($perusahaan) {
+			$this->datatables->where('mrekening.perusahaan', $perusahaan);
+		}
 		$this->datatables->from('mrekening');
 		return print_r($this->datatables->generate());
 	}
@@ -40,11 +44,11 @@ class Rekening extends User_Controller{
 		if($id) {
 			$data = get_by_id('id',$id,'mrekening');
 			if($data) {
-				$data['title'] = lang('rekening');
-				$data['subtitle'] = lang('edit');
-				$data['content'] = 'Rekening/edit';
-				$data = array_merge($data,path_info());
-				$this->parser->parse('default',$data);
+				$data['title']		= lang('rekening');
+				$data['subtitle']	= lang('edit');
+				$data['content']	= 'Rekening/edit';
+				$data				= array_merge($data,path_info());
+				$this->parser->parse('template',$data);
 			} else {
 				show_404();
 			}
@@ -85,12 +89,11 @@ class Rekening extends User_Controller{
 		$term = $this->input->get('q');
 		$this->db->select('mnoakun.idakun as id, concat(mnoakun.akunno, " - ", mnoakun.namaakun) as text');
 		$this->db->like('mnoakun.akunno', '1', 'after');
-		$this->db->where('mnoakun.stdel', '0');
 		if ($term) {
 			$this->db->like('akunno', $term);
 			$this->db->or_like('namaakun', $term);
 		}
-		if($id) $data = $this->db->where('akunno', $id)->get('mrekening')->row_array();
+		if($id) $data = $this->db->where('idakun', $id)->get('mnoakun')->row_array();
 		else $data = $this->db->get('mnoakun')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}	
