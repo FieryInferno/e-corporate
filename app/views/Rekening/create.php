@@ -36,6 +36,14 @@
                                             <div class="form-group">
                                                 <label><?php echo lang('Perusahaan') ?>:</label>
                                                 <select class="form-control perusahaan" name="perusahaan" required></select>
+                                                <?php
+                                                    if ($this->session->userid !== '1') { ?>
+                                                        <input type="hidden" name="idperusahaan" value="<?= $this->session->idperusahaan; ?>" id="perusahaan">
+                                                        <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                    <?php } else { ?>
+                                                        <select class="form-control perusahaan" name="perusahaan" style="width: 100%;" id="perusahaan"></select>
+                                                    <?php }
+                                                ?>
                                                 <label><?php echo lang('nama') ?>:</label>
                                                 <input type="text" class="form-control" name="nama" required>
                                                 <label><?php echo lang('no rek') ?>:</label>
@@ -64,7 +72,15 @@
 <script type="text/javascript">
 	var base_url = '{site_url}rekening/';
 	$(document).ready(function(){
-        ajax_select({ id: '.perusahaan', url: base_url + 'select2_id_perusahaan', selected: { id: '' } });
+        if ('<?= $this->session->userid; ?>' == '1') {
+            ajax_select({ 
+                id          : '.perusahaan', 
+                url         : base_url + 'select2_id_perusahaan', 
+                selected    : { 
+                    id  : '' 
+                } 
+            });
+        }
         ajax_select({ id: '.akunno', url: base_url + 'select2_akunno', selected: { id: '' } });
     })
     function save() {
