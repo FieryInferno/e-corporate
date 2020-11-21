@@ -92,7 +92,7 @@ class Laporan extends User_Controller {
 				}
 			}
 		}
-		$data['title']		= 'Laporan Kas Bank';
+		$data['title']		= 'Laporan Buku Pembantu Kas Kecil';
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'laporan/bukuPembantuKasKecil/index';
 		$data = array_merge($data,path_info());
