@@ -27,18 +27,20 @@
                             <a href="{site_url}SetUpJurnal/tambah" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
                         </div>
                         <div class="card-body">
-                            <table class="table table-bordered table-striped index_datatable">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Kode Jurnal</th>
-                                        <th>Formulir</th>
-                                        <th>Deskripsi</th>
-                                        <th class="text-center"><?php echo lang('action') ?></th>
-                                    </tr>
-                                </thead>
-                                <tbody></tbody>
-                            </table>
+							<div class="table-responsive">
+								<table class="table table-xs table-striped table-borderless table-hover index_datatable" onload="return data()">
+									<thead>
+										<tr class="table-active">
+											<th>ID</th>
+											<th>Kode Jurnal</th>
+											<th>Formulir</th>
+											<th>Deskripsi</th>
+											<th class="text-center"><?php echo lang('action') ?></th>
+										</tr>
+									</thead>
+									<tbody></tbody>
+								</table>
+							</div>
                         </div>
                     </div>
                 </div>
