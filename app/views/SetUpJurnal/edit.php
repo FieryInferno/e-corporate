@@ -231,6 +231,22 @@
                                                                                 <option value="rekeningKasKecil1" <?= $key['elemen'] == 'rekeningKasKecil1' ? 'selected' : '' ?>>Map Kas Kecil 1</option>
                                                                                 <option value="rekeningKasKecil2" <?= $key['elemen'] == 'rekeningKasKecil2' ? 'selected' : '' ?>>Map Kas Kecil 2</option>
                                                                                 <option value="rekeningKasKecil3" <?= $key['elemen'] == 'rekeningKasKecil3' ? 'selected' : '' ?>>Map Kas Kecil 3</option>
+                                                                                <option value="akunPiutang" <?= $key['elemen'] == 'akunPiutang' ? 'selected' : '' ?>>Akun Piutang</option>
+                                                                                <option value="akunPiutang1" <?= $key['elemen'] == 'akunPiutang1' ? 'selected' : '' ?>>Map Akun Piutang 1</option>
+                                                                                <option value="akunPiutang2" <?= $key['elemen'] == 'akunPiutang2' ? 'selected' : '' ?>>Map Akun Piutang 2</option>
+                                                                                <option value="akunPiutang3" <?= $key['elemen'] == 'akunPiutang3' ? 'selected' : '' ?>>Map Akun Piutang 3</option>
+                                                                                <option value="akunHutang" <?= $key['elemen'] == 'akunHutang' ? 'selected' : '' ?>>Akun Hutang</option>
+                                                                                <option value="akunHutang1" <?= $key['elemen'] == 'akunHutang1' ? 'selected' : '' ?>>Map Akun Hutang 1</option>
+                                                                                <option value="akunHutang2" <?= $key['elemen'] == 'akunHutang2' ? 'selected' : '' ?>>Map Akun Hutang 2</option>
+                                                                                <option value="akunHutang3" <?= $key['elemen'] == 'akunHutang3' ? 'selected' : '' ?>>Map Akun Hutang 3</option>
+                                                                                <option value="akunPenjualan" <?= $key['elemen'] == 'akunPenjualan' ? 'selected' : '' ?>>Akun Penjualan</option>
+                                                                                <option value="akunPenjualan1" <?= $key['elemen'] == 'akunPenjualan1' ? 'selected' : '' ?>>Map Akun Penjualan 1</option>
+                                                                                <option value="akunPenjualan2" <?= $key['elemen'] == 'akunPenjualan2' ? 'selected' : '' ?>>Map Akun Penjualan 2</option>
+                                                                                <option value="akunPenjualan3" <?= $key['elemen'] == 'akunPenjualan3' ? 'selected' : '' ?>>Map Akun Penjualan 3</option>
+                                                                                <option value="akunPembelian" <?= $key['elemen'] == 'akunPembelian' ? 'selected' : '' ?>>Akun Pembelian</option>
+                                                                                <option value="akunPembelian1" <?= $key['elemen'] == 'akunPembelian1' ? 'selected' : '' ?>>Map Akun Pembelian 1</option>
+                                                                                <option value="akunPembelian2" <?= $key['elemen'] == 'akunPembelian2' ? 'selected' : '' ?>>Map Akun Pembelian 2</option>
+                                                                                <option value="akunPembelian3" <?= $key['elemen'] == 'akunPembelian3' ? 'selected' : '' ?>>Map Akun Pembelian 3</option>
                                                                             </select>
                                                                             <script>
                                                                                 fuck('<?= $nomor; ?>');
