@@ -193,7 +193,7 @@ class Kas_bank extends User_Controller
         $this->db->join('tpemesananpenjualandetail','tpemesananpenjualan.id = tpemesananpenjualandetail.idpemesanan');
         $this->db->join('mperusahaan','tpemesananpenjualan.idperusahaan=mperusahaan.idperusahaan');
         $this->db->join('mdepartemen','tpemesananpenjualan.departemen=mdepartemen.id');
-        $this->db->join('mkontak','tfakturpenjualan.kontakid=mkontak.id');
+        $this->db->join('mkontak','tfakturpenjualan.kontakid = mkontak.id');
         $this->db->join('mkontak as rekanan','tpemesananpenjualan.kontakid = rekanan.id');
         $this->db->join('mrekening','tfakturpenjualan.rekening=mrekening.id');
         $this->db->join('mnoakun','tpemesananpenjualandetail.akunno = mnoakun.idakun');
