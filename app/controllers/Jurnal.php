@@ -386,7 +386,7 @@ class Jurnal extends User_Controller {
 								'kodeAkun'	=> $key['idakun']
 							])->row_Array();
 						// 	foreach ($data1 as $setupJurnal) {
-								if ($data2) {
+								// if ($data2) {
 									$jenis	= ['debit', 'kredit'];
 									foreach ($jenis as $value) {
 										if ($key['penerimaan'] !== '0') {
@@ -406,7 +406,7 @@ class Jurnal extends User_Controller {
 											'total'				=> $total
 										]);
 									}
-								}
+								// }
 							// }
 						}
 					}
