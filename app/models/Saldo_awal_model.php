@@ -29,12 +29,12 @@ class Saldo_awal_model extends CI_Model {
 			if ($this->detail['debit'][$i] !== '') {
 				$totalDebit	+= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->detail['debit'][$i]);
 			} else {
-				$totalDebit	= 0;
+				$totalDebit	+= 0;
 			}
 			if ($this->detail['kredit'][$i] !== '') {
 				$totalKredit	+= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->detail['kredit'][$i]);
 			} else {
-				$totalKredit	= 0;
+				$totalKredit	+= 0;
 			}
 		}
 		if ($idSaldoAwal) {
