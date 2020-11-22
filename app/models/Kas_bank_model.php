@@ -286,5 +286,22 @@ class Kas_bank_model extends CI_Model {
 		}
 		return $sisaKasBank;
 	}
+
+	public function getKasBank($idKasBank)
+	{
+		return $this->db->get_where('tkasbank', [
+			'id'	=> $idKasBank
+		])->row_array();
+	}
+
+	public function getDetailKasBank()
+	{
+		$this->db->select('tkasbankdetail.*, mnoakun.akunno, mnoakun.namaakun, mrekening.nama as namaRekening, mrekening.norek, mrekening.id as idRekening, mnoakun.idakun');
+		$this->db->join('mnoakun', 'tkasbankdetail.noakun = mnoakun.idakun');
+		$this->db->join('mrekening', 'tkasbankdetail.sumberdana = mrekening.id');
+		return $this->db->get_where('tkasbankdetail', [
+			'idkasbank'	=> $this->idKasBank
+		])->result_array();
+	}
 }
 

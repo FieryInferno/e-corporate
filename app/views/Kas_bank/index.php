@@ -115,6 +115,7 @@
                                 <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
 									<a href="javascript:deleteData('${data}')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+									<a href="{site_url}kas_bank/edit/${data}" class="dropdown-item"><i class="fas fa-pencil-alt"></i> Edit</a>
                                 </div> 
                             </div> 
                         </div>`;

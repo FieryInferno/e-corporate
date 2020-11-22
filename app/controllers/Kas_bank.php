@@ -28,10 +28,14 @@ class Kas_bank extends User_Controller
     }
 
     public function index_datatable() {
+        $perusahaan = $this->session->idperusahaan;
         $this->load->library('Datatables');
         $this->datatables->select('tkasbank.*, mperusahaan.nama_perusahaan');
         $this->datatables->join('mperusahaan', 'tkasbank.perusahaan = mperusahaan.idperusahaan');
         $this->datatables->where('tkasbank.stdel', '0');
+        if ($perusahaan) {
+            $this->datatables->where('tkasbank.perusahaan', $perusahaan);
+        }
         $this->datatables->from('tkasbank');
         return print_r($this->datatables->generate());
     }
@@ -67,6 +71,17 @@ class Kas_bank extends User_Controller
         $this->parser->parse('template', $data);
     }
 
+    public function edit($idKasBank)
+    {   
+        $data['title']      = lang('bank_cash');
+        $data['subtitle']   = 'Edit';
+        $data['tanggal']    = date('Y-m-d');
+        $data['content']    = 'Kas_bank/edit';
+        $data['kas_bank']   = $this->model->getKasBank($idKasBank);
+        $data               = array_merge($data, path_info());
+        $this->parser->parse('template', $data);
+    }
+
     public function select2_mperusahaan($id = null)
     {
         $term = $this->input->get('q');
@@ -88,6 +103,7 @@ class Kas_bank extends User_Controller
         if ($text) {
             $this->db->select('mdepartemen.id, mdepartemen.pejabat as text');
             $this->db->where('mdepartemen.id_perusahaan', $id);
+            $this->db->where('mdepartemen.id', $text);
             $data = $this->db->get('mdepartemen')->row_array();
             $this->output->set_content_type('application/json')->set_output(json_encode($data));
         } else {
@@ -181,7 +197,7 @@ class Kas_bank extends User_Controller
         $pdf->stream("bank-kas-detail-".$data['nomor_kas_bank'].'-'.$time, array("Attachment" => false));
     }
 
-    public function get_Penjualan()
+    public function get_Penjualan($edit = null)
     {
 
         $tgl = $this->input->get('tgl');
@@ -199,12 +215,14 @@ class Kas_bank extends User_Controller
         $this->db->join('mnoakun','tpemesananpenjualandetail.akunno = mnoakun.idakun');
         $this->db->where('tfakturpenjualan.tanggal <=',$tgl);
         $this->db->where('tpemesananpenjualan.idperusahaan', $idperusahaan);
-        $this->db->where('tfakturpenjualan.stts_kas', '0');
+        if ($edit == null) {
+            $this->db->where('tfakturpenjualan.stts_kas', '0');
+        }
         $data   = $this->db->get('tfakturpenjualan')->result_array();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
-    public function get_Pembelian()
+    public function get_Pembelian($edit = null)
     {
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
@@ -224,7 +242,7 @@ class Kas_bank extends User_Controller
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
-    public function get_BudgetEvent()
+    public function get_BudgetEvent($edit = null)
     {
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
@@ -236,13 +254,15 @@ class Kas_bank extends User_Controller
         $this->db->where('tbudgetevent.tanggal <=',$tgl);
         $this->db->where('tbudgetevent.perusahaan', $idperusahaan);
         $this->db->where('tbudgetevent.status', '3');
-        $this->db->where('tbudgetevent.status_kas', '0');
+        if ($edit == null) {
+            $this->db->where('tbudgetevent.status_kas', '0');
+        }
         $this->db->group_by('tbudgetevent.idpemesanan');
         $data = $this->db->get('tbudgetevent')->result_array();   
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
-    public function get_KasKecil()
+    public function get_KasKecil($edit = null)
     {
         $idperusahaan = $this->input->get('idPerusahaan');
         $tgl = $this->input->get('tgl');
@@ -253,13 +273,15 @@ class Kas_bank extends User_Controller
         $this->db->join('mrekening','tpengajuankaskecil.rekening=mrekening.id'); 
         $this->db->where('tpengajuankaskecil.perusahaan', $idperusahaan);
         $this->db->where('tpengajuankaskecil.tanggal <=',$tgl);
-        $this->db->where('tpengajuankaskecil.status', '0');
+        if ($edit == null) {
+            $this->db->where('tpengajuankaskecil.status', '0');
+        }
         $this->db->where('tpengajuankaskecil.stdel', '0');
         $data = $this->db->get('tpengajuankaskecil')->result_array();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
-    public function get_SetorKasKecil()
+    public function get_SetorKasKecil($edit = null)
     {
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
@@ -270,7 +292,9 @@ class Kas_bank extends User_Controller
         $this->db->join('mrekening','tsetorkaskecil.rekening=mrekening.id');
         $this->db->where('tsetorkaskecil.perusahaan', $idperusahaan);
         $this->db->where('tsetorkaskecil.tanggal <=',$tgl);
-        $this->db->where('tsetorkaskecil.status', '0');
+        if ($edit == null) {
+            $this->db->where('tsetorkaskecil.status', '0');
+        }
         $this->db->where('tsetorkaskecil.stdel', '0');
         $data = $this->db->get('tsetorkaskecil')->result_array();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
@@ -298,6 +322,13 @@ class Kas_bank extends User_Controller
     {
         $this->model->set('idRekening', $this->idRekening);
         $data   = $this->model->sisaKasBank();
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function getDetailKasBank()
+    {
+        $this->model->set('idKasBank', $this->idKasBank);
+        $data   = $this->model->getDetailKasBank();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 }

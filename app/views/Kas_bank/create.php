@@ -1,4 +1,3 @@
-
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -71,7 +70,7 @@
                                         <div class="form-group">
                                             <label>Setup Jurnal : </label>
                                             <input type="hidden" name="idSetupJurnal" id="idSetupJurnal">
-                                            <input type="text" class="form-control" id="setupJurnal" readonly>
+                                            <input type="text" class="form-control" id="setupJurnal" disabled>
                                         </div>
                                     </div>
                                 </div>
