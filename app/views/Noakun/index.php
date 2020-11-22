@@ -24,7 +24,7 @@
         <div class="col-12">         
           <div class="card">
             <div class="card-header">
-              <a href="{site_url}pajak/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+              <a href="{site_url}noakun/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                   + Import
               </button>
@@ -117,17 +117,18 @@
             }
           },
           {
-            data: 'akunno', width: 100, orderable: false, className: 'text-center',
+            data: 'idakun', width: 100, orderable: false, className: 'text-center',
             render: function(data,type,row) {
-              var aksi = `<div class="list-icons"> 
-              <div class="dropdown"> 
-              <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="icon-menu9"></i> </a> 
-              <div class="dropdown-menu dropdown-menu-right"> `;
-              if(row.stdefault != '1' && row.stkunci != '1') {
-                aksi += `<a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="icon-trash"></i> <?php echo lang('delete') ?></a>`;
-              }
-              // aksi += `<a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="icon-pencil"></i> <?php echo lang('edit') ?></a>`;
-              aksi += `</div> </div> </div>`;
+              var aksi = `
+                <div class="list-icons"> 
+                  <div class="dropdown"> 
+                    <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                    <div class="dropdown-menu dropdown-menu-right">
+                      <a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>
+                      <a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+                    </div> 
+                  </div> 
+                </div>`;
               return aksi;
             }
           }

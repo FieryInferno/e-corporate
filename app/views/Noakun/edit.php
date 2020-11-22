@@ -62,8 +62,9 @@
         </div>
     </div>
 </div>
-<script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script>
-<script src="{assets_path}global/js/plugins/forms/selects/select2.full.min.js"></script>
+
+
+
 <script type="text/javascript">
     var base_url = '{site_url}noakun/';
     $(document).ready(function(){

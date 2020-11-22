@@ -798,6 +798,7 @@
         tabelPiutang.clear().draw();
         tabelHutang.clear().draw();
         tabelPindahBuku.clear().draw();
+        table_detail_SSD.clear().draw();
 
         $("#pejabat").val($("#pejabat").data("default-value"));
         $('input[name=penerimaan]').val('0'); 

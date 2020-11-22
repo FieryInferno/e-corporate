@@ -38,13 +38,13 @@ class Noakun extends User_Controller {
 
 	public function edit($id = null) {
 		if($id) {
-			$data = get_by_id('akunno',$id,'mnoakun');
+			$data = get_by_id('idakun', $id, 'mnoakun');
 			if($data) {
-				$data['title'] = lang('account_number');
-				$data['subtitle'] = lang('edit');
-				$data['content'] = 'Noakun/edit';
-				$data = array_merge($data,path_info());
-				$this->parser->parse('default',$data);
+				$data['title']		= lang('account_number');
+				$data['subtitle']	= lang('edit');
+				$data['content']	= 'Noakun/edit';
+				$data				= array_merge($data,path_info());
+				$this->parser->parse('template',$data);
 			} else {
 				show_404();
 			}

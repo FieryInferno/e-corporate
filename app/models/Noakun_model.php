@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Noakun_model extends CI_Model {
 
 	public function save() {
@@ -48,11 +37,8 @@ class Noakun_model extends CI_Model {
 
 	public function delete() {
 		$id = $this->uri->segment(3);
-		$this->db->set('stdel','1');
-		$this->db->set('dby',get_user('username'));
-		$this->db->set('ddate',date('Y-m-d H:i:s'));
-		$this->db->where('noakun', $id);
-		$update = $this->db->update('mnoakun');
+		$this->db->where('idakun', $id);
+		$update	= $this->db->delete('mnoakun');
 		if($update) {
 			$data['status'] = 'success';
 			$data['message'] = lang('delete_success_message');
