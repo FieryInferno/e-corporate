@@ -87,7 +87,8 @@
                                             <?php 
                                                 $totalAsetLancar    += $key['debet'];
                                             }
-                                        } ?>
+                                        } 
+                                    ?>
                                     <tr class="">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Aset Lancar') ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalAsetLancar,2,',','.'); ?></td>
@@ -110,9 +111,23 @@
                                     <tr class="bg-grey-300">
                                         <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Liabilitas') ?></td>
                                     </tr>
+                                    <?php
+                                        $totalLiabilitas    = 0;
+                                        if ($getliabilitas) {
+                                            foreach ($getliabilitas as $key) { ?>
+                                                <tr class="table-active">
+                                                    <td><?= $key['namaakun']; ?></td>
+                                                    <td></td>
+                                                    <td class="text-right"><?= number_format($key['kredit'],2,',','.'); ?></td>
+                                                </tr>
+                                            <?php 
+                                                $totalLiabilitas    += $key['kredit'];
+                                            }
+                                        } 
+                                    ?>
                                     <tr class="">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Liabilitas') ?></td>
-                                        <td class="text-right font-weight-bold"></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($totalLiabilitas,2,',','.'); ?></td>
                                     </tr>
                                     <tr class="bg-grey-300">
                                         <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Ekuitas') ?></td>
@@ -129,7 +144,8 @@
                                             <?php 
                                                 $totalEkuitas    += $key['kredit'];
                                             }
-                                        } ?>
+                                        } 
+                                    ?>
                                     <tr>
                                         <td colspan="2"> <?php echo lang("Laba / Rugi Bersih Berjalan") ?> </td>
                                         <td class="text-right"></td>

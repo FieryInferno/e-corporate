@@ -26,14 +26,14 @@ class Neraca extends User_Controller {
 			$this->model->set('tanggalAkhir', $this->tanggalAkhir);
 			$data['getasetlancar']	= $this->model->getasetlancar();
 			// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
-			// $data['getliabilitas'] = $this->model->getliabilitas($data['tanggal']);
+			$data['getliabilitas']	= $this->model->getliabilitas();
 			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
 			// $data['gettotallabarugi'] = $this->model->gettotallabarugi($data['tanggal']);
 			$data['ekuitas']		= $this->model->getEkuitas();
 		} else {
 			$data['getasetlancar']	= null;
 			// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
-			// $data['getliabilitas'] = $this->model->getliabilitas($data['tanggal']);
+			$data['getliabilitas']	= null;
 			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
 			// $data['gettotallabarugi'] = $this->model->gettotallabarugi($data['tanggal']);
 			$data['ekuitas']		= null;

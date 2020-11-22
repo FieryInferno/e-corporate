@@ -13,6 +13,7 @@ class Neraca_model extends CI_Model {
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
 		$this->db->where('tsaldoawal.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
 		$this->db->not_like('tsaldoawaldetail.debet', '0', 'after');
+		$this->db->like('mnoakun.akunno', '1', 'after');
 		return $this->db->get_where('tsaldoawal', [
 			'tsaldoawal.perusahaan'	=> $this->perusahaan
 		])->result_array();
@@ -34,20 +35,16 @@ class Neraca_model extends CI_Model {
 		return $get->result_array();
 	}
 
-	public function getliabilitas($tanggal) {
-		$this->db->select("
-			*,
-			CASE WHEN stdebet = '1' THEN
-				SUM(debet)-SUM(kredit)
-			ELSE
-				SUM(kredit)-SUM(debet)
-			END AS saldo
-		");
-		$this->db->where('tanggal <=', $tanggal);
-		$this->db->where('noakuntop', '2');
-		$this->db->group_by('noakun');
-		$get = $this->db->get('viewjurnaldetail');
-		return $get->result_array();
+	public function getliabilitas() {
+		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.kredit');
+		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
+		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
+		$this->db->where('tsaldoawal.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
+		$this->db->not_like('tsaldoawaldetail.kredit', '0', 'after');
+		$this->db->like('mnoakun.akunno', '2', 'after');
+		return $this->db->get_where('tsaldoawal', [
+			'tsaldoawal.perusahaan'	=> $this->perusahaan
+		])->result_array();
 	}
 
 	public function getmodal($tanggal) {
@@ -103,6 +100,7 @@ class Neraca_model extends CI_Model {
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
 		$this->db->where('tsaldoawal.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
 		$this->db->not_like('tsaldoawaldetail.kredit', '0', 'after');
+		$this->db->like('mnoakun.akunno', '3', 'after');
 		return $this->db->get_where('tsaldoawal', [
 			'tsaldoawal.perusahaan'	=> $this->perusahaan
 		])->result_array();
