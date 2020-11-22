@@ -57,8 +57,15 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label>Perusahaan:</label>
-                                    <div class="input-group"> 
-                                        <select class="form-control perusahaanid" name="perusahaanid"></select>
+                                    <div class="input-group">
+                                        <?php
+                                            if ($this->session->userid !== '1') { ?>
+                                                <input type="hidden" name="perusahaanid" value="<?= $this->session->idperusahaan; ?>" id="id_perusahaan">
+                                                <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                            <?php } else { ?>
+                                                <select class="form-control perusahaanid" name="perusahaanid" style="width: 100%;" id="id_perusahaan" required></select>
+                                            <?php }
+                                        ?> 
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -308,20 +315,33 @@
     $(document).ready(function(){
         ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: '{kontakid}' } });
         ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: '{gudangid}' } });
-        ajax_select({ 
-            id          : '.perusahaanid', 
-            url         : '{site_url}perusahaan/select2', 
-            selected    : { 
-                id  : null 
-            } 
-        });
-        ajax_select({ 
-            id          : '.rekening', 
-            url         : '{site_url}rekening/select2', 
-            selected    : { 
-                id  : null 
-            } 
-        });
+        if ('<?= $this->session->userid; ?>' == '1') {
+            ajax_select({ 
+                id          : '.perusahaanid', 
+                url         : '{site_url}perusahaan/select2', 
+                selected    : { 
+                    id  : null 
+                } 
+            });
+            $('.perusahaanid').change(function (e) {
+                var perusahaan  = $('.perusahaanid').children('option:selected').val();
+                ajax_select({ 
+                    id          : '.rekening', 
+                    url         : '{site_url}rekening/select2/' + perusahaan, 
+                    selected    : { 
+                        id  : null 
+                    } 
+                });
+            })
+        } else {
+            ajax_select({ 
+                id          : '.rekening', 
+                url         : '{site_url}rekening/select2/<?= $this->session->idperusahaan; ?>', 
+                selected    : { 
+                    id  : null 
+                } 
+            });
+        }
     })
 
     $('#table_detail tbody').on('click','.delete_detail',function(){
