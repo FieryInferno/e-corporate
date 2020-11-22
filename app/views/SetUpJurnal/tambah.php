@@ -157,7 +157,7 @@
                         </div>
                         <div class="col-10">
                             <select name="elemen${tipe}[]" id="elemen${nomor}" class="form-control elemen">
-                                <option value="" disabled selected>Pilih Elemen</option>
+                                <option value=""></option>
                                 <option value="kodeAkun">Kode Akun</option>
                                 <option value="mapAkun1">Map Akun 1</option>
                                 <option value="mapAkun2">Map Akun 2</option>
@@ -196,6 +196,22 @@
                                 <option value="rekeningKasKecil1">Map Kas Kecil 1</option>
                                 <option value="rekeningKasKecil2">Map Kas Kecil 2</option>
                                 <option value="rekeningKasKecil3">Map Kas Kecil 3</option>
+                                <option value="akunPiutang">Akun Piutang</option>
+                                <option value="akunPiutang1">Map Akun Piutang 1</option>
+                                <option value="akunPiutang2">Map Akun Piutang 2</option>
+                                <option value="akunPiutang3">Map Akun Piutang 3</option>
+                                <option value="akunHutang">Akun Hutang</option>
+                                <option value="akunHutang1">Map Akun Hutang 1</option>
+                                <option value="akunHutang2">Map Akun Hutang 2</option>
+                                <option value="akunHutang3">Map Akun Hutang 3</option>
+                                <option value="akunPenjualan">Akun Penjualan</option>
+                                <option value="akunPenjualan1">Map Akun Penjualan 1</option>
+                                <option value="akunPenjualan2">Map Akun Penjualan 2</option>
+                                <option value="akunPenjualan3">Map Akun Penjualan 3</option>
+                                <option value="akunPembelian">Akun Pembelian</option>
+                                <option value="akunPembelian1">Map Akun Pembelian 1</option>
+                                <option value="akunPembelian2">Map Akun Pembelian 2</option>
+                                <option value="akunPembelian3">Map Akun Pembelian 3</option>
                                 ${option}
                             </select>
                         </div>
@@ -209,8 +225,18 @@
                     </select>
                 </td>
                 <td>
-                    <select name="nominal${tipe}[]" id="nominal" class="form-control">
-                        <option value="" disabled selected>Pilih Nominal</option>
+                    <select name="nominal${tipe}[]" id="nominal${nomor}" class="form-control">
+                        <option value=""></option>
+                        <option value="nominalPiutang">Nominal Piutang</option>
+                        <option value="nominalHutang">Nominal Hutang</option>
+                        <option value="nominalPenjualan">Nominal Penjualan</option>
+                        <option value="nominalPembelian">Nominal Pembelian</option>
+                        <option value="nominalBudgetEvent">Nominal Budget Event</option>
+                        <option value="nominalSetorPajak">Nominal Setor Pajak</option>
+                        <option value="nominalKasKecil">Nominal Kas Kecil</option>
+                        <option value="nominalSetorKasKecil">Nominal Setor Kas Kecil</option>
+                        <option value="nominalPindahbukuPenerimaan">Nominal Pindahbuku Penerimaan</option>
+                        <option value="nominalPindahbukuPengeluaran">Nominal Pindahbuku Pengeluaran</option>
                     </select>
                 </td>
             </tr>`;
@@ -227,7 +253,14 @@
         }
         $('#tambahAnggaran').attr('href', 'javascript:tambah("jurnalAnggaran", ' + nomorBaru +')');
         $('#tambahFinansial').attr('href', 'javascript:tambah("jurnalFinansial", ' + nomorBaru +')');
-        $(`#elemen${nomor}`).select2();
+        $(`#elemen${nomor}`).select2({
+            placeholder: "Pilih Elemen",
+            allowClear: true
+        });
+        $(`#nominal${nomor}`).select2({
+            placeholder: "Pilih Nominal",
+            allowClear: true
+        });
     }
 
     function hapus(nomor) {
