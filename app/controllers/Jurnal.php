@@ -385,7 +385,7 @@ class Jurnal extends User_Controller {
 							$data2	= $this->db->get_where('tPemetaanAkun', [
 								'kodeAkun'	=> $key['idakun']
 							])->row_Array();
-							foreach ($data1 as $setupJurnal) {
+							for ($i=0; $i < 2; $i++) { 
 								if ($key['penerimaan'] !== '0') {
 									$total	= $key['penerimaan'];
 								} else {
@@ -399,7 +399,7 @@ class Jurnal extends User_Controller {
 									'nama_perusahaan' 	=> $key['nama_perusahaan'],
 									'akunno'			=> $key['akunno'],
 									'namaakun'			=> $key['namaakun'],
-									'jenis'				=> $setupJurnal['jenis'],
+									'jenis'				=> $data1[$i]['jenis'],
 									'total'				=> $total
 								]);
 							}
