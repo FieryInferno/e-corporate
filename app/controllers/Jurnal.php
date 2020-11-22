@@ -385,46 +385,62 @@ class Jurnal extends User_Controller {
 							$data2	= $this->db->get_where('tPemetaanAkun', [
 								'kodeAkun'	=> $key['idakun']
 							])->row_Array();
-							foreach ($data1 as $setupJurnal) {
-								switch ($setupJurnal['elemen']) {
-									case 'kodeAkun':
-										$akunno		= $detail['akunno'];
-										$namaakun	= $detail['namaakun'];
-										break;
-									case 'mapAkun1':
-										$akunno		= $data2['akunno'];
-										$namaakun	= $data2['namaakun'];
-										break;
-									case 'mapAkun2':
-										$akunno		= $data2['akunno1'];
-										$namaakun	= $data2['namaakun1'];
-										break;
-									case 'mapAkun3':
-										$akunno		= $data2['akunno2'];
-										$namaakun	= $data2['namaakun2'];
-										break;
-									
-									default:
-										# code...
-										break;
-								}
-								if ($key['penerimaan'] !== '0') {
-									$total	= $key['penerimaan'];
-								} else {
-									$total	= $key['pengeluaran'];
-								}
-								array_push($data['jurnalUmum'], [
-									'tanggal'			=> $key['tanggal'],
-									'formulir'			=> 'Kas Bank',
-									'noTrans'			=> $key['nomor_kas_bank'],
-									'departemen'		=> '',
-									'nama_perusahaan' 	=> $key['nama_perusahaan'],
-									'akunno'			=> $key['akunno'],
-									'namaakun'			=> $key['namaakun'],
-									'jenis'				=> $setupJurnal['jenis'],
-									'total'				=> $total
-								]);
+							if ($key['penerimaan'] !== '0') {
+								$total	= $key['penerimaan'];
+							} else {
+								$total	= $key['pengeluaran'];
 							}
+							array_push($data['jurnalUmum'], [
+								'tanggal'			=> $key['tanggal'],
+								'formulir'			=> 'Kas Bank',
+								'noTrans'			=> $key['nomor_kas_bank'],
+								'departemen'		=> '',
+								'nama_perusahaan' 	=> $key['nama_perusahaan'],
+								'akunno'			=> $key['akunno'],
+								'namaakun'			=> $key['namaakun'],
+								'jenis'				=> $setupJurnal['jenis'],
+								'total'				=> $total
+							]);
+							// foreach ($data1 as $setupJurnal) {
+							// 	switch ($setupJurnal['elemen']) {
+							// 		case 'kodeAkun':
+							// 			$akunno		= $detail['akunno'];
+							// 			$namaakun	= $detail['namaakun'];
+							// 			break;
+							// 		case 'mapAkun1':
+							// 			$akunno		= $data2['akunno'];
+							// 			$namaakun	= $data2['namaakun'];
+							// 			break;
+							// 		case 'mapAkun2':
+							// 			$akunno		= $data2['akunno1'];
+							// 			$namaakun	= $data2['namaakun1'];
+							// 			break;
+							// 		case 'mapAkun3':
+							// 			$akunno		= $data2['akunno2'];
+							// 			$namaakun	= $data2['namaakun2'];
+							// 			break;
+									
+							// 		default:
+							// 			# code...
+							// 			break;
+							// 	}
+							// 	if ($key['penerimaan'] !== '0') {
+							// 		$total	= $key['penerimaan'];
+							// 	} else {
+							// 		$total	= $key['pengeluaran'];
+							// 	}
+							// 	array_push($data['jurnalUmum'], [
+							// 		'tanggal'			=> $key['tanggal'],
+							// 		'formulir'			=> 'Kas Bank',
+							// 		'noTrans'			=> $key['nomor_kas_bank'],
+							// 		'departemen'		=> '',
+							// 		'nama_perusahaan' 	=> $key['nama_perusahaan'],
+							// 		'akunno'			=> $key['akunno'],
+							// 		'namaakun'			=> $key['namaakun'],
+							// 		'jenis'				=> $setupJurnal['jenis'],
+							// 		'total'				=> $total
+							// 	]);
+							// }
 						}
 					}
 				}
