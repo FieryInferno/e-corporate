@@ -713,6 +713,19 @@
                     $("#idSetupJurnal").val(response.idSetupJurnal);
                 }
             })
+
+            $.ajax({
+                url : base_url + 'getDetailKasBank',
+                type    : 'post',
+                data    : {
+                    idKasBank   : '<?= $kas_bank["id"]; ?>'
+                },
+                success : function (response) {
+                    response.forEach(element => {
+                        save_detail(element, 'edit');
+                    });
+                }
+            })
         } else {
             //combobox perusahaan
             ajax_select({
