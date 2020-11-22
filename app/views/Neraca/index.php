@@ -45,10 +45,36 @@
                                     </div>
                                 </div>
                                 <div class="col-3">
-                                    <div class="form-group">
-                                        <label>&nbsp;</label>
-                                        <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
-                                    </div>
+                                    <?php
+                                        if ($getasetlancar !== null || $getliabilitas !== null || $ekuitas !== null) { ?>
+                                            <div class="row">
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <button type="submit" class="btn-block btn bg-info">PDF</button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4">
+                                                    <div class="form-group">
+                                                        <label>&nbsp;</label>
+                                                        <button type="submit" class="btn-block btn bg-warning">Excel</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="form-group">
+                                                <label>&nbsp;</label>
+                                                <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
+                                            </div>
+                                        <?php }
+                                    ?>
+                                    
                                 </div>
                             </div>
                         </form>
