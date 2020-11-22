@@ -152,11 +152,11 @@
                                     </tr>
                                     <tr class="">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Ekuitas') ?></td>
-                                        <td class="text-right font-weight-bold"></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($totalEkuitas,2,',','.'); ?></td>
                                     </tr>
                                     <tr class="bg-success">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Liabilitas dan Ekuitas') ?></td>
-                                        <td class="text-right font-weight-bold"></td>
+                                        <td class="text-right font-weight-bold"><?= number_format(($totalEkuitas - $totalLiabilitas),2,',','.'); ?></td>
                                     </tr>
 
                                 </tbody>
