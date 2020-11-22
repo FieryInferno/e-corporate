@@ -107,7 +107,7 @@
                                             foreach ($getasetlancar as $key) { ?>
                                                 <tr class="table-active">
                                                     <td><?= $key['namaakun']; ?></td>
-                                                    <td></td>
+                                                    <td class="text-right"><?= number_format($key['debet'],2,',','.'); ?></td>
                                                     <td class="text-right"><?= number_format($key['debet'],2,',','.'); ?></td>
                                                 </tr>
                                             <?php 
@@ -116,7 +116,8 @@
                                         } 
                                     ?>
                                     <tr class="">
-                                        <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Aset Lancar') ?></td>
+                                        <td class="font-weight-bold text-uppercase"><?php echo lang('Total Aset Lancar') ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($totalAsetLancar,2,',','.'); ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalAsetLancar,2,',','.'); ?></td>
                                     </tr>
                                     <tr class="bg-grey-300">
@@ -143,7 +144,7 @@
                                             foreach ($getliabilitas as $key) { ?>
                                                 <tr class="table-active">
                                                     <td><?= $key['namaakun']; ?></td>
-                                                    <td></td>
+                                                    <td class="text-right"><?= number_format($key['kredit'],2,',','.'); ?></td>
                                                     <td class="text-right"><?= number_format($key['kredit'],2,',','.'); ?></td>
                                                 </tr>
                                             <?php 
@@ -152,7 +153,8 @@
                                         } 
                                     ?>
                                     <tr class="">
-                                        <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Liabilitas') ?></td>
+                                        <td class="font-weight-bold text-uppercase"><?php echo lang('Total Liabilitas') ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($totalLiabilitas,2,',','.'); ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalLiabilitas,2,',','.'); ?></td>
                                     </tr>
                                     <tr class="bg-grey-300">
@@ -164,7 +166,7 @@
                                             foreach ($ekuitas as $key) { ?>
                                                 <tr class="table-active">
                                                     <td><?= $key['namaakun']; ?></td>
-                                                    <td></td>
+                                                    <td class="text-right"><?= number_format($key['kredit'],2,',','.'); ?></td>
                                                     <td class="text-right"><?= number_format($key['kredit'],2,',','.'); ?></td>
                                                 </tr>
                                             <?php 
@@ -177,7 +179,8 @@
                                         <td class="text-right"></td>
                                     </tr>
                                     <tr class="">
-                                        <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Ekuitas') ?></td>
+                                        <td class="font-weight-bold text-uppercase"><?php echo lang('Total Ekuitas') ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($totalEkuitas,2,',','.'); ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalEkuitas,2,',','.'); ?></td>
                                     </tr>
                                     <tr class="bg-success">
