@@ -205,36 +205,7 @@ class Kas_bank_model extends CI_Model {
 		$no	= 0;
 		foreach ($rekening as $key) {
 			$idRekening		= $key['id'];
-			// $pemetaanAkun	= $this->db->get_where('tPemetaanAkun', [
-			// 	'kodeAkun'	=> $key['akunno']
-			// ])->row_array();
 			$totalSaldo	= 0;
-			// if ($pemetaanAkun) {
-			// 	$saldoKodeAkun	= $this->db->get_where('tsaldoawaldetail', [
-			// 		'noakun'	=> $pemetaanAkun['kodeAkun']
-			// 	])->result_array();
-			// 	$saldoKodeAkun1	= $this->db->get_where('tsaldoawaldetail', [
-			// 		'noakun'	=> $pemetaanAkun['kodeAkun1']
-			// 	])->result_array();
-			// 	$saldoKodeAkun2	= $this->db->get_where('tsaldoawaldetail', [
-			// 		'noakun'	=> $pemetaanAkun['kodeAkun2']
-			// 	])->result_array();
-			// 	$saldoKodeAkun3	= $this->db->get_where('tsaldoawaldetail', [
-			// 		'noakun'	=> $pemetaanAkun['kodeAkun3']
-			// 	])->result_array();
-			// 	foreach ($saldoKodeAkun as $value) {
-			// 		$totalSaldo	+= $value['debet'];
-			// 	}
-			// 	foreach ($saldoKodeAkun1 as $value) {
-			// 		$totalSaldo	+= $value['debet'];
-			// 	}
-			// 	foreach ($saldoKodeAkun2 as $value) {
-			// 		$totalSaldo	+= $value['debet'];
-			// 	}
-			// 	foreach ($saldoKodeAkun3 as $value) {
-			// 		$totalSaldo	+= $value['debet'];
-			// 	}
-			// }
 			$saldoKodeAkun	= $this->db->get_where('tsaldoawaldetail', [
 				'noakun'	=> $key['akunno']
 			])->result_array();

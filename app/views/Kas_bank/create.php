@@ -886,7 +886,7 @@
                 for(i=0; i<data.length; i++){ kodeper += data[i].kode; }        
                 var nomor = '{kode_otomatis}';
                 var tipe = 'BANK';
-                var tahun = '{tahun}';
+                var tahun = '2020';
                 var kodeperusahaan = kodeper;
                 document.getElementById("form1").nomor.value = nomor+'/'+kodeperusahaan+'/'+tipe+'/'+tahun;
             }
