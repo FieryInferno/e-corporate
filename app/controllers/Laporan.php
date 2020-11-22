@@ -31,9 +31,10 @@ class Laporan extends User_Controller {
 			$data['tanggal']		= $this->tgl_indo($this->tanggal);
 			$tanggalAwal			= date('Y-m-d', strtotime('-1 days', strtotime($this->tanggal)));
 			$data['tanggalAwal']	= $this->tgl_indo($tanggalAwal);
-			if ($data['laporan']) {
+			// if ($data['laporan']) {
 				$this->LaporanModel->set('tanggal', $tanggalAwal);
 				$kasBank					= $this->LaporanModel->get('total');
+				die();
 				$data['jumlahDebetAwal']	= 0;
 				$data['jumlahKreditAwal']	= 0;
 				foreach ($kasBank as $key) {
@@ -42,10 +43,10 @@ class Laporan extends User_Controller {
 						$data['jumlahKreditAwal']	+= $value['kredit'];
 					}
 				}
-			} else {
-				$data['jumlahDebetAwal']	= 0;
-				$data['jumlahKreditAwal']	= 0;
-			}
+			// } else {
+			// 	$data['jumlahDebetAwal']	= 0;
+			// 	$data['jumlahKreditAwal']	= 0;
+			// }
 			$data['perusahaan']	= $this->perusahaan;
 			$data['rekening']	= $this->rekening;
 			$data['tanggalA']	= $this->tanggal;

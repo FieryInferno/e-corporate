@@ -22,8 +22,7 @@ class LaporanModel extends CI_Model {
         }
         $saldoAwal  = $this->db->get_where('tsaldoawal', [
             'tsaldoawal.perusahaan' => $this->perusahaan,
-            'mrekening.id'          => $this->rekening,
-            'tanggal'               => $this->tanggal
+            'mrekening.id'          => $this->rekening
         ])->result_array();
         if ($saldoAwal) {
             array_push($laporan, $saldoAwal);
@@ -37,8 +36,7 @@ class LaporanModel extends CI_Model {
         }
         $kasBank    = $this->db->get_where('tkasbank',[
             'tkasbank.perusahaan'       => $this->perusahaan,
-            'tkasbankdetail.sumberdana' => $this->rekening,
-            'tkasbank.tanggal'          => $this->tanggal
+            'tkasbankdetail.sumberdana' => $this->rekening
         ])->result_array();
         if ($kasBank) {
             array_push($laporan, $kasBank);
