@@ -366,44 +366,47 @@ class Jurnal extends User_Controller {
 				$data0	= $this->db->get('tkasbank')->result_array();
 				if ($data0) {
 					foreach ($data0 as $key) {
-						// if (substr($key['akunno'], 0, 1) == 1 || substr($key['akunno'], 0, 1) == 2 || substr($key['akunno'], 0, 1) == 3 || substr($key['akunno'], 0, 1) == 8 || substr($key['akunno'], 0, 1) == 9 || substr($key['akunno'], 0, 1) == 6) {
-							$this->db->select('tJurnalFinansial.elemen, tJurnalFinansial.jenis, tSetupJurnal.formulir');
-							$this->db->join('tJurnalFinansial', 'tSetupJurnal.idSetupJurnal = tJurnalFinansial.idSetupJurnal');
-						// } else {
-						// 	$this->db->select('tJurnalAnggaran.elemen, tJurnalAnggaran.jenis, tSetupJurnal.formulir');
-						// 	$this->db->join('tJurnalAnggaran', 'tSetupJurnal.idSetupJurnal = tJurnalAnggaran.idSetupJurnal');
-						// }
-						$this->db->where('formulir', 'kasBank');
-						$this->db->where('tSetupJurnal.idSetupJurnal', $key['setupJurnal']);
-						$data1	= $this->db->get_where('tSetupJurnal')->result_array();
-						$no		= 0;
-						if ($data1) {
-							$this->db->select('mnoakun.akunno, mnoakun.namaakun, mnoakun1.akunno as akunno1, mnoakun1.namaakun as namaakun1, mnoakun2.akunno as akunno2, mnoakun2.namaakun as namaakun2');
-							$this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun1 = mnoakun.idakun');
-							$this->db->join('mnoakun as mnoakun1', 'tPemetaanAkun.kodeAkun2 = mnoakun1.idakun');
-							$this->db->join('mnoakun as mnoakun2', 'tPemetaanAkun.kodeAkun3 = mnoakun2.idakun');
-							$data2	= $this->db->get_where('tPemetaanAkun', [
-								'kodeAkun'	=> $key['idakun']
-							])->row_Array();
-							foreach ($data1 as $setupJurnal) {
-								if ($key['penerimaan'] !== '0') {
-									$total	= $key['penerimaan'];
-								} else {
-									$total	= $key['pengeluaran'];
+						// // if (substr($key['akunno'], 0, 1) == 1 || substr($key['akunno'], 0, 1) == 2 || substr($key['akunno'], 0, 1) == 3 || substr($key['akunno'], 0, 1) == 8 || substr($key['akunno'], 0, 1) == 9 || substr($key['akunno'], 0, 1) == 6) {
+						// 	$this->db->select('tJurnalFinansial.elemen, tJurnalFinansial.jenis, tSetupJurnal.formulir');
+						// 	$this->db->join('tJurnalFinansial', 'tSetupJurnal.idSetupJurnal = tJurnalFinansial.idSetupJurnal');
+						// // } else {
+						// // 	$this->db->select('tJurnalAnggaran.elemen, tJurnalAnggaran.jenis, tSetupJurnal.formulir');
+						// // 	$this->db->join('tJurnalAnggaran', 'tSetupJurnal.idSetupJurnal = tJurnalAnggaran.idSetupJurnal');
+						// // }
+						// $this->db->where('formulir', 'kasBank');
+						// $this->db->where('tSetupJurnal.idSetupJurnal', $key['setupJurnal']);
+						// $data1	= $this->db->get_where('tSetupJurnal')->result_array();
+						// $no		= 0;
+						// if ($data1) {
+						// 	$this->db->select('mnoakun.akunno, mnoakun.namaakun, mnoakun1.akunno as akunno1, mnoakun1.namaakun as namaakun1, mnoakun2.akunno as akunno2, mnoakun2.namaakun as namaakun2');
+						// 	$this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun1 = mnoakun.idakun');
+						// 	$this->db->join('mnoakun as mnoakun1', 'tPemetaanAkun.kodeAkun2 = mnoakun1.idakun');
+						// 	$this->db->join('mnoakun as mnoakun2', 'tPemetaanAkun.kodeAkun3 = mnoakun2.idakun');
+						// 	$data2	= $this->db->get_where('tPemetaanAkun', [
+						// 		'kodeAkun'	=> $key['idakun']
+						// 	])->row_Array();
+						// 	foreach ($data1 as $setupJurnal) {
+								$jenis	= ['debit', 'kredit'];
+								foreach ($jenis as $value) {
+									if ($key['penerimaan'] !== '0') {
+										$total	= $key['penerimaan'];
+									} else {
+										$total	= $key['pengeluaran'];
+									}
+									array_push($data['jurnalUmum'], [
+										'tanggal'			=> $key['tanggal'],
+										'formulir'			=> 'Kas Bank',
+										'noTrans'			=> $key['nomor_kas_bank'],
+										'departemen'		=> '',
+										'nama_perusahaan' 	=> $key['nama_perusahaan'],
+										'akunno'			=> $key['akunno'],
+										'namaakun'			=> $key['namaakun'],
+										'jenis'				=> $value,
+										'total'				=> $total
+									]);
 								}
-								array_push($data['jurnalUmum'], [
-									'tanggal'			=> $key['tanggal'],
-									'formulir'			=> 'Kas Bank',
-									'noTrans'			=> $key['nomor_kas_bank'],
-									'departemen'		=> '',
-									'nama_perusahaan' 	=> $key['nama_perusahaan'],
-									'akunno'			=> $key['akunno'],
-									'namaakun'			=> $key['namaakun'],
-									'jenis'				=> $setupJurnal['jenis'],
-									'total'				=> $total
-								]);
-							}
-						}
+							// }
+						// }
 					}
 				}
 			} else {
