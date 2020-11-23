@@ -177,17 +177,19 @@
                                         } 
                                     ?>
                                     <tr>
-                                        <td colspan="2"> <?php echo lang("Laba / Rugi Bersih Berjalan") ?> </td>
-                                        <td class="text-right"></td>
+                                        <td> <?php echo lang("Laba / Rugi Bersih Berjalan") ?> </td>
+                                        <td class="text-right"><?= number_format($gettotallabarugi,2,',','.'); ?></td>
+                                        <td></td>
                                     </tr>
                                     <tr class="">
                                         <td class="font-weight-bold text-uppercase"><?php echo lang('Total Ekuitas') ?></td>
-                                        <td class="text-right font-weight-bold"><?= number_format($totalEkuitas,2,',','.'); ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($totalEkuitas + $gettotallabarugi,2,',','.'); ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalEkuitas,2,',','.'); ?></td>
                                     </tr>
                                     <tr class="bg-success">
-                                        <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Liabilitas dan Ekuitas') ?></td>
-                                        <td class="text-right font-weight-bold"><?= number_format(($totalEkuitas - $totalLiabilitas),2,',','.'); ?></td>
+                                        <td class="font-weight-bold text-uppercase"><?php echo lang('Total Liabilitas dan Ekuitas') ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format(($totalEkuitas + $gettotallabarugi + $totalLiabilitas),2,',','.'); ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format(($totalEkuitas + $totalLiabilitas),2,',','.'); ?></td>
                                     </tr>
 
                                 </tbody>

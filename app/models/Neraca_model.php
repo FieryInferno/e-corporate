@@ -108,9 +108,33 @@ class Neraca_model extends CI_Model {
 		return $get->row()->total;
 	}
 
-	public function gettotallabarugi($tanggal) {
-		$totallabarugi = $this->getpendapatan($tanggal) - $this->getbeban($tanggal);
-		return $totallabarugi;
+	public function gettotallabarugi() {
+		$totalLabaRugiPeriodeKini	= 0;
+		$penjualanPeriodeKini	= $this->db->get_where('tfakturpenjualan', [
+			'idperusahaan'	=> $this->perusahaan
+		])->result_array();
+		if ($penjualanPeriodeKini) {
+			foreach ($penjualanPeriodeKini as $key) {
+				$totalLabaRugiPeriodeKini	+= (integer) $key['total'];
+			}
+		}
+		$pembelianPeriodeKini	= $this->db->get_where('tfaktur', [
+			'perusahaanid'	=> $this->perusahaan
+		])->result_array();
+		if ($pembelianPeriodeKini) {
+			foreach ($pembelianPeriodeKini as $key) {
+				$totalLabaRugiPeriodeKini	-= (integer) $key['total'];
+			}
+		}
+		$pengeluaranKasKecilPeriodeKini	= $this->db->get_where('tpengeluarankaskecil', [
+			'perusahaan'	=> $this->perusahaan
+		])->result_array();
+		if ($pengeluaranKasKecilPeriodeKini) {
+			foreach ($pengeluaranKasKecilPeriodeKini as $key) {
+				$totalLabaRugiPeriodeKini	-= (integer) $key['total'];
+			}
+		}
+		return $totalLabaRugiPeriodeKini;
 	}
 
 	public function set($jenis, $isi)
