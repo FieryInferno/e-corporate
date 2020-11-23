@@ -102,22 +102,24 @@
                                         <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Aset Lancar') ?></td>
                                     </tr>
                                     <?php
-                                        $totalAsetLancar    = 0;
+                                        $totalAsetLancarPeriodeKini = 0;
+                                        $totalAsetLancar            = 0;
                                         if ($getasetlancar) {
                                             foreach ($getasetlancar as $key) { ?>
                                                 <tr class="table-active">
                                                     <td><?= $key['namaakun']; ?></td>
-                                                    <td class="text-right"><?= number_format($key['debet'],2,',','.'); ?></td>
+                                                    <td class="text-right"><?= number_format($key['debetPeriodeKini'],2,',','.'); ?></td>
                                                     <td class="text-right"><?= number_format($key['debet'],2,',','.'); ?></td>
                                                 </tr>
                                             <?php 
-                                                $totalAsetLancar    += $key['debet'];
+                                                $totalAsetLancarPeriodeKini += $key['debetPeriodeKini'];
+                                                $totalAsetLancar            += $key['debet'];
                                             }
                                         } 
                                     ?>
                                     <tr class="">
                                         <td class="font-weight-bold text-uppercase"><?php echo lang('Total Aset Lancar') ?></td>
-                                        <td class="text-right font-weight-bold"><?= number_format($totalAsetLancar,2,',','.'); ?></td>
+                                        <td class="text-right font-weight-bold"><?= number_format($totalAsetLancarPeriodeKini,2,',','.'); ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalAsetLancar,2,',','.'); ?></td>
                                     </tr>
                                     <tr class="bg-grey-300">

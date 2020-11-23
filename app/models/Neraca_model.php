@@ -8,15 +8,40 @@ class Neraca_model extends CI_Model {
 	private $tanggalAwal;
 
 	public function getasetlancar() {
-		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.debet');
+		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.debet, tsaldoawaldetail.noakun');
 		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
 		$this->db->where('tsaldoawal.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
 		$this->db->not_like('tsaldoawaldetail.debet', '0', 'after');
 		$this->db->like('mnoakun.akunno', '1', 'after');
-		return $this->db->get_where('tsaldoawal', [
+		$saldoAwal	= $this->db->get_where('tsaldoawal', [
 			'tsaldoawal.perusahaan'	=> $this->perusahaan
 		])->result_array();
+		for ($i=0; $i < count($saldoAwal); $i++) {
+			$saldoAwal[$i]['debetPeriodeKini']	= $saldoAwal[$i]['debet']; 
+			$this->db->join('mrekening', 'tfaktur.bank	= mrekening.id'); 
+			$this->db->join('mnoakun', 'mrekening.akunno = mnoakun.idakun');
+			$pembelian	= $this->db->get_where('tfaktur', [
+				'mnoakun.idakun'	=> $saldoAwal[$i]['noakun']
+			])->result_array();
+			if ($pembelian) {
+				foreach ($pembelian as $key) {
+					$saldoAwal[$i]['debetPeriodeKini']	-= $key['total'];
+				}
+			}
+			
+			$this->db->join('mrekening', 'tfakturpenjualan.rekening	= mrekening.id'); 
+			$this->db->join('mnoakun', 'mrekening.akunno = mnoakun.idakun');
+			$penjualan	= $this->db->get_where('tfakturpenjualan', [
+				'mnoakun.idakun'	=> $saldoAwal[$i]['noakun']
+			])->result_array();
+			if ($penjualan) {
+				foreach ($penjualan as $key) {
+					$saldoAwal[$i]['debetPeriodeKini']	+= $key['total'];
+				}
+			}
+		}
+		return $saldoAwal;
 	}
 
 	public function getasettetap($tanggal) {
