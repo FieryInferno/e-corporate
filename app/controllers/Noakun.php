@@ -259,5 +259,17 @@ class Noakun extends User_Controller {
 		$data	= $this->model->select2NoAkunBeli($id);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
+
+	public function select2_pendapatan()
+	{
+		$data	= $this->model->select2_pendapatan();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function select2_hpp()
+	{
+		$data	= $this->model->select2_hpp();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }
 

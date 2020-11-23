@@ -14,8 +14,8 @@ class Pajak extends User_Controller {
 	public function index() {
 		$data['title']      = 'Pajak';
 		$data['content']    = 'Pajak/index';
-		$data = array_merge($data, path_info());
-		$this->parser->parse('default',$data);
+		$data				= array_merge($data, path_info());
+		$this->parser->parse('template',$data);
     }
     
     public function index_datatable() {

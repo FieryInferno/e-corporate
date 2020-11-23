@@ -93,9 +93,12 @@ class Departemen extends User_Controller{
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
-	public function select2()
+	public function select2($perusahaan = null)
 	{
 		$this->db->select('mdepartemen.id, mdepartemen.nama as text');
+		if ($perusahaan) {
+			$this->db->where('id_perusahaan', $perusahaan);
+		}
 		$data = $this->db->get('mdepartemen')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}

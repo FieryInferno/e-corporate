@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Rekanan_model extends CI_Model {
 
 	public function save() {
@@ -59,14 +48,12 @@ class Rekanan_model extends CI_Model {
 		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
-}
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
+	public function select2($perusahaan)
+	{
+		$this->db->select('mkontak.id, mkontak.nama as text');
+		return $this->db->get_where('mkontak', [
+			'perusahaan'	=> $perusahaan
+		])->result_array();
+	}
+}

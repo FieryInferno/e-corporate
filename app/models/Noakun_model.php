@@ -142,5 +142,23 @@ class Noakun_model extends CI_Model {
 		if($id) $data = $this->db->where('noakun', $id)->get('mnoakun')->row_array();
 		else $data = $this->db->get('mnoakun')->result_array();
 	}
+
+	public function select2_pendapatan()
+	{
+		$this->db->select('mnoakun.idakun as id, concat(mnoakun.akunno, " - ", mnoakun.namaakun) as text');
+		$this->db->like('akunno', '4', 'after');
+		$this->db->or_like('akunno', '7', 'after');
+		return $this->db->get('mnoakun')->result_array();
+	}
+
+	public function select2_hpp()
+	{
+		$this->db->select('mnoakun.idakun as id, concat(mnoakun.akunno, " - ", mnoakun.namaakun) as text');
+		$this->db->like('akunno', '1', 'after');
+		$this->db->or_like('akunno', '5', 'after');
+		$this->db->or_like('akunno', '6', 'after');
+		$this->db->or_like('akunno', '8', 'after');
+		return $this->db->get('mnoakun')->result_array();
+	}
 }
 

@@ -379,6 +379,7 @@
 		const stat			= $(elem).is(":checked");
         const table			= $('#isi_tbody_pajak'+id);
         const idPajak       = $(elem).attr('idPajak');
+        const persen        = $(elem).attr('persen');
 		// var no1				= 0;		
 		if (stat) {
 			html = `<tr no="${no}">
@@ -471,7 +472,7 @@
 					} else {
                         const html  = `
 							<tr>
-								<td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}" id="" idPajak="${element.id_pajak}" onchange="addPajak(this, `+i+`, '`+id+`')"></td>
+								<td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}" id="" idPajak="${element.id_pajak}" onchange="addPajak(this, `+i+`, '`+id+`')" persen="${element.persen}"></td>
 								<td>${element.kode_pajak}</td>
 								<td>${element.nama_pajak}</td>
                                 <td>${element.akunno}</td>

@@ -1,0 +1,419 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><?= $title; ?></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('project'); ?>">{title}</a></li>
+                        <li class="breadcrumb-item active">{subtitle}</li>
+                    </ol>
+                </div>
+            </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <form action="javascript:save()" id="form">
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="header-elements-inline">
+                                    <h5 class="card-title">{subtitle}</h5>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>No. Event : </label>
+                                            <input type="text" class="form-control" name="noEvent" placeholder="AUTO" disabled id="noEvent">
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>Tanggal Mulai : </label>
+                                            <input type="date" class="form-control" name="tanggalMulai" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label><?php echo lang('Perusahaan') ?>:</label>
+                                            <div class="input-group"> 
+                                                <?php
+                                                    if ($this->session->userid !== '1') { ?>
+                                                        <input type="hidden" name="idperusahaan" value="<?= $this->session->idperusahaan; ?>" id="perusahaan">
+                                                        <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                    <?php } else { ?>
+                                                        <select class="form-control perusahaan" name="idperusahaan" style="width: 100%;" id="perusahaan" required></select>
+                                                    <?php }
+                                                ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>Kode Event : </label>
+                                            <input type="text" class="form-control" name="kodeEvent" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>Rekanan : </label>
+                                            <select class="form-control rekanan" name="rekanan" style="width: 100%;" id="rekanan" required></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>Tanggal Selesai : </label>
+                                            <input type="date" class="form-control" name="tanggalSelesai" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>Departemen : </label>
+                                            <select class="form-control departemen" name="departemen" style="width: 100%;" id="departemen" required></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>Kelompok Umur : </label>
+                                            <input type="text" class="form-control" name="kelompokUmur" required required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>Cabang : </label>
+                                            <select class="form-control cabang" name="cabang" style="width: 100%;" id="cabang" required></select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>Region : </label>
+                                            <select class="form-control region" name="region" style="width: 100%;" id="region" required>
+                                                <option value=""></option>
+                                                <option value="dkiJakarta">DKI Jakarta</option>
+                                                <option value="dkiJakarta">Network</option>
+                                                <option value="dkiJakarta">Java</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="form-group">
+                                            <label>Gudang : </label>
+                                            <select class="form-control gudang" name="gudang" style="width: 100%;" id="gudang"  required></select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.col (left) -->
+                    <!--/.col (right) -->
+                    </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="btn-group" role="group" aria-label="Basic example">
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPendapatan">Tambah Pendapatan</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahHPP">Tambah HPP</button>
+                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalGrossProfit">Gross Profit</button>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelDetail">
+                                        <thead>
+                                            <tr class="table-active">
+                                                <th>No. Akun</th>
+                                                <th>Harga</th>
+                                                <th>Jumlah</th>
+                                                <th>Subtotal</th>
+                                                <th>Total</th>
+                                                <th>Aksi</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/.col (left) -->
+                    <!--/.col (right) -->
+                    </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </section>
+        <!-- /.content -->
+    </form>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalTambahPendapatan">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:save_detail('TambahPendapatan')">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah Pendapatan</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>No. Akun : </label>
+                        <select class="form-control noakun" name="noakun" style="width: 100%;" id="noakun" required></select>
+                    </div>  
+                    <div class="form-group">
+                        <label>Harga : </label>
+                        <input type="text" name="harga" id="harga" required class="form-control" onkeyup="nominal(this), hitung()">
+                    </div>  
+                    <div class="form-group">
+                        <label>Jumlah : </label>
+                        <input type="text" name="jumlah" id="jumlah" required class="form-control" onkeyup="hitung()">
+                    </div>  
+                    <div class="form-group">
+                        <label>Subtotal : </label>
+                        <input type="text" name="subtotal" id="subtotal" required class="form-control" disabled>
+                    </div>      
+                    <div class="form-group">
+                        <label>Total : </label>
+                        <input type="text" name="total" id="total" required class="form-control" disabled>
+                    </div>    
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>                 
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalTambahHPP">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <form action="javascript:save_detail('TambahHPP')">
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah HPP</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>No. Akun : </label>
+                        <select class="form-control noakunHPP" name="noakunHPP" style="width: 100%;" id="noakunHPP" required></select>
+                    </div>  
+                    <div class="form-group">
+                        <label>Harga : </label>
+                        <input type="text" name="hargaHPP" id="hargaHPP" required class="form-control" onkeyup="nominal(this), hitung('HPP')">
+                    </div>  
+                    <div class="form-group">
+                        <label>Jumlah : </label>
+                        <input type="text" name="jumlahHPP" id="jumlahHPP" required class="form-control" onkeyup="hitung('HPP')">
+                    </div>  
+                    <div class="form-group">
+                        <label>Subtotal : </label>
+                        <input type="text" name="subtotalHPP" id="subtotalHPP" required class="form-control" disabled>
+                    </div>      
+                    <div class="form-group">
+                        <label>Total : </label>
+                        <input type="text" name="totalHPP" id="totalHPP" required class="form-control" disabled>
+                    </div>    
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>                 
+            </form>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalGrossProfit">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <h5 class="modal-title">Tambah HPP</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Total Pendapatan - Total HPP : </label>
+                        <input type="text" name="totalHPP" id="totalHPP" required class="form-control" disabled>
+                    </div> 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>                 
+            </form>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    var tabelDetail = $('#tabelDetail').DataTable();
+
+	$(document).ready(function(){
+        if ('<?= $this->session->userid; ?>' == '1') {
+            ajax_select({ 
+                id          : '.perusahaan', 
+                url         : '{site_url}perusahaan/select2',
+            });
+        } else {
+            perusahaan  = $('.perusahaan').val();
+            $('#noEvent').val('IHT.2020.' + perusahaan + '{noEvent}');
+        }
+        ajax_select({ 
+            id          : '.gudang', 
+            url         : '{site_url}gudang/select2/',
+        });
+        ajax_select({ 
+            id          : '.noakun', 
+            url         : '{site_url}noakun/select2_pendapatan',
+        });
+        $('#region').select2({
+            placeholder : 'Pilih Region',
+            allowClear  : true
+        });
+        ajax_select({ 
+            id          : '.noakunHPP', 
+            url         : '{site_url}noakun/select2_hpp',
+        });
+    })
+
+    $('.perusahaan').change(function (e) {
+        perusahaan  = $('.perusahaan').val();
+        $('#noEvent').val('IHT.2020.' + perusahaan + '.{noEvent}');
+        ajax_select({ 
+            id          : '.rekanan', 
+            url         : '{site_url}rekanan/select2/' + perusahaan,
+        });
+        ajax_select({ 
+            id          : '.departemen', 
+            url         : '{site_url}departemen/select2/' + perusahaan,
+        });
+        ajax_select({ 
+            id          : '.cabang', 
+            url         : '{site_url}cabang/select2/' + perusahaan,
+        });
+    })
+
+    function save() {
+        var form = $('#form')[0];
+        var formData = new FormData(form);
+        $.ajax({
+            url: base_url + 'save',
+            dataType: 'json',
+            method: 'post',
+            data: formData,
+            contentType: false,
+            processData: false,
+            beforeSend: function() {
+                pageBlock();
+            },
+            afterSend: function() {
+                unpageBlock();
+            },
+            success: function(data) {
+                if(data.status == 'success') {
+                    swal("Berhasil!", "Berhasil Menambah Data", "success");
+                    redirect(base_url);
+                } else {
+                    swal("Gagal!", "Gagal Menambah Data", "error");
+                }
+            },
+            error: function() {
+                swal("Gagal!", "Internal Server Error", "error");
+            }
+        })
+    }
+
+    function nominal(elemen) {
+        var nominal = $(elemen).val();
+        $(elemen).val(formatRupiah(nominal));
+    }
+
+    function hitung(elemen) {
+        if (elemen) {
+            var harga   = parseInt($('#harga' + elemen).val().replace(/[^,\d]/g, ''));
+            var jumlah  = parseInt($('#jumlah' + elemen).val());
+        } else {
+            var harga   = parseInt($('#harga').val());
+            var jumlah  = parseInt($('#jumlah').val());
+        }
+        if (isNaN(harga) && isNaN(jumlah)) {
+            total   = '';
+        } else {
+            if (isNaN(harga)) {
+                harga   = 1;
+            }
+            if (isNaN(jumlah)) {
+                jumlah   = 1;
+            }
+            total   = harga * jumlah;
+        }
+        if (elemen) {
+            $('#subtotal' + elemen).val(total);
+            $('#total' + elemen).val(total);
+        } else {
+            $('#subtotal').val(total);
+            $('#total').val(total);
+        }
+    }
+
+    function save_detail(tipe) {
+        console.log(tipe);
+        switch (tipe) {
+            case 'TambahHPP':
+                var noAkun      = $('#noakunHPP').val();
+                var harga       = $('#hargaHPP').val();
+                var jumlah      = $('#jumlahHPP').val();
+                var subtotal    = $('#subtotalHPP').val();
+                var total       = $('#totalHPP').val();
+                var akunno      = $('#noakunHPP')[0].textContent;
+                break;
+            case 'TambahPendapatan':
+                var noAkun      = $('#noakun').val();
+                var harga       = $('#harga').val();
+                var jumlah      = $('#jumlah').val();
+                var subtotal    = $('#subtotal').val();
+                var total       = $('#total').val();
+                var akunno      = $('#noakun')[0].textContent;
+                break;
+        
+            default:
+                break;
+        }
+        tabelDetail.row.add([
+            akunno,
+            harga,
+            jumlah,
+            subtotal,
+            total,
+            `<a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>`
+        ]).draw();
+        $('#modal' + tipe).modal('hide');
+    }
+</script>

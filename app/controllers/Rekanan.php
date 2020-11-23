@@ -1,18 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
-class Rekanan extends Pegawai_Controller {
+class Rekanan extends User_Controller {
 
 	public function __construct() {
 		parent::__construct();
@@ -70,14 +59,10 @@ class Rekanan extends Pegawai_Controller {
 		else $data = $this->db->get('mpegawaihakakses')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
-}
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
+	public function select2($perusahaan)
+	{
+		$data	= $this->model->select2($perusahaan);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+}

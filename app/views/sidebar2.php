@@ -193,7 +193,7 @@
             </ul>
           </li>	
 
-          <?php $menu = array('pemesanan_penjualan', 'pengiriman_penjualan', 'faktur_penjualan', 'pembayaran_penjualan', 'retur_penjualan'); ?>
+          <?php $menu = array('pemesanan_penjualan', 'pengiriman_penjualan', 'faktur_penjualan', 'pembayaran_penjualan', 'retur_penjualan', 'project'); ?>
           <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
             <a href="#" class="nav-link 
               <?php
@@ -203,26 +203,30 @@
               ?>"><i class="nav-icon fas fa-shopping-cart"></i>
               <p><?php echo lang('selling') ?><i class="fas fa-angle-left right"></i></p>
             </a>
-            <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('selling') ?>">                        
+            <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('selling') ?>">
               <li class="nav-item">
-              <a href="{site_url}pemesanan_penjualan" class="nav-link <?php echo menu_is_active('pemesanan_penjualan') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('sales_order') ?></p></a>
+                <a href="{site_url}project" class="nav-link <?php echo menu_is_active('project') ?>">
+                <i class="far fa-circle nav-icon"></i><p>Project</p></a>
+              </li>                        
+              <li class="nav-item">
+                <a href="{site_url}pemesanan_penjualan" class="nav-link <?php echo menu_is_active('pemesanan_penjualan') ?>">
+                <i class="far fa-circle nav-icon"></i><p><?php echo lang('sales_order') ?></p></a>
               </li>            
               <li class="nav-item">
-              <a href="{site_url}pengiriman_penjualan" class="nav-link <?php echo menu_is_active('pengiriman_penjualan') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('delivery') ?></p></a>
+                <a href="{site_url}pengiriman_penjualan" class="nav-link <?php echo menu_is_active('pengiriman_penjualan') ?>">
+                <i class="far fa-circle nav-icon"></i><p><?php echo lang('delivery') ?></p></a>
               </li>            
               <li class="nav-item">
-              <a href="{site_url}faktur_penjualan" class="nav-link <?php echo menu_is_active('faktur_penjualan') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('invoice') ?></p></a>
+                <a href="{site_url}faktur_penjualan" class="nav-link <?php echo menu_is_active('faktur_penjualan') ?>">
+                <i class="far fa-circle nav-icon"></i><p><?php echo lang('invoice') ?></p></a>
               </li>            
               <li class="nav-item">
-              <a href="{site_url}SetorPajak" class="nav-link <?php echo menu_is_active('SetorPajak') ?>">
-              <i class="far fa-circle nav-icon"></i><p>Setor Pajak</p></a>
+                <a href="{site_url}SetorPajak" class="nav-link <?php echo menu_is_active('SetorPajak') ?>">
+                <i class="far fa-circle nav-icon"></i><p>Setor Pajak</p></a>
               </li>            
               <li class="nav-item">
-              <a href="{site_url}retur_penjualan" class="nav-link <?php echo menu_is_active('retur_penjualan') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('return') ?></p></a>
+                <a href="{site_url}retur_penjualan" class="nav-link <?php echo menu_is_active('retur_penjualan') ?>">
+                <i class="far fa-circle nav-icon"></i><p><?php echo lang('return') ?></p></a>
               </li>        
             </ul>
           </li>	          
