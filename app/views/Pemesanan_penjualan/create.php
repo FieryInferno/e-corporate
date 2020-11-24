@@ -909,6 +909,7 @@
                                                                     <th>Nama Pajak</th>
                                                                     <th>Kode Akun</th>
                                                                     <th>Nama Akun</th>
+                                                                    <th>Persen</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody id='list_pajak${index}${no}'></tbody>
@@ -1144,13 +1145,16 @@
         const idPajak       = $(elem).attr('idPajak');
         const stat          = $(elem).is(":checked");
         const table         = $('#isi_tbody_pajak'+id);
+        const persen        = $(elem).attr('persen');
+        const harga         = parseInt($('#harga' + id).val().replace(/[.]/g, ''));
+        nominal             = harga * persen / 100;
         // var no1              = 0;        
         if (stat) {
             html = `<tr no="${no}">
                         <td><input type="hidden" name="idPajak" value="${idPajak}">${kode_pajak}</td>
                         <td>${kode_akun}</td>
                         <td>${nama_akun}</td>
-                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak"></td>
+                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak" value="${formatRupiah(String(nominal))}"></td>
                         <td><input type="checkbox" name="pengurangan" id="pengurangan${no}${id}"></td>
                     </tr>`;
             table.append(html);
@@ -1235,11 +1239,12 @@
                     } else {
                         const html  = `
                             <tr>
-                                <td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}" idPajak="${element.id_pajak}" onchange="addPajak(this, `+i+`, '`+id+`')"></td>
+                                <td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}" idPajak="${element.id_pajak}" onchange="addPajak(this, `+i+`, '`+id+`')" persen="${element.persen}"></td>
                                 <td>${element.kode_pajak}</td>
                                 <td>${element.nama_pajak}</td>
                                 <td>${element.akunno}</td>
                                 <td>${element.namaakun}</td>
+                                <td>${element.persen}</td>
                             </tr>
                         `;
                         table.append(html);

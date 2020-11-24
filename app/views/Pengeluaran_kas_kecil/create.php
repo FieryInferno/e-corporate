@@ -533,11 +533,10 @@
                                                                 <th>Nama Pajak</th>
                                                                 <th>Kode Akun</th>
                                                                 <th>Nama Akun</th>
+                                                                <th>Tarif %</th>
                                                             </tr>
                                                         </thead>
-                                                        <tbody id='list_pajak${index}${no}'>
-
-                                                        </tbody>
+                                                        <tbody id='list_pajak${index}${no}'></tbody>
                                                     </table>
                                                 </div>
                                                 <div class="modal-footer">
@@ -629,13 +628,18 @@
         const nama_akun     = $(elem).attr('nama_akun');
         const stat          = $(elem).is(":checked");
         const table         = $('#isi_tbody_pajak'+id);
+        const harga         = $('#harga' + id);
+        const nama_akun     = $(elem).attr('persen');
+
+        nominal             = harga * persen / 100;
+        
         // var no1              = 0;        
         if (stat) {
             html = `<tr no="${no}">
                         <td>${kode_pajak}</td>
                         <td>${kode_akun}</td>
                         <td>${nama_akun}</td>
-                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak"></td>
+                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak" value="${formatRupiah(String(nominal))}></td>
                     </tr>`;
             table.append(html);
         } else {
@@ -696,11 +700,12 @@
                     } else {
                         const html  = `
                             <tr>
-                                <td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}"id="" onchange="addPajak(this, `+i+`, '`+id+`')"></td>
+                                <td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}"id="" onchange="addPajak(this, `+i+`, '`+id+`')" persen="${element.persen}"></td>
                                 <td>${element.kode_pajak}</td>
                                 <td>${element.nama_pajak}</td>
                                 <td>${element.akunno}</td>
                                 <td>${element.namaakun}</td>
+                                <td>${element.persen}</td>
                             </tr>
                         `;
                         table.append(html);

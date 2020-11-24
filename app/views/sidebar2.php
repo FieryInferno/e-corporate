@@ -191,11 +191,11 @@
             </ul>
           </li>	
 
-          <?php $menu = array('pemesanan_penjualan', 'pengiriman_penjualan', 'faktur_penjualan', 'pembayaran_penjualan', 'retur_penjualan', 'project'); ?>
-          <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
+          <?php $menuPenjualan = array('pemesanan_penjualan', 'pengiriman_penjualan', 'faktur_penjualan', 'pembayaran_penjualan', 'retur_penjualan', 'project'); ?>
+          <li class="nav-item has-treeview  <?php echo menu_is_open($menuPenjualan) ?>">
             <a href="#" class="nav-link 
               <?php
-                if (in_array($this->uri->segment(1), $menu)) {
+                if (in_array($this->uri->segment(1), $menuPenjualan)) {
                   echo 'active';
                 }
               ?>"><i class="nav-icon fas fa-shopping-cart"></i>

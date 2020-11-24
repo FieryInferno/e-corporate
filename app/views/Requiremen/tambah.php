@@ -384,13 +384,15 @@
         const table			= $('#isi_tbody_pajak'+id);
         const idPajak       = $(elem).attr('idPajak');
         const persen        = $(elem).attr('persen');
+        const harga         = parseInt($('#harga' + id).val().replace(/[.]/g, ''));
+        nominal             = harga * persen / 100;
 		// var no1				= 0;		
 		if (stat) {
 			html = `<tr no="${no}">
                         <td><input type="hidden" name="idPajak" value="${idPajak}">${kode_pajak}</td>
                         <td>${kode_akun}</td>
                         <td>${nama_akun}</td>
-                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak"></td>
+                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak" value="${formatRupiah(nominal)}"></td>
                         <td><input type="checkbox" name="pengurangan" id="pengurangan${no}${id}"></td>
                     </tr>`;
 			table.append(html);
@@ -470,6 +472,7 @@
 								<td>${element.nama_pajak}</td>
                                 <td>${element.akunno}</td>
                                 <td>${element.namaakun}</td>
+                                <td>${element.persen}</td>
 							</tr>
 						`;
 						table.append(html);
@@ -481,6 +484,7 @@
 								<td>${element.nama_pajak}</td>
                                 <td>${element.akunno}</td>
                                 <td>${element.namaakun}</td>
+                                <td>${element.persen}</td>
 							</tr>
 						`;
 						table.append(html);
@@ -784,6 +788,7 @@
                                                                     <th>Nama Pajak</th>
                                                                     <th>Kode Akun</th>
                                                                     <th>Nama Akun</th>
+                                                                    <th>Tarif %</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody id='list_pajak${index}${no}'></tbody>

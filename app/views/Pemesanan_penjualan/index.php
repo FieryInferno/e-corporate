@@ -24,7 +24,7 @@
 				<div class="col-12">         
 					<div class="card">
 						<div class="card-header">
-							<a href="{site_url}Pemesanan_penjualan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+							<a href="{site_url}pemesanan_penjualan/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
