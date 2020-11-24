@@ -3,9 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Project extends User_Controller {
 
+    private $idProject;
+
 	public function __construct() {
 		parent::__construct();
-		$this->load->model('ProjectModel','model');
+        $this->load->model('ProjectModel','model');
+        $this->idProject    = $this->input->post('idProject');
     }
     
     public function index() {
@@ -45,6 +48,7 @@ class Project extends User_Controller {
     
     public function save()
     {
+        $this->model->set('idProject', $idProject);
         $data   = $this->model->save();
         if ($data) {
             $hasil['status'] = 'success';
@@ -65,5 +69,28 @@ class Project extends User_Controller {
     {
         $data   = $this->model->select2($perusahaan);
         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function edit($idProject)
+    {
+        $this->model->set('idProject', $idProject);
+        $data               = $this->model->get();
+        $data['title']      = 'Project';
+		$data['subtitle']   = 'Edit';
+		$data['content']    = 'Project/edit';
+		$data               = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+    }
+
+    public function delete($idProject)
+    {
+        $this->model->set('idProject', $idProject);
+        $data   = $this->model->delete();
+        if ($data) {
+            $hasil['status'] = 'success';
+        } else {
+            $hasil['status'] = 'failed';
+        }
+        return $this->output->set_content_type('application/json')->set_output(json_encode($hasil));
     }
 }

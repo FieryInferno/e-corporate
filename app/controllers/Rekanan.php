@@ -60,9 +60,9 @@ class Rekanan extends User_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
-	public function select2($perusahaan)
+	public function select2($perusahaan, $id = null)
 	{
-		$data	= $this->model->select2($perusahaan);
+		$data	= $this->model->select2($perusahaan, $id);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 }

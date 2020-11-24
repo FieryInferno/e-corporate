@@ -122,16 +122,16 @@
 					switch (data.status) {
 						case '4':
 							tombol_edit	= `
-								<a class="dropdown-item" href="`+base_url+`validasi/0/`+data.id+`"><i class="fas fa-check"></i> Validasi</a> 
-								<a href="` + base_url + `edit/` + data.id + `" class="dropdown-item"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>`;
+								<a class="dropdown-item text-success" href="`+base_url+`validasi/0/`+data.id+`"><i class="fas fa-check"></i> Validasi</a> 
+								<a href="` + base_url + `edit/` + data.id + `" class="dropdown-item text-primary"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>`;
 							break;
 						case '5':
 							tombol_edit	= `
-								<a class="dropdown-item" href="`+base_url+`validasi/1/`+data.id+`"><i class="fas fa-times"></i> Hapus Validasi</a>`;
+								<a class="dropdown-item text-success" href="`+base_url+`validasi/1/`+data.id+`"><i class="fas fa-times"></i> Hapus Validasi</a>`;
 							break;
 						case '6':
 							tombol_edit	= `
-								<a class="dropdown-item" href="`+base_url+`validasi/1/`+data.id+`"><i class="fas fa-times"></i> Hapus Validasi</a>`;
+								<a class="dropdown-item text-success" href="`+base_url+`validasi/1/`+data.id+`"><i class="fas fa-times"></i> Hapus Validasi</a>`;
 							break;
 					
 						default:
@@ -144,7 +144,7 @@
 								<div class="dropdown-menu dropdown-menu-right">
 									<a href="`+base_url+`printpdf/`+data.id+`" class="dropdown-item"><i class="fas fa-print"></i> <?php echo lang('print') ?></a>
 									`+ tombol_edit + `
-									<a href="javascript:deleteData('` + data.id + `')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+									<a href="javascript:deleteData('` + data.id + `')" class="dropdown-item delete text-danger"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
 								</div> 
 							</div> 
 						</div>`;

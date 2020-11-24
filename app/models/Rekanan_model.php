@@ -49,11 +49,19 @@ class Rekanan_model extends CI_Model {
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
-	public function select2($perusahaan)
+	public function select2($perusahaan, $id)
 	{
 		$this->db->select('mkontak.id, mkontak.nama as text');
-		return $this->db->get_where('mkontak', [
+		if ($id) {
+			$this->db->where('mkontak.id', $id);
+		}
+		$data	= $this->db->get_where('mkontak', [
 			'perusahaan'	=> $perusahaan
-		])->result_array();
+		]);
+		if ($id) {
+			return $data->row_array();
+		} else {
+			return $data->result_array();
+		}
 	}
 }
