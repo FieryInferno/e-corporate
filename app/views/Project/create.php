@@ -133,28 +133,63 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPendapatan">Tambah Pendapatan</button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahHPP">Tambah HPP</button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalGrossProfit">Gross Profit</button>
-                                    <input type="hidden" name="grossProfit" id="grossProfit1">
-                                    <input type="hidden" name="totalPendapatan" id="totalPendapatan">
-                                    <input type="hidden" name="totalHPP" id="totalHPP">
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelDetail">
-                                        <thead>
-                                            <tr class="table-active">
-                                                <th>No. Akun</th>
-                                                <th>Harga</th>
-                                                <th>Jumlah</th>
-                                                <th>Subtotal</th>
-                                                <th>Total</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody></tbody>
-                                    </table>
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#pendapatan" role="tab" aria-controls="home" aria-selected="true">Pendapatan</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#HPP" role="tab" aria-controls="profile" aria-selected="false">HPP</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#grossProfit1" role="tab" aria-controls="contact" aria-selected="false">Gross Profit</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="pendapatan" role="tabpanel" aria-labelledby="home-tab">
+                                        <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#modalTambahPendapatan">Tambah</button>
+                                        <div class="table-responsive">
+                                            <table class="table table-xs table-striped table-borderless table-hover" id="tabelPendapatan">
+                                                <thead>
+                                                    <tr class="table-active">
+                                                        <th>No. Akun</th>
+                                                        <th>Harga</th>
+                                                        <th>Jumlah</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Total</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="HPP" role="tabpanel" aria-labelledby="profile-tab">
+                                        <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#modalTambahHPP">Tambah</button>
+                                        <div class="table-responsive">
+                                            <table class="table table-xs table-striped table-borderless table-hover" id="tabelHPP">
+                                                <thead>
+                                                    <tr class="table-active">
+                                                        <th>No. Akun</th>
+                                                        <th>Harga</th>
+                                                        <th>Jumlah</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Total</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="grossProfit1" role="tabpanel" aria-labelledby="contact-tab">
+                                        <input type="hidden" name="grossProfit" id="grossProfit1">
+                                        <input type="hidden" name="totalPendapatan" id="totalPendapatan">
+                                        <input type="hidden" name="totalHPP" id="totalHPP">
+                                        <div class="form-group">
+                                            <label>Total Pendapatan - Total HPP : </label>
+                                            <input type="text" id="grossProfit" required class="form-control" disabled>
+                                        </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">
@@ -242,7 +277,7 @@
                     </div>      
                     <div class="form-group">
                         <label>Total : </label>
-                        <input type="text" name="totalHPP" id="totalHPP" required class="form-control" disabled>
+                        <input type="text" name="totalHPP" id="totalHPP1" required class="form-control" disabled>
                     </div>    
                 </div>
                 <div class="modal-footer">
@@ -254,34 +289,10 @@
     </div>
 </div>
 
-<div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalGrossProfit">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form>
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambah HPP</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Total Pendapatan - Total HPP : </label>
-                        <input type="text" id="grossProfit" required class="form-control" disabled>
-                    </div> 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                </div>                 
-            </form>
-        </div>
-    </div>
-</div>
-
 <script type="text/javascript">
-    var tabelDetail = $('#tabelDetail').DataTable();
-    var baseUrl     = '{site_url}project/';
+    var tabelPendapatan = $('#tabelPendapatan').DataTable();
+    var tabelHPP        = $('#tabelHPP').DataTable();
+    var baseUrl         = '{site_url}project/';
 
 	$(document).ready(function(){
         if ('<?= $this->session->userid; ?>' == '1') {
@@ -384,7 +395,7 @@
         }
         if (elemen) {
             $('#subtotal' + elemen).val(formatRupiah(String(total)) + ',00');
-            $('#total' + elemen).val(formatRupiah(String(total)) + ',00');
+            $('#total' + elemen + '1').val(formatRupiah(String(total)) + ',00');
         } else {
             $('#subtotal').val(formatRupiah(String(total)) + ',00');
             $('#total').val(formatRupiah(String(total)) + ',00');
@@ -398,15 +409,23 @@
                 var harga       = $('#hargaHPP').val();
                 var jumlah      = $('#jumlahHPP').val();
                 var subtotal    = $('#subtotalHPP').val();
-                var total       = $('#totalHPP').val();
+                var total       = $('#totalHPP1').val();
                 var akunno      = $('#noakunHPP')[0].textContent;
                 var formTotal   = `
-                    <input type="hidden" name="total[]" value="${$('#totalHPP').val().replace(/[^,\d]|(,00)/g, '')}">
-                    <input type="hidden" name="totalHPP" value="${$('#totalHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                    <input type="hidden" name="total[]" value="${$('#totalHPP1').val().replace(/[^,\d]|(,00)/g, '')}">
+                    <input type="hidden" name="totalHPP1" value="${$('#totalHPP1').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 var formNoAkun      = `<input type="hidden" name="noAkun[]" value="${$('#noakunHPP').val()}">`;
                 var formHarga       = `<input type="hidden" name="harga[]" value="${$('#hargaHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 var formJumlah      = `<input type="hidden" name="jumlah[]" value="${$('#jumlahHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 var formSubtotal    = `<input type="hidden" name="subtotal[]" value="${$('#subtotalHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                tabelHPP.row.add([
+                    formNoAkun + akunno,
+                    formHarga + harga,
+                    formJumlah + jumlah,
+                    formSubtotal + subtotal,
+                    formTotal + total,
+                    `<a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>`
+                ]).draw();
                 break;
             case 'TambahPendapatan':
                 var noAkun      = $('#noakun').val();
@@ -422,26 +441,26 @@
                 var formHarga       = `<input type="hidden" name="harga[]" value="${$('#harga').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 var formJumlah      = `<input type="hidden" name="jumlah[]" value="${$('#jumlah').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 var formSubtotal    = `<input type="hidden" name="subtotal[]" value="${$('#subtotal').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                tabelPendapatan.row.add([
+                    formNoAkun + akunno,
+                    formHarga + harga,
+                    formJumlah + jumlah,
+                    formSubtotal + subtotal,
+                    formTotal + total,
+                    `<a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>`
+                ]).draw();
                 break;
         
             default:
                 break;
         }
-        tabelDetail.row.add([
-            formNoAkun + akunno,
-            formHarga + harga,
-            formJumlah + jumlah,
-            formSubtotal + subtotal,
-            formTotal + total,
-            `<a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>`
-        ]).draw();
         switch (tipe) {
             case 'TambahHPP':
                 $('#noakunHPP').val('');
                 $('#hargaHPP').val('');
                 $('#jumlahHPP').val('');
                 $('#subtotalHPP').val('');
-                $('#totalHPP').val('');
+                $('#totalHPP1').val('');
                 break;
             case 'TambahPendapatan':
                 $('#noakun').val('');
@@ -457,9 +476,7 @@
         $('#modal' + tipe).modal('hide');
         var detail          = new FormData($('#form')[0]);
         var pendapatan      = detail.getAll('total');
-        console.log(pendapatan)
-        var HPP             = detail.getAll('totalHPP');
-        console.log(HPP)
+        var HPP             = detail.getAll('totalHPP1');
         var totalPendapatan = 0;
         var totalHPP        = 0;
         if (pendapatan) {
@@ -472,8 +489,9 @@
                 totalHPP    += parseInt(element);
             });
         }
+        console.log(totalPendapatan);
+        console.log(totalHPP);
         var grossProfit = totalPendapatan - totalHPP;
-        console.log(grossProfit);
         $('#grossProfit').val(formatRupiah(String(grossProfit)) + ',00');
         $('#grossProfit1').val(grossProfit);
         $('#totalPendapatan').val(totalPendapatan);
