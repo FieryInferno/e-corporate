@@ -392,7 +392,7 @@
                         <td><input type="hidden" name="idPajak" value="${idPajak}">${kode_pajak}</td>
                         <td>${kode_akun}</td>
                         <td>${nama_akun}</td>
-                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak" value="${formatRupiah(nominal)}"></td>
+                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak" value="${formatRupiah(String(nominal))}"></td>
                         <td><input type="checkbox" name="pengurangan" id="pengurangan${no}${id}"></td>
                     </tr>`;
 			table.append(html);
