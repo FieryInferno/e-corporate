@@ -34,7 +34,7 @@
                                     <div class="col-3">
                                         <div class="form-group">
                                             <label>No. Event : </label>
-                                            <input type="text" class="form-control" name="noEvent" placeholder="AUTO" disabled id="noEvent">
+                                            <input type="text" class="form-control" name="noEvent" readonly id="noEvent">
                                         </div>
                                     </div>
                                     <div class="col-3">
@@ -103,9 +103,9 @@
                                             <label>Region : </label>
                                             <select class="form-control region" name="region" style="width: 100%;" id="region" required>
                                                 <option value=""></option>
-                                                <option value="dkiJakarta">DKI Jakarta</option>
-                                                <option value="dkiJakarta">Network</option>
-                                                <option value="dkiJakarta">Java</option>
+                                                <option value="DKI Jakarta">DKI Jakarta</option>
+                                                <option value="Network">Network</option>
+                                                <option value="Java">Java</option>
                                             </select>
                                         </div>
                                     </div>
@@ -137,6 +137,9 @@
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPendapatan">Tambah Pendapatan</button>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahHPP">Tambah HPP</button>
                                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalGrossProfit">Gross Profit</button>
+                                    <input type="hidden" name="grossProfit" id="grossProfit1">
+                                    <input type="hidden" name="totalPendapatan" id="totalPendapatan">
+                                    <input type="hidden" name="totalHPP" id="totalHPP">
                                 </div>
                                 <div class="table-responsive">
                                     <table class="table table-xs table-striped table-borderless table-hover" id="tabelDetail">
@@ -154,6 +157,10 @@
                                     </table>
                                 </div>
                             </div>
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                                <a href="{site_url}project" class="btn btn-danger">Batal</a>
+                            </div>
                         </div>
                         <!--/.col (left) -->
                     <!--/.col (right) -->
@@ -168,7 +175,7 @@
 <div class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" id="modalTambahPendapatan">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <form action="javascript:save_detail('TambahPendapatan')">
+            <form action="javascript:save_detail('TambahPendapatan')" id="formPendapatan">
                 <div class="modal-header">
                     <h5 class="modal-title">Tambah Pendapatan</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -260,7 +267,7 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Total Pendapatan - Total HPP : </label>
-                        <input type="text" name="totalHPP" id="totalHPP" required class="form-control" disabled>
+                        <input type="text" id="grossProfit" required class="form-control" disabled>
                     </div> 
                 </div>
                 <div class="modal-footer">
@@ -274,6 +281,7 @@
 
 <script type="text/javascript">
     var tabelDetail = $('#tabelDetail').DataTable();
+    var baseUrl     = '{site_url}project/';
 
 	$(document).ready(function(){
         if ('<?= $this->session->userid; ?>' == '1') {
@@ -360,7 +368,7 @@
             var harga   = parseInt($('#harga' + elemen).val().replace(/[^,\d]/g, ''));
             var jumlah  = parseInt($('#jumlah' + elemen).val());
         } else {
-            var harga   = parseInt($('#harga').val());
+            var harga   = parseInt($('#harga').val().replace(/[^,\d]/g, ''));
             var jumlah  = parseInt($('#jumlah').val());
         }
         if (isNaN(harga) && isNaN(jumlah)) {
@@ -375,16 +383,15 @@
             total   = harga * jumlah;
         }
         if (elemen) {
-            $('#subtotal' + elemen).val(total);
-            $('#total' + elemen).val(total);
+            $('#subtotal' + elemen).val(formatRupiah(String(total)) + ',00');
+            $('#total' + elemen).val(formatRupiah(String(total)) + ',00');
         } else {
-            $('#subtotal').val(total);
-            $('#total').val(total);
+            $('#subtotal').val(formatRupiah(String(total)) + ',00');
+            $('#total').val(formatRupiah(String(total)) + ',00');
         }
     }
 
     function save_detail(tipe) {
-        console.log(tipe);
         switch (tipe) {
             case 'TambahHPP':
                 var noAkun      = $('#noakunHPP').val();
@@ -393,6 +400,13 @@
                 var subtotal    = $('#subtotalHPP').val();
                 var total       = $('#totalHPP').val();
                 var akunno      = $('#noakunHPP')[0].textContent;
+                var formTotal   = `
+                    <input type="hidden" name="total[]" value="${$('#totalHPP').val().replace(/[^,\d]|(,00)/g, '')}">
+                    <input type="hidden" name="totalHPP" value="${$('#totalHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                var formNoAkun      = `<input type="hidden" name="noAkun[]" value="${$('#noakunHPP').val()}">`;
+                var formHarga       = `<input type="hidden" name="harga[]" value="${$('#hargaHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                var formJumlah      = `<input type="hidden" name="jumlah[]" value="${$('#jumlahHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                var formSubtotal    = `<input type="hidden" name="subtotal[]" value="${$('#subtotalHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 break;
             case 'TambahPendapatan':
                 var noAkun      = $('#noakun').val();
@@ -401,19 +415,98 @@
                 var subtotal    = $('#subtotal').val();
                 var total       = $('#total').val();
                 var akunno      = $('#noakun')[0].textContent;
+                var formTotal   = `
+                    <input type="hidden" name="total[]" value="${$('#total').val().replace(/[^,\d]|(,00)/g, '')}">
+                    <input type="hidden" name="total" value="${$('#total').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                var formNoAkun      = `<input type="hidden" name="noAkun[]" value="${$('#noakun').val()}">`;
+                var formHarga       = `<input type="hidden" name="harga[]" value="${$('#harga').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                var formJumlah      = `<input type="hidden" name="jumlah[]" value="${$('#jumlah').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                var formSubtotal    = `<input type="hidden" name="subtotal[]" value="${$('#subtotal').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 break;
         
             default:
                 break;
         }
         tabelDetail.row.add([
-            akunno,
-            harga,
-            jumlah,
-            subtotal,
-            total,
+            formNoAkun + akunno,
+            formHarga + harga,
+            formJumlah + jumlah,
+            formSubtotal + subtotal,
+            formTotal + total,
             `<a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>`
         ]).draw();
+        switch (tipe) {
+            case 'TambahHPP':
+                $('#noakunHPP').val('');
+                $('#hargaHPP').val('');
+                $('#jumlahHPP').val('');
+                $('#subtotalHPP').val('');
+                $('#totalHPP').val('');
+                break;
+            case 'TambahPendapatan':
+                $('#noakun').val('');
+                $('#harga').val('');
+                $('#jumlah').val('');
+                $('#subtotal').val('');
+                $('#total').val('');
+                break;
+        
+            default:
+                break;
+        }
         $('#modal' + tipe).modal('hide');
+        var detail          = new FormData($('#form')[0]);
+        var pendapatan      = detail.getAll('total');
+        console.log(pendapatan)
+        var HPP             = detail.getAll('totalHPP');
+        console.log(HPP)
+        var totalPendapatan = 0;
+        var totalHPP        = 0;
+        if (pendapatan) {
+            pendapatan.forEach(element => {
+                totalPendapatan += parseInt(element);
+            });
+        }
+        if (HPP) {
+            HPP.forEach(element => {
+                totalHPP    += parseInt(element);
+            });
+        }
+        var grossProfit = totalPendapatan - totalHPP;
+        console.log(grossProfit);
+        $('#grossProfit').val(formatRupiah(String(grossProfit)) + ',00');
+        $('#grossProfit1').val(grossProfit);
+        $('#totalPendapatan').val(totalPendapatan);
+        $('#totalHPP').val(totalHPP);
+    }
+
+    function save() {
+        var form        = $('#form')[0];
+        var formData    = new FormData(form);
+        $.ajax({
+            url         : baseUrl + 'save',
+            dataType    : 'json',
+            method      : 'post',
+            data        : formData,
+            contentType : false,
+            processData : false,
+            beforeSend  : function() {
+                pageBlock();
+            },
+            afterSend   : function() {
+                unpageBlock();
+            },
+            success : function(data) {
+                if(data.status == 'success') {
+                    swal("Berhasil!", "Berhasil Menambah Data", "success");
+                    redirect(baseUrl);
+                } else {
+                    swal("Gagal!", "Gagal Menambah Data", "error");
+                }
+            },
+            error: function() {
+                swal("Gagal!", "Internal Server Error", "error");
+            }
+        })
     }
 </script>

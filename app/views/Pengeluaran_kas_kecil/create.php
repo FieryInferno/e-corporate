@@ -44,7 +44,7 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo lang('company') ?>:</label>
                                     <?php
@@ -57,12 +57,18 @@
                                     ?>
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label>Project : </label>
+                                    <select id="project" class="form-control project" name="project" required style="width: 100%;"></select>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label><?php echo lang('Departemen') ?>:</label>
-                                    <select id="departemen" class="form-control departemen" name="departemen" required></select>
+                                    <select id="departemen" class="form-control departemen" name="departemen" required style="width: 100%;"></select>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -286,7 +292,7 @@
                     id: '{perusahaanid}' 
                 } 
             });
-            $('.perusahaanid').change(function(e) {
+            $('.perusahaan').change(function(e) {
                 var perusahaan  = $('.perusahaan').children('option:selected').val();
                 ajax_select({
                     id	        : `#cabang`,
@@ -303,6 +309,10 @@
                     id: '#departemen',
                     url: base_url + 'select2_mdepartemen/' + peru,
                 });
+                ajax_select({
+                    id  : '#project',
+                    url : '{site_url}Project/select2/' + perusahaan,
+                });
             })
         } else {
             ajax_select({ 
@@ -315,6 +325,10 @@
             ajax_select({
                 id: '#departemen',
                 url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
+            });
+            ajax_select({
+                id: '#project',
+                url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
             });
         }
     })

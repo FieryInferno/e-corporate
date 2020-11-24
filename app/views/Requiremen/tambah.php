@@ -54,6 +54,10 @@
                                             <label><?php echo lang('gudang') ?>:</label>
                                             <select class="form-control gudangid" name="gudangid"></select>
                                         </div>
+                                        <div class="form-group" id="gudang">
+                                            <label>Project :</label>
+                                            <select class="form-control project" name="project"></select>
+                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -72,13 +76,13 @@
                                         <div class="form-group">
                                             <label><?php echo lang('Departemen') ?>:</label>
                                             <div class="input-group"> 
-                                            <select id="department" class="form-control department" name="dept" required></select>
+                                                <select id="department" class="form-control department" name="dept" required></select>
                                             </div>
                                         </div>
                                         <div class="form-group">
                                             <label><?php echo lang('Pejabat') ?>:</label>
                                             <div class="input-group"> 
-                                            <select id="pejabat" class="form-control pejabat" name="pejabat" required></select>
+                                                <select id="pejabat" class="form-control pejabat" name="pejabat" required></select>
                                             </div>
                                         </div>
                                     </div>
@@ -532,14 +536,21 @@
                     id: '#department',
                     url: base_url + 'select2_mdepartemen/' + perusahaanId,
                 });
+                ajax_select({
+                    id: '.project',
+                    url: '{site_url}Project/select2/' + perusahaanId,
+                });
             })
         } else {
             ajax_select({
                 id: '#department',
                 url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
             });
+            ajax_select({
+                id: '.project',
+                url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
+            });
         }
-        
 
 		$('#department').change(function(e) {
 			var deptName = $('#department').children('option:selected').text();

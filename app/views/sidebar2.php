@@ -152,16 +152,15 @@
               </li>            
               <li class="nav-item">
               <a href="{site_url}validasi_anggaran_belanja" class="nav-link <?php echo menu_is_active('validasi_anggaran_belanja') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('validasi_anggaran_belanja') ?></p></a>
-              </li>            
-                       
+              </li>    
             </ul>
           </li>	
 
-          <?php $menu = array('pemesanan_pembelian', 'pengiriman_pembelian', 'faktur_pembelian', 'pembayaran_pembelian', 'retur_pembelian')?>
-          <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
+          <?php $menuPembelian = array('requiremen', 'pemesanan_pembelian', 'pengiriman_pembelian', 'faktur_pembelian', 'pembayaran_pembelian', 'retur_pembelian')?>
+          <li class="nav-item has-treeview  <?php echo menu_is_open($menuPembelian) ?>">
             <a href="#" class="nav-link
               <?php
-                if ($this->uri->segment(1) == 'requiremen' || $this->uri->segment(1) == 'pemesanan_pembelian' || $this->uri->segment(1) == 'pengiriman_pembelian') {
+                if (in_array($this->uri->segment(1), $menuPembelian)) {
                   echo 'active';
                 }
               ?>"><i class="nav-icon fas fa-clipboard-list"></i>
@@ -169,7 +168,7 @@
             </a>
             <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('purchasing') ?>">
               <li class="nav-item">
-              <a href="{site_url}requiremen" class="nav-link <?php echo menu_is_active('requiremen') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('Permintaan_pembelian') ?></p></a>
+              <a href="{site_url}requiremen" class="nav-link <?php echo menu_is_active('requiremen') ?>"><i class="far fa-circle nav-icon"></i><p>Permintaan Pembelian</p></a>
               </li>
               <li class="nav-item">
               <a href="{site_url}pemesanan_pembelian" class="nav-link <?php echo menu_is_active('pemesanan_pembelian') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('purchase_order') ?></p></a>
@@ -188,8 +187,7 @@
               <li class="nav-item">
               <a href="{site_url}retur_pembelian" class="nav-link <?php echo menu_is_active('retur_pembelian') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('return') ?></p></a>
-              </li>            
-                       
+              </li>    
             </ul>
           </li>	
 

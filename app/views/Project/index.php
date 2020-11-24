@@ -32,7 +32,6 @@
                                     <thead>
                                         <tr class="table-active">
                                             <th>No. Event</th>
-                                            <th>Nama Event</th>
                                             <th>Kode Event</th>
                                             <th>Kelompok Usia</th>
                                             <th>Perusahaan</th>
@@ -61,5 +60,54 @@
 </div>
 
 <script type="text/javascript">
-    var table = $('.index_datatable').DataTable();
+    var baseUrl = '{site_url}project/';
+    var table   = $('.index_datatable').DataTable({
+        ajax    : {
+            url     : baseUrl + 'indexDatatables'
+        },
+        columns : [
+            {data   : 'noEvent'},
+            {data   : 'kodeEvent'},
+            {data   : 'kelompokUmur'},
+            {data   : 'nama_perusahaan'},
+            {data   : 'tanggalMulai'},
+            {data   : 'tanggalSelesai'},
+            {data   : 'namaCabang'},
+            {data   : 'namaRekanan'},
+            {data   : 'namaGudang'},
+            {data   : 'region'},
+            {
+                data    : 'totalPendapatan',
+                render  : function (data, type, row) {
+                    return formatRupiah(String(data)) + ',00';
+                }
+            },
+            {
+                data    : 'totalHPP',
+                render  : function (data, type, row) {
+                    return formatRupiah(String(data)) + ',00';
+                }
+            },
+            {
+                data    : 'grossProfit',
+                render  : function (data, type, row) {
+                    return formatRupiah(String(data)) + ',00';
+                }
+            },
+            {data   : 'namaPejabat'},
+            {
+                data    : 'idProject',
+                render  : function (data, type, row) {
+                    return `
+                        <div class="list-icons"> 
+							<div class="dropdown"> 
+								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+								<div class="dropdown-menu dropdown-menu-right">
+								</div> 
+							</div> 
+						</div>`;
+                }
+            }
+        ]
+    });
 </script>

@@ -5,7 +5,7 @@ class Project extends User_Controller {
 
 	public function __construct() {
 		parent::__construct();
-		// $this->load->model('ProjectModel','model');
+		$this->load->model('ProjectModel','model');
     }
     
     public function index() {
@@ -41,5 +41,29 @@ class Project extends User_Controller {
 		$data['content']    = 'Project/create';
 		$data               = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
-	}
+    }
+    
+    public function save()
+    {
+        $data   = $this->model->save();
+        if ($data) {
+            $hasil['status'] = 'success';
+        } else {
+            $hasil['status'] = 'failed';
+        }
+        return $this->output->set_content_type('application/json')->set_output(json_encode($hasil));
+    }
+
+    public function indexDatatables()
+    {
+        $perusahaan = $this->session->idperusahaan;
+        $data   = $this->model->indexDatatables($perusahaan);
+        return $data;
+    }
+
+    public function select2($perusahaan)
+    {
+        $data   = $this->model->select2($perusahaan);
+        return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
 }

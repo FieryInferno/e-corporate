@@ -43,6 +43,12 @@
                                             <label><?php echo lang('rekanan') ?>:</label>
                                             <select class="form-control kontakid" name="kontakid" required></select>
                                         </div>
+                                        <div class="form-group">
+                                            <label>Cabang : </label>
+                                            <div class="input-group"> 
+                                                <select id="cabang" class="form-control cabang" name="cabang" required></select>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="col-md-3">
                                         <div class="form-group">
@@ -54,6 +60,10 @@
                                         <div class="form-group" id="gudang">
                                             <label><?php echo lang('gudang') ?>:</label>
                                             <select class="form-control gudangid" name="gudangid"></select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Project : </label>
+                                            <select id="project" class="form-control project" name="project" required style="width: 100%;"></select>
                                         </div>
                                     </div>
                                     <div class="col-md-3">
@@ -80,12 +90,6 @@
                                             <label><?php echo lang('Pejabat') ?>:</label>
                                             <div class="input-group"> 
                                             <select id="pejabat" class="form-control pejabat" name="pejabat" required></select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Cabang : </label>
-                                            <div class="input-group"> 
-                                                <select id="cabang" class="form-control cabang" name="cabang" required></select>
                                             </div>
                                         </div>
                                     </div>
@@ -550,6 +554,10 @@
                     id          : '#cabang',
                     url         : '{site_url}cabang/select2_perusahaan/' + perusahaanId
                 });
+                ajax_select({
+                    id  : '#project',
+                    url : '{site_url}Project/select2/' + perusahaanId,
+                });
             })
         } else {
             ajax_select({
@@ -563,6 +571,10 @@
             ajax_select({
                 id          : '#cabang',
                 url         : '{site_url}cabang/select2_perusahaan/<?= $this->session->idperusahaan; ?>'
+            });
+            ajax_select({
+                id: '#project',
+                url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
             });
         }
         //menyembunyikan button tambah
