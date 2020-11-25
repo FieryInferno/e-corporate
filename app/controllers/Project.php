@@ -75,6 +75,8 @@ class Project extends User_Controller {
     {
         $this->model->set('idProject', $idProject);
         $data               = $this->model->get();
+        $noEvent            = $this->db->query("SELECT MAX(RIGHT(noEvent, 3)) AS noEvent FROM project WHERE idProject = '" . $idProject . "'")->row_array();
+        $data['noEvent']    = $noEvent['noEvent'];
         $data['title']      = 'Project';
 		$data['subtitle']   = 'Edit';
 		$data['content']    = 'Project/edit';
