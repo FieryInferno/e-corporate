@@ -271,5 +271,15 @@ class Noakun extends User_Controller {
 		$data	= $this->model->select2_hpp();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
+
+	public function getPendapatan()
+	{
+		return $this->model->getPendapatan();
+	}
+
+	public function getHPP()
+	{
+		return $this->model->getHPP();
+	}
 }
 

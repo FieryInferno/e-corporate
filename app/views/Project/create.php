@@ -218,29 +218,21 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>No. Akun : </label>
-                        <select class="form-control noakun" name="noakun" style="width: 100%;" id="noakun" required></select>
-                    </div>  
-                    <div class="form-group">
-                        <label>Harga : </label>
-                        <input type="text" name="harga" id="harga" required class="form-control" onkeyup="nominal(this), hitung()">
-                    </div>  
-                    <div class="form-group">
-                        <label>Jumlah : </label>
-                        <input type="text" name="jumlah" id="jumlah" required class="form-control" onkeyup="hitung()">
-                    </div>  
-                    <div class="form-group">
-                        <label>Subtotal : </label>
-                        <input type="text" name="subtotal" id="subtotal" required class="form-control" disabled>
-                    </div>      
-                    <div class="form-group">
-                        <label>Total : </label>
-                        <input type="text" name="total" id="total" required class="form-control" disabled>
-                    </div>    
+                    <div class="table-responsive">
+                        <table class="table table-xs table-striped table-borderless table-hover" id="tabelTambahPendapatan" style="width:100%">
+                            <thead>
+                                <tr class="table-active">
+                                    <th width="20%">#</th>
+                                    <th width="40%">No. Akun</th>
+                                    <th width="40%">Nama Akun</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>                 
             </form>
@@ -259,29 +251,21 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-group">
-                        <label>No. Akun : </label>
-                        <select class="form-control noakunHPP" name="noakunHPP" style="width: 100%;" id="noakunHPP" required></select>
-                    </div>  
-                    <div class="form-group">
-                        <label>Harga : </label>
-                        <input type="text" name="hargaHPP" id="hargaHPP" required class="form-control" onkeyup="nominal(this), hitung('HPP')">
-                    </div>  
-                    <div class="form-group">
-                        <label>Jumlah : </label>
-                        <input type="text" name="jumlahHPP" id="jumlahHPP" required class="form-control" onkeyup="hitung('HPP')">
-                    </div>  
-                    <div class="form-group">
-                        <label>Subtotal : </label>
-                        <input type="text" name="subtotalHPP" id="subtotalHPP" required class="form-control" disabled>
-                    </div>      
-                    <div class="form-group">
-                        <label>Total : </label>
-                        <input type="text" name="totalHPP" id="totalHPP1" required class="form-control" disabled>
-                    </div>    
+                    <div class="table-responsive">
+                        <table class="table table-xs table-striped table-borderless table-hover" id="tabelTambahHPP" style="width:100%">
+                            <thead>
+                                <tr class="table-active">
+                                    <th width="20%">#</th>
+                                    <th width="40%">No. Akun</th>
+                                    <th width="40%">Nama Akun</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal">Save changes</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>                 
             </form>
@@ -290,9 +274,59 @@
 </div>
 
 <script type="text/javascript">
-    var tabelPendapatan = $('#tabelPendapatan').DataTable();
-    var tabelHPP        = $('#tabelHPP').DataTable();
-    var baseUrl         = '{site_url}project/';
+    var tabelPendapatan         = $('#tabelPendapatan').DataTable();
+    var tabelHPP                = $('#tabelHPP').DataTable();
+    var baseUrl                 = '{site_url}project/';
+    var tabelTambahPendapatan   = $('#tabelTambahPendapatan').DataTable({
+        ajax    : {
+            url : '{site_url}noakun/getPendapatan',
+        },
+        columns : [
+            {
+                data    : 'idakun',
+                render  : function (data, type, row) {
+                    return `<input type="checkbox" onchange="save_detail('TambahPendapatan', this);" idAkun="${data}" noAkun="${row.akunno}" namaAkun="${row.namaakun}">`;
+                }, 
+                width   : '20%'
+            },
+            {
+                data    : 'akunno', 
+                width   : '40%'
+            },
+            {
+                data    : 'namaakun', 
+                width   : '40%'
+            }
+        ],
+        columnDefs  : [
+            {width  : '50%', target : 0}
+        ]
+    });
+    var tabelTambahHPP  = $('#tabelTambahHPP').DataTable({
+        ajax    : {
+            url : '{site_url}noakun/getHPP',
+        },
+        columns : [
+            {
+                data    : 'idakun',
+                render  : function (data, type, row) {
+                    return `<input type="checkbox" onchange="save_detail('TambahHPP', this);" idAkun="${data}" noAkun="${row.akunno}" namaAkun="${row.namaakun}">`;
+                }, 
+                width   : '20%'
+            },
+            {
+                data    : 'akunno', 
+                width   : '40%'
+            },
+            {
+                data    : 'namaakun', 
+                width   : '40%'
+            }
+        ],
+        columnDefs  : [
+            {width  : '50%', target : 0}
+        ]
+    });
 
 	$(document).ready(function(){
         if ('<?= $this->session->userid; ?>' == '1') {
@@ -386,13 +420,8 @@
     }
 
     function hitung(elemen) {
-        if (elemen) {
-            var harga   = parseInt($('#harga' + elemen).val().replace(/[^,\d]/g, ''));
-            var jumlah  = parseInt($('#jumlah' + elemen).val());
-        } else {
-            var harga   = parseInt($('#harga').val().replace(/[^,\d]/g, ''));
-            var jumlah  = parseInt($('#jumlah').val());
-        }
+        var harga   = parseInt($('#harga' + elemen).val().replace(/[^,\d]/g, ''));
+        var jumlah  = parseInt($('#jumlah' + elemen).val());
         if (isNaN(harga) && isNaN(jumlah)) {
             total   = '';
         } else {
@@ -404,89 +433,10 @@
             }
             total   = harga * jumlah;
         }
-        if (elemen) {
-            $('#subtotal' + elemen).val(formatRupiah(String(total)) + ',00');
-            $('#total' + elemen + '1').val(formatRupiah(String(total)) + ',00');
-        } else {
-            $('#subtotal').val(formatRupiah(String(total)) + ',00');
-            $('#total').val(formatRupiah(String(total)) + ',00');
-        }
-    }
-
-    function save_detail(tipe) {
-        switch (tipe) {
-            case 'TambahHPP':
-                var noAkun      = $('#noakunHPP').val();
-                var harga       = $('#hargaHPP').val();
-                var jumlah      = $('#jumlahHPP').val();
-                var subtotal    = $('#subtotalHPP').val();
-                var total       = $('#totalHPP1').val();
-                var akunno      = $('#noakunHPP')[0].textContent;
-                var formTotal   = `
-                    <input type="hidden" name="tipe[]" value="HPP">
-                    <input type="hidden" name="total[]" value="${$('#totalHPP1').val().replace(/[^,\d]|(,00)/g, '')}">
-                    <input type="hidden" name="totalHPP1" value="${$('#totalHPP1').val().replace(/[^,\d]|(,00)/g, '')}">`;
-                var formNoAkun      = `<input type="hidden" name="noAkun[]" value="${$('#noakunHPP').val()}">`;
-                var formHarga       = `<input type="hidden" name="harga[]" value="${$('#hargaHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
-                var formJumlah      = `<input type="hidden" name="jumlah[]" value="${$('#jumlahHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
-                var formSubtotal    = `<input type="hidden" name="subtotal[]" value="${$('#subtotalHPP').val().replace(/[^,\d]|(,00)/g, '')}">`;
-                tabelHPP.row.add([
-                    formNoAkun + akunno,
-                    formHarga + harga,
-                    formJumlah + jumlah,
-                    formSubtotal + subtotal,
-                    formTotal + total,
-                    `<a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>`
-                ]).draw();
-                break;
-            case 'TambahPendapatan':
-                var noAkun      = $('#noakun').val();
-                var harga       = $('#harga').val();
-                var jumlah      = $('#jumlah').val();
-                var subtotal    = $('#subtotal').val();
-                var total       = $('#total').val();
-                var akunno      = $('#noakun')[0].textContent;
-                var formTotal   = `
-                    <input type="hidden" name="tipe[]" value="pendaapatan">
-                    <input type="hidden" name="total[]" value="${$('#total').val().replace(/[^,\d]|(,00)/g, '')}">
-                    <input type="hidden" name="totalPendapatan1" value="${$('#total').val().replace(/[^,\d]|(,00)/g, '')}">`;
-                var formNoAkun      = `<input type="hidden" name="noAkun[]" value="${$('#noakun').val()}">`;
-                var formHarga       = `<input type="hidden" name="harga[]" value="${$('#harga').val().replace(/[^,\d]|(,00)/g, '')}">`;
-                var formJumlah      = `<input type="hidden" name="jumlah[]" value="${$('#jumlah').val().replace(/[^,\d]|(,00)/g, '')}">`;
-                var formSubtotal    = `<input type="hidden" name="subtotal[]" value="${$('#subtotal').val().replace(/[^,\d]|(,00)/g, '')}">`;
-                tabelPendapatan.row.add([
-                    formNoAkun + akunno,
-                    formHarga + harga,
-                    formJumlah + jumlah,
-                    formSubtotal + subtotal,
-                    formTotal + total,
-                    `<a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>`
-                ]).draw();
-                break;
-        
-            default:
-                break;
-        }
-        switch (tipe) {
-            case 'TambahHPP':
-                $('#noakunHPP').val('');
-                $('#hargaHPP').val('');
-                $('#jumlahHPP').val('');
-                $('#subtotalHPP').val('');
-                $('#totalHPP1').val('');
-                break;
-            case 'TambahPendapatan':
-                $('#noakun').val('');
-                $('#harga').val('');
-                $('#jumlah').val('');
-                $('#subtotal').val('');
-                $('#total').val('');
-                break;
-        
-            default:
-                break;
-        }
-        $('#modal' + tipe).modal('hide');
+        $('.subtotal' + elemen).val(formatRupiah(String(total)) + ',00');
+        $('.total' + elemen).val(formatRupiah(String(total)) + ',00');
+        $('#subtotal' + elemen).val(total);
+        $('#total' + elemen).val(total);
         var detail          = new FormData($('#form')[0]);
         var pendapatan      = detail.getAll('totalPendapatan1');
         var HPP             = detail.getAll('totalHPP1');
@@ -494,21 +444,56 @@
         var totalHPP        = 0;
         if (pendapatan) {
             pendapatan.forEach(element => {
-                totalPendapatan += parseInt(element);
+                totalPendapatan += parseInt(element.replace(/[^,\d]/g, ''));
             });
         }
         if (HPP) {
             HPP.forEach(element => {
-                totalHPP    += parseInt(element);
+                totalHPP    += parseInt(element.replace(/[^,\d]/g, ''));
             });
         }
-        console.log(totalPendapatan);
-        console.log(totalHPP);
         var grossProfit = totalPendapatan - totalHPP;
         $('#grossProfit').val(formatRupiah(String(grossProfit)) + ',00');
         $('#grossProfit2').val(grossProfit);
         $('#totalPendapatan').val(totalPendapatan);
         $('#totalHPP').val(totalHPP);
+    }
+
+    function save_detail(tipe, elemen) {
+        var idakun      = $(elemen).attr('idakun');
+        var akunno      = $(elemen).attr('noAkun') + ' - ' + $(elemen).attr('namaAkun');
+        var formNoAkun  = `<input type="hidden" name="noAkun[]" value="${idakun}">`;
+        switch (tipe) {
+            case 'TambahHPP':
+                tabelHPP.row.add([
+                    formNoAkun + akunno,
+                    `<input type="text" onkeyup="nominal(this), hitung('${idakun}')" name="harga[]" class="form-control" id="harga${idakun}">`,
+                    `<input type="text" onkeyup="nominal(this), hitung('${idakun}')" name="jumlah[]" class="form-control" id="jumlah${idakun}">`,
+                    `<input type="hidden" name="subtotal[]" id="subtotal${idakun}">
+                    <input type="text" name="subtotal" required class="form-control subtotal${idakun}" disabled>`,
+                    `<input type="hidden" name="tipe[]" value="HPP">
+                    <input type="hidden" name="total[]" id="total${idakun}">
+                    <input type="text" name="totalHPP1" class="form-control total${idakun}" readonly>`,
+                    `<a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>`
+                ]).draw();
+                break;
+            case 'TambahPendapatan':
+                tabelPendapatan.row.add([
+                    formNoAkun + akunno,
+                    `<input type="text" onkeyup="nominal(this), hitung('${idakun}')" name="harga[]" class="form-control" id="harga${idakun}">`,
+                    `<input type="text" onkeyup="nominal(this), hitung('${idakun}')" name="jumlah[]" class="form-control" id="jumlah${idakun}">`,
+                    `<input type="hidden" name="subtotal[]" id="subtotal${idakun}">
+                    <input type="text" name="subtotal" required class="form-control subtotal${idakun}" disabled>`,
+                    `<input type="hidden" name="tipe[]" value="pendapatan">
+                    <input type="hidden" name="total[]" id="total${idakun}">
+                    <input type="text" name="totalPendapatan1" class="form-control total${idakun}" readonly>`,
+                    `<a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>`
+                ]).draw();
+                break;
+        
+            default:
+                break;
+        }
     }
 
     function save() {

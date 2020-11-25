@@ -160,5 +160,27 @@ class Noakun_model extends CI_Model {
 		$this->db->or_like('akunno', '8', 'after');
 		return $this->db->get('mnoakun')->result_array();
 	}
+
+	public function getPendapatan()
+	{
+		$this->load->library('Datatables');
+		$this->datatables->select('idakun, akunno, namaakun');
+		$this->datatables->from('mnoakun');
+		$this->datatables->like('akunno', '4', 'after');
+		$this->datatables->or_like('akunno', '7', 'after');
+		return print_r($this->datatables->generate());
+	}
+
+	public function getHPP()
+	{
+		$this->load->library('Datatables');
+		$this->datatables->select('idakun, akunno, namaakun');
+		$this->datatables->from('mnoakun');
+		$this->datatables->like('akunno', '1', 'after');
+		$this->datatables->or_like('akunno', '5', 'after');
+		$this->datatables->or_like('akunno', '6', 'after');
+		$this->datatables->or_like('akunno', '8', 'after');
+		return print_r($this->datatables->generate());
+	}
 }
 
