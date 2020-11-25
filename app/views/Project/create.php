@@ -301,8 +301,19 @@
                 url         : '{site_url}perusahaan/select2',
             });
         } else {
-            perusahaan  = $('.perusahaan').val();
-            $('#noEvent').val('IHT.2020.' + perusahaan + '{noEvent}');
+            $('#noEvent').val('IHT.2020.<?= $this->session->idperusahaan; ?>.{noEvent}');
+            ajax_select({ 
+                id          : '.rekanan', 
+                url         : '{site_url}rekanan/select2/<?= $this->session->idperusahaan; ?>',
+            });
+            ajax_select({ 
+                id          : '.departemen', 
+                url         : '{site_url}departemen/select2/<?= $this->session->idperusahaan; ?>',
+            });
+            ajax_select({ 
+                id          : '.cabang', 
+                url         : '{site_url}cabang/select2/<?= $this->session->idperusahaan; ?>',
+            });
         }
         ajax_select({ 
             id          : '.gudang', 
