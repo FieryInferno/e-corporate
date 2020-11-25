@@ -50,12 +50,11 @@ class Faktur_penjualan_model extends CI_Model {
 	public function update() {
 		$id = $this->input->post('fakturid');
 		$faktur = get_by_id('id',$id,'tfakturpenjualan');
- 		
- 		$this->db->set('validasi','1');
+		$this->db->set('validasi','1');
 		$this->db->where('id',$faktur['pengirimanid']);
 		$this->db->update('tpengirimanpenjualan');
 
- 		$this->db->where('idfaktur', $id);
+		$this->db->where('idfaktur', $id);
 		$this->db->delete('tfakturpenjualandetail');
 
 		$this->db->where('id', $id);

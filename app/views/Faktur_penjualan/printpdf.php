@@ -2,212 +2,166 @@
 <html lang="en">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
-    <title><?php echo $title ?></title>
-    <style type="text/css"> <?php echo $css ?> </style>
+	<title><?php echo $title ?></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style type="text/css"> <?php echo $css ?></style>
+    <style>
+        body {
+            font-size   : 10px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="header-logo">
-        <img src="./uploads/bintang-teknologi.jpeg">
-    </div>
-    <div class="header-map">
-        <h3 class="text-left">CV. BINTANG TEKNOLOGI</h3>
-        <p class="text-left">Jl. Sukawinatan No.5623, Sukajaya, Sukarame, Palembang 30151 Telp. 085366725222/08117817374</p>
-    </div>
-    <div class="clearfix"></div>
-    <hr class="hr">
-    <div class="float-left">
-        <h3 class="font-weight-bold"><?php echo $title ?></h3>
-    </div>
-    <div class="clearfix"></div>
-
-    
-    <div class="float-left">
-        <div class="w-40">
-            <table class="table table-sm">
-                <tbody>
+    <table>
+        <tr>
+            <td class="text-center" style="border: 1px solid;"><?= $namaperusahaan; ?></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid;">Menara 165 Lt. 24 Jl. TB Simatupang Kav. 1 Cilandak Jakarta Selatan</td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td>
+                <table>
                     <tr>
-                        <td><?php echo lang('No Faktur') ?></td>
-                        <td class="font-weight-bold">: <?php echo $notrans ?></td>
+                        <td class="text-left">Kepada Yth.</td>
+                        <td rowspan="8" width="75px">&nbsp;</td>
+                        <td colspan="2"><h1><u>INVOICE</u></h1></td>
                     </tr>
                     <tr>
-                        <td><?php echo lang('Tanggal Faktur') ?></td>
-                        <td class="font-weight-bold">: <?php echo formatdatemonthname($tanggal) ?></td>
+                        <td style="border: 1px solid;" width="400px" class="text-left" rowspan="8"><strong><?= $kontak; ?></strong></td>
+                        <td style="border: 1px solid;" width="25px">No.</td>
+                        <td style="border: 1px solid;" width="100px"><?= $nomorsuratjalan; ?></td>
                     </tr>
                     <tr>
-                        <td><?php echo lang('Tanggal Tempo') ?></td>
-                        <td class="font-weight-bold">: <?php echo formatdatemonthname($tanggaltempo) ?></td>
+                        <td style="border: 1px solid;">Tgl</td>
+                        <td style="border: 1px solid;"><?= $tanggal; ?></td>
                     </tr>
                     <tr>
-                        <td><?php echo lang('Surat Jalan') ?></td>
-                        <td class="font-weight-bold">: <?php echo $nosj ?></td>
+                        <td style="border: 1px solid;">Terms</td>
+                        <td style="border: 1px solid;"><?= $catatan; ?></td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="float-right">
-        <div class="w-40">
-            <table class="table table-sm">
-                <tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table class="table table-striped table-borderless table-hover" style="width:100%">
+        <thead>
+            <tr class="table-active">
+                <th>Kode</th>
+                <th width="507px">Description</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+                foreach ($fakturdetail as $key) { ?>
                     <tr>
-                        <td><?php echo lang('Kepada') ?></td>
-                        <td class="font-weight-bold">: <?php echo $kontak ?></td>
+                        <td><?= $key['akunno']; ?></td>
+                        <td>
+                            <?php
+                                switch ($jenis_pembelian) {
+                                    case 'jasa': 
+                                        echo $key['namaakun'];
+                                        break;
+                                    case 'jasa': 
+                                        echo $key['item'];
+                                        break;
+                                    
+                                    default:
+                                        # code...
+                                        break;
+                                }
+                            ?>    
+                        </td>
+                        <td class="text-right"><?= number_format($key['total'], 2, ',', '.'); ?></td>
                     </tr>
-                    <tr>
-                        <td><?php echo lang('Alamat') ?></td>
-                        <td class="font-weight-bold">: <?php echo $alamat ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Telepon') ?></td>
-                        <td class="font-weight-bold">: <?php echo $telepon ?></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="clearfix mb-5"></div>
-
-
-    <div class="w-100">
-        <table class="table table-sm table-border-bottom">
-            <thead class="bg-light">
-                <tr>
-                    <th><?php echo lang('item') ?></th>
-                    <th class="text-right"><?php echo lang('price') ?></th>
-                    <th class="text-right"><?php echo lang('qty') ?></th>
-                    <th class="text-right"><?php echo lang('subtotal') ?></th>
-                    <th class="text-right"><?php echo lang('discount') ?></th>
-                    <th class="text-right"><?php echo lang('ppn') ?></th>
-                    <th class="text-right"><?php echo lang('total') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $grandtotal = 0; ?>
-                <?php foreach ($fakturdetail as $row): ?>
-                    <?php $grandtotal = $row['total'] + $grandtotal ?>
-                    <tr>
-                        <td><?php echo $row['item'] ?></td>
-                        <td class="text-right"><?php echo number_format($row['harga']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['jumlah']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['subtotal']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                        <td class="text-right"><?php echo number_format($row['ppn']) ?>%</td>
-                        <td class="text-right"><?php echo number_format($row['total']) ?></td>
-                    </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-    </div>
-
-
-    <div class="float-left w-60">
-        <div class="box-penyebut">
-            <h3 class="text-center font-weight-bold">
-                <u><?php echo penyebut($total) ?> Rupiah</u>
-            </h3>
-        </div>
-    </div>
-    <div class="float-right w-40">
-        <table class="table table-sm">
-            <tbody>
-                <tr class="bg-light">
-                    <td><?php echo lang('subtotal') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($subtotal) ?></td>
-                </tr>
-                <tr class="bg-light">
-                    <td><?php echo lang('discount') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($diskon) ?></td>
-                </tr>
-                <tr class="bg-light">
-                    <td><?php echo lang('ppn') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($ppn) ?></td>
-                </tr>
-                <tr class="bg-light">
-                    <td><?php echo lang('total') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($total) ?></td>
-                </tr>
-                <?php if ($totalretur > 0): ?>
-                     <tr class="bg-light">
-                        <td><?php echo lang('Total_Retur') ?></td>
-                        <td class="text-right font-weight-bold">(<?php echo number_format($totalretur) ?>)</td>
-                    </tr>
-                <?php endif ?>
-                <tr class="bg-light">
-                    <td><?php echo lang('Sudah_Dibayar') ?></td>
-                    <td class="text-right font-weight-bold">(<?php echo number_format($totaldibayar) ?>)</td>
-                </tr>
-                <tr class="bg-light">
-                    <td><?php echo lang('Sisa_Tagihan') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($sisatagihan) ?></td>
-                </tr>
-                <?php if ($totaldebetmemo > 0): ?>
-                     <tr>
-                        <td class="font-weight-bold"><?php echo lang('Total_Debet_Memo') ?></td>
-                        <td class="text-right font-weight-bold"><?php echo number_format($totaldebetmemo) ?></td>
-                    </tr>
-                <?php endif ?>
-            </tbody>
-        </table>    
-    </div>
-
-    <div class="clearfix mb-5"></div>
-
-    <div class="float-left">
-        <div class="w-70">
-            <table class="table table-sm">
-                <tbody>
-                    <tr>
-                        <td><?php echo lang('Cara Bayar') ?></td>
-                        <?php if($carabayar == '1'): ?>
-                            <td class="font-weight-bold">: Tunai</td>
-                        <?php else: ?>
-                            <td class="font-weight-bold">: Kredit</td>
-                        <?php endif ?>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Bank') ?></td>
-                        <td class="font-weight-bold">: <?php echo $bank ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Rekening') ?></td>
-                        <td class="font-weight-bold">: <?php echo $norek ?></td>
-                    </tr>
-                    <tr>
-                        <td><?php echo lang('Atas Nama') ?></td>
-                        <td class="font-weight-bold">: <?php echo $atasnama ?></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="float-right">
-        <div class="w-30">
-            <table class="table table-sm">
-                <tbody>
-                    <tr>
-                        <td class="text-center">Hormat Kami</td>
-                    </tr>
-                    <tr> <td class="text-center">&nbsp;</td> </tr>
-                    <tr> <td class="text-center">&nbsp;</td> </tr>
-                    <tr>
-                        <td class="text-center font-weight-bold">Heru Sukoco, S.Kom.</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="clearfix mb-5"></div>
-
-    <div class="footer-note">
-        <p class="blue"> Harap Dicantumkan No. Invoice Dalam Payment Transfer </p>
-        <p class="font-weight-bold"> SPECIALIST IDENTITY OF PATIENTS & PVC CARD PRINTING </p>
-        <p class="small">
-            *** Hospital/Patient Card, Patient Wirstband, Labels Stiker & Ribbons, Thermal Desktop Printer (Label & ID), SIMRS etc *** <br>
-            ***Member Card, Discount Card, ID Card, Gift Card, Keycard Room, Parking Card, student Card etc*** 
-        </p>
-    </div>
-
+                <?php }
+            ?>
+        </tbody>
+    </table>
+    <br>
+    <table class="table" style="width:100%">
+        <tr class="table-active">
+            <td style="border: 1px solid;" width="500px">Description</td>
+            <td style="border: 1px solid;">Subtotal : </td>
+            <td class="text-right" style="border: 1px solid;"><?= number_format($subtotal, 2, ',', '.'); ?></td>
+        </tr>
+        <tr class="table-active">
+            <td style="border: 1px solid;" rowspan="2"><?= $catatan; ?></td>
+            <td style="border: 1px solid;">Total : </td>
+            <td class="text-right" style="border: 1px solid;"><?= number_format($total, 2, ',', '.'); ?></td>
+        </tr>
+    </table>
+    <table class="table">
+        <tr>
+            <td style="border: 1px solid;" width="500px" class="table-active">Say</td>
+            <td width="500px">&nbsp;</td>
+        </tr>
+        <tr class="table-active">
+            <td style="border: 1px solid;">
+                <?php 
+                    function terbilang($nilai) {
+                        if($nilai<0) {
+                            $hasil = "minus ". trim(penyebut($nilai));
+                        } else {
+                            $hasil = trim(penyebut($nilai));
+                        }     		
+                        return $hasil;
+                    }
+                    echo strtoupper(terbilang($total)) . ' RUPIAH'; 
+                ?>
+            </td>
+        </tr>
+    </table>
+    <p>
+        Pembayaran dapat ditransfer ke rekening : <br>
+        MANDIRI 101.000.6655.110 | BCA 679.030.5190 | A/N : PT. ARGA BANGUN BANGSA
+    </p>
+    <table class="table" style="width:100%">
+        <tr class="table-active">
+            <td style="border: 1px solid;">
+                Perhatian : <br>
+                <ol>
+                    <li>Training yang kami selenggarakan " Bebas PPN " sesuai SK Kepala KPP Jakarta Kebayoran Lama No. S-431/PJ.02/2010, Tgl. 23 April 2010, Perihal "Keterangan Tidak Dikenakan PPN".</li>
+                    <li>Mohon dengan segera, "Bukti Potong PPH 23" yang asli di kirimkan ke Alamat : Menara 165, Jl TB Simatupang Lantai 24 Up Bagian Pajak ESQ Telp : 021-29406969</li>
+                </ol>
+            </td>
+        </tr>
+    </table>
+    <table class="text-center" style="font-size: 12px;">
+        <tr>
+            <td width="100px;">&nbsp;</td>
+            <td width="150px;">
+                Prepared By
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <u>Lukita Btari Puspowati</u><br>
+                Billing
+            </td>
+            <td width="100px;">&nbsp;</td>
+            <td width="100px;">&nbsp;</td>
+            <td width="100px;">&nbsp;</td>
+            <td width="100px;">
+                Approved By
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <u>Dina Sabrina</u><br>
+                Head of Finance
+            </td>
+            <td width="100px;">&nbsp;</td>
+        </tr>
+    </table>
 </body>
-
 </html>

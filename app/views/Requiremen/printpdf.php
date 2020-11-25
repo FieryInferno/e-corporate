@@ -3,101 +3,246 @@
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
 	<title><?php echo $title ?></title>
-	<style type="text/css"> <?php echo $css ?> </style>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+	<style type="text/css"> <?php echo $css ?></style>
+    <style>
+        body {
+            font-size   : 10px;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="float-left">
-    	<h3 class="text-danger m-1 font-weight-bold"><?php echo get_pengaturan('instansi') ?></h3>
-    </div>
-    <div class="clearfix"></div>
-	<hr class="hr">
-    <div class="float-left">
-        <p class="font-weight-bold"><?php echo $title ?></p>
-    </div>
-    <div class="float-right">
-        <div class="w-25">
-            <table class="table table-sm">
-                <tbody>
+    <table>
+        <tr>
+            <td rowspan="2" width="75px">&nbsp;</td>
+            <td class="text-center" style="border: 1px solid;">PT. ARGA BANGUN BANGSA</td>
+            <td width="150px">&nbsp;</td>
+            <td rowspan="2"><h1><u>Purchase Invoice</u></h1></td>
+        </tr>
+        <tr>
+            <td style="border: 1px solid;">Menara 165 Lt. 24 Jl. TB Simatupang Kav. 1 Cilandak Jakarta Selatan</td>
+        </tr>
+    </table>
+    <br>
+    <table>
+        <tr>
+            <td class="text-center">
+                <table class="text-center">
                     <tr>
-                        <td><?php echo lang('notrans') ?></td>
-                        <td class="font-weight-bold text-right"><?php echo $notrans ?></td>
+                        <td style="border: 1px solid;" width="200px">Vendor</td>
                     </tr>
                     <tr>
-                        <td><?php echo lang('date') ?></td>
-                        <td class="font-weight-bold text-right"><?php echo formatdateslash($tanggal) ?></td>
+                        <td style="border: 1px solid;">Refund Peserta</td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="clearfix mb-5"></div>
-    <div class="w-25">
-        <table class="table table-sm">
-            <tbody>
-                <tr>
-                    <td><?php echo lang('to') ?></td>
-                    <td class="font-weight-bold"><?php echo $kontak['nama'] ?></td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-
-    <div class="w-100">
-        <table class="table table-sm table-border-bottom">
-            <thead class="bg-light">
-                <tr>
-                    <th><?php echo lang('item') ?></th>
-                    <th class="text-right"><?php echo lang('price') ?></th>
-                    <th class="text-right"><?php echo lang('qty') ?></th>
-                    <th class="text-right"><?php echo lang('subtotal') ?></th>
-                    <th class="text-right"><?php echo lang('discount') ?></th>
-                    <th class="text-right"><?php echo lang('ppn') ?></th>
-                    <th class="text-right"><?php echo lang('total') ?></th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php $grandtotal = 0; ?>
-                <?php foreach ($pemesanandetail as $row): ?>
-                    <?php $grandtotal = $row['total'] + $grandtotal ?>
                     <tr>
-                        <td><?php echo $row['item'] ?></td>
-                        <td class="text-right"><?php echo number_format($row['harga']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['jumlah']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['subtotal']) ?></td>
-                        <td class="text-right"><?php echo number_format($row['diskon']) ?>%</td>
-                        <td class="text-right"><?php echo number_format($row['ppn']) ?>%</td>
-                        <td class="text-right"><?php echo number_format($row['total']) ?></td>
+                        <td style="border: 1px solid;" rowspan="4">&nbsp;</td>
                     </tr>
-                <?php endforeach ?>
-            </tbody>
-        </table>
-    </div>
-
-    <div class="float-right w-25">
-        <table class="table table-sm">
-            <tbody>
-                <tr>
-                    <td><?php echo lang('subtotal') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($subtotal) ?></td>
-                </tr>
-                <tr>
-                    <td><?php echo lang('discount') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($diskon) ?></td>
-                </tr>
-                <tr>
-                    <td><?php echo lang('ppn') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($ppn) ?></td>
-                </tr>
-                <tr>
-                    <td><?php echo lang('total') ?></td>
-                    <td class="text-right font-weight-bold"><?php echo number_format($total) ?></td>
-                </tr>
-            </tbody>
-        </table>    
-    </div>
-
-    <div class="footer"> </div>
+                </table>
+            </td>
+            <td width="250px">&nbsp;</td>
+            <td>
+                <table class="text-center">
+                    <tr>
+                        <td style="border: 1px solid;" width="100px">Invoice Date</td>
+                        <td style="border: 1px solid;" width="100px">Invoice No.</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid;">27 Juli 2020</td>
+                        <td style="border: 1px solid;">64216</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid;">Form No.</td>
+                    </tr>
+                    <tr>
+                        <td style="border: 1px solid;">64216</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <table class="table table-striped table-borderless table-hover" style="width:100%">
+        <thead>
+            <tr class="table-active">
+                <th>Item</th>
+                <th>Description</th>
+                <th>Qty</th>
+                <th>Unit Price</th>
+                <th>Disc</th>
+                <th>Tax</th>
+                <th>Amount</th>
+                <th>Nominal Total</th>
+                <th>Departement</th>
+            </tr>
+        </thead>
+    </table>
+    <table class="table table-striped table-borderless table-hover" style="width:100%">
+        <thead>
+            <tr class="table-active">
+                <th>Account Name</th>
+                <th>Amount</th>
+                <th>Note</th>
+                <th>Department</th>
+                <th>Project</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Akun Perantara Piutang</td>
+                <td class="text-right">1.250.000,00</td>
+                <td>an. Ivani Novita Sari - SI 84576</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Akun Perantara Piutang</td>
+                <td class="text-right">1.250.000,00</td>
+                <td>an. Ivani Novita Sari - SI 84576</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Akun Perantara Piutang</td>
+                <td class="text-right">1.250.000,00</td>
+                <td>an. Ivani Novita Sari - SI 84576</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Akun Perantara Piutang</td>
+                <td class="text-right">1.250.000,00</td>
+                <td>an. Ivani Novita Sari - SI 84576</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Akun Perantara Piutang</td>
+                <td class="text-right">1.250.000,00</td>
+                <td>an. Ivani Novita Sari - SI 84576</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Akun Perantara Piutang</td>
+                <td class="text-right">1.250.000,00</td>
+                <td>an. Ivani Novita Sari - SI 84576</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Akun Perantara Piutang</td>
+                <td class="text-right">1.250.000,00</td>
+                <td>an. Ivani Novita Sari - SI 84576</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>Akun Perantara Piutang</td>
+                <td class="text-right">1.250.000,00</td>
+                <td>an. Ivani Novita Sari - SI 84576</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+    <br>
+    <table class="table" style="width:100%">
+        <tr class="table-active">
+            <td rowspan="5" width="5px">Say</td>
+            <td width="200px" style="border: 1px solid;">Ten Million</td>
+            <td width="10px" rowspan="5">&nbsp;</td>
+            <td width="10px" style="border: 1px solid;">Subtotal : </td>
+            <td width="10px" class="text-right" style="border: 1px solid;">10.000.000,00</td>
+        </tr>
+        <tr class="table-active">
+            <td style="border: 1px solid;">Description</td>
+            <td style="border: 1px solid;">Discount : </td>
+            <td class="text-right" style="border: 1px solid;">0</td>
+        </tr>
+        <tr class="table-active">
+            <td rowspan="3" style="border: 1px solid;">Refund Training Grand QX Bandung</td>
+            <td style="border: 1px solid;">Total : </td>
+            <td class="text-right" style="border: 1px solid;">10.000.000,00</td>
+        </tr>
+        <tr class="table-active">
+            <td style="border: 1px solid;">Payment : </td>
+            <td class="text-right" style="border: 1px solid;">0</td>
+        </tr>
+        <tr class="table-active">
+            <td style="border: 1px solid;">Balance : </td>
+            <td class="text-right" style="border: 1px solid;">10.000.000,00</td>
+        </tr>
+    </table>
+    <br>
+    <table class="text-center" style="font-size: 12px;">
+        <tr>
+            <td style="border: 1px solid;" width="100px;">
+                AP Staff
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                Date.
+            </td>
+            <td style="border: 1px solid;" width="100px;">
+                Cost Control
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                Date.
+            </td>
+            <td style="border: 1px solid;" width="100px;">
+                Accounting Head
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                Date.
+            </td>
+            <td style="border: 1px solid;" width="100px;">
+                Finance Head
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                Date.
+            </td>
+            <td style="border: 1px solid;" width="100px;">
+                FA Holding
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                Date.
+            </td>
+            <td style="border: 1px solid;" width="100px;">
+                FA Director
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                Date.
+            </td>
+            <td style="border: 1px solid;" width="100px;">
+                FA Controller
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                Date.
+            </td>
+        </tr>
+    </table>
 </body>
-
 </html>

@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Faktur_penjualan extends User_Controller {
 
 	private $id;
@@ -88,21 +77,29 @@ class Faktur_penjualan extends User_Controller {
 		}
 	}
 
-	public function printpdf($id = null) {
-		$this->load->library('pdf');
-		$pdf = $this->pdf;
-		$data = $this->model->getfaktur($id);
-		$data['gudang'] = get_by_id('id',$data['gudangid'],'mgudang');
-		$data['fakturdetail'] = $this->model->fakturdetail($data['id']);
-		$data['title'] = 'Faktur Penjualan';
-		$data['css'] = file_get_contents(FCPATH.'assets/css/print.min.css');
-		$data = array_merge($data,path_info());
-		$html = $this->load->view('Faktur_penjualan/printpdf', $data, TRUE);
-		$pdf->loadHtml($html);
-		$pdf->setPaper('A4', 'portrait');
-		$pdf->render();
-		$time = time();
-		$pdf->stream("faktur-penjualan-". $time, array("Attachment" => false));
+	public function print($jenis = null, $id = null) {
+		switch ($jenis) {
+			case 'pdf':
+				$this->load->library('pdf');
+				$pdf					= $this->pdf;
+				$data					= $this->model->getfaktur($id);
+				$data['gudang'] 		= get_by_id('id',$data['gudangid'],'mgudang');
+				$data['fakturdetail'] 	= $this->model->fakturdetail($data['id'], $data['jenis_pembelian']);
+				$data['title'] 			= 'Faktur Penjualan';
+				$data['css'] 			= file_get_contents(FCPATH.'assets/css/print.min.css');
+				$data 					= array_merge($data,path_info());
+				$html 					= $this->load->view('Faktur_penjualan/printpdf', $data, TRUE);
+				$pdf->loadHtml($html);
+				$pdf->setPaper('A4', 'portrait');
+				$pdf->render();
+				$time = time();
+				$pdf->stream("faktur-penjualan-". $time, array("Attachment" => false));
+				break;
+			
+			default:
+				# code...
+				break;
+		}
 	}
 
 	public function create() {

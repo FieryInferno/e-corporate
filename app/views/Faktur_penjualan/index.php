@@ -135,9 +135,9 @@
                     <a href="javascript:deleteData('` + data+ `')" class="dropdown-item delete"><i class="fas fa-trash"></i> Hapus</a>`;
           }
           if (row.status == 1) {
-            var tombolValidasi  = `<button type="button" onclick="aksiData('validasi', '${data}')" class="dropdown-item"><i class="fas fa-check"></i> Validasi</button>`;
+            var tombolValidasi  = `<button type="button" onclick="aksiData('validasi', '${data}')" class="dropdown-item text-success"><i class="fas fa-check"></i> Validasi</button>`;
           } else {
-            var tombolValidasi  = `<button type="button" onclick="aksiData('validasi', '${data}')" class="dropdown-item"><i class="fas fa-times"></i> Batal Validasi</button>`;
+            var tombolValidasi  = `<button type="button" onclick="aksiData('validasi', '${data}')" class="dropdown-item text-success"><i class="fas fa-times"></i> Batal Validasi</button>`;
           }
           var aksi = `
               <div class="list-icons"> 
@@ -145,7 +145,7 @@
                   <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
                   <div class="dropdown-menu dropdown-menu-right">
                     `+tombol+`
-                    <a class="dropdown-item" href="`+base_url+`printpdf/`+data+`"><i class="fas fa-print"></i> Cetak</a>
+                    <button class="btn btn-success btn-sm dropdown-item text-warning" onclick="printData(this)" idFakturPenjualan="${data}"><i class="fas fa-print"></i> Cetak</button>
                     <form method="post" id="formAksi${data}">
                       <input type="hidden" value="${data}" name="id${data}">
                       <input type="hidden" value="${row.status}" name="status${data}">`+
@@ -228,6 +228,28 @@
               }
           })
           break;
+			}
+		});
+	}
+
+  function printData(elemen) {
+		id	= $(elemen).attr('idFakturPenjualan');
+		swal("Pilih format?", {
+			buttons: {
+				cancel	: "Batal",
+				pdf		: {
+					text	: "PDF",
+					value	: "pdf",
+				},
+				excel	: {
+					text	: "Excel",
+					value	: "excel",
+				}
+			},
+		})
+		.then((value) => {
+			if (value == 'pdf' || value == 'excel') {
+				redirect(base_url + 'print/' + value + '/' + id);
 			}
 		});
 	}

@@ -142,8 +142,8 @@
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<a href="`+base_url+`printpdf/`+data.id+`" class="dropdown-item"><i class="fas fa-print"></i> <?php echo lang('print') ?></a>
 									`+ tombol_edit + `
+									<button class="btn btn-success btn-sm dropdown-item text-warning" onclick="printData(this)" idPermintaanPembelian="${data.id}"><i class="fas fa-print"></i> Cetak</button>
 									<a href="javascript:deleteData('` + data.id + `')" class="dropdown-item delete text-danger"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
 								</div> 
 							</div> 
@@ -221,6 +221,28 @@
 					}
 				})
 				break;
+			}
+		});
+	}
+
+	function printData(elemen) {
+		id	= $(elemen).attr('idPermintaanPembelian');
+		swal("Pilih format?", {
+			buttons: {
+				cancel	: "Batal",
+				pdf		: {
+					text	: "PDF",
+					value	: "pdf",
+				},
+				excel	: {
+					text	: "Excel",
+					value	: "excel",
+				}
+			},
+		})
+		.then((value) => {
+			if (value == 'pdf' || value == 'excel') {
+				redirect(base_url + 'print/' + value + '/' + id);
 			}
 		});
 	}

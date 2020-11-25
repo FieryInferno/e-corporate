@@ -201,7 +201,9 @@
 			},
 		})
 		.then((value) => {
-			redirect(base_url + 'printpdf/' + value + '/' + id);
+			if (value == 'pdf' || value == 'excel') {
+				redirect(base_url + 'printpdf/' + value + '/' + id);
+			}
 		});
 	}
 </script>
