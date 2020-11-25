@@ -182,7 +182,7 @@
                                         </div>
                                     </div>
                                     <div class="tab-pane fade" id="grossProfit1" role="tabpanel" aria-labelledby="contact-tab">
-                                        <input type="hidden" name="grossProfit" id="grossProfit1">
+                                        <input type="hidden" name="grossProfit" id="grossProfit2">
                                         <input type="hidden" name="totalPendapatan" id="totalPendapatan">
                                         <input type="hidden" name="totalHPP" id="totalHPP">
                                         <div class="form-group">
@@ -412,6 +412,7 @@
                 var total       = $('#totalHPP1').val();
                 var akunno      = $('#noakunHPP')[0].textContent;
                 var formTotal   = `
+                    <input type="hidden" name="tipe[]" value="HPP">
                     <input type="hidden" name="total[]" value="${$('#totalHPP1').val().replace(/[^,\d]|(,00)/g, '')}">
                     <input type="hidden" name="totalHPP1" value="${$('#totalHPP1').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 var formNoAkun      = `<input type="hidden" name="noAkun[]" value="${$('#noakunHPP').val()}">`;
@@ -435,8 +436,9 @@
                 var total       = $('#total').val();
                 var akunno      = $('#noakun')[0].textContent;
                 var formTotal   = `
+                    <input type="hidden" name="tipe[]" value="pendaapatan">
                     <input type="hidden" name="total[]" value="${$('#total').val().replace(/[^,\d]|(,00)/g, '')}">
-                    <input type="hidden" name="total" value="${$('#total').val().replace(/[^,\d]|(,00)/g, '')}">`;
+                    <input type="hidden" name="totalPendapatan1" value="${$('#total').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 var formNoAkun      = `<input type="hidden" name="noAkun[]" value="${$('#noakun').val()}">`;
                 var formHarga       = `<input type="hidden" name="harga[]" value="${$('#harga').val().replace(/[^,\d]|(,00)/g, '')}">`;
                 var formJumlah      = `<input type="hidden" name="jumlah[]" value="${$('#jumlah').val().replace(/[^,\d]|(,00)/g, '')}">`;
@@ -475,7 +477,7 @@
         }
         $('#modal' + tipe).modal('hide');
         var detail          = new FormData($('#form')[0]);
-        var pendapatan      = detail.getAll('total');
+        var pendapatan      = detail.getAll('totalPendapatan1');
         var HPP             = detail.getAll('totalHPP1');
         var totalPendapatan = 0;
         var totalHPP        = 0;
@@ -493,7 +495,7 @@
         console.log(totalHPP);
         var grossProfit = totalPendapatan - totalHPP;
         $('#grossProfit').val(formatRupiah(String(grossProfit)) + ',00');
-        $('#grossProfit1').val(grossProfit);
+        $('#grossProfit2').val(grossProfit);
         $('#totalPendapatan').val(totalPendapatan);
         $('#totalHPP').val(totalHPP);
     }

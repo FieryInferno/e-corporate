@@ -134,80 +134,137 @@
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <div class="btn-group" role="group" aria-label="Basic example">
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahPendapatan">Tambah Pendapatan</button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalTambahHPP">Tambah HPP</button>
-                                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalGrossProfit">Gross Profit</button>
-                                    <input type="hidden" name="grossProfit" id="grossProfit1">
-                                    <input type="hidden" name="totalPendapatan" id="totalPendapatan">
-                                    <input type="hidden" name="totalHPP" id="totalHPP">
-                                </div>
-                                <div class="table-responsive">
-                                    <table class="table table-xs table-striped table-borderless table-hover" id="tabelDetail">
-                                        <thead>
-                                            <tr class="table-active">
-                                                <th>No. Akun</th>
-                                                <th>Harga</th>
-                                                <th>Jumlah</th>
-                                                <th>Subtotal</th>
-                                                <th>Total</th>
-                                                <th>Aksi</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <?php
-                                                $totalPendapatan    = 0;
-                                                $totalHPP           = 0;
-                                                foreach ($detail as $key) { ?>
-                                                    <tr>
-                                                        <td>
-                                                            <input type="hidden" name="noAkun[]" value="<?= $key['noAkun']; ?>">
-                                                            <?= $key['noAkun1']; ?>
-                                                        </td>
-                                                        <td>
-                                                            <input type="hidden" name="harga[]" value="<?= $key['harga']; ?>">
-                                                            <?= number_format($key['harga'], 2, ',', '.'); ?>
-                                                        </td>
-                                                        <td>
-                                                            <input type="hidden" name="jumlah[]" value="<?= $key['jumlah']; ?>">
-                                                            <?= $key['jumlah']; ?>
-                                                        </td>
-                                                        <td>
-                                                            <input type="hidden" name="subtotal[]" value="<?= $key['subtotal']; ?>">
-                                                            <?= number_format($key['subtotal'], 2, ',', '.'); ?>
-                                                        </td>
-                                                        <td>
-                                                            <input type="hidden" name="tipe[]" value="<?= $key['tipe']; ?>">
-                                                            <input type="hidden" name="total[]" value="<?= $key['total']; ?>">
-                                                            <?php
-                                                                switch ($key['tipe']) {
-                                                                    case 'HPP': 
-                                                                        $totalHPP   += $key['total']; ?>
-                                                                        <input type="hidden" name="totalHPP" value="<?= $key['total']; ?>">
-                                                                        <?php break;
-                                                                    case 'pendapatan': 
-                                                                        $totalPendapatan    += $key['total']; ?>
-                                                                        <input type="hidden" name="totalPendapatan" value="<?= $key['total']; ?>">
-                                                                        <?php break;
-                                                                    
-                                                                    default:
-                                                                        # code...
-                                                                        break;
-                                                                }
-                                                            ?>
-                                                            <?= number_format($key['total'], 2, ',', '.'); ?>
-                                                        </td>
-                                                        <td>
-                                                            <a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>
-                                                        </td>
+                                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#pendapatan" role="tab" aria-controls="home" aria-selected="true">Pendapatan</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="profile-tab" data-toggle="tab" href="#HPP" role="tab" aria-controls="profile" aria-selected="false">HPP</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" id="contact-tab" data-toggle="tab" href="#grossProfit1" role="tab" aria-controls="contact" aria-selected="false">Gross Profit</a>
+                                    </li>
+                                </ul>
+                                <div class="tab-content" id="myTabContent">
+                                    <div class="tab-pane fade show active" id="pendapatan" role="tabpanel" aria-labelledby="home-tab">
+                                        <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#modalTambahPendapatan">Tambah</button>
+                                        <div class="table-responsive">
+                                            <table class="table table-xs table-striped table-borderless table-hover" id="tabelPendapatan">
+                                                <thead>
+                                                    <tr class="table-active">
+                                                        <th>No. Akun</th>
+                                                        <th>Harga</th>
+                                                        <th>Jumlah</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Total</th>
+                                                        <th>Aksi</th>
                                                     </tr>
-                                                <?php }
-                                            ?>
-                                            <input type="hidden" name="grossProfit" id="grossProfit1" value="<?= $totalPendapatan - $totalHPP; ?>">
-                                            <input type="hidden" name="totalPendapatan" id="totalPendapatan" value="<?= $totalPendapatan; ?>">
-                                            <input type="hidden" name="totalHPP" id="totalHPP" value="<?= $totalHPP; ?>">
-                                        </tbody>
-                                    </table>
+                                                </thead>
+                                                <tbody>
+                                                    <?php
+                                                        $totalPendapatan    = 0;
+                                                        foreach ($detail as $key) { 
+                                                            if ($key['tipe'] == 'pendapatan') { ?>
+                                                                <tr>
+                                                                    <td>
+                                                                        <input type="hidden" name="noAkun[]" value="<?= $key['noAkun']; ?>">
+                                                                        <?= $key['noAkun1']; ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="hidden" name="harga[]" value="<?= $key['harga']; ?>">
+                                                                        <?= number_format($key['harga'], 2, ',', '.'); ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="hidden" name="jumlah[]" value="<?= $key['jumlah']; ?>">
+                                                                        <?= $key['jumlah']; ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="hidden" name="subtotal[]" value="<?= $key['subtotal']; ?>">
+                                                                        <?= number_format($key['subtotal'], 2, ',', '.'); ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <input type="hidden" name="tipe[]" value="<?= $key['tipe']; ?>">
+                                                                        <input type="hidden" name="total[]" value="<?= $key['total']; ?>">
+                                                                        <?php
+                                                                            $totalPendapatan    += $key['total']; ?>
+                                                                            <input type="hidden" name="totalPendapatan1" value="<?= $key['total']; ?>">
+                                                                        <?= number_format($key['total'], 2, ',', '.'); ?>
+                                                                    </td>
+                                                                    <td>
+                                                                        <a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>
+                                                                    </td>
+                                                                </tr>
+                                                            <?php }
+                                                        }
+                                                    ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="HPP" role="tabpanel" aria-labelledby="profile-tab">
+                                        <button type="button" class="btn btn-primary m-3" data-toggle="modal" data-target="#modalTambahHPP">Tambah</button>
+                                        <div class="table-responsive">
+                                            <table class="table table-xs table-striped table-borderless table-hover" id="tabelHPP">
+                                                <thead>
+                                                    <tr class="table-active">
+                                                        <th>No. Akun</th>
+                                                        <th>Harga</th>
+                                                        <th>Jumlah</th>
+                                                        <th>Subtotal</th>
+                                                        <th>Total</th>
+                                                        <th>Aksi</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                <?php
+                                                    $totalHPP    = 0;
+                                                    foreach ($detail as $key) { 
+                                                        if ($key['tipe'] == 'HPP') { ?>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="hidden" name="noAkun[]" value="<?= $key['noAkun']; ?>">
+                                                                    <?= $key['noAkun1']; ?>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" name="harga[]" value="<?= $key['harga']; ?>">
+                                                                    <?= number_format($key['harga'], 2, ',', '.'); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" name="jumlah[]" value="<?= $key['jumlah']; ?>">
+                                                                    <?= $key['jumlah']; ?>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" name="subtotal[]" value="<?= $key['subtotal']; ?>">
+                                                                    <?= number_format($key['subtotal'], 2, ',', '.'); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="hidden" name="tipe[]" value="<?= $key['tipe']; ?>">
+                                                                    <input type="hidden" name="total[]" value="<?= $key['total']; ?>">
+                                                                    <?php
+                                                                        $totalHPP    += $key['total']; ?>
+                                                                        <input type="hidden" name="totalHPP" value="<?= $key['total']; ?>">
+                                                                    <?= number_format($key['total'], 2, ',', '.'); ?>
+                                                                </td>
+                                                                <td>
+                                                                    <a href="javascript:hapusDetail(this)" class="text-danger"><i class="fas fa-trash"></i></a>
+                                                                </td>
+                                                            </tr>
+                                                        <?php }
+                                                    }
+                                                ?>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade" id="grossProfit1" role="tabpanel" aria-labelledby="contact-tab">
+                                        <input type="hidden" name="grossProfit" id="grossProfit2" value="<?= $totalPendapatan - $totalHPP; ?>">
+                                        <input type="hidden" name="totalPendapatan" id="totalPendapatan" value="<?= $totalPendapatan; ?>">
+                                        <input type="hidden" name="totalHPP" id="totalHPP" value="<?= $totalHPP; ?>">
+                                        <div class="form-group">
+                                            <label>Total Pendapatan - Total HPP : </label>
+                                            <input type="text" id="grossProfit" required class="form-control" disabled value="<?= number_format($totalPendapatan - $totalHPP, 2, ',', '.'); ?>">
+                                        </div> 
+                                    </div>
                                 </div>
                             </div>
                             <div class="card-footer">

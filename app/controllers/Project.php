@@ -20,7 +20,7 @@ class Project extends User_Controller {
     }
     
     public function create() {
-        $noEvent            = $this->db->query("SELECT MAX(LEFT(noEvent, 3)) AS noEvent FROM project")->row_array();
+        $noEvent            = $this->db->query("SELECT MAX(RIGHT(noEvent, 3)) AS noEvent FROM project")->row_array();
         if ($noEvent) {
             $noEvent    = (int) $noEvent['noEvent'] + 1;
             switch (strlen($noEvent)) {
@@ -48,7 +48,7 @@ class Project extends User_Controller {
     
     public function save()
     {
-        $this->model->set('idProject', $idProject);
+        $this->model->set('idProject', $this->idProject);
         $data   = $this->model->save();
         if ($data) {
             $hasil['status'] = 'success';
