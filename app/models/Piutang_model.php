@@ -21,7 +21,7 @@ class Piutang_model extends CI_Model {
 			$this->db->like('namaPelanggan', $this->kontak);
 		}
 		if ($this->tanggalAwal) {
-			$this->db->where('SaldoAwalPiutang.tanggal BETWEEN "' . $tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
+			$this->db->where('SaldoAwalPiutang.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
 		}
 		$get	= $this->db->get($this->table);
 		return $get->result_array();

@@ -375,7 +375,7 @@ class Faktur_penjualan_model extends CI_Model {
 			$this->db->like('mkontak.nama', $this->kontak);
 		}
 		if ($this->tanggalAwal) {
-			$this->db->where('tfakturpenjualan.tanggal BETWEEN "' . $tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
+			$this->db->where('tfakturpenjualan.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
 		}
 		return $this->db->get('tfakturpenjualan')->result_array();
 	}

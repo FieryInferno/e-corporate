@@ -7,6 +7,7 @@ class Piutang extends User_Controller {
 	private $tanggalAwal;
 	private $tanggalAkhir;
 	private $kontak;
+	private $usiaPiutang;
 
 	public function __construct() {
 		parent::__construct();
@@ -19,23 +20,69 @@ class Piutang extends User_Controller {
 		$this->kontak		= $this->input->get('kontakid');
 		$this->tanggalAwal	= $this->input->get('tanggalawal');
 		$this->tanggalAkhir	= $this->input->get('tanggalAkhir');
+		$this->usiaPiutang	= $this->input->get('usiaPiutang');
 	}
 
 	public function index() {
-		$data['title']		= lang('Piutang');
-		$data['subtitle']	= lang('list');
-		$data['content']	= 'Piutang/index';
 		$this->model->set('perusahaan', $this->perusahaan);
 		$this->model->set('kontak', $this->kontak);
 		$this->model->set('tanggalAwal', $this->tanggalAwal);
 		$this->model->set('tanggalAkhir', $this->tanggalAkhir);
 		$dataPiutang	= $this->model->get();
+
+		$this->Faktur_penjualan_model->set('perusahaan', $this->perusahaan);
+		$this->Faktur_penjualan_model->set('kontak', $this->kontak);
+		$this->Faktur_penjualan_model->set('tanggalAwal', $this->tanggalAwal);
+		$this->Faktur_penjualan_model->set('tanggalAkhir', $this->tanggalAkhir);
 		$piutang		= $this->Faktur_penjualan_model->piutang();
+
 		for ($i=0; $i < count($piutang); $i++) { 
 			array_push($dataPiutang, $piutang[$i]); 
 		}
-		usort($dataPiutang, [$this, 'date_compare']);
-		$data['piutang']	= $dataPiutang;
+
+		$dataPiutang1	= [];
+		for ($i=0; $i < count($dataPiutang); $i++) { 
+			$key				= $dataPiutang[$i];
+
+			$tanggal            = new DateTime($key['tanggal']);
+			$tanggalTempo       = new DateTime($key['tanggalTempo']);
+			$tanggalSekarang    = new DateTime();
+			$selisih            = $tanggalTempo->diff($tanggal)->days;
+			$selisih1           = $tanggalSekarang->diff($tanggal)->days;
+			$key['usiaPiutang']	= $selisih1 - $selisih;
+
+			switch ($this->usiaPiutang) {
+				case 'kurang30':
+					if ($key['usiaPiutang'] < 30) {
+						array_push($dataPiutang1, $key);
+					}
+					break;
+
+				case '0':
+					if ($key['usiaPiutang'] == 0) {
+						array_push($dataPiutang1, $key);
+					}
+					break;
+				case 'lebih30':
+					if ($key['usiaPiutang'] > 30) {
+						array_push($dataPiutang1, $key);
+					}
+					break;
+				
+				default:
+					# code...
+					break;
+			} 
+		}
+		
+
+		usort($dataPiutang1, [$this, 'date_compare']);
+
+
+		$data['title']		= lang('Piutang');
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'Piutang/index';
+		$data['piutang']	= $dataPiutang1;
 		$data = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}

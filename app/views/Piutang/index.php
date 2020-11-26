@@ -41,10 +41,10 @@
                                     <div class="col-md-4">
                                         <div class="form-group">
                                             <label>Usia Hutang : </label>
-                                            <select class="form-control" name="usiaHutang">
+                                            <select class="form-control" name="usiaPiutang">
                                                 <option value="" disabled selected>Pilih Usia Utang</option>
                                                 <option value="kurang30">Kurang Dari 30 Hari</option>
-                                                <option value="30">30 Hari</option>
+                                                <option value="0">0 Hari</option>
                                                 <option value="lebih30">Lebih Dari 30 Hari</option>
                                             </select>
                                         </div>
@@ -101,7 +101,7 @@
                                         <tr class="table-active">
                                             <th>Tgl Inv</th>
                                             <th>Tgl J/T</th>
-                                            <th>Usia Hutang</th>
+                                            <th>Usia Piutang</th>
                                             <th><?php echo lang('No Invoice') ?></th>
                                             <th>Nama Perusahaan</th>
                                             <th><?php echo lang('Keterangan') ?></th>
@@ -119,17 +119,7 @@
                                                 <tr>
                                                     <td><?= $key['tanggal']; ?></td>
                                                     <td><?= $key['tanggalTempo']; ?></td>
-                                                    <td>
-                                                        <?php
-                                                            $tanggal            = new DateTime($key['tanggal']);
-                                                            $tanggalTempo       = new DateTime($key['tanggalTempo']);
-                                                            $tanggalSekarang    = new DateTime();
-                                                            $selisih            = $tanggalTempo->diff($tanggal)->days;
-                                                            $selisih1           = $tanggalSekarang->diff($tanggal)->days;
-                                                            echo $selisih1 - $selisih . " hari"; 
-                                                            // $key['tanggalTempo']; 
-                                                        ?>
-                                                    </td>
+                                                    <td><?= $key['usiaPiutang']; ?> Hari</td>
                                                     <td><?= $key['noInvoice']; ?></td>
                                                     <td><?= $key['nama_perusahaan']; ?></td>
                                                     <td><?= $key['deskripsi']; ?></td>
