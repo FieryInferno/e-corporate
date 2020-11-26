@@ -37,6 +37,7 @@ class SetorPajak extends User_Controller {
 	public function detail()
 	{
 		$this->SetorPajakModel->set('idPajakPemesananPenjualan', $this->idPajakPemesananPenjualan);	
+		$this->SetorPajakModel->set('perusahaan', $this->perusahaan);
 		$data				= $this->SetorPajakModel->get();
 		$data['title']      = $this->title;
 		$data['content']    = 'SetorPajak/detail';
