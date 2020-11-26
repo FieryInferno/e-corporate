@@ -663,6 +663,7 @@
                         for (let index = 0; index < data.length; index++) {
                             detail_barang   +=  `
                                 <input type="hidden" class="form-control" id="noakun`+index+`" name="noakun[]" required value="${data[index].akunno}">
+                                <input type="hidden" class="form-control" id="idakun`+index+`" name="idakun[]" required value="${data[index].idakun}">
                                 <input type="hidden" class="form-control" id="sisapaguitem`+index+`" name="sisapaguitem[]" required value="${data[index].jumlah}">`;
                         }
                         $('#detail_barang').html(detail_barang);
@@ -703,6 +704,7 @@
             }
             noakun          = $('#noakun'+index).val();
             sisapaguitem    = $('#sisapaguitem'+index).val();
+            idakun          = $('#idakun'+index).val();
             $('#noakun'+index).remove();
             $('#sisapaguitem'+index).remove();
             table_detail.row.add([
@@ -720,7 +722,7 @@
                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman${index}${no}" title="Tambah Biaya Pengiriman">
                     <i class="fas fa-shipping-fast"></i>
                 </button>`,
-                noakun,
+                `<input type="hidden" name="noAkun1[]" id="idakun${index}${no}" value="${idakun}">` + noakun,
                 `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonly onchange="sum_total('${index}${no}', '${no}', '${jenis}');">`,
                 `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(String(sisapaguitem))+',00'}" readonly>`,
                 `<a href="javascript:void(0)" class="edit_detail" id_barang="${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp;

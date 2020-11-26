@@ -165,11 +165,7 @@ class Jurnal_model extends CI_Model {
 						break;
 				}
 				if ($data0) {
-					// print_r($data0);
-					// die();
 					foreach ($data0 as $key) {
-						// print_r($key['detail']);
-						// die();
 						foreach ($key['detail'] as $detail) {
 							$this->db->select('tJurnalFinansial.elemen, tJurnalFinansial.jenis, tSetupJurnal.formulir');
 							$this->db->join('tJurnalFinansial', 'tSetupJurnal.idSetupJurnal = tJurnalFinansial.idSetupJurnal');
@@ -181,7 +177,19 @@ class Jurnal_model extends CI_Model {
 									if (strpos($value['elemen'], 'sumberDana') !== FALSE) {
 										$where	= ['kodeAkun'	=> $key['rekening']];
 									} else {
-										$where	= ['kodeAkun'	=> $detail['itemid']];
+										switch ($formulir[$i]) {
+											case 'fakturPembelian':
+												$where	= ['kodeAkun'	=> $detail['idakun']];
+												break;
+											case 'fakturPenjualan':
+												$where	= ['kodeAkun'	=> $detail['itemid']];
+												break;
+											
+											default:
+												# code...
+												break;
+										}
+										
 									}
 									$this->db->select('mnoakun.akunno, mnoakun.namaakun');
 									if (strpos($value['elemen'], '1')) {

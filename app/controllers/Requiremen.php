@@ -86,7 +86,7 @@ class Requiremen extends User_Controller {
 			case 'pdf':
 				$this->load->library('pdf');
 				$pdf						= $this->pdf;
-				$data						= get_by_id('id', $id, 'tpemesanan');
+				$data						= $this->model->get($id);
 				$data['kontak'] 			= get_by_id('id',$data['kontakid'],'mkontak');
 				$data['gudang'] 			= get_by_id('id',$data['gudangid'],'mgudang');
 				$data['pemesanandetail']	= $this->model->pemesanandetail($data['id']);

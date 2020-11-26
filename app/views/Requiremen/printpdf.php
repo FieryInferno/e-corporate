@@ -20,7 +20,7 @@
             <td rowspan="2" width="75px">&nbsp;</td>
             <td class="text-center" style="border: 1px solid;">PT. ARGA BANGUN BANGSA</td>
             <td width="150px">&nbsp;</td>
-            <td rowspan="2"><h1><u>Purchase Invoice</u></h1></td>
+            <td rowspan="2"><h1><u>Permintaan Pembelian</u></h1></td>
         </tr>
         <tr>
             <td style="border: 1px solid;">Menara 165 Lt. 24 Jl. TB Simatupang Kav. 1 Cilandak Jakarta Selatan</td>
@@ -50,8 +50,8 @@
                         <td style="border: 1px solid;" width="100px">Invoice No.</td>
                     </tr>
                     <tr>
-                        <td style="border: 1px solid;">27 Juli 2020</td>
-                        <td style="border: 1px solid;">64216</td>
+                        <td style="border: 1px solid;"><?= $tanggal; ?></td>
+                        <td style="border: 1px solid;"><?= $notrans; ?></td>
                     </tr>
                     <tr>
                         <td style="border: 1px solid;">Form No.</td>
@@ -90,82 +90,49 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Akun Perantara Piutang</td>
-                <td class="text-right">1.250.000,00</td>
-                <td>an. Ivani Novita Sari - SI 84576</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Akun Perantara Piutang</td>
-                <td class="text-right">1.250.000,00</td>
-                <td>an. Ivani Novita Sari - SI 84576</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Akun Perantara Piutang</td>
-                <td class="text-right">1.250.000,00</td>
-                <td>an. Ivani Novita Sari - SI 84576</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Akun Perantara Piutang</td>
-                <td class="text-right">1.250.000,00</td>
-                <td>an. Ivani Novita Sari - SI 84576</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Akun Perantara Piutang</td>
-                <td class="text-right">1.250.000,00</td>
-                <td>an. Ivani Novita Sari - SI 84576</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Akun Perantara Piutang</td>
-                <td class="text-right">1.250.000,00</td>
-                <td>an. Ivani Novita Sari - SI 84576</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Akun Perantara Piutang</td>
-                <td class="text-right">1.250.000,00</td>
-                <td>an. Ivani Novita Sari - SI 84576</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td>Akun Perantara Piutang</td>
-                <td class="text-right">1.250.000,00</td>
-                <td>an. Ivani Novita Sari - SI 84576</td>
-                <td></td>
-                <td></td>
-            </tr>
+            <?php
+                foreach ($pemesanandetail as $key) { ?>
+                    <tr>
+                        <td><?= $key['akunno'] . ' - ' . $key['namaakun']; ?></td>
+                        <td class="text-right"><?= number_format($key['harga'], 2, ',', '.'); ?></td>
+                        <td><?= $catatan; ?></td>
+                        <td><?= $departemen; ?></td>
+                        <td><?= $noEvent; ?></td>
+                    </tr>
+                <?php }
+            ?>
         </tbody>
     </table>
     <br>
     <table class="table" style="width:100%">
         <tr class="table-active">
             <td rowspan="5" width="5px">Say</td>
-            <td width="200px" style="border: 1px solid;">Ten Million</td>
+            <td width="200px" style="border: 1px solid;">
+                <?php 
+                    function terbilang($nilai) {
+                        if($nilai<0) {
+                            $hasil = "minus ". trim(penyebut($nilai));
+                        } else {
+                            $hasil = trim(penyebut($nilai));
+                        }     		
+                        return $hasil;
+                    }
+                    echo strtoupper(terbilang($total)) . ' RUPIAH'; 
+                ?>
+            </td>
             <td width="10px" rowspan="5">&nbsp;</td>
             <td width="10px" style="border: 1px solid;">Subtotal : </td>
-            <td width="10px" class="text-right" style="border: 1px solid;">10.000.000,00</td>
+            <td width="10px" class="text-right" style="border: 1px solid;"><?= number_format($total, 2, ',', '.'); ?></td>
         </tr>
         <tr class="table-active">
             <td style="border: 1px solid;">Description</td>
             <td style="border: 1px solid;">Discount : </td>
-            <td class="text-right" style="border: 1px solid;">0</td>
+            <td class="text-right" style="border: 1px solid;"><?= $diskon; ?> %</td>
         </tr>
         <tr class="table-active">
-            <td rowspan="3" style="border: 1px solid;">Refund Training Grand QX Bandung</td>
+            <td rowspan="3" style="border: 1px solid;"><?= $catatan; ?></td>
             <td style="border: 1px solid;">Total : </td>
-            <td class="text-right" style="border: 1px solid;">10.000.000,00</td>
+            <td class="text-right" style="border: 1px solid;"><?= number_format($total, 2, ',', '.'); ?></td>
         </tr>
         <tr class="table-active">
             <td style="border: 1px solid;">Payment : </td>
@@ -173,7 +140,7 @@
         </tr>
         <tr class="table-active">
             <td style="border: 1px solid;">Balance : </td>
-            <td class="text-right" style="border: 1px solid;">10.000.000,00</td>
+            <td class="text-right" style="border: 1px solid;">0</td>
         </tr>
     </table>
     <br>

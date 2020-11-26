@@ -94,7 +94,7 @@ class Requiremen_model extends CI_Model {
 					'status'		=> '4',
 					'diskon'		=> $this->input->post('diskon')[$no],
 					'ppn'			=> $this->input->post('total_pajak')[$no],
-					'akunno'		=> $value[8],
+					'akunno'		=>  $this->input->post('noAkun1')[$no],
 					'subtotal'		=> $this->input->post('subtotal')[$no],
 					'total'			=> preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('total')[$no]),
 					'jumlahsisa'	=> $this->input->post('jumlah')[$no],
@@ -198,7 +198,7 @@ class Requiremen_model extends CI_Model {
 		$data	= [];
 		if(is_array($itemid)) {
 			for ($i=0; $i < count($itemid); $i++) {
-				$this->db->select('mnoakun.akunno, tanggaranbelanjadetail.jumlah');
+				$this->db->select('mnoakun.akunno, tanggaranbelanjadetail.jumlah, mnoakun.idakun');
 				$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 				$this->db->where('tanggaranbelanjadetail.id', $itemid[$i]);
 				$data[$i] = $this->db->get('tanggaranbelanjadetail')->row_array();
@@ -235,8 +235,9 @@ class Requiremen_model extends CI_Model {
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 	public function pemesanandetail($idpemesanan) {
-		$this->db->select('tpemesanandetail.*, mitem.nama as item');
+		$this->db->select('tpemesanandetail.*, mitem.nama as item, mnoakun.idakun, mnoakun.akunno, mnoakun.namaakun');
 		$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id', 'left');
+		$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id', 'left');
 		$this->db->where('tpemesanandetail.idpemesanan', $idpemesanan);
 		$data	= $this->db->get('tpemesanandetail')->result_array();
@@ -253,6 +254,8 @@ class Requiremen_model extends CI_Model {
 
 	public function get($id)
 	{
+		$this->db->select('tpemesanan.*, project.noEvent');
+		$this->db->join('project', 'tpemesanan.project = project.idProject', 'left');
 		$data			= $this->db->get_where('tpemesanan', [
 			'id'	=> $id
 		])->row_array();
