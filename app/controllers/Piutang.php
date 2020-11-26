@@ -4,13 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Piutang extends User_Controller {
 
 	private $perusahaan;
-	private $tanggal;
+	private $tanggalAwal;
+	private $tanggalAkhir;
+	private $kontak;
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Piutang_model','model');
-		$this->perusahaan	= $this->input->get('perusahaanid');
-		$this->tanggal		= $this->input->get('tanggal');
+		if ($this->session->idperusahaan) {
+			$this->perusahaan	= $$this->session->idperusahaan;
+		} else {
+			$this->perusahaan	= $this->input->get('perusahaanid');
+		}
+		$this->kontak		= $this->input->get('kontakid');
+		$this->tanggalAwal	= $this->input->get('tanggalawal');
+		$this->tanggalAkhir	= $this->input->get('tanggalAkhir');
 	}
 
 	public function index() {
@@ -18,8 +26,11 @@ class Piutang extends User_Controller {
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Piutang/index';
 		$this->model->set('perusahaan', $this->perusahaan);
+		$this->model->set('kontak', $this->kontak);
+		$this->model->set('tanggalAwal', $this->tanggalAwal);
+		$this->model->set('tanggalAkhir', $this->tanggalAkhir);
 		$dataPiutang	= $this->model->get();
-		$piutang	= $this->Faktur_penjualan_model->piutang();
+		$piutang		= $this->Faktur_penjualan_model->piutang();
 		for ($i=0; $i < count($piutang); $i++) { 
 			array_push($dataPiutang, $piutang[$i]); 
 		}

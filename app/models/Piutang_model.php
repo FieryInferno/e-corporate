@@ -5,7 +5,10 @@ class Piutang_model extends CI_Model {
 
 	private $table	= 'SaldoAwalPiutang';
 	private $perusahaan;
-	private $tanggal;
+	private $tanggalAwal;
+	private $tanggalAkhir;
+	private $kontak;
+
 
 	public function get() {
 		$this->db->select($this->table . '.tanggal, ' . $this->table . '.tanggalTempo, '  . $this->table . '.noInvoice, ' . $this->table . '.deskripsi, ' . $this->table . '.namaPelanggan, ' . $this->table . '.primeOwing, ' . $this->table . '.idSaldoAwalPiutang, mperusahaan.nama_perusahaan, mnoakun.idakun, mnoakun.namaakun, mnoakun.akunno, mperusahaan.kode');
@@ -14,8 +17,8 @@ class Piutang_model extends CI_Model {
 		if ($this->perusahaan) {
 			$this->db->where('perusahaan', $this->perusahaan);
 		}
-		if ($this->tanggal) {
-			$this->db->where('tanggal <=', $this->tanggal);
+		if ($this->tanggalAwal) {
+			$this->db->where('tPenerimaan.tanggal BETWEEN "' . $tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
 		}
 		$get	= $this->db->get($this->table);
 		return $get->result_array();

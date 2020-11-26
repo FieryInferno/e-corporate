@@ -19,7 +19,6 @@ class Kontak extends User_Controller {
 	public function index_datatable() {
 		$this->load->library('Datatables');
 		$this->datatables->select('mkontak.*');
-		$this->datatables->where('mkontak.stdel', '0');
 		$this->datatables->from('mkontak');
 		return print_r($this->datatables->generate());
 	}
