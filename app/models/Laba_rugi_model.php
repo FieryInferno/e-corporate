@@ -1,31 +1,79 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Laba_rugi_model extends CI_Model {
 
-	public function get_penjualan($tanggalawal, $tanggalakhir) {
-		$this->db->select("
-			*,
-			CASE WHEN stdebet = '1' THEN SUM(debet-kredit)
-			ELSE SUM(kredit-debet) END AS saldo
-		");
-		$this->db->where('tanggal >=', $tanggalawal);
-		$this->db->where('tanggal <=', $tanggalakhir);
-		$this->db->like('noakunheader', '41', 'after');
-		$this->db->group_by('noakun');
-		$get = $this->db->get('viewjurnaldetail');
-		return $get->result_array();
+	private $perusahaan;
+	private $tanggalawal;
+	private $tanggalakhir;
+	private $jurnalUmum;
+
+	public function __construct() {
+		parent::__construct();
+		$this->load->model('Jurnal_model','model');
+		$this->Jurnal_model->set('perusahaan', $this->perusahaan);
+		// $this->Jurnal_model->set('tglMulai', $this->tanggalawal);
+		// $this->Jurnal_model->set('tglAkhir', $this->tanggalakhir);
+		$this->jurnalUmum	= $this->Jurnal_model->get();
+	}
+
+	public function get($noAkun, $noAkun1) {
+		$data	= [];
+		for ($i=0; $i < count($this->jurnalUmum); $i++) { 
+			$key	= $this->jurnalUmum[$i];
+			$total;
+			if ($key['akunno'] !== '') {
+				if (substr($key['akunno'], 0, 1) == $noAkun || substr($key['akunno'], 0, 1) == $noAkun1) {
+					if (count($data) == 0) {
+						$total	= 0;
+						switch ($key['jenis']) {
+							case 'debit':
+								$total	+= $key['total'];
+								break;
+							case 'kredit':
+								$total	-= $key['total'];
+								break;
+							
+							default:
+								# code...
+								break;
+						}
+						array_push($data, [
+							'akunno'	=> $key['akunno'],
+							'namaakun'	=> $key['namaakun'],
+							'saldo'		=> $total
+						]);
+						$temp	= $key['akunno'] . $key['namaakun'];
+						$noTemp	= 0;
+					} else {
+						if (($key['akunno'] . $key['namaakun']) == $temp) {
+							switch ($key['jenis']) {
+								case 'debit':
+									$data[$noTemp]['saldo']	+= $key['total'];
+									break;
+								case 'kredit':
+									$data[$noTemp]['saldo']	-= $key['total'];
+									break;
+								
+								default:
+									# code...
+									break;
+							}
+						} else {
+							array_push($data, [
+								'akunno'	=> $key['akunno'],
+								'namaakun'	=> $key['namaakun'],
+								'saldo'		=> $key['total']
+							]);
+							$temp	= $key['akunno'] . $key['namaakun'];
+							$noTemp++;
+							$total	= 0;
+						}
+					}
+				}
+			}
+		}
+		return $data;
 	}
 
 	public function get_hpp($tanggalawal, $tanggalakhir) {
@@ -144,6 +192,11 @@ class Laba_rugi_model extends CI_Model {
 			$data['message'] = lang('delete_error_message');
 		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
 	}
 }
 
