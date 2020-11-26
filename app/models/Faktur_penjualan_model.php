@@ -356,5 +356,15 @@ class Faktur_penjualan_model extends CI_Model {
 		]);
 		return $validasi;
 	}
+
+	public function piutang()
+	{
+		$this->db->select('tfakturpenjualan.tanggal, tfakturpenjualan.tanggaltempo as tanggalTempo, tfakturpenjualan.nomorsuratjalan as noInvoice, tfakturpenjualan.catatan as deskripsi, mkontak.nama as namaPelanggan, tfakturpenjualan.sisatagihan as primeOwing, mperusahaan.nama_perusahaan');
+		$this->db->join('mkontak', 'tfakturpenjualan.kontakid = mkontak.id');
+		$this->db->join('mperusahaan', 'tfakturpenjualan.idperusahaan = mperusahaan.idperusahaan');
+		$this->db->where('tfakturpenjualan.sisatagihan >', 0);
+		$this->db->where('tfakturpenjualan.carabayar', 'credit');
+		return $this->db->get('tfakturpenjualan')->result_array();
+	}
 }
 

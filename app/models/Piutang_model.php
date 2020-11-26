@@ -17,7 +17,7 @@ class Piutang_model extends CI_Model {
 		if ($this->tanggal) {
 			$this->db->where('tanggal <=', $this->tanggal);
 		}
-		$get = $this->db->get($this->table);
+		$get	= $this->db->get($this->table);
 		return $get->result_array();
 	}
 

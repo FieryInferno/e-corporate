@@ -122,12 +122,12 @@
                                             <?php }
                                         }
                                     ?>
-                                    <tr class="">
+                                    <tr class="table-active">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Pendapatan dari Penjualan') ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalpenjualan, 2, ',', '.'); ?></td>
                                     </tr>
                                     
-                                    <tr class="bg-grey-300">
+                                    <tr class="bg-grey-300 table-active">
                                         <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Harga Pokok Penjualan') ?></td>
                                     </tr>
                                     <?php
@@ -148,7 +148,7 @@
                                             <?php }
                                         }
                                     ?>
-                                    <tr class="">
+                                    <tr class="table-active">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Harga Pokok Penjualan') ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalhpp, 2, ',', '.'); ?></td>
                                     </tr>
@@ -185,7 +185,7 @@
                                         <td class="text-right font-weight-bold"><?php echo formatnumberakunting($pendapatanbersihoperasional) ?></td>
                                     </tr>
 
-                                    <tr class="bg-grey-300">
+                                    <tr class="bg-grey-300 table-active">
                                         <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Pendapatan Lainnya') ?></td>
                                     </tr>
                                     <?php
@@ -206,12 +206,12 @@
                                             <?php }
                                         }
                                     ?>
-                                    <tr class="">
+                                    <tr class="table-active">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Pendapatan Lainnya') ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalpendapatanlainnya, 2, ',', '.'); ?></td>
                                     </tr>
 
-                                    <tr class="bg-grey-300">
+                                    <tr class="bg-grey-300 table-active">
                                         <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Beban Lainya') ?></td>
                                     </tr>
                                     <?php
@@ -232,7 +232,7 @@
                                             <?php }
                                         }
                                     ?>
-                                    <tr class="">
+                                    <tr class="table-active">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Beban Lainnya') ?></td>
                                         <td class="text-right font-weight-bold"><?= number_format($totalbiayalainnya, 2, ',', '.'); ?></td>
                                     </tr>

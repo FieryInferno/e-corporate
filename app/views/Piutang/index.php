@@ -14,70 +14,76 @@
                     </ol>
                 </div>
             </div>
-            <div class="m-3">
-                <form action="{site_url}piutang/index" id="form1" method="get">
-                    <div class="row">
-                        <?php
-                            if ($this->session->userid !== '1') { ?>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Perusahaan : </label>
-                                        <input type="hidden" name="perusahaanid" value="<?= $this->session->idperusahaan; ?>">
-                                        <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+            <div class="row">
+                <div class="col-12">         
+                    <div class="card">
+                        <div class="card-body">
+                            <form action="{site_url}piutang/index" id="form1" method="get">
+                                <div class="row">
+                                    <?php
+                                        if ($this->session->userid !== '1') { ?>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Perusahaan : </label>
+                                                    <input type="hidden" name="perusahaanid" value="<?= $this->session->idperusahaan; ?>">
+                                                    <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                </div>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Perusahaan : </label>
+                                                    <select class="form-control perusahaanid" name="perusahaanid"></select>
+                                                </div>
+                                            </div>
+                                        <?php }
+                                    ?>
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label>Usia Hutang : </label>
+                                            <select class="form-control" name="usiaHutang">
+                                                <option value="" disabled selected>Pilih Usia Utang</option>
+                                                <option value="kurang30">Kurang Dari 30 Hari</option>
+                                                <option value="30">30 Hari</option>
+                                                <option value="lebih30">Lebih Dari 30 Hari</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                            <?php } else { ?>
-                                <div class="col-md-4">
-                                    <div class="form-group">
-                                        <label>Perusahaan : </label>
-                                        <select class="form-control perusahaanid" name="perusahaanid"></select>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="form-group">
+                                            <label><?php echo lang('Kontak') ?>:</label>
+                                            <select class="form-control kontakid" name="kontakid"></select>
+                                        </div>
                                     </div>
                                 </div>
-                            <?php }
-                        ?>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Usia Hutang : </label>
-                                <select class="form-control" name="usiaHutang">
-                                    <option value="" disabled selected>Pilih Usia Utang</option>
-                                    <option value="kurang30">Kurang Dari 30 Hari</option>
-                                    <option value="30">30 Hari</option>
-                                    <option value="lebih30">Lebih Dari 30 Hari</option>
-                                </select>
-                            </div>
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label><?php echo lang('start_date') ?>:</label>
+                                            <input type="date" class="form-control datepicker" name="tanggalawal">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label><?php echo lang('end_date') ?>:</label>
+                                            <input type="date" class="form-control datepicker" name="tanggalakhir">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="text-right">
+                                            <button class="btn-block btn btn-success" type="submit"><i class="fas fa-filter"></i> Filter</button>
+                                            <button class="btn-block btn btn-warning">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label><?php echo lang('Kontak') ?>:</label>
-                                <select class="form-control kontakid" name="kontakid"></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label><?php echo lang('start_date') ?>:</label>
-                                <input type="date" class="form-control datepicker" name="tanggalawal">
-                            </div>
-                        </div>
-                        <div class="col-md-2">
-                            <div class="form-group">
-                                <label><?php echo lang('end_date') ?>:</label>
-                                <input type="date" class="form-control datepicker" name="tanggalakhir">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">
-                            <div class="text-right">
-                                <button class="btn-block btn btn-success" type="submit"><i class="fas fa-filter"></i> Filter</button>
-                                <button class="btn-block btn btn-warning">Reset</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
         </div><!-- /.container-fluid -->
     </section>
@@ -95,6 +101,7 @@
                                         <tr class="table-active">
                                             <th>Tgl Inv</th>
                                             <th>Tgl J/T</th>
+                                            <th>Usia Hutang</th>
                                             <th><?php echo lang('No Invoice') ?></th>
                                             <th>Nama Perusahaan</th>
                                             <th><?php echo lang('Keterangan') ?></th>
@@ -112,6 +119,17 @@
                                                 <tr>
                                                     <td><?= $key['tanggal']; ?></td>
                                                     <td><?= $key['tanggalTempo']; ?></td>
+                                                    <td>
+                                                        <?php
+                                                            $tanggal            = new DateTime($key['tanggal']);
+                                                            $tanggalTempo       = new DateTime($key['tanggalTempo']);
+                                                            $tanggalSekarang    = new DateTime();
+                                                            $selisih            = $tanggalTempo->diff($tanggal)->days;
+                                                            $selisih1           = $tanggalSekarang->diff($tanggal)->days;
+                                                            echo $selisih1 - $selisih . " hari"; 
+                                                            // $key['tanggalTempo']; 
+                                                        ?>
+                                                    </td>
                                                     <td><?= $key['noInvoice']; ?></td>
                                                     <td><?= $key['nama_perusahaan']; ?></td>
                                                     <td><?= $key['deskripsi']; ?></td>

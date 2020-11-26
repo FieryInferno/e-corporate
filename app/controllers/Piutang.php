@@ -19,9 +19,26 @@ class Piutang extends User_Controller {
 		$data['content']	= 'Piutang/index';
 		$this->model->set('perusahaan', $this->perusahaan);
 		$data['piutang']	= $this->model->get();
+		$piutang	= $this->Faktur_penjualan_model->piutang();
+		for ($i=0; $i < count($piutang); $i++) { 
+			array_push($data['piutang'], $piutang[$i]); 
+		}
+		// usort($data['piutang'], [$this, 'date_compare']);
+		// die();
 		$data = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
+	
+	// function date_compare($a, $b)
+	// {
+	// 	print_r(strtotime($a['tanggal']));echo '<br/>';
+	// 	$t1 = strtotime($a['tanggal']);
+	// 	$t2 = strtotime($b['tanggal']);
+		// $t1 = $a['primeOwing'];
+		// $t2 = $b['primeOwing'];
+		// return $t1 - $t2;
+	// 	return ($t1 < $t2)?-1:1;
+	// }    
 
 	public function create() {
 		$data['tanggal'] = date('Y-m-d');
