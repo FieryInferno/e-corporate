@@ -175,7 +175,7 @@
             var perusahaan  = $('.perusahaanid').children('option:selected').val();
             ajax_select({ 
                 id          : '.kontakid', 
-                url         : base_url + 'select2_kontak/' + perusahaan, 
+                url         : base_url + 'select2_kontak_piutang/' + perusahaan, 
                 selected    : { 
                     id: '{kontakid}' 
                 } 
@@ -184,7 +184,7 @@
     } else {
         ajax_select({ 
             id          : '.kontakid', 
-            url         : base_url + 'select2_kontak/<?= $this->session->idperusahaan; ?>', 
+            url         : base_url + 'select2_kontak_piutang/<?= $this->session->idperusahaan; ?>', 
             selected    : { 
                 id: '{kontakid}' 
             } 

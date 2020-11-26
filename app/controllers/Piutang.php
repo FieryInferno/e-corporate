@@ -12,7 +12,7 @@ class Piutang extends User_Controller {
 		parent::__construct();
 		$this->load->model('Piutang_model','model');
 		if ($this->session->idperusahaan) {
-			$this->perusahaan	= $$this->session->idperusahaan;
+			$this->perusahaan	= $this->session->idperusahaan;
 		} else {
 			$this->perusahaan	= $this->input->get('perusahaanid');
 		}
@@ -112,6 +112,17 @@ class Piutang extends User_Controller {
 			$data = $this->db->get('mkontak')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
+	}
+
+	public function select2_kontak_piutang($idPerusahaan = null, $idKontak = null) {
+		$term = $this->input->get('q');
+		$this->db->select('mkontak.nama as id, mkontak.nama as text');
+		// $this->db->where('mkontak.tipe', '1');
+		$this->db->where('mkontak.perusahaan', $idPerusahaan);
+		// $this->db->limit(10);
+		if($term) $this->db->like('mkontak.nama', $term);
+		$data = $this->db->get('mkontak')->result_array();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
 	public function get()

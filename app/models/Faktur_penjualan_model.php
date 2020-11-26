@@ -5,6 +5,10 @@ class Faktur_penjualan_model extends CI_Model {
 
 	private	$id;
 	private $status;
+	private $perusahaan;
+	private $tanggalAwal;
+	private $tanggalAkhir;
+	private $kontak;
 
 	public function save() {
 		$notrans = $this->input->post('notrans', TRUE);
@@ -364,7 +368,21 @@ class Faktur_penjualan_model extends CI_Model {
 		$this->db->join('mperusahaan', 'tfakturpenjualan.idperusahaan = mperusahaan.idperusahaan');
 		$this->db->where('tfakturpenjualan.sisatagihan >', 0);
 		$this->db->where('tfakturpenjualan.carabayar', 'credit');
+		if ($this->perusahaan) {
+			$this->db->where('tfakturpenjualan.idperusahaan', $this->perusahaan);
+		}
+		if ($this->kontak) {
+			$this->db->like('mkontak.nama', $this->kontak);
+		}
+		if ($this->tanggalAwal) {
+			$this->db->where('tfakturpenjualan.tanggal BETWEEN "' . $tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
+		}
 		return $this->db->get('tfakturpenjualan')->result_array();
+	}
+
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
 	}
 }
 
