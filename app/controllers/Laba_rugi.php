@@ -19,15 +19,24 @@ class Laba_rugi extends User_Controller {
 		$this->model->set('perusahaan', $this->perusahaan);
 		$this->model->set('tanggalawal', $this->tanggalawal);
 		$this->model->set('tanggalakhir', $this->tanggalakhir);
-		$data['penjualan']	= $this->model->get('4', '4');
-		$data['hpp']		= $this->model->get('5', '5');
-		// $data['operasional'] = $this->model->get_operasional($data['tanggalawal'], $data['tanggalakhir']);
-		$data['pendapatanlainnya']	= $this->model->get('7', '7');
-		$data['biayalainnya']		= $this->model->get('6', '8');
+		
 		if ($this->tanggalawal) {
 			$data['tanggalawal']	= $this->tanggalawal;
 			$data['tanggalakhir']	= $this->tanggalakhir;
-		} 
+			$data['penjualan']	= $this->model->get('4', '4');
+			$data['hpp']		= $this->model->get('5', '5');
+			// $data['operasional'] = $this->model->get_operasional($data['tanggalawal'], $data['tanggalakhir']);
+			$data['pendapatanlainnya']	= $this->model->get('7', '7');
+			$data['biayalainnya']		= $this->model->get('6', '8');
+		} else {
+			$data['tanggalawal']	= null;
+			$data['tanggalakhir']	= null;
+			$data['penjualan']		= null;
+			$data['hpp']			= null;
+			// $data['operasional'] = $this->model->get_operasional($data['tanggalawal'], $data['tanggalakhir']);
+			$data['pendapatanlainnya']	= null;
+			$data['biayalainnya']		= null;
+		}
 		$data['title'] = lang('income_statement');
 		$data['subtitle'] = lang('list');
 		$data['content'] = 'Laba_rugi/index';

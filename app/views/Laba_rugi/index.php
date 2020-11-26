@@ -43,8 +43,8 @@
                             </div>
                         </div>
                         <div class="col-3">
-                            <!-- <?php
-                                if ($getasetlancar !== null || $getliabilitas !== null || $ekuitas !== null) { ?>
+                            <?php
+                                if ($penjualan !== null || $hpp !== null || $pendapatanlainnya !== null || $biayalainnya !== null) { ?>
                                     <div class="row">
                                         <div class="col-4">
                                             <div class="form-group">
@@ -65,13 +65,13 @@
                                             </div>
                                         </div>
                                     </div>
-                                <?php } else { ?> -->
+                                <?php } else { ?>
                                     <div class="form-group">
                                         <label>&nbsp;</label>
                                         <button type="submit" class="btn-block btn bg-success"><?php echo lang('search') ?></button>
                                     </div>
-                                <!-- <?php }
-                            ?> -->
+                                <?php }
+                            ?>
                         </div>
                     </div>
                 </form>
@@ -106,19 +106,21 @@
                                     </tr>
                                     <?php
                                         $totalpenjualan = 0;
-                                        foreach ($penjualan as $key) { 
-                                            $totalpenjualan += $key['saldo']; ?>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <a href="{site_url}noakun/detail/<?php echo $key['akunno'] ?>">
-                                                        (<?php echo $key['akunno'] ?>) - <?php echo $key['namaakun'] ?> 
-                                                    </a>
-                                                </td>
-                                                <td class="text-right">
-                                                    <?= number_format($key['saldo'], 2, ',', '.'); ?>
-                                                </td>
-                                            </tr>
-                                        <?php }
+                                        if ($penjualan) {
+                                            foreach ($penjualan as $key) { 
+                                                $totalpenjualan += $key['saldo']; ?>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <a href="{site_url}noakun/detail/<?php echo $key['akunno'] ?>">
+                                                            (<?php echo $key['akunno'] ?>) - <?php echo $key['namaakun'] ?> 
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <?= number_format($key['saldo'], 2, ',', '.'); ?>
+                                                    </td>
+                                                </tr>
+                                            <?php }
+                                        }
                                     ?>
                                     <tr class="">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Pendapatan dari Penjualan') ?></td>
@@ -130,19 +132,21 @@
                                     </tr>
                                     <?php
                                         $totalhpp = 0;
-                                        foreach ($hpp as $key) { 
-                                            $totalhpp += $key['saldo']; ?>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <a href="{site_url}noakun/detail/<?php echo $key['akunno'] ?>">
-                                                        (<?php echo $key['akunno'] ?>) - <?php echo $key['namaakun'] ?> 
-                                                    </a>
-                                                </td>
-                                                <td class="text-right">
-                                                    <?= number_format($key['saldo'], 2, ',', '.'); ?>
-                                                </td>
-                                            </tr>
-                                        <?php }
+                                        if ($hpp) {
+                                            foreach ($hpp as $key) { 
+                                                $totalhpp += $key['saldo']; ?>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <a href="{site_url}noakun/detail/<?php echo $key['akunno'] ?>">
+                                                            (<?php echo $key['akunno'] ?>) - <?php echo $key['namaakun'] ?> 
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <?= number_format($key['saldo'], 2, ',', '.'); ?>
+                                                    </td>
+                                                </tr>
+                                            <?php }
+                                        }
                                     ?>
                                     <tr class="">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Harga Pokok Penjualan') ?></td>
@@ -186,19 +190,21 @@
                                     </tr>
                                     <?php
                                         $totalpendapatanlainnya = 0;
-                                        foreach ($pendapatanlainnya as $key) { 
-                                            $totalpendapatanlainnya += $key['saldo']; ?>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <a href="{site_url}noakun/detail/<?php echo $key['akunno'] ?>">
-                                                        (<?php echo $key['akunno'] ?>) - <?php echo $key['namaakun'] ?> 
-                                                    </a>
-                                                </td>
-                                                <td class="text-right">
-                                                    <?= number_format($key['saldo'], 2, ',', '.'); ?>
-                                                </td>
-                                            </tr>
-                                        <?php }
+                                        if ($pendapatanlainnya) {
+                                            foreach ($pendapatanlainnya as $key) { 
+                                                $totalpendapatanlainnya += $key['saldo']; ?>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <a href="{site_url}noakun/detail/<?php echo $key['akunno'] ?>">
+                                                            (<?php echo $key['akunno'] ?>) - <?php echo $key['namaakun'] ?> 
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <?= number_format($key['saldo'], 2, ',', '.'); ?>
+                                                    </td>
+                                                </tr>
+                                            <?php }
+                                        }
                                     ?>
                                     <tr class="">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Pendapatan Lainnya') ?></td>
@@ -210,19 +216,21 @@
                                     </tr>
                                     <?php
                                         $totalbiayalainnya = 0;
-                                        foreach ($biayalainnya as $key) { 
-                                            $totalbiayalainnya += $key['saldo']; ?>
-                                            <tr>
-                                                <td colspan="2">
-                                                    <a href="{site_url}noakun/detail/<?php echo $key['akunno'] ?>">
-                                                        (<?php echo $key['akunno'] ?>) - <?php echo $key['namaakun'] ?> 
-                                                    </a>
-                                                </td>
-                                                <td class="text-right">
-                                                    <?= number_format($key['saldo'], 2, ',', '.'); ?>
-                                                </td>
-                                            </tr>
-                                        <?php }
+                                        if ($biayalainnya) {
+                                            foreach ($biayalainnya as $key) { 
+                                                $totalbiayalainnya += $key['saldo']; ?>
+                                                <tr>
+                                                    <td colspan="2">
+                                                        <a href="{site_url}noakun/detail/<?php echo $key['akunno'] ?>">
+                                                            (<?php echo $key['akunno'] ?>) - <?php echo $key['namaakun'] ?> 
+                                                        </a>
+                                                    </td>
+                                                    <td class="text-right">
+                                                        <?= number_format($key['saldo'], 2, ',', '.'); ?>
+                                                    </td>
+                                                </tr>
+                                            <?php }
+                                        }
                                     ?>
                                     <tr class="">
                                         <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Total Beban Lainnya') ?></td>
