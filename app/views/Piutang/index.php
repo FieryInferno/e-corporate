@@ -190,5 +190,7 @@
             } 
         });
     }
-    $('#tabelPiutang').DataTable();
+    $('#tabelPiutang').DataTable({
+        "order": [[ 0, "desc" ]]
+    });
 </script>

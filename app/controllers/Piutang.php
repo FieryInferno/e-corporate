@@ -18,27 +18,23 @@ class Piutang extends User_Controller {
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Piutang/index';
 		$this->model->set('perusahaan', $this->perusahaan);
-		$data['piutang']	= $this->model->get();
+		$dataPiutang	= $this->model->get();
 		$piutang	= $this->Faktur_penjualan_model->piutang();
 		for ($i=0; $i < count($piutang); $i++) { 
-			array_push($data['piutang'], $piutang[$i]); 
+			array_push($dataPiutang, $piutang[$i]); 
 		}
-		// usort($data['piutang'], [$this, 'date_compare']);
-		// die();
+		usort($dataPiutang, [$this, 'date_compare']);
+		$data['piutang']	= $dataPiutang;
 		$data = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 	
-	// function date_compare($a, $b)
-	// {
-	// 	print_r(strtotime($a['tanggal']));echo '<br/>';
-	// 	$t1 = strtotime($a['tanggal']);
-	// 	$t2 = strtotime($b['tanggal']);
-		// $t1 = $a['primeOwing'];
-		// $t2 = $b['primeOwing'];
-		// return $t1 - $t2;
-	// 	return ($t1 < $t2)?-1:1;
-	// }    
+	function date_compare($a, $b)
+	{
+		$t1 = strtotime($a['tanggal']);
+		$t2 = strtotime($b['tanggal']);
+		return $t2 - $t1;
+	}    
 
 	public function create() {
 		$data['tanggal'] = date('Y-m-d');
