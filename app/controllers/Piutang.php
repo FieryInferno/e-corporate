@@ -19,7 +19,7 @@ class Piutang extends User_Controller {
 		}
 		$this->kontak		= $this->input->get('kontakid');
 		$this->tanggalAwal	= $this->input->get('tanggalawal');
-		$this->tanggalAkhir	= $this->input->get('tanggalAkhir');
+		$this->tanggalAkhir	= $this->input->get('tanggalakhir');
 		$this->usiaPiutang	= $this->input->get('usiaPiutang');
 	}
 
@@ -50,8 +50,8 @@ class Piutang extends User_Controller {
 			$selisih            = $tanggalTempo->diff($tanggal)->days;
 			$selisih1           = $tanggalSekarang->diff($tanggal)->days;
 			$key['usiaPiutang']	= $selisih1 - $selisih;
-
-			switch ($this->usiaPiutang) {
+			
+				switch ($this->usiaPiutang) {
 				case 'kurang30':
 					if ($key['usiaPiutang'] < 30) {
 						array_push($dataPiutang1, $key);

@@ -1,7 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
 class Utang_model extends CI_Model {
 
 	private $kontakid;
@@ -26,10 +25,13 @@ class Utang_model extends CI_Model {
 				$this->db->join('mperusahaan', $this->table . '.perusahaan = mperusahaan.idperusahaan');
 				$this->db->join('mnoakun', $this->table . '.akun = mnoakun.idakun');
 				if ($this->perusahaan) {
-					$this->db->where('perusahaan', $this->perusahaan);
+					$this->db->where($this->table . '.perusahaan', $this->perusahaan);
 				}
-				if ($this->tanggal) {
-					$this->db->where('tanggal <=', $this->tanggal);
+				if ($this->tanggalAwal) {
+					$this->db->where($this->table . '.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
+				}
+				if ($this->kontak) {
+					$this->db->like($this->table . '.namaPemasok', $this->kontak);
 				}
 				return $this->db->get($this->table)->result_array();
 				break;
@@ -41,11 +43,17 @@ class Utang_model extends CI_Model {
 				$this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
 				$this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
 				$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
+				$this->db->join('tpemesanan', 'tpemesanandetail.idpemesanan = tpemesanan.id');
+				$this->db->where('tpemesanan.cara_pembayaran', 'credit');
+				$this->db->where('tfaktur.sisatagihan >', 0);
 				if ($this->perusahaan) {
-					$this->db->where('perusahaanid', $this->perusahaan);
+					$this->db->where($this->table0 . '.perusahaanid', $this->perusahaan);
 				}
-				if ($this->tanggal) {
-					$this->db->where('tanggal <=', $this->tanggal);
+				if ($this->tanggalAwal) {
+					$this->db->where($this->table0 . '.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
+				}
+				if ($this->kontak) {
+					$this->db->like('mkontak.nama', $this->kontak);
 				}
 				return $this->db->get($this->table0)->result_array();
 				break;
@@ -67,14 +75,9 @@ class Utang_model extends CI_Model {
 		return $get->result_array();
 	}
 
-	public function setGet($jenis = null, $isi = null)
+	public function set($jenis = null, $isi = null)
 	{
-		if ($isi) {
-			$this->$jenis	= $isi;
-		} else {
-			return $this->$jenis;
-		}
-		
+		$this->$jenis	= $isi;
 	}
 }
 

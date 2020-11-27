@@ -3,29 +3,89 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Utang extends User_Controller {
 
-	private $kontakid;
 	private $perusahaan;
-	private $tanggal;
+	private $tanggalAwal;
+	private $tanggalAkhir;
+	private $kontak;
+	private $usiaPiutang;
 
 	public function __construct() {
 		parent::__construct();
 		$this->load->model('Utang_model','model');
-		$this->setGet('kontakid', $this->input->get('kontakid'));
-		$this->perusahaan	= $this->input->get('perusahaanid');
-		$this->tanggal		= $this->input->get('tanggal');
+		if ($this->session->idperusahaan) {
+			$this->perusahaan	= $this->session->idperusahaan;
+		} else {
+			$this->perusahaan	= $this->input->get('perusahaanid');
+		}
+		$this->kontak		= $this->input->get('kontakid');
+		$this->tanggalAwal	= $this->input->get('tanggalawal');
+		$this->tanggalAkhir	= $this->input->get('tanggalakhir');
+		$this->usiaHutang	= $this->input->get('usiaHutang');
 	}
 
 	public function index() {
+		$this->model->set('perusahaan', $this->perusahaan);
+		$this->model->set('kontak', $this->kontak);
+		$this->model->set('tanggalAwal', $this->tanggalAwal);
+		$this->model->set('tanggalAkhir', $this->tanggalAkhir);
+		$saldoAwal			= $this->model->get('saldoAwal');
+		$fakturPembelian	= $this->model->get('faktur');
+
+		for ($i=0; $i < count($fakturPembelian); $i++) { 
+			array_push($saldoAwal, $fakturPembelian[$i]); 
+		}
+
+		$dataHutang	= [];
+		for ($i=0; $i < count($saldoAwal); $i++) { 
+			$key				= $saldoAwal[$i];
+
+			$tanggal            = new DateTime($key['tanggal']);
+			$tanggalTempo       = new DateTime($key['tanggaltempo']);
+			$tanggalSekarang    = new DateTime();
+			$selisih            = $tanggalTempo->diff($tanggal)->days;
+			$selisih1           = $tanggalSekarang->diff($tanggal)->days;
+			$key['usiaHutang']	= $selisih1 - $selisih;
+
+			switch ($this->usiaHutang) {
+				case 'kurang30':
+					if ($key['usiaHutang'] < 30) {
+						array_push($dataHutang, $key);
+					}
+					break;
+
+				case '0':
+					if ($key['usiaHutang'] == 0) {
+						array_push($dataHutang, $key);
+					}
+					break;
+				case 'lebih30':
+					if ($key['usiaHutang'] > 30) {
+						array_push($dataHutang, $key);
+					}
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+		}
+
+		usort($dataHutang, [$this, 'date_compare']);
+
 		$data['title']		= lang('Utang');
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Utang/index';
-		$data['utang']		= [];
-		$this->model->setGet('perusahaan', $this->perusahaan);
-		array_push($data['utang'], $this->model->get('saldoAwal'));
-		array_push($data['utang'], $this->model->get('faktur'));
+		$data['utang']		= $dataHutang;
 		$data = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
+	
+	function date_compare($a, $b)
+	{
+		$t1 = strtotime($a['tanggal']);
+		$t2 = strtotime($b['tanggal']);
+		return $t2 - $t1;
+	} 
 
 	public function index_datatable() {
 		$this->model->setGet('kontakid', $this->setGet('kontakid'));

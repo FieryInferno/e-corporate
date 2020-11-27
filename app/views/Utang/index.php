@@ -41,7 +41,7 @@
                                 <select class="form-control" name="usiaHutang">
                                     <option value="" disabled selected>Pilih Usia Utang</option>
                                     <option value="kurang30">Kurang Dari 30 Hari</option>
-                                    <option value="30">30 Hari</option>
+                                    <option value="0">0 Hari</option>
                                     <option value="lebih30">Lebih Dari 30 Hari</option>
                                 </select>
                             </div>
@@ -95,6 +95,7 @@
                                         <tr class="table-active">
                                             <th><?php echo lang('Tanggal') ?></th>
                                             <th>Tgl J/T</th>
+                                            <th class="text-center">Usia Hutang</th>
                                             <th><?php echo lang('No Invoice') ?></th>
                                             <th>Nama Perusahaan</th>
                                             <th><?php echo lang('Keterangan') ?></th>
@@ -102,38 +103,35 @@
                                             <th class="text-center"><?php echo lang('Utang') ?></th>
                                             <th class="text-center"><?php echo lang('Sudah Dibayar') ?></th>
                                             <th class="text-center"><?php echo lang('Sisa Utang') ?></th>
-                                            <th class="text-center">Usia Hutang</th>
                                             <th class="text-right"><?php echo lang('action') ?></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <?php
-                                            foreach ($utang as $key => $value) {
-                                                foreach ($value as $key) { ?>
-                                                    <tr>
-                                                        <td><?= $key['tanggal']; ?></td>
-                                                        <td><?= $key['tanggaltempo']; ?></td>
-                                                        <td><?= $key['notrans']; ?></td>
-                                                        <td><?= $key['nama_perusahaan']; ?></td>
-                                                        <td><?= $key['catatan']; ?></td>
-                                                        <td><?= $key['rekanan']; ?></td>
-                                                        <td><?= number_format($key['total'],2,',','.'); ?></td>
-                                                        <td><?= isset($key['totaldibayar']) ? number_format($key['totaldibayar'],2,',','.') : '' ; ?></td>
-                                                        <td><?= isset($key['sisaUtang']) ? number_format($key['sisaUtang'],2,',','.') : '' ; ?></td>
-                                                        <td></td>
-                                                        <td>
-                                                            <div class="list-icons"> 
-                                                                <div class="dropdown"> 
-                                                                    <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
-                                                                    <div class="dropdown-menu dropdown-menu-right">
+                                            foreach ($utang as $key) { ?>
+                                                <tr>
+                                                    <td><?= $key['tanggal']; ?></td>
+                                                    <td><?= $key['tanggaltempo']; ?></td>
+                                                    <td><?= $key['usiaHutang']; ?> Hari</td>
+                                                    <td><?= $key['notrans']; ?></td>
+                                                    <td><?= $key['nama_perusahaan']; ?></td>
+                                                    <td><?= $key['catatan']; ?></td>
+                                                    <td><?= $key['rekanan']; ?></td>
+                                                    <td><?= number_format($key['total'],2,',','.'); ?></td>
+                                                    <td><?= isset($key['totaldibayar']) ? number_format($key['totaldibayar'],2,',','.') : '' ; ?></td>
+                                                    <td><?= isset($key['sisaUtang']) ? number_format($key['sisaUtang'],2,',','.') : '' ; ?></td>
+                                                    <td>
+                                                        <div class="list-icons"> 
+                                                            <div class="dropdown"> 
+                                                                <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                                                                <div class="dropdown-menu dropdown-menu-right">
 
-                                                                    </div> 
                                                                 </div> 
-                                                            </div>
-                                                        </td>
-                                                    </tr>
-                                                <?php }
-                                            }
+                                                            </div> 
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            <?php }
                                         ?>
                                     </tbody>
                                 </table>
@@ -159,7 +157,7 @@
             var perusahaan  = $('.perusahaanid').children('option:selected').val();
             ajax_select({ 
                 id          : '.kontakid', 
-                url         : base_url + 'select2_kontak/' + perusahaan, 
+                url         : '{site_url}piutang/select2_kontak_piutang/' + perusahaan, 
                 selected    : { 
                     id: '{kontakid}' 
                 } 
@@ -168,11 +166,13 @@
     } else {
         ajax_select({ 
             id          : '.kontakid', 
-            url         : base_url + 'select2_kontak/<?= $this->session->idperusahaan; ?>', 
+            url         : '{site_url}piutang/select2_kontak_piutang/<?= $this->session->idperusahaan; ?>', 
             selected    : { 
                 id: '{kontakid}' 
             } 
         });
     }
-    $('.index_datatable').DataTable();
+    $('.index_datatable').DataTable({
+        "order": [[ 0, "desc" ]]
+    });
 </script>
