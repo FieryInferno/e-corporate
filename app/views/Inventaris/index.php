@@ -50,7 +50,7 @@
 													<td><?= $key['kodeInventaris']; ?></td>
 													<td><?= $key['namaInventaris']; ?></td>
 													<td><?= $key['tanggalPembelian']; ?></td>
-													<td><?= $key['harga']; ?></td>
+													<td><?= number_format($key['harga'], 2, ',', '.'); ?></td>
 													<td></td>
 												</tr>
 											<?php }
