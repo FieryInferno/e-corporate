@@ -87,10 +87,7 @@
             },
             {
                 data    : 'noRegister',
-                width   : '5%',
-                render  : function (data, type, row) {
-                    return '0000' + data;
-                }
+                width   : '5%'
             },
             {
                 data        : 'harga',
