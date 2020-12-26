@@ -96,6 +96,13 @@
                                         <input type="text" class="form-control sisakasbank" name="sisakasbank" required readonly>
                                     </div>
                                 </div>
+                                <div class="form-group">
+                                    <label><?php echo lang('Cara Pembayaran') ?>:</label>
+                                    <select class="form-control cara_pembayaran" name="cara_pembayaran" required>
+                                            <option value="cash">Cash</option>
+                                            <option value="credit">Credit</option>                                   
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div class="mb-3 mt-3 table-responsive">

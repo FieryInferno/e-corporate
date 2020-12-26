@@ -290,7 +290,7 @@
             </a>
             <ul class="nav nav-treeview" data-submenu-title="inventaris">                        
               <li class="nav-item">
-                <a href="#" class="nav-link <?php echo menu_is_active('daftarInventaris') ?>">
+                <a href="{site_url}inventaris" class="nav-link <?php echo menu_is_active('daftarInventaris') ?>">
                 <i class="far fa-circle nav-icon"></i><p>Daftar Inventaris</p></a>
               </li>          
               <li class="nav-item">
@@ -362,7 +362,27 @@
             <li class="nav-item">
               <a href="{site_url}laporan_buku_pembantu_kas_kecil" class="nav-link <?php echo menu_is_active('laporan_buku_pembantu_kas_kecil') ?>">
               <i class="far fa-circle nav-icon"></i><p>Laporan Buku Pembantu Kas Kecil</p></a>
-            </li>     
+            </li>
+            <li class="nav-item">
+              <a href="{site_url}laporan_utang" class="nav-link <?php echo menu_is_active('laporan_utang') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Laporan Utang Usaha</p></a>
+            </li>   
+            <li class="nav-item">
+              <a href="{site_url}laporan_piutang" class="nav-link <?php echo menu_is_active('laporan_piutang') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Laporan Piutang Usaha</p></a>
+            </li>
+            <li class="nav-item">
+              <a href="{site_url}laporan_neraca" class="nav-link <?php echo menu_is_active('laporan_neraca') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Laporan Neraca (Compare Month)</p></a>
+            </li>   
+            <li class="nav-item">
+              <a href="{site_url}laporan_neraca" class="nav-link <?php echo menu_is_active('laporan_neraca') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Laporan Neraca (Multi Period)</p></a>
+            </li> 
+            <li class="nav-item">
+              <a href="{site_url}laporan_neraca_standar" class="nav-link <?php echo menu_is_active('laporan_neraca_standar') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Laporan Neraca (Standard)</p></a>
+            </li>      
           </ul>
         </li>	
 

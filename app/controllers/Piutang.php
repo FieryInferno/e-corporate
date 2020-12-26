@@ -6,6 +6,7 @@ class Piutang extends User_Controller {
 	private $perusahaan;
 	private $tanggalAwal;
 	private $tanggalAkhir;
+	private $tanggal;
 	private $kontak;
 	private $usiaPiutang;
 

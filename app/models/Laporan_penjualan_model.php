@@ -47,7 +47,7 @@ class Laporan_penjualan_model extends CI_Model {
 			$this->db->where('tfaktur.tipe', '2');
 			$this->db->join('tfaktur', 'tfakturdetail.idfaktur = tfaktur.id');
 			$this->db->join('tpengiriman', 'tfaktur.pengirimanid = tpengiriman.id', 'left');
-			$this->db->join('tpemesanan', 'tpengiriman.pemesananid = tpemesanan.id', 'left');
+			$this->db->join('tpemesanan', 'tpengiriman.pemesanan = tpemesanan.id', 'left');
 			$this->db->join('mkontak', 'tfaktur.kontakid = mkontak.id', 'left');
 			$this->db->join('mgudang', 'tfaktur.gudangid = mgudang.id', 'left');
 			$this->db->order_by('tfaktur.id', 'desc');
@@ -82,7 +82,7 @@ class Laporan_penjualan_model extends CI_Model {
 			if($status) $this->db->where('tfaktur.status', $status);
 			$this->db->where('tfaktur.tipe', '2');
 			$this->db->join('tpengiriman', 'tfaktur.pengirimanid = tpengiriman.id', 'left');
-			$this->db->join('tpemesanan', 'tpengiriman.pemesananid = tpemesanan.id', 'left');
+			$this->db->join('tpemesanan', 'tpengiriman.pemesanan = tpemesanan.id', 'left');
 			$this->db->join('mkontak', 'tfaktur.kontakid = mkontak.id', 'left');
 			$this->db->join('mgudang', 'tfaktur.gudangid = mgudang.id', 'left');
 			$this->db->order_by('tfaktur.id', 'desc');

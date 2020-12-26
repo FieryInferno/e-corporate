@@ -48,7 +48,7 @@ class Laporan_retur_pembelian_model extends CI_Model {
 			$this->db->join('tretur', 'treturdetail.idretur = tretur.id');
 			$this->db->join('tfaktur', 'tretur.fakturid = tfaktur.id', 'left');
 			$this->db->join('tpengiriman', 'tfaktur.pengirimanid = tpengiriman.id', 'left');
-			$this->db->join('tpemesanan', 'tpengiriman.pemesananid = tpemesanan.id', 'left');
+			$this->db->join('tpemesanan', 'tpengiriman.pemesanan = tpemesanan.id', 'left');
 			$this->db->join('mkontak', 'tretur.kontakid = mkontak.id', 'left');
 			$this->db->join('mgudang', 'tretur.gudangid = mgudang.id', 'left');
 			$this->db->order_by('tretur.id', 'desc');
@@ -84,7 +84,7 @@ class Laporan_retur_pembelian_model extends CI_Model {
 			$this->db->where('tretur.tipe', $status);
 			$this->db->join('tfaktur', 'tretur.fakturid = tfaktur.id', 'left');
 			$this->db->join('tpengiriman', 'tfaktur.pengirimanid = tpengiriman.id', 'left');
-			$this->db->join('tpemesanan', 'tpengiriman.pemesananid = tpemesanan.id', 'left');
+			$this->db->join('tpemesanan', 'tpengiriman.pemesanan = tpemesanan.id', 'left');
 			$this->db->join('mkontak', 'tretur.kontakid = mkontak.id', 'left');
 			$this->db->join('mgudang', 'tretur.gudangid = mgudang.id', 'left');
 			$this->db->order_by('tretur.id', 'desc');

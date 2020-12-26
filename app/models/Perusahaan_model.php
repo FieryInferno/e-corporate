@@ -54,5 +54,9 @@ class Perusahaan_model extends CI_Model {
 		}
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
+
+	public function get_by_id($id){
+		return $this->db->get_where('mperusahaan', ['idperusahaan' => $id])->row_array();
+	}
 }
 

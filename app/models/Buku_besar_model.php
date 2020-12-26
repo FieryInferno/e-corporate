@@ -16,28 +16,31 @@ class Buku_besar_model extends CI_Model {
 
 	public function get_count_noakun($tanggalawal, $tanggalakhir) {
 		$this->db->select('noakun');
+		$this->db->join('tjurnal','tjurnal.idJurnalPenyesuaian=tjurnaldetail.idjurnal');
 		$this->db->group_by('noakun');
-		$this->db->where('tanggal >=', $tanggalawal);
-		$this->db->where('tanggal <=', $tanggalakhir);		
-		$get = $this->db->count_all_results('viewjurnaldetail');
+		$this->db->where('tjurnal.tanggal >=', $tanggalawal);
+		$this->db->where('tjurnal.tanggal <=', $tanggalakhir);		
+		$get = $this->db->count_all_results('tjurnaldetail');
 		return $get;
 	}
 
 	public function get_noakun($offset, $limit, $tanggalawal, $tanggalakhir) {
-		$this->db->select('noakun, tanggal, keterangan, namaakun, stdebet');
-		$this->db->where('tanggal >=', $tanggalawal);
-		$this->db->where('tanggal <=', $tanggalakhir);
+		$this->db->select('noakun, tanggal, tjurnaldetail.keterangan as keterangan, status as stdebet');
+		$this->db->join('tjurnal','tjurnal.idJurnalPenyesuaian=tjurnaldetail.idjurnal');
 		$this->db->group_by('noakun');
-		$get = $this->db->get('viewjurnaldetail', $limit, $offset);
+		$this->db->where('tjurnal.tanggal >=', $tanggalawal);
+		$this->db->where('tjurnal.tanggal <=', $tanggalakhir);
+		$get = $this->db->get('tjurnaldetail', $limit, $offset);
 		return $get->result_array();
 	}
 
 	public function get_noakun_print($tanggalawal, $tanggalakhir) {
-		$this->db->select('noakun, tanggal, keterangan, namaakun, stdebet');
-		$this->db->where('tanggal >=', $tanggalawal);
-		$this->db->where('tanggal <=', $tanggalakhir);
+		$this->db->select('noakun, tanggal, tjurnaldetail.keterangan as keterangan, status as stdebet');
+		$this->db->join('tjurnal','tjurnal.idJurnalPenyesuaian=tjurnaldetail.idjurnal');
 		$this->db->group_by('noakun');
-		$get = $this->db->get('viewjurnaldetail');
+		$this->db->where('tjurnal.tanggal >=', $tanggalawal);
+		$this->db->where('tjurnal.tanggal <=', $tanggalakhir);
+		$get = $this->db->get('tjurnaldetail');
 		return $get->result_array();
 	}
 
@@ -49,7 +52,7 @@ class Buku_besar_model extends CI_Model {
 		FROM tjurnaldetail
 		JOIN (SELECT @sum := 0) AS getsum
 		INNER JOIN mnoakun ON tjurnaldetail.noakun = mnoakun.noakun
-		INNER JOIN tjurnal ON tjurnaldetail.idjurnal = tjurnal.id
+		INNER JOIN tjurnal ON tjurnaldetail.idjurnal = tjurnal.idJurnalPenyesuaian
 		WHERE tjurnaldetail.noakun = '".$noakun."' AND tjurnal.status = '1' ORDER BY tjurnal.tanggal ASC";
 
 		$get = $this->db->query($queryString);
@@ -57,11 +60,12 @@ class Buku_besar_model extends CI_Model {
 	}
 
 	public function get_jurnal_detail($noakun, $tanggalawal, $tanggalakhir) {
-		$queryString = "SELECT tipe, tanggal, keterangan, noakun, namaakun, debet, kredit,
-		CASE WHEN stdebet = '1' THEN (@sum := @sum + debet - kredit) 
+		$queryString = "SELECT tipe, tanggal, tjurnal.keterangan, noakun, debet, kredit,
+		CASE WHEN status = '1' THEN (@sum := @sum + debet - kredit) 
 		ELSE (@sum := @sum + kredit - debet) END AS saldo
-		FROM viewjurnaldetail
+		FROM tjurnaldetail 
 		JOIN (SELECT @sum := 0) AS getsum
+		INNER JOIN tjurnal ON tjurnaldetail.idjurnal = tjurnal.idJurnalPenyesuaian
 		WHERE noakun = '".$noakun."'
 		AND tanggal >= '".$tanggalawal."'
 		AND tanggal <= '".$tanggalakhir."'
@@ -73,9 +77,10 @@ class Buku_besar_model extends CI_Model {
 
 	public function get_jurnal_detail_saldoawal($noakun, $tanggalawal) {
 		$queryString = "SELECT
-		CASE WHEN stdebet = '1' THEN (debet - kredit) 
+		CASE WHEN status = '1' THEN (debet - kredit) 
 		ELSE (kredit - debet) END AS saldo
-		FROM viewjurnaldetail
+		FROM tjurnaldetail
+		INNER JOIN tjurnal ON tjurnaldetail.idjurnal = tjurnal.idJurnalPenyesuaian
 		WHERE noakun = '".$noakun."' AND tanggal < '".$tanggalawal."'
 		ORDER BY tanggal";
 

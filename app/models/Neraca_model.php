@@ -154,5 +154,96 @@ class Neraca_model extends CI_Model {
 			'tsaldoawal.perusahaan'	=> $this->perusahaan
 		])->result_array();
 	}
+
+	public function getasetlancar_standard() {
+		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.debet, tsaldoawaldetail.noakun');
+		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
+		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
+		$this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');
+		$this->db->not_like('tsaldoawaldetail.debet', '0', 'after');
+		$this->db->like('mnoakun.akunno', '1', 'after');
+		$saldoAwal	= $this->db->get_where('tsaldoawal', [
+			'tsaldoawal.perusahaan'	=> $this->perusahaan
+		])->result_array();
+		for ($i=0; $i < count($saldoAwal); $i++) {
+			$saldoAwal[$i]['debetPeriodeKini']	= $saldoAwal[$i]['debet']; 
+			$this->db->join('mrekening', 'tfaktur.bank	= mrekening.id'); 
+			$this->db->join('mnoakun', 'mrekening.akunno = mnoakun.idakun');
+			$pembelian	= $this->db->get_where('tfaktur', [
+				'mnoakun.idakun'	=> $saldoAwal[$i]['noakun']
+			])->result_array();
+			if ($pembelian) {
+				foreach ($pembelian as $key) {
+					$saldoAwal[$i]['debetPeriodeKini']	-= $key['total'];
+				}
+			}
+			
+			$this->db->join('mrekening', 'tfakturpenjualan.rekening	= mrekening.id'); 
+			$this->db->join('mnoakun', 'mrekening.akunno = mnoakun.idakun');
+			$penjualan	= $this->db->get_where('tfakturpenjualan', [
+				'mnoakun.idakun'	=> $saldoAwal[$i]['noakun']
+			])->result_array();
+			if ($penjualan) {
+				foreach ($penjualan as $key) {
+					$saldoAwal[$i]['debetPeriodeKini']	+= $key['total'];
+				}
+			}
+		}
+		return $saldoAwal;
+	}
+
+	public function getliabilitas_standard() {
+		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.kredit');
+		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
+		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
+		$this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');
+		$this->db->not_like('tsaldoawaldetail.kredit', '0', 'after');
+		$this->db->like('mnoakun.akunno', '2', 'after');
+		return $this->db->get_where('tsaldoawal', [
+			'tsaldoawal.perusahaan'	=> $this->perusahaan
+		])->result_array();
+	}
+
+	public function gettotallabarugi_standard() {
+		$totalLabaRugiPeriodeKini	= 0;
+		$penjualanPeriodeKini	= $this->db->get_where('tfakturpenjualan', [
+			'idperusahaan'	=> $this->perusahaan
+		])->result_array();
+		if ($penjualanPeriodeKini) {
+			foreach ($penjualanPeriodeKini as $key) {
+				$totalLabaRugiPeriodeKini	+= (integer) $key['total'];
+			}
+		}
+		$pembelianPeriodeKini	= $this->db->get_where('tfaktur', [
+			'perusahaanid'	=> $this->perusahaan
+		])->result_array();
+		if ($pembelianPeriodeKini) {
+			foreach ($pembelianPeriodeKini as $key) {
+				$totalLabaRugiPeriodeKini	-= (integer) $key['total'];
+			}
+		}
+		$pengeluaranKasKecilPeriodeKini	= $this->db->get_where('tpengeluarankaskecil', [
+			'perusahaan'	=> $this->perusahaan
+		])->result_array();
+		if ($pengeluaranKasKecilPeriodeKini) {
+			foreach ($pengeluaranKasKecilPeriodeKini as $key) {
+				$totalLabaRugiPeriodeKini	-= (integer) $key['total'];
+			}
+		}
+		return $totalLabaRugiPeriodeKini;
+	}
+
+	public function getEkuitas_standard()
+	{
+		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.kredit');
+		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
+		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
+		$this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');
+		$this->db->not_like('tsaldoawaldetail.kredit', '0', 'after');
+		$this->db->like('mnoakun.akunno', '3', 'after');
+		return $this->db->get_where('tsaldoawal', [
+			'tsaldoawal.perusahaan'	=> $this->perusahaan
+		])->result_array();
+	}
 }
 

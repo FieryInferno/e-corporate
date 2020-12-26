@@ -99,7 +99,7 @@
                                 <tr>
                                     <td>
                                         <a href="{site_url}noakun/detail/<?php echo $noakun['noakun'] ?>">
-                                            (<?php echo $noakun['noakun'] ?>) - <?php echo $noakun['namaakun'] ?> 
+                                            (<?php echo $noakun['noakun'] ?>) ?> 
                                         </a>
                                     </td>
                                     <?php foreach ($this->model->get_neraca_saldo_detail_awal($tanggalawal, $noakun['noakun']) as $awal): ?>
@@ -115,7 +115,7 @@
                                     <?php endforeach ?>
                                     <?php $akhir = $this->model->get_neraca_saldo_detail_akhir($tanggalakhir, $noakun['noakun']) ?>
                                     <?php foreach ($akhir as $akhr): ?>
-                                        <?php if ($noakun['stdebet'] == '1'): ?>
+                                        <?php if ($noakun['stauto'] == '1'): ?>
                                             <td class="text-right"><?php echo number_format($akhr['debet']-$akhr['kredit']) ?></td>
                                             <td class="text-right">0</td>
                                             <?php $totalakhirdebet = $totalakhirdebet + ($akhr['debet']-$akhr['kredit']) ?>

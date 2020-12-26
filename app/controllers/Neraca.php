@@ -30,6 +30,9 @@ class Neraca extends User_Controller {
 			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
 			$data['gettotallabarugi']	= $this->model->gettotallabarugi();
 			$data['ekuitas']			= $this->model->getEkuitas();
+			$tanggalAwal_ = date('Y-m-d', strtotime('-1 month', strtotime($this->tanggalAwal))); 
+			$data['periode_ini'] = date('F Y', strtotime($this->tanggalAkhir));
+			$data['periode_lalu'] = date('F Y', strtotime($tanggalAwal_));
 		} else {
 			$data['getasetlancar']	= null;
 			// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
@@ -37,8 +40,11 @@ class Neraca extends User_Controller {
 			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
 			$data['gettotallabarugi']	= null;
 			$data['ekuitas']			= null;
+			$data['periode_ini'] = 'Periode Ini';
+			$data['periode_lalu'] = 'Periode Lalu';
 		}
 		$data['title']		= lang('balance_sheet');
+		
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Neraca/index';
 		$data				= array_merge($data,path_info());

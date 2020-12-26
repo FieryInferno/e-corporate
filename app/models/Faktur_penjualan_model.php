@@ -28,7 +28,7 @@ class Faktur_penjualan_model extends CI_Model {
 			$this->db->set('rekening',$this->input->post('rekening', TRUE));
 			$this->db->set('pengirimanid',$this->input->post('pengirimanid', TRUE));
 			$this->db->set('catatan',$this->input->post('catatan', TRUE));
-			$this->db->set('carabayar',$this->input->post('carabayar', TRUE));
+			$this->db->set('cara_pembayaran',$this->input->post('cara_pembayaran', TRUE));
 			$this->db->set('tipe','2');
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
@@ -367,7 +367,7 @@ class Faktur_penjualan_model extends CI_Model {
 		$this->db->join('mkontak', 'tfakturpenjualan.kontakid = mkontak.id');
 		$this->db->join('mperusahaan', 'tfakturpenjualan.idperusahaan = mperusahaan.idperusahaan');
 		$this->db->where('tfakturpenjualan.sisatagihan >', 0);
-		$this->db->where('tfakturpenjualan.carabayar', 'credit');
+		$this->db->where('tfakturpenjualan.cara_pembayaran', 'credit');
 		if ($this->perusahaan) {
 			$this->db->where('tfakturpenjualan.idperusahaan', $this->perusahaan);
 		}

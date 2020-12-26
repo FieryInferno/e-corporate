@@ -202,7 +202,7 @@ class Kas_bank extends User_Controller
 
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, , mperusahaan.kode, mdepartemen.nama as namaDepartemen, rekanan.nama as rekanan, mrekening.id as idRekening, mnoakun.idakun, mnoakun.akunno, mnoakun.namaakun');
+        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, tfakturpenjualan.cara_pembayaran as cara_pembayaran , mperusahaan.kode, mdepartemen.nama as namaDepartemen, rekanan.nama as rekanan, mrekening.id as idRekening, mnoakun.idakun, mnoakun.akunno, mnoakun.namaakun');
         $this->db->join('tpengirimanpenjualan','tfakturpenjualan.pengirimanid=tpengirimanpenjualan.id');
         $this->db->join('tpemesananpenjualan','tpengirimanpenjualan.pemesananid=tpemesananpenjualan.id');
         $this->db->join('tpemesananpenjualanangsuran','tpemesananpenjualan.id=tpemesananpenjualanangsuran.idpemesanan');

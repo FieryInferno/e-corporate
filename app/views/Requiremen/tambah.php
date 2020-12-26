@@ -709,7 +709,7 @@
             $('#sisapaguitem'+index).remove();
             table_detail.row.add([
                 barang[index].value,
-                item,
+                `<input type="hidden" name="item[]" id="" value="${item}">` + item,
                 `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="harga[]" id="harga${index}${no}">`,
                 `<input type="text" class="form-control" onkeyup="sum('${index}${no}', '${no}', '${jenis}');" name="jumlah[]" id="jumlah${index}${no}">`,
                 `<input type="text" class="form-control" id="subtotal${index}${no}" readonly><input type="hidden" name="subtotal[]" id="subtotal_asli${index}${no}" readonly>`,
@@ -722,7 +722,7 @@
                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modal_pengiriman${index}${no}" title="Tambah Biaya Pengiriman">
                     <i class="fas fa-shipping-fast"></i>
                 </button>`,
-                `<input type="hidden" name="noAkun1[]" id="idakun${index}${no}" value="${idakun}">` + noakun,
+                `<input type="hidden" name="noAkun1[]" id="idakun${index}${no}" value="${idakun}"><input type="hidden" name="noakun[]" id="" value="${noakun}">` + noakun,
                 `<input type="text" class="form-control" name="total[]" id="total${index}${no}" readonly onchange="sum_total('${index}${no}', '${no}', '${jenis}');">`,
                 `<input type="hidden" name="sisapaguitem[]" id="sisapaguitem_lama${index}${no}" value="${sisapaguitem}"><input type="text" class="form-control" id="sisapaguitem_baru${index}${no}" value="${formatRupiah(String(sisapaguitem))+',00'}" readonly>`,
                 `<a href="javascript:void(0)" class="edit_detail" id_barang="${barang[index].value}"><i class="fas fa-pencil-alt"></i></a>&nbsp;

@@ -3,11 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Utang_model extends CI_Model {
 
-	private $kontakid;
+	private $kontak;
 	private $table	= 'SaldoAwalHutang';
 	private $table0	= 'tfaktur';
 	private $perusahaan;
 	private $tanggal;
+	private $tanggalAwal;
+	private $tanggalAkhir;
 
 	public function get_count_utang($tanggalawal, $tanggalakhir, $kontakid) {
 		$this->db->where('view_laporan_utang_piutang.tanggal >=', $tanggalawal);

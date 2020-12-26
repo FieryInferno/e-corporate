@@ -4,6 +4,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Utang extends User_Controller {
 
 	private $perusahaan;
+	private $tanggal;
 	private $tanggalAwal;
 	private $tanggalAkhir;
 	private $kontak;
@@ -172,8 +173,8 @@ class Utang extends User_Controller {
 
 	public function get()
 	{
-		$this->model->setGet('perusahaan', $this->perusahaan);
-		$this->model->setGet('tanggal', $this->tanggal);
+		$this->model->set('perusahaan', $this->perusahaan);
+		$this->model->set('tanggal', $this->tanggal);
 		$data	= [];
 		array_push($data, $this->model->get('saldoAwal'));
 		array_push($data, $this->model->get('faktur'));

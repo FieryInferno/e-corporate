@@ -40,7 +40,7 @@
                                     ?>
                                     <div class="col-md-4">
                                         <div class="form-group">
-                                            <label>Usia Hutang : </label>
+                                            <label>Usia Piutang : </label>
                                             <select class="form-control" name="usiaPiutang">
                                                 <option value="" disabled selected>Pilih Usia Utang</option>
                                                 <option value="kurang30">Kurang Dari 30 Hari</option>
@@ -115,7 +115,9 @@
                                     </thead>
                                     <tbody>
                                         <?php
-                                            foreach ($piutang as $key) { ?>
+                                            $totalPiutang   = 0;
+                                            foreach ($piutang as $key) { 
+                                                $totalPiutang   += $key['primeOwing']; ?>
                                                 <tr>
                                                     <td><?= $key['tanggal']; ?></td>
                                                     <td><?= $key['tanggalTempo']; ?></td>
@@ -142,6 +144,16 @@
                                             <?php }
                                         ?>
                                     </tbody>
+                                    <tfoot>
+                                        <tr class="table-active">
+                                            <td colspan="7" class="text-right">Total</td>
+                                            <td><?= number_format($totalPiutang,2,',','.'); ?></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </tfoot>
                                 </table>
                             </div>
                         </div>

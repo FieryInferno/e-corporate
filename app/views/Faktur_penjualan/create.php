@@ -78,8 +78,11 @@
                             </div>
                             <div class="col-md-3">
                                 <div class="form-group">
-                                    <label><?php echo lang('Cara Bayar') ?>:</label>
-                                    <input type="text" class="form-control carabayar" name="carabayar" required readonly></select>
+                                    <label><?php echo lang('Cara Pembayaran') ?>:</label>
+                                    <select class="form-control cara_pembayaran" name="cara_pembayaran" required>
+                                            <option value="cash">Cash</option>
+                                            <option value="credit">Credit</option>                                   
+                                    </select>
                                 </div>
                                 <div class="form-group">
                                     <label><?php echo lang('Departemen') ?>:</label>

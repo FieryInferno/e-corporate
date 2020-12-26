@@ -36,7 +36,9 @@ class SetUpJurnal_model extends CI_Model {
             'idSetupJurnal' => $idSetupJurnal,
             'kodeJurnal'    => $this->input->post('kodeJurnal'),
             'formulir'      => $this->input->post('formulir'),
-            'keterangan'    => $this->input->post('keterangan')
+            'tabulasi'      => $this->input->post('tabulasi'),
+            'keterangan'    => $this->input->post('keterangan'),
+            'cara_pembayaran'      => $this->input->post('cara_pembayaran'),
         ]);
         if ($setupJurnal) {
             if ($this->input->post('elemenjurnalAnggaran')) {

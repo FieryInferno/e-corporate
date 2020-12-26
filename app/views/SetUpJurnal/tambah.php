@@ -62,6 +62,27 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="form-group">
+                                            <label>Tabulasi :</label>
+                                            <select name="tabulasi" id="tabulasi" class="form-control" onchange="pilihTabulasi()">
+                                                <option value="" disabled selected>Pilih Tabulasi</option>
+                                                <option value="piutang">Piutang</option>
+                                                <option value="hutang">Hutang</option>
+                                                <option value="pembelian">Pembelian</option>
+                                                <option value="penjualan">Penjualan</option>
+                                                <option value="kasKecil">Kas Kecil</option>
+                                                <option value="setorKasKecil">Setor Kas Kecil</option>
+                                                <option value="budgetEvent">Budget Event</option>
+                                                <option value="setorPajak">Setor Pajak</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div id="caraBayar"></div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-group">
                                             <label>Keterangan :</label>
                                             <input type="text" class="form-control" placeholder="Keterangan" name="keterangan">
                                         </div>
@@ -302,7 +323,7 @@
         if (formulir === 'fakturPembelian' || formulir === 'fakturPenjualan') {
             $('#tipeTransaksi').html(
                 `<div class="form-group">
-                    <label>Formulir :</label>
+                    <label>Transaksi :</label>
                     <select name="tipeTransaksi" class="form-control">
                         <option value="" disabled selected>Pilih Tipe Transaksi</option>
                         <option value="cash">Cash</option>
@@ -323,6 +344,24 @@
             );
         } else {
             $('#tipeTransaksi').empty();
+        }
+    }
+
+    function pilihTabulasi() {
+        var tabulasi    = $('#tabulasi').val();
+        if (tabulasi === 'pembelian' || tabulasi === 'penjualan') {
+            $('#caraBayar').html(
+                `<div class="form-group">
+                    <label>Cara Bayar :</label>
+                    <select name="cara_pembayaran" class="form-control">
+                        <option value="" disabled selected>Pilih Tipe Cara Bayar</option>
+                        <option value="cash">Cash</option>
+                        <option value="kredit">Kredit</option>
+                    </select>
+                </div>`
+            );
+        } else {
+            $('#caraBayar').empty();
         }
     }
 

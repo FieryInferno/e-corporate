@@ -14,21 +14,14 @@ class Requiremen_model extends CI_Model {
 		$diskon				= 0;
 		$subtotal			= 0;
 		$biayapengiriman	= 0;
-		foreach ($this->input->post('total') as $key) {
-			$total	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
-		}
-		foreach ($this->input->post('total_pajak') as $key) {
-			$pajak	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
-		}
-		foreach ($this->input->post('diskon') as $key) {
-			$diskon	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
-		}
-		foreach ($this->input->post('subtotal') as $key) {
-			$subtotal	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
-		}
-		foreach ($this->input->post('biayapengiriman') as $key) {
-			$subtotal	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
-		}
+		$jenis_pembelian	= $this->input->post('jenis_pembelian');
+		$jenis_barang 		= $this->input->post('jenis_barang');
+		$noakun1 			= $this->input->post('noAkun1');
+		$noakun 			= $this->input->post('noakun');
+		$harga				= $this->input->post('harga');
+		$tanggal				= $this->input->post('tanggal');
+		$item				= $this->input->post('item');
+
 		if ($id == null) {
 			$insertHead	= $this->db->insert('tpemesanan', [
 				'id'				=> $id_pemesanan,
@@ -134,10 +127,48 @@ class Requiremen_model extends CI_Model {
 				'total'		=> 0,
 				'tipe'		=> 1
 			]);
-			$data['status'] = 'success';
-			$data['message'] = lang('update_success_message');
+
 		}
+
+		if($jenis_pembelian == 'barang' && $jenis_barang == 'inventaris'){
+			$get_last_inventaris = $this->db->select('*')->from('tinventaris')->order_by('id_inventaris', 'DESC')->get()->row_array();
+			$no_reg = $get_last_inventaris['no_register'];
+			if(empty($get_last_inventaris)){
+				$no = 1;
+			} else {
+				$no = intval($no_reg) + 1;
+			}
+
+			$pch_tgl = explode('-', $tanggal);
+
+			$jml_item = count($harga);
+			for($i=0; $i<$jml_item; $i++){
+				$no_register = $no+$i;
+				$pch_akun = explode('.', $noakun[$i]);
+				$jenis_akun = $pch_akun[0].'.'.$pch_akun[1].'.'.$pch_akun[2];
+				$get_item = $this->db->get_where('mitem', ['nama' => $item[$i]])->row_array();
+				$nama_barang = $get_item['nama'];
+				$kode_barang = $get_item['kode'];
+
+				$insert_inventaris = [
+					'no_register'	=> $no_register,
+					'id_pemesanan'	=> $id_pemesanan,
+					'idperusahaan'	=> $this->input->post('idperusahaan'),
+					'jenis_akun'	=> $jenis_akun,
+					'kode_barang' 	=> $kode_barang,
+					'nama_barang'	=> $nama_barang,
+					'tahun_perolehan'=> $pch_tgl[0],
+					'nominal_asset'=> $harga[$i],
+				];
+
+				$a = $this->db->insert('tinventaris', $insert_inventaris);
+			}
+		}
+
+		$data['status'] = 'success';
+		$data['message'] = lang('update_success_message');
 		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
+		
 	}
 
 	public function tambah_angsuran() {

@@ -89,32 +89,7 @@
                 data    : 'noRegister',
                 width   : '5%',
                 render  : function (data, type, row) {
-                    if (data == null) {
-                        var panjang = (row.idSaldoAwalInventaris).length;
-                        switch (panjang) {
-                            case 1:
-                                return '0000' + row.idSaldoAwalInventaris;
-                                break;
-                            case 2:
-                                return '000' + row.idSaldoAwalInventaris;
-                                break;
-                            case 3:
-                                return '00' + row.idSaldoAwalInventaris;
-                                break;
-                            case 4:
-                                return '0' + row.idSaldoAwalInventaris;
-                                break;
-                            case 5:
-                                return row.idSaldoAwalInventaris;
-                                break;
-                        
-                            default:
-                                break;
-                        }
-                    } else {
-                        return data;
-                    }
-                    
+                    return '0000' + data;
                 }
             },
             {

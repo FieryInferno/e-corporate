@@ -47,33 +47,25 @@
                                 <div class="form-group">
                                     <label><?php echo lang('date') ?>:</label>
                                     <div class="input-group">
+                                        <input type="hidden" name="idSetupJurnal" id="idSetupJurnal">
                                         <input type="date" id="tanggal" class="form-control datepicker" name="tanggal" required value="{tanggal}">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label><?php echo lang('company') ?>:</label>
-                                            <?php
-                                                if ($this->session->userid !== '1') { ?>
-                                                    <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>" id="id_perusahaan">
-                                                    <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
-                                                <?php } else { ?>
-                                                    <select class="form-control id_perusahaan" name="perusahaan" style="width: 100%;" id="id_perusahaan" required></select>
-                                                <?php }
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Setup Jurnal : </label>
-                                            <input type="hidden" name="idSetupJurnal" id="idSetupJurnal">
-                                            <input type="text" class="form-control" id="setupJurnal" disabled>
-                                        </div>
-                                    </div>
+                                
+                                <div class="form-group">
+                                    <label><?php echo lang('company') ?>:</label>
+                                    <?php
+                                        if ($this->session->userid !== '1') { ?>
+                                            <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>" id="id_perusahaan">
+                                            <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                        <?php } else { ?>
+                                            <select class="form-control id_perusahaan" name="perusahaan" style="width: 100%;" id="id_perusahaan" required></select>
+                                        <?php }
+                                    ?>
                                 </div>
+                                    
                                 <div class="form-group">
                                     <label><?php echo lang('Pejabat Keuangan') ?>:</label>    
                                     <select id="pejabat" class="form-control" name="pejabat" required></select>
@@ -134,6 +126,8 @@
                                                             <th><?php echo lang('Kode Unit') ?></th>
                                                             <th><?php echo lang('Nama Dapartemen') ?></th>
                                                             <th><?php echo lang('Sumber Dana') ?></th>
+                                                            <th><?php echo lang('Cara Bayar') ?></th>
+                                                            <th><?php echo lang('Setup Jurnal') ?></th>
                                                         </tr>
                                                     </thead>
                                                     <tbody id="isitabel"> </tbody>
@@ -233,6 +227,7 @@
                                 <th>Tanggal</th>
                                 <th>Nominal</th>
                                 <th>Nama Rekening Bank</th>
+                                <th>Cara bayar</th>
                             </tr>
                         </thead>
                         <tbody id='list_penjualan'></tbody>
@@ -269,6 +264,7 @@
                                 <th>Kontak</th>
                                 <th>Tanggal</th>
                                 <th>Nominal</th>
+                                <th>Cara bayar</th>
                             </tr>
                         </thead>
                         <tbody id='list_pembelian'></tbody>
@@ -1170,6 +1166,7 @@
                             response[index].tanggal,
                             formatRupiah(String(response[index].total)) + ',00',
                             response[index].norek + '<br>' + response[index].namaRekening,
+                            response[index].cara_pembayaran,
                         ]).draw();
                     }
                 }
@@ -1245,6 +1242,7 @@
                             response[index].rekanan,
                             response[index].tanggal,
                             formatRupiah(String(response[index].total)) + ',00',
+                            response[index].cara_pembayaran,
                         ]).draw();
                     }
                 }
@@ -1422,28 +1420,22 @@
         var idPerusahaan    = $('#id_perusahaan').val();
         var tgl             = $('input[name=tanggal]').val();
         $.ajax({
-            type    : 'get',
+            type    : "get",
             data    : {
                 perusahaanid    : idPerusahaan,
                 tanggal         : tgl
             },
             url     : '{site_url}piutang/get',
-            beforeSend: function() {
-                pageBlock();
-            },
-            afterSend: function() {
-                unpageBlock();
-            },
             success : function (response) {
-                for (let index = 0; index < response.length; index++) {
-                    piutang    = response[index];
+                for (let i = 0; i < response.length; i++) {
+                    const piutang    = response[i];
                     tabelPiutang.row.add([
                         `<input type="checkbox" id="checkboxPiutang${piutang.idSaldoAwalPiutang}" data-id="${piutang.idSaldoAwalPiutang}" data-tipe="Saldo Awal Piutang" data-tgl="${piutang.tanggal}" data-kwitansi="${piutang.noInvoice}" data-nominal="${piutang.primeOwing}" data-namaakun="${piutang.namaakun}" data-noakun="${piutang.akunno}" idAkun="${piutang.idakun}" data-kodeperusahaan="${piutang.kode}" onchange="save_detail(this);">`,
-                        `${piutang.tanggal}`,
-                        `${piutang.tanggalTempo}`,
-                        `${piutang.noInvoice}`,
-                        `${piutang.deskripsi}`,
-                        `${piutang.namaPelanggan}`,
+                        piutang.tanggal,
+                        piutang.tanggalTempo,
+                        piutang.noInvoice,
+                        piutang.deskripsi,
+                        piutang.namaPelanggan,
                         formatRupiah(String(`${piutang.primeOwing}`)) + ',00',
                         ``,
                         ``
@@ -1536,6 +1528,8 @@
         const norekening = $(elem).attr('data-norekening');
         const idRekening    = $(elem).attr('idRekening');
         const idAkun        = $(elem).attr('idAkun');
+        const cara_pembayaran        = $(elem).attr('cara_pembayaran');
+        const setupJurnal        = $(elem).attr('setupJurnal');
         for (let index = 0; index < saldoSumberDana.length; index++) {
             const element = saldoSumberDana[index];
             if (idRekening == element.id) {
@@ -1563,7 +1557,9 @@
                     `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun}/${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
+                     `${cara_pembayaran}`,
+                    `${setupJurnal}`,
                 ]).draw(false);
                 penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {
@@ -1587,6 +1583,8 @@
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
+                     `${cara_pembayaran}`,
+                    `${setupJurnal}`,
                 ]).draw(false);
                 pengeluaran = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
             } else {

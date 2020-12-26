@@ -138,7 +138,7 @@
       <div class="container">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0 text-dark"> Aplikasi Perusahaan PT ABB <small>Versi beta</small></h1>
+            <h1 class="m-0 text-dark"> E-corporate PT ABB <small>Versi beta</small></h1>
           </div><!-- /.col -->
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">

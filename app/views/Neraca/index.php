@@ -96,8 +96,8 @@
                                     <tbody>
                                         <tr class="{bg_header}">
                                             <th class="font-weight-bold text-uppercase" style="width: 50%;"><?php echo lang('Aset') ?></th>
-                                            <th class="font-weight-bold text-uppercase text-right">Periode Ini</th>
-                                            <th class="font-weight-bold text-uppercase text-right">Periode Lalu</th>
+                                            <th class="font-weight-bold text-uppercase text-right"><?= $periode_ini?></th>
+                                            <th class="font-weight-bold text-uppercase text-right"><?= $periode_lalu?></th>
                                         </tr>
                                         <tr class="bg-grey-300">
                                             <td colspan="3" class="font-weight-bold text-uppercase"><?php echo lang('Aset Lancar') ?></td>
