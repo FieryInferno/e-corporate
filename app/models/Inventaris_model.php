@@ -38,5 +38,28 @@ class Inventaris_model extends CI_Model {
         return $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
+    public function get()
+    {
+        $this->db->select('saldoAwalInventaris.*, mperusahaan.nama_perusahaan, mnoakun.namaakun');
+        $this->db->join('mperusahaan', 'saldoAwalInventaris.perusahaan = mperusahaan.idperusahaan');
+        $this->db->join('mnoakun', 'saldoAwalInventaris.noAkun = mnoakun.idakun');
+        $saldoAwalInventaris    = $this->db->get('saldoAwalInventaris')->result_array();
+        $no                     = count($saldoAwalInventaris);
+        $this->db->select('tinventaris.*, mperusahaan.nama_perusahaan');
+        $this->db->join('mperusahaan', 'tinventaris.idperusahaan = mperusahaan.idperusahaan');
+        $inventaris             = $this->db->get('tinventaris')->result_array();
+        for ($i=0; $i < count($inventaris); $i++) { 
+            $key                                            = $inventaris[$i]; 
+            $saldoAwalInventaris[$no]['kodeInventaris']     = $key['kode_barang'];
+            $saldoAwalInventaris[$no]['namaInventaris']     = $key['nama_barang'];
+            $saldoAwalInventaris[$no]['noRegister']         = $key['no_register'];
+            $saldoAwalInventaris[$no]['harga']              = $key['nominal_asset'];
+            $saldoAwalInventaris[$no]['tanggalPembelian']   = $key['tahun_perolehan'];
+            $saldoAwalInventaris[$no]['namaakun']           = $key['jenis_akun'];
+            $saldoAwalInventaris[$no]['nama_perusahaan']    = $key['nama_perusahaan'];
+            $no++;
+        }
+        return $saldoAwalInventaris;
+    }
 }
 

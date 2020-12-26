@@ -11,6 +11,7 @@ class Inventaris extends User_Controller {
 		$data['title']		= 'Daftar Inventaris';
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Inventaris/index';
+		$data['inventaris']	= $this->model->get();
 		$data				= array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
