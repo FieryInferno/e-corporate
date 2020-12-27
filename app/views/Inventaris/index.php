@@ -42,7 +42,9 @@
 									</thead>
 									<tbody>
 										<?php
-											foreach ($inventaris as $key) { ?>
+											$total	= 0;
+											foreach ($inventaris as $key) { 
+												$total	+= $key['harga']; ?>
 												<tr>
 													<td><?= $key['nama_perusahaan']; ?></td>
 													<td><?= $key['namaakun']; ?></td>
@@ -56,6 +58,13 @@
 											<?php }
 										?>
 									</tbody>
+									<tfoot>
+										<tr class="table-active">
+											<th colspan="6" class="text-right">Total</th>
+											<th><?= number_format($total, 2, ',', '.'); ?></th>
+											<th></th>
+										</tr>
+									</tfoot>
 								</table>
 							</div>
 						</div>
