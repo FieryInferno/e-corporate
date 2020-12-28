@@ -52,7 +52,7 @@
                                 <div class="form-group">
                                     <label><?php echo lang('date') ?>:</label>
                                     <div class="input-group"> 
-                                        <input type="date" id="tanggal" class="form-control datepicker" name="tanggal" value="{tanggal}" readonly>
+                                        <input type="date" id="tanggal" class="form-control datepicker" name="tanggal" value="{tanggal}">
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -293,7 +293,6 @@
             total = api.column(8).data().reduce( function (a, b) {
                 return intVal(a) + intVal(b); 
             }, 0 );
-           
             $('#total_budgetevent').html(formatRupiah(String(total)));
         }
     })
@@ -345,23 +344,23 @@
             async       : true,
             dataType    : 'json',
             data        : { pengirimanid : pengirimanid },
-            success: function(data) {
+            success     : function(data) {
                 var i;
                 var no=0;
                 var grandtotal = 0;
                 $.ajax({
-                        url         : '{site_url}SetUpJurnal/get',
-                        dataType    : 'json',
-                        method      : 'post',
-                        data        : {
-                            jenis       : data[0].cara_pembayaran,
-                            formulir    : 'fakturPenjualan'
-                        },
-                        success: function(data) {
-                            $('#setupJurnal1').val(data['idSetupJurnal']);
-                            $('#setupJurnal2').val(data['kodeJurnal']);
-                        }
-                    });
+                    url         : '{site_url}SetUpJurnal/get',
+                    dataType    : 'json',
+                    method      : 'post',
+                    data        : {
+                        jenis       : data[0].cara_pembayaran,
+                        formulir    : 'fakturPenjualan'
+                    },
+                    success: function(data) {
+                        $('#setupJurnal1').val(data['idSetupJurnal']);
+                        $('#setupJurnal2').val(data['kodeJurnal']);
+                    }
+                });
                 for(i=0; i<data.length; i++){
                     if(table_detail_item.hasValue(data[i].idpenjualdetail)) {
                         swal("Gagal!", "Nomor pengiriman tersebut telah ada!", "error");
@@ -447,7 +446,7 @@
 
                     grandtotal = grandtotal + parseInt(data[i].total);
                     table_detail_item.row.add([
-                        data[i].itemid,
+                        data[i].itemid + `<input type="hidden" id="tanggalPenerimaan" value="${data[i].tanggalPenerimaan}">`,
                         nama_item,
                         `${formatRupiah(data[i].harga)}`,
                         `${data[i].jumlah}`,
@@ -566,35 +565,38 @@
     }
 
     function save() {
-        var form = $('#form1')[0];
-        var formData = new FormData(form);
-        
-        $.ajax({
-            url: base_url + 'save',
-            dataType: 'json',
-            method: 'post',
-            data: formData,
-            contentType: false,
-            processData: false,
-            beforeSend: function() {
-                pageBlock();
-            },
-            afterSend: function() {
-                unpageBlock();
-            },
-            success: function(data) {
-                if(data.status == 'success') {
-                    swal("Berhasil!", data.message, "success");
-                    redirect(base_url);
-                } else {
-                    swal("Gagal!", data.message, "error");
+        var form                = $('#form1')[0];
+        var formData            = new FormData(form);
+        var tanggal             = $('#tanggal').val();
+        var tanggalPenerimaan   = $('#tanggalPenerimaan').val();
+        if(tanggal < tanggalPenerimaan) {
+            swal("Gagal!", "Tanggal bermasalah", "error");
+        } else {
+            $.ajax({
+                url: base_url + 'save',
+                dataType: 'json',
+                method: 'post',
+                data: formData,
+                contentType: false,
+                processData: false,
+                beforeSend: function() {
+                    pageBlock();
+                },
+                afterSend: function() {
+                    unpageBlock();
+                },
+                success: function(data) {
+                    if(data.status == 'success') {
+                        swal("Berhasil!", data.message, "success");
+                        redirect(base_url);
+                    } else {
+                        swal("Gagal!", data.message, "error");
+                    }
+                },
+                error: function() {
+                    swal("Gagal!", "Internal Server Error", "error");
                 }
-            },
-            error: function() {
-                swal("Gagal!", "Internal Server Error", "error");
-            }
-        })
+            })
+        }
     }
-    
-
 </script>
