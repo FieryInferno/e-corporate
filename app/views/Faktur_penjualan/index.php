@@ -104,7 +104,7 @@
       {data: 'tanggal'},
       {data: 'tanggaltempo'},
       {data: 'supplier'},
-      {data: 'carabayar'},
+      {data: 'cara_pembayaran'},
       {data: 'gudang'},
       {
         data: 'total', className: 'text-right',
