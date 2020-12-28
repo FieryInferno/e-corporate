@@ -58,13 +58,11 @@ class Faktur_pembelian_model extends CI_Model {
 			'bank'			    => $this->input->post('rekening'),
 			'ppn'				=> $pajak,
 			'biayaPengiriman'	=> $biayapengiriman,
-			'cara_pembayaran'	=> $this->input->post('cara_pembayaran'),
+			'carabayar'			=> $this->input->post('cara_pembayaran'),
 			'setupJurnal'		=> $this->input->post('setupJurnal'),
 			'tanggaltempo'		=> $this->input->post('tanggalTempo'),
 			'noFaktur'			=> $this->input->post('noFaktur')
 		]);
-		var_dump($this->post->input('cara_pembayaran'));
-		die();
 		if($insert) {
 			$i  = 0;
 			foreach ($this->input->post('idbarang') as $key) {
@@ -245,6 +243,21 @@ class Faktur_pembelian_model extends CI_Model {
 			}
 		}
 		return $data;
+	}
+
+	public function delete()
+	{
+		$id = $this->uri->segment(3);
+		$this->db->where('id', $id);
+		$delete = $this->db->delete('tfaktur');
+		if($delete) {
+			$data['status'] = 'success';
+			$data['message'] = 'Berhasil menghapus data';
+		} else {
+			$data['status'] = 'error';
+			$data['message'] = 'Gagal menghapus data';
+		}
+		return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 }
 
