@@ -87,7 +87,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label><?php echo lang('Pejabat') ?>:</label>
+                                            <label><?php echo lang('PIC') ?>:</label>
                                             <div class="input-group"> 
                                             <select id="pejabat" class="form-control pejabat" name="pejabat" required></select>
                                             </div>

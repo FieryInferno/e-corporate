@@ -50,7 +50,7 @@
                                             <select id="department" class="form-control" name="dept" required></select>
                                         </div>
                                         <div class="form-group">
-                                            <label><?php echo lang('Pejabat') ?>:</label>
+                                            <label><?php echo lang('PIC') ?>:</label>
                                             <select id="pejabat" class="form-control" name="pejabat" required></select>
                                         </div>
                                     </div>

@@ -72,7 +72,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label><?php echo lang('Pejabat Keuangan') ?>:</label>    
+                                    <label><?php echo lang('PIC') ?>:</label>    
                                     <select id="pejabat" class="form-control" name="pejabat" required></select>
                                 </div>
                                 <div class="form-group">

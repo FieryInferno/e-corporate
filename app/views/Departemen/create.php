@@ -44,7 +44,7 @@
                                 <label><?php echo lang('nama departemen') ?>:</label>
                                 <input type="text" class="form-control" id="namakey" onkeyup="rep()" required>
                                 <input type="hidden" class="form-control" name="nama" id="nama" onkeyup="rep()" required>
-                                <label><?php echo lang('pejabat') ?>:</label>
+                                <label><?php echo lang('PIC') ?>:</label>
                                 <input type="text" class="form-control" name="pejabat" id="pejabat"required>
                                 <label><?php echo lang('jabatan') ?>:</label>
                                 <input type="text" class="form-control" name="jabatan" required>

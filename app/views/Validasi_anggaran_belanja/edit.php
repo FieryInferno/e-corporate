@@ -28,7 +28,7 @@
                                     <select id="department" class="form-control" name="dept" disabled></select>
                                 </div>
                                 <div class="form-group">
-                                    <label><?php echo lang('Pejabat') ?>:</label>
+                                    <label><?php echo lang('PPIC') ?>:</label>
                                     <select id="pejabat" class="form-control" name="pejabat" disabled></select>
                                 </div>
                             </div>

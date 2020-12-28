@@ -36,7 +36,7 @@
                                 <select id="perusahaan" class="form-control" name="id_perusahaan" required></select>
                                 <label><?php echo lang('nama perusahaan') ?>:</label>
                                 <input type="text" class="form-control" name="nama" required value="{nama}">
-                                <label><?php echo lang('pejabat') ?>:</label>
+                                <label><?php echo lang('PIC') ?>:</label>
                                 <input type="text" class="form-control" name="pejabat" required value="{pejabat}">
                                 <label><?php echo lang('jabatan') ?>:</label>
                                 <input type="text" class="form-control" name="jabatan" required value="{jabatan}">
