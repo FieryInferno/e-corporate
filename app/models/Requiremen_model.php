@@ -4,6 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Requiremen_model extends CI_Model {
 
 	public function save($id) {
+		// print_r($this->input->post());
+		// die();
 		if ($id == null) {
 			$id_pemesanan	= uniqid('PEMESANAN');
 		} else {
@@ -14,6 +16,21 @@ class Requiremen_model extends CI_Model {
 		$diskon				= 0;
 		$subtotal			= 0;
 		$biayapengiriman	= 0;
+		foreach ($this->input->post('total') as $key) {
+			$total	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
+		}
+		foreach ($this->input->post('total_pajak') as $key) {
+			$pajak	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
+		}
+		foreach ($this->input->post('diskon') as $key) {
+			$diskon	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
+		}
+		foreach ($this->input->post('subtotal') as $key) {
+			$subtotal	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
+		}
+		foreach ($this->input->post('biayapengiriman') as $key) {
+			$subtotal	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
+		}
 		$jenis_pembelian	= $this->input->post('jenis_pembelian');
 		$jenis_barang 		= $this->input->post('jenis_barang');
 		$noakun1 			= $this->input->post('noAkun1');
