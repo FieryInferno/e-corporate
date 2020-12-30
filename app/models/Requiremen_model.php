@@ -4,8 +4,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Requiremen_model extends CI_Model {
 
 	public function save($id) {
-		// print_r($this->input->post());
-		// die();
 		if ($id == null) {
 			$id_pemesanan	= uniqid('PEMESANAN');
 		} else {
@@ -161,8 +159,8 @@ class Requiremen_model extends CI_Model {
 			$jml_item = count($harga);
 			for($i=0; $i<$jml_item; $i++){
 				$no_register = $no+$i;
-				$pch_akun = explode('.', $noakun[$i]);
-				$jenis_akun = $pch_akun[0].'.'.$pch_akun[1].'.'.$pch_akun[2];
+				// $pch_akun = explode('.', $noakun[$i]);
+				// $jenis_akun = $pch_akun[0].'.'.$pch_akun[1].'.'.$pch_akun[2];
 				$get_item = $this->db->get_where('mitem', ['nama' => $item[$i]])->row_array();
 				$nama_barang = $get_item['nama'];
 				$kode_barang = $get_item['kode'];
@@ -171,7 +169,7 @@ class Requiremen_model extends CI_Model {
 					'no_register'	=> $no_register,
 					'id_pemesanan'	=> $id_pemesanan,
 					'idperusahaan'	=> $this->input->post('idperusahaan'),
-					'jenis_akun'	=> $jenis_akun,
+					'jenis_akun'	=> $noakun1[$i],
 					'kode_barang' 	=> $kode_barang,
 					'nama_barang'	=> $nama_barang,
 					'tahun_perolehan'=> $pch_tgl[0],
