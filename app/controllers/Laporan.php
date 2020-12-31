@@ -18,40 +18,41 @@ class Laporan extends User_Controller {
 		$this->kasKecil		= $this->input->get('kasKecil');
 		$this->tanggalAwal	= $this->input->get('tanggalAwal');
 		$this->tanggalAkhir	= $this->input->get('tanggalAkhir');
-
+		$this->jenis		= $this->input->get('jenis');
 		$this->load->model('Perusahaan_model');
 		$this->load->model('Neraca_model');
 	}
 
 	public function kasBank() {
-		$data['laporan']	= null;
-		$data['tanggal']	= null;
 		if ($this->perusahaan) {
 			$this->LaporanModel->set('perusahaan', $this->perusahaan);
 			$this->LaporanModel->set('rekening', $this->rekening);
-			$this->LaporanModel->set('tanggal', $this->tanggal);
-			$data['laporan']		= $this->LaporanModel->get();
-			$data['tanggal']		= $this->tgl_indo($this->tanggal);
-			$tanggalAwal			= date('Y-m-d', strtotime('-1 days', strtotime($this->tanggal)));
-			$data['tanggalAwal']	= $this->tgl_indo($tanggalAwal);
-			if ($data['laporan']) {
-				$this->LaporanModel->set('tanggal', $tanggalAwal);
-				$kasBank					= $this->LaporanModel->get('total');
-				$data['jumlahDebetAwal']	= 0;
-				$data['jumlahKreditAwal']	= 0;
-				foreach ($kasBank as $key) {
-					foreach ($key as $value) {
-						$data['jumlahDebetAwal']	+= $value['debet'];
-						$data['jumlahKreditAwal']	+= $value['kredit'];
-					}
-				}
-			} else {
-				$data['jumlahDebetAwal']	= 0;
-				$data['jumlahKreditAwal']	= 0;
+			$this->LaporanModel->set('tanggalAwal', $this->tanggalAwal);
+			$this->LaporanModel->set('tanggalAkhir', $this->tanggalAkhir);
+			$data['laporan']		= $this->LaporanModel->getLaporanKasBank();
+			$data['tanggalAwal']	= $this->tgl_indo($this->tanggalAwal);
+			$data['tanggalAkhir']	= $this->tgl_indo($this->tanggalAkhir);
+			$data['perusahaan']		= $this->perusahaan;
+			$data['rekening']		= $this->rekening;
+			switch ($this->input->get('jenis')) {
+				case 'pdf':
+					$this->load->library('pdf');
+					$pdf			= $this->pdf;
+					$data['title']	= 'Laporan Kas Bank';
+					$data['css']	= file_get_contents(FCPATH.'assets/css/print.min.css');
+					$data			= array_merge($data,path_info());
+					$html 			= $this->load->view('laporan/kasBank/print', $data, TRUE);
+					$pdf->loadHtml($html);
+					$pdf->setPaper('A4', 'portrait');
+					$pdf->render();
+					$time = time();
+					$pdf->stream("Laporan Kas Bank". $time, array("Attachment" => false));
+					break;
+				
+				default:
+					# code...
+					break;
 			}
-			$data['perusahaan']	= $this->perusahaan;
-			$data['rekening']	= $this->rekening;
-			$data['tanggalA']	= $this->tanggal;
 		}
 		$data['title']		= 'Laporan Kas Bank';
 		$data['subtitle']	= lang('list');
@@ -117,31 +118,6 @@ class Laporan extends User_Controller {
 	{
 		switch ($this->input->get('tombol')) {
 			case 'pdf':
-				$this->LaporanModel->set('perusahaan', $this->perusahaan);
-				$this->LaporanModel->set('rekening', $this->rekening);
-				$this->LaporanModel->set('tanggal', $this->tanggal);
-				$data['laporan']		= $this->LaporanModel->get();
-				$data['tanggal']		= $this->tgl_indo($this->tanggal);
-				$tanggalAwal			= date('Y-m-d', strtotime('-1 days', strtotime($this->tanggal)));
-				$data['tanggalAwal']	= $this->tgl_indo($tanggalAwal);
-				if ($data['laporan']) {
-					$this->LaporanModel->set('tanggal', $tanggalAwal);
-					$kasBank					= $this->LaporanModel->get('total');
-					$data['jumlahDebetAwal']	= 0;
-					$data['jumlahKreditAwal']	= 0;
-					foreach ($kasBank as $key) {
-						foreach ($key as $value) {
-							$data['jumlahDebetAwal']	+= $value['debet'];
-							$data['jumlahKreditAwal']	+= $value['kredit'];
-						}
-					}
-				} else {
-					$data['jumlahDebetAwal']	= 0;
-					$data['jumlahKreditAwal']	= 0;
-				}
-				$data['perusahaan']	= $this->perusahaan;
-				$data['rekening']	= $this->rekening;
-				$data['tanggalA']	= $this->tanggal;
 				$this->load->library('pdf');
 				$pdf			= $this->pdf;
 				$data['title']	= 'Laporan Kas Bank';

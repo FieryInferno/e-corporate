@@ -330,7 +330,61 @@
           ?>"><i class="nav-icon fas fa-copy"></i>
             <p><?php echo lang('report') ?><i class="fas fa-angle-left right"></i></p>
           </a>
-          <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('report') ?>">                        
+          <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('report') ?>">  
+            <?php 
+              $menuLaporanKeuangan  = [
+                'laporan_kas_bank', 
+                'outstanding_invoice', 
+                'outstanding_payable', 
+                'project_list'
+              ];
+            ?>
+            <li class="nav-item has-treeview  <?php echo menu_is_open($menuLaporanKeuangan) ?>">
+              <a href="#" class="nav-link"><i class="nav-icon far fa-circle"></i>
+                <p>Laporan Keuangan<i class="fas fa-angle-left right"></i></p>
+              </a>
+              <ul class="nav nav-treeview" data-submenu-title="Laporan Keuangan"> 
+                <li class="nav-item">
+                  <a href="{site_url}laporan_kas_bank" class="nav-link <?php echo menu_is_active('laporan_kas_bank') ?>">
+                  <i class="far fa-circle nav-icon"></i><p>laporan Kas Bank</p></a>
+                </li>
+                <li class="nav-item">
+                  <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+                  <i class="far fa-circle nav-icon"></i><p>Outstanding Invoice Report</p></a>
+                </li>
+                <li class="nav-item">
+                  <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+                  <i class="far fa-circle nav-icon"></i><p>Outstanding Payable Report</p></a>
+                </li>
+                <li class="nav-item">
+                  <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+                  <i class="far fa-circle nav-icon"></i><p>Project List</p></a>
+                </li>
+              </ul>
+            </li>                      
+            <li class="nav-item has-treeview  <?php echo menu_is_open($menuLaporanKeuangan) ?>">
+              <a href="#" class="nav-link"><i class="nav-icon far fa-circle"></i>
+                <p>Laporan Akuntansi<i class="fas fa-angle-left right"></i></p>
+              </a>
+              <ul class="nav nav-treeview" data-submenu-title="Laporan Keuangan"> 
+                <li class="nav-item">
+                  <a href="{site_url}laporan_kas_bank" class="nav-link <?php echo menu_is_active('laporan_kas_bank') ?>">
+                  <i class="far fa-circle nav-icon"></i><p>laporan Kas Bank</p></a>
+                </li>
+                <li class="nav-item">
+                  <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+                  <i class="far fa-circle nav-icon"></i><p>Outstanding Invoice Report</p></a>
+                </li>
+                <li class="nav-item">
+                  <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+                  <i class="far fa-circle nav-icon"></i><p>Outstanding Payable Report</p></a>
+                </li>
+                <li class="nav-item">
+                  <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+                  <i class="far fa-circle nav-icon"></i><p>Project List</p></a>
+                </li>
+              </ul>
+            </li>                      
             <li class="nav-item">
               <a href="{site_url}laporan_pembelian" class="nav-link <?php echo menu_is_active('laporan_pembelian') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('purchasing_report') ?></p></a>
@@ -355,10 +409,6 @@
               <a href="{site_url}laporan_stok_akhir_barang" class="nav-link <?php echo menu_is_active('laporan_stok_akhir_barang') ?>">
               <i class="far fa-circle nav-icon"></i><p><?php echo lang('Lap Stok Akhir Barang') ?></p></a>
             </li>  
-            <li class="nav-item">
-              <a href="{site_url}laporan_kas_bank" class="nav-link <?php echo menu_is_active('laporan_kas_bank') ?>">
-              <i class="far fa-circle nav-icon"></i><p>laporan Kas Bank</p></a>
-            </li>
             <li class="nav-item">
               <a href="{site_url}laporan_buku_pembantu_kas_kecil" class="nav-link <?php echo menu_is_active('laporan_buku_pembantu_kas_kecil') ?>">
               <i class="far fa-circle nav-icon"></i><p>Laporan Buku Pembantu Kas Kecil</p></a>

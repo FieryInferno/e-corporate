@@ -7,7 +7,6 @@
 </head>
 <body>
     <div class="text-center">
-        <h3 class="m-1 font-weight-bold">BUKU KAS BANK</h3>
         <h3 class="m-1 font-weight-bold">
             <?php 
                 $data   = $this->db->get_where('mperusahaan', [
@@ -16,10 +15,11 @@
                 echo $data['nama_perusahaan'];
             ?>
         </h3>
-        <h3 class="m-1">Tanggal : <?= $tanggal; ?></h3>
+        <h3 class="m-1 font-weight-bold">Buku Bank</h3>
+        <h3 class="m-1">From <?= $tanggalAwal; ?> to <?= $tanggalAkhir; ?></h3>
     </div>
     <br>
-    <h5 class="m-1 font-weight-bold"> Nama Rekening Bank :
+    <h5 class="m-1 font-weight-bold"> Nama Bank :
         <?php
             $data   = $this->db->get_where('mrekening', [
                 'id'    => $rekening
@@ -27,19 +27,17 @@
             echo $data['nama'] . ' - ' . $data['norek'];
         ?>
     </h5>
-    <h5 class="m-1">
-        Tahun Anggaran  : 2020<br>
-        Halaman         : 1
-    </h5>
     <div class="clearfix"></div>
     <div class="table-responsive">
         <table class="table table-xs" border="1">
             <thead>
                 <tr class="table-active">
-                    <th class="text-center">No Kas</th>
-                    <th class="text-center">Uraian</th>
-                    <th class="text-center">Penerimaan</th>
-                    <th class="text-center">Pengeluaran</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Source No.</th>
+                    <th class="text-center">Description</th>
+                    <th class="text-center">Increase</th>
+                    <th class="text-center">Decrease</th>
+                    <th class="text-center">Balance</th>
                 </tr>
             </thead>
             <tbody>
@@ -57,26 +55,28 @@
                             return $hasil;
                         }
                         ?>
-                        <tr>
+                        <!-- <tr>
                             <td></td>
                             <td class="text-center"><strong>Jumlah Sampai dengan Tanggal <?= $tanggal; ?></strong></td>
                             <td></td>
                             <td></td>
-                        </tr>
+                        </tr> -->
                         <?php foreach ($laporan as $key) {
                             foreach ($key as $value) { ?>
                                 <tr>
+                                    <td class="text-center"><?= $value['tanggal']; ?></td>
                                     <td class="text-center"><?= $value['no']; ?></td>
                                     <td class="text-center"><?= $value['keterangan']; ?></td>
                                     <td class="text-center"><?= number_format($value['debet'],2,',','.'); ?></td>
                                     <td class="text-center"><?= number_format($value['kredit'],2,',','.'); ?></td>
+                                    <td class="text-center"><?= number_format(($value['debet'] - $value['kredit']),2,',','.'); ?></td>
                                 </tr>
                             <?php 
-                                $jumlahDebet    += $value['debet'];
-                                $jumlahKredit   += $value['kredit'];
+                                // $jumlahDebet    += $value['debet'];
+                                // $jumlahKredit   += $value['kredit'];
                             }
                         } ?>
-                        <tr>
+                        <!-- <tr>
                             <td class="text-center" colspan="2"><strong>Jumlah Tanggal <?= $tanggal; ?></strong></td>
                             <td class="text-center"><strong><?= number_format($jumlahDebet,2,',','.'); ?></strong></td>
                             <td class="text-center"><strong><?= number_format($jumlahKredit,2,',','.'); ?></strong></td>
@@ -98,7 +98,7 @@
                         </tr>
                         <tr>
                             <td colspan="4"><strong>Sisa dengan huruf : <?= strtoupper(terbilang((($jumlahDebetAwal + $jumlahDebet) - ($jumlahKreditAwal + $jumlahKredit)))) . ' RUPIAH'; ?></strong></td>
-                        </tr>
+                        </tr> -->
                     <?php }
                 ?>
             </tbody>
