@@ -432,6 +432,66 @@
             <li class="nav-item">
               <a href="{site_url}laporan_neraca_standar" class="nav-link <?php echo menu_is_active('laporan_neraca_standar') ?>">
               <i class="far fa-circle nav-icon"></i><p>Laporan Neraca (Standard)</p></a>
+            </li>  
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Aging Payable Details</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Aging Receivable Details</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Audit Trails Detail</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Cash Flow by Account</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Fixed Asset List - by Fixed Asset Type</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>General Ledger Detail</p></a>
+            </li>        
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Outstanding Invoice</p></a>
+            </li>         
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Outstanding Payable</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Profit & Loss by Department</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Profit & Loss (Compare Period)</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Profit & Loss (Multi Period)</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Profit & Loss (Standard)</p></a>
+            </li>         
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Purchase Payment Detail</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Sales Receipts Detail</p></a>
+            </li>      
+            <li class="nav-item">
+              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <i class="far fa-circle nav-icon"></i><p>Trial Balance</p></a>
             </li>      
           </ul>
         </li>	
