@@ -148,4 +148,15 @@ class LaporanModel extends CI_Model {
         }
         return $laporan;
     }
+
+    public function getProject()
+    {
+        $this->db->select('project.noEvent, project.deskripsi, project.region, mcabang.nama as cabang, project.totalPendapatan, project.totalHPP, project.kodeEvent, project.kelompokUmur, project.tanggalMulai, project.tanggalSelesai');
+        $this->db->join('mcabang', 'project.cabang = mcabang.id');
+        $this->db->where('tanggalMulai >= ', $this->tanggalAwal);
+        $this->db->where('tanggalselesai <= ', $this->tanggalAkhir);
+        return $this->db->get_where('project',[
+            'project.perusahaan'    => $this->perusahaan
+        ])->result_array();
+    }
 }

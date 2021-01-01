@@ -19,3 +19,4 @@ $route['saldo_awal_persediaan']             = 'SaldoAwalPersediaan';
 $route['saldo_awal_persediaan/create']      = 'SaldoAwalPersediaan/create';
 $route['outstanding_invoice']               = 'Laporan/outstandingInvoice';
 $route['outstanding_payable']               = 'Laporan/outstandingPayable';
+$route['project_list']                      = 'Laporan/projectList';

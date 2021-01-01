@@ -131,6 +131,44 @@ class Laporan extends User_Controller {
 		$this->parser->parse('template',$data);
 	}
 
+	public function projectList()
+	{
+		if ($this->perusahaan) {
+			$this->LaporanModel->set('perusahaan', $this->perusahaan);
+			$this->LaporanModel->set('tanggal', $this->tanggal);
+			$this->LaporanModel->set('tanggalAwal', $this->tanggalAwal);
+			$this->LaporanModel->set('tanggalAkhir', $this->tanggalAkhir);
+			$data['laporan']		= $this->LaporanModel->getProject();
+			$data['tanggalAwal']	= $this->tgl_indo($this->tanggalAwal);
+			$data['tanggalAkhir']	= $this->tgl_indo($this->tanggalAkhir);
+			$data['perusahaan']		= $this->perusahaan;
+			switch ($this->input->get('jenis')) {
+				case 'pdf':
+					$this->load->library('pdf');
+					$pdf			= $this->pdf;
+					$data['title']	= 'Project List';
+					$data['css']	= file_get_contents(FCPATH.'assets/css/print.min.css');
+					$data			= array_merge($data,path_info());
+					$html 			= $this->load->view('laporan/projectList/print', $data, TRUE);
+					$pdf->loadHtml($html);
+					$pdf->setPaper('A4', 'portrait');
+					$pdf->render();
+					$time = time();
+					$pdf->stream("Project List Report". $time, array("Attachment" => false));
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+		}
+		$data['title']		= 'Project List';
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'laporan/projectList/index';
+		$data				= array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+
 	public function tgl_indo($tanggal){
 		$bulan = array (
 			1 =>   'Januari',
