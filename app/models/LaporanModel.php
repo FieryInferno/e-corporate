@@ -124,4 +124,28 @@ class LaporanModel extends CI_Model {
             'tfakturpenjualan.idperusahaan' => $this->perusahaan
         ])->result_array();
     }
+
+    public function getOutstandingPayable()
+    {
+        $laporan    = [];
+        $this->db->select('tfaktur.noFaktur, tfaktur.tanggal, tfaktur.tanggaltempo, tfaktur.total, tfaktur.sisatagihan, mperusahaan.nama_perusahaan');
+        $this->db->join('mperusahaan', 'tfaktur.perusahaanid = mperusahaan.idperusahaan');
+        $fakturBeli = $this->db->get_where('tfaktur', [
+            'tfaktur.perusahaanid'    => $this->perusahaan,
+            'tfaktur.tanggal'       => $this->tanggal
+        ])->result_array();
+        if ($fakturBeli) {
+            array_push($laporan, $fakturBeli);
+        }
+        $this->db->select('SaldoAwalHutang.noInvoice as noFaktur, SaldoAwalHutang.tanggal, SaldoAwalHutang.tanggalTempo as tanggaltempo, SaldoAwalHutang.jumlah as total, SaldoAwalHutang.primeOwing as sisatagihan, mperusahaan.nama_perusahaan');
+        $this->db->join('mperusahaan', 'SaldoAwalHutang.perusahaan = mperusahaan.idperusahaan');
+        $hutang = $this->db->get_where('SaldoAwalHutang',[
+            'SaldoAwalHutang.perusahaan'    => $this->perusahaan,
+            'SaldoAwalHutang.tanggal'       => $this->tanggal
+        ])->result_array();
+        if ($hutang) {
+            array_push($laporan, $hutang);
+        }
+        return $laporan;
+    }
 }
