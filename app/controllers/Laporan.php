@@ -57,7 +57,43 @@ class Laporan extends User_Controller {
 		$data['title']		= 'Laporan Kas Bank';
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'laporan/kasBank/index';
-		$data = array_merge($data,path_info());
+		$data				= array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+
+	public function outstandingInvoice()
+	{
+		if ($this->perusahaan) {
+			$this->LaporanModel->set('perusahaan', $this->perusahaan);
+			$this->LaporanModel->set('tanggal', $this->tanggal);
+			$data['laporan']	= $this->LaporanModel->getOutstandingInvoice();
+			$data['tanggal']	= $this->tgl_indo($this->tanggal);
+			$data['perusahaan']	= $this->perusahaan;
+			$data['rekening']	= $this->rekening;
+			switch ($this->input->get('jenis')) {
+				case 'pdf':
+					$this->load->library('pdf');
+					$pdf			= $this->pdf;
+					$data['title']	= 'Outstanding Invoice Report';
+					$data['css']	= file_get_contents(FCPATH.'assets/css/print.min.css');
+					$data			= array_merge($data,path_info());
+					$html 			= $this->load->view('laporan/outstandingInvoice/print', $data, TRUE);
+					$pdf->loadHtml($html);
+					$pdf->setPaper('A4', 'portrait');
+					$pdf->render();
+					$time = time();
+					$pdf->stream("Outstanding Invoice Report". $time, array("Attachment" => false));
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+		}
+		$data['title']		= 'Outstanding Invoice Report';
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'laporan/outstandingInvoice/index';
+		$data				= array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 

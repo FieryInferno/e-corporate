@@ -320,7 +320,7 @@
               <i class="nav-icon fas fa-tachometer-alt"></i><p><?php echo lang('Stock_Opname') ?></p></a>
           </li>
 
-        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank', 'laporan_buku_pembantu_kas_kecil'); ?>
+        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank', 'laporan_buku_pembantu_kas_kecil', 'outstanding_invoice'); ?>
         <li class="nav-item has-treeview  <?php echo menu_is_open($menuLaporan) ?>">
           <a href="#" class="nav-link
           <?php
@@ -349,7 +349,7 @@
                   <i class="far fa-circle nav-icon"></i><p>laporan Kas Bank</p></a>
                 </li>
                 <li class="nav-item">
-                  <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+                  <a href="{site_url}outstanding_invoice" class="nav-link <?php echo menu_is_active('outstanding_invoice') ?>">
                   <i class="far fa-circle nav-icon"></i><p>Outstanding Invoice Report</p></a>
                 </li>
                 <li class="nav-item">

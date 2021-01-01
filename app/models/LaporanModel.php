@@ -114,4 +114,14 @@ class LaporanModel extends CI_Model {
 
         return $laporan;
     }
+
+    public function getOutstandingInvoice()
+    {
+        $this->db->select('tfakturpenjualan.nomorsuratjalan, tfakturpenjualan.tanggal, tfakturpenjualan.tanggaltempo, tfakturpenjualan.total, tfakturpenjualan.sisatagihan, mperusahaan.nama_perusahaan');
+        $this->db->join('mperusahaan', 'tfakturpenjualan.idperusahaan = mperusahaan.idperusahaan');
+        $this->db->where('tanggal = ', $this->tanggal);
+        return $this->db->get_where('tfakturpenjualan', [
+            'tfakturpenjualan.idperusahaan' => $this->perusahaan
+        ])->result_array();
+    }
 }
