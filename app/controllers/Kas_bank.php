@@ -202,7 +202,7 @@ class Kas_bank extends User_Controller
 
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, tfakturpenjualan.carabayar as cara_pembayaran , mperusahaan.kode, mdepartemen.nama as namaDepartemen, rekanan.nama as rekanan, mrekening.id as idRekening, mnoakun.idakun, mnoakun.akunno, mnoakun.namaakun, tSetupJurnal.kodeJurnal');
+        // $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, tfakturpenjualan.cara_pembayaran , mperusahaan.kode, mdepartemen.nama as namaDepartemen, rekanan.nama as rekanan, mrekening.id as idRekening, mnoakun.idakun, mnoakun.akunno, mnoakun.namaakun, tSetupJurnal.kodeJurnal');
         $this->db->join('tpengirimanpenjualan','tfakturpenjualan.pengirimanid=tpengirimanpenjualan.id');
         $this->db->join('tpemesananpenjualan','tpengirimanpenjualan.pemesananid=tpemesananpenjualan.id');
         $this->db->join('tpemesananpenjualanangsuran','tpemesananpenjualan.id=tpemesananpenjualanangsuran.idpemesanan');
@@ -213,7 +213,7 @@ class Kas_bank extends User_Controller
         $this->db->join('mkontak as rekanan','tpemesananpenjualan.kontakid = rekanan.id');
         $this->db->join('mrekening','tfakturpenjualan.rekening=mrekening.id');
         $this->db->join('mnoakun','tpemesananpenjualandetail.akunno = mnoakun.idakun');
-        $this->db->join('tSetupJurnal', 'tfakturpenjualan.setupJurnal = tSetupJurnal.idSetupJurnal');
+        // $this->db->join('tSetupJurnal', 'tfakturpenjualan.setupJurnal = tSetupJurnal.idSetupJurnal');
         $this->db->where('tfakturpenjualan.tanggal <=',$tgl);
         $this->db->where('tpemesananpenjualan.idperusahaan', $idperusahaan);
         if ($edit == null) {
