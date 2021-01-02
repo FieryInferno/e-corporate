@@ -213,7 +213,7 @@ class Kas_bank extends User_Controller
         $this->db->join('mkontak as rekanan','tpemesananpenjualan.kontakid = rekanan.id');
         $this->db->join('mrekening','tfakturpenjualan.rekening=mrekening.id');
         $this->db->join('mnoakun','tpemesananpenjualandetail.akunno = mnoakun.idakun');
-        // $this->db->join('tSetupJurnal', 'tfakturpenjualan.setupJurnal = tSetupJurnal.idSetupJurnal');
+        $this->db->join('tSetupJurnal', 'tfakturpenjualan.setupJurnal = tSetupJurnal.idSetupJurnal');
         $this->db->where('tfakturpenjualan.tanggal <=',$tgl);
         $this->db->where('tpemesananpenjualan.idperusahaan', $idperusahaan);
         if ($edit == null) {
