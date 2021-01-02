@@ -810,8 +810,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        // getPiutang();
-        // getHutang();
+        getPiutang();
+        getHutang();
         getSaldoSumberDana();
         getPindahBuku();
         getSetorPajak();
