@@ -1157,7 +1157,7 @@
                     }
                     for (let i = 0; i < jumlah; i++) {
                         tabelpenjualan.row.add([
-                            `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${response[index].namaakun}" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${response[index].idakun}">`,
+                            `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${response[index].namaakun}" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${response[index].idakun}" cara_pembayaran="${response[index].cara_pembayaran}" setupJurnal="${response[index].kodeJurnal}">`,
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
@@ -1235,14 +1235,14 @@
                     }
                     for (let i = 0; i < jumlah; i++) {
                         tabelpembelian.row.add([
-                            `<input type="checkbox" id="checkbox_BELI${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${element.namaakun}" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaBank}" data-norekening="${element.norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${element.idakun}">`,
+                            `<input type="checkbox" id="checkbox_BELI${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${element.namaakun}" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaBank}" data-norekening="${element.norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${element.idakun}" cara_pembayaran="${element.carabayar}" setupJurnal="${element.kodeJurnal}">`,
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
                             response[index].rekanan,
                             response[index].tanggal,
                             formatRupiah(String(response[index].total)) + ',00',
-                            response[index].cara_pembayaran,
+                            response[index].carabayar,
                         ]).draw();
                     }
                 }
@@ -1525,10 +1525,10 @@
         const kodeperusahaan = $(elem).attr('data-kodeperusahaan');
         const namadepartemen = $(elem).attr('data-namadepartemen');
         const namabank = $(elem).attr('data-namabank');
-        const norekening = $(elem).attr('data-norekening');
+        const norekening    = $(elem).attr('data-norekening');
         const idRekening    = $(elem).attr('idRekening');
         const idAkun        = $(elem).attr('idAkun');
-        const cara_pembayaran        = $(elem).attr('cara_pembayaran');
+        const cara_pembayaran   = $(elem).attr('cara_pembayaran');
         const setupJurnal        = $(elem).attr('setupJurnal');
         for (let index = 0; index < saldoSumberDana.length; index++) {
             const element = saldoSumberDana[index];
@@ -1541,7 +1541,7 @@
         var data          = table_detail_SSD.row(row).data();
         var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
         var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;
-
+        console.log(cara_pembayaran, setupJurnal);
         if ( tipe == 'Penjualan'){
             const stat = $(elem).is(":checked");
             const table = $('#isitabel');     
@@ -1558,7 +1558,7 @@
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
-                     `${cara_pembayaran}`,
+                    `${cara_pembayaran}`,
                     `${setupJurnal}`,
                 ]).draw(false);
                 penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
@@ -1582,8 +1582,8 @@
                     `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
                     `${kodeperusahaan}`,
                     `${namadepartemen}`,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
-                     `${cara_pembayaran}`,
+                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
+                    `${cara_pembayaran}`,
                     `${setupJurnal}`,
                 ]).draw(false);
                 pengeluaran = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
