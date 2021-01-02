@@ -810,8 +810,8 @@
         getListBudgetEvent();
         getListKasKecil();
         getListSetorKasKecil();
-        getPiutang();
-        getHutang();
+        // getPiutang();
+        // getHutang();
         getSaldoSumberDana();
         getPindahBuku();
         getSetorPajak();
@@ -1098,14 +1098,15 @@
     });
 
     function getListPenjualan() {
-        var table = $('#list_penjualan');
+        var table           = $('#list_penjualan');
         var idPerusahaan    = $('#id_perusahaan').val();
-        var tgl = $('input[name=tanggal]').val();
+        var tgl             = $('input[name=tanggal]').val();
         $.ajax({
             type: "get",
             data : {idPerusahaan: idPerusahaan, tgl: tgl },
             url: base_url + 'get_Penjualan',
             success: function(response) {
+                setupJurnal = response;
                 for (let index = 0; index < response.length; index++) {
                     var jumlah          = 0;
                     var nominalBayar    = [];
@@ -1157,7 +1158,7 @@
                     }
                     for (let i = 0; i < jumlah; i++) {
                         tabelpenjualan.row.add([
-                            `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${response[index].namaakun}" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${response[index].idakun}" cara_pembayaran="${response[index].cara_pembayaran}" setupJurnal="${response[index].kodeJurnal}">`,
+                            `<input type="checkbox" id="checkbox_JUAL${response[index].idfaktur}" name="" data-id="${response[index].idfaktur}" data-tipe="Penjualan" data-tgl="${response[index].tanggal}" data-kwitansi="${response[index].notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${response[index].namaakun}" data-noakun="${response[index].akunno}" data-kodeperusahaan="${response[index].kode}" data-namadepartemen="${response[index].namaDepartemen}" data-namabank="${response[index].namaRekening}" data-norekening="${response[index].norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${response[index].idakun}" cara_pembayaran="${response[index].cara_pembayaran}" tabulasi="penjualan">`,
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
@@ -1235,7 +1236,7 @@
                     }
                     for (let i = 0; i < jumlah; i++) {
                         tabelpembelian.row.add([
-                            `<input type="checkbox" id="checkbox_BELI${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${element.namaakun}" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaBank}" data-norekening="${element.norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${element.idakun}" cara_pembayaran="${element.carabayar}" setupJurnal="${element.kodeJurnal}">`,
+                            `<input type="checkbox" id="checkbox_BELI${element.idfaktur}" name="" data-id="${element.idfaktur}" data-tipe="Pembelian" data-tgl="${element.tanggal}" data-kwitansi="${element.notrans}" data-nominal="${nominalBayar[i]}" data-namaakun="${element.namaakun}" data-noakun="${element.akunno}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.namaDepartemen}" data-namabank="${element.namaBank}" data-norekening="${element.norek}" onchange="save_detail(this);" idRekening="${response[index].idRekening}" idAkun="${element.idakun}" cara_pembayaran="${element.carabayar}" tabulasi="pembelian">`,
                             formatRupiah(String(`${nominalBayar[i]}`)) + ',00',
                             keterangan[i],
                             response[index].notrans,
@@ -1367,7 +1368,7 @@
                         ]).draw();
                     } else {
                         tabelkaskecil.row.add([
-                            `<input type="checkbox" id="checkbox_PKK${element.id}" name="" data-id="${element.id}" data-tipe="Pengajuan Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" idRekening="${element.idRekening}" onchange="save_detail(this)" idAkun="${element.idakun}">`,
+                            `<input type="checkbox" id="checkbox_PKK${element.id}" name="" data-id="${element.id}" data-tipe="Pengajuan Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" idRekening="${element.idRekening}" onchange="save_detail(this)" idAkun="${element.idakun}" tabulasi="kasKecil">`,
                             `${element.nokwitansi}`,
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
@@ -1403,7 +1404,7 @@
                         ]).draw();
                     } else {
                         tabelsetorkaskecil.row.add([
-                            `<input type="checkbox" id="checkbox_SKK${element.id}" data-id="${element.id}" data-tipe="Setor Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this);" idAkun="${element.idakun}" idRekening="${element.idRekening}">`,
+                            `<input type="checkbox" id="checkbox_SKK${element.id}" data-id="${element.id}" data-tipe="Setor Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this);" idAkun="${element.idakun}" idRekening="${element.idRekening}" tabulasi="kasKecil">`,
                             `${element.nokwitansi}`,
                             `${element.keterangan}`,
                             `${element.nama_departemen}`,
@@ -1515,21 +1516,34 @@
 
     //save items
     function save_detail(elem) {
-        const tipe = $(elem).attr('data-tipe');
-        const id = $(elem).attr('data-id');
-        const tgl = $(elem).attr('data-tgl');
-        const nokwitansi = $(elem).attr('data-kwitansi');
-        const nominal = $(elem).attr('data-nominal');
-        const namaakun = $(elem).attr('data-namaakun');
-        const noakun = $(elem).attr('data-noakun');
-        const kodeperusahaan = $(elem).attr('data-kodeperusahaan');
-        const namadepartemen = $(elem).attr('data-namadepartemen');
-        const namabank = $(elem).attr('data-namabank');
-        const norekening    = $(elem).attr('data-norekening');
-        const idRekening    = $(elem).attr('idRekening');
-        const idAkun        = $(elem).attr('idAkun');
+        const tipe              = $(elem).attr('data-tipe');
+        const id                = $(elem).attr('data-id');
+        const tgl               = $(elem).attr('data-tgl');
+        const nokwitansi        = $(elem).attr('data-kwitansi');
+        const nominal           = $(elem).attr('data-nominal');
+        const namaakun          = $(elem).attr('data-namaakun');
+        const noakun            = $(elem).attr('data-noakun');
+        const kodeperusahaan    = $(elem).attr('data-kodeperusahaan');
+        const namadepartemen    = $(elem).attr('data-namadepartemen');
+        const namabank          = $(elem).attr('data-namabank');
+        const norekening        = $(elem).attr('data-norekening');
+        const idRekening        = $(elem).attr('idRekening');
+        const idAkun            = $(elem).attr('idAkun');
         const cara_pembayaran   = $(elem).attr('cara_pembayaran');
-        const setupJurnal        = $(elem).attr('setupJurnal');
+        const tabulasi          = $(elem).attr('tabulasi');
+        var setupJurnal;
+        $.ajax({
+            url     : '{site_url}kas_bank/getSetupJurnal',
+            data    : {
+                tabulasi        : tabulasi,
+                cara_pembayaran : cara_pembayaran
+            },
+            method  : 'get',
+            success : function (hasil) {
+                setupJurnal = hasil;
+            },
+            async   : false
+        })
         for (let index = 0; index < saldoSumberDana.length; index++) {
             const element = saldoSumberDana[index];
             if (idRekening == element.id) {
@@ -1541,7 +1555,6 @@
         var data          = table_detail_SSD.row(row).data();
         var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
         var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;
-        console.log(cara_pembayaran, setupJurnal);
         if ( tipe == 'Penjualan'){
             const stat = $(elem).is(":checked");
             const table = $('#isitabel');     

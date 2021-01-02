@@ -7,15 +7,19 @@ class Kas_bank extends User_Controller
     private $perusahaan;
     private $tanggal;
     private $idRekening;
+    private $tabulasi;
+    private $caraPembayaran;
 
     public function __construct()
     {
         parent::__construct();
         $this->load->model('Kas_bank_model', 'model');
         $this->set('idKasBank', $this->input->post('idKasBank'));
-        $this->perusahaan   = $this->input->get('perusahaan');
-        $this->tanggal      = $this->input->get('tanggal');
-        $this->idRekening   = $this->input->post('idRekening');
+        $this->perusahaan       = $this->input->get('perusahaan');
+        $this->tanggal          = $this->input->get('tanggal');
+        $this->idRekening       = $this->input->post('idRekening');
+        $this->tabulasi         = $this->input->get('tabulasi'  );
+        $this->caraPembayaran  = $this->input->get('cara_pembayaran');
     }
 
     public function index()
@@ -202,7 +206,7 @@ class Kas_bank extends User_Controller
 
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, tfakturpenjualan.cara_pembayaran , mperusahaan.kode, mdepartemen.nama as namaDepartemen, rekanan.nama as rekanan, mrekening.id as idRekening, mnoakun.idakun, mnoakun.akunno, mnoakun.namaakun, tSetupJurnal.kodeJurnal');
+        $this->db->select('tpemesananpenjualanangsuran.*, tfakturpenjualan.notrans, mkontak.nama, tfakturpenjualan.tanggal, tfakturpenjualan.total, mrekening.norek, mrekening.nama as namaRekening, tfakturpenjualan.id as idfaktur, tfakturpenjualan.cara_pembayaran , mperusahaan.kode, mdepartemen.nama as namaDepartemen, rekanan.nama as rekanan, mrekening.id as idRekening, mnoakun.idakun, mnoakun.akunno, mnoakun.namaakun');
         $this->db->join('tpengirimanpenjualan','tfakturpenjualan.pengirimanid=tpengirimanpenjualan.id');
         $this->db->join('tpemesananpenjualan','tpengirimanpenjualan.pemesananid=tpemesananpenjualan.id');
         $this->db->join('tpemesananpenjualanangsuran','tpemesananpenjualan.id=tpemesananpenjualanangsuran.idpemesanan');
@@ -213,7 +217,6 @@ class Kas_bank extends User_Controller
         $this->db->join('mkontak as rekanan','tpemesananpenjualan.kontakid = rekanan.id');
         $this->db->join('mrekening','tfakturpenjualan.rekening=mrekening.id');
         $this->db->join('mnoakun','tpemesananpenjualandetail.akunno = mnoakun.idakun');
-        $this->db->join('tSetupJurnal', 'tfakturpenjualan.setupJurnal = tSetupJurnal.idSetupJurnal');
         $this->db->where('tfakturpenjualan.tanggal <=',$tgl);
         $this->db->where('tpemesananpenjualan.idperusahaan', $idperusahaan);
         if ($edit == null) {
@@ -227,7 +230,7 @@ class Kas_bank extends User_Controller
     {
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tpemesananangsuran.*, tfaktur.notrans, tfaktur.tanggal, tfaktur.total, tfaktur.id as idfaktur, mnoakun.akunno, mnoakun.namaakun, mnoakun.idakun, mperusahaan.kode, tpemesanan.departemen as namaDepartemen, mrekening.nama as namaBank, mrekening.norek, mkontak.nama as rekanan, mrekening.id as idRekening, tfaktur.carabayar, tSetupJurnal.kodeJurnal');
+        $this->db->select('tpemesananangsuran.*, tfaktur.notrans, tfaktur.tanggal, tfaktur.total, tfaktur.id as idfaktur, mnoakun.akunno, mnoakun.namaakun, mnoakun.idakun, mperusahaan.kode, tpemesanan.departemen as namaDepartemen, mrekening.nama as namaBank, mrekening.norek, mkontak.nama as rekanan, mrekening.id as idRekening, tfaktur.carabayar');
         $this->db->join('tfakturdetail', 'tfaktur.id = tfakturdetail.idfaktur');
         $this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
         $this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
@@ -237,7 +240,6 @@ class Kas_bank extends User_Controller
         $this->db->join('mperusahaan','tpemesanan.idperusahaan = mperusahaan.idperusahaan');
         $this->db->join('mrekening','tfaktur.bank = mrekening.id');
         $this->db->join('mkontak', 'tpemesanan.kontakid = mkontak.id');
-        $this->db->join('tSetupJurnal', 'tfaktur.setupJurnal = tSetupJurnal.idSetupJurnal');
         $this->db->where('tfaktur.tanggal <=',$tgl);
         $this->db->where('tpemesanan.idperusahaan', $idperusahaan);
         $data = $this->db->get('tfaktur')->result_array();   
@@ -331,6 +333,14 @@ class Kas_bank extends User_Controller
     {
         $this->model->set('idKasBank', $this->idKasBank);
         $data   = $this->model->getDetailKasBank();
+        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    }
+
+    public function getSetupJurnal()
+    {
+        $this->SetUpJurnal_Model->set('tabulasi', $this->tabulasi);
+        $this->SetUpJurnal_Model->set('caraPembayaran', $this->caraPembayaran);
+        $data   = $this->SetUpJurnal_Model->setupJurnalKasBank();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 }
