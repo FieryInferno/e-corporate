@@ -65,14 +65,23 @@
 								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
 									<thead>
 										<tr class="table-active">
-											<th><?php echo lang('Perusahaan') ?></th>
-											<th><?php echo lang('Jenis Akun') ?></th>
-											<th><?php echo lang('No Register') ?></th>
-											<th><?php echo lang('Kode Barang') ?></th>
-											<th><?php echo lang('Nama Barang') ?></th>
-											<th><?php echo lang('Tahun Perolehan') ?></th>
-											<th><?php echo lang('Nominal Assets') ?></th>
-											<th class="text-center"><?php echo lang('action') ?></th>
+											<th>Perusahaan</th>
+											<th>Jenis Akun</th>
+											<th>Kode Barang</th>
+											<th>Nama Inventaris</th>
+											<th>No. Register</th>
+											<th>Tahun Perolehan</th>
+											<th>Tahun Penyusutan</th>
+											<th>Nominal Aset</th>
+											<th>Masa Manfaat</th>
+											<th>Non ROR Kini</th>
+											<th>Non ROR s/d Kini</th>
+											<th>Nominal Pemeliharaan</th>
+											<th>Tambahan Masa Manfaat</th>
+											<th>ROR Kini</th>
+											<th>ROR s/d Kini</th>
+											<th>Akumulasi Penyusutan</th>
+											<th>Nilai Buku</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -83,11 +92,20 @@
 												<tr>
 													<td><?= $key['nama_perusahaan']; ?></td>
 													<td><?= $key['namaakun']; ?></td>
-													<td><?= $key['noRegister']; ?></td>
 													<td><?= $key['kodeInventaris']; ?></td>
 													<td><?= $key['namaInventaris']; ?></td>
+													<td><?= $key['noRegister']; ?></td>
 													<td><?= $key['tanggalPembelian']; ?></td>
+													<td></td>
 													<td><?= number_format($key['harga'], 2, ',', '.'); ?></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
+													<td></td>
 													<td></td>
 												</tr>
 											<?php }
@@ -95,9 +113,17 @@
 									</tbody>
 									<tfoot>
 										<tr class="table-active">
-											<th colspan="6" class="text-right">Total</th>
+											<th colspan="7" class="text-right">Total</th>
 											<th><?= number_format($total, 2, ',', '.'); ?></th>
 											<th></th>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
+											<td></td>
 										</tr>
 									</tfoot>
 								</table>
