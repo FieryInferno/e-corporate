@@ -58,7 +58,7 @@ class Faktur_pembelian_model extends CI_Model {
 			'bank'			    => $this->input->post('rekening'),
 			'ppn'				=> $pajak,
 			'biayaPengiriman'	=> $biayapengiriman,
-			'carabayar'			=> $this->input->post('cara_pembayaran'),
+			'cara_pembayaran'	=> $this->input->post('cara_pembayaran'),
 			'setupJurnal'		=> $this->input->post('setupJurnal'),
 			'tanggaltempo'		=> $this->input->post('tanggalTempo'),
 			'noFaktur'			=> $this->input->post('noFaktur')
