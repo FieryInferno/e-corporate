@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
- 
-
 class Pengiriman_penjualan extends User_Controller {
 
 	public function __construct() {
@@ -197,31 +186,33 @@ class Pengiriman_penjualan extends User_Controller {
 	public function validasi()
 	{
 		$idpengiriman = $this->input->post('id');
-
-		$query= $this->db->query("SELECT * FROM tpengirimanpenjualan WHERE id='$idpengiriman'");
-        if ($query->num_rows() > 0){
-        	foreach ($query->result() as $kirim) {
-        		
-        		$query_detail= $this->db->query("SELECT * FROM tpengirimanpenjualandetail WHERE idpengiriman='$kirim->id'");
-		        if ($query_detail->num_rows() > 0){
-		        	foreach ($query_detail->result() as $krm_detail) {
-
-
-			        	$date_now = date('Y-m-d');
-
-			        	if ($kirim->statusauto == 0){
-			        		if ($kirim->tipe == 2){
-			        			if ($krm_detail->tipe == 'barang'){
-			        				$this->db->query(" INSERT INTO tstokkeluar (gudangid, tanggalkeluar, itemid, harga, jumlah, refid) VALUES ('$kirim->gudangid','$date_now', '$krm_detail->itemid','$krm_detail->harga','$krm_detail->jumlah','$idpengiriman')");
-
-			        			}
-			        		}
-			        	}
-		        	}
-		        }
-        	}
-
-        	$this->db->set('validasi','1');
+		$kirim	= $this->db->get_where('tpengirimanpenjualan', [
+			'id'	=> $idpengiriman
+		])->row();
+		if ($kirim){
+			$query_detail	= $this->db->get_where('tpengirimanpenjualandetail', [
+				'idpengiriman'	=> $kirim->id
+			]);
+			if ($query_detail->num_rows() > 0){
+				foreach ($query_detail->result() as $krm_detail) {
+					$date_now	= date('Y-m-d');
+					if ($kirim->statusauto == 0){
+						if ($kirim->tipe == 2){
+							if ($krm_detail->tipe == 'barang'){
+								$this->db->insert('tstokkeluar', [
+									'gudangid'		=> $kirim->gudangid,
+									'tanggalkeluar'	=> $date_now,
+									'itemid'		=> $krm_detail->itemid,
+									'harga'			=> $krm_detail->harga,
+									'jumlah'		=> $krm_detail->jumlah,
+									'refid'			=> $idpengiriman
+								]);
+							}
+						}
+					}
+				}
+			}
+			$this->db->set('validasi','1');
 			$this->db->where('id', $idpengiriman);
 			$update = $this->db->update('tpengirimanpenjualan');
 			if($update) {
@@ -231,7 +222,7 @@ class Pengiriman_penjualan extends User_Controller {
 				$data['status'] = 'error';
 				$data['message'] = "Data gagal divalidasi";
 			}
-	    }
+		}
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 

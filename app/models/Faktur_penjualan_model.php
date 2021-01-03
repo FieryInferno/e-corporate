@@ -253,7 +253,7 @@ class Faktur_penjualan_model extends CI_Model {
 		$this->db->join('mnoakun', 'tpengirimanpenjualandetail.itemid = mnoakun.idakun', 'left');
 		$this->db->join('tpemesananpenjualandetail', 'tpengirimanpenjualandetail.idpenjualdetail = tpemesananpenjualandetail.id', 'left');
 		$this->db->join('tpemesananpenjualan', 'tpemesananpenjualandetail.idpemesanan = tpemesananpenjualan.id', 'left');
-		$this->db->join('tpengirimanpenjualan', 'tpemesananpenjualandetail.idpengiriman = tpengirimanpenjualan.id', 'left');
+		$this->db->join('tpengirimanpenjualan', 'tpemesananpenjualandetail.idpemesanan = tpengirimanpenjualan.pemesananid', 'left');
 		$this->db->where('tpengirimanpenjualandetail.idpengiriman', $pengirimanid);
 		$data	= $this->db->get('tpengirimanpenjualandetail')->result();
 		for ($i=0; $i < count($data); $i++) { 

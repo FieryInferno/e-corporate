@@ -142,7 +142,7 @@
                     }
                     return aksi;
 				}
-        	}
+			}
         ]
 	});
 
@@ -163,6 +163,7 @@
             },
         })
     }
+	
     function ValidasiBatal(id) {
         $.ajax({
             url: base_url + 'validasibatal',
