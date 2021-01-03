@@ -3,9 +3,12 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Perusahaan extends User_Controller{
 
+	private $idPerusahaan;
+
     public function __construct() {
 		parent::__construct();
 		$this->load->model('Perusahaan_model','model');
+		$this->idPerusahaan	= $this->input->get('idPerusahaan');
     }	
     
     public function index() {
@@ -81,6 +84,13 @@ class Perusahaan extends User_Controller{
 		} else {
 			$data = $this->db->get('mperusahaan')->result_array();
 		}
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
+
+	public function getPerusahaan()
+	{
+		$this->model->set('idPerusahaan', $this->idPerusahaan);
+		$data	= $this->model->get();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 }

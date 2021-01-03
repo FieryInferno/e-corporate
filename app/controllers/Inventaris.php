@@ -53,5 +53,21 @@ class Inventaris extends User_Controller {
 		$this->model->delete();
 	}
 
+	public function pemeliharaanAset()
+	{
+		$data['title']		= 'Pemeliharaan Aset';
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'Inventaris/pemeliharaanAset/index';
+		$data				= array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
 
+	public function tambahPemeliharaanAset()
+	{
+		$data['title']		= 'Pemeliharaan Aset';
+		$data['subtitle']	= 'Tambah';
+		$data['content']	= 'Inventaris/pemeliharaanAset/tambah';
+		$data				= array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
 }

@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Perusahaan_model extends CI_Model {
 
+	private $idPerusahaan;
+
 	public function save() {
 		$id = $this->uri->segment(3);
 		if($id) {
@@ -57,6 +59,18 @@ class Perusahaan_model extends CI_Model {
 
 	public function get_by_id($id){
 		return $this->db->get_where('mperusahaan', ['idperusahaan' => $id])->row_array();
+	}
+
+	public function set($jenis, $isi)
+	{
+		$this->$jenis	= $isi;
+	}
+
+	public function get()
+	{
+		return $this->db->get_where('mperusahaan', [
+			'idperusahaan'	=> $this->idPerusahaan
+		])->row_array();
 	}
 }
 

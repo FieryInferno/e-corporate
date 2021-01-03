@@ -119,10 +119,6 @@
 			id	: '#perusahaan',	
 			url	: '<?= base_url(); ?>perusahaan/select2',
 		});	
-		ajax_select({
-			id	: '#jenisAkun',	
-			url	: '<?= base_url(); ?>Noakun/selectInventaris',
-		});	
 	});
 
 	function deleteData(id) {

@@ -129,32 +129,33 @@
               <p>Sistem Penomoran</p>
             </a>
           </li>
-          <li class="nav-header">TRANSAKSI</li>  
-      <?php $menu = array('anggaran_pendapatan', 'anggaran_belanja', 'validasi_anggaran_pendapatan', 'validasi_anggaran_belanja') ?>
-			<li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
-            <a href="#" class="nav-link
-              <?php
-                if ($this->uri->segment(1) == 'anggaran_pendapatan' || $this->uri->segment(1) == 'anggaran_belanja') {
-                  echo 'active';
-                }
-              ?>"><i class="nav-icon fas fa-comments-dollar"></i>
-              <p><?php echo lang('Anggaran') ?><i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('anggaran') ?>">
-              <li class="nav-item">
-              <a href="{site_url}anggaran_pendapatan" class="nav-link <?php echo menu_is_active('anggaran_pendapatan') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('anggaran_pendapatan') ?></p></a>
-              </li>
-              <li class="nav-item">
-              <a href="{site_url}anggaran_belanja" class="nav-link <?php echo menu_is_active('anggaran_belanja') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('anggaran_belanja') ?></p></a>
-              </li>
-              <li class="nav-item">
-              <a href="{site_url}validasi_anggaran_pendapatan" class="nav-link <?php echo menu_is_active('validasi_anggaran_pendapatan') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('validasi_anggaran_pendapatan') ?></p></a>
-              </li>            
-              <li class="nav-item">
-              <a href="{site_url}validasi_anggaran_belanja" class="nav-link <?php echo menu_is_active('validasi_anggaran_belanja') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('validasi_anggaran_belanja') ?></p></a>
-              </li>    
-            </ul>
-          </li>	
+      <li class="nav-header">TRANSAKSI</li>  
+      <?php $menuAnggaran = ['anggaran_pendapatan', 'anggaran_belanja', 'validasi_anggaran_pendapatan', 'validasi_anggaran_belanja']; ?>
+			<li class="nav-item has-treeview  <?php echo menu_is_open($menuAnggaran) ?>">
+        <a href="#" class="nav-link
+          <?php
+            if (in_array($this->uri->segment(1), $menuAnggaran)) {
+              echo 'active';
+            }
+          ?>">
+          <i class="nav-icon fas fa-comments-dollar"></i>
+          <p><?php echo lang('Anggaran') ?><i class="fas fa-angle-left right"></i></p>
+        </a>
+        <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('anggaran') ?>">
+          <li class="nav-item">
+          <a href="{site_url}anggaran_pendapatan" class="nav-link <?php echo menu_is_active('anggaran_pendapatan') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('anggaran_pendapatan') ?></p></a>
+          </li>
+          <li class="nav-item">
+          <a href="{site_url}anggaran_belanja" class="nav-link <?php echo menu_is_active('anggaran_belanja') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('anggaran_belanja') ?></p></a>
+          </li>
+          <li class="nav-item">
+          <a href="{site_url}validasi_anggaran_pendapatan" class="nav-link <?php echo menu_is_active('validasi_anggaran_pendapatan') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('validasi_anggaran_pendapatan') ?></p></a>
+          </li>            
+          <li class="nav-item">
+          <a href="{site_url}validasi_anggaran_belanja" class="nav-link <?php echo menu_is_active('validasi_anggaran_belanja') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('validasi_anggaran_belanja') ?></p></a>
+          </li>    
+        </ul>
+      </li>	
 
           <?php $menuPembelian = array('requiremen', 'pemesanan_pembelian', 'pengiriman_pembelian', 'faktur_pembelian', 'pembayaran_pembelian', 'retur_pembelian')?>
           <li class="nav-item has-treeview  <?php echo menu_is_open($menuPembelian) ?>">
@@ -275,42 +276,42 @@
               <p>Persediaan</p>
             </a>
           </li>
-          <?php 
-            $menuInventaris = [
-              'daftarInventaris',
-              'pemeliharaanAset',
-              'mutasiAset',
-              'penghapusanAset',
-              'penyusutan'
-            ];
-          ?>
-          <li class="nav-item has-treeview">
-            <a href="#" class="nav-link"><i class="nav-icon fas fa-dolly"></i>
-              <p>Inventaris<i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview" data-submenu-title="inventaris">                        
-              <li class="nav-item">
-                <a href="{site_url}inventaris" class="nav-link <?php echo menu_is_active('daftarInventaris') ?>">
-                <i class="far fa-circle nav-icon"></i><p>Daftar Inventaris</p></a>
-              </li>          
-              <li class="nav-item">
-                <a href="#" class="nav-link <?php echo menu_is_active('pemeliharaanAset') ?>">
-                <i class="far fa-circle nav-icon"></i><p>Pemeliharaan Aset</p></a>
-              </li>          
-              <li class="nav-item">
-                <a href="#" class="nav-link <?php echo menu_is_active('mutasiAset') ?>">
-                <i class="far fa-circle nav-icon"></i><p>Mutasi Aset</p></a>
-              </li>          
-              <li class="nav-item">
-                <a href="#" class="nav-link <?php echo menu_is_active('penghapusanAset') ?>">
-                <i class="far fa-circle nav-icon"></i><p>Penghapusan Aset</p></a>
-              </li>          
-              <li class="nav-item">
-                <a href="#" class="nav-link <?php echo menu_is_active('penyusutan') ?>">
-                <i class="far fa-circle nav-icon"></i><p>Penyusutan</p></a>
-              </li>          
-            </ul>
-          </li>
+
+      <?php $menuInventaris = ['inventaris', 'pemeliharaan_aset', 'mutasiAset', 'penghapusanAset', 'penyusutan']; ?>
+      <li class="nav-item has-treeview <?php echo menu_is_open($menuInventaris) ?>">
+        <a href="#" class="nav-link
+          <?php
+            if (in_array($this->uri->segment(1), $menuInventaris)) {
+              echo 'active';
+            }
+          ?>">
+          <i class="nav-icon fas fa-dolly"></i>
+          <p>Inventaris<i class="fas fa-angle-left right"></i></p>
+        </a>
+        <ul class="nav nav-treeview" data-submenu-title="inventaris">                        
+          <li class="nav-item">
+            <a href="{site_url}inventaris" class="nav-link <?php echo menu_is_active('inventaris') ?>">
+            <i class="far fa-circle nav-icon"></i><p>Daftar Inventaris</p></a>
+          </li>          
+          <li class="nav-item">
+            <a href="{site_url}pemeliharaan_aset" class="nav-link <?php echo menu_is_active('pemeliharaan_aset') ?>">
+            <i class="far fa-circle nav-icon"></i><p>Pemeliharaan Aset</p></a>
+          </li>          
+          <li class="nav-item">
+            <a href="#" class="nav-link <?php echo menu_is_active('mutasiAset') ?>">
+            <i class="far fa-circle nav-icon"></i><p>Mutasi Aset</p></a>
+          </li>          
+          <li class="nav-item">
+            <a href="#" class="nav-link <?php echo menu_is_active('penghapusanAset') ?>">
+            <i class="far fa-circle nav-icon"></i><p>Penghapusan Aset</p></a>
+          </li>          
+          <li class="nav-item">
+            <a href="#" class="nav-link <?php echo menu_is_active('penyusutan') ?>">
+            <i class="far fa-circle nav-icon"></i><p>Penyusutan</p></a>
+          </li>          
+        </ul>
+      </li>
+
           <li class="nav-item has-treeview">
           <a href="{site_url}memo" class="nav-link <?php echo menu_is_active('memo') ?>">
               <i class="nav-icon fas fa-tachometer-alt"></i><p><?php echo lang('memos') ?></p></a>
