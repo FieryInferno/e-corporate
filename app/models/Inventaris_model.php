@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Inventaris_model extends CI_Model {
 
+    private $perusahaan;
+
     public function save($id)
     {
         $id = $this->uri->segment(3);
@@ -43,10 +45,12 @@ class Inventaris_model extends CI_Model {
         $this->db->select('saldoAwalInventaris.*, mperusahaan.nama_perusahaan, mnoakun.namaakun');
         $this->db->join('mperusahaan', 'saldoAwalInventaris.perusahaan = mperusahaan.idperusahaan');
         $this->db->join('mnoakun', 'saldoAwalInventaris.noAkun = mnoakun.idakun');
+        if ($this->perusahaan) $this->db->where('saldoAwalInventaris.perusahaan', $this->perusahaan);
         $saldoAwalInventaris    = $this->db->get('saldoAwalInventaris')->result_array();
         $no                     = count($saldoAwalInventaris);
         $this->db->select('tinventaris.*, mperusahaan.nama_perusahaan');
         $this->db->join('mperusahaan', 'tinventaris.idperusahaan = mperusahaan.idperusahaan');
+        if ($this->perusahaan) $this->db->where('tinventaris.idperusahaan', $this->perusahaan);
         $inventaris             = $this->db->get('tinventaris')->result_array();
         for ($i=0; $i < count($inventaris); $i++) { 
             $key                                            = $inventaris[$i]; 
@@ -60,6 +64,11 @@ class Inventaris_model extends CI_Model {
             $no++;
         }
         return $saldoAwalInventaris;
+    }
+
+    public function set($jenis, $isi)
+    {
+        $this->$jenis   = $isi;
     }
 }
 

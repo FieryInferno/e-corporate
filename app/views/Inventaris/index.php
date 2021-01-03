@@ -24,7 +24,42 @@
 			<div class="row">
 				<div class="col-12">         
 					<div class="card">
-					
+						<div class="card-body">
+							<form action="<?= base_url(); ?>inventaris" method="get">
+                                <div class="row">
+                                    <?php
+                                        if ($this->session->userid !== '1') { ?>
+                                            <div class="col-4">
+                                                <div class="form-group">
+                                                    <label>Perusahaan : </label>
+                                                    <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                                                    <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                                </div>
+                                            </div>
+                                        <?php } else { ?>
+                                            <div class="col-md-4">
+                                                <div class="form-group">
+                                                    <label>Perusahaan : </label>
+                                                    <select class="form-control" name="perusahaan" id="perusahaan"></select>
+                                                </div>
+                                            </div>
+                                        <?php }
+                                    ?>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <div class="text-right">
+                                            <button class="btn-block btn btn-success" type="submit"><i class="fas fa-filter"></i> Filter</button>
+                                            <button class="btn-block btn btn-warning">Reset</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+						</div>
+					</div>
+				</div>
+				<div class="col-12">         
+					<div class="card">
 						<div class="card-body">
 							<div class="table-responsive">
 								<table class="table table-xs table-striped table-borderless table-hover index_datatable">
@@ -78,43 +113,17 @@
 <script type="text/javascript">
 	var base_url	= '{site_url}inventaris/';
 	var table		= $('.index_datatable').DataTable();
-	// var table = $('.index_datatable').DataTable({
-	// 	ajax: {
-	// 		url: base_url + 'index_datatable',
-	// 		type: 'post',
-	// 	},
-	// 	pageLength: 100,
-	// 	stateSave: false,
-	// 	autoWidth: false,
-    //     dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
-    //     language: {
-    //         search: '<span></span> _INPUT_',
-    //         searchPlaceholder: 'Type to filter...',
-    //     },
-    //     columns: [
-	// 		{data: 'id_inventaris', visible: false},
-	// 		{data: 'nama_perusahaan'},
-	// 		{data: 'jenis_akun'},
-	// 		{data: 'no_register'},
-	// 		{data: 'kode_barang'},
-	// 		{data: 'nama_barang'},
-	// 		{data: 'tahun_perolehan'},
-	// 		{data: 'nominal_asset'},
-	// 		{
-	// 			data: 'id_inventaris', width: 100, orderable: false,
-	// 			render: function(data,type,row) {
-	// 				var aksi = ` <a class="btn btn-info btn-sm" href="`+base_url+`edit/`+data+`">
-	// 						<i class="fas fa-pencil-alt"></i>                             
-	// 					</a>
-	// 					<a class="btn btn-danger btn-sm" href="javascript:deleteData(`+data+`)">
-	// 						<i class="fas fa-trash"></i>                           
-	// 					</a>               
-	// 						`;
-	// 				return aksi;
-	// 			}
-	// 		}
-    //     ]
-	// });
+
+	$(document).ready(function () {
+		ajax_select({
+			id	: '#perusahaan',	
+			url	: '<?= base_url(); ?>perusahaan/select2',
+		});	
+		ajax_select({
+			id	: '#jenisAkun',	
+			url	: '<?= base_url(); ?>Noakun/selectInventaris',
+		});	
+	});
 
 	function deleteData(id) {
     swal("Anda yakin akan menghapus data?", {

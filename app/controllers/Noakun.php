@@ -281,5 +281,12 @@ class Noakun extends User_Controller {
 	{
 		return $this->model->getHPP();
 	}
+
+	public function selectInventaris()
+	{
+		$term	= $this->input->get('q');
+		$data	= $this->model->selectInventaris($term);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }
 
