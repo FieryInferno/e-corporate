@@ -1243,7 +1243,7 @@
                             response[index].rekanan,
                             response[index].tanggal,
                             formatRupiah(String(response[index].total)) + ',00',
-                            response[index].carabayar,
+                            response[index].cara_pembayaran,
                         ]).draw();
                     }
                 }
