@@ -1431,7 +1431,7 @@
                 for (let i = 0; i < response.length; i++) {
                     const piutang    = response[i];
                     tabelPiutang.row.add([
-                        `<input type="checkbox" id="checkboxPiutang${piutang.idSaldoAwalPiutang}" data-id="${piutang.idSaldoAwalPiutang}" data-tipe="Saldo Awal Piutang" data-tgl="${piutang.tanggal}" data-kwitansi="${piutang.noInvoice}" data-nominal="${piutang.primeOwing}" data-namaakun="${piutang.namaakun}" data-noakun="${piutang.akunno}" idAkun="${piutang.idakun}" data-kodeperusahaan="${piutang.kode}" onchange="save_detail(this);">`,
+                        `<input type="checkbox" id="checkboxPiutang${piutang.idSaldoAwalPiutang}" data-id="${piutang.idSaldoAwalPiutang}" data-tipe="Saldo Awal Piutang" data-tgl="${piutang.tanggal}" data-kwitansi="${piutang.noInvoice}" data-nominal="${piutang.primeOwing}" data-namaakun="${piutang.namaakun}" data-noakun="${piutang.akunno}" idAkun="${piutang.idakun}" data-kodeperusahaan="${piutang.kode}" onchange="save_detail(this);" tabulasi="piutang">`,
                         piutang.tanggal,
                         piutang.tanggalTempo,
                         piutang.noInvoice,
@@ -1497,7 +1497,7 @@
                 response.forEach(element => {
                     element.forEach(e => {
                         tabelHutang.row.add([
-                            `<input type="checkbox" id="checkboxHutang${e.id}" data-id="${e.id}" data-tipe="Saldo Awal Hutang" data-tgl="${e.tanggal}" data-kwitansi="${e.notrans}" data-nominal="${e.total}" idAkun="${e.idakun}" data-namaakun="${e.namaakun}" data-noakun="${e.akunno}" data-kodeperusahaan="${e.kode}" onchange="save_detail(this);">`,
+                            `<input type="checkbox" id="checkboxHutang${e.id}" data-id="${e.id}" data-tipe="Saldo Awal Hutang" data-tgl="${e.tanggal}" data-kwitansi="${e.notrans}" data-nominal="${e.total}" idAkun="${e.idakun}" data-namaakun="${e.namaakun}" data-noakun="${e.akunno}" data-kodeperusahaan="${e.kode}" onchange="save_detail(this);" tabulasi="hutang">`,
                             `${e.tanggal}`,
                             `${e.tanggaltempo}`,
                             `${e.notrans}`,
@@ -1532,12 +1532,19 @@
         const cara_pembayaran   = $(elem).attr('cara_pembayaran');
         const tabulasi          = $(elem).attr('tabulasi');
         var setupJurnal;
-        $.ajax({
-            url     : '{site_url}kas_bank/getSetupJurnal',
-            data    : {
+        if (tipe == 'Saldo Awal Hutang' || tipe == 'Saldo Awal Piutang') {
+            var data    = {
+                tabulasi    : tabulasi
+            }
+        } else {
+            var data    = {
                 tabulasi        : tabulasi,
                 cara_pembayaran : cara_pembayaran
-            },
+            }
+        }
+        $.ajax({
+            url     : '{site_url}kas_bank/getSetupJurnal',
+            data    : data,
             method  : 'get',
             success : function (hasil) {
                 setupJurnal = hasil;
@@ -1687,8 +1694,8 @@
                     `${kodeperusahaan}`,
                     ``,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`,
-                    ``,
-                    ``
+                    `Credit`,
+                    `${setupJurnal}`,
                 ]).draw( false );
                 penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
             } else {
@@ -1712,8 +1719,8 @@
                     `${kodeperusahaan}`,
                     ``,
                     `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`,
-                    ``,
-                    ``
+                    `Credit`,
+                    `${setupJurnal}`,
                 ]).draw( false );
                 pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
             } else {
