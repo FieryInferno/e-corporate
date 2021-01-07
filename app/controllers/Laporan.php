@@ -102,7 +102,7 @@ class Laporan extends User_Controller {
 			$this->LaporanModel->set('tanggal', $this->tanggal);
 			$data['laporan']	= $this->LaporanModel->getOutstandingInvoice();
 			$data['tanggal']	= $this->tgl_indo($this->tanggal);
-			$data['perusahaan']	= $this->perusahaan;
+			$data['perusahaan']	= $this->Perusahaan_model->get_by_id($this->perusahaan);
 			switch ($this->input->get('jenis')) {
 				case 'pdf':
 					$this->load->library('pdf');
@@ -121,23 +121,32 @@ class Laporan extends User_Controller {
 					$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Outstanding Invoice.xlsx');
 					$worksheet		= $spreadsheet->getActiveSheet();
 					$worksheet->getCell('A1')->setValue($data['perusahaan']['nama_perusahaan']);
-					$worksheet->getCell('A3')->setValue('From ' . $data['tanggalAwal'] . ' to ' . $data['tanggalAkhir']);
+					$worksheet->getCell('A3')->setValue('As of ' . $data['tanggal']);
 					$no = 0;
 					$x	= 6;
-					foreach ($data['laporan'] as $key) {
-						foreach ($key as $value) { 
-							$worksheet->getCell('A' . $x)->setValue($value['tanggal']);
-							$worksheet->getCell('B' . $x)->setValue($value['no']);
-							$worksheet->getCell('C' . $x)->setValue($value['keterangan']);
-							$worksheet->mergeCells('C' . $x . ':' . 'D' . $x);
-							$worksheet->getCell('E' . $x)->setValue(number_format($value['debet'],2,',','.'));
-							$worksheet->getCell('F' . $x)->setValue(number_format($value['kredit'],2,',','.'));
-							$worksheet->getCell('G' . $x)->setValue(number_format(($value['debet'] - $value['kredit']),2,',','.'));
-							$x++;
-						}
+					foreach ($data['laporan'] as $key) { 
+						$tanggal            = new DateTime($key['tanggal']);
+						$tanggalTempo       = new DateTime($key['tanggaltempo']);
+						$tanggalSekarang    = new DateTime();
+						$selisih            = $tanggalTempo->diff($tanggal)->days;
+						$selisih1           = $tanggalSekarang->diff($tanggal)->days;
+						$usiaHutang	        = $selisih1 - $selisih;
+						$worksheet->getCell('A' . $x)->setValue($key['nomorsuratjalan']);
+						$worksheet->getCell('B' . $x)->setValue($key['nama_perusahaan']);
+						$worksheet->getCell('B' . $x + 1)->setValue($key['tanggal']);
+						$worksheet->getCell('C' . $x)->setValue($key['tanggaltempo']);
+						$worksheet->getCell('D' . $x)->setValue(number_format($key['total'],2,',','.'));
+						$worksheet->getCell('E' . $x)->setValue(number_format($key['sisatagihan'],2,',','.'));
+						$worksheet->getCell('G' . $x)->setValue(number_format($usiaHutang));
+						$worksheet->mergeCells('A' . $x . ':' . 'A' . $x + 1);
+						$worksheet->mergeCells('C' . $x . ':' . 'C' . $x + 1);
+						$worksheet->mergeCells('D' . $x . ':' . 'D' . $x + 1);
+						$worksheet->mergeCells('E' . $x . ':' . 'E' . $x + 1);
+						$worksheet->mergeCells('F' . $x . ':' . 'F' . $x + 1);
+						$worksheet->mergeCells('G' . $x . ':' . 'G' . $x + 1);
 					}
 					$writer = new Xlsx($spreadsheet);
-					$filename = 'LaporanBukuBank';
+					$filename = 'OutstandingInvoice';
 					
 					header('Content-Type: application/vnd.ms-excel');
 					header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
@@ -150,13 +159,12 @@ class Laporan extends User_Controller {
 					break;
 			}
 		} else {
-
+			$data['title']		= 'Outstanding Invoice Report';
+			$data['subtitle']	= lang('list');
+			$data['content']	= 'laporan/outstandingInvoice/index';
+			$data				= array_merge($data,path_info());
+			$this->parser->parse('template',$data);
 		}
-		$data['title']		= 'Outstanding Invoice Report';
-		$data['subtitle']	= lang('list');
-		$data['content']	= 'laporan/outstandingInvoice/index';
-		$data				= array_merge($data,path_info());
-		$this->parser->parse('template',$data);
 	}
 
 	public function outstandingPayable()
@@ -166,7 +174,7 @@ class Laporan extends User_Controller {
 			$this->LaporanModel->set('tanggal', $this->tanggal);
 			$data['laporan']	= $this->LaporanModel->getOutstandingPayable();
 			$data['tanggal']	= $this->tgl_indo($this->tanggal);
-			$data['perusahaan']	= $this->perusahaan;
+			$data['perusahaan']	= $this->Perusahaan_model->get_by_id($this->perusahaan);
 			switch ($this->input->get('jenis')) {
 				case 'pdf':
 					$this->load->library('pdf');
@@ -181,17 +189,55 @@ class Laporan extends User_Controller {
 					$time = time();
 					$pdf->stream("Outstanding Payable Report". $time, array("Attachment" => false));
 					break;
-				
+				case 'excel':
+					$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Outstanding Payable.xlsx');
+					$worksheet		= $spreadsheet->getActiveSheet();
+					$worksheet->getCell('A1')->setValue($data['perusahaan']['nama_perusahaan']);
+					$worksheet->getCell('A3')->setValue('As of ' . $data['tanggal']);
+					$no = 0;
+					$x	= 6;
+					foreach ($data['laporan'] as $key) { 
+						foreach ($key as $value) { 
+							$tanggal            = new DateTime($key['tanggal']);
+							$tanggalTempo       = new DateTime($key['tanggaltempo']);
+							$tanggalSekarang    = new DateTime();
+							$selisih            = $tanggalTempo->diff($tanggal)->days;
+							$selisih1           = $tanggalSekarang->diff($tanggal)->days;
+							$usiaHutang	        = $selisih1 - $selisih;
+							$worksheet->getCell('A' . $x)->setValue($key['nomorsuratjalan']);
+							$worksheet->getCell('B' . $x)->setValue($key['nama_perusahaan']);
+							$worksheet->getCell('B' . $x + 1)->setValue($key['tanggal']);
+							$worksheet->getCell('C' . $x)->setValue($key['tanggaltempo']);
+							$worksheet->getCell('D' . $x)->setValue(number_format($key['total'],2,',','.'));
+							$worksheet->getCell('E' . $x)->setValue(number_format($key['sisatagihan'],2,',','.'));
+							$worksheet->getCell('G' . $x)->setValue(number_format($usiaHutang));
+							$worksheet->mergeCells('A' . $x . ':' . 'A' . $x + 1);
+							$worksheet->mergeCells('C' . $x . ':' . 'C' . $x + 1);
+							$worksheet->mergeCells('D' . $x . ':' . 'D' . $x + 1);
+							$worksheet->mergeCells('E' . $x . ':' . 'E' . $x + 1);
+							$worksheet->mergeCells('F' . $x . ':' . 'F' . $x + 1);
+							$worksheet->mergeCells('G' . $x . ':' . 'G' . $x + 1);
+						} 
+					}
+					$writer = new Xlsx($spreadsheet);
+					$filename = 'OutstandingInvoice';
+					
+					header('Content-Type: application/vnd.ms-excel');
+					header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+					header('Cache-Control: max-age=0');
+			
+					$writer->save('php://output');
 				default:
 					# code...
 					break;
 			}
+		} else {
+			$data['title']		= 'Outstanding Payable Report';
+			$data['subtitle']	= lang('list');
+			$data['content']	= 'laporan/outstandingPayable/index';
+			$data				= array_merge($data,path_info());
+			$this->parser->parse('template',$data);
 		}
-		$data['title']		= 'Outstanding Payable Report';
-		$data['subtitle']	= lang('list');
-		$data['content']	= 'laporan/outstandingPayable/index';
-		$data				= array_merge($data,path_info());
-		$this->parser->parse('template',$data);
 	}
 
 	public function projectList()

@@ -7,14 +7,7 @@
 </head>
 <body>
     <div class="text-center">
-        <h3 class="m-1 font-weight-bold">
-            <?php 
-                $data   = $this->db->get_where('mperusahaan', [
-                    'idperusahaan'    => $perusahaan
-                ])->row_array(); 
-                echo $data['nama_perusahaan'];
-            ?>
-        </h3>
+        <h3 class="m-1 font-weight-bold"><?= $perusahaan['nama_perusahaan']; ?></h3>
         <h3 class="m-1 font-weight-bold">Outstanding Invoice</h3>
         <h3 class="m-1">As of <?= $tanggal; ?></h3>
     </div>
