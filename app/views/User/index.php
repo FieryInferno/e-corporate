@@ -27,20 +27,23 @@
 							<a href="{site_url}user/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						</div>
 						<div class="card-body">
-							<table class="table table-xs table-striped table-borderless table-hover index_datatable">
-								<thead>
-									<tr class="table-active">
-										<th>ID</th>
-										<th><?php echo lang('name') ?></th>
-										<th><?php echo lang('email') ?></th>
-										<th><?php echo lang('username') ?></th>
-										<th>Cabang</th>
-										<th><?php echo lang('permission') ?></th>
-										<th class="text-center"><?php echo lang('action') ?></th>
-									</tr>
-								</thead>
-								<tbody></tbody>
-							</table>
+							<div class="table-responsive">
+                                <table class="table table-xs table-striped table-borderless table-hover index_datatable">
+                                    <thead>
+                                        <tr class="table-active">
+											<th>ID</th>
+											<th><?php echo lang('name') ?></th>
+											<th><?php echo lang('email') ?></th>
+											<th><?php echo lang('username') ?></th>
+											<th>Cabang</th>
+											<th><?php echo lang('permission') ?></th>
+											<th class="text-center"><?php echo lang('action') ?></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                    <tfoot></tfoot>
+                                </table>
+                            </div>
 						</div>
 					</div>
 				</div>

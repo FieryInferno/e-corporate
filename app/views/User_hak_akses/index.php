@@ -1,68 +1,57 @@
 <!-- Content Wrapper. Contains page content -->
-  <div class="content-wrapper">
+<div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-      <div class="container-fluid">
-        <div class="row mb-2">
-          <div class="col-sm-6">
-            <h1>{title}</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item active">{title}</li>
-            </ol>
-          </div>
-        </div>
-      </div><!-- /.container-fluid -->
+		<div class="container-fluid">
+			<div class="row mb-2">
+				<div class="col-sm-6">
+					<h1>{title}</h1>
+				</div>
+				<div class="col-sm-6">
+					<ol class="breadcrumb float-sm-right">
+						<li class="breadcrumb-item"><a href="#">Home</a></li>
+						<li class="breadcrumb-item active">{title}</li>
+					</ol>
+				</div>
+			</div>
+		</div><!-- /.container-fluid -->
     </section>
 
     <!-- Main content -->
     <section class="content">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-12">         
-            <div class="card">
-              <div class="card-header">
-				<a href="{site_url}item/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">         
+					<div class="card">
+						<div class="card-header">
+							<a href="{site_url}item/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+						</div>
+						<div class="card-body">
+							<form action="javascript:save()" id="form1">
+								<div class="m-5">
+									<div class="form-group">
+										<label>Pilih Akses:</label>
+										<select class="form-control permissionid" name="permissionid" required></select>
+									</div>
+								</div>
+
+								<div class="m-5">
+									<div id="content-menu"></div>
+								</div>
+
+								<div class="m-5">
+									<div class="text-center">
+										<button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+									</div>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
 			</div>
-              <div class="card-body">
-              <form action="javascript:save()" id="form1">
-                <div class="m-5">
-                    <div class="form-group">
-                        <label>Pilih Akses:</label>
-                        <select class="form-control permissionid" name="permissionid" required></select>
-                    </div>
-                </div>
-
-                <div class="m-5">
-                    <div id="content-menu"></div>
-                </div>
-
-                <div class="m-5">
-                    <div class="text-center">
-                        <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-                    </div>
-                </div>
-            </form>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+		</div>
     </section>
-  </div>
-
-  
-<!-- jQuery -->
-<script src="<?= base_url('adminlte')?>/plugins/jquery/jquery.min.js"></script>
-<!-- Bootstrap 4 -->
-<script src="<?= base_url('adminlte')?>/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables -->
-<script src="<?= base_url('adminlte')?>/plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="<?= base_url('adminlte')?>/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+</div>
 
 <script type="text/javascript">
 	var base_url = '{site_url}user_hak_akses/';
@@ -87,32 +76,32 @@
     })
 
     function save() {
-    	var form = $('#form1')[0];
-    	var formData = new FormData(form);
-    	$.ajax({
-    		url: base_url + 'save',
-    		dataType: 'json',
-    		method: 'post',
-    		data: formData,
-    		contentType: false,
-    		processData: false,
-    		beforeSend: function() {
-    			pageBlock();
-    		},
-            afterSend: function() {
-                unpageBlock();
-            },
-    		success: function(data) {
-    			if(data.status == 'success') {
-    				NotifySuccess(data.message)
-                    redirect(base_url + '?permissionid='+$('.permissionid').val());
-    			} else {
-    				NotifyError(data.message)
-    			}
-    		},
-    		error: function() {
-    			NotifyError('<?php echo lang('internal_server_error') ?>');
-    		}
-    	})
+		var form = $('#form1')[0];
+		var formData = new FormData(form);
+		$.ajax({
+			url: base_url + 'save',
+			dataType: 'json',
+			method: 'post',
+			data: formData,
+			contentType: false,
+			processData: false,
+			beforeSend: function() {
+				pageBlock();
+			},
+			afterSend: function() {
+				unpageBlock();
+			},
+			success: function(data) {
+				if (data.status == 'success') {
+					swal("Berhasil!", "Berhasil Menambah Data", "success");
+					redirect(base_url);
+				} else {
+					swal("Gagal!", "Gagal Menambah Data", "error");
+				}
+			},
+			error: function() {
+				swal("Gagal!", "Internal Server Error", "error");
+			}
+		})
     }
 </script>
