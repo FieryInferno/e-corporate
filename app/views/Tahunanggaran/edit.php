@@ -66,7 +66,7 @@
         var form        = $('#form1')[0];
         var formData    = new FormData(form);
         $.ajax({
-            url         : base_url + 'save{id}',
+            url         : base_url + 'save/{id}',
             dataType    : 'json',
             method      : 'post',
             data        : formData,
