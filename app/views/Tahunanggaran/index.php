@@ -74,7 +74,7 @@ var table = $('.index_datatable').DataTable({
         {
             data: 'id', width: 100, orderable: false,
             render: function(data,type,row) {
-                var aksi = ` <a class="btn btn-info btn-sm" href="`+base_url+`edit/`+data+`">
+                var aksi = ` <a class="btn btn-info btn-sm" href="<?= base_url(); ?>tahun_anggaran/edit/`+data+`">
                                 <i class="fas fa-pencil-alt"></i>                             
                             </a>
                             <a class="btn btn-danger btn-sm" href="javascript:deleteData(`+data+`)">

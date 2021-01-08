@@ -34,13 +34,13 @@ class Tahunanggaran extends User_Controller{
 
 	public function edit($id = null) {
 		if($id) {
-			$data = get_by_id('id',$id,'mtahun');
+			$data	= get_by_id('id',$id,'mtahun');
 			if($data) {
-				$data['title'] = lang('tahun anggaran');
-				$data['subtitle'] = lang('edit');
-				$data['content'] = 'Tahunanggaran/edit';
-				$data = array_merge($data,path_info());
-				$this->parser->parse('default',$data);
+				$data['title']		= lang('Tahun Anggaran');
+				$data['subtitle']	= lang('edit');
+				$data['content']	= 'Tahunanggaran/edit';
+				$data				= array_merge($data,path_info());
+				$this->parser->parse('template',$data);
 			} else {
 				show_404();
 			}
