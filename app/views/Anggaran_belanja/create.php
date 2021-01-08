@@ -399,7 +399,6 @@
 			success: function(response) {
 				if (response.status == 'success') {
 					swal("Berhasil!", "Berhasil Menambah Data", "success");
-					// ajax_item();
 					redirect(base_url);
 				} else {
 					swal("Gagal!", "Gagal Menambah Data", "error");

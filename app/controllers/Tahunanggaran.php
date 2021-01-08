@@ -9,11 +9,11 @@ class Tahunanggaran extends User_Controller{
     }	
     
     public function index() {
-		$data['title'] = lang('tahun anggaran');
-		$data['subtitle'] = lang('tahun anggaran');
-		$data['content'] = 'Tahunanggaran/index';
-		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$data['title']		= 'Tahun Anggaran';
+		$data['subtitle']	= 'Daftar';
+		$data['content']	= 'Tahunanggaran/index';
+		$data				= array_merge($data,path_info());
+		$this->parser->parse('template',$data);
 	}
 
 	public function index_datatable() {
@@ -25,11 +25,11 @@ class Tahunanggaran extends User_Controller{
 	}
 
     public function create() {
-		$data['title'] = lang('tahun anggaran');
-		$data['subtitle'] = lang('add_new');
-		$data['content'] = 'Tahunanggaran/create';
-		$data = array_merge($data,path_info());
-		$this->parser->parse('default',$data);
+		$data['title']		= 'Tahun Anggaran';
+		$data['subtitle']	= 'Tambah Baru';
+		$data['content']	= 'Tahunanggaran/create';
+		$data				= array_merge($data,path_info());
+		$this->parser->parse('template',$data);
 	}
 
 	public function edit($id = null) {

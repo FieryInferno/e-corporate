@@ -1,71 +1,94 @@
-<div class="page-header page-header-light">
-    <div class="page-header-content header-elements-md-inline">
-        <div class="page-title d-flex">
-            <h4><i class="icon-info22 mr-2"></i> <span class="font-weight-semibold">{title}</span></h4>
-            <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
-        </div>
-    </div>
-</div>
-<div class="content">
-    <div class="card">
-        <div class="card-header {bg_header}">
-            <div class="header-elements-inline">
-                <h5 class="card-title">{subtitle}</h5>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="row">
-            	<div class="col-md-6">
-    				<form action="javascript:save()" id="form1">
-    					<div class="form-group">
-    						<label><?php echo lang('tahun') ?>:</label>
-    						<input type="text" class="form-control" name="tahun" required>
-    						<label><?php echo lang('keterangan') ?>:</label>
-    						<input type="text" class="form-control" name="keterangan" required>
-    					</div>
-    					<div class="text-right">
-    						<a href="{site_url}tahunanggaran" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-    						<button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-    					</div>
-    				</form>
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1><?= $title; ?></h1>
+                </div>
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('tahun_anggaran'); ?>">{title}</a></li>
+                        <li class="breadcrumb-item active">{subtitle}</li>
+                    </ol>
                 </div>
             </div>
-    	</div>
-    </div>
+        </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+            <!-- left column -->
+                <div class="col-md-12">
+                    <!-- jquery validation -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Tambah Tahun Anggaran</h3>
+                        </div>
+                        <!-- /.card-header -->
+                        <div class="card-body">
+                            <form action="javascript:save()" id="form1">
+                                <div class="form-group">
+                                    <label><?php echo lang('tahun') ?>:</label>
+                                    <input type="text" class="form-control" name="tahun" required>
+                                    <label><?php echo lang('keterangan') ?>:</label>
+                                    <input type="text" class="form-control" name="keterangan" required>
+                                </div>
+                                <div class="text-right">
+                                    <a href="{site_url}tahunanggaran" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                                    <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- form start -->
+                        
+                            </div>
+                        <!-- /.card -->
+                        </div>
+                    <!--/.col (left) -->
+                <!--/.col (right) -->
+                </div>
+            <!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
 </div>
-<script src="{assets_path}global/js/plugins/notifications/pnotify.min.js"></script>
-<script src="{assets_path}global/js/plugins/forms/selects/select2.full.min.js"></script>
+<!-- /.content-wrapper -->
+
 <script type="text/javascript">
 	var base_url = '{site_url}tahunanggaran/';
     $(document).ready(function(){
     })
     function save() {
-    	var form = $('#form1')[0];
-    	var formData = new FormData(form);
-    	$.ajax({
-    		url: base_url + 'save',
-    		dataType: 'json',
-    		method: 'post',
-    		data: formData,
-    		contentType: false,
-    		processData: false,
-    		beforeSend: function() {
-    			pageBlock();
-    		},
-            afterSend: function() {
+        var form        = $('#form1')[0];
+        var formData    = new FormData(form);
+        $.ajax({
+            url         : base_url + 'save',
+            dataType    : 'json',
+            method      : 'post',
+            data        : formData,
+            contentType : false,
+            processData : false,
+            beforeSend  : function() {
+                pageBlock();
+            },
+            afterSend   : function() {
                 unpageBlock();
             },
-    		success: function(data) {
-    			if(data.status == 'success') {
-    				NotifySuccess(data.message)
-                    redirect(base_url);
-    			} else {
-    				NotifyError(data.message)
-    			}
-    		},
-    		error: function() {
-    			NotifyError('<?php echo lang('internal_server_error') ?>');
-    		}
-    	})
+            success     : function(data) {
+                if (data.status == 'success') {
+					swal("Berhasil!", "Berhasil Menambah Data", "success");
+					redirect(base_url);
+				} else {
+					swal("Gagal!", "Gagal Menambah Data", "error");
+				}
+            },
+            error: function() {
+                swal("Gagal!", "Internal Server Error", "error");
+            }
+        })
     }
 </script>

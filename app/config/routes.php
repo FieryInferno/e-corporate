@@ -14,12 +14,19 @@ $route['export_laporan_piutang']			= 'Laporan/export_laporan_piutang';
 $route['outstanding_invoice']               = 'Laporan/outstandingInvoice';
 $route['outstanding_payable']               = 'Laporan/outstandingPayable';
 $route['project_list']                      = 'Laporan/projectList';
+
 $route['saldo_awal_hutang']                 = 'SaldoAwalHutang';
+
 $route['saldo_awal_piutang']                = 'SaldoAwalPiutang';
+
 $route['saldo_awal_inventaris']             = 'SaldoAwalInventaris';
 $route['saldo_awal_inventaris/create']      = 'SaldoAwalInventaris/create';
+
 $route['saldo_awal_persediaan']             = 'SaldoAwalPersediaan';
 $route['saldo_awal_persediaan/create']      = 'SaldoAwalPersediaan/create';
 
 $route['pemeliharaan_aset']                 = 'Inventaris/pemeliharaanAset';
 $route['pemeliharaan_aset/tambah']          = 'Inventaris/tambahPemeliharaanAset';
+
+$route['tahun_anggaran']                    = 'Tahunanggaran';
+$route['tahun_anggaran/create']             = 'Tahunanggaran/create';

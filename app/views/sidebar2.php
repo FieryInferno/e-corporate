@@ -77,11 +77,11 @@
               </p>
             </a>
           </li>
-          <?php $menu = array('user', 'user_akses', 'user_hak_akses', 'perusahaan', 'departemen', 'tahun_anggaran', 'multi_curency', 'cabang')?>
-          <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
+          <?php $menuPengelolaanUser = ['user', 'user_akses', 'user_hak_akses', 'perusahaan', 'departemen', 'tahun_anggaran', 'multi_curency', 'cabang']; ?>
+          <li class="nav-item has-treeview  <?php echo menu_is_open($menuPengelolaanUser) ?>">
             <a href="#" class="nav-link
               <?php
-                if ($this->uri->segment(1) == 'user' || $this->uri->segment(1) == 'perusahaan' || $this->uri->segment(1) == 'departemen' || $this->uri->segment(1) == 'cabang') {
+                if (in_array($this->uri->segment(1), $menuPengelolaanUser)) {
                   echo 'active';
                 }
               ?>"><i class="nav-icon fas fa-users"></i>
@@ -101,7 +101,7 @@
                 <a href="{site_url}cabang" class="nav-link <?php echo menu_is_active('cabang') ?>"><i class="far fa-circle nav-icon"></i><p>Cabang</p></a>
               </li>             
               <li class="nav-item">
-                <a href="{site_url}tahunanggaran" class="nav-link <?php echo menu_is_active('tahunanggaran') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('tahunanggaran') ?></p></a>
+                <a href="{site_url}tahun_anggaran" class="nav-link <?php echo menu_is_active('tahun_anggaran') ?>"><i class="far fa-circle nav-icon"></i><p>Tahun Anggaran</p></a>
               </li>
               <li class="nav-item">
                 <a href="{site_url}multi_curency" class="nav-link <?php echo menu_is_active('multi_curency') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('multi_curency') ?></p></a>
