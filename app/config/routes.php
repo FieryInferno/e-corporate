@@ -30,3 +30,4 @@ $route['pemeliharaan_aset/tambah']          = 'Inventaris/tambahPemeliharaanAset
 
 $route['tahun_anggaran']                    = 'Tahunanggaran';
 $route['tahun_anggaran/create']             = 'Tahunanggaran/create';
+$route['tahun_anggaran/edit/(:any)']        = 'Tahunanggaran/edit/$1';
