@@ -250,7 +250,7 @@ class Laporan extends User_Controller {
 			$data['laporan']		= $this->LaporanModel->getProject();
 			$data['tanggalAwal']	= $this->tgl_indo($this->tanggalAwal);
 			$data['tanggalAkhir']	= $this->tgl_indo($this->tanggalAkhir);
-			$data['perusahaan']		= $this->perusahaan;
+			$data['perusahaan']		= $this->Perusahaan_model->get_by_id($this->perusahaan);
 			switch ($this->input->get('jenis')) {
 				case 'pdf':
 					$this->load->library('pdf');
@@ -265,17 +265,46 @@ class Laporan extends User_Controller {
 					$time = time();
 					$pdf->stream("Project List Report". $time, array("Attachment" => false));
 					break;
+				case 'excel':
+					$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Project List.xlsx');
+					$worksheet		= $spreadsheet->getActiveSheet();
+					$worksheet->getCell('A1')->setValue($data['perusahaan']['nama_perusahaan']);
+					$worksheet->getCell('A3')->setValue('From ' . $data['tanggalAwal'] . ' to ' . $data['tanggalAkhir']);
+					$no = 0;
+					$x	= 6;
+					foreach ($data['laporan'] as $key) {
+						$worksheet->getCell('A' . $x)->setValue($key['noEvent']);
+						$worksheet->getCell('B' . $x)->setValue($key['deskripsi']);
+						$worksheet->getCell('C' . $x)->setValue($key['region']);
+						$worksheet->getCell('D' . $x)->setValue($key['cabang']);
+						$worksheet->getCell('E' . $x)->setValue(number_format($key['totalPendapatan'],2,',','.'));
+						$worksheet->getCell('F' . $x)->setValue(number_format($key['totalHPP'],2,',','.'));
+						$worksheet->getCell('G' . $x)->setValue($key['kodeEvent']);
+						$worksheet->getCell('H' . $x)->setValue($key['kelompokUmur']);
+						$worksheet->getCell('I' . $x)->setValue($this->tgl_indo($key['tanggalMulai']));
+						$worksheet->getCell('J' . $x)->setValue($this->tgl_indo($key['tanggalSelesai']));
+					} 
+					$writer = new Xlsx($spreadsheet);
+					$filename = 'ProjectList';
+					
+					header('Content-Type: application/vnd.ms-excel');
+					header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+					header('Cache-Control: max-age=0');
+			
+					$writer->save('php://output');
+					break;
 				
 				default:
 					# code...
 					break;
 			}
+		} else {
+			$data['title']		= 'Project List';
+			$data['subtitle']	= lang('list');
+			$data['content']	= 'laporan/projectList/index';
+			$data				= array_merge($data,path_info());
+			$this->parser->parse('template',$data);
 		}
-		$data['title']		= 'Project List';
-		$data['subtitle']	= lang('list');
-		$data['content']	= 'laporan/projectList/index';
-		$data				= array_merge($data,path_info());
-		$this->parser->parse('template',$data);
 	}
 
 	public function tgl_indo($tanggal){
