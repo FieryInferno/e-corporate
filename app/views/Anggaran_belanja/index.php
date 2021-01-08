@@ -77,7 +77,7 @@
 				visible: false
 			},
 			{
-				data: 'dept'
+				data: 'namaDepartemen'
 			},
 			{
 				data: 'nama_perusahaan'

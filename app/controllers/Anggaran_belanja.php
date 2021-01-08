@@ -31,8 +31,9 @@ class Anggaran_belanja extends User_Controller
 	{
 		$perusahaan	= $this->session->idperusahaan;
 		$this->load->library('Datatables');
-		$this->datatables->select('tanggaranbelanja.*,mperusahaan.*');
-		$this->datatables->join('mperusahaan','tanggaranbelanja.idperusahaan=mperusahaan.idperusahaan');
+		$this->datatables->select('tanggaranbelanja.*,mperusahaan.*, mdepartemen.nama as namaDepartemen');
+		$this->datatables->join('mperusahaan','tanggaranbelanja.idperusahaan = mperusahaan.idperusahaan');
+		$this->datatables->join('mdepartemen','tanggaranbelanja.dept = mdepartemen.id');
 		$this->datatables->where('tanggaranbelanja.stdel', '0');
 		if ($perusahaan) {
 			$this->datatables->where('tanggaranbelanja.idperusahaan', $perusahaan);
