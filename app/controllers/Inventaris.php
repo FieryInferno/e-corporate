@@ -103,4 +103,10 @@ class Inventaris extends User_Controller {
     $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
     $this->form_validation->set_rules('kodeBarang[]', 'Kode Barang', 'required');
   }
+
+  public function dataPemeliharaanAset()
+  {
+    $data = $this->model->dataPemeliharaanAset();
+    return print_r($data);
+  }
 }

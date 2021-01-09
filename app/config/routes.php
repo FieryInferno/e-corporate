@@ -28,6 +28,7 @@ $route['saldo_awal_persediaan/create']      = 'SaldoAwalPersediaan/create';
 $route['pemeliharaan_aset']                 = 'Inventaris/pemeliharaanAset';
 $route['pemeliharaan_aset/tambah']          = 'Inventaris/tambahPemeliharaanAset';
 $route['pemeliharaan_aset/simpan']          = 'Inventaris/simpanPemeliharaanAset';
+$route['pemeliharaan_aset/data']            = 'Inventaris/dataPemeliharaanAset';
 
 $route['tahun_anggaran']                    = 'Tahunanggaran';
 $route['tahun_anggaran/create']             = 'Tahunanggaran/create';

@@ -125,7 +125,7 @@
                                         foreach ($inventaris as $key) { ?>
                                           <tr>
                                             <td>
-                                              <input type="checkbox" name="" id="" onchange="pilihInventaris(this)" kodeBarang="<?= $key['kodeInventaris']; ?>" nomorRegister="<?= $key['noRegister']; ?>" namaInventaris="<?= $key['namaInventaris']; ?>" tahunBeli="<?= $key['tanggalPembelian']; ?>" hargaPerolehan="<?= $key['harga']; ?>" perusahaanAwal="<?= $key['nama_perusahaan']; ?>">
+                                              <input type="checkbox" name="" id="" onchange="pilihInventaris(this)" kodeBarang="<?= $key['kodeInventaris']; ?>" nomorRegister="<?= $key['noRegister']; ?>" namaInventaris="<?= $key['namaInventaris']; ?>" tahunBeli="<?= $key['tanggalPembelian']; ?>" hargaPerolehan="<?= $key['harga']; ?>">
                                             </td>
                                             <td><?= $key['kodeInventaris']; ?></td>
                                             <td><?= $key['namaInventaris']; ?></td>
@@ -238,17 +238,16 @@
     let namaInventaris  = $(elemen).attr('namaInventaris');
     let tahunBeli       = $(elemen).attr('tahunBeli');
     let hargaPerolehan  = $(elemen).attr('hargaPerolehan');
-    let perusahaanAwal  = $(elemen).attr('perusahaanAwal');
 
     tableDetailBarang.row.add([
       kodeBarang + `<input type="hidden" name="kodeBarang[]" value="${kodeBarang}">`,
       noRegister,
       namaInventaris,
       tahunBeli,
-      formatRupiah(hargaPerolehan) + ',00',
+      formatRupiah(hargaPerolehan) + ',00' + `<input type="hidden" name="harga[]" value="${hargaPerolehan}">`,
       ``,
       ``,
-      perusahaanAwal
+      ``
     ]).draw();
   }
 

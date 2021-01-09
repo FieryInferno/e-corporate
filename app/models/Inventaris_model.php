@@ -73,6 +73,11 @@ class Inventaris_model extends CI_Model {
 
   public function simpanPemeliharaanAset()
   {
+    $harga      = $this->input->post('harga');
+    $totalHarga = 0;
+    foreach ($harga as $key) {
+      $totalHarga += $key;
+    }
     $idPemeliharaan = uniqid('pemeliharaan');
     $insert = $this->db->insert('pemeliharaanAset', [
       'idPemeliharaan'    => $idPemeliharaan,
@@ -81,6 +86,7 @@ class Inventaris_model extends CI_Model {
       'jenisPemeliharaan' => $this->input->post('jenisPemeliharaan'),
       'noDokumen'         => $this->input->post('noDokumen'),
       'keterangan'        => $this->input->post('keterangan'),
+      'nominalAsset'      => $totalHarga
     ]);
     if ($insert) {
       $kodeBarang = $this->input->post('kodeBarang');
@@ -92,6 +98,15 @@ class Inventaris_model extends CI_Model {
       }
     } 
     return $insert;
+  }
+
+  public function dataPemeliharaanAset()
+  {
+    $this->load->library('Datatables');
+		$this->datatables->select('pemeliharaanAset.*, mperusahaan.nama_perusahaan, mperusahaan.kode as kodePerusahaan');
+		$this->datatables->from('pemeliharaanAset');
+		$this->datatables->join('mperusahaan', 'pemeliharaanAset.perusahaan = mperusahaan.idperusahaan');
+		return $this->datatables->generate();
   }
 }
 
