@@ -26,7 +26,7 @@
         <div class="col-12">         
           <div class="card">
             <div class="card-body">
-              <form action="<?= base_url(); ?>inventaris" method="get">
+              <form action="#">
                 <div class="row">
                   <?php
                     if ($this->session->userid !== '1') { ?>
@@ -50,7 +50,7 @@
                 <div class="row">
                   <div class="col-md-4">
                     <div class="text-right">
-                      <button class="btn-block btn btn-success" type="submit"><i class="fas fa-filter"></i> Filter</button>
+                      <button onclick="tampilData()" class="btn-block btn btn-success"><i class="fas fa-filter"></i> Filter</button>
                       <button class="btn-block btn btn-warning">Reset</button>
                     </div>
                   </div>
@@ -91,7 +91,7 @@
   </section>
 </div>
 <script>
-  var table   = $('.index_datatable').DataTable({
+  let table   = $('.index_datatable').DataTable({
     ajax  : {
       url : '{site_url}pemeliharaan_aset/data'
     },
@@ -123,5 +123,43 @@
 			id	: '#perusahaan',	
 			url	: '<?= base_url(); ?>perusahaan/select2',
 		});	
-	});
+  });
+  
+  function tampilData() {
+    table.destroy();
+    table   = $('.index_datatable').DataTable({
+      ajax  : {
+        url   : '{site_url}pemeliharaan_aset/data',
+        data  : {
+          perusahaan  : $('#perusahaan').val()
+        },
+        method  : 'get',
+      },
+      columns : [
+        {data : 'kodePerusahaan'},
+        {data : 'nama_perusahaan'},
+        {data : 'nama_perusahaan'},
+        {
+          data    : 'nominalAsset',
+          render  : function (data, type, row) {
+            return formatRupiah(data) + ',00';
+          }
+        },
+        {
+          data    : 'nominalAsset',
+          render  : function (data, type, row) {
+            return formatRupiah(data) + ',00';
+          }
+        },
+        {data : 'nominalAsset'},
+        {data : 'noDokumen'},
+        {data : 'jenisPemeliharaan'},
+        {data : 'kodePerusahaan'},
+      ]
+    });
+  }
+
+  // $('#perusahaan').change(function () {
+  //   tampilData();
+  // })
 </script>

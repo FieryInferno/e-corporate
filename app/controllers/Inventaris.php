@@ -58,7 +58,7 @@ class Inventaris extends User_Controller {
 		$data['title']		= 'Pemeliharaan Aset';
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Inventaris/pemeliharaanAset/index';
-		$data				= array_merge($data,path_info());
+		$data             = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 
@@ -106,7 +106,8 @@ class Inventaris extends User_Controller {
 
   public function dataPemeliharaanAset()
   {
-    $data = $this->model->dataPemeliharaanAset();
+    $perusahaan = $this->input->get('perusahaan');
+    $data       = $this->model->dataPemeliharaanAset($perusahaan);
     return print_r($data);
   }
 }

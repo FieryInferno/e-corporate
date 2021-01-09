@@ -100,13 +100,14 @@ class Inventaris_model extends CI_Model {
     return $insert;
   }
 
-  public function dataPemeliharaanAset()
+  public function dataPemeliharaanAset($perusahaan = null)
   {
     $this->load->library('Datatables');
 		$this->datatables->select('pemeliharaanAset.*, mperusahaan.nama_perusahaan, mperusahaan.kode as kodePerusahaan');
 		$this->datatables->from('pemeliharaanAset');
-		$this->datatables->join('mperusahaan', 'pemeliharaanAset.perusahaan = mperusahaan.idperusahaan');
-		return $this->datatables->generate();
+    $this->datatables->join('mperusahaan', 'pemeliharaanAset.perusahaan = mperusahaan.idperusahaan');
+    if ($perusahaan) $this->datatables->where('perusahaan', $perusahaan);
+    return $this->datatables->generate();
   }
 }
 
