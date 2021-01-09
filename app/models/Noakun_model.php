@@ -194,5 +194,17 @@ class Noakun_model extends CI_Model {
 		}
 		return $this->db->get('mnoakun')->result_array();
 	}
+
+	public function jenisAset($term = null)
+	{
+		$this->db->select('mnoakun.idakun as id, concat(mnoakun.akunno, " - ", mnoakun.namaakun) as text');
+		$this->db->like('akunno', '1.3', 'after');
+		$this->db->or_like('akunno', '13', 'after');
+		if ($term) {
+			$this->db->like('akunno', $term);
+			$this->db->like('namaakun', $term);
+		}
+		return $this->db->get('mnoakun')->result_array();
+	}
 }
 

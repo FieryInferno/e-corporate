@@ -288,5 +288,12 @@ class Noakun extends User_Controller {
 		$data	= $this->model->selectInventaris($term);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
+
+	public function jenisAset()
+	{
+		$term	= $this->input->get('q');
+		$data	= $this->model->jenisAset($term);
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+	}
 }
 

@@ -67,7 +67,40 @@ class Inventaris extends User_Controller {
 		$data['title']		= 'Pemeliharaan Aset';
 		$data['subtitle']	= 'Tambah';
 		$data['content']	= 'Inventaris/pemeliharaanAset/tambah';
+		$data['inventaris']	= $this->model->get();
 		$data				= array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
+
+	public function get()
+	{
+		$data	= $this->model->get();
+		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+  }
+  
+  public function simpanPemeliharaanAset()
+  {
+    $this->validation();
+    if ($this->form_validation->run() !== false) {
+      $data = $this->model->simpanPemeliharaanAset();
+      if ($data) {
+        $hasil['status'] = 'success';
+      } else {
+        $hasil['status'] = 'fail';
+      }
+    } else {
+      $hasil['status'] = 'fail';
+    }
+		$this->output->set_content_type('application/json')->set_output(json_encode($hasil));
+  }
+
+  private function validation()
+  {
+    $this->form_validation->set_rules('perusahaan', 'Perusahaan', 'required');
+    $this->form_validation->set_rules('jenisAset', 'Jenis Aset', 'required');
+    $this->form_validation->set_rules('jenisPemeliharaan', 'Jenis Pemeliharaan', 'required');
+    $this->form_validation->set_rules('noDokumen', 'No Dokumen', 'required');
+    $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
+    $this->form_validation->set_rules('kodeBarang[]', 'Kode Barang', 'required');
+  }
 }

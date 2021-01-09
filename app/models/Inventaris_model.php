@@ -70,5 +70,28 @@ class Inventaris_model extends CI_Model {
     {
         $this->$jenis   = $isi;
     }
+
+  public function simpanPemeliharaanAset()
+  {
+    $idPemeliharaan = uniqid('pemeliharaan');
+    $insert = $this->db->insert('pemeliharaanAset', [
+      'idPemeliharaan'    => $idPemeliharaan,
+      'perusahaan'        => $this->input->post('perusahaan'),
+      'jenisAset'         => $this->input->post('jenisAset'),
+      'jenisPemeliharaan' => $this->input->post('jenisPemeliharaan'),
+      'noDokumen'         => $this->input->post('noDokumen'),
+      'keterangan'        => $this->input->post('keterangan'),
+    ]);
+    if ($insert) {
+      $kodeBarang = $this->input->post('kodeBarang');
+      foreach ($kodeBarang as $key) {
+        $this->db->insert('pemeliharaanAsetDetail', [
+          'idPemeliharaan'  => $idPemeliharaan,
+          'kodeBarang'      => $key
+        ]);
+      }
+    } 
+    return $insert;
+  }
 }
 
