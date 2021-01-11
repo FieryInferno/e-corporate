@@ -208,8 +208,16 @@ class Saldo_awal extends User_Controller {
 	public function getDetailSaldoAwal()
 	{
 		$this->model->setIdSaldoAwal($this->getIdSaldoAwal());
-		$data	= $this->model->get_saldoawaldetail();
+    $data	= $this->model->get_saldoawaldetail();
+    usort($data, [$this, 'urutkanNoAkun']);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+  }
+
+  private function urutkanNoAkun($a, $b)
+  {
+    $t1 = substr($a['noAkun'], 0, 1);
+		$t2 = substr($b['noAkun'], 0, 1);
+		return $t1 - $t2;
   }
   
   public function ubahNoAkun()
