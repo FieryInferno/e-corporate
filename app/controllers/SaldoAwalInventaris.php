@@ -126,4 +126,21 @@ class SaldoAwalInventaris extends User_Controller {
         }
         return $this->output->set_content_type('application/json')->set_output(json_encode($data0));
     }
+  
+  public function ubahNoAkun()
+  {
+    $data = $this->db->get('saldoAwalInventaris')->result_array();
+    foreach ($data as $key) {
+      $this->db->like('namaakun', $key['noAkun']);
+      $noAkun = $this->db->get('mnoakun')->row_array();
+      if ($noAkun) {
+        $this->db->where('idSaldoAwalInventaris', $key['idSaldoAwalInventaris']);
+        $this->db->update('saldoAwalInventaris', [
+          'noAkun'  => $noAkun['idakun']
+        ]);
+      } else {
+        print_r($key['idSaldoAwalInventaris']);echo '<br/>';
+      }
+    }
+  }
 }

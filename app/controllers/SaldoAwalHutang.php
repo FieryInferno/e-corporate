@@ -126,4 +126,21 @@ class SaldoAwalHutang extends User_Controller {
         }
         return $this->output->set_content_type('application/json')->set_output(json_encode($data0));
     }
+  
+  public function ubahNoAkun()
+  {
+    $data = $this->db->get('SaldoAwalHutang')->result_array();
+    foreach ($data as $key) {
+      $this->db->like('namaakun', $key['akun']);
+      $noAkun = $this->db->get('mnoakun')->row_array();
+      if ($noAkun) {
+        $this->db->where('idSaldoAwalHutang', $key['idSaldoAwalHutang']);
+        $this->db->update('SaldoAwalHutang', [
+          'akun'  => $noAkun['idakun']
+        ]);
+      } else {
+        print_r($key['idSaldoAwalHutang']);echo '<br/>';
+      }
+    }
+  }
 }

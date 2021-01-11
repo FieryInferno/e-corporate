@@ -33,3 +33,6 @@ $route['pemeliharaan_aset/data']            = 'Inventaris/dataPemeliharaanAset';
 $route['tahun_anggaran']                    = 'Tahunanggaran';
 $route['tahun_anggaran/create']             = 'Tahunanggaran/create';
 $route['tahun_anggaran/edit/(:any)']        = 'Tahunanggaran/edit/$1';
+
+
+$route['laporan_neraca_standar']						= 'Laporan/laporan_neraca_standar';

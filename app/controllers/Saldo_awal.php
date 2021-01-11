@@ -210,6 +210,23 @@ class Saldo_awal extends User_Controller {
 		$this->model->setIdSaldoAwal($this->getIdSaldoAwal());
 		$data	= $this->model->get_saldoawaldetail();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	}
+  }
+  
+  public function ubahNoAkun()
+  {
+    $data = $this->db->get('tsaldoawaldetail')->result_array();
+    foreach ($data as $key) {
+      $this->db->like('namaakun', $key['noakun']);
+      $noAkun = $this->db->get('mnoakun')->row_array();
+      if ($noAkun) {
+        $this->db->where('idDetailSaldoAwal', $key['idDetailSaldoAwal']);
+        $this->db->update('tsaldoawaldetail', [
+          'noakun'  => $noAkun['idakun']
+        ]);
+      } else {
+        print_r($key['idDetailSaldoAwal']);echo '<br/>';
+      }
+    }
+  }
 }
 
