@@ -104,10 +104,62 @@ class Inventaris extends User_Controller {
     $this->form_validation->set_rules('kodeBarang[]', 'Kode Barang', 'required');
   }
 
+  private function validationMutasi()
+  {
+    $this->form_validation->set_rules('jenisInventaris', 'Jenis Inventaris', 'required');
+    $this->form_validation->set_rules('noSuratKeputusan', 'No. Surat Keputusan', 'required');
+    $this->form_validation->set_rules('tanggalSuratKeputusan', 'Tanggal Surat Keputusan', 'required');
+    $this->form_validation->set_rules('perusahaanPenerima', 'Perusahaan Penerima', 'required');
+    $this->form_validation->set_rules('perusahaanAsal', 'Perusahaan Asal', 'required');
+    $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
+    $this->form_validation->set_rules('kodeBarang[]', 'Kode Barang', 'required');
+  }
+
   public function dataPemeliharaanAset()
   {
     $perusahaan = $this->input->get('perusahaan');
     $data       = $this->model->dataPemeliharaanAset($perusahaan);
+    return print_r($data);
+  }
+
+	public function mutasiAset()
+	{
+		$data['title']		= 'Mutasi Aset';
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'Inventaris/mutasiAset/index';
+		$data             = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+
+	public function tambahMutasiAset()
+	{
+		$data['title']		  = 'Mutasi Aset';
+		$data['subtitle']	  = 'Tambah';
+		$data['content']	  = 'Inventaris/mutasiAset/tambah';
+		$data['inventaris']	= $this->model->get();
+		$data               = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+  
+  public function simpanMutasiAset()
+  {
+    $this->validationMutasi();
+    if ($this->form_validation->run() !== false) {
+      $data = $this->model->simpanMutasiAset();
+      if ($data) {
+        $hasil['status'] = 'success';
+      } else {
+        $hasil['status'] = 'fail';
+      }
+    } else {
+      $hasil['status'] = 'fail';
+    }
+		$this->output->set_content_type('application/json')->set_output(json_encode($hasil));
+  }
+
+  public function dataMutasiAset()
+  {
+    $data = $this->model->dataMutasiAset();
     return print_r($data);
   }
 }

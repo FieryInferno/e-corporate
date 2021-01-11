@@ -109,5 +109,50 @@ class Inventaris_model extends CI_Model {
     if ($perusahaan) $this->datatables->where('perusahaan', $perusahaan);
     return $this->datatables->generate();
   }
+
+  public function dataMutasiAset()
+  {
+    $this->load->library('Datatables');
+    // $this->datatables->select('mutasiAset.*, perusahaanPenerima.nama_perusahaan as perusahaanPenerima, perusahaanAsal.nama_perusahaan as perusahaanAsal, perusahaanPenerima.kode as kodePerusahaanPenerima, perusahaanAsal.kode as kodePerusahaanAsal, saldoAwalInventaris.kodeInventaris as kodeBarangA, tinventaris.kode_barang as kodeBarangB, saldoAwalInventaris.noRegister as noRegisterA, tinventaris.nomor_register as noRegisterB');
+    $this->datatables->select('mutasiAset.*, perusahaanPenerima.nama_perusahaan as perusahaanPenerima, perusahaanAsal.nama_perusahaan as perusahaanAsal, mnoakun.namaakun as jenisInventaris');
+		$this->datatables->from('mutasiAset');
+    $this->datatables->join('mperusahaan as perusahaanPenerima', 'mutasiAset.perusahaanPenerima = perusahaanPenerima.idperusahaan');
+    $this->datatables->join('mperusahaan as perusahaanAsal', 'mutasiAset.perusahaanAsal = perusahaanAsal.idperusahaan');
+    $this->datatables->join('mnoakun', 'mutasiAset.jenisInventaris = mnoakun.idakun');
+    // $this->datatables->join('mutasiAsetDetail', 'mutasiAset.idMutasi = mutasiAsetDetail.idMutasi');
+    // $this->datatables->join('saldoAwalInventaris', 'mutasiAsetDetail.kodeBarang = saldoAwalInventaris.kodeInventaris', 'left');
+    // $this->datatables->join('tinventaris', 'mutasiAsetDetail.kodeBarang = tinventaris.kode_barang', 'left');
+    return $this->datatables->generate();
+  }
+
+  public function simpanMutasiAset()
+  {
+    $harga      = $this->input->post('harga');
+    $totalHarga = 0;
+    foreach ($harga as $key) {
+      $totalHarga += $key;
+    }
+    $idMutasi = uniqid('mutasi');
+    $insert   = $this->db->insert('mutasiAset', [
+      'idMutasi'              => $idMutasi,
+      'jenisInventaris'       => $this->input->post('jenisInventaris'),
+      'noSuratKeputusan'      => $this->input->post('noSuratKeputusan'),
+      'tanggalSuratKeputusan' => $this->input->post('tanggalSuratKeputusan'),
+      'perusahaanPenerima'    => $this->input->post('perusahaanPenerima'),
+      'perusahaanAsal'        => $this->input->post('perusahaanAsal'),
+      'keterangan'            => $this->input->post('keterangan'),
+      'nominalAsset'          => $totalHarga
+    ]);
+    if ($insert) {
+      $kodeBarang = $this->input->post('kodeBarang');
+      foreach ($kodeBarang as $key) {
+        $this->db->insert('mutasiAsetDetail', [
+          'idMutasi'    => $idMutasi,
+          'kodeBarang'  => $key
+        ]);
+      }
+    } 
+    return $insert;
+  }
 }
 
