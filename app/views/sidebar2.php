@@ -321,7 +321,7 @@
               <i class="nav-icon fas fa-tachometer-alt"></i><p><?php echo lang('Stock_Opname') ?></p></a>
           </li>
 
-        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank', 'laporan_buku_pembantu_kas_kecil', 'outstanding_invoice', 'outstanding_payable', 'project_list'); ?>
+        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank', 'laporan_buku_pembantu_kas_kecil', 'outstanding_invoice', 'outstanding_payable', 'project_list', 'laporan_neraca_multi_period'); ?>
         <li class="nav-item has-treeview  <?php echo menu_is_open($menuLaporan) ?>">
           <a href="#" class="nav-link
           <?php
@@ -427,7 +427,7 @@
               <i class="far fa-circle nav-icon"></i><p>Laporan Neraca (Compare Month)</p></a>
             </li>   
             <li class="nav-item">
-              <a href="{site_url}laporan_neraca" class="nav-link <?php echo menu_is_active('laporan_neraca') ?>">
+              <a href="{site_url}laporan_neraca_multi_period" class="nav-link <?php echo menu_is_active('laporan_neraca_multi_period') ?>">
               <i class="far fa-circle nav-icon"></i><p>Laporan Neraca (Multi Period)</p></a>
             </li> 
             <li class="nav-item">

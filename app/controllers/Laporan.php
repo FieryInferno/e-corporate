@@ -1694,4 +1694,71 @@ class Laporan extends User_Controller {
 
         return $bulan;
     }
+
+  public function neracaMultiPeriod() {
+    if ($this->perusahaan) {
+      $this->LaporanModel->set('perusahaan', $this->perusahaan);
+      $this->LaporanModel->set('rekening', $this->rekening);
+      $this->LaporanModel->set('tanggalAwal', $this->tanggalAwal);
+      $this->LaporanModel->set('tanggalAkhir', $this->tanggalAkhir);
+      $data['laporan']		= $this->LaporanModel->getLaporanKasBank();
+      $data['tanggalAwal']	= $this->tgl_indo($this->tanggalAwal);
+      $data['tanggalAkhir']	= $this->tgl_indo($this->tanggalAkhir);
+      $data['perusahaan']		= $this->Perusahaan_model->get_by_id($this->perusahaan);
+      $data['rekening']		= $this->rekening;
+      switch ($this->input->get('jenis')) {
+        case 'pdf':
+          $this->load->library('pdf');
+          $pdf			= $this->pdf;
+          $data['title']	= 'Laporan Kas Bank';
+          $data['css']	= file_get_contents(FCPATH.'assets/css/print.min.css');
+          $data			= array_merge($data,path_info());
+          $html 			= $this->load->view('laporan/kasBank/print', $data, TRUE);
+          $pdf->loadHtml($html);
+          $pdf->setPaper('A4', 'portrait');
+          $pdf->render();
+          $time = time();
+          $pdf->stream("Laporan Kas Bank". $time, array("Attachment" => false));
+          break;
+        case 'excel':
+          $spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Buku Kas Bank Excel.xlsx');
+          $worksheet		= $spreadsheet->getActiveSheet();
+          $worksheet->getCell('A1')->setValue($data['perusahaan']['nama_perusahaan']);
+          $worksheet->getCell('A3')->setValue('From ' . $data['tanggalAwal'] . ' to ' . $data['tanggalAkhir']);
+          $no = 0;
+          $x	= 6;
+          foreach ($data['laporan'] as $key) {
+            foreach ($key as $value) { 
+              $worksheet->getCell('A' . $x)->setValue($value['tanggal']);
+              $worksheet->getCell('B' . $x)->setValue($value['no']);
+              $worksheet->getCell('C' . $x)->setValue($value['keterangan']);
+              $worksheet->mergeCells('C' . $x . ':' . 'D' . $x);
+              $worksheet->getCell('E' . $x)->setValue(number_format($value['debet'],2,',','.'));
+              $worksheet->getCell('F' . $x)->setValue(number_format($value['kredit'],2,',','.'));
+              $worksheet->getCell('G' . $x)->setValue(number_format(($value['debet'] - $value['kredit']),2,',','.'));
+              $x++;
+            }
+          }
+          $writer = new Xlsx($spreadsheet);
+          $filename = 'LaporanBukuBank';
+          
+          header('Content-Type: application/vnd.ms-excel');
+          header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+          header('Cache-Control: max-age=0');
+      
+          $writer->save('php://output');
+          break;
+        
+        default:
+          # code...
+          break;
+      }
+    } else {
+      $data['title']		= 'Laporan Neraca Multi Period';
+      $data['subtitle']	= lang('list');
+      $data['content']	= 'laporan/neracaMultiPeriod/index';
+      $data				      = array_merge($data,path_info());
+      $this->parser->parse('template',$data);
+    }
+  }
 }
