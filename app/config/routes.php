@@ -42,5 +42,6 @@ $route['tahun_anggaran/edit/(:any)']        = 'Tahunanggaran/edit/$1';
 
 $route['laporan_neraca']						        = 'Laporan/laporan_neraca';
 $route['laporan_neraca_standar']						= 'Laporan/laporan_neraca_standar';
+$route['export_laporan_neraca_standar']			= 'Laporan/export_laporan_neraca_standar';
 
 $route['laporan_neraca_multi_period']				= 'Laporan/neracaMultiPeriod';
