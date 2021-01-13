@@ -159,7 +159,7 @@ class Neraca_model extends CI_Model {
 		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.debet, tsaldoawaldetail.noakun');
 		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
-		$this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');
+		$this->db->where('month(tsaldoawal.tanggal) = "' . substr($this->tanggalAwal, 5, 2) . '"');
 		$this->db->not_like('tsaldoawaldetail.debet', '0', 'after');
 		$this->db->like('mnoakun.akunno', '1', 'after');
 		$saldoAwal	= $this->db->get_where('tsaldoawal', [
@@ -196,7 +196,8 @@ class Neraca_model extends CI_Model {
 		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.kredit');
 		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
-		$this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');
+		// $this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');
+		$this->db->where('month(tsaldoawal.tanggal) = "' . substr($this->tanggalAwal, 5, 2) . '"');
 		$this->db->not_like('tsaldoawaldetail.kredit', '0', 'after');
 		$this->db->like('mnoakun.akunno', '2', 'after');
 		return $this->db->get_where('tsaldoawal', [
@@ -238,7 +239,8 @@ class Neraca_model extends CI_Model {
 		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.kredit');
 		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
-		$this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');
+		// $this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');
+		$this->db->where('month(tsaldoawal.tanggal) = "' . substr($this->tanggalAwal, 5, 2) . '"');
 		$this->db->not_like('tsaldoawaldetail.kredit', '0', 'after');
 		$this->db->like('mnoakun.akunno', '3', 'after');
 		return $this->db->get_where('tsaldoawal', [
