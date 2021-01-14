@@ -1355,8 +1355,8 @@ class Laporan extends User_Controller {
 			$data['title2']           = 'As of '.$tanggal_a;
       $data['css']              = file_get_contents(FCPATH.'assets/css/print.min.css');
       $data['getasetlancar']		= $this->Neraca_model->getasetlancar_standard();
-			// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
-			$data['getliabilitas']  = $this->Neraca_model->getliabilitas_standard();
+			$data['asetTetap']        = $this->Neraca_model->getAsetTetapStandar();
+			$data['getliabilitas']    = $this->Neraca_model->getliabilitas_standard();
 			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
 			$data['gettotallabarugi']	= $this->Neraca_model->gettotallabarugi_standard();
 			$data['ekuitas']  = $this->Neraca_model->getEkuitas_standard();

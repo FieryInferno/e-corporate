@@ -43,14 +43,28 @@
         <tr class="bg-grey-300">
           <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Aset Tetap') ?></td>
         </tr>
+        <?php
+          $totalAsetTetapPeriodeKini = 0;
+          $totalAsetTetap            = 0;
+          if ($asetTetap) {
+            foreach ($asetTetap as $key) { ?>
+              <tr class="table-active">
+                <td><?= $key['namaakun']; ?></td>
+                <td class="text-right"><?= number_format($key['debetPeriodeKini'],2,',','.'); ?></td>
+              </tr>
+            <?php 
+              $totalAsetTetapPeriodeKini += $key['debetPeriodeKini'];
+            }
+          } 
+        ?>
         <tr class="">
           <td class="font-weight-bold text-uppercase"><?php echo lang('Total Aset Tetap') ?></td>
-          <td class="text-right font-weight-bold"></td>
+          <td class="text-right font-weight-bold"><?= number_format($totalAsetTetapPeriodeKini,2,',','.'); ?></td>
         </tr>
 
-        <tr class="bg-success">
+        <tr class="table-active">
           <td class="font-weight-bold text-uppercase"><?php echo lang('Total Aset') ?></td>
-          <td class="text-right font-weight-bold"></td>
+          <td class="text-right font-weight-bold"><?= number_format(($totalAsetLancarPeriodeKini + $totalAsetTetapPeriodeKini),2,',','.'); ?></td>
         </tr>
         <tr class="{bg_header}">
           <td colspan="2" class="font-weight-bold text-uppercase"><?php echo lang('Liabilitas dan Ekuitas') ?></td>
@@ -101,7 +115,7 @@
           <td class="text-right font-weight-bold"><?= number_format($totalEkuitas + $gettotallabarugi,2,',','.'); ?></td>
             
         </tr>
-        <tr class="bg-success">
+        <tr class="table-active">
           <td class="font-weight-bold text-uppercase"><?php echo lang('Total Liabilitas dan Ekuitas') ?></td>
           <td class="text-right font-weight-bold"><?= number_format(($totalEkuitas + $gettotallabarugi + $totalLiabilitas),2,',','.'); ?></td>
         </tr>
