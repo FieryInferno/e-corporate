@@ -1347,20 +1347,26 @@ class Laporan extends User_Controller {
 		$bulan_a = $this->bulan($pch_tgl_a[1]);
 		$tanggal_a = $pch_tgl_a[2].' '.$bulan_a.' '.$pch_tgl_a[0];
 		if($this->input->get('pdf')){
-			$this->load->library('pdf');
-			$data['get_per']		= $this->Perusahaan_model->get_by_id($this->perusahaan);
-
-			$data['nama_perusahaan'] = $data['get_per']['nama_perusahaan'];
-			$data['title']		= 'Balance Sheet(Standard)';
-			$data['title2']		= 'As of '.$tanggal_a;
-			$data['getasetlancar']		= $this->Neraca_model->getasetlancar_standard();
+      $this->load->library('pdf');
+      $pdf                      = $this->pdf;
+      $data['title']            = 'Balance Sheet (Standard)';
+			$data['get_per']	      	= $this->Perusahaan_model->get_by_id($this->perusahaan);
+      $data['nama_perusahaan']  = $data['get_per']['nama_perusahaan'];
+			$data['title2']           = 'As of '.$tanggal_a;
+      $data['css']              = file_get_contents(FCPATH.'assets/css/print.min.css');
+      $data['getasetlancar']		= $this->Neraca_model->getasetlancar_standard();
 			// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
-			$data['getliabilitas']		= $this->Neraca_model->getliabilitas_standard();
+			$data['getliabilitas']  = $this->Neraca_model->getliabilitas_standard();
 			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
 			$data['gettotallabarugi']	= $this->Neraca_model->gettotallabarugi_standard();
-			$data['ekuitas']			= $this->Neraca_model->getEkuitas_standard();
-			$this->load->view('laporan/cetak_laporan_neraca_standar', $data);
-
+			$data['ekuitas']  = $this->Neraca_model->getEkuitas_standard();
+      $data		  	              = array_merge($data,path_info());
+      $html 			              = $this->load->view('laporan/cetak_laporan_neraca_standar', $data, TRUE);
+      $pdf->loadHtml($html);
+      $pdf->setPaper('A4', 'portrait');
+      $pdf->render();
+      $time = time();
+      $pdf->stream("Balance Sheet (Standard)". $time, array("Attachment" => false));
 	    } else {
 			include_once APPPATH . 'third_party/PHPExcel.php';
         	$get_per		= $this->Perusahaan_model->get_by_id($this->perusahaan);
@@ -1718,8 +1724,6 @@ class Laporan extends User_Controller {
       }
 			$data['tanggalAwal']	= $this->tgl_indo($this->tanggalAwal);
       $data['tanggalAkhir']	= $this->tgl_indo($this->tanggalAkhir);
-      // print_r($data['laporan']);
-      // die();
       $data['perusahaan'] = $this->Perusahaan_model->get_by_id($this->perusahaan);
       switch ($this->input->get('jenis')) {
         case 'pdf':
