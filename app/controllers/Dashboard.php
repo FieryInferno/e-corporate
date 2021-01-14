@@ -10,9 +10,9 @@ class Dashboard extends User_Controller
 
     public function index()
     {
-        $data['title'] = lang('dashboard');
-        $data['content'] = 'Dashboard/content';
-        $data = array_merge($data, path_info());
+        $data['title']    = lang('dashboard');
+        $data['content']  = 'Dashboard/content';
+        $data             = array_merge($data, path_info());
         $this->parser->parse('template', $data);
     }
 
