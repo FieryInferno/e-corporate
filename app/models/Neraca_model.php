@@ -193,7 +193,7 @@ class Neraca_model extends CI_Model {
 	}
 
 	public function getliabilitas_standard() {
-		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.kredit');
+		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.kredit, tsaldoawaldetail.noakun');
 		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
 		// $this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');
@@ -236,7 +236,7 @@ class Neraca_model extends CI_Model {
 
 	public function getEkuitas_standard()
 	{
-		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.kredit');
+		$this->db->select('mnoakun.namaakun, tsaldoawaldetail.kredit, tsaldoawaldetail.noakun');
 		$this->db->join('tsaldoawaldetail', 'tsaldoawal.idSaldoAwal = tsaldoawaldetail.idsaldoawal');
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
 		// $this->db->where('tsaldoawal.tanggal <= "' . $this->tanggalAwal . '"');

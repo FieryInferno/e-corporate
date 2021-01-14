@@ -1697,28 +1697,43 @@ class Laporan extends User_Controller {
 
   public function neracaMultiPeriod() {
     if ($this->perusahaan) {
-      $this->LaporanModel->set('perusahaan', $this->perusahaan);
-      $this->LaporanModel->set('rekening', $this->rekening);
-      $this->LaporanModel->set('tanggalAwal', $this->tanggalAwal);
-      $this->LaporanModel->set('tanggalAkhir', $this->tanggalAkhir);
-      $data['laporan']		= $this->LaporanModel->getLaporanKasBank();
-      $data['tanggalAwal']	= $this->tgl_indo($this->tanggalAwal);
+      $tanggalAwal  = strtotime($this->tanggalAwal);
+      $tanggalAkhir = strtotime($this->tanggalAkhir);
+      $numBulan     = 1 + (date("Y", $tanggalAkhir) - date("Y", $tanggalAwal)) * 12;
+      $numBulan     += date("m", $tanggalAkhir) - date("m", $tanggalAwal);
+      $tahun        = substr($this->tanggalAwal, 0, 4);
+      $bulan        = substr($this->tanggalAwal, 5, 2);
+      for ($i=0; $i < $numBulan; $i++) { 
+        $this->Neraca_model->set('tanggalAwal', $tahun . $bulan . '-01');
+        $this->Neraca_model->set('perusahaan', $this->perusahaan);
+        $data['laporan'][$bulan . '-' . $tahun]['asetLancar']    = $this->Neraca_model->getasetlancar_standard();
+        $data['laporan'][$bulan . '-' . $tahun]['liabilitas']    = $this->Neraca_model->getliabilitas_standard();
+        $data['laporan'][$bulan . '-' . $tahun]['totalLabarugi'] = $this->Neraca_model->gettotallabarugi_standard();
+        $data['laporan'][$bulan . '-' . $tahun]['ekuitas']       = $this->Neraca_model->getEkuitas_standard();
+        $bulan++;
+        if ($bulan > 12) {
+          $bulan  = 1;
+          $tahun++;
+        }
+      }
+			$data['tanggalAwal']	= $this->tgl_indo($this->tanggalAwal);
       $data['tanggalAkhir']	= $this->tgl_indo($this->tanggalAkhir);
-      $data['perusahaan']		= $this->Perusahaan_model->get_by_id($this->perusahaan);
-      $data['rekening']		= $this->rekening;
+      // print_r($data['laporan']);
+      // die();
+      $data['perusahaan'] = $this->Perusahaan_model->get_by_id($this->perusahaan);
       switch ($this->input->get('jenis')) {
         case 'pdf':
           $this->load->library('pdf');
-          $pdf			= $this->pdf;
-          $data['title']	= 'Laporan Kas Bank';
-          $data['css']	= file_get_contents(FCPATH.'assets/css/print.min.css');
-          $data			= array_merge($data,path_info());
-          $html 			= $this->load->view('laporan/kasBank/print', $data, TRUE);
+          $pdf            = $this->pdf;
+          $data['title']	= 'Balance Sheet (Multi Period)';
+          $data['css']    = file_get_contents(FCPATH.'assets/css/print.min.css');
+          $data		  	    = array_merge($data,path_info());
+          $html 			    = $this->load->view('laporan/neracaMultiPeriod/print', $data, TRUE);
           $pdf->loadHtml($html);
-          $pdf->setPaper('A4', 'portrait');
+          $pdf->setPaper('legal', 'landscape');
           $pdf->render();
           $time = time();
-          $pdf->stream("Laporan Kas Bank". $time, array("Attachment" => false));
+          $pdf->stream("Balance Sheet (Multi Period)". $time, array("Attachment" => false));
           break;
         case 'excel':
           $spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Buku Kas Bank Excel.xlsx');

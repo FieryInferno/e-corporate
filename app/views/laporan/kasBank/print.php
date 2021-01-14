@@ -49,14 +49,14 @@
                         }
                         foreach ($laporan as $key) {
                             foreach ($key as $value) { ?>
-                                <tr>
-                                    <td class="text-center"><?= $value['tanggal']; ?></td>
-                                    <td class="text-center"><?= $value['no']; ?></td>
-                                    <td class="text-center"><?= $value['keterangan']; ?></td>
-                                    <td class="text-center"><?= number_format($value['debet'],2,',','.'); ?></td>
-                                    <td class="text-center"><?= number_format($value['kredit'],2,',','.'); ?></td>
-                                    <td class="text-center"><?= number_format(($value['debet'] - $value['kredit']),2,',','.'); ?></td>
-                                </tr>
+                              <tr>
+                                <td class="text-center"><?= $value['tanggal']; ?></td>
+                                <td class="text-center"><?= $value['no']; ?></td>
+                                <td class="text-center"><?= $value['keterangan']; ?></td>
+                                <td class="text-center"><?= number_format($value['debet'],2,',','.'); ?></td>
+                                <td class="text-center"><?= number_format($value['kredit'],2,',','.'); ?></td>
+                                <td class="text-center"><?= number_format(($value['debet'] - $value['kredit']),2,',','.'); ?></td>
+                              </tr>
                             <?php 
                             }
                         }
