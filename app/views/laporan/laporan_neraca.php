@@ -20,7 +20,7 @@
                     <div class="m-3">
                         <form action="{site_url}export_laporan_neraca" method="get">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label>Perusahaan:</label>
                                         <?php
@@ -36,7 +36,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label><?php echo lang('Tanggal Awal') ?>:</label>
                                         <input type="date" class="form-control datepicker" name="tanggalAwal" required>
@@ -44,21 +44,29 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label><?php echo lang('Tanggal Akhir') ?>:</label>
                                         <input type="date" class="form-control datepicker" name="tanggalAkhir" required>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="text-right">
-                                        <button type="submit" name="pdf" value="pdf" formtarget="_blank" class="btn btn-block btn-primary"><i class="fa fa-upload"></i> Export to PDF</button>
-                                        <button type="submit" name="excel" value="excel" class="btn btn-block btn-primary"><i class="fa fa-upload"></i> Export to Excel</button>
-                                    </div>
+                          <div class="row">
+                            <div class="col-md-4">
+                              <div class="row">
+                                <div class="col-6">
+                                  <div class="text-right">
+                                    <button type="submit" name="pdf" value="pdf" formtarget="_blank" class="btn btn-block btn-success">Cetak PDF</button>
+                                  </div>
                                 </div>
+                                <div class="col-6">
+                                  <div class="text-right">
+                                    <button type="submit" name="excel" value="excel" class="btn btn-block btn-success">Cetak XLS</button>
+                                  </div>
+                                </div>
+                              </div>
                             </div>
+                          </div>
                         </form>
                     </div>
                 </div>

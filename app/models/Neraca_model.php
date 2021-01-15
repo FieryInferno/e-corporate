@@ -13,7 +13,8 @@ class Neraca_model extends CI_Model {
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
 		$this->db->where('tsaldoawal.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
 		$this->db->not_like('tsaldoawaldetail.debet', '0', 'after');
-		$this->db->like('mnoakun.akunno', '1', 'after');
+		$this->db->like('mnoakun.akunno', '1.1', 'after');
+		$this->db->or_like('mnoakun.akunno', '11', 'after');
 		$saldoAwal	= $this->db->get_where('tsaldoawal', [
 			'tsaldoawal.perusahaan'	=> $this->perusahaan
 		])->result_array();
@@ -161,7 +162,8 @@ class Neraca_model extends CI_Model {
 		$this->db->join('mnoakun', 'tsaldoawaldetail.noakun = mnoakun.idakun');
 		$this->db->where('month(tsaldoawal.tanggal) = "' . substr($this->tanggalAwal, 5, 2) . '"');
 		$this->db->not_like('tsaldoawaldetail.debet', '0', 'after');
-		$this->db->like('mnoakun.akunno', '1', 'after');
+		$this->db->like('mnoakun.akunno', '1.1', 'after');
+		$this->db->or_like('mnoakun.akunno', '11', 'after');
 		$saldoAwal	= $this->db->get_where('tsaldoawal', [
 			'tsaldoawal.perusahaan'	=> $this->perusahaan
 		])->result_array();

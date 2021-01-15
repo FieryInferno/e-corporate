@@ -44,20 +44,20 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-4">
-                                  <div class="row">
-                                    <div class="col-6">
-                                      <div class="text-right">
-                                        <button type="submit" name="pdf" value="pdf" formtarget="_blank" class="btn btn-block btn-success">Cetak PDF</button>
-                                      </div>
+                              <div class="col-md-4">
+                                <div class="row">
+                                  <div class="col-6">
+                                    <div class="text-right">
+                                      <button type="submit" name="pdf" value="pdf" formtarget="_blank" class="btn btn-block btn-success">Cetak PDF</button>
                                     </div>
-                                    <div class="col-6">
-                                      <div class="text-right">
-                                        <button type="submit" name="excel" value="excel" class="btn btn-block btn-success">Cetak XLS</button>
-                                      </div>
+                                  </div>
+                                  <div class="col-6">
+                                    <div class="text-right">
+                                      <button type="submit" name="excel" value="excel" class="btn btn-block btn-success">Cetak XLS</button>
                                     </div>
                                   </div>
                                 </div>
+                              </div>
                             </div>
                         </form>
                     </div>
