@@ -717,18 +717,18 @@ class Laporan extends User_Controller {
 			$data['title2']		= 'As of '.$tanggal;
 			$data['tanggal_skg']	= $tgl;
 			$this->db->select("sisatagihan as jml_utang, noSSP as no_invoice, tanggal as tanggal, tanggaltempo as tempo");
-		    $this->db->from("tfakturpenjualan");
-		    $this->db->where("sisatagihan >",0);
-		    $this->db->where("tanggal <=", $tgl);
-		    $this->db->where("idperusahaan", $id_perusahaan);
-		    $query1 = $this->db->get_compiled_select(); // It resets the query just like a get()
+      $this->db->from("tfakturpenjualan");
+      $this->db->where("sisatagihan >",0);
+      $this->db->where("tanggal <=", $tgl);
+      $this->db->where("idperusahaan", $id_perusahaan);
+      $query1 = $this->db->get_compiled_select(); // It resets the query just like a get()
 
-		    $this->db->select("jumlah as jml_utang, noInvoice as no_invoice, tanggal as tanggal, tanggalTempo as tempo");
-		    $this->db->from("SaldoAwalPiutang");
-		    $this->db->where("tanggal <=", $tgl);
-		    $this->db->like("tanggal", $pch_tgl[0], "after");
-		    $this->db->where("perusahaan", $id_perusahaan);
-		    $query2 = $this->db->get_compiled_select(); 
+      $this->db->select("jumlah as jml_utang, noInvoice as no_invoice, tanggal as tanggal, tanggalTempo as tempo");
+      $this->db->from("SaldoAwalPiutang");
+      $this->db->where("tanggal <=", $tgl);
+      $this->db->like("tanggal", $pch_tgl[0], "after");
+      $this->db->where("perusahaan", $id_perusahaan);
+      $query2 = $this->db->get_compiled_select(); 
 
 			$data['piutang']		= $this->db->query($query1." UNION ".$query2)->result_array();
 			$this->load->view('laporan/cetak_laporan_piutang', $data);
@@ -1001,11 +1001,11 @@ class Laporan extends User_Controller {
 
 	public function laporan_neraca()
 	{
-		$data['title']		= 'Laporan Neraca';
-		$data['subtitle']	= lang('list');
-		$data['content']	= 'laporan/laporan_neraca';
+		$data['title']		  = 'Laporan Neraca';
+		$data['subtitle']	  = lang('list');
+		$data['content']	  = 'laporan/laporan_neraca';
 		$data['perusahaan'] = $this->db->get('mperusahaan')->result_array();
-		$data = array_merge($data,path_info());
+		$data               = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 
@@ -1021,25 +1021,29 @@ class Laporan extends User_Controller {
 		$bulan_b = $this->bulan($pch_tgl_b[1]);
 		$tanggal_b = $pch_tgl_a[2].' '.$bulan_b.' '.$pch_tgl_b[0];
 		if($this->input->get('pdf')){
-			$this->load->library('pdf');
-			$data['get_per']		= $this->Perusahaan_model->get_by_id($this->perusahaan);
-
-			$data['nama_perusahaan'] = $data['get_per']['nama_perusahaan'];
-			$data['title']		= 'Balance Sheet(Compare Month)';
-			$data['title2']		= 'Period '.$tanggal_a.' to '.$tanggal_b;
+      $this->load->library('pdf');
+			$pdf                      = $this->pdf;
+			$data['get_per']		      = $this->Perusahaan_model->get_by_id($this->perusahaan);
+			$data['nama_perusahaan']  = $data['get_per']['nama_perusahaan'];
+			$data['title']		        = 'Balance Sheet(Compare Month)';
+			$data['title2']		        = 'Period '.$tanggal_a.' to '.$tanggal_b;
 			$data['getasetlancar']		= $this->Neraca_model->getasetlancar();
 			// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
-			$data['getliabilitas']		= $this->Neraca_model->getliabilitas();
+			$data['getliabilitas']  = $this->Neraca_model->getliabilitas();
 			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
-			$data['gettotallabarugi']	= $this->Neraca_model->gettotallabarugi();
-			$data['ekuitas']			= $this->Neraca_model->getEkuitas();
-
-			$tanggalAwal_ = date('Y-m-d', strtotime('-1 month', strtotime($this->tanggalAwal))); 
-			$data['periode_ini'] = date('F Y', strtotime($this->tanggalAkhir));
-			$data['periode_lalu'] = date('F Y', strtotime($tanggalAwal_));
-
-			$this->load->view('laporan/cetak_laporan_neraca', $data);
-
+			$data['gettotallabarugi'] = $this->Neraca_model->gettotallabarugi();
+			$data['ekuitas']          = $this->Neraca_model->getEkuitas();
+			$tanggalAwal_             = date('Y-m-d', strtotime('-1 month', strtotime($this->tanggalAwal))); 
+			$data['periode_ini']      = date('F Y', strtotime($this->tanggalAkhir));
+			$data['periode_lalu']     = date('F Y', strtotime($tanggalAwal_));
+      $data['css']              = file_get_contents(FCPATH.'assets/css/print.min.css');
+      $data                     = array_merge($data,path_info());
+      $html 			              = $this->load->view('laporan/cetak_laporan_neraca', $data, TRUE);
+      $pdf->loadHtml($html);
+      $pdf->setPaper('A4', 'portrait');
+      $pdf->render();
+      $time = time();
+      $pdf->stream("Balance Sheet (Compare Month)". $time, array("Attachment" => false));
 	    } else {
 			include_once APPPATH . 'third_party/PHPExcel.php';
         	$get_per		= $this->Perusahaan_model->get_by_id($this->perusahaan);
@@ -1367,9 +1371,9 @@ class Laporan extends User_Controller {
       $pdf->render();
       $time = time();
       $pdf->stream("Balance Sheet (Standard)". $time, array("Attachment" => false));
-	    } else {
+    } else {
 			include_once APPPATH . 'third_party/PHPExcel.php';
-        	$get_per		= $this->Perusahaan_model->get_by_id($this->perusahaan);
+      $get_per		= $this->Perusahaan_model->get_by_id($this->perusahaan);
 
 			$nama_perusahaan = $get_per['nama_perusahaan'];
 			$title		= 'Balance Sheet(Compare Month)';
@@ -1381,9 +1385,9 @@ class Laporan extends User_Controller {
 			$gettotallabarugi	= $this->Neraca_model->gettotallabarugi();
 			$ekuitas			= $this->Neraca_model->getEkuitas();
 
-	        $excel = new PHPExcel();
+      $excel = new PHPExcel();
 
-	        $excel1 = new PHPExcel_Worksheet($excel, 'Neraca');
+      $excel1 = new PHPExcel_Worksheet($excel, 'Neraca');
 
 			// Attach the "My Data" worksheet as the first worksheet in the PHPExcel object
 			$excel->addSheet($excel1, 0);
