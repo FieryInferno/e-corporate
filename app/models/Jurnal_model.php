@@ -309,8 +309,6 @@ class Jurnal_model extends CI_Model {
 					$this->db->where('mnoakun.akunno', $this->akunno);
 				}
         $data0	= $this->db->get('tkasbank')->result_array();
-        print_r($data0);
-        die();
 				// if ($data0) {
 				// 	foreach ($data0 as $key) {
 				// 		$this->db->select('tJurnalFinansial.*');
@@ -389,6 +387,8 @@ class Jurnal_model extends CI_Model {
                   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun = mnoakun.idakun');
                 }
                 $metaAkun	= $this->db->get_where('tPemetaanAkun', $where)->row_array();
+                print_r(strpos($value['elemen'], '1'));
+                die();
                 array_push($jurnalUmum, [
                   'tanggal'			    => $key['tanggal'],
                   'formulir'			  => 'Kas Bank',
