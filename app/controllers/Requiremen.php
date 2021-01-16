@@ -160,7 +160,6 @@ class Requiremen extends User_Controller {
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mkontak.id, mkontak.nama as text');
-			$this->db->limit(10);
 			if($term) $this->db->like('mkontak.nama', $term);
 			$data = $this->db->get('mkontak')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
