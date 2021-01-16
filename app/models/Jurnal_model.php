@@ -377,23 +377,20 @@ class Jurnal_model extends CI_Model {
                   $where	= ['kodeAkun'	=> $key['idakun']];
                 }
                 $this->db->select('mnoakun.akunno, mnoakun.namaakun');
-                // if (strrpos($value['elemen'], '1')) {
+                if (strrpos($value['elemen'], '1')) {
                   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun1 = mnoakun.idakun');
-                // } elseif (strrpos($value['elemen'], '2')) {
-                //   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun2 = mnoakun.idakun');
-                // } elseif (strrpos($value['elemen'], '3')) {
-                //   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun3 = mnoakun.idakun');
-                // } else {
-                //   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun = mnoakun.idakun');
-                // }
-                // $metaAkun	= $this->db->get_where('tPemetaanAkun', $where)->row_array();
-                $metaAkun	= $this->db->get_where('tPemetaanAkun', [
-                  'kodeAkun'  => 434
-                ])->row_array();
+                } elseif (strrpos($value['elemen'], '2')) {
+                  $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun2 = mnoakun.idakun');
+                } elseif (strrpos($value['elemen'], '3')) {
+                  $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun3 = mnoakun.idakun');
+                } else {
+                  $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun = mnoakun.idakun');
+                }
+                $metaAkun	= $this->db->get_where('tPemetaanAkun', $where)->row_array();
                 print_r($metaAkun);echo '<br/>';
-                print_r($key['idakun']);echo '<br/>';
-                print_r($value['elemen']);echo '<br/>';
-                print_r(strrpos($value['elemen'], '1'));echo '<br/>';
+                // print_r($key['idakun']);echo '<br/>';
+                // print_r($value['elemen']);echo '<br/>';
+                // print_r(strrpos($value['elemen'], '1'));echo '<br/>';
                 array_push($jurnalUmum, [
                   'tanggal'			    => $key['tanggal'],
                   'formulir'			  => 'Kas Bank',
