@@ -387,7 +387,7 @@ class Jurnal_model extends CI_Model {
                   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun = mnoakun.idakun');
                 }
                 $metaAkun	= $this->db->get_where('tPemetaanAkun', $where)->row_array();
-                print_r(strrpos('mapAkun1', '1'));
+                print_r($value['elemen']);
                 die();
                 array_push($jurnalUmum, [
                   'tanggal'			    => $key['tanggal'],
