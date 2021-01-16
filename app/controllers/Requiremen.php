@@ -157,12 +157,9 @@ class Requiremen extends User_Controller {
 		if($id) {
 			$this->db->select('mkontak.id, mkontak.nama as text');
 			$data = $this->db->where('id', $id)->get('mkontak')->row_array();
-			$this->db->where('mkontak.tipe', '1');
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mkontak.id, mkontak.nama as text');
-			$this->db->where('mkontak.stdel', '0');
-			$this->db->where('mkontak.tipe', '1');
 			$this->db->limit(10);
 			if($term) $this->db->like('mkontak.nama', $term);
 			$data = $this->db->get('mkontak')->result_array();
