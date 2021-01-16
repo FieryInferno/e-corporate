@@ -157,78 +157,74 @@
         </ul>
       </li>	
 
-          <?php $menuPembelian = array('requiremen', 'pemesanan_pembelian', 'pengiriman_pembelian', 'faktur_pembelian', 'pembayaran_pembelian', 'retur_pembelian')?>
-          <li class="nav-item has-treeview  <?php echo menu_is_open($menuPembelian) ?>">
-            <a href="#" class="nav-link
-              <?php
-                if (in_array($this->uri->segment(1), $menuPembelian)) {
-                  echo 'active';
-                }
-              ?>"><i class="nav-icon fas fa-clipboard-list"></i>
-              <p><?php echo lang('purchasing') ?><i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('purchasing') ?>">
-              <li class="nav-item">
-              <a href="{site_url}requiremen" class="nav-link <?php echo menu_is_active('requiremen') ?>"><i class="far fa-circle nav-icon"></i><p>Permintaan Pembelian</p></a>
-              </li>
-              <li class="nav-item">
-              <a href="{site_url}pemesanan_pembelian" class="nav-link <?php echo menu_is_active('pemesanan_pembelian') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('purchase_order') ?></p></a>
-              </li>
-              <li class="nav-item">
-              <a href="{site_url}pengiriman_pembelian" class="nav-link <?php echo menu_is_active('pengiriman_pembelian') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('goods_receipt') ?></p></a>
-              </li>            
-              <li class="nav-item">
-              <a href="{site_url}faktur_pembelian" class="nav-link <?php echo menu_is_active('faktur_pembelian') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('invoice') ?></p></a>
-              </li>            
-              <li class="nav-item">
-              <a href="{site_url}pembayaran_pembelian" class="nav-link <?php echo menu_is_active('pembayaran_pembelian') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('payment') ?></p></a>
-              </li>            
-              <li class="nav-item">
-              <a href="{site_url}retur_pembelian" class="nav-link <?php echo menu_is_active('retur_pembelian') ?>">
-              <i class="far fa-circle nav-icon"></i><p><?php echo lang('return') ?></p></a>
-              </li>    
-            </ul>
-          </li>	
+      <?php $menuPembelian = array('requiremen', 'pemesanan_pembelian', 'pengiriman_pembelian', 'faktur_pembelian', 'pembayaran_pembelian', 'retur_pembelian')?>
+      <li class="nav-item has-treeview  <?php echo menu_is_open($menuPembelian) ?>">
+        <a href="#" class="nav-link
+          <?php
+            if (in_array($this->uri->segment(1), $menuPembelian)) {
+              echo 'active';
+            }
+          ?>"><i class="nav-icon fas fa-clipboard-list"></i>
+          <p><?php echo lang('purchasing') ?><i class="fas fa-angle-left right"></i></p>
+        </a>
+        <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('purchasing') ?>">
+          <li class="nav-item">
+            <a href="{site_url}requiremen" class="nav-link <?php echo menu_is_active('requiremen') ?>"><i class="far fa-circle nav-icon"></i><p>Permintaan Pembelian</p></a>
+          </li>
+          <li class="nav-item">
+            <a href="{site_url}pemesanan_pembelian" class="nav-link <?php echo menu_is_active('pemesanan_pembelian') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('purchase_order') ?></p></a>
+          </li>
+          <li class="nav-item">
+            <a href="{site_url}pengiriman_pembelian" class="nav-link <?php echo menu_is_active('pengiriman_pembelian') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('goods_receipt') ?></p></a>
+          </li>            
+          <li class="nav-item">
+            <a href="{site_url}faktur_pembelian" class="nav-link <?php echo menu_is_active('faktur_pembelian') ?>">
+          <i class="far fa-circle nav-icon"></i><p><?php echo lang('invoice') ?></p></a>
+          </li>          
+          <li class="nav-item">
+            <a href="{site_url}retur_pembelian" class="nav-link <?php echo menu_is_active('retur_pembelian') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('return') ?></p></a>
+          </li>    
+        </ul>
+      </li>	
 
-          <?php $menuPenjualan = array('pemesanan_penjualan', 'pengiriman_penjualan', 'faktur_penjualan', 'pembayaran_penjualan', 'retur_penjualan', 'project'); ?>
-          <li class="nav-item has-treeview  <?php echo menu_is_open($menuPenjualan) ?>">
-            <a href="#" class="nav-link 
-              <?php
-                if (in_array($this->uri->segment(1), $menuPenjualan)) {
-                  echo 'active';
-                }
-              ?>"><i class="nav-icon fas fa-shopping-cart"></i>
-              <p><?php echo lang('selling') ?><i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('selling') ?>">
-              <li class="nav-item">
-                <a href="{site_url}project" class="nav-link <?php echo menu_is_active('project') ?>">
-                <i class="far fa-circle nav-icon"></i><p>Project</p></a>
-              </li>                        
-              <li class="nav-item">
-                <a href="{site_url}pemesanan_penjualan" class="nav-link <?php echo menu_is_active('pemesanan_penjualan') ?>">
-                <i class="far fa-circle nav-icon"></i><p><?php echo lang('sales_order') ?></p></a>
-              </li>            
-              <li class="nav-item">
-                <a href="{site_url}pengiriman_penjualan" class="nav-link <?php echo menu_is_active('pengiriman_penjualan') ?>">
-                <i class="far fa-circle nav-icon"></i><p><?php echo lang('delivery') ?></p></a>
-              </li>            
-              <li class="nav-item">
-                <a href="{site_url}faktur_penjualan" class="nav-link <?php echo menu_is_active('faktur_penjualan') ?>">
-                <i class="far fa-circle nav-icon"></i><p><?php echo lang('invoice') ?></p></a>
-              </li>            
-              <li class="nav-item">
-                <a href="{site_url}SetorPajak" class="nav-link <?php echo menu_is_active('SetorPajak') ?>">
-                <i class="far fa-circle nav-icon"></i><p>Setor Pajak</p></a>
-              </li>            
-              <li class="nav-item">
-                <a href="{site_url}retur_penjualan" class="nav-link <?php echo menu_is_active('retur_penjualan') ?>">
-                <i class="far fa-circle nav-icon"></i><p><?php echo lang('return') ?></p></a>
-              </li>        
-            </ul>
-          </li>	          
+      <?php $menuPenjualan = array('pemesanan_penjualan', 'pengiriman_penjualan', 'faktur_penjualan', 'pembayaran_penjualan', 'retur_penjualan', 'project'); ?>
+      <li class="nav-item has-treeview  <?php echo menu_is_open($menuPenjualan) ?>">
+        <a href="#" class="nav-link 
+          <?php
+            if (in_array($this->uri->segment(1), $menuPenjualan)) {
+              echo 'active';
+            }
+          ?>"><i class="nav-icon fas fa-shopping-cart"></i>
+          <p><?php echo lang('selling') ?><i class="fas fa-angle-left right"></i></p>
+        </a>
+        <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('selling') ?>">
+          <li class="nav-item">
+            <a href="{site_url}project" class="nav-link <?php echo menu_is_active('project') ?>">
+            <i class="far fa-circle nav-icon"></i><p>Project</p></a>
+          </li>                        
+          <li class="nav-item">
+            <a href="{site_url}pemesanan_penjualan" class="nav-link <?php echo menu_is_active('pemesanan_penjualan') ?>">
+            <i class="far fa-circle nav-icon"></i><p><?php echo lang('sales_order') ?></p></a>
+          </li>            
+          <li class="nav-item">
+            <a href="{site_url}pengiriman_penjualan" class="nav-link <?php echo menu_is_active('pengiriman_penjualan') ?>">
+            <i class="far fa-circle nav-icon"></i><p><?php echo lang('delivery') ?></p></a>
+          </li>            
+          <li class="nav-item">
+            <a href="{site_url}faktur_penjualan" class="nav-link <?php echo menu_is_active('faktur_penjualan') ?>">
+            <i class="far fa-circle nav-icon"></i><p><?php echo lang('invoice') ?></p></a>
+          </li>            
+          <li class="nav-item">
+            <a href="{site_url}SetorPajak" class="nav-link <?php echo menu_is_active('SetorPajak') ?>">
+            <i class="far fa-circle nav-icon"></i><p>Setor Pajak</p></a>
+          </li>            
+          <li class="nav-item">
+            <a href="{site_url}retur_penjualan" class="nav-link <?php echo menu_is_active('retur_penjualan') ?>">
+            <i class="far fa-circle nav-icon"></i><p><?php echo lang('return') ?></p></a>
+          </li>        
+        </ul>
+      </li>	   
+
         <?php $menu = array('kas_bank', 'pemindahbukuan', 'pengeluaran_kas_kecil', 'setor_kas_kecil', 'pengajuan_kas_kecil'); ?>
           <li class="nav-item has-treeview  <?php echo menu_is_open($menu) ?>">
             <a href="#" class="nav-link
