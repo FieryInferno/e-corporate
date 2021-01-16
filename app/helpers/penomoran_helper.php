@@ -14,8 +14,12 @@ function penomoran($formulir, $perusahaan)
       $key  = substr($key, 6);
       $ci->db->order_by('notrans', 'DESC');
       $data       = $ci->db->get('tpemesanan')->row_array();
-      $arrayData  = explode('/', $data['notrans']);
-      $nomor      = (integer) $arrayData[$i] + 1;
+      if ($data) {
+        $arrayData  = explode('/', $data['notrans']);
+        $nomor      = (integer) $arrayData[$i] + 1;
+      } else {
+        $nomor  = 1;
+      }
       switch (strlen($nomor)) {
         case 1:
           $nomor  = '0000' . $nomor; 

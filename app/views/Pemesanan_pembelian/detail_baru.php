@@ -33,8 +33,6 @@
             <div class="col-md-6 text-right">
               <?php if ($status == '4'): ?>
                 <h1 class="text-danger font-weight-bold text-uppercase"><?php echo lang('pending') ?></h1>
-              <?php elseif ($status == '5'): ?>
-                <h1 class="text-warning font-weight-bold text-uppercase"><?php echo lang('partial') ?></h1>
               <?php else: ?>
                 <h1 class="text-success font-weight-bold text-uppercase"><?php echo lang('done') ?></h1>
               <?php endif ?>
