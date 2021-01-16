@@ -30,8 +30,6 @@ class Jurnal extends User_Controller {
 		$this->model->set('akunno', $this->akunno);
 		$this->model->set('perusahaan', $this->perusahaan);
 		$data['jurnalUmum']	= $this->model->get();
-		// $data['jurnalUmum']	= [];
-		
 		$data = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
