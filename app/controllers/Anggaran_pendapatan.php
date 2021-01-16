@@ -15,11 +15,11 @@ class Anggaran_pendapatan extends User_Controller
 
 	public function index()
 	{
-		$data['title'] = lang('anggaran_pendapatan');
-		$data['subtitle'] = lang('list');
-		$data['content'] = 'Anggaran_pendapatan/index';
-		$data['total_nominal'] = $this->model->hitungJumlahNominal();
-		$data = array_merge($data, path_info());
+		$data['title']          = 'Anggaran Pendapatan';
+		$data['subtitle']       = lang('list');
+		$data['content']        = 'Anggaran_pendapatan/index';
+		$data['total_nominal']  = $this->model->hitungJumlahNominal();
+		$data                   = array_merge($data, path_info());
 		$this->parser->parse('template', $data);
 	}
 
@@ -38,9 +38,10 @@ class Anggaran_pendapatan extends User_Controller
 
 	public function create()
 	{
-		$data['title']		= 'Tambah';
+		$data['title']		= 'Anggaran Pendapatan';
+		$data['subtitle']	= 'Tambah';
 		$data['content']	= 'Anggaran_pendapatan/create';
-		$data = array_merge($data, path_info());
+		$data             = array_merge($data, path_info());
 		$this->parser->parse('template', $data);
 	}
 

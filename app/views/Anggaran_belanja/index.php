@@ -1,7 +1,7 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
@@ -15,10 +15,10 @@
 				</div>
 			</div>
 		</div><!-- /.container-fluid -->
-    </section>
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
+  <!-- Main content -->
+  <section class="content">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">         
@@ -55,46 +55,44 @@
 				</div>
 			</div>
 		</div>
-    </section>
+  </section>
 </div>
 <script type="text/javascript">
 	let base_url  = '{site_url}anggaran_belanja/';
 	let table     = $('.index_datatable').DataTable({
-		ajax: {
-			url: base_url + 'index_datatable',
-			type: 'post',
+		ajax  : {
+			url   : base_url + 'index_datatable',
+			type  : 'post',
 		},
-		pageLength: 100,
-		stateSave: true,
-		autoWidth: false,
-		dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
-		language: {
-			search: '<span></span> _INPUT_',
-			searchPlaceholder: 'Type to filter...',
+		pageLength  : 100,
+		stateSave   : true,
+		autoWidth   : false,
+		dom         : '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
+		language    : {
+			search            : '<span></span> _INPUT_',
+			searchPlaceholder : 'Type to filter...',
 		},
-		columns: [{
-				data: 'id',
-				visible: false
+		columns : [{
+				data    : 'id',
+				visible : false
 			},
-			{
-				data: 'namaDepartemen'
-			},
-			{
-				data: 'nama_perusahaan'
-			},
-				{
-				data: 'nominal', className: 'text-right', orderable: false,
-				render: function(data, type, row) {
+			{data : 'namaDepartemen'},
+			{data : 'nama_perusahaan'},
+      {
+        data      : 'nominal', 
+        className : 'text-right', 
+        orderable : false,
+				render    : function(data, type, row) {
 					if(data) return formatRupiah(data)+',00';
 					else return formatRupiah(row.nominal)+',00';
 				}
 			},
 			{
-				data: 'id',
-				width: 100,
-				orderable: false,
-				render: function(data, type, row) {
-					var aksi = `
+				data      : 'id',
+				width     : 100,
+				orderable : false,
+				render    : function(data, type, row) {
+					let aksi = `
 						<div class="list-icons"> 
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
@@ -109,7 +107,7 @@
 								</div> 
 							</div> 
 						</div>`;
-                    return aksi;
+          return aksi;
 				}
 			}
 		],

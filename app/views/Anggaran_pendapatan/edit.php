@@ -107,166 +107,151 @@
 </div>
 <!-- Start: Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Pilih Rekening</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="table-responsive">
-                    <table class="table table-xs table-striped table-borderless table-hover index_datatable">
-                        <thead>
-                            <tr class="table-active">
-                                <th>&nbsp;</th>
-                                <th>Kode Rekening</th>
-                                <th>Nama Rekening</th>
-                            </tr>
-                        </thead>
-                        <tbody id='list_rekening'></tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
-            </div>
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pilih Rekening</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="listRekening">
+            <thead>
+              <tr class="table-active">
+                <th>&nbsp;</th>
+                <th>Kode Rekening</th>
+                <th>Nama Rekening</th>
+              </tr>
+            </thead>
+            <tbody id='list_rekening'></tbody>
+          </table>
         </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+      </div>
     </div>
+  </div>
 </div>
 <!-- End: Modal -->
 
 <script type="text/javascript">
-    var base_url = '{site_url}anggaran_pendapatan/';
-    var RekTitle = [];
-    var RekItem;
-    $(document).ready(function() {
-        ajax_select({
-            id: '#perusahaan',
-            url: base_url + 'select2_mperusahaan',
-            selected: {
-                id: '{idPerusahaan}'
-            }
-        });
-        $('#perusahaan').change(function(e) {
-            var perusahaanId = $('#perusahaan').children('option:selected').val();
-            ajax_select({
-                id: '#department',
-                url: base_url + 'select2_mdepartemen/' + perusahaanId,
-                selected: {
-                    id: "{dept}"
-                }
-            });
-        })
-
-        $('#department').change(function(e) {
-            var deptName = $('#department').children('option:selected').text();
-            ajax_select({
-                id: '#pejabat',
-                url: base_url + 'select2_mdepartemen_pejabat/' + deptName,
-                selected: {
-                    id: "{pejabat}"
-                }
-            });
-        })
-
-        $('#thnanggaran').val("{thnanggaran}");
-        $('#tglpengajuan').val("{tglpengajuan}");
-
-
-        get_rekitem();
+  let base_url = '{site_url}anggaran_pendapatan/';
+  let RekTitle = [];
+  let RekItem;
+  let tableRekening = $('#listRekening').DataTable();
+    
+  $(document).ready(function() {
+    ajax_select({
+      id        : '#perusahaan',
+      url       : base_url + 'select2_mperusahaan',
+      selected  : {
+          id: '{idPerusahaan}'
+      }
+    });
+    $('#perusahaan').change(function(e) {
+      let perusahaanId  = $('#perusahaan').children('option:selected').val();
+      ajax_select({
+          id: '#department',
+          url: base_url + 'select2_mdepartemen/' + perusahaanId,
+          selected: {
+              id: "{dept}"
+          }
+      });
     })
 
-    function getListRekening(a) {
-        var table = $('#list_rekening');
-        var temp;
-        $.ajax({
-            type: "get",
-            url: base_url + 'get_rekeningpendapatan',
-            success: function(response) {
-                for (let i = 0; i < response.length; i++) {
-                    const element = response[i];
-                    if (i < 0) {
-                        const html = `
-							<tr class="bg-light">
-								<td><input type="checkbox" name="" id=""  disabled></td>
-								<td>${element.akunno}</td>
-								<td>${element.namaakun}</td>
-							</tr>
-						`;
-                        table.append(html);
-                    } else {
-                        let checked = '';
-                        if (RekTitle.includes(element.idakun)) {
-                            checked = 'checked';
-                            const table = $('#rekening');
-                            const html = `
-                                        <tr class="bg-light item-title" kode="${element.akunno}">
-                                            <td  id="a${i}">
-                                                <button type="button" class="btn btn-primary" onclick="addItem(this, ${i}, 0)">+</button>
-                                            </td>
-                                            <td>${element.akunno}</td>
-                                            <td>${element.namaakun}</td>
-                                            <td colspan="5"></td>
-                                        </tr>
-                                    `;
-                            table.append(html);
-                            for (let j = 0; j < RekItem.length; j++) {
-                                const item = RekItem[j];
-                                if (element.idakun == item.koderekening) {
-                                    let buah, pak;
-                                    (item.satuan == 'buah') ? buah = 'selected': pak = 'selected';
-                                    const html = `
-                                    <tr class="rek-items" kode="${element.akunno}">
-                                        <td>
-                                            <button type="button" class="btn btn-danger" onclick="removeItem(this)">-</button>
-                                        </td>
-                                        <td>
-                                            <input type="hidden" name="kode_rekening[]" id="kode_rekening${i}${j}${i}${j}" value="${item.koderekening}">
-                                            ${element.akunno}
-                                        </td>
-                                        <td><input type="text" class="form-control" name="uraian[]" value="${item.uraian}"></td>
-                                        <td>
-                                            <select name="cabang[]" id="cabang${i}${j}${i}${j}" class="form-control" style="width: 100%"></select>
-                                        </td>
-                                        <td><input type="text" class="form-control" name="volume[]" id="volume${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${item.volume}"></td>
-                                        <td>
-                                            <select type="text" class="form-control" name="satuan">
-                                                <option value="buah" ${buah}>buah</option>
-                                                <option value="pak" ${pak}>pak</option>
-                                            </select>
-                                        </td>
-                                        <td><input type="text" class="form-control" name="harga[]" id="harga${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.tarif))}"></td>
-                                        <td><input type="text" class="form-control" name="jumlah[]" id="jumlah${i}${j}${i}${j}" readonly onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.jumlah))}"></td>
-                                        <td><input type="text" class="form-control" name="keterangan" value="${item.keterangan}"></td>
-                                    </tr>
-                                    `;
-                                    table.append(html);
-                                    ajax_select({
-                                        id	        : `#cabang${i}${j}${i}${j}`,
-                                        url	        : `{site_url}cabang/select2`,
-                                        selected    : {
-                                            id  : item.cabang
-                                        }
-                                    });
-                                }
-                            }
-                        }
-
-                        const html = `
-							<tr>
-								<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, ${i})" idRekening="${element.idakun}" ${checked}></td>
-								<td>${element.akunno}</td>
-								<td>${element.namaakun}</td>
-							</tr>
-						`;
-						table.append(html);
-                    }
-                }
+    $('#department').change(function(e) {
+        let deptName  = $('#department').children('option:selected').text();
+        ajax_select({
+            id: '#pejabat',
+            url: base_url + 'select2_mdepartemen_pejabat/' + deptName,
+            selected: {
+                id: "{pejabat}"
             }
         });
-    }
+    })
+
+    $('#thnanggaran').val("{thnanggaran}");
+    $('#tglpengajuan').val("{tglpengajuan}");
+
+    get_rekitem();
+  })
+
+  function getListRekening(a) {
+    var temp;
+    $.ajax({
+        type    : "get",
+        url     : base_url + 'get_rekeningpendapatan',
+        success : function(response) {
+          for (let i = 0; i < response.length; i++) {
+            const element = response[i];
+            if (i < 0) {
+              tableRekening.row.add([
+                `<input type="checkbox" name="" id=""  disabled>`,
+                element.akunno,
+                element.namaakun
+              ]).draw();
+            } else {
+              let checked = '';
+              if (RekTitle.includes(element.idakun)) {
+                checked = 'checked';
+                const table = $('#rekening');
+                const html = `
+                            <tr class="bg-light item-title" kode="${element.akunno}">
+                                <td  id="a${i}">
+                                    <button type="button" class="btn btn-primary" onclick="addItem(this, ${i}, 0)">+</button>
+                                </td>
+                                <td>${element.akunno}</td>
+                                <td>${element.namaakun}</td>
+                                <td colspan="5"></td>
+                            </tr>`;
+                table.append(html);
+                for (let j = 0; j < RekItem.length; j++) {
+                const item = RekItem[j];
+                if (element.idakun == item.koderekening) {
+                  let buah, pak;
+                  (item.satuan == 'buah') ? buah = 'selected': pak = 'selected';
+                  const html = `
+                    <tr class="rek-items" kode="${element.akunno}">
+                      <td><button type="button" class="btn btn-danger" onclick="removeItem(this)">-</button></td>
+                      <td><input type="hidden" name="kode_rekening[]" id="kode_rekening${i}${j}${i}${j}" value="${item.koderekening}">${element.akunno}</td>
+                      <td><input type="text" class="form-control" name="uraian[]" value="${item.uraian}"></td>
+                      <td><select name="cabang[]" id="cabang${i}${j}${i}${j}" class="form-control" style="width: 100%"></select></td>
+                      <td><input type="text" class="form-control" name="volume[]" id="volume${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${item.volume}"></td>
+                      <td>
+                          <select type="text" class="form-control" name="satuan">
+                              <option value="buah" ${buah}>buah</option>
+                              <option value="pak" ${pak}>pak</option>
+                          </select>
+                      </td>
+                      <td><input type="text" class="form-control" name="harga[]" id="harga${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.tarif))}"></td>
+                      <td><input type="text" class="form-control" name="jumlah[]" id="jumlah${i}${j}${i}${j}" readonly onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.jumlah))}"></td>
+                      <td><input type="text" class="form-control" name="keterangan" value="${item.keterangan}"></td>
+                    </tr>`;
+                  table.append(html);
+                  ajax_select({
+                    id	      : `#cabang${i}${j}${i}${j}`,
+                    url	      : `{site_url}cabang/select2`,
+                    selected  : {
+                      id  : item.cabang
+                    }
+                  });
+                }
+              }
+            }
+
+            tableRekening.row.add([
+              `<input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, ${i})" idRekening="${element.idakun}" ${checked}>`,
+              element.akunno,
+              element.namaakun
+            ]).draw();
+          }
+        }
+      }
+    });
+  }
 
 
     function sum(no) {

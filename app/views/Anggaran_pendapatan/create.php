@@ -1,31 +1,32 @@
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-		<div class="container-fluid">
-			<div class="row mb-2">
-				<div class="col-sm-6">
-					<h1>{title}</h1>
-				</div>
-				<div class="col-sm-6">
-					<ol class="breadcrumb float-sm-right">
-						<li class="breadcrumb-item"><a href="#">Home</a></li>
-						<li class="breadcrumb-item"><a href="{site_url}anggaran_pendapatan/create">Anggaran Pendapatan</a></li>
-						<li class="breadcrumb-item active">{title}</li>
-					</ol>
-				</div>
-			</div>
-		</div><!-- /.container-fluid -->
-    </section>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{title}</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item"><a href="{site_url}anggaran_pendapatan/create">Anggaran Pendapatan</a></li>
+            <li class="breadcrumb-item active">{subtitle}</li>
+          </ol>
+        </div>
+      </div>
+    </div>
+    <!-- /.container-fluid -->
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
+  <!-- Main content -->
+  <section class="content">
 		<div class="container-fluid">
 			<!-- SELECT2 EXAMPLE -->
 			<div class="card">
 				<div class="card-header">
-					<h3 class="card-title">{title} Anggaran Pendapatan</h3>
+					<h3 class="card-title">{subtitle} Anggaran Pendapatan</h3>
 				</div>
 				<!-- /.card-header -->
 				<div class="card-body">
@@ -115,7 +116,7 @@
 </div>
         <!-- Start: Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">Pilih Rekening</h5>
@@ -125,7 +126,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="table-responsive">
-					<table class="table table-xs table-striped table-borderless table-hover index_datatable">
+					<table class="table table-xs table-striped table-borderless table-hover index_datatable" id="listRekening">
 						<thead>
 							<tr class="table-active">
 								<th>&nbsp;</th>
@@ -146,7 +147,9 @@
 <!-- End: Modal -->
 
 <script type="text/javascript">
-	var base_url = '{site_url}anggaran_pendapatan/';
+	let base_url      = '{site_url}anggaran_pendapatan/';
+  let tableRekening = $('#listRekening').DataTable();
+
 	$(document).ready(function() {
 		if ('<?= $this->session->userid; ?>' == '1') {
 			ajax_select({
@@ -185,7 +188,6 @@
 	})
 
 	function getListRekening() {
-		var table = $('#list_rekening');
 		$.ajax({
 			type: "get",
 			url: base_url + 'get_rekeningpendapatan',
@@ -193,23 +195,17 @@
 				for (let i = 0; i < response.length; i++) {
 					const element = response[i];
 					if (i < 0) {
-						const html = `
-							<tr class="bg-light">
-								<td><input type="checkbox" name="" id=""  disabled></td>
-								<td>${element.akunno}</td>
-								<td>${element.namaakun}</td>
-							</tr>
-						`;
-						table.append(html);
+						tableRekening.row.add([
+              `<input type="checkbox" name="" id=""  disabled>`,
+              element.akunno,
+              element.namaakun
+            ]).draw();
 					} else {
-						const html = `
-							<tr>
-								<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, ${i})" idRekening="${element.idakun}"></td>
-								<td>${element.akunno}</td>
-								<td>${element.namaakun}</td>
-							</tr>
-						`;
-						table.append(html);
+            tableRekening.row.add([
+              `<input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, ${i})" idRekening="${element.idakun}">`,
+              element.akunno,
+              element.namaakun
+            ]).draw();
 					}
 				}
 			}

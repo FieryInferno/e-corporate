@@ -59,7 +59,7 @@ class Anggaran_belanja extends User_Controller
 			$this->model->setGet('idAnggaranBelanja', $this->idAnggaranBelanja);
 			$data = $this->model->get();
 			if ($data) {
-				$data['title']		= lang('anggaran_belanja');
+				$data['title']		= 'Anggaran Belanja';
 				$data['subtitle']	= lang('edit');
 				$data['uraian']		= $this->model->uraianAll();
 				$data['satuan']		= $this->model->satuanAll();

@@ -193,28 +193,28 @@
 	})
 
 	function get_rekitem() {
-        $.ajax({
-            type: "get",
-            url: base_url + 'get_rekitem/{id}',
-            success: function(response) {
-                RekItem = response;
-                var temp;
-                for (let i = 0; i < response.length; i++) {
-                    const element = response[i];
-                    if (i == 0) {
-                        RekTitle.push(element.koderekening);
-                        temp = element.koderekening;
-                        continue;
-                    }
-                    if (temp != element.koderekening) {
-                        RekTitle.push(element.koderekening);
-                        temp = element.koderekening;
-                    }
-                }
-                getListRekening();
-            }
-        });
-    }
+    $.ajax({
+      type    : "get",
+      url     : base_url + 'get_rekitem/{id}',
+      success : function(response) {
+        RekItem = response;
+        var temp;
+        for (let i = 0; i < response.length; i++) {
+          const element = response[i];
+          if (i == 0) {
+              RekTitle.push(element.koderekening);
+              temp = element.koderekening;
+              continue;
+          }
+          if (temp != element.koderekening) {
+              RekTitle.push(element.koderekening);
+              temp = element.koderekening;
+          }
+        }
+        getListRekening();
+      }
+    });
+  }
 
 	function getListRekening(a) {
     var temp;
