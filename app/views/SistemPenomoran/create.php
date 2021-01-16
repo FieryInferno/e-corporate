@@ -61,7 +61,7 @@
 			</div>
 			</div>
 		</div>
-    </section>
+  </section>
 </div>
 <script type="text/javascript">
 	let base_url = '{site_url}SistemPenomoran/';

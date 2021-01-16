@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Pemesanan_pembelian extends User_Controller {
 
 	public function __construct() {
@@ -53,13 +42,13 @@ class Pemesanan_pembelian extends User_Controller {
 		if($id) {
 			$data = get_by_id('id',$id,'tpemesanan');
 			if($data) {
-				$data['kontak']				= get_by_id('id',$data['kontakid'],'mkontak');
-				$data['gudang']				= get_by_id('id',$data['gudangid'],'mgudang');
+				$data['kontak']				    = get_by_id('id',$data['kontakid'],'mkontak');
+				$data['gudang']				    = get_by_id('id',$data['gudangid'],'mgudang');
 				$data['pemesanandetail']	= $this->model->pemesanandetail($data['id']);
-				$data['title']				= 'Detail';
-				$data['content']			= 'Pemesanan_pembelian/detail_baru';
-				$data['angsuran']			= $this->model->get_angsuran($data['id']);
-				$data = array_merge($data,path_info());
+				$data['title']				    = 'Detail Pemesanan Pembelian';
+				$data['content']			    = 'Pemesanan_pembelian/detail_baru';
+				$data['angsuran']			    = $this->model->get_angsuran($data['id']);
+				$data                     = array_merge($data,path_info());
 				$this->parser->parse('template',$data);
 			} else {
 				show_404();
