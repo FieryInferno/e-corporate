@@ -29,36 +29,39 @@ class Requiremen_model extends CI_Model {
 		foreach ($this->input->post('biayapengiriman') as $key) {
 			$subtotal	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
 		}
-		$jenis_pembelian	= $this->input->post('jenis_pembelian');
+		$jenis_pembelian  = $this->input->post('jenis_pembelian');
 		$jenis_barang 		= $this->input->post('jenis_barang');
-		$noakun1 			= $this->input->post('noAkun1');
-		$noakun 			= $this->input->post('noakun');
-		$harga				= $this->input->post('harga');
-		$tanggal				= $this->input->post('tanggal');
-		$item				= $this->input->post('item');
+		$noakun1 			    = $this->input->post('noAkun1');
+		$noakun 			    = $this->input->post('noakun');
+		$harga				    = $this->input->post('harga');
+		$tanggal	        = $this->input->post('tanggal');
+    $item             = $this->input->post('item');
+    
+    $this->load->helper('penomoran');
+    $notrans  = penomoran('permintaanPembelian', $this->input->post('idperusahaan'));
 
 		if ($id == null) {
 			$insertHead	= $this->db->insert('tpemesanan', [
-				'id'				=> $id_pemesanan,
-				'notrans'			=> $this->input->post('notrans'),
-				'tanggal'			=> $this->input->post('tanggal'),
-				'kontakid'			=> $this->input->post('kontakid'),
-				'gudangid'			=> $this->input->post('gudangid'),
+				'id'              => $id_pemesanan,
+				'notrans'			    => $notrans,
+				'tanggal'			    => $this->input->post('tanggal'),
+				'kontakid'			  => $this->input->post('kontakid'),
+				'gudangid'			  => $this->input->post('gudangid'),
 				'idperusahaan'		=> $this->input->post('idperusahaan'),
-				'departemen'		=> $this->input->post('dept'),
-				'pejabat'			=> $this->input->post('pejabat'),
-				'jenis_pembelian'	=> $this->input->post('jenis_pembelian'),
+				'departemen'		  => $this->input->post('dept'),
+				'pejabat'			    => $this->input->post('pejabat'),
+				'jenis_pembelian' => $this->input->post('jenis_pembelian'),
 				'jenis_barang'		=> $this->input->post('jenis_barang'),
 				'cara_pembayaran'	=> $this->input->post('cara_pembayaran'),
-				'catatan'			=> $this->input->post('catatan'),
-				'tipe'				=> '2',
-				'status'			=> '4',
-				'cby'				=> get_user('username'),
-				'cdate'				=> date('Y-m-d H:i:s'),
-				'total'				=> $total,
-				'ppn'				=> $pajak,
-				'diskon'			=> $diskon,
-				'subtotal'			=> $subtotal,
+				'catatan'			    => $this->input->post('catatan'),
+				'tipe'				    => '2',
+				'status'			    => '4',
+				'cby'				      => get_user('username'),
+				'cdate'				    => date('Y-m-d H:i:s'),
+				'total'				    => $total,
+				'ppn'				      => $pajak,
+				'diskon'			    => $diskon,
+				'subtotal'			  => $subtotal,
 				'biayapengiriman'	=> $biayapengiriman
 			]);
 		} else {

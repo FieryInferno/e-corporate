@@ -74,8 +74,8 @@
 </div>
 
 <script type="text/javascript">
-	var base_url    = '{site_url}SistemPenomoran/';
-	var table       = $('.index_datatable').DataTable({
+	let base_url    = '{site_url}SistemPenomoran/';
+	let table       = $('.index_datatable').DataTable({
 		ajax	: {
 			url		: base_url + 'indexDatatable',
 			type	: 'post',
@@ -84,12 +84,57 @@
 			}
 		},
 		columns	: [
-			{data	: 'formulir'},
+			{
+        data	  : 'formulir',
+        render  : function (data, type, row) {
+          switch (data) {
+            case 'permintaanPembelian':
+              return 'Permintaan Pembelian';
+              break;
+            case 'pemesananPembelian':
+              return 'Pemesanan Pembelian';
+              break;
+            case 'fakturPembelian':
+              return 'Faktur Pembelian';
+              break;
+            case 'penerimaanBarang':
+              return 'Penerimaan Barang';
+              break;
+            case 'pesananPenjualan':
+              return 'Pesanan Penjualan';
+              break;
+            case 'pengirimanBarang':
+              return 'Pengiriman Barang';
+              break;
+            case 'fakturPenjualan':
+              return 'Faktur Penjualan';
+              break;
+            case 'kasBank':
+              return 'Kas Bank';
+              break;
+            case 'pengeluaranKasKecil':
+              return 'Pengeluaran Kas Kecil';
+              break;
+            case 'pemindahbukuan':
+              return 'Pemindahbukuan';
+              break;
+            case 'pengajuanKasKecil':
+              return 'Pengajuan Kas Kecil';
+              break;
+            case 'setorKasKecil':
+              return 'Setor Kas Kecil';
+              break;
+          
+            default:
+              break;
+          }
+        }
+      },
 			{data	: 'formatPenomoran'},
 			{
 				data	: 'idPenomoran',
 				render	: function (data, type, row) {
-					var aksi = `
+					let aksi = `
 						<div class="list-icons"> 
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 

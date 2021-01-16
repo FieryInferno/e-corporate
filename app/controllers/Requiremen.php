@@ -262,6 +262,6 @@ class Requiremen extends User_Controller {
 		$data['edit']		= $this->model->get($id);
 		$data				= array_merge($data,path_info());
 		$this->parser->parse('template',$data);
-	}
+  }
 }
 
