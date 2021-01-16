@@ -308,7 +308,9 @@ class Jurnal_model extends CI_Model {
 				if (!empty($this->akunno)) {
 					$this->db->where('mnoakun.akunno', $this->akunno);
 				}
-				$data0	= $this->db->get('tkasbank')->result_array();
+        $data0	= $this->db->get('tkasbank')->result_array();
+        print_r($data0);
+        die();
 				// if ($data0) {
 				// 	foreach ($data0 as $key) {
 				// 		$this->db->select('tJurnalFinansial.*');
