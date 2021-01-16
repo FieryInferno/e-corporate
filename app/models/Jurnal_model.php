@@ -378,7 +378,7 @@ class Jurnal_model extends CI_Model {
                 }
                 $this->db->select('mnoakun.akunno, mnoakun.namaakun');
                 if (strrpos($value['elemen'], '1')) {
-                  print_r('anjing');echo '<br/>';
+                  print_r($key['idakun']);echo '<br/>';
                   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun1 = mnoakun.idakun');
                 } elseif (strrpos($value['elemen'], '2')) {
                   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun2 = mnoakun.idakun');
