@@ -364,6 +364,11 @@ class Jurnal_model extends CI_Model {
             $data1	= $this->db->get_where('tSetupJurnal', [
               'tSetupJurnal.idSetupJurnal'	=> $key['setupJurnal']
             ])->result_array();
+            if ($key['penerimaan'] !== '0') {
+              $total	= $key['penerimaan'];
+            } else {
+              $total	= $key['pengeluaran'];
+            }
             if ($data1) {
               foreach ($data1 as $value) {
                 if (strpos($value['elemen'], 'sumberDana') !== FALSE) {
@@ -391,7 +396,7 @@ class Jurnal_model extends CI_Model {
                   'akunno'		  	  => $metaAkun['akunno'],
                   'namaakun'			  => $metaAkun['namaakun'],
                   'jenis'				    => $value['jenis'],
-                  'total'				    => $detail['total']
+                  'total'				    => $total
                 ]);
               }
             }
