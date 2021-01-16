@@ -402,7 +402,6 @@ class Jurnal_model extends CI_Model {
             }
 					}
         }
-        die();
 			} else {
 				$table = null;
 			}
