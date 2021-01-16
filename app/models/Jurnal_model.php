@@ -385,7 +385,7 @@ class Jurnal_model extends CI_Model {
                 array_push($jurnalUmum, [
                   'tanggal'			    => $key['tanggal'],
                   'formulir'			  => 'Kas Bank',
-                  'noTrans'			    => $key['notrans'],
+                  'noTrans'			    => $key['nomor_kas_bank'],
                   'departemen'		  => '',
                   'nama_perusahaan' => $key['namaperusahaan'],
                   'akunno'		  	  => $metaAkun['akunno'],
