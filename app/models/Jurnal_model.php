@@ -364,6 +364,7 @@ class Jurnal_model extends CI_Model {
             $data1	= $this->db->get_where('tSetupJurnal', [
               'tSetupJurnal.idSetupJurnal'	=> $key['setupJurnal']
             ])->result_array();
+            print_r($data1);
             if ($key['penerimaan'] !== '0') {
               $total	= $key['penerimaan'];
             } else {
