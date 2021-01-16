@@ -383,15 +383,15 @@ class Jurnal_model extends CI_Model {
                 }
                 $metaAkun	= $this->db->get_where('tPemetaanAkun', $where)->row_array();
                 array_push($jurnalUmum, [
-                  'tanggal'			=> $key['tanggal'],
-                  'formulir'			=> $jenis,
-                  'noTrans'			=> $key['notrans'],
-                  'departemen'		=> '',
-                  'nama_perusahaan' 	=> $key['namaperusahaan'],
-                  'akunno'			=> $metaAkun['akunno'],
-                  'namaakun'			=> $metaAkun['namaakun'],
-                  'jenis'				=> $value['jenis'],
-                  'total'				=> $detail['total']
+                  'tanggal'			    => $key['tanggal'],
+                  'formulir'			  => 'Kas Bank',
+                  'noTrans'			    => $key['notrans'],
+                  'departemen'		  => '',
+                  'nama_perusahaan' => $key['namaperusahaan'],
+                  'akunno'		  	  => $metaAkun['akunno'],
+                  'namaakun'			  => $metaAkun['namaakun'],
+                  'jenis'				    => $value['jenis'],
+                  'total'				    => $detail['total']
                 ]);
               }
             }
