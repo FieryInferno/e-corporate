@@ -364,7 +364,6 @@ class Jurnal_model extends CI_Model {
             $data1	= $this->db->get_where('tSetupJurnal', [
               'tSetupJurnal.idSetupJurnal'	=> $key['setupJurnal']
             ])->result_array();
-            print_r($data1);
             if ($key['penerimaan'] !== '0') {
               $total	= $key['penerimaan'];
             } else {
@@ -372,24 +371,22 @@ class Jurnal_model extends CI_Model {
             }
             if ($data1) {
               foreach ($data1 as $value) {
-                if (strpos($value['elemen'], 'sumberDana') !== FALSE) {
+                if (strrpos($value['elemen'], 'sumberDana') !== FALSE) {
                   $where	= ['kodeAkun'	=> $key['idakunRekening']];
                 } else {
                   $where	= ['kodeAkun'	=> $key['idakun']];
                 }
                 $this->db->select('mnoakun.akunno, mnoakun.namaakun');
-                if (strpos($value['elemen'], '1')) {
+                if (strrpos($value['elemen'], '1')) {
                   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun1 = mnoakun.idakun');
-                } elseif (strpos($value['elemen'], '2')) {
+                } elseif (strrpos($value['elemen'], '2')) {
                   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun2 = mnoakun.idakun');
-                } elseif (strpos($value['elemen'], '3')) {
+                } elseif (strrpos($value['elemen'], '3')) {
                   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun3 = mnoakun.idakun');
                 } else {
                   $this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun = mnoakun.idakun');
                 }
                 $metaAkun	= $this->db->get_where('tPemetaanAkun', $where)->row_array();
-                print_r($value['elemen'], '1');
-                die();
                 array_push($jurnalUmum, [
                   'tanggal'			    => $key['tanggal'],
                   'formulir'			  => 'Kas Bank',
