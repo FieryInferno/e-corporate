@@ -9,8 +9,8 @@
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
                         <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('anggaran_belanja'); ?>">Anggaran Belanja</a></li>
-                        <li class="breadcrumb-item active"><? $title; ?></li>
+                        <li class="breadcrumb-item"><a href="<?= base_url('anggaran_belanja'); ?>">{title}</a></li>
+                        <li class="breadcrumb-item active">{subtitle}</li>
                     </ol>
                 </div>
             </div>
@@ -26,7 +26,7 @@
                     <!-- jquery validation -->
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title"><?= $title; ?> Anggaran Belanja</h3>
+                            <h3 class="card-title">{subtitle}{title}</h3>
                         </div>
                         <!-- /.card-header -->
                         <!-- form start -->
@@ -124,7 +124,7 @@
 
 <!-- Start: Modal -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
+	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h5 class="modal-title" id="exampleModalLabel">Pilih Rekening</h5>
@@ -134,7 +134,7 @@
 			</div>
 			<div class="modal-body">
 				<div class="table-responsive">
-					<table class="table table-xs table-striped table-borderless table-hover index_datatable" id="rekening">
+					<table class="table table-xs table-striped table-borderless table-hover index_datatable" id="listRekening">
 						<thead>
 							<tr class="table-active">
 								<th>&nbsp;</th>
@@ -142,7 +142,7 @@
 								<th>Nama Rekening</th>
 							</tr>
 						</thead>
-						<tbody id='list_rekening'></tbody>
+						<tbody></tbody>
 					</table>
 				</div>
 			</div>
@@ -154,7 +154,9 @@
 </div>
 
 <script type="text/javascript">
-	var base_url = '{site_url}anggaran_belanja/';
+  let base_url      = '{site_url}anggaran_belanja/';
+  let tableRekening = $('#listRekening').DataTable();
+  
 	$(document).ready(function() {
 		ajax_select({ id: '#satuan', url: base_url + 'select2_satuan', selected: { id: '' } });	
 		if ('<?= $this->session->userid; ?>' == '1') {
@@ -194,7 +196,6 @@
 	})
 
 	function getListRekening() {
-		var table = $('#list_rekening');
 		$.ajax({
 			type: "get",
 			url: base_url + 'get_rekeningbelanja',
@@ -202,23 +203,17 @@
 				for (let i = 0; i < response.length; i++) {
 					const element = response[i];
 					if (i < 0) {
-						const html = `
-							<tr class="bg-light">
-								<td><input type="checkbox" name="" id=""  disabled></td>
-								<td>${element.akunno}</td>
-								<td>${element.namaakun}</td>
-							</tr>
-						`;
-						table.append(html);
+            tableRekening.row.add([
+              `<input type="checkbox" name="" id=""  disabled>`,
+              element.akunno,
+              element.namaakun
+            ]).draw();
 					} else {
-						const html = `
-							<tr>
-								<td><input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, `+i+`)" idRekening="${element.idakun}"></td>
-								<td>${element.akunno}</td>
-								<td>${element.namaakun}</td>
-							</tr>
-						`;
-						table.append(html);
+            tableRekening.row.add([
+              `<input type="checkbox" name="" data-name="${element.namaakun}" kode-rekening="${element.akunno}" id="" onchange="addRekening(this, `+i+`)" idRekening="${element.idakun}">`,
+              element.akunno,
+              element.namaakun
+            ]).draw();
 					}
 				}
 			}

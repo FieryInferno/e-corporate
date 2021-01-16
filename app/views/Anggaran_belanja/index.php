@@ -58,8 +58,8 @@
     </section>
 </div>
 <script type="text/javascript">
-	var base_url = '{site_url}anggaran_belanja/';
-	var table = $('.index_datatable').DataTable({
+	let base_url  = '{site_url}anggaran_belanja/';
+	let table     = $('.index_datatable').DataTable({
 		ajax: {
 			url: base_url + 'index_datatable',
 			type: 'post',

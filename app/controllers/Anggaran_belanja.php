@@ -19,11 +19,11 @@ class Anggaran_belanja extends User_Controller
 
 	public function index()
 	{
-		$data['title'] = lang('anggaran_belanja');
-		$data['subtitle'] = lang('list');
-		$data['content'] = 'Anggaran_belanja/index';
-		$data['total_nominal'] = $this->model->hitungJumlahNominal();	
-		$data = array_merge($data, path_info());
+		$data['title']          = 'Anggaran Belanja';
+		$data['subtitle']       = lang('list');
+		$data['content']        = 'Anggaran_belanja/index';
+		$data['total_nominal']  = $this->model->hitungJumlahNominal();	
+		$data                   = array_merge($data, path_info());
 		$this->parser->parse('template', $data);
 	}
 
@@ -44,9 +44,10 @@ class Anggaran_belanja extends User_Controller
 
 	public function create()
 	{
-		$data['title']		= 'Tambah';
+		$data['title']    = 'Anggaran Belanja';
+		$data['subtitle'] = 'Tambah';
 		$data['content']	= 'Anggaran_belanja/create';
-		$data				= array_merge($data, path_info());
+		$data				      = array_merge($data, path_info());
 		$data['uraian']		= $this->model->uraianAll();
 		$data['satuan']		= $this->model->satuanAll();
 		$this->parser->parse('template', $data);
@@ -63,8 +64,8 @@ class Anggaran_belanja extends User_Controller
 				$data['uraian']		= $this->model->uraianAll();
 				$data['satuan']		= $this->model->satuanAll();
 				$data['content']	= 'Anggaran_belanja/edit';
-				$data = array_merge($data, path_info());
-				$this->parser->parse('default', $data);
+				$data             = array_merge($data, path_info());
+				$this->parser->parse('template', $data);
 			} else {
 				show_404();
 			}
