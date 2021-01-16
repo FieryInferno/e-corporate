@@ -77,58 +77,58 @@
               </p>
             </a>
           </li>
-          <?php $menuPengelolaanUser = ['user', 'user_akses', 'user_hak_akses', 'perusahaan', 'departemen', 'tahun_anggaran', 'multi_curency', 'cabang']; ?>
-          <li class="nav-item has-treeview  <?php echo menu_is_open($menuPengelolaanUser) ?>">
-            <a href="#" class="nav-link
-              <?php
-                if (in_array($this->uri->segment(1), $menuPengelolaanUser)) {
-                  echo 'active';
-                }
-              ?>"><i class="nav-icon fas fa-users"></i>
-              <p><?php echo lang('user_management') ?><i class="fas fa-angle-left right"></i></p>
-            </a>
-            <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('user_management') ?>">
-              <li class="nav-item">
-                <a href="{site_url}user" class="nav-link <?php echo menu_is_active('user') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user') ?></p></a>
-              </li>
-              <li class="nav-item">
-                <a href="{site_url}perusahaan" class="nav-link <?php echo menu_is_active('perusahaan') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('perusahaan') ?></p></a>
-              </li>
-              <li class="nav-item">
-                <a href="{site_url}departemen" class="nav-link <?php echo menu_is_active('departemen') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('departemen') ?></p></a>
-              </li>
-              <li class="nav-item">
-                <a href="{site_url}cabang" class="nav-link <?php echo menu_is_active('cabang') ?>"><i class="far fa-circle nav-icon"></i><p>Cabang</p></a>
-              </li>             
-              <li class="nav-item">
-                <a href="{site_url}tahun_anggaran" class="nav-link <?php echo menu_is_active('tahun_anggaran') ?>"><i class="far fa-circle nav-icon"></i><p>Tahun Anggaran</p></a>
-              </li>
-              <li class="nav-item">
-                <a href="{site_url}multi_curency" class="nav-link <?php echo menu_is_active('multi_curency') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('multi_curency') ?></p></a>
-              </li>
-              <li class="nav-item">
-                <a href="{site_url}rekening" class="nav-link <?php echo menu_is_active('rekening') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('rekening') ?></p></a>
-              </li>             
-              <li class="nav-item">
-                <a href="{site_url}user_akses" class="nav-link <?php echo menu_is_active('user_akses') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user_akses') ?></p></a>
-              </li>
-              <li class="nav-item">
-                <a href="{site_url}user_hak_akses" class="nav-link <?php echo menu_is_active('user_hak_akses') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user_hak_akses') ?></p></a>
-              </li>             
-            </ul>
+      <?php $menuPengelolaanUser = ['user', 'user_akses', 'user_hak_akses', 'perusahaan', 'departemen', 'tahun_anggaran', 'multi_curency', 'cabang']; ?>
+      <li class="nav-item has-treeview  <?php echo menu_is_open($menuPengelolaanUser) ?>">
+        <a href="#" class="nav-link
+          <?php
+            if (in_array($this->uri->segment(1), $menuPengelolaanUser)) {
+              echo 'active';
+            }
+          ?>"><i class="nav-icon fas fa-users"></i>
+          <p><?php echo lang('user_management') ?><i class="fas fa-angle-left right"></i></p>
+        </a>
+        <ul class="nav nav-treeview" data-submenu-title="<?php echo lang('user_management') ?>">
+          <li class="nav-item">
+            <a href="{site_url}user" class="nav-link <?php echo menu_is_active('user') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user') ?></p></a>
           </li>
           <li class="nav-item">
-            <a href="{site_url}pajak" class="nav-link <?php echo menu_is_active('pajak') ?>">
-              <i class="nav-icon fas fa-balance-scale"></i>
-              <p>Pajak</p>
-            </a>
+            <a href="{site_url}perusahaan" class="nav-link <?php echo menu_is_active('perusahaan') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('perusahaan') ?></p></a>
           </li>
           <li class="nav-item">
-            <a href="SistemPenomoran" class="nav-link <?php echo menu_is_active('sistemPenomoran') ?>">
-              <i class="nav-icon fas fa-list-ol"></i>
-              <p>Sistem Penomoran</p>
-            </a>
+            <a href="{site_url}departemen" class="nav-link <?php echo menu_is_active('departemen') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('departemen') ?></p></a>
           </li>
+          <li class="nav-item">
+            <a href="{site_url}cabang" class="nav-link <?php echo menu_is_active('cabang') ?>"><i class="far fa-circle nav-icon"></i><p>Cabang</p></a>
+          </li>             
+          <li class="nav-item">
+            <a href="{site_url}tahun_anggaran" class="nav-link <?php echo menu_is_active('tahun_anggaran') ?>"><i class="far fa-circle nav-icon"></i><p>Tahun Anggaran</p></a>
+          </li>
+          <li class="nav-item">
+            <a href="{site_url}multi_curency" class="nav-link <?php echo menu_is_active('multi_curency') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('multi_curency') ?></p></a>
+          </li>
+          <li class="nav-item">
+            <a href="{site_url}rekening" class="nav-link <?php echo menu_is_active('rekening') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('rekening') ?></p></a>
+          </li>             
+          <li class="nav-item">
+            <a href="{site_url}user_akses" class="nav-link <?php echo menu_is_active('user_akses') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user_akses') ?></p></a>
+          </li>
+          <li class="nav-item">
+            <a href="{site_url}user_hak_akses" class="nav-link <?php echo menu_is_active('user_hak_akses') ?>"><i class="far fa-circle nav-icon"></i><p><?php echo lang('user_hak_akses') ?></p></a>
+          </li>             
+        </ul>
+      </li>
+      <li class="nav-item">
+        <a href="{site_url}pajak" class="nav-link <?php echo menu_is_active('pajak') ?>">
+          <i class="nav-icon fas fa-balance-scale"></i>
+          <p>Pajak</p>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="{site_url}sistem_penomoran" class="nav-link <?php echo menu_is_active('sistem_penomoran') ?>">
+          <i class="nav-icon fas fa-list-ol"></i>
+          <p>Sistem Penomoran</p>
+        </a>
+      </li>
       <li class="nav-header">TRANSAKSI</li>  
       <?php $menuAnggaran = ['anggaran_pendapatan', 'anggaran_belanja', 'validasi_anggaran_pendapatan', 'validasi_anggaran_belanja']; ?>
 			<li class="nav-item has-treeview  <?php echo menu_is_open($menuAnggaran) ?>">

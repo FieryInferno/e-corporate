@@ -52,3 +52,6 @@ $route['export_laporan_neraca_standar']			= 'Laporan/export_laporan_neraca_stand
 $route['export_laporan_neraca']			        = 'Laporan/export_laporan_neraca';
 
 $route['laporan_neraca_multi_period']				= 'Laporan/neracaMultiPeriod';
+
+$route['sistem_penomoran']				          = 'SistemPenomoran';
+$route['sistem_penomoran/tambah']				    = 'SistemPenomoran/tambah';

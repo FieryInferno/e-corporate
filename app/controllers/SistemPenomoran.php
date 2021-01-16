@@ -32,12 +32,12 @@ class SistemPenomoran extends User_Controller {
 		$this->parser->parse('template', $data);
 	}
 
-	public function create()
+	public function tambah()
 	{
 		$data['title']		= $this->title;
 		$data['subtitle']	= 'Tambah';
 		$data['content']	= 'SistemPenomoran/create';
-		$data				= array_merge($data, path_info());
+		$data				      = array_merge($data, path_info());
 		$this->parser->parse('template', $data);
 	}
 

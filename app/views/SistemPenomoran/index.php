@@ -25,7 +25,7 @@
 				<div class="col-12">         
 					<div class="card">
 						<div class="card-body">
-							<form action="{site_url}SistemPenomoran" id="form1" method="GET">
+							<form action="{site_url}sistem_penomoran" id="form1" method="GET">
 								<div class="row">
 									<div class="col-md-3">
 										<div class="form-group">
@@ -50,7 +50,7 @@
 				<div class="col-12">         
 					<div class="card">
 						<div class="card-header">
-							<a href="{site_url}SistemPenomoran/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+							<a href="{site_url}sistem_penomoran/tambah" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
