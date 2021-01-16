@@ -387,7 +387,7 @@ class Jurnal_model extends CI_Model {
                   'formulir'			  => 'Kas Bank',
                   'noTrans'			    => $key['nomor_kas_bank'],
                   'departemen'		  => '',
-                  'nama_perusahaan' => $key['namaperusahaan'],
+                  'nama_perusahaan' => $key['nama_perusahaan'],
                   'akunno'		  	  => $metaAkun['akunno'],
                   'namaakun'			  => $metaAkun['namaakun'],
                   'jenis'				    => $value['jenis'],
