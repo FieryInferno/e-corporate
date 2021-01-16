@@ -162,4 +162,54 @@ class Inventaris extends User_Controller {
     $data = $this->model->dataMutasiAset();
     return print_r($data);
   }
+
+	public function penghapusanAset()
+	{
+		$data['title']		= 'Penghapusan Aset';
+		$data['subtitle']	= lang('list');
+		$data['content']	= 'Inventaris/penghapusanAset/index';
+		$data             = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+
+  public function dataPenghapusanAset()
+  {
+    $data = $this->model->dataPenghapusanAset();
+    return print_r($data);
+  }
+
+	public function tambahPenghapusanAset()
+	{
+		$data['title']		  = 'Penghapusan Aset';
+		$data['subtitle']	  = 'Tambah';
+		$data['content']	  = 'Inventaris/penghapusanAset/tambah';
+		$data['inventaris'] = $this->model->get();
+		$data				        = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+  
+  public function simpanPenghapusanAset()
+  {
+    $this->validationPenghapusan();
+    if ($this->form_validation->run() !== false) {
+      $data = $this->model->simpanPenghapusanAset();
+      if ($data) {
+        $hasil['status'] = 'success';
+      } else {
+        $hasil['status'] = 'fail';
+      }
+    } else {
+      $hasil['status'] = 'fail';
+    }
+		$this->output->set_content_type('application/json')->set_output(json_encode($hasil));
+  }
+
+  private function validationPenghapusan()
+  {
+    $this->form_validation->set_rules('perusahaan', 'Perusahaan', 'required');
+    $this->form_validation->set_rules('noSk', 'No. Surat Keputusan', 'required');
+    $this->form_validation->set_rules('tanggalSk', 'Tanggal Surat Keputusan', 'required');
+    $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
+    $this->form_validation->set_rules('kodeBarang[]', 'Kode Barang', 'required');
+  }
 }

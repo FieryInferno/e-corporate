@@ -277,7 +277,7 @@
             </a>
           </li>
 
-      <?php $menuInventaris = ['inventaris', 'pemeliharaan_aset', 'mutasi_aset', 'penghapusanAset', 'penyusutan']; ?>
+      <?php $menuInventaris = ['inventaris', 'pemeliharaan_aset', 'mutasi_aset', 'penghapusan_aset', 'penyusutan']; ?>
       <li class="nav-item has-treeview <?php echo menu_is_open($menuInventaris) ?>">
         <a href="#" class="nav-link
           <?php
@@ -302,7 +302,7 @@
             <i class="far fa-circle nav-icon"></i><p>Mutasi Aset</p></a>
           </li>          
           <li class="nav-item">
-            <a href="#" class="nav-link <?php echo menu_is_active('penghapusanAset') ?>">
+            <a href="{site_url}penghapusan_aset" class="nav-link <?php echo menu_is_active('penghapusan_aset') ?>">
             <i class="far fa-circle nav-icon"></i><p>Penghapusan Aset</p></a>
           </li>          
           <li class="nav-item">

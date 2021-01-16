@@ -35,6 +35,11 @@ $route['mutasi_aset/tambah']						    = 'Inventaris/tambahMutasiAset';
 $route['mutasi_aset/simpan']						    = 'Inventaris/simpanMutasiAset';
 $route['mutasi_aset/data']						      = 'Inventaris/dataMutasiAset';
 
+$route['penghapusan_aset']						      = 'Inventaris/penghapusanAset';
+$route['penghapusan_aset/data']						  = 'Inventaris/dataPenghapusanAset';
+$route['penghapusan_aset/tambah']						= 'Inventaris/tambahPenghapusanAset';
+$route['penghapusan_aset/simpan']						= 'Inventaris/simpanPenghapusanAset';
+
 $route['tahun_anggaran']                    = 'Tahunanggaran';
 $route['tahun_anggaran/create']             = 'Tahunanggaran/create';
 $route['tahun_anggaran/edit/(:any)']        = 'Tahunanggaran/edit/$1';

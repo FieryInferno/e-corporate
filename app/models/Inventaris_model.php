@@ -113,15 +113,11 @@ class Inventaris_model extends CI_Model {
   public function dataMutasiAset()
   {
     $this->load->library('Datatables');
-    // $this->datatables->select('mutasiAset.*, perusahaanPenerima.nama_perusahaan as perusahaanPenerima, perusahaanAsal.nama_perusahaan as perusahaanAsal, perusahaanPenerima.kode as kodePerusahaanPenerima, perusahaanAsal.kode as kodePerusahaanAsal, saldoAwalInventaris.kodeInventaris as kodeBarangA, tinventaris.kode_barang as kodeBarangB, saldoAwalInventaris.noRegister as noRegisterA, tinventaris.nomor_register as noRegisterB');
     $this->datatables->select('mutasiAset.*, perusahaanPenerima.nama_perusahaan as perusahaanPenerima, perusahaanAsal.nama_perusahaan as perusahaanAsal, mnoakun.namaakun as jenisInventaris');
 		$this->datatables->from('mutasiAset');
     $this->datatables->join('mperusahaan as perusahaanPenerima', 'mutasiAset.perusahaanPenerima = perusahaanPenerima.idperusahaan');
     $this->datatables->join('mperusahaan as perusahaanAsal', 'mutasiAset.perusahaanAsal = perusahaanAsal.idperusahaan');
     $this->datatables->join('mnoakun', 'mutasiAset.jenisInventaris = mnoakun.idakun');
-    // $this->datatables->join('mutasiAsetDetail', 'mutasiAset.idMutasi = mutasiAsetDetail.idMutasi');
-    // $this->datatables->join('saldoAwalInventaris', 'mutasiAsetDetail.kodeBarang = saldoAwalInventaris.kodeInventaris', 'left');
-    // $this->datatables->join('tinventaris', 'mutasiAsetDetail.kodeBarang = tinventaris.kode_barang', 'left');
     return $this->datatables->generate();
   }
 
@@ -149,6 +145,43 @@ class Inventaris_model extends CI_Model {
         $this->db->insert('mutasiAsetDetail', [
           'idMutasi'    => $idMutasi,
           'kodeBarang'  => $key
+        ]);
+      }
+    } 
+    return $insert;
+  }
+
+  public function dataPenghapusanAset()
+  {
+    $this->load->library('Datatables');
+    $this->datatables->select('penghapusanAset.*, mperusahaan.kode as kodePerusahaan, mperusahaan.nama_perusahaan');
+		$this->datatables->from('penghapusanAset');
+    $this->datatables->join('mperusahaan', 'penghapusanAset.perusahaan = mperusahaan.idperusahaan');
+    return $this->datatables->generate();
+  }
+
+  public function simpanPenghapusanAset()
+  {
+    $harga      = $this->input->post('harga');
+    $totalHarga = 0;
+    foreach ($harga as $key) {
+      $totalHarga += $key;
+    }
+    $idPenghapusan  = uniqid('penghapusan');
+    $insert         = $this->db->insert('penghapusanAset', [
+      'idPenghapusan'       => $idPenghapusan,
+      'perusahaan'          => $this->input->post('perusahaan'),
+      'noSk'                => $this->input->post('noSk'),
+      'tanggalSk'           => $this->input->post('tanggalSk'),
+      'keterangan'          => $this->input->post('keterangan'),
+      'nominalPenghapusan'  => $totalHarga
+    ]);
+    if ($insert) {
+      $kodeBarang = $this->input->post('kodeBarang');
+      foreach ($kodeBarang as $key) {
+        $this->db->insert('penghapusanAsetDetail', [
+          'idPenghapusan' => $idPenghapusan,
+          'kodeBarang'    => $key
         ]);
       }
     } 
