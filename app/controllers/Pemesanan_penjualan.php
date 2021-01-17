@@ -4,82 +4,82 @@ defined('BASEPATH') or exit('No direct script access allowed');
 class Pemesanan_penjualan extends User_Controller
 {
 
-    public function __construct()
-    {
-        parent::__construct();
-        $this->load->model('Pemesanan_penjualan_model', 'model');
+  public function __construct()
+  {
+    parent::__construct();
+    $this->load->model('Pemesanan_penjualan_model', 'model');
+  }
+
+  public function index() {
+    $data['title']      = lang('sales_order');
+    $data['subtitle']   = lang('list');
+    $data['content']    = 'Pemesanan_penjualan/index';
+    $data['pemesanan']  = $this->model->get(); 
+    $data               = array_merge($data,path_info());
+    $this->parser->parse('template',$data);
+  }
+
+  public function index_datatable() {
+    $this->load->library('Datatables');
+    $this->datatables->select('tpemesananpenjualan.*, mkontak.nama as supplier, mgudang.nama as gudang, mcabang.nama as cabang');
+    $this->datatables->join('mkontak', 'tpemesananpenjualan.kontakid = mkontak.id','LEFT');
+    $this->datatables->join('mgudang', 'tpemesananpenjualan.gudangid = mgudang.id','LEFT');
+    $this->datatables->join('mcabang', 'tpemesananpenjualan.cabang = mcabang.id','LEFT');
+    $this->datatables->where('tpemesananpenjualan.tipe', '2');
+    $this->datatables->where('tpemesananpenjualan.stdel', '0');
+    $this->datatables->from('tpemesananpenjualan');
+    return print_r($this->datatables->generate());
+  }
+
+  public function create() {
+    $q  = $this->db->query("SELECT MAX(LEFT(nokwitansi,3)) AS kd_max FROM tbudgetevent");
+    $kd = "";
+    if($q->num_rows()>0){
+      foreach($q->result() as $k){
+          $tmp  = ((int)$k->kd_max)+1;
+          $kd   = sprintf("%03s", $tmp);
+      }
+    }else{
+        $kd = "001";
+    }  
+
+    $query_tahun  = $this->db->query("SELECT tahun as thn FROM mtahun ORDER BY tahun DESC LIMIT 1");
+    $tahun        = "";
+    if ($query_tahun->num_rows() > 0){
+      foreach ($query_tahun->result() as $t) {
+        $tahun=$t->thn;
+      }
     }
+    $data['tahun']          = $tahun;
+    $data['kode_otomatis']  = $kd;
+    $data['title']          = lang('sales_order');
+    $data['subtitle']       = lang('add_new');
+    $data['tanggal']        = date('Y-m-d');
+    $data['content']        = 'Pemesanan_penjualan/create';
+    $data                   = array_merge($data, path_info());
+    $this->parser->parse('template', $data);
+  }
 
-    public function index() {
-        $data['title']      = lang('sales_order');
-        $data['subtitle']   = lang('list');
-        $data['content']    = 'Pemesanan_penjualan/index';
-        $data['pemesanan']  = $this->model->get(); 
-        $data               = array_merge($data,path_info());
-        $this->parser->parse('template',$data);
-    }
-
-    public function index_datatable() {
-        $this->load->library('Datatables');
-        $this->datatables->select('tpemesananpenjualan.*, mkontak.nama as supplier, mgudang.nama as gudang, mcabang.nama as cabang');
-        $this->datatables->join('mkontak', 'tpemesananpenjualan.kontakid = mkontak.id','LEFT');
-        $this->datatables->join('mgudang', 'tpemesananpenjualan.gudangid = mgudang.id','LEFT');
-        $this->datatables->join('mcabang', 'tpemesananpenjualan.cabang = mcabang.id','LEFT');
-        $this->datatables->where('tpemesananpenjualan.tipe', '2');
-        $this->datatables->where('tpemesananpenjualan.stdel', '0');
-        $this->datatables->from('tpemesananpenjualan');
-        return print_r($this->datatables->generate());
-    }
-
-    public function create() {
-        $q = $this->db->query("SELECT MAX(LEFT(nokwitansi,3)) AS kd_max FROM tbudgetevent");
-        $kd = "";
-        if($q->num_rows()>0){
-            foreach($q->result() as $k){
-                $tmp = ((int)$k->kd_max)+1;
-                $kd = sprintf("%03s", $tmp);
-            }
-        }else{
-            $kd = "001";
-        }  
-
-        $query_tahun = $this->db->query("SELECT tahun as thn FROM mtahun ORDER BY tahun DESC LIMIT 1");
-        $tahun="";
-        if ($query_tahun->num_rows() > 0){
-            foreach ($query_tahun->result() as $t) {
-                $tahun=$t->thn;
-            }
-        }
-        $data['tahun'] = $tahun;
-        $data['kode_otomatis'] = $kd;
-        $data['title'] = lang('sales_order');
-        $data['subtitle'] = lang('add_new');
-        $data['tanggal'] = date('Y-m-d');
-        $data['content'] = 'Pemesanan_penjualan/create';
+  public function detail($id = null) {
+    if ($id) {
+      $data = get_by_id('id', $id, 'tpemesananpenjualan');
+      if ($data) {
+        $data['kontak']             = get_by_id('id', $data['kontakid'], 'mkontak');
+        $data['gudang']             = get_by_id('id', $data['gudangid'], 'mgudang');
+        $data['angsuran']           = get_by_id('idpemesanan', $data['id'], 'tpemesananpenjualanangsuran');
+        $data['pemesanandetail']    = $this->model->pemesanandetail($data['id']);
+        $data['title']              = lang('sales_order');
+        $data['subtitle']           = lang('detail');
+        $data['content']            = 'Pemesanan_penjualan/detail';
         $data = array_merge($data, path_info());
         $this->parser->parse('template', $data);
+      } else {
+        show_404();
+      }
+    } else {
+      show_404();
     }
-
-    public function detail($id = null) {
-        if ($id) {
-            $data = get_by_id('id', $id, 'tpemesananpenjualan');
-            if ($data) {
-                $data['kontak']             = get_by_id('id', $data['kontakid'], 'mkontak');
-                $data['gudang']             = get_by_id('id', $data['gudangid'], 'mgudang');
-                $data['angsuran']           = get_by_id('idpemesanan', $data['id'], 'tpemesananpenjualanangsuran');
-                $data['pemesanandetail']    = $this->model->pemesanandetail($data['id']);
-                $data['title']              = lang('sales_order');
-                $data['subtitle']           = lang('detail');
-                $data['content']            = 'Pemesanan_penjualan/detail';
-                $data = array_merge($data, path_info());
-                $this->parser->parse('template', $data);
-            } else {
-                show_404();
-            }
-        } else {
-            show_404();
-        }
-    }
+  }
 
     public function edit($id = null)
     {
@@ -321,26 +321,21 @@ class Pemesanan_penjualan extends User_Controller
         }
     }
 
-    public function select2_kontak($id = null)
-    {
-        $term = $this->input->get('q');
-        if ($id) {
-            $this->db->select('mkontak.id, mkontak.nama as text');
-            $data = $this->db->where('id', $id)->get('mkontak')->row_array();
-            $this->output->set_content_type('application/json')->set_output(json_encode($data));
-        } else {
-            $this->db->select('mkontak.id, mkontak.nama as text');
-            $this->db->where('mkontak.stdel', '0');
-            $this->db->where('mkontak.tipe', '2');
-            $this->db->limit(10);
-            if ($term) {
-                $this->db->like('mkontak.nama', $term);
-            }
-
-            $data = $this->db->get('mkontak')->result_array();
-            $this->output->set_content_type('application/json')->set_output(json_encode($data));
-        }
+  public function select2_kontak($id = null)
+  {
+    $term = $this->input->get('q');
+    if ($id) {
+      $this->db->select('mkontak.id, mkontak.nama as text');
+      $data = $this->db->where('id', $id)->get('mkontak')->row_array();
+      $this->output->set_content_type('application/json')->set_output(json_encode($data));
+    } else {
+      $this->db->select('mkontak.id, mkontak.nama as text');
+      if ($term) $this->db->like('mkontak.nama', $term);
+      $data = $this->db->get('mkontak')->result_array();
+      $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
+  }
+
     public function select2_kontak_manual()
     {
         $term = $this->input->get('q');

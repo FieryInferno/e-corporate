@@ -3,13 +3,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Project extends User_Controller {
 
-    private $idProject;
+  private $idProject;
 
 	public function __construct() {
 		parent::__construct();
-        $this->load->model('ProjectModel','model');
-        $this->idProject    = $this->input->post('idProject');
-    }
+    $this->load->model('ProjectModel','model');
+    $this->idProject    = $this->input->post('idProject');
+  }
     
     public function index() {
         $data['title']      = 'Project';
@@ -84,15 +84,22 @@ class Project extends User_Controller {
 		$this->parser->parse('template',$data);
     }
 
-    public function delete($idProject)
-    {
-        $this->model->set('idProject', $idProject);
-        $data   = $this->model->delete();
-        if ($data) {
-            $hasil['status'] = 'success';
-        } else {
-            $hasil['status'] = 'failed';
-        }
-        return $this->output->set_content_type('application/json')->set_output(json_encode($hasil));
+  public function delete($idProject)
+  {
+    $this->model->set('idProject', $idProject);
+    $data   = $this->model->delete();
+    if ($data) {
+      $hasil['status'] = 'success';
+    } else {
+      $hasil['status'] = 'failed';
     }
+    return $this->output->set_content_type('application/json')->set_output(json_encode($hasil));
+  }
+
+  public function getById()
+  {
+    $this->model->set('idProject', $this->idProject);
+    $data = $this->model->get();
+    $this->output->set_content_type('application/json')->set_output(json_encode($data));
+  }
 }

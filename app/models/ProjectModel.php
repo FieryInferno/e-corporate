@@ -3,8 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class ProjectModel extends CI_Model {
 
-    private $table  = 'project';
-    private $idProject;
+  private $table  = 'project';
+  private $idProject;
 
 	public function save() {
         if ($this->idProject) {
@@ -103,19 +103,19 @@ class ProjectModel extends CI_Model {
         $this->$jenis   = $isi;
     }
 
-    public function get()
-    {
-        $data   = $this->db->get_where('project', [
-            'idProject' => $this->idProject
-        ])->row_array();
+  public function get()
+  {
+    $data   = $this->db->get_where('project', [
+      'idProject' => $this->idProject
+    ])->row_array();
 
-        $this->db->select('projectDetail.*, concat(mnoakun.akunno, " - ", mnoakun.namaakun) as noAkun1');
-        $this->db->join('mnoakun', 'projectDetail.noAkun = mnoakun.idakun');
-        $data['detail'] = $this->db->get_where('projectDetail', [
-            'idProject' => $this->idProject
-        ])->result_array();
-        return $data;
-    }
+    $this->db->select('projectDetail.*, concat(mnoakun.akunno, " - ", mnoakun.namaakun) as noAkun1');
+    $this->db->join('mnoakun', 'projectDetail.noAkun = mnoakun.idakun');
+    $data['detail'] = $this->db->get_where('projectDetail', [
+      'idProject' => $this->idProject
+    ])->result_array();
+    return $data;
+  }
 
     public function delete()
     {

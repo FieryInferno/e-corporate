@@ -1,298 +1,320 @@
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?= $title; ?></h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('Pemesanan_penjualan'); ?>">Penjualan</a></li>
-                        <li class="breadcrumb-item active"><?= $title; ?></li> 
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1><?= $title; ?></h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<?= base_url('Pemesanan_penjualan'); ?>">Penjualan</a></li>
+            <li class="breadcrumb-item active"><?= $title; ?></li> 
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-            <!-- left column -->
-                <div class="col-md-12">
-                    <!-- jquery validation -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Tambah <?= $title; ?></h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- card body -->
-                        <div class="card-body">
-                            <!-- form start -->
-                            <form id="form1" action="javascript:save()">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label><?php echo lang('notrans') ?>:</label>
-                                            <input type="text" class="form-control"readonly name="notrans" placeholder="AUTO">
-                                        </div>
-                                        <div class="form-group" id="rekanan">
-                                            <label><?php echo lang('rekanan') ?>:</label>
-                                            <select class="form-control kontakid" name="kontakid" required></select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Cabang : </label>
-                                            <div class="input-group"> 
-                                                <select id="cabang" class="form-control cabang" name="cabang" required></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label><?php echo lang('date') ?>:</label>
-                                            <div class="input-group"> 
-                                                <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group" id="gudang">
-                                            <label><?php echo lang('gudang') ?>:</label>
-                                            <select class="form-control gudangid" name="gudangid"></select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Project : </label>
-                                            <select id="project" class="form-control project" name="project" required style="width: 100%;"></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label><?php echo lang('Perusahaan') ?>:</label>
-                                            <div class="input-group"> 
-                                                <?php
-                                                    if ($this->session->userid !== '1') { ?>
-                                                        <input type="hidden" name="idperusahaan" value="<?= $this->session->idperusahaan; ?>" id="perusahaan">
-                                                        <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
-                                                    <?php } else { ?>
-                                                        <select class="form-control perusahaan" name="idperusahaan" style="width: 100%;" id="perusahaan"></select>
-                                                    <?php }
-                                                ?>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Departemen') ?>:</label>
-                                            <div class="input-group"> 
-                                            <select id="departemen" class="form-control departemen" name="dept" required></select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('PIC') ?>:</label>
-                                            <div class="input-group"> 
-                                            <select id="pejabat" class="form-control pejabat" name="pejabat" required></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                    <div class="form-group">
-                                            <label><?php echo lang('Jenis Penjualan') ?>:</label>
-                                            <select class="form-control jenis_penjualan" name="jenis_penjualan" required>
-                                                <option value="barang">Barang</option>                                   
-                                                <option value="jasa">Jasa</option>
-                                                <option value="barang_dan_jasa">Barang dan Jasa</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Jenis Barang') ?>:</label>
-                                            <select class="form-control jenis_barang" name="jenis_barang" id="jenis_barang" required>
-                                                    <option value="barang_dagangan">Barang Dagangan</option>
-                                                    <option value="inventaris">Inventaris</option>    
-                                                    <option value="barang_dan_jasa">Barang dan Jasa</option>                               
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Cara Pembayaran') ?>:</label>
-                                            <select class="form-control cara_pembayaran" name="cara_pembayaran" required>
-                                                    <option value="cash">Cash</option>
-                                                    <option value="credit">Credit</option>                                   
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                    </div>
-                                </div>
-                                <div class="mb-3 mt-3 table-responsive">
-                                    <div class="mt-3 mb-3">
-                                        <button type="button" class="btn btn-sm btn-primary btn_add_detail_barang" hidden><?php echo lang('Tambah Barang') ?></button>
-                                        <button type="button" class="btn btn-sm btn-primary btn_add_detail_jasa" hidden><?php echo lang('Tambah Jasa') ?></button>
-                                        <button type="button" class="btn btn-sm btn-primary btn_add_detail_budgetevent" hidden><?php echo lang('Budget Event') ?></button>
-                                    </div>
-                                    <div class="row" id="nokwitansi_rekening">
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label><?php echo lang('Nomor') ?>:</label>
-                                                <input type="text" class="form-control nokwitansi" readonly name="nokwitansi">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                            <div class="form-group">
-                                                <label><?php echo lang('Rekening') ?>:</label>
-                                                <select id="rekening" class="form-control rekening" name="rekening"></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="tabel_detail_item" width="100%" hidden>
-                                            <thead>
-                                                <tr class="table-active">
-                                                    <th>ID</th>
-                                                    <th class="text-center"><?php echo lang('Item') ?></th>
-                                                    <th class="text-center"><?php echo lang('price') ?></th>
-                                                    <th class="text-center"><?php echo lang('qty') ?></th>
-                                                    <th class="text-center"><?php echo lang('subtotal') ?></th>
-                                                    <th class="text-center"><?php echo lang('Kurs <br> mata uang') ?></th>
-                                                    <th class="text-center"><?php echo lang('discount') ?></th>
-                                                    <th class="text-center"><?php echo lang('Pajak') ?></th>
-                                                    <th class="text-center"><?php echo lang('Biaya <br>Pengiriman') ?></th>
-                                                    <th class="text-center"><?php echo lang('No Akun') ?></th>
-                                                    <th class="text-center"><?php echo lang('total') ?></th>
-                                                    <th class="text-center"><?php echo lang('action') ?></th>
-                                                    <th class="text-center"><?php echo lang('tipe') ?></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                            <tfoot>
-                                                <tr class="table-active">
-                                                    <th>ID</th>
-                                                    <th colspan="8">&nbsp;</th>
-                                                    <th class="text-right"><?php echo lang('total') ?></th>
-                                                    <th class="text-center" id="total_total_item"></th>
-                                                    <th><input type="hidden" name="total_penjualan" class="total_penjualan"></th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="tabel_detail_budgetevent" width="100%" hidden>
-                                            <thead>
-                                                <tr class="table-active">
-                                                    <th>ID</th>
-                                                    <th class="text-center"><?php echo lang('Item') ?></th>
-                                                    <th class="text-center"><?php echo lang('price') ?></th>
-                                                    <th class="text-center"><?php echo lang('qty') ?></th>
-                                                    <th class="text-center"><?php echo lang('subtotal') ?></th>
-                                                    <th class="text-center"><?php echo lang('Kurs <br> mata uang') ?></th>
-                                                    <th class="text-center"><?php echo lang('discount') ?></th>
-                                                    <th class="text-center"><?php echo lang('Pajak') ?></th>
-                                                    <th class="text-center"><?php echo lang('Biaya <br>Pengiriman') ?></th>
-                                                    <th class="text-center"><?php echo lang('No Akun') ?></th>
-                                                    <th class="text-center"><?php echo lang('total') ?></th>
-                                                    <th class="text-center"><?php echo lang('action') ?></th>
-                                                    <th class="text-center"><?php echo lang('tipe') ?></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                            <tfoot>
-                                                <tr class="table-active">
-                                                    <th>ID</th>
-                                                    <th colspan="8">&nbsp;</th>
-                                                    <th class="text-right"><?php echo lang('total') ?></th>
-                                                    <th class="text-center" id="total_total_budgetevent"></th>
-                                                    <th><input type="hidden" name="total_budgetevent" class="total_budgetevent"></th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label><?php echo lang('note') ?>:</label>
-                                            <textarea class="form-control catatan" name="catatan" rows="6"></textarea>
-                                        </div>                       
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="row">
-                                            <div class="col-sm-8">
-                                                <div class="form-group">
-                                                    <label><?php echo lang('Uang Muka') ?>:</label>
-                                                    <input type="text" class="form-control um" name="um" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
-                                                </div>
-                                            </div>
-                                            <div class="col-sm-4">
-                                                <div class="form-group">
-                                                    <label><?php echo lang('Jumlah Term') ?>:</label>
-                                                    <input type="number" class="form-control jtem" name="jtem" min="0" max="8">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="form-group a1" hidden>
-                                                    <label><?php echo lang('Term 1') ?>:</label>
-                                                    <input type="text" class="form-control" name="a1" placeholder="Angsuran 1" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
-                                                </div>
-                                                <div class="form-group a2" hidden>
-                                                    <label><?php echo lang('Term 2') ?>:</label>
-                                                    <input type="text" class="form-control" name="a2" placeholder="Angsuran 2"  onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()"> 
-                                                </div>
-                                                <div class="form-group a3" hidden>
-                                                    <label><?php echo lang('Term 3') ?>:</label>
-                                                    <input type="text" class="form-control" name="a3" placeholder="Angsuran 3" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
-                                                </div>
-                                                <div class="form-group a4" hidden>
-                                                    <label><?php echo lang('Term 4') ?>:</label>
-                                                    <input type="text" class="form-control" name="a4" placeholder="Angsuran 4" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-group a5" hidden>
-                                                    <label><?php echo lang('Term 5') ?>:</label>
-                                                    <input type="text" class="form-control" name="a5" placeholder="Angsuran 5" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
-                                                </div>
-                                                <div class="form-group a6" hidden>
-                                                    <label><?php echo lang('Term 6') ?>:</label>
-                                                    <input type="text" class="form-control" name="a6" placeholder="Angsuran 6" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
-                                                </div>
-                                                <div class="form-group a7" hidden>
-                                                    <label><?php echo lang('Term 7') ?>:</label>
-                                                    <input type="text" class="form-control" name="a7" placeholder="Angsuran 7" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
-                                                </div>
-                                                <div class="form-group a8" hidden>
-                                                    <label><?php echo lang('Term 8') ?>:</label>
-                                                    <input type="text" class="form-control" name="a8" placeholder="Angsuran 8" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
-                                            <input type="text" class="form-control tum" name="tum" readonly>
-                                        </div>
-                                    </div>
-                                    <input type="hidden" name="detail_array_item" id="detail_array_item">
-                                    <input type="hidden" name="detail_array_budgetevent" id="detail_array_budgetevent">
-                                    <div id="detailPajak"></div>
-                                </div>
-                                <div class="text-right">
-                                    <div class="btn-group">
-                                        <a href="{site_url}Pemesanan_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                                        <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-                                    </div>
-                                </div>
-                                </form>
-                                <!-- /form -->
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+      <!-- left column -->
+        <div class="col-md-12">
+            <!-- jquery validation -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Tambah <?= $title; ?></h3>
+                </div>
+                <!-- /.card-header -->
+                <!-- card body -->
+                <div class="card-body">
+                  <!-- form start -->
+                  <form id="form1" action="javascript:save()">
+                      <div class="row">
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label><?php echo lang('notrans') ?>:</label>
+                            <input type="text" class="form-control"readonly name="notrans" placeholder="AUTO">
+                          </div>
+                          <div class="form-group" id="rekanan">
+                            <label><?php echo lang('rekanan') ?>:</label>
+                            <select class="form-control kontakid" name="kontakid" required></select>
+                          </div>
+                          <div class="form-group">
+                            <label>Cabang : </label>
+                            <div class="input-group"> 
+                                <select id="cabang" class="form-control cabang" name="cabang" required></select>
                             </div>
-                            <!-- /.card-body -->
+                          </div>
                         </div>
-                    <!-- /.card -->
-                    </div>
-                <!--/.col (left) -->
-            <!--/.col (right) -->
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label><?php echo lang('date') ?>:</label>
+                            <div class="input-group"> 
+                                <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
+                            </div>
+                          </div>
+                          <div class="form-group" id="gudang">
+                            <label><?php echo lang('gudang') ?>:</label>
+                            <select class="form-control gudangid" name="gudangid"></select>
+                          </div>
+                          <div class="form-group">
+                            <label>Project : </label>
+                            <select id="project" class="form-control project" name="project" required style="width: 100%;"></select>
+                            <script>
+                              $('#project').change(function(e) {
+                                let idProject = $(this).val();
+                                $.ajax({
+                                  url       : '{site_url}project/getById',
+                                  method    : 'post',
+                                  datatype  : 'json',
+                                  data      : {
+                                    idProject : idProject
+                                  },
+                                  success   : function(data) {
+                                    ajax_select({
+                                      id        : '.kontakid',
+                                      url       : '{site_url}Pemesanan_penjualan/select2_kontak/',
+                                      selected  : {
+                                        id  : data.rekanan
+                                      }
+                                    });
+                                  }
+                                })
+                              })
+                            </script>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label><?php echo lang('Perusahaan') ?>:</label>
+                            <div class="input-group"> 
+                              <?php
+                                if ($this->session->userid !== '1') { ?>
+                                  <input type="hidden" name="idperusahaan" value="<?= $this->session->idperusahaan; ?>" id="perusahaan">
+                                  <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                                <?php } else { ?>
+                                  <select class="form-control perusahaan" name="idperusahaan" style="width: 100%;" id="perusahaan"></select>
+                                <?php }
+                              ?>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label><?php echo lang('Departemen') ?>:</label>
+                            <div class="input-group"> 
+                            <select id="departemen" class="form-control departemen" name="dept" required></select>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label><?php echo lang('PIC') ?>:</label>
+                            <div class="input-group"> 
+                              <select id="pejabat" class="form-control pejabat" name="pejabat" required></select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label><?php echo lang('Jenis Penjualan') ?>:</label>
+                            <select class="form-control jenis_penjualan" name="jenis_penjualan" required>
+                              <option value="barang">Barang</option>                                   
+                              <option value="jasa">Jasa</option>
+                              <option value="barang_dan_jasa">Barang dan Jasa</option>
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label><?php echo lang('Jenis Barang') ?>:</label>
+                            <select class="form-control jenis_barang" name="jenis_barang" id="jenis_barang" required>
+                              <option value="barang_dagangan">Barang Dagangan</option>
+                              <option value="inventaris">Inventaris</option>    
+                              <option value="barang_dan_jasa">Barang dan Jasa</option>                               
+                            </select>
+                          </div>
+                          <div class="form-group">
+                            <label><?php echo lang('Cara Pembayaran') ?>:</label>
+                            <select class="form-control cara_pembayaran" name="cara_pembayaran" required>
+                              <option value="cash">Cash</option>
+                              <option value="credit">Credit</option>                                   
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+                        </div>
+                      </div>
+                      <div class="mb-3 mt-3 table-responsive">
+                        <div class="mt-3 mb-3">
+                          <button type="button" class="btn btn-sm btn-primary btn_add_detail_barang" hidden><?php echo lang('Tambah Barang') ?></button>
+                          <button type="button" class="btn btn-sm btn-primary btn_add_detail_jasa" hidden><?php echo lang('Tambah Jasa') ?></button>
+                          <button type="button" class="btn btn-sm btn-primary btn_add_detail_budgetevent" hidden><?php echo lang('Budget Event') ?></button>
+                        </div>
+                        <div class="row" id="nokwitansi_rekening">
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label><?php echo lang('Nomor') ?>:</label>
+                              <input type="text" class="form-control nokwitansi" readonly name="nokwitansi">
+                            </div>
+                          </div>
+                          <div class="col-md-3">
+                            <div class="form-group">
+                              <label><?php echo lang('Rekening') ?>:</label>
+                              <select id="rekening" class="form-control rekening" name="rekening"></select>
+                            </div>
+                          </div>
+                        </div>
+                          <div class="table-responsive">
+                            <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="tabel_detail_item" width="100%" hidden>
+                              <thead>
+                                <tr class="table-active">
+                                  <th>ID</th>
+                                  <th class="text-center"><?php echo lang('Item') ?></th>
+                                  <th class="text-center"><?php echo lang('price') ?></th>
+                                  <th class="text-center"><?php echo lang('qty') ?></th>
+                                  <th class="text-center"><?php echo lang('subtotal') ?></th>
+                                  <th class="text-center"><?php echo lang('Kurs <br> mata uang') ?></th>
+                                  <th class="text-center"><?php echo lang('discount') ?></th>
+                                  <th class="text-center"><?php echo lang('Pajak') ?></th>
+                                  <th class="text-center"><?php echo lang('Biaya <br>Pengiriman') ?></th>
+                                  <th class="text-center"><?php echo lang('No Akun') ?></th>
+                                  <th class="text-center"><?php echo lang('total') ?></th>
+                                  <th class="text-center"><?php echo lang('action') ?></th>
+                                  <th class="text-center"><?php echo lang('tipe') ?></th>
+                                </tr>
+                              </thead>
+                              <tbody></tbody>
+                              <tfoot>
+                                <tr class="table-active">
+                                  <th>ID</th>
+                                  <th colspan="8">&nbsp;</th>
+                                  <th class="text-right"><?php echo lang('total') ?></th>
+                                  <th class="text-center" id="total_total_item"></th>
+                                  <th><input type="hidden" name="total_penjualan" class="total_penjualan"></th>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                          <div class="table-responsive">
+                            <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="tabel_detail_budgetevent" width="100%" hidden>
+                              <thead>
+                                <tr class="table-active">
+                                  <th>ID</th>
+                                  <th class="text-center"><?php echo lang('Item') ?></th>
+                                  <th class="text-center"><?php echo lang('price') ?></th>
+                                  <th class="text-center"><?php echo lang('qty') ?></th>
+                                  <th class="text-center"><?php echo lang('subtotal') ?></th>
+                                  <th class="text-center"><?php echo lang('Kurs <br> mata uang') ?></th>
+                                  <th class="text-center"><?php echo lang('discount') ?></th>
+                                  <th class="text-center"><?php echo lang('Pajak') ?></th>
+                                  <th class="text-center"><?php echo lang('Biaya <br>Pengiriman') ?></th>
+                                  <th class="text-center"><?php echo lang('No Akun') ?></th>
+                                  <th class="text-center"><?php echo lang('total') ?></th>
+                                  <th class="text-center"><?php echo lang('action') ?></th>
+                                  <th class="text-center"><?php echo lang('tipe') ?></th>
+                                </tr>
+                              </thead>
+                              <tbody></tbody>
+                              <tfoot>
+                                <tr class="table-active">
+                                  <th>ID</th>
+                                  <th colspan="8">&nbsp;</th>
+                                  <th class="text-right"><?php echo lang('total') ?></th>
+                                  <th class="text-center" id="total_total_budgetevent"></th>
+                                  <th><input type="hidden" name="total_budgetevent" class="total_budgetevent"></th>
+                                </tr>
+                              </tfoot>
+                            </table>
+                          </div>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col-md-6">
+                          <div class="form-group">
+                            <label><?php echo lang('note') ?>:</label>
+                            <textarea class="form-control catatan" name="catatan" rows="6"></textarea>
+                          </div>                       
+                        </div>
+                        <div class="col-md-6">
+                          <div class="row">
+                            <div class="col-sm-8">
+                              <div class="form-group">
+                                  <label><?php echo lang('Uang Muka') ?>:</label>
+                                  <input type="text" class="form-control um" name="um" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                              </div>
+                            </div>
+                            <div class="col-sm-4">
+                              <div class="form-group">
+                                  <label><?php echo lang('Jumlah Term') ?>:</label>
+                                  <input type="number" class="form-control jtem" name="jtem" min="0" max="8">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="row">
+                            <div class="col-md-6">
+                              <div class="form-group a1" hidden>
+                                <label><?php echo lang('Term 1') ?>:</label>
+                                <input type="text" class="form-control" name="a1" placeholder="Angsuran 1" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                              </div>
+                              <div class="form-group a2" hidden>
+                                <label><?php echo lang('Term 2') ?>:</label>
+                                <input type="text" class="form-control" name="a2" placeholder="Angsuran 2"  onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()"> 
+                              </div>
+                              <div class="form-group a3" hidden>
+                                <label><?php echo lang('Term 3') ?>:</label>
+                                <input type="text" class="form-control" name="a3" placeholder="Angsuran 3" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                              </div>
+                              <div class="form-group a4" hidden>
+                                <label><?php echo lang('Term 4') ?>:</label>
+                                <input type="text" class="form-control" name="a4" placeholder="Angsuran 4" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                              </div>
+                            </div>
+                            <div class="col-md-6">
+                              <div class="form-group a5" hidden>
+                                <label><?php echo lang('Term 5') ?>:</label>
+                                <input type="text" class="form-control" name="a5" placeholder="Angsuran 5" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                              </div>
+                              <div class="form-group a6" hidden>
+                                <label><?php echo lang('Term 6') ?>:</label>
+                                <input type="text" class="form-control" name="a6" placeholder="Angsuran 6" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                              </div>
+                              <div class="form-group a7" hidden>
+                                <label><?php echo lang('Term 7') ?>:</label>
+                                <input type="text" class="form-control" name="a7" placeholder="Angsuran 7" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                              </div>
+                              <div class="form-group a8" hidden>
+                                <label><?php echo lang('Term 8') ?>:</label>
+                                <input type="text" class="form-control" name="a8" placeholder="Angsuran 8" onkeyup="UbahInputRUpiah(this); SUMTOTAL_UM_Term()">
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
+                            <input type="text" class="form-control tum" name="tum" readonly>
+                          </div>
+                        </div>
+                        <input type="hidden" name="detail_array_item" id="detail_array_item">
+                        <input type="hidden" name="detail_array_budgetevent" id="detail_array_budgetevent">
+                        <div id="detailPajak"></div>
+                      </div>
+                      <div class="text-right">
+                        <div class="btn-group">
+                          <a href="{site_url}Pemesanan_penjualan" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                          <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+                        </div>
+                      </div>
+                    </form>
+                      <!-- /form -->
+                  </div>
+                  <!-- /.card-body -->
+              </div>
+            <!-- /.card -->
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+        <!--/.col (left) -->
+      <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </div><!-- /.container-fluid -->
+  </section>
+  <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
 
@@ -490,134 +512,132 @@
 <div id="tambah_modal_pilih_pengiriman"></div>
 
 <script type="text/javascript">
-    var base_url                = '{site_url}Pemesanan_penjualan/';
-    var total_total_item        = [];
-    var total_total_budgetevent = [];
-    $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
-        return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
-    })
+  let base_url                = '{site_url}Pemesanan_penjualan/';
+  let total_total_item        = [];
+  let total_total_budgetevent = [];
+  $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
+      return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
+  })
 
 
-    //datatable item
-    var tabel_detail_item = $('#tabel_detail_item').DataTable({
-        sort: false,
-        info: false,
-        searching: false,
-        paging: false,
-        columnDefs: [
-            {targets: [0,12], visible: false},
-            {targets: [5,7,8,9,11], className: 'text-center'}
-        ],
-        
-    })
+  //datatable item
+  let tabel_detail_item = $('#tabel_detail_item').DataTable({
+      sort: false,
+      info: false,
+      searching: false,
+      paging: false,
+      columnDefs: [
+          {targets: [0,12], visible: false},
+          {targets: [5,7,8,9,11], className: 'text-center'}
+      ],
+  })
 
-    //datatable budget event
-    var tabel_detail_budgetevent = $('#tabel_detail_budgetevent').DataTable({
-        sort: false,
-        info: false,
-        searching: false,
-        paging: false,
-        columnDefs: [
-            {targets: [0,12], visible: false},
-            {targets: [5,7,8,9,11], className: 'text-center'}
-        ],
-        
-    })
+  //datatable budget event
+  let tabel_detail_budgetevent = $('#tabel_detail_budgetevent').DataTable({
+      sort: false,
+      info: false,
+      searching: false,
+      paging: false,
+      columnDefs: [
+          {targets: [0,12], visible: false},
+          {targets: [5,7,8,9,11], className: 'text-center'}
+      ],
+  })
 
 
-    $(document).ready(function(){
-        //isi combobox kontak, gudang, perusahaan, departemen, pejabat
-        ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: null } });
-        ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: null } });
-        if ('<?= $this->session->userid; ?>' == '1') {
-            ajax_select({
-                id          : '#perusahaan', 
-                url         : base_url + 'select2_mperusahaan', 
-                selected    : { 
-                    id  : null 
-                } 
-            }); 
-            $('#perusahaan').change(function(e) {
-                $("#departemen").val($("#departemen").data("default-value"));
-                $("#pejabat").val($("#pejabat").data("default-value"));
-                $("#rekening").val($("#rekening").data("default-value"));
-                var perusahaanId = $('#perusahaan').children('option:selected').val();
-                ajax_select({
-                    id: '#departemen',
-                    url: base_url + 'select2_mdepartemen/' + perusahaanId,
-                });
-                ajax_select({
-                    id: '#rekening',
-                    url: base_url + 'select2_mrekening_perusahaan/' + perusahaanId,
-                });
-                ajax_select({
-                    id          : '#cabang',
-                    url         : '{site_url}cabang/select2_perusahaan/' + perusahaanId
-                });
-                ajax_select({
-                    id  : '#project',
-                    url : '{site_url}Project/select2/' + perusahaanId,
-                });
-            })
-        } else {
-            ajax_select({
-                id: '#departemen',
-                url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
-            });
-            ajax_select({
-                id: '#rekening',
-                url: base_url + 'select2_mrekening_perusahaan/<?= $this->session->idperusahaan; ?>',
-            });
-            ajax_select({
-                id          : '#cabang',
-                url         : '{site_url}cabang/select2_perusahaan/<?= $this->session->idperusahaan; ?>'
-            });
-            ajax_select({
-                id: '#project',
-                url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
-            });
-        }
-        //menyembunyikan button tambah
-        $('.btn_add_detail_barang').attr("hidden", false);
-        $('.btn_add_detail_jasa').attr("hidden", true);
-        $('.btn_add_detail_budgetevent').attr("hidden", true);
-
-        //setting inputan anggsuran 
-        $('input[name=jtem]').val('0');  
-
-        $('#nokwitansi_rekening').attr("hidden", true);
-        var jn_penjualan = $('.jenis_penjualan').val();
-        if (jn_penjualan == 'barang'){
-            $("#rekening").val($("#rekening").data("default-value"));
-            $('.jenis_barang').attr("disabled", false);
-            $('.btn_add_budget_event').attr("hidden", true);
-            $('.btn_add_detail_barang').attr("hidden", false);
-            $('.btn_add_detail_jasa').attr("hidden", true);
-            $('.btn_add_detail_budgetevent').attr("hidden", true);
-            $('.jenis_barang').prop("selectedIndex", 0);
-            document.getElementById("jenis_barang").options[0].disabled = false;
-            document.getElementById("jenis_barang").options[1].disabled = false;
-            document.getElementById("jenis_barang").options[2].disabled = true;
-            $('#gudang').html(`
-                <label><?php echo lang('gudang') ?>:</label>
-                <select class="form-control gudangid" name="gudangid"></select>
-            `);
-            ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: null } });
-            ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: null } });
-        }
-
-        $('#tabel_detail_item').attr("hidden", false);
-        $('#tabel_detail_budgetevent').attr("hidden", true);
-    }) 
-
-    $('#departemen').change(function(e) {
+  $(document).ready(function(){
+    //isi combobox kontak, gudang, perusahaan, departemen, pejabat
+    ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: null } });
+    ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: null } });
+    if ('<?= $this->session->userid; ?>' == '1') {
+      ajax_select({
+        id          : '#perusahaan', 
+        url         : base_url + 'select2_mperusahaan', 
+        selected    : { 
+          id  : null 
+        } 
+      }); 
+      $('#perusahaan').change(function(e) {
+        $("#departemen").val($("#departemen").data("default-value"));
         $("#pejabat").val($("#pejabat").data("default-value"));
-        var deptId = $('#departemen').children('option:selected').val()
+        $("#rekening").val($("#rekening").data("default-value"));
+        let perusahaanId = $('#perusahaan').children('option:selected').val();
         ajax_select({
-            id: '#pejabat',
-            url: base_url + 'select2_mdepartemen_pejabat/' + deptId,
+          id  : '#departemen',
+          url : base_url + 'select2_mdepartemen/' + perusahaanId,
         });
-    })
+        ajax_select({
+          id  : '#rekening',
+          url : base_url + 'select2_mrekening_perusahaan/' + perusahaanId,
+        });
+        ajax_select({
+          id  : '#cabang',
+          url : '{site_url}cabang/select2_perusahaan/' + perusahaanId
+        });
+        ajax_select({
+          id  : '#project',
+          url : '{site_url}Project/select2/' + perusahaanId,
+        });
+      })
+    } else {
+      ajax_select({
+        id  : '#departemen',
+        url : base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
+      });
+      ajax_select({
+        id  : '#rekening',
+        url : base_url + 'select2_mrekening_perusahaan/<?= $this->session->idperusahaan; ?>',
+      });
+      ajax_select({
+        id  : '#cabang',
+        url : '{site_url}cabang/select2_perusahaan/<?= $this->session->idperusahaan; ?>'
+      });
+      ajax_select({
+        id  : '#project',
+        url : '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
+      });
+    }
+    //menyembunyikan button tambah
+    $('.btn_add_detail_barang').attr("hidden", false);
+    $('.btn_add_detail_jasa').attr("hidden", true);
+    $('.btn_add_detail_budgetevent').attr("hidden", true);
+
+    //setting inputan anggsuran 
+    $('input[name=jtem]').val('0');  
+
+    $('#nokwitansi_rekening').attr("hidden", true);
+    let jn_penjualan = $('.jenis_penjualan').val();
+    if (jn_penjualan == 'barang'){
+      $("#rekening").val($("#rekening").data("default-value"));
+      $('.jenis_barang').attr("disabled", false);
+      $('.btn_add_budget_event').attr("hidden", true);
+      $('.btn_add_detail_barang').attr("hidden", false);
+      $('.btn_add_detail_jasa').attr("hidden", true);
+      $('.btn_add_detail_budgetevent').attr("hidden", true);
+      $('.jenis_barang').prop("selectedIndex", 0);
+      document.getElementById("jenis_barang").options[0].disabled = false;
+      document.getElementById("jenis_barang").options[1].disabled = false;
+      document.getElementById("jenis_barang").options[2].disabled = true;
+      $('#gudang').html(`
+          <label><?php echo lang('gudang') ?>:</label>
+          <select class="form-control gudangid" name="gudangid"></select>
+      `);
+      ajax_select({ id: '.kontakid', url: base_url + 'select2_kontak', selected: { id: null } });
+      ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: null } });
+    }
+
+    $('#tabel_detail_item').attr("hidden", false);
+    $('#tabel_detail_budgetevent').attr("hidden", true);
+  }) 
+
+  $('#departemen').change(function(e) {
+    $("#pejabat").val($("#pejabat").data("default-value"));
+    let deptId  = $('#departemen').children('option:selected').val()
+    ajax_select({
+      id  : '#pejabat',
+      url : base_url + 'select2_mdepartemen_pejabat/' + deptId,
+    });
+  })
 
     //perubahan saat jenis pembelian diganti
     $(document).on('change','.jenis_penjualan',function(){
@@ -661,7 +681,7 @@
             document.getElementById("jenis_barang").options[0].disabled = true;
             document.getElementById("jenis_barang").options[1].disabled = true;
             document.getElementById("jenis_barang").options[2].disabled = false;
-            var jenis_penjualan = $('.jenis_penjualan').val();
+            let jenis_penjualan = $('.jenis_penjualan').val();
             
         }
         tabel_detail_item.clear().draw();
@@ -673,7 +693,7 @@
     })
      //perubahan saat jenis barang diganti
     $(document).on('change','.jenis_barang',function(){
-        var jenis_barang = $(this).val();
+        let jenis_barang = $(this).val();
             if (jenis_barang == 'barang_dagangan'){
                 $('#gudang').html(`
                     <label><?php echo lang('gudang') ?>:</label>
@@ -699,8 +719,8 @@
         $('.nokwitansi').attr("hidden", true);
         $('#tabel_detail_item').attr("hidden", false);
         $('#tabel_detail_budgetevent').attr("hidden", true);
-        var jenis_barang = $('.jenis_barang').val();
-        var idgudang = $('.gudangid').val();
+        let jenis_barang = $('.jenis_barang').val();
+        let idgudang = $('.gudangid').val();
         if (jenis_barang == 'inventaris'){
             $('item').html('Inventaris:');
             $('.jenis_item').val('inventaris');
@@ -741,21 +761,21 @@
         $('.id_jasa').empty();
         $('.jenis_item').val('jasa');
         $.ajax({
-            url         : base_url + 'select2_item_jasa',
-            method      : 'post',
-            datatype    : 'json',
-            success: function(data) {
-                isi = "";
-                detail="";
-                for ( index = 0; index < data.length; index++) {
-                    detail += `
-                    <input type="hidden" id="noakun`+data[index].id+`" name="noakun[]" value="${data[index].koderekening}">
-                    <input type="hidden" id="idAkun`+data[index].id+`" name="idAkun[]" value="${data[index].id}">`;
-                    isi += `<option value="${data[index].id}">${data[index].text}</option>`
-                }
-                $('#detail_jasa').html(detail);
-                $('.id_jasa').append(isi);
+          url         : base_url + 'select2_item_jasa',
+          method      : 'post',
+          datatype    : 'json',
+          success     : function(data) {
+            isi = "";
+            detail="";
+            for ( index = 0; index < data.length; index++) {
+              detail += `
+              <input type="hidden" id="noakun`+data[index].id+`" name="noakun[]" value="${data[index].koderekening}">
+              <input type="hidden" id="idAkun`+data[index].id+`" name="idAkun[]" value="${data[index].id}">`;
+              isi += `<option value="${data[index].id}">${data[index].text}</option>`
             }
+            $('#detail_jasa').html(detail);
+            $('.id_jasa').append(isi);
+          }
         })
         $('.id_jasa').select2();
     })
@@ -790,33 +810,32 @@
         $('.id_budgetevent').select2();
     })
 
-
     function save_detail(no, jenis) {
-        switch (jenis) {
-            case 'barang_inventaris':
-                var form            = $('#form_barang_inventaris')[0];
-                var formData        = new FormData(form);
-                var barang          = $('.id_barang_inventaris :selected');        
-                break;
-            case 'jasa':
-                var form            = $('#form_jasa')[0];
-                var formData        = new FormData(form);
-                var barang          = $('.id_jasa :selected');        
-                break;
-            case 'budgetevent':
-                var form            = $('#form_budgetevent')[0];
-                var formData        = new FormData(form);
-                var barang          = $('.id_budgetevent :selected');        
-                break;
-            default:
-                break;
-        }
+      switch (jenis) {
+        case 'barang_inventaris':
+          var form            = $('#form_barang_inventaris')[0];
+          var formData        = new FormData(form);
+          var barang          = $('.id_barang_inventaris :selected');        
+          break;
+        case 'jasa':
+          var form            = $('#form_jasa')[0];
+          var formData        = new FormData(form);
+          var barang          = $('.id_jasa :selected');        
+          break;
+        case 'budgetevent':
+          var form            = $('#form_budgetevent')[0];
+          var formData        = new FormData(form);
+          var barang          = $('.id_budgetevent :selected');        
+          break;
+        default:
+          break;
+      }
 
         if (jenis != 'budgetevent'){
-            var jenis_item = $('.jenis_item').val();
+            let jenis_item = $('.jenis_item').val();
             for (let index = 0; index < barang.length; index++) {
-                var id    = barang[index].value;
-                var item  = barang[index].text;
+                let id    = barang[index].value;
+                let item  = barang[index].text;
                 if(tabel_detail_item.hasValue(id)) {
                     swal("Gagal!", "Item sudah ada", "error");
                     return;
@@ -970,15 +989,15 @@
                 getListPajak(String(index) + String(no));
                 no++;
             }
-            var no_baru = no;
+            let no_baru = no;
             $('#form_barang_inventaris').attr('action', 'javascript:save_detail('+no_baru+',"barang_inventaris")');    
             $('#modal_add_barang_inventaris').modal('hide');    
             $('#form_jasa').attr('action', 'javascript:save_detail('+no_baru+',"jasa")');
             $('#modal_add_jasa').modal('hide');     
         } else {
             for (let index = 0; index < barang.length; index++) {
-                var id    = barang[index].value;
-                var item  = barang[index].text;
+                let id    = barang[index].value;
+                let item  = barang[index].text;
                 if(tabel_detail_budgetevent.hasValue(id)) {
                     swal("Gagal!", "Item sudah ada", "error");
                     return;
@@ -1130,7 +1149,7 @@
                 getListPajak1(String(index) + String(no));
                 no++;
             }
-            var no_baru = no; 
+            let no_baru = no; 
             $('#form_budgetevent').attr('action', 'javascript:save_detail('+no_baru+',"budgetevent")');   
             $('#modal_add_budgetevent').modal('hide');      
         }
@@ -1148,7 +1167,7 @@
         const persen        = $(elem).attr('persen');
         const harga         = parseInt($('#harga' + id).val().replace(/[.]/g, ''));
         nominal             = harga * persen / 100;
-        // var no1              = 0;        
+        // let no1              = 0;        
         if (stat) {
             html = `<tr no="${no}">
                         <td><input type="hidden" name="idPajak" value="${idPajak}">${kode_pajak}</td>
@@ -1165,14 +1184,14 @@
     }
 
     function total_pajak(id, no) {
-        var formData    = new FormData($('#form_pajak'+id)[0]);
-        var pajak       = formData.getAll('pajak');
-        var pengurangan = formData.getAll('pengurangan');
-        var idPajak     = formData.getAll('idPajak');
-        var pajak_baru  = 0;
-        var index       = 0;
+        let formData    = new FormData($('#form_pajak'+id)[0]);
+        let pajak       = formData.getAll('pajak');
+        let pengurangan = formData.getAll('pengurangan');
+        let idPajak     = formData.getAll('idPajak');
+        let pajak_baru  = 0;
+        let index       = 0;
         pajak.forEach(p => {
-            var stat    = $('#pengurangan' + index + id).is(':checked');
+            let stat    = $('#pengurangan' + index + id).is(':checked');
             if (stat) {
                 pajak_baru  -= parseInt(p.replace(/[.]/g, ''));
                 stat        = 1;
@@ -1183,7 +1202,7 @@
             pengurangan[index]  = stat; 
             index++;
         });
-        var x   = $('#idPajak' + id);
+        let x   = $('#idPajak' + id);
         if (x.length == 0) {
             $('#detailPajak').append(
                 `<input type="hidden" name="idPajak[]" value="${idPajak}" id="idPajak${id}">
@@ -1201,9 +1220,9 @@
     }
 
     function total_pengiriman(id, no) {
-        var formData            = new FormData($('#form_pengiriman'+id)[0]);
-        var pengiriman          = formData.getAll('pengiriman');
-        var biaya_pengiriman    = 0;
+        let formData            = new FormData($('#form_pengiriman'+id)[0]);
+        let pengiriman          = formData.getAll('pengiriman');
+        let biaya_pengiriman    = 0;
         pengiriman.forEach(p => {
             biaya_pengiriman  += parseInt(p.replace(/[Rp.]/g, ''));
         });
@@ -1213,12 +1232,12 @@
     }
 
     function nominalPajak(no) {
-        var nilai   = $('#nominal_pajak' + no).val();
+        let nilai   = $('#nominal_pajak' + no).val();
         $('#nominal_pajak' + no).val(formatRupiah(String(nilai)));
     }
 
     function getListPajak(id) {
-        var table = $('#list_pajak'+id);
+        let table = $('#list_pajak'+id);
         $.ajax({
             type    : "get",
             url     : base_url + 'get_PilihanPajak',
@@ -1264,7 +1283,7 @@
                 id  : e.params.data.id
             },
             success: function(data) {
-                var isi_tbody_pengiriman    = `
+                let isi_tbody_pengiriman    = `
                     <tr>
                         <td>${data.akunno}</td>
                         <td>${data.namaakun}</td>
@@ -1283,7 +1302,7 @@
         const nama_akun     = $(elem).attr('nama_akun1');
         const stat          = $(elem).is(":checked");
         const table         = $('#isi_tbody_pajak1'+id);
-        // var no1              = 0;        
+        // let no1              = 0;        
         if (stat) {
             html = `<tr no="${no}">
                         <td>${kode_pajak}</td>
@@ -1299,9 +1318,9 @@
     }
 
     function total_pajak1(id, no) {
-        var formData    = new FormData($('#form_pajak1'+id)[0]);
-        var pajak       = formData.getAll('pajak1');
-        var pajak_baru  = 0;
+        let formData    = new FormData($('#form_pajak1'+id)[0]);
+        let pajak       = formData.getAll('pajak1');
+        let pajak_baru  = 0;
         pajak.forEach(p => {
             pajak_baru  += parseInt(p.replace(/[Rp.]/g, ''));
         });
@@ -1311,9 +1330,9 @@
     }
 
     function total_pengiriman1(id, no) {
-        var formData            = new FormData($('#form_pengiriman1'+id)[0]);
-        var pengiriman          = formData.getAll('pengiriman1');
-        var biaya_pengiriman    = 0;
+        let formData            = new FormData($('#form_pengiriman1'+id)[0]);
+        let pengiriman          = formData.getAll('pengiriman1');
+        let biaya_pengiriman    = 0;
         pengiriman.forEach(p => {
             biaya_pengiriman  += parseInt(p.replace(/[Rp.]/g, ''));
         });
@@ -1323,13 +1342,13 @@
     }
 
     function nominalPajak1(no) {
-        var nilai   = $('#nominal_pajak1' + no).val();
-        var nilai1  = nilai.replace(/[^,\d]/g, '').toString();
+        let nilai   = $('#nominal_pajak1' + no).val();
+        let nilai1  = nilai.replace(/[^,\d]/g, '').toString();
         $('#nominal_pajak1' + no).val(formatRupiah(String(nilai)));
     }
 
     function getListPajak1(id) {
-        var table = $('#list_pajak1'+id);
+        let table = $('#list_pajak1'+id);
         $.ajax({
             type    : "get",
             url     : base_url + 'get_PilihanPajak',
@@ -1374,7 +1393,7 @@
                 id  : e.params.data.id
             },
             success: function(data) {
-                var isi_tbody_pengiriman    = `
+                let isi_tbody_pengiriman    = `
                     <tr>
                         <td>${data.akunno}</td>
                         <td>${data.namaakun}</td>
@@ -1388,23 +1407,23 @@
     //hitung subtotal dan total
     function sum(no, no1, jenis) { 
         if (jenis != 'budgetevent'){
-            var txtFirstNumberValue                     = document.getElementById('harga'+no).value.replace(/[^,\d]/g, '').toString(); 
+            let txtFirstNumberValue                     = document.getElementById('harga'+no).value.replace(/[^,\d]/g, '').toString(); 
             document.getElementById('harga'+no).value   = formatRupiah(txtFirstNumberValue);
-            var txtSecondNumberValue                    = document.getElementById('jumlah'+no).value;
-            var result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
-            var pajak                                   = document.getElementById('total_pajak'+no).value;
+            let txtSecondNumberValue                    = document.getElementById('jumlah'+no).value;
+            let result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
+            let pajak                                   = document.getElementById('total_pajak'+no).value;
             if (!isNaN(parseInt(pajak))) {
-                var result   = result + parseInt(pajak);    
+                let result   = result + parseInt(pajak);    
             }
-            var biaya_pengiriman                        = document.getElementById('biaya_pengiriman'+no).value;
+            let biaya_pengiriman                        = document.getElementById('biaya_pengiriman'+no).value;
             if (!isNaN(parseInt(biaya_pengiriman))) {
-                var result   = result + parseInt(biaya_pengiriman);    
+                let result   = result + parseInt(biaya_pengiriman);    
             }
             if (isNaN(parseInt(txtFirstNumberValue))) {
-                var result  = 0;    
+                let result  = 0;    
             }
             if (isNaN(parseInt(txtSecondNumberValue))) {
-                var result  = 0;    
+                let result  = 0;    
             }
             
             if (!isNaN(result)) {
@@ -1425,25 +1444,25 @@
                 total_total_item[no1] = [];
                 total_total_item[no1].push(parseInt(result));
         }else{
-            var txtFirstNumberValue                     = document.getElementById('harga1'+no).value.replace(/[^,\d]/g, '').toString(); 
+            let txtFirstNumberValue                     = document.getElementById('harga1'+no).value.replace(/[^,\d]/g, '').toString(); 
             document.getElementById('harga1'+no).value   = formatRupiah(txtFirstNumberValue);
-            var txtSecondNumberValue                    = document.getElementById('jumlah1'+no).value;
-            var result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
+            let txtSecondNumberValue                    = document.getElementById('jumlah1'+no).value;
+            let result                                  = parseInt(txtFirstNumberValue) * parseInt(txtSecondNumberValue);
             
-            var pajak                                   = document.getElementById('total_pajak1'+no).value;
+            let pajak                                   = document.getElementById('total_pajak1'+no).value;
             if (!isNaN(parseInt(pajak))) {
-                var result   = result + parseInt(pajak);    
+                let result   = result + parseInt(pajak);    
             }
 
-            var biaya_pengiriman                        = document.getElementById('biaya_pengiriman1'+no).value;
+            let biaya_pengiriman                        = document.getElementById('biaya_pengiriman1'+no).value;
             if (!isNaN(parseInt(biaya_pengiriman))) {
-                var result   = result + parseInt(biaya_pengiriman);    
+                let result   = result + parseInt(biaya_pengiriman);    
             }
             if (isNaN(parseInt(txtFirstNumberValue))) {
-                var result  = 0;    
+                let result  = 0;    
             }
             if (isNaN(parseInt(txtSecondNumberValue))) {
-                var result  = 0;    
+                let result  = 0;    
             }
             
             if (!isNaN(result)) {
@@ -1470,54 +1489,54 @@
     //hitung total dengan diskon dan pajak
     function sum_total(no, no1, jenis) { 
         if (jenis != 'budgetevent'){
-            var subtotal            = document.getElementById('subtotal_asli'+no).value.replace(/[^,\d]/g, '').toString();
+            let subtotal            = document.getElementById('subtotal_asli'+no).value.replace(/[^,\d]/g, '').toString();
             if (isNaN(parseInt(subtotal))) {
-                var subtotal   = 0;    
+                let subtotal   = 0;    
             }
-            var diskon              = document.getElementById('diskon'+no).value;
+            let diskon              = document.getElementById('diskon'+no).value;
             if (isNaN(parseInt(diskon))) {
-                var subtotal_baru   = parseInt(subtotal);    
+                let subtotal_baru   = parseInt(subtotal);    
             } else {
-                var subtotal_baru   = parseInt(subtotal) - (parseInt(diskon) * parseInt(subtotal)/100);
+                let subtotal_baru   = parseInt(subtotal) - (parseInt(diskon) * parseInt(subtotal)/100);
             }
-            var pajak                 = document.getElementById('total_pajak'+no).value;
+            let pajak                 = document.getElementById('total_pajak'+no).value;
             if (isNaN(parseInt(pajak))) {
-                var total   = parseInt(subtotal_baru);    
+                let total   = parseInt(subtotal_baru);    
             } else {
-                var total   = parseInt(subtotal_baru) + parseInt(pajak);
+                let total   = parseInt(subtotal_baru) + parseInt(pajak);
             }
-            var pengiriman  = document.getElementById('biaya_pengiriman'+no).value;
+            let pengiriman  = document.getElementById('biaya_pengiriman'+no).value;
             if (isNaN(parseInt(pengiriman))) {
-                var total   = parseInt(total);    
+                let total   = parseInt(total);    
             } else {
-                var total   = parseInt(total) + parseInt(pengiriman);
+                let total   = parseInt(total) + parseInt(pengiriman);
             }
             document.getElementById('total'+no).value = formatRupiah(String(total)) + ',00';
 
             total_total_item[no1]    = [];
             total_total_item[no1].push((parseInt(total)));
         }else{
-            var subtotal            = document.getElementById('subtotal_asli1'+no).value.replace(/[^,\d]/g, '').toString();
+            let subtotal            = document.getElementById('subtotal_asli1'+no).value.replace(/[^,\d]/g, '').toString();
             if (isNaN(parseInt(subtotal))) {
-                var subtotal   = 0;    
+                let subtotal   = 0;    
             }
-            var diskon              = document.getElementById('diskon1'+no).value;
+            let diskon              = document.getElementById('diskon1'+no).value;
             if (isNaN(parseInt(diskon))) {
-                var subtotal_baru   = parseInt(subtotal);    
+                let subtotal_baru   = parseInt(subtotal);    
             } else {
-                var subtotal_baru   = parseInt(subtotal) - (parseInt(diskon) * parseInt(subtotal)/100);
+                let subtotal_baru   = parseInt(subtotal) - (parseInt(diskon) * parseInt(subtotal)/100);
             }
-            var pajak                 = document.getElementById('total_pajak1'+no).value;
+            let pajak                 = document.getElementById('total_pajak1'+no).value;
             if (isNaN(parseInt(pajak))) {
-                var total   = parseInt(subtotal_baru);    
+                let total   = parseInt(subtotal_baru);    
             } else {
-                var total   = parseInt(subtotal_baru) + parseInt(pajak);
+                let total   = parseInt(subtotal_baru) + parseInt(pajak);
             }
-            var pengiriman  = document.getElementById('biaya_pengiriman1'+no).value;
+            let pengiriman  = document.getElementById('biaya_pengiriman1'+no).value;
             if (isNaN(parseInt(pengiriman))) {
-                var total   = parseInt(total);    
+                let total   = parseInt(total);    
             } else {
-                var total   = parseInt(total) + parseInt(pengiriman);
+                let total   = parseInt(total) + parseInt(pengiriman);
             }
             document.getElementById('total1'+no).value = formatRupiah(String(total)) + ',00';
             total_total_budgetevent[no1]    = [];
@@ -1533,7 +1552,7 @@
             total_total_item.forEach(function callback(element, index, array) {
                 a   += parseInt(element);
             })
-            var hasil = formatRupiah(String(a)) + ',00';
+            let hasil = formatRupiah(String(a)) + ',00';
             $('#total_total_item').html(hasil);
             $('.total_penjualan').val(hasil);
         }else{
@@ -1541,7 +1560,7 @@
             total_total_budgetevent.forEach(function callback(element, index, array) {
                 b   += parseInt(element);
             })
-            var hasil1 = formatRupiah(String(b)) + ',00';
+            let hasil1 = formatRupiah(String(b)) + ',00';
             $('#total_total_budgetevent').html(hasil1);
             $('.total_budgetevent').val(hasil1);
         }
@@ -1568,22 +1587,22 @@
 
     //mengambil isi tabel
     function detail_array_item() {
-        var arr = tabel_detail_item.data().toArray();
+        let arr = tabel_detail_item.data().toArray();
         $('#detail_array_item').val( JSON.stringify(arr) );
     }
     function detail_array_budgetevent() {
-        var arr = tabel_detail_budgetevent.data().toArray();
+        let arr = tabel_detail_budgetevent.data().toArray();
         $('#detail_array_budgetevent').val( JSON.stringify(arr) );
     }
 
     //modal edit data
     function EditDetail(id,jenis,no){
         if (jenis != 'budgetevent'){
-            var rowindex    = tabel_detail_item.row($('.edit_detail'+id).parents('tr')).index();
+            let rowindex    = tabel_detail_item.row($('.edit_detail'+id).parents('tr')).index();
             $('input[name=edit_rowindex_item]').val(rowindex);
             $('.edit_itemid').empty();
             $('.nmr_urut_item').val(no);
-            var idgudang = $('.gudangid').val();
+            let idgudang = $('.gudangid').val();
             if (jenis == 'barang'){
                 url = base_url + 'select2_item'+'/'+id+'/'+idgudang;
                 $('.edit_jenisitem').val('barang');
@@ -1618,7 +1637,7 @@
             $('#modal_edit_detail_item').modal('show');
         }else{
 
-            var rowindex    = tabel_detail_budgetevent.row($('.edit_detail'+id).parents('tr')).index();
+            let rowindex    = tabel_detail_budgetevent.row($('.edit_detail'+id).parents('tr')).index();
             $('input[name=edit_rowindex_budgetevent]').val(rowindex);
             $('.edit_budgeteventid').empty();
             $('.edit_jenisitem').val('budgetevent');
@@ -1651,16 +1670,16 @@
     function save_edit_detail(jenis) {
        
         if (jenis != 'budgetevent'){
-            var formData        = new FormData($('#form_edit_item')[0]);
-            var edit_rowindex   = $('input[name=edit_rowindex_item]').val();
-            var edit_jenisitem  = $('.edit_jenisitem').val();
-            var noakun          = 0;
-            var edit_isiitem    = $('.edit_itemid :selected');
-            var nmr_urut       = $('.nmr_urut_item').val();
+            let formData        = new FormData($('#form_edit_item')[0]);
+            let edit_rowindex   = $('input[name=edit_rowindex_item]').val();
+            let edit_jenisitem  = $('.edit_jenisitem').val();
+            let noakun          = 0;
+            let edit_isiitem    = $('.edit_itemid :selected');
+            let nmr_urut       = $('.nmr_urut_item').val();
 
-            for (var index = 0; index < edit_isiitem.length; index++) {
-                var id    = edit_isiitem[index].value;
-                var item    = edit_isiitem[index].text;
+            for (let index = 0; index < edit_isiitem.length; index++) {
+                let id    = edit_isiitem[index].value;
+                let item    = edit_isiitem[index].text;
                 if(tabel_detail_item.hasValue(id)) {
                         swal("Gagal!", "Item sudah ada", "error");
                         return;
@@ -1697,16 +1716,16 @@
             }
             $('#modal_edit_detail_item').modal('hide');
         }else{
-            var formData        = new FormData($('#form_edit_budgetevent')[0]);
-            var edit_rowindex   = $('input[name=edit_rowindex_budgetevent]').val();
-            var edit_jenisitem  = "budgetevent";
-            var noakun          = 0;
-            var edit_isiitem    = $('.edit_budgeteventid :selected');
-            var nmr_urut        = $('.nmr_urut_budgetevent').val();
+            let formData        = new FormData($('#form_edit_budgetevent')[0]);
+            let edit_rowindex   = $('input[name=edit_rowindex_budgetevent]').val();
+            let edit_jenisitem  = "budgetevent";
+            let noakun          = 0;
+            let edit_isiitem    = $('.edit_budgeteventid :selected');
+            let nmr_urut        = $('.nmr_urut_budgetevent').val();
 
-            for (var index = 0; index < edit_isiitem.length; index++) {
-                var id    = edit_isiitem[index].value;
-                var item    = edit_isiitem[index].text;
+            for (let index = 0; index < edit_isiitem.length; index++) {
+                let id    = edit_isiitem[index].value;
+                let item    = edit_isiitem[index].text;
                 if(tabel_detail_budgetevent.hasValue(id)) {
                         swal("Gagal!", "Item sudah ada", "error");
                         return;
@@ -1749,35 +1768,35 @@
     //setting keyup format rupiah
     function UbahInputRUpiah(nama_inputan){
         $(nama_inputan).on('keyup',function(){
-            var nilai= $(this).val();
+            let nilai= $(this).val();
             $(this).val(formatRupiah(String(nilai)));
         });
     }
 
     //setting keyup untuk tampilan jumlah anggsuran
     $('.jtem').on('keyup',function(){
-        for (var i = 1; i <= 8; i++) {
+        for (let i = 1; i <= 8; i++) {
              $('.a'+i).attr("hidden", true);
         } 
-        var nilai_jtem = $(this).val();
-        for (var j = 1; j <= nilai_jtem; j++) {
+        let nilai_jtem = $(this).val();
+        for (let j = 1; j <= nilai_jtem; j++) {
              $('.a'+j).attr("hidden", false);
         } 
     });
     $('.jtem').on('click',function(){
-        for (var i = 1; i <= 8; i++) {
+        for (let i = 1; i <= 8; i++) {
              $('.a'+i).attr("hidden", true);
         } 
-        var nilai_jtem = $(this).val();
-        for (var j = 1; j <= nilai_jtem; j++) {
+        let nilai_jtem = $(this).val();
+        for (let j = 1; j <= nilai_jtem; j++) {
              $('.a'+j).attr("hidden", false);
         } 
     });
 
     //hitung total uang muka dan term
     function SUMTOTAL_UM_Term(){
-        var totalangsuran = 0;
-        for (var i = 1; i <= 8; i++) {
+        let totalangsuran = 0;
+        for (let i = 1; i <= 8; i++) {
             angsuran = $('input[name=a'+i+']').val().replace(/[^,\d]/g, '').toString();
             if (angsuran == ''){
                 totalangsuran = totalangsuran + 0;
@@ -1795,8 +1814,8 @@
     }
     
     function save() {
-        var form = $('#form1')[0];
-        var formData = new FormData(form);
+        let form = $('#form1')[0];
+        let formData = new FormData(form);
         $.ajax({
             url: base_url + 'save',
             dataType: 'json',
