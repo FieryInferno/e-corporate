@@ -450,11 +450,11 @@
         sum_total(id, no)
     }
 
-    function nominalPajak(no) {
-        var nilai   = $('#nominal_pajak' + no).val();
-        var nilai1  = nilai.replace(/[^,\d]/g, '').toString();
-        $('#nominal_pajak' + no).val(formatRupiah(String(nilai)));
-    }
+  function nominalPajak(no) {
+    let nilai   = $('#nominal_pajak' + no).val();
+    let nilai1  = nilai.replace(/[^,\d]/g, '').toString();
+    $('#nominal_pajak' + no).val(formatRupiah(String(nilai)));
+  }
 
     function getListPajak(id) {
 		var table = $('#list_pajak'+id);

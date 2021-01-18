@@ -55,7 +55,7 @@ function penomoran($formulir, $perusahaan)
       $form     = $key;
       $noTrans  .= $form;
     }
-    if ($i !== count($arrayFormat)) $noTrans .= '/';
+    if ($i !== (count($arrayFormat) - 1)) $noTrans .= '/';
   }
   return $noTrans;
 }

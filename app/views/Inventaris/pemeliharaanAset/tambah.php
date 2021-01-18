@@ -154,6 +154,7 @@
                               <th>Nama Inventaris Barang</th>
                               <th>Tahun Beli</th>
                               <th>Harga Perolehan</th>
+                              <th>Nominal Pemeliharaan</th>
                               <th>Kondisi</th>
                               <th>Asal Barang</th>
                               <th>Perusahaan Awal</th>
@@ -245,6 +246,7 @@
       namaInventaris,
       tahunBeli,
       formatRupiah(hargaPerolehan) + ',00' + `<input type="hidden" name="harga[]" value="${hargaPerolehan}">`,
+      `<input type="text" id="nominalPemeliharaan" onkeyup="nominal(this)" name="nominalPemeliharaan[]">`,
       ``,
       ``,
       ``
@@ -279,5 +281,11 @@
         swal("Gagal!", "Internal Server Error", "error");
       }
     })
+  }
+
+  function nominal(elem) {
+    let nilai   = $(elem).val();
+    let nilai1  = nilai.replace(/[^,\d]/g, '').toString();
+    $(elem).val(formatRupiah(String(nilai)));
   }
 </script>
