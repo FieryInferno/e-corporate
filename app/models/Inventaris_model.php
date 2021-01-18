@@ -73,28 +73,37 @@ class Inventaris_model extends CI_Model {
 
   public function simpanPemeliharaanAset()
   {
-    $harga      = $this->input->post('harga');
-    $totalHarga = 0;
+    $nominalPemeliharaan      = $this->input->post('nominalPemeliharaan');
+    $totalNominalPemeliharaan = 0;
+    foreach ($nominalPemeliharaan as $key) {
+      $totalNominalPemeliharaan += (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
+    }
+    $harga        = $this->input->post('harga');
+    $nominalAsset = 0;
     foreach ($harga as $key) {
-      $totalHarga += $key;
+      $nominalAsset += (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
     }
     $idPemeliharaan = uniqid('pemeliharaan');
     $insert = $this->db->insert('pemeliharaanAset', [
-      'idPemeliharaan'    => $idPemeliharaan,
-      'perusahaan'        => $this->input->post('perusahaan'),
-      'jenisAset'         => $this->input->post('jenisAset'),
-      'jenisPemeliharaan' => $this->input->post('jenisPemeliharaan'),
-      'noDokumen'         => $this->input->post('noDokumen'),
-      'keterangan'        => $this->input->post('keterangan'),
-      'nominalAsset'      => $totalHarga
+      'idPemeliharaan'            => $idPemeliharaan,
+      'perusahaan'                => $this->input->post('perusahaan'),
+      'jenisAset'                 => $this->input->post('jenisAset'),
+      'jenisPemeliharaan'         => $this->input->post('jenisPemeliharaan'),
+      'noDokumen'                 => $this->input->post('noDokumen'),
+      'keterangan'                => $this->input->post('keterangan'),
+      'totalNominalPemeliharaan'  => $totalNominalPemeliharaan,
+      'nominalAsset'              => $nominalAsset
     ]);
     if ($insert) {
       $kodeBarang = $this->input->post('kodeBarang');
+      $i          = 0;
       foreach ($kodeBarang as $key) {
         $this->db->insert('pemeliharaanAsetDetail', [
-          'idPemeliharaan'  => $idPemeliharaan,
-          'kodeBarang'      => $key
+          'idPemeliharaan'      => $idPemeliharaan,
+          'kodeBarang'          => $key,
+          'nominalPemeliharaan' => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $harga[$i])
         ]);
+        $i++;
       }
     } 
     return $insert;

@@ -74,7 +74,6 @@
                       <th>Pemilik Terkini</th>
                       <th>Nominal Aset</th>
                       <th>Nominal Pemeliharaan</th>
-                      <th>Tanggal Pemeliharaan</th>
                       <th>Nomor Dokumen/SK Pemeliharaan</th>
                       <th>Jenis Pemeliharaan</th>
                       <th class="text-center">Aksi</th>
@@ -106,12 +105,11 @@
         }
       },
       {
-        data    : 'nominalAsset',
+        data    : 'totalNominalPemeliharaan',
         render  : function (data, type, row) {
           return formatRupiah(data) + ',00';
         }
       },
-      {data : 'nominalAsset'},
       {data : 'noDokumen'},
       {data : 'jenisPemeliharaan'},
       {data : 'kodePerusahaan'},
