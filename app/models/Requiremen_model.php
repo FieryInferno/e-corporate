@@ -38,7 +38,7 @@ class Requiremen_model extends CI_Model {
     $item             = $this->input->post('item');
     
     $this->load->helper('penomoran');
-    $notrans  = penomoran('permintaanPembelian', $this->input->post('idperusahaan'));
+    $notrans  = penomoran('permintaanPembelian', $this->input->post('idperusahaan'), $this->input->post('dept'));
 
 		if ($id == null) {
 			$insertHead	= $this->db->insert('tpemesanan', [

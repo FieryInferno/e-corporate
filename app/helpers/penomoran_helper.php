@@ -1,6 +1,6 @@
 <?php
 
-function penomoran($formulir, $perusahaan)
+function penomoran($formulir, $perusahaan, $departemen)
 {
   $ci     =& get_instance();
   $format = $ci->db->get_where('sistemPenomoran', [
@@ -13,7 +13,8 @@ function penomoran($formulir, $perusahaan)
     if (strrpos($key, 'nomor')) {
       $key  = substr($key, 6);
       $ci->db->order_by('notrans', 'DESC');
-      $data       = $ci->db->get('tpemesanan')->row_array();
+      $ci->db->where('departemen', $departemen);
+      $data = $ci->db->get('tpemesanan')->row_array();
       if ($data) {
         $arrayData  = explode('/', $data['notrans']);
         $nomor      = (integer) $arrayData[$i] + 1;

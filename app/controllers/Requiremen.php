@@ -255,9 +255,8 @@ class Requiremen extends User_Controller {
 		$data['title']		= lang('Permintaan Pembelian');
 		$data['subtitle']	= lang('Edit');
 		$data['content']	= 'Requiremen/edit';
-		$data['edit']		= $this->model->get($id);
-		$data				= array_merge($data,path_info());
+		$data['edit']		  = $this->model->get($id);
+		$data				      = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
   }
 }
-
