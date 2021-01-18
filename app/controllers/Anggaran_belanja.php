@@ -332,17 +332,19 @@ class Anggaran_belanja extends User_Controller
 	{
 		$data	= $this->db->get('tanggaranbelanjadetail')->result_array();
 		foreach ($data as $key) {
-			print_r($key['uraian']);echo ' -> ';
+			// print_r($key['uraian']);echo ' -> ';
 			$uraian	= $this->db->get_where('mitem', [
 				'kode'	=> $key['uraian']
 			])->row_array();
-			print_r($uraian['id']);echo '<br/>';
+			// print_r($uraian['id']);echo '<br/>';
 			if ($uraian) {
 				$this->db->where('id', $key['id']);
 				$this->db->update('tanggaranbelanjadetail', [
 					'uraian'	=> $uraian['id']
 				]);
-			}
+			} else {
+        print_r($key['uraian']);echo '<br/>';
+      }
 		}
 	}
 }
