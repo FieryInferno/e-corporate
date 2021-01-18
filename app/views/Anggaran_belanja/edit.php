@@ -272,7 +272,8 @@
                     id	        : `#cabang${i}${j}${i}${j}`,
                     url	        : `{site_url}cabang/select2`,
                     selected    : {
-                        id  : item.cabang
+                        perusahaan  : null,
+                        id          : item.cabang
                     }
                   });
 									ajax_select({
