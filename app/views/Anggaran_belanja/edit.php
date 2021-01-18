@@ -270,10 +270,9 @@
                   table.append(html);
                   ajax_select({
                     id	        : `#cabang${i}${j}${i}${j}`,
-                    url	        : `{site_url}cabang/select2`,
+                    url	        : `{site_url}cabang/select2/null`,
                     selected    : {
-                        perusahaan  : null,
-                        id          : item.cabang
+                        id  : item.cabang
                     }
                   });
 									ajax_select({
