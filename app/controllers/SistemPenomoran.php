@@ -41,10 +41,10 @@ class SistemPenomoran extends User_Controller {
 		$this->parser->parse('template', $data);
 	}
 
-	public function save()
+	public function save($idPenomoran)
 	{
-		if ($this->idPenomoran) {
-			$this->SistemPenomoranModel->set('idPenomoran', $this->idPenomoran);
+		if ($idPenomoran) {
+			$this->SistemPenomoranModel->set('idPenomoran', $idPenomoran);
 		}
 		$this->SistemPenomoranModel->set('formulir', $this->formulir);
 		$this->SistemPenomoranModel->set('formatPenomoran', $this->formatPenomoran);
@@ -62,14 +62,14 @@ class SistemPenomoran extends User_Controller {
 		return print_r($data);
 	}
 
-	public function edit()
+	public function edit($idPenomoran)
 	{
-		$this->SistemPenomoranModel->set('idPenomoran', $this->idPenomoran);
-		$data				= $this->SistemPenomoranModel->get();
+		$this->SistemPenomoranModel->set('idPenomoran', $idPenomoran);
+		$data				      = $this->SistemPenomoranModel->get();
 		$data['title']		= $this->title;
 		$data['subtitle']	= 'Edit';
 		$data['content']	= 'SistemPenomoran/edit';
-		$data				= array_merge($data, path_info());
+		$data				      = array_merge($data, path_info());
 		$this->parser->parse('template', $data);
 	}
 

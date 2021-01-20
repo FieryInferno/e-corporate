@@ -5,8 +5,8 @@ class Faktur_pembelian_model extends CI_Model {
 
 	public function save() {
 		$total		        = 0;
-		$pajak              = 0;
-		$biayapengiriman    = 0; 
+		$pajak            = 0;
+		$biayapengiriman  = 0; 
 		$idfaktur	        = uniqid('FAKTUR');
 		foreach ($this->input->post('total') as $key) {
 			$total	+= (integer) $key;
@@ -17,51 +17,22 @@ class Faktur_pembelian_model extends CI_Model {
 		foreach ($this->input->post('biaya_pengiriman') as $key) {
 			$biayapengiriman	+= (integer) $key;
 		}
-		$this->db->like('notrans', '#INV' . strtoupper(date('dM')), 'after');
-        $this->db->order_by('nomor', 'DESC');
-        $data   = $this->db->get('tfaktur')->row_array();
-		if ($data !== null) {
-			$n	= (int) substr($data['notrans'], 7) + 1;
-		} else {
-			$n 	= '';
-		}
-		$id		= '#INV';
-		switch (strlen($n)) {
-			case 0:
-				$no	= '0001';
-				break;
-			case 1:
-				$no	= '000' . $n;
-				break;
-			case 2:
-				$no	= '00' . $n;
-				break;
-			case 3:
-				$no	= '0' . $n;
-				break;
-			case 4:
-				$no	= $n;
-				break;
-			
-			default:
-				# code...
-				break;
-		}
-		$notrans	= $id . strtoupper(date('dM')) . $no;
+		$this->load->helper('penomoran');
+    $notrans  = penomoran('fakturPembelian', $this->input->post('perusahaanid'));
 		$insert	= $this->db->insert('tfaktur', [
-			'id'			    => $idfaktur,
-			'notrans'           => $notrans,
-			'tanggal'		    => $this->input->post('tanggal'),
+			'id'			        => $idfaktur,
+			'notrans'         => $notrans,
+			'tanggal'		      => $this->input->post('tanggal'),
 			'kontakid'		    => $this->input->post('kontakid'),
-			'perusahaanid'	    => $this->input->post('perusahaanid'),
-			'total'			    => $total,
-			'bank'			    => $this->input->post('rekening'),
-			'ppn'				=> $pajak,
-			'biayaPengiriman'	=> $biayapengiriman,
-			'cara_pembayaran'	=> $this->input->post('cara_pembayaran'),
-			'setupJurnal'		=> $this->input->post('setupJurnal'),
+			'perusahaanid'	  => $this->input->post('perusahaanid'),
+			'total'			      => $total,
+			'bank'			      => $this->input->post('rekening'),
+			'ppn'				      => $pajak,
+			'biayaPengiriman' => $biayapengiriman,
+			'cara_pembayaran' => $this->input->post('cara_pembayaran'),
+			'setupJurnal'		  => $this->input->post('setupJurnal'),
 			'tanggaltempo'		=> $this->input->post('tanggalTempo'),
-			'noFaktur'			=> $this->input->post('noFaktur')
+			'noFaktur'			  => $this->input->post('noFaktur')
 		]);
 		if($insert) {
 			$i  = 0;

@@ -259,4 +259,11 @@ class Requiremen extends User_Controller {
 		$data				      = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
   }
+
+  public function penomoranOtomatis(Type $var = null)
+  {
+    $this->load->helper('penomoran');
+    $penomoran  = penomoran('permintaanPembelian', 6, 'Keuangan');
+    print_r($penomoran);
+  }
 }

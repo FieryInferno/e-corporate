@@ -17,35 +17,6 @@
 			</div>
 		</div><!-- /.container-fluid -->
     </section>
-
-    <!-- Main content -->
-    <section class="content">
-		<div class="container-fluid">
-			<div class="row">
-				<div class="col-12">         
-					<div class="card">
-						<div class="card-body">
-							<form action="{site_url}sistem_penomoran" id="form1" method="GET">
-								<div class="row">
-									<div class="col-md-3">
-										<div class="form-group">
-											<label>Formulir : </label>
-											<input type="text" class="form-control" name="formulir" required>
-										</div>
-									</div>
-								</div>
-								<div class="row">
-									<div class="col-md-3">
-										<div class="text-right">
-											<button type="submit" class="btn-block btn bg-success"><i class="fas fa-filter"></i> Filter</button>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="row">
 				<div class="col-12">         
 					<div class="card">
@@ -139,11 +110,8 @@
 							<div class="dropdown"> 
 								<a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<form action="edit" method="post">
-										<input type="hidden" value="${data}" name="idPenomoran">
-										<button class="dropdown-item" type="submit"><i class="fas fa-pencil-alt"></i> Edit</button>
-									</form>
-									<a class="btn btn-danger btn-sm dropdown-item" href="javascript:deleteData('`+data+`')"><i class="fas fa-trash"></i> Hapus</a>
+                  <a class="btn btn-success btn-sm dropdown-item text-success" href="{site_url}sistem_penomoran/edit/${data}"><i class="fas fa-pencil-alt"></i> Edit</a>
+									<a class="btn btn-danger btn-sm dropdown-item text-danger" href="javascript:deleteData('`+data+`')"><i class="fas fa-trash"></i> Hapus</a>
 								</div> 
 							</div> 
 						</div>`;

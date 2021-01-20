@@ -29,21 +29,19 @@
                   <form action="javascript:save()" id="form1">
                     <div class="form-group">
                       <label>Formulir :</label>
-                        <select class="form-control" name="formulir" id="formulir" style="width:100%;">
-                          <option value=""></option>
-                          <option value="permintaanPembelian">Permintaan Pembelian</option>
-                          <option value="pemesananPembelian">Pemesanan Pembelian</option>
-                          <option value="penerimaanBarang">Penerimaan Barang</option>
-                          <option value="fakturPembelian">Faktur Pembelian</option>
-                          <option value="pesananPenjualan">Pesanan Penjualan</option>
-                          <option value="pengirimanBarang">Pengiriman Barang</option>
-                          <option value="fakturPenjualan">Faktur Penjualan</option>
-                          <option value="kasBank">Kas Bank</option>
-                          <option value="pengeluaranKasKecil">Pengeluaran Kas Kecil</option>
-                          <option value="pemindahbukuan">Pemindahbukuan</option>
-                          <option value="pengajuanKasKecil">Pengajuan Kas Kecil</option>
-                          <option value="setorKasKecil">Setor Kas Kecil</option>
-                        </select>
+                      <select class="form-control" name="formulir" id="formulir" style="width:100%;">
+                        <option value=""></option>
+                        <option value="permintaanPembelian">Permintaan Pembelian</option>
+                        <option value="fakturPembelian">Faktur Pembelian</option>
+                        <option value="pesananPenjualan">Pesanan Penjualan</option>
+                        <option value="pengirimanBarang">Pengiriman Barang</option>
+                        <option value="fakturPenjualan">Faktur Penjualan</option>
+                        <option value="kasBank">Kas Bank</option>
+                        <option value="pengeluaranKasKecil">Pengeluaran Kas Kecil</option>
+                        <option value="pemindahbukuan">Pemindahbukuan</option>
+                        <option value="pengajuanKasKecil">Pengajuan Kas Kecil</option>
+                        <option value="setorKasKecil">Setor Kas Kecil</option>
+                      </select>
                     </div>
                     <div class="form-group">
                         <label>Format Penomoran :</label>

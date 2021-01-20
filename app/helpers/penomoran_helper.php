@@ -1,46 +1,42 @@
 <?php
 
-function penomoran($formulir, $perusahaan, $departemen)
+function penomoran($formulir, $perusahaan, $departemen = null)
 {
   $ci     =& get_instance();
   $format = $ci->db->get_where('sistemPenomoran', [
     'formulir'  => $formulir
   ])->row_array();
   $arrayFormat  = explode('/', $format['formatPenomoran']);
-  $noTrans  = '';
+  $noTrans      = '';
+  $ci->db->order_by('notrans', 'DESC');
+  if ($departemen !== null) $ci->db->where('departemen', $departemen);
+  switch ($formulir) {
+    case 'permintaanPembelian':
+      $table  = 'tpemesanan';
+      break;
+    case 'fakturPembelian':
+      $table  = 'tfaktur';
+      break;
+    
+    default:
+      # code...
+      break;
+  }
+  $data       = $ci->db->get($table)->row_array();
+  $penomoran  = [];
   for ($i=0; $i < count($arrayFormat); $i++) { 
     $key  = $arrayFormat[$i];
     if (strrpos($key, 'nomor')) {
-      $key  = substr($key, 6);
-      $ci->db->order_by('notrans', 'DESC');
-      $ci->db->where('departemen', $departemen);
-      $data = $ci->db->get('tpemesanan')->row_array();
+      $key  = (integer) substr($key, 7, 1);
       if ($data) {
-        $arrayData  = explode('/', $data['notrans']);
-        $nomor      = (integer) $arrayData[$i] + 1;
+        $nomor  = $data['nomor'] + 1;
       } else {
         $nomor  = 1;
       }
-      switch (strlen($nomor)) {
-        case 1:
-          $nomor  = '0000' . $nomor; 
-          break;
-        case 2:
-          $nomor  = '000' . $nomor; 
-          break;
-        case 3:
-          $nomor  = '00' . $nomor; 
-          break;
-        case 4:
-          $nomor  = '0' . $nomor; 
-          break;
-        case 5:
-          $nomor  = $nomor; 
-          break;
-        
-        default:
-          # code...
-          break;
+      $penomoran['nomor'] = $nomor;
+      $panjang            = $key - strlen($nomor);
+      for ($j=0; $j < $panjang; $j++) { 
+        $nomor  = '0' . $nomor;
       }
       $noTrans    .= $nomor;
     } elseif (strrpos($key, 'kode_perusahaan')) {
@@ -58,5 +54,6 @@ function penomoran($formulir, $perusahaan, $departemen)
     }
     if ($i !== (count($arrayFormat) - 1)) $noTrans .= '/';
   }
-  return $noTrans;
+  $penomoran['notrans'] = $noTrans;
+  return $penomoran;
 }
