@@ -152,64 +152,62 @@ class Pemesanan_penjualan extends User_Controller
 
     public function validasi()
     {
-        $id = $this->input->post('id');
-
+      $id = $this->input->post('id');
+      $this->db->set('status','5');
+      $this->db->where('idpemesanan', $id);
+      $update_detail = $this->db->update('tpemesananpenjualandetail');
+      $this->db->set('uby', get_user('username'));
+      $this->db->set('udate', date('Y-m-d H:i:s'));
+      $this->db->set('status','5');
+      $this->db->where('id', $id);
+      $update = $this->db->update('tpemesananpenjualan');
+      if (($update_detail) && ($update)) {
         $this->db->set('status','5');
         $this->db->where('idpemesanan', $id);
-        $update_detail = $this->db->update('tpemesananpenjualandetail');
-
-        $this->db->set('uby', get_user('username'));
-        $this->db->set('udate', date('Y-m-d H:i:s'));
-        $this->db->set('status','5');
-        $this->db->where('id', $id);
-        $update = $this->db->update('tpemesananpenjualan');
-        if (($update_detail) && ($update)) {
-            $this->db->set('status','5');
-            $this->db->where('idpemesanan', $id);
-            $this->db->update('tbudgetevent');
-
-            $query = $this->db->query("SELECT * FROM tpemesananpenjualan WHERE id = '$id'");
-                if ($query->num_rows() > 0){
-                    foreach ($query->result() as $psn) {
-
-                        $q = $this->db->query("SELECT id AS kd_max FROM tpengirimanpenjualan");
-                        $kd = "";
-                        if($q->num_rows()>0){
-                            foreach($q->result() as $k){
-                                $kd = ((int)$k->kd_max)+1;
-                            }
-                        }else{
-                            $kd = "1";
-                        } 
-        
-                        $id_pengiriman = $kd;
-                        $this->db->set('id',$id_pengiriman);
-                        $this->db->set('tanggal',$psn->tanggal);
-                        $this->db->set('pemesananid',$id);
-                        $this->db->set('tipe','2');
-                        $this->db->set('statusauto','0');
-                        $this->db->set('cby',get_user('username'));
-                        $this->db->set('cdate',date('Y-m-d H:i:s'));
-                        $this->db->insert('tpengirimanpenjualan');
-
-                        $query_detail = $this->db->query("SELECT * FROM tpemesananpenjualandetail WHERE idpemesanan = '$id'");
-                        if ($query_detail->num_rows() > 0){
-                            foreach ($query_detail->result() as $psn_detail) {
-                                $this->db->set('idpengiriman',$id_pengiriman);
-                                $this->db->set('idpenjualdetail',$psn_detail->id);
-                                $this->db->set('itemid',$psn_detail->itemid);
-                                $this->db->set('tipe',$psn_detail->tipe);
-                                $this->db->insert('tpengirimanpenjualandetail');
-                            }
-                        }
-                    }
+        $this->db->update('tbudgetevent');
+        $query = $this->db->query("SELECT * FROM tpemesananpenjualan WHERE id = '$id'");
+          if ($query->num_rows() > 0){
+            foreach ($query->result() as $psn) {
+              $q  = $this->db->query("SELECT id AS kd_max FROM tpengirimanpenjualan");
+              $kd = "";
+              if($q->num_rows()>0){
+                foreach($q->result() as $k){
+                  $kd = ((int)$k->kd_max)+1;
                 }
-            $data['status'] = 'success';
-            $data['message'] = "Data berhasil divalidasi";
-        } else {
-            $data['status'] = 'error';
-            $data['message'] = "Data gagal divalidasi";
-        }
+              }else{
+                $kd = "1";
+              } 
+              $id_pengiriman  = $kd;
+              $this->load->helper('penomoran');
+              $penomoran  = penomoran('pengirimanBarang', $psn->idperusahaan, $psn->departemen);
+              $this->db->set('id',$id_pengiriman);
+              $this->db->set('nomor', $penomoran['nomor']);
+              $this->db->set('notrans', $penomoran['notrans']);
+              $this->db->set('tanggal',$psn->tanggal);
+              $this->db->set('pemesananid',$id);
+              $this->db->set('tipe','2');
+              $this->db->set('statusauto','0');
+              $this->db->set('cby',get_user('username'));
+              $this->db->set('cdate',date('Y-m-d H:i:s'));
+              $this->db->insert('tpengirimanpenjualan');
+              $query_detail = $this->db->query("SELECT * FROM tpemesananpenjualandetail WHERE idpemesanan = '$id'");
+              if ($query_detail->num_rows() > 0){
+                foreach ($query_detail->result() as $psn_detail) {
+                  $this->db->set('idpengiriman',$id_pengiriman);
+                  $this->db->set('idpenjualdetail',$psn_detail->id);
+                  $this->db->set('itemid',$psn_detail->itemid);
+                  $this->db->set('tipe',$psn_detail->tipe);
+                  $this->db->insert('tpengirimanpenjualandetail');
+                }
+              }
+            }
+          }
+        $data['status'] = 'success';
+        $data['message'] = "Data berhasil divalidasi";
+      } else {
+          $data['status'] = 'error';
+          $data['message'] = "Data gagal divalidasi";
+      }
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 

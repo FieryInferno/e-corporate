@@ -18,8 +18,11 @@ function penomoran($formulir, $perusahaan, $departemen = null)
       $table  = 'tfaktur';
       break;
     case 'pesananPenjualan':
-        $table  = 'tpemesananpenjualan';
-        break;
+      $table  = 'tpemesananpenjualan';
+      break;
+    case 'pengirimanBarang':
+      $table  = 'tpengirimanpenjualan';
+      break;
     
     default:
       # code...

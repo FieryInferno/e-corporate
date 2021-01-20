@@ -88,7 +88,7 @@
         },
         success : function(data) {
           if(data.status == 'success') {
-            swal("Berhasil!", "Data Berhasil Ditambah!", "success");
+            swal("Berhasil!", "Data Berhasil Diedit!", "success");
             redirect(base_url);
           } else {
             swal("Gagal!", "Pikachu was caught!", "error");
