@@ -29,7 +29,10 @@ function penomoran($formulir, $perusahaan = null, $departemen = null)
     case 'kasBank':
       $table  = 'tkasbank';
       break;
-    
+    case 'pengeluaranKasKecil':
+      $table  = 'tpengeluarankaskecil';
+      break;
+      
     default:
       # code...
       break;

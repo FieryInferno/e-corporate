@@ -109,9 +109,9 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 
 	public function save() {
 		
-		$idper = $this->input->post('perusahaan');
-		$iddep = $this->input->post('departemen');
-		$nominal = preg_replace("/[^0-9]/", "", $this->input->post('nominal'));
+		$idper          = $this->input->post('perusahaan');
+		$iddep          = $this->input->post('departemen');
+		$nominal        = preg_replace("/[^0-9]/", "", $this->input->post('nominal'));
 		$sisa_kas_kecil = preg_replace("/[^0-9]/", "", $this->input->post('sisa_kas_kecil'));
 
 		$query_departemen = $this->db->query("SELECT * FROM mdepartemen WHERE id='$iddep'");
@@ -122,7 +122,7 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 		}
 		$detail_array = $this->input->post('detail_array');
 		$detail_array = json_decode($detail_array);
-		$jumlah_item=0;
+		$jumlah_item  = 0;
 		$jumlah_data_anggaran=0;
 		foreach($detail_array as $row) {
 			$itemid=$row[0];
@@ -142,10 +142,13 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 			$data['status'] = 'error';
 			$data['message'] = lang('Maaf, nominal terlalu besar dari sisa kas kecil.');
 		}else {
-			$this->db->set('nokwitansi',$this->input->post('nokwitansi', TRUE));
+      $this->load->helper('penomoran');
+      $penomoran  = penomoran('pengeluaranKasKecil', $this->input->post('perusahaan'), $this->input->post('departemen'));
+			$this->db->set('nomor', $penomoran['nomor']);
+			$this->db->set('nokwitansi', $penomoran['notrans']);
 			$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
-			$this->db->set('perusahaan',$this->input->post('perusahaan', TRUE));
-			$this->db->set('departemen',$this->input->post('departemen', TRUE));
+			$this->db->set('perusahaan', $this->input->post('perusahaan', TRUE));
+			$this->db->set('departemen', $this->input->post('departemen', TRUE));
 			$this->db->set('pejabat',$this->input->post('pejabat', TRUE));
 			$this->db->set('akunno',$this->input->post('akunno', TRUE));
 			$this->db->set('keterangan',$this->input->post('keterangan', TRUE));
