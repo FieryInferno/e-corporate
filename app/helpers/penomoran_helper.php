@@ -38,6 +38,9 @@ function penomoran($formulir, $perusahaan = null, $departemen = null)
     case 'pengajuanKasKecil':
       $table  = 'tpengajuankaskecil';
       break;
+    case 'setorKasKecil':
+      $table  = 'tsetorkaskecil';
+      break;
       
     default:
       # code...
