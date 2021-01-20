@@ -11,17 +11,19 @@ class Faktur_penjualan_model extends CI_Model {
 	private $kontak;
 
 	public function save() {
-		$notrans = $this->input->post('notrans', TRUE);
+		$notrans    = $this->input->post('notrans', TRUE);
 		$ceknotrans = get_by_id('notrans',$notrans,'tfakturpenjualan');
 		if($ceknotrans) {
 			$data['status'] = 'error';
 			$data['message'] = 'Kode sudah ada';
 			return $this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
-
-		$statusauto = $this->input->post('statusauto', TRUE);
+    $statusauto = $this->input->post('statusauto', TRUE);
+    $this->load->helper('penomoran');
+    $penomoran  = penomoran('fakturPenjualan');
 		if($statusauto == '0') {
-			$this->db->set('notrans',$this->input->post('notrans', TRUE));
+			$this->db->set('nomor', $penomoran['nomor'], TRUE);
+			$this->db->set('notrans', $penomoran['notrans'], TRUE);
 			$this->db->set('nomorsuratjalan',$this->input->post('nomorsuratjalan', TRUE));
 			$this->db->set('tanggal',$this->input->post('tanggal', TRUE));
 			$this->db->set('tanggaltempo',$this->input->post('tanggalJT', TRUE));

@@ -1,6 +1,6 @@
 <?php
 
-function penomoran($formulir, $perusahaan, $departemen = null)
+function penomoran($formulir, $perusahaan = null, $departemen = null)
 {
   $ci     =& get_instance();
   $format = $ci->db->get_where('sistemPenomoran', [
@@ -22,6 +22,9 @@ function penomoran($formulir, $perusahaan, $departemen = null)
       break;
     case 'pengirimanBarang':
       $table  = 'tpengirimanpenjualan';
+      break;
+    case 'fakturPenjualan':
+      $table  = 'tfakturpenjualan';
       break;
     
     default:
