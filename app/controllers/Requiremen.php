@@ -263,7 +263,7 @@ class Requiremen extends User_Controller {
   public function penomoranOtomatis(Type $var = null)
   {
     $this->load->helper('penomoran');
-    $penomoran  = penomoran('pengeluaranKasKecil', 6, 299760624);
+    $penomoran  = penomoran('pemindahbukuan', 6);
     print_r($penomoran);
   }
 }

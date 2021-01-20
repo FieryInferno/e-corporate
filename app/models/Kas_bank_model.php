@@ -80,14 +80,17 @@ class Kas_bank_model extends CI_Model {
 						$this->db->where('id', $id);
 						$this->db->update('tbudgetevent');
 						
-					}else if ($tipe == 'Pengajuan Kas Kecil'){
+					} else if ($tipe == 'Pengajuan Kas Kecil') {
 						$this->db->set('status','1');
 						$this->db->set('uby',get_user('username'));
 						$this->db->set('udate',date('Y-m-d H:i:s'));
 						$this->db->where('id', $id);
-						$this->db->update('tpengajuankaskecil');
-
-						$this->db->set('nomor_kas_bank',$this->input->post('nomor_kas_bank'));
+            $this->db->update('tpengajuankaskecil');
+            
+            $this->load->helper('penomoran');
+            $penomoran  = penomoran('pemindahbukuan', $this->input->post('perusahaan'));
+						$this->db->set('nomor', $penomoran['nomor']);
+						$this->db->set('nomor_kas_bank', $penomoran['notrans']);
 						$this->db->set('perusahaan',$this->input->post('perusahaan'));
 						$this->db->set('pejabat',$this->input->post('pejabat'));
 						$this->db->set('tanggal',$this->input->post('tanggal'));
@@ -96,7 +99,6 @@ class Kas_bank_model extends CI_Model {
 						$this->db->set('cby',get_user('username'));
 						$this->db->set('cdate',date('Y-m-d H:i:s'));
 						$this->db->insert('tpemindahbukuankaskecil');
-						
 					}else if ($tipe == 'Setor Kas Kecil'){
 						$this->db->set('status','1');
 						$this->db->set('uby',get_user('username'));
