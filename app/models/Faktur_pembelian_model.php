@@ -18,10 +18,11 @@ class Faktur_pembelian_model extends CI_Model {
 			$biayapengiriman	+= (integer) $key;
 		}
 		$this->load->helper('penomoran');
-    $notrans  = penomoran('fakturPembelian', $this->input->post('perusahaanid'));
-		$insert	= $this->db->insert('tfaktur', [
-			'id'			        => $idfaktur,
-			'notrans'         => $notrans,
+    $penomoran  = penomoran('fakturPembelian', 6);
+		$insert     = $this->db->insert('tfaktur', [
+      'id'			        => $idfaktur,
+      'nomor'           => $penomoran['nomor'],
+			'notrans'         => $penomoran['notrans'],
 			'tanggal'		      => $this->input->post('tanggal'),
 			'kontakid'		    => $this->input->post('kontakid'),
 			'perusahaanid'	  => $this->input->post('perusahaanid'),
