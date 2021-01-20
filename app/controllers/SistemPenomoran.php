@@ -41,7 +41,7 @@ class SistemPenomoran extends User_Controller {
 		$this->parser->parse('template', $data);
 	}
 
-	public function save($idPenomoran)
+	public function save($idPenomoran = null)
 	{
 		if ($idPenomoran) {
 			$this->SistemPenomoranModel->set('idPenomoran', $idPenomoran);
