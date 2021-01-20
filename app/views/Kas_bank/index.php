@@ -1,7 +1,7 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
@@ -15,10 +15,10 @@
 				</div>
 			</div>
 		</div><!-- /.container-fluid -->
-    </section>
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
+  <!-- Main content -->
+  <section class="content">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">         
@@ -56,12 +56,12 @@
 				</div>
 			</div>
 		</div>
-    </section>
+  </section>
 </div>
 
 <script type="text/javascript">
-	var base_url = '{site_url}Kas_bank/';
-	var table = $('.index_datatable').DataTable({
+	let base_url = '{site_url}Kas_bank/';
+	let table = $('.index_datatable').DataTable({
 		ajax: {
 			url: base_url + 'index_datatable',
 			type: 'post',
@@ -80,7 +80,7 @@
 				data		: 'nomor_kas_bank',
 				className	: 'text-center', 
 				render: function(data,type,row) {
-					var link = base_url + 'detail/' + row.id;
+					let link = base_url + 'detail/' + row.id;
 					return '<a href="'+link+'" class="btn btn-info btn-sm">'+data+'</a>';
 				}
 			},
@@ -95,27 +95,27 @@
 			{
 				data: 'penerimaan',
 				render: function(data,type,row) {
-					var penerimaan=`<div class="text-right">`+formatRupiah(data)+`,00</div>`;
+					let penerimaan=`<div class="text-right">`+formatRupiah(data)+`,00</div>`;
 					return penerimaan;
 				}
 			},
 			{
 				data: 'pengeluaran',
 				render: function(data,type,row) {
-					var pengeluaran=`<div class="text-right">`+formatRupiah(data)+`,00</div>`;
+					let pengeluaran=`<div class="text-right">`+formatRupiah(data)+`,00</div>`;
 					return pengeluaran;
 				}
 			},
 			{
 				data: 'id', width: 40, orderable: false, class:'text-center',
 				render: function(data,type,row) {
-					var aksi = `
+					let aksi = `
                         <div class="list-icons"> 
                             <div class="dropdown"> 
                                 <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
-									<a href="javascript:deleteData('${data}')" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
-									<a href="{site_url}kas_bank/edit/${data}" class="dropdown-item"><i class="fas fa-pencil-alt"></i> Edit</a>
+									<a href="javascript:deleteData('${data}')" class="dropdown-item delete text-danger"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+									<a href="{site_url}kas_bank/edit/${data}" class="dropdown-item text-success"><i class="fas fa-pencil-alt"></i> Edit</a>
                                 </div> 
                             </div> 
                         </div>`;
@@ -124,8 +124,8 @@
 			}
         ],
         footerCallback: function ( row, data, start, end, display ) {
-            var api = this.api(), data;
-            var intVal = function ( i ) {
+            let api = this.api(), data;
+            let intVal = function ( i ) {
                 return typeof i === 'string' ?
                     i.replace(/[\Rp.]/g, '').replace(/,00/g, '')*1 :
                     typeof i === 'number' ?

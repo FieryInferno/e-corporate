@@ -291,7 +291,7 @@ class Noakun extends User_Controller {
 
 	public function jenisAset()
 	{
-		$term	= $this->input->get('q');
+    $term	= $this->input->get('term');
 		$data	= $this->model->jenisAset($term);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}

@@ -64,11 +64,22 @@ class Inventaris extends User_Controller {
 
 	public function tambahPemeliharaanAset()
 	{
-		$data['title']		= 'Pemeliharaan Aset';
-		$data['subtitle']	= 'Tambah';
-		$data['content']	= 'Inventaris/pemeliharaanAset/tambah';
-		$data['inventaris']	= $this->model->get();
-		$data				= array_merge($data,path_info());
+		$data['title']		  = 'Pemeliharaan Aset';
+		$data['subtitle']	  = 'Tambah';
+		$data['content']	  = 'Inventaris/pemeliharaanAset/tambah';
+		$data['inventaris'] = $this->model->get();
+		$data				        = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+
+	public function editPemeliharaanAset($idPemeliharaan)
+	{
+		$data                 = $this->model->getPemeliharaan($idPemeliharaan);
+		$data['title']		    = 'Pemeliharaan Aset';
+		$data['subtitle']	    = 'Edit';
+		$data['content']	    = 'Inventaris/pemeliharaanAset/edit';
+    $data['inventaris']   = $this->model->get();
+		$data				          = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 
