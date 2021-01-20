@@ -9,9 +9,9 @@ class Kas_bank_model extends CI_Model {
 	private $idRekening;
 
 	function get_kodeperusahaan($id){
-        $query = $this->db->get_where('mperusahaan', array('idperusahaan' => $id));
-        return $query;
-    }
+    $query  = $this->db->get_where('mperusahaan', array('idperusahaan' => $id));
+    return $query;
+  }
 
     public function save() {
 		$id = $this->uri->segment(3);
@@ -29,8 +29,11 @@ class Kas_bank_model extends CI_Model {
 				$data['message'] = lang('update_error_message');
 			}
 		} else {
-			$this->db->set('nomor_kas_bank',$this->input->post('nomor_kas_bank'));
-			$this->db->set('perusahaan',$this->input->post('perusahaan'));
+      $this->load->helper('penomoran');
+      $penomoran  = penomoran('kasBank', $this->input->post('perusahaan'));
+			$this->db->set('nomor', $penomoran['nomor']);
+			$this->db->set('nomor_kas_bank', $penomoran['notrans']);
+			$this->db->set('perusahaan', $this->input->post('perusahaan'));
 			$this->db->set('pejabat',$this->input->post('pejabat'));
 			$this->db->set('tanggal',$this->input->post('tanggal'));
 			$this->db->set('penerimaan', preg_replace("/(,00|[^0-9])/", "", $this->input->post('penerimaan')));

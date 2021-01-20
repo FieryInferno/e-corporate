@@ -8,7 +8,7 @@ function penomoran($formulir, $perusahaan = null, $departemen = null)
   ])->row_array();
   $arrayFormat  = explode('/', $format['formatPenomoran']);
   $noTrans      = '';
-  $ci->db->order_by('notrans', 'DESC');
+  $ci->db->order_by('nomor', 'DESC');
   if ($departemen !== null) $ci->db->where('departemen', $departemen);
   switch ($formulir) {
     case 'permintaanPembelian':
@@ -25,6 +25,9 @@ function penomoran($formulir, $perusahaan = null, $departemen = null)
       break;
     case 'fakturPenjualan':
       $table  = 'tfakturpenjualan';
+      break;
+    case 'kasBank':
+      $table  = 'tkasbank';
       break;
     
     default:
