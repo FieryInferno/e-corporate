@@ -23,7 +23,11 @@ class Pengajuan_kas_kecil_model extends CI_Model {
 				$data['message'] = lang('update_error_message');
 			}
 		} else {
+      $this->load->helper('penomoran');
+      $penomoran  = penomoran('pengajuanKasKecil', $this->input->post('perusahaan'));
 			foreach($this->input->post() as $key => $val) $this->db->set($key,strip_tags($val));
+			$this->db->set('nomor', $penomoran['nomor']);
+			$this->db->set('nokwitansi', $penomoran['notrans']);
 			$this->db->set('nominal',preg_replace("/[^0-9]/", "", $this->input->post('nominal')));
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
