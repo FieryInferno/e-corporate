@@ -4,22 +4,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Pemesanan_penjualan_model extends CI_Model {
 
 	public function save() {
-		$data_array_item = $this->input->post('detail_array_item');
-		$data_array_item = json_decode($data_array_item);
-		$total_item			= preg_replace("/(Rp. |,00|[^0-9])/", "",$this->input->post('total_penjualan'));
+		$data_array_item    = $this->input->post('detail_array_item');
+		$data_array_item    = json_decode($data_array_item);
+		$total_item			    = preg_replace("/(Rp. |,00|[^0-9])/", "",$this->input->post('total_penjualan'));
 		$total_uangmukaterm = preg_replace("/(Rp. |,00|[^0-9])/", "",$this->input->post('tum'));
 		if ($data_array_item == ''){
-			$data['status'] = 'error';
-			$data['message'] = "Silahkan isi detail terlebih dulu!";
+			$data['status']   = 'error';
+			$data['message']  = "Silahkan isi detail terlebih dulu!";
 		}
 		else if ($total_item != $total_uangmukaterm){
-			$data['status'] = 'error';
-			$data['message'] = "Total item dan total uang muka + term harus sama!";
+			$data['status']   = 'error';
+			$data['message']  = "Total item dan total uang muka + term harus sama!";
 		}else{
 			$data_array_budgetevent = $this->input->post('detail_array_budgetevent');
 			$data_array_budgetevent = json_decode($data_array_budgetevent);
-
-			$jumlah_budgetevent=0;
+			$jumlah_budgetevent     = 0;
 			if ($data_array_budgetevent != ''){
 				foreach($data_array_budgetevent as $row => $value) {
 					$jumlah_budgetevent = $jumlah_budgetevent +1;
@@ -27,29 +26,32 @@ class Pemesanan_penjualan_model extends CI_Model {
 			}
 
 			if (($data_array_budgetevent > 0) && ($this->input->post('rekening') == '')){
-				$data['status'] = 'error';
-				$data['message'] = "Rekening budget event belum dipilih!";
+				$data['status']   = 'error';
+				$data['message']  = "Rekening budget event belum dipilih!";
 			}else{
-				$id_pemesanan	= uniqid('PEM-JUAL');
-				$insertHead 	= $this->db->insert('tpemesananpenjualan', [
-					'id'				=> $id_pemesanan,
-					'notrans'			=> $this->input->post('notrans'),
-					'tanggal'			=> $this->input->post('tanggal'),
-					'kontakid'			=> $this->input->post('kontakid'),
-					'gudangid'			=> $this->input->post('gudangid'),
+        $id_pemesanan = uniqid('PEM-JUAL');
+        $this->load->helper('penomoran');
+        $penomoran  = penomoran('pesananPenjualan', $this->input->post('idperusahaan'), $this->input->post('dept'));
+				$insertHead = $this->db->insert('tpemesananpenjualan', [
+          'id'				      => $id_pemesanan,
+          'nomor'           => $penomoran['nomor'],
+					'notrans'			    => $penomoran['notrans'],
+					'tanggal'			    => $this->input->post('tanggal'),
+					'kontakid'			  => $this->input->post('kontakid'),
+					'gudangid'			  => $this->input->post('gudangid'),
 					'idperusahaan'		=> $this->input->post('idperusahaan'),
-					'departemen'		=> $this->input->post('dept'),
-					'pejabat'			=> $this->input->post('pejabat'),
-					'cabang'			=> $this->input->post('cabang'),
-					'jenis_pembelian'	=> $this->input->post('jenis_penjualan'),
+					'departemen'		  => $this->input->post('dept'),
+					'pejabat'			    => $this->input->post('pejabat'),
+					'cabang'			    => $this->input->post('cabang'),
+					'jenis_pembelian' => $this->input->post('jenis_penjualan'),
 					'jenis_barang'		=> $this->input->post('jenis_barang'),
 					'cara_pembayaran'	=> $this->input->post('cara_pembayaran'),
-					'catatan'			=> $this->input->post('catatan'),
-					'akunno'			=> ' ',
-					'tipe'				=> '2',
-					'status'			=> '4',
-					'cby'				=> get_user('username'),
-					'cdate'				=> date('Y-m-d H:i:s')
+					'catatan'			    => $this->input->post('catatan'),
+					'akunno'			    => ' ',
+					'tipe'				    => '2',
+					'status'			    => '4',
+					'cby'			  	    => get_user('username'),
+					'cdate'				    => date('Y-m-d H:i:s')
 				]);
 				if ($insertHead){
 					$no	= 0;
