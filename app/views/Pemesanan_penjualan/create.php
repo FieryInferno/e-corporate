@@ -39,28 +39,6 @@
                             <label><?php echo lang('notrans') ?>:</label>
                             <input type="text" class="form-control"readonly name="notrans" placeholder="AUTO">
                           </div>
-                          <div class="form-group" id="rekanan">
-                            <label><?php echo lang('rekanan') ?>:</label>
-                            <select class="form-control kontakid" name="kontakid" required></select>
-                          </div>
-                          <div class="form-group">
-                            <label>Cabang : </label>
-                            <div class="input-group"> 
-                                <select id="cabang" class="form-control cabang" name="cabang" required></select>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="col-md-3">
-                          <div class="form-group">
-                            <label><?php echo lang('date') ?>:</label>
-                            <div class="input-group"> 
-                                <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
-                            </div>
-                          </div>
-                          <div class="form-group" id="gudang">
-                            <label><?php echo lang('gudang') ?>:</label>
-                            <select class="form-control gudangid" name="gudangid"></select>
-                          </div>
                           <div class="form-group">
                             <label>Project : </label>
                             <select id="project" class="form-control project" name="project" required style="width: 100%;"></select>
@@ -86,6 +64,28 @@
                                 })
                               })
                             </script>
+                          </div>
+                          <div class="form-group" id="rekanan">
+                            <label><?php echo lang('rekanan') ?>:</label>
+                            <select class="form-control kontakid" name="kontakid" required></select>
+                          </div>
+                        </div>
+                        <div class="col-md-3">
+                          <div class="form-group">
+                            <label><?php echo lang('date') ?>:</label>
+                            <div class="input-group"> 
+                                <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
+                            </div>
+                          </div>
+                          <div class="form-group" id="gudang">
+                            <label><?php echo lang('gudang') ?>:</label>
+                            <select class="form-control gudangid" name="gudangid"></select>
+                          </div>
+                          <div class="form-group">
+                            <label>Cabang : </label>
+                            <div class="input-group"> 
+                                <select id="cabang" class="form-control cabang" name="cabang" required></select>
+                            </div>
                           </div>
                         </div>
                         <div class="col-md-3">
