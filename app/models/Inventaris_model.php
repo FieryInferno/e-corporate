@@ -46,19 +46,23 @@ class Inventaris_model extends CI_Model {
     if ($this->perusahaan) $this->db->where('saldoAwalInventaris.perusahaan', $this->perusahaan);
     $saldoAwalInventaris    = $this->db->get('saldoAwalInventaris')->result_array();
     $no                     = count($saldoAwalInventaris);
+
     $this->db->select('tinventaris.*, mperusahaan.nama_perusahaan');
     $this->db->join('mperusahaan', 'tinventaris.idperusahaan = mperusahaan.idperusahaan');
     if ($this->perusahaan) $this->db->where('tinventaris.idperusahaan', $this->perusahaan);
     $inventaris             = $this->db->get('tinventaris')->result_array();
+
     for ($i=0; $i < count($inventaris); $i++) { 
-      $key                                            = $inventaris[$i]; 
-      $saldoAwalInventaris[$no]['kodeInventaris']     = $key['kode_barang'];
-      $saldoAwalInventaris[$no]['namaInventaris']     = $key['nama_barang'];
-      $saldoAwalInventaris[$no]['noRegister']         = $key['no_register'];
-      $saldoAwalInventaris[$no]['harga']              = $key['nominal_asset'];
-      $saldoAwalInventaris[$no]['tanggalPembelian']   = $key['tahun_perolehan'];
-      $saldoAwalInventaris[$no]['namaakun']           = $key['jenis_akun'];
-      $saldoAwalInventaris[$no]['nama_perusahaan']    = $key['nama_perusahaan'];
+      $key                                              = $inventaris[$i]; 
+      $saldoAwalInventaris[$no]['kodeInventaris']       = $key['kode_barang'];
+      $saldoAwalInventaris[$no]['namaInventaris']       = $key['nama_barang'];
+      $saldoAwalInventaris[$no]['noRegister']           = $key['no_register'];
+      $saldoAwalInventaris[$no]['harga']                = $key['nominal_asset'];
+      $saldoAwalInventaris[$no]['tanggalPembelian']     = $key['tahun_perolehan'];
+      $saldoAwalInventaris[$no]['namaakun']             = $key['jenis_akun'];
+      $saldoAwalInventaris[$no]['nama_perusahaan']      = $key['nama_perusahaan'];
+      $saldoAwalInventaris[$no]['nominalPemeliharaan']  = $key['nominal_pemeliharaan'];
+      $saldoAwalInventaris[$no]['RORKini']              = $key['ror_kini'];
       $no++;
     }
     return $saldoAwalInventaris;
@@ -109,7 +113,17 @@ class Inventaris_model extends CI_Model {
         $this->db->insert('pemeliharaanAsetDetail', [
           'idPemeliharaan'      => $idPemeliharaan,
           'kodeBarang'          => $key,
-          'nominalPemeliharaan' => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $harga[$i])
+          'nominalPemeliharaan' => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i])
+        ]);
+        $this->db->where('kodeInventaris', $key);
+        $this->db->update('saldoAwalInventaris', [
+          'nominalPemeliharaan' => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i]),
+          'RORKini'             => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i]) + (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $harga[$i])
+        ]);
+        $this->db->where('kode_barang', $key);
+        $this->db->update('tinventaris', [
+          'nominal_pemeliharaan' => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i]),
+          'ror_kini'             => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i]) + (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $harga[$i])
         ]);
         $i++;
       }

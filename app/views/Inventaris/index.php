@@ -1,8 +1,8 @@
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
@@ -16,45 +16,45 @@
 				</div>
 			</div>
 		</div><!-- /.container-fluid -->
-    </section>
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
+  <!-- Main content -->
+  <section class="content">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">         
 					<div class="card">
 						<div class="card-body">
 							<form action="<?= base_url(); ?>inventaris" method="get">
-                                <div class="row">
-                                    <?php
-                                        if ($this->session->userid !== '1') { ?>
-                                            <div class="col-4">
-                                                <div class="form-group">
-                                                    <label>Perusahaan : </label>
-                                                    <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
-                                                    <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
-                                                </div>
-                                            </div>
-                                        <?php } else { ?>
-                                            <div class="col-md-4">
-                                                <div class="form-group">
-                                                    <label>Perusahaan : </label>
-                                                    <select class="form-control" name="perusahaan" id="perusahaan"></select>
-                                                </div>
-                                            </div>
-                                        <?php }
-                                    ?>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-4">
-                                        <div class="text-right">
-                                            <button class="btn-block btn btn-success" type="submit"><i class="fas fa-filter"></i> Filter</button>
-                                            <button class="btn-block btn btn-warning">Reset</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
+                <div class="row">
+                  <?php
+                    if ($this->session->userid !== '1') { ?>
+                      <div class="col-4">
+                        <div class="form-group">
+                          <label>Perusahaan : </label>
+                          <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                          <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                        </div>
+                      </div>
+                    <?php } else { ?>
+                      <div class="col-md-4">
+                        <div class="form-group">
+                          <label>Perusahaan : </label>
+                          <select class="form-control" name="perusahaan" id="perusahaan"></select>
+                        </div>
+                      </div>
+                    <?php }
+                  ?>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="text-right">
+                      <button class="btn-block btn btn-success" type="submit"><i class="fas fa-filter"></i> Filter</button>
+                      <button class="btn-block btn btn-warning">Reset</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
 						</div>
 					</div>
 				</div>
@@ -101,9 +101,9 @@
 													<td></td>
 													<td></td>
 													<td></td>
+													<td><?= number_format($key['nominalPemeliharaan'], 2, ',', '.'); ?></td>
 													<td></td>
-													<td></td>
-													<td></td>
+													<td><?= number_format($key['RORKini'], 2, ',', '.'); ?></td>
 													<td></td>
 													<td></td>
 													<td></td>
