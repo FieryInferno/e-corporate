@@ -124,7 +124,7 @@
                                       foreach ($inventaris as $key) { ?>
                                         <tr>
                                           <td>
-                                            <input type="checkbox" name="" id="" onchange="pilihInventaris(this)" kodeBarang="<?= $key['kodeInventaris']; ?>" nomorRegister="<?= $key['noRegister']; ?>" namaInventaris="<?= $key['namaInventaris']; ?>" tahunBeli="<?= $key['tanggalPembelian']; ?>" hargaPerolehan="<?= $key['harga']; ?>">
+                                            <input type="checkbox" name="" id="" onchange="pilihInventaris(this)" kodeBarang="<?= $key['kodeInventaris']; ?>" nomorRegister="<?= $key['noRegister']; ?>" namaInventaris="<?= $key['namaInventaris']; ?>" tahunBeli="<?= $key['tanggalPembelian']; ?>" hargaPerolehan="<?= $key['harga']; ?>" <?= array_search($key['kodeInventaris'], array_column($detail, 'kodeBarang')) == true ? 'checked' : '' ; ?>>
                                           </td>
                                           <td><?= $key['kodeInventaris']; ?></td>
                                           <td><?= $key['namaInventaris']; ?></td>
@@ -164,14 +164,14 @@
                           foreach ($detail as $key) { ?>
                             <tr>
                               <td><?= $key['kodeBarang']; ?></td>
-                              <td><?= $key['kodeBarang']; ?></td>
-                              <td><?= $key['kodeBarang']; ?></td>
-                              <td><?= $key['kodeBarang']; ?></td>
-                              <td><?= $key['kodeBarang']; ?></td>
-                              <td><?= $key['kodeBarang']; ?></td>
-                              <td><?= $key['kodeBarang']; ?></td>
-                              <td><?= $key['kodeBarang']; ?></td>
-                              <td><?= $key['kodeBarang']; ?></td>
+                              <td><?= $key['noRegister']; ?></td>
+                              <td><?= $key['namaInventaris']; ?></td>
+                              <td><?= $key['tahunBeli']; ?></td>
+                              <td><?= $key['hargaPerolehan']; ?></td>
+                              <td><?= $key['nominalPemeliharaan']; ?></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
                             </tr>
                           <?php }
                         ?>

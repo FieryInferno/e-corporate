@@ -205,6 +205,26 @@ class Inventaris_model extends CI_Model {
     $data['detail'] = $this->db->get_where('pemeliharaanAsetDetail', [
       'idPemeliharaan'  => $idPemeliharaan
     ])->result_array();
+    for ($i=0; $i < count($data['detail']); $i++) { 
+      $key  = $data['detail'][$i];
+      $inventaris = $this->db->get_where('saldoAwalInventaris', [
+        'kodeInventaris'  => $key['kodeBarang'] 
+      ])->row_array();
+      if (!$inventaris) {
+        $inventaris = $this->db->get_where('tinventaris', [
+          'kode_barang' => $key['kodeBarang'] 
+        ])->row_array();
+        $data['detail'][$i]['noRegister']     = $inventaris['no_register'];
+        $data['detail'][$i]['namaInventaris'] = $inventaris['nama_barang'];
+        $data['detail'][$i]['tahunBeli']      = $inventaris['tanggal_perolehan'];
+        $data['detail'][$i]['hargaPerolehan'] = $inventaris['nominal_asset'];
+      } else {
+        $data['detail'][$i]['noRegister']     = $inventaris['noRegister'];
+        $data['detail'][$i]['namaInventaris'] = $inventaris['namaInventaris'];
+        $data['detail'][$i]['tahunBeli']      = $inventaris['tanggalPembelian'];
+        $data['detail'][$i]['hargaPerolehan'] = $inventaris['harga'];
+      }
+    }
     return $data;
   }
 }
