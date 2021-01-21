@@ -277,7 +277,7 @@
     let data  = new FormData($('#formPemeliharaan')[0]);
     console.log(data);
     $.ajax({
-      url         : '{site_url}pemeliharaan_aset/simpan',
+      url         : '{site_url}pemeliharaan_aset/simpan/<?= $this->uri->segment(3); ?>',
       data        : data,
       method      : 'post',
       dataType    : 'json',

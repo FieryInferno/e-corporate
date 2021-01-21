@@ -89,11 +89,11 @@ class Inventaris extends User_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
   }
   
-  public function simpanPemeliharaanAset()
+  public function simpanPemeliharaanAset($idPemeliharaan = null)
   {
     $this->validation();
     if ($this->form_validation->run() !== false) {
-      $data = $this->model->simpanPemeliharaanAset();
+      $data = $this->model->simpanPemeliharaanAset($idPemeliharaan);
       if ($data) {
         $hasil['status'] = 'success';
       } else {

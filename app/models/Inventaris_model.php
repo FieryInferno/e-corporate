@@ -69,7 +69,7 @@ class Inventaris_model extends CI_Model {
     $this->$jenis   = $isi;
   }
 
-  public function simpanPemeliharaanAset()
+  public function simpanPemeliharaanAset($idPemeliharaan)
   {
     $nominalPemeliharaan      = $this->input->post('nominalPemeliharaan');
     $totalNominalPemeliharaan = 0;
@@ -81,9 +81,7 @@ class Inventaris_model extends CI_Model {
     foreach ($harga as $key) {
       $nominalAsset += (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
     }
-    $idPemeliharaan = uniqid('pemeliharaan');
-    $insert = $this->db->insert('pemeliharaanAset', [
-      'idPemeliharaan'            => $idPemeliharaan,
+    $dataPemeliharaan = [
       'perusahaan'                => $this->input->post('perusahaan'),
       'jenisAset'                 => $this->input->post('jenisAset'),
       'jenisPemeliharaan'         => $this->input->post('jenisPemeliharaan'),
@@ -91,7 +89,19 @@ class Inventaris_model extends CI_Model {
       'keterangan'                => $this->input->post('keterangan'),
       'totalNominalPemeliharaan'  => $totalNominalPemeliharaan,
       'nominalAsset'              => $nominalAsset
-    ]);
+    ];
+    if ($idPemeliharaan) {
+      $this->db->where('idPemeliharaan', $idPemeliharaan);
+      $insert = $this->db->update('pemeliharaanAset', $dataPemeliharaan);
+      if ($insert) {
+        $this->db->where('idPemeliharaan', $idPemeliharaan);
+        $this->db->delete('pemeliharaanAsetDetail');
+      } 
+    } else {
+      $idPemeliharaan = uniqid('pemeliharaan');
+      $dataPemeliharaan['idPemeliharaan'] = $idPemeliharaan;
+      $insert = $this->db->insert('pemeliharaanAset', $dataPemeliharaan);
+    }
     if ($insert) {
       $kodeBarang = $this->input->post('kodeBarang');
       $i          = 0;
@@ -103,7 +113,7 @@ class Inventaris_model extends CI_Model {
         ]);
         $i++;
       }
-    } 
+    }
     return $insert;
   }
 
