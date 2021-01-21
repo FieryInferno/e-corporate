@@ -262,7 +262,7 @@
 
     tableDetailBarang.row.add([
       kodeBarang + `<input type="hidden" name="kodeBarang[]" value="${kodeBarang}">`,
-      noRegister,
+      noRegister + `<input type="hidden" name="noRegister[]" value="${noRegister}">`,
       namaInventaris,
       tahunBeli,
       formatRupiah(hargaPerolehan) + ',00' + `<input type="hidden" name="harga[]" value="${hargaPerolehan}">`,
