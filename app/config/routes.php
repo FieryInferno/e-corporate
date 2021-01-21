@@ -36,6 +36,7 @@ $route['mutasi_aset']						            = 'Inventaris/mutasiAset';
 $route['mutasi_aset/tambah']						    = 'Inventaris/tambahMutasiAset';
 $route['mutasi_aset/simpan']						    = 'Inventaris/simpanMutasiAset';
 $route['mutasi_aset/data']						      = 'Inventaris/dataMutasiAset';
+$route['mutasi_aset/edit/(:any)']           = 'Inventaris/editMutasiAset/$1';
 
 $route['penghapusan_aset']						      = 'Inventaris/penghapusanAset';
 $route['penghapusan_aset/data']						  = 'Inventaris/dataPenghapusanAset';

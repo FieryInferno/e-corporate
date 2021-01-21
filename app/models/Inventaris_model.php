@@ -80,11 +80,13 @@ class Inventaris_model extends CI_Model {
     foreach ($nominalPemeliharaan as $key) {
       $totalNominalPemeliharaan += (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
     }
+
     $harga        = $this->input->post('harga');
     $nominalAsset = 0;
     foreach ($harga as $key) {
       $nominalAsset += (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $key);
     }
+
     $dataPemeliharaan = [
       'perusahaan'                => $this->input->post('perusahaan'),
       'jenisAset'                 => $this->input->post('jenisAset'),
@@ -94,6 +96,7 @@ class Inventaris_model extends CI_Model {
       'totalNominalPemeliharaan'  => $totalNominalPemeliharaan,
       'nominalAsset'              => $nominalAsset
     ];
+
     if ($idPemeliharaan) {
       $this->db->where('idPemeliharaan', $idPemeliharaan);
       $insert = $this->db->update('pemeliharaanAset', $dataPemeliharaan);
@@ -106,8 +109,10 @@ class Inventaris_model extends CI_Model {
       $dataPemeliharaan['idPemeliharaan'] = $idPemeliharaan;
       $insert = $this->db->insert('pemeliharaanAset', $dataPemeliharaan);
     }
+
     if ($insert) {
       $kodeBarang = $this->input->post('kodeBarang');
+      $noRegister = $this->input->post('noRegister');
       $i          = 0;
       foreach ($kodeBarang as $key) {
         $this->db->insert('pemeliharaanAsetDetail', [
@@ -115,12 +120,16 @@ class Inventaris_model extends CI_Model {
           'kodeBarang'          => $key,
           'nominalPemeliharaan' => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i])
         ]);
+
         $this->db->where('kodeInventaris', $key);
+        $this->db->where('noRegister', $noRegister[$i]);
         $this->db->update('saldoAwalInventaris', [
           'nominalPemeliharaan' => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i]),
           'RORKini'             => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i]) + (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $harga[$i])
         ]);
+
         $this->db->where('kode_barang', $key);
+        $this->db->where('no_register', $noRegister[$i]);
         $this->db->update('tinventaris', [
           'nominal_pemeliharaan' => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i]),
           'ror_kini'             => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $nominalPemeliharaan[$i]) + (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $harga[$i])
@@ -226,9 +235,45 @@ class Inventaris_model extends CI_Model {
     $data = $this->db->get_where('pemeliharaanAset', [
       'idPemeliharaan'  => $idPemeliharaan
     ])->row_array();
+
     $data['detail'] = $this->db->get_where('pemeliharaanAsetDetail', [
       'idPemeliharaan'  => $idPemeliharaan
     ])->result_array();
+    for ($i=0; $i < count($data['detail']); $i++) { 
+      $key  = $data['detail'][$i];
+      $inventaris = $this->db->get_where('saldoAwalInventaris', [
+        'kodeInventaris'  => $key['kodeBarang'] 
+      ])->row_array();
+      if (!$inventaris) {
+        $inventaris = $this->db->get_where('tinventaris', [
+          'kode_barang' => $key['kodeBarang'] 
+        ])->row_array();
+        $data['detail'][$i]['noRegister']     = $inventaris['no_register'];
+        $data['detail'][$i]['namaInventaris'] = $inventaris['nama_barang'];
+        $data['detail'][$i]['tahunBeli']      = $inventaris['tanggal_perolehan'];
+        $data['detail'][$i]['hargaPerolehan'] = $inventaris['nominal_asset'];
+      } else {
+        $data['detail'][$i]['noRegister']     = $inventaris['noRegister'];
+        $data['detail'][$i]['namaInventaris'] = $inventaris['namaInventaris'];
+        $data['detail'][$i]['tahunBeli']      = $inventaris['tanggalPembelian'];
+        $data['detail'][$i]['hargaPerolehan'] = $inventaris['harga'];
+      }
+    }
+    return $data;
+  }
+
+  public function getMutasi($idMutasi)
+  {
+    $this->db->select('mutasiAset.*, mnoakun.namaakun');
+    $this->db->join('mnoakun', 'mutasiAset.jenisInventaris = mnoakun.idakun');
+    $data = $this->db->get_where('mutasiAset', [
+      'idMutasi'  => $idMutasi
+    ])->row_array();
+
+    $data['detail'] = $this->db->get_where('mutasiAsetDetail', [
+      'idMutasi'  => $idMutasi
+    ])->result_array();
+
     for ($i=0; $i < count($data['detail']); $i++) { 
       $key  = $data['detail'][$i];
       $inventaris = $this->db->get_where('saldoAwalInventaris', [

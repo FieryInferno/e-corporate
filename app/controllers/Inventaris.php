@@ -83,6 +83,17 @@ class Inventaris extends User_Controller {
 		$this->parser->parse('template',$data);
 	}
 
+	public function editMutasiAset($idMutasi)
+	{
+    $data                 = $this->model->getMutasi($idMutasi);
+		$data['title']		    = 'Mutasi Aset';
+		$data['subtitle']	    = 'Edit';
+		$data['content']	    = 'Inventaris/mutasiAset/edit';
+    $data['inventaris']   = $this->model->get();
+		$data				          = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+
 	public function get()
 	{
 		$data	= $this->model->get();
