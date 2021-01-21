@@ -30,18 +30,36 @@
                   <div class="row">
                     <div class="col-6">
                       <div class="row">
-                        <div class="col-4">
-                          <div class="form-group">
-                            <label>Kode Perusahaan</label>
-                            <input type="text" class="form-control" name="kodePerusahaan" disabled id="kodePerusahaan">
-                          </div>
-                        </div>
-                        <div class="col-8">
-                          <div class="form-group">
-                            <label>Nama Perusahaan</label>
-                            <select class="form-control" name="perusahaan" id="perusahaan" style="width:100%;"></select>
-                          </div>
-                        </div>
+                        <?php
+                          if ($this->session->userid == '1') { ?>
+                            <div class="col-4">
+                              <div class="form-group">
+                                <label>Kode Perusahaan</label>
+                                <input type="text" class="form-control" name="kodePerusahaan" disabled id="kodePerusahaan">
+                              </div>
+                            </div>
+                            <div class="col-8">
+                              <div class="form-group">
+                                <label>Nama Perusahaan</label>
+                                <select class="form-control" name="perusahaan" id="perusahaan" style="width:100%;"></select>
+                              </div>
+                            </div>
+                          <?php } else { ?>
+                            <div class="col-4">
+                              <div class="form-group">
+                                <label>Kode Perusahaan</label>
+                                <input type="text" class="form-control" name="kodePerusahaan" disabled id="kodePerusahaan" value="<?= $this->session->kodePerusahaan; ?>">
+                              </div>
+                            </div>
+                            <div class="col-8">
+                              <div class="form-group">
+                                <label>Nama Perusahaan</label>
+                                <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                                <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                              </div>
+                            </div>
+                          <?php }
+                        ?>
                       </div>
                     </div>
                   </div>
@@ -175,10 +193,12 @@
   let tablePilihInventaris    = $('.pilihInventaris').DataTable();
 
   $(document).ready(function () {
-		ajax_select({
-			id	: '#perusahaan',	
-			url	: '<?= base_url(); ?>perusahaan/select2',
-    });	
+		if ('<?= $this->session->userid; ?>' == 1) {
+      ajax_select({
+        id	: '#perusahaan',	
+        url	: '<?= base_url(); ?>perusahaan/select2',
+      });	
+    }
         
     $('#jenisAset').select2({
       'placeholder'   : 'Pilih Jenis Aset',
