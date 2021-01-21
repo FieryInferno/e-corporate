@@ -237,5 +237,12 @@ class Inventaris_model extends CI_Model {
     }
     return $data;
   }
-}
 
+  public function hapusPemeliharaanAset($idPemeliharaan)
+  {
+    $this->db->where('idPemeliharaan', $idPemeliharaan);
+    $this->db->delete('pemeliharaanAset');
+    $this->db->where('idPemeliharaan', $idPemeliharaan);
+    $this->db->delete('pemeliharaanAsetDetail');
+  }
+}

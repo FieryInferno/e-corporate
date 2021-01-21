@@ -30,6 +30,7 @@ $route['pemeliharaan_aset/tambah']          = 'Inventaris/tambahPemeliharaanAset
 $route['pemeliharaan_aset/simpan']          = 'Inventaris/simpanPemeliharaanAset';
 $route['pemeliharaan_aset/data']            = 'Inventaris/dataPemeliharaanAset';
 $route['pemeliharaan_aset/edit/(:any)']     = 'Inventaris/editPemeliharaanAset/$1';
+$route['pemeliharaan_aset/hapus/(:any)']    = 'Inventaris/hapusPemeliharaanAset/$1';
 
 $route['mutasi_aset']						            = 'Inventaris/mutasiAset';
 $route['mutasi_aset/tambah']						    = 'Inventaris/tambahMutasiAset';
