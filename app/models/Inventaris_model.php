@@ -264,8 +264,10 @@ class Inventaris_model extends CI_Model {
 
   public function getMutasi($idMutasi)
   {
-    $this->db->select('mutasiAset.*, mnoakun.namaakun');
+    $this->db->select('mutasiAset.*, mnoakun.namaakun, mperusahaanPenerima.nama_perusahaan as namaPerusahaanPenerima, mperusahaanPenerima.kode as kodePerusahaanPenerima, mperusahaanAsal.nama_perusahaan as namaPerusahaanAsal, mperusahaanAsal.kode as kodePerusahaanAsal');
     $this->db->join('mnoakun', 'mutasiAset.jenisInventaris = mnoakun.idakun');
+    $this->db->join('mperusahaan as mperusahaanPenerima', 'mutasiAset.perusahaanPenerima = mperusahaanPenerima.idperusahaan');
+    $this->db->join('mperusahaan as mperusahaanAsal', 'mutasiAset.perusahaanAsal = mperusahaanAsal.idperusahaan');
     $data = $this->db->get_where('mutasiAset', [
       'idMutasi'  => $idMutasi
     ])->row_array();

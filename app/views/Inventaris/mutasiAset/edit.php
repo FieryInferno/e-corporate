@@ -32,7 +32,7 @@
                     <div class="form-group">
                       <label>Jenis Inventaris</label>
                       <select class="form-control" name="jenisInventaris" id="jenisInventaris" style="width:100%;">
-                          <option value=""></option>
+                        <option value=""></option>
                       </select>
                     </div>
                   </div>
@@ -43,13 +43,13 @@
                       <div class="col-6">
                         <div class="form-group">
                           <label>No. Surat Keputusan</label>
-                          <input type="text" class="form-control" name="noSuratKeputusan" id="noSuratKeputusan">
+                          <input type="text" class="form-control" name="noSuratKeputusan" id="noSuratKeputusan" value="{noSuratKeputusan}">
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="form-group">
                           <label>Tanggal Surat Keputusan</label>
-                          <input type="date" class="form-control" name="tanggalSuratKeputusan" id="tanggalSuratKeputusan">
+                          <input type="date" class="form-control" name="tanggalSuratKeputusan" id="tanggalSuratKeputusan" value="{tanggalSuratKeputusan}">
                         </div>
                       </div>
                     </div>
@@ -95,7 +95,7 @@
                   <div class="col-6">
                     <div class="form-group">
                       <label>Keterangan</label>
-                      <textarea name="keterangan" id="keterangan" cols="30" rows="10" class="form-control"></textarea>
+                      <textarea name="keterangan" id="keterangan" cols="30" rows="10" class="form-control">{keterangan}</textarea>
                     </div>
                   </div>
                 </div>
@@ -208,6 +208,12 @@
 			url	: '<?= base_url(); ?>perusahaan/select2',
     });
 
+  var newOption = new Option('{namaPerusahaanPenerima}', '{perusahaanPenerima}', true, true);
+  $('#perusahaanPenerima').append(newOption).trigger('change');
+
+  var newOption = new Option('{namaPerusahaanAsal}', '{perusahaanAsal}', true, true);
+  $('#perusahaanAsal').append(newOption).trigger('change');
+
     $('#jenisInventaris').select2({
       'placeholder'   : 'Pilih Jenis Inventaris',
       'allowClear'    : true,
@@ -224,6 +230,9 @@
       },
     });
 	});
+
+  var newOption = new Option('{namaakun}', '{jenisInventaris}', true, true);
+  $('#jenisInventaris').append(newOption).trigger('change');
 
   function pilihPerusahaan(elemen, jenis) {
     let perusahaan  = $(elemen).val();

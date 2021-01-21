@@ -230,7 +230,7 @@
       },
     });
 
-    var newOption = new Option('{namaakun}', '{jenisAset}', true, true);
+    let newOption = new Option('{namaakun}', '{jenisAset}', true, true);
     $('#jenisAset').append(newOption).trigger('change');
 
     $('#jenisPemeliharaan').select2({
