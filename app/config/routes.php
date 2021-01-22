@@ -59,3 +59,5 @@ $route['laporan_neraca_multi_period']				= 'Laporan/neracaMultiPeriod';
 $route['sistem_penomoran']				          = 'SistemPenomoran';
 $route['sistem_penomoran/tambah']				    = 'SistemPenomoran/tambah';
 $route['sistem_penomoran/edit/(:any)']			= 'SistemPenomoran/edit/$1';
+
+$route['konfigurasi_penyusutan']			      = 'Inventaris/konfigurasiPenyusutan';

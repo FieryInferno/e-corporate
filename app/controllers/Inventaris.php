@@ -241,4 +241,13 @@ class Inventaris extends User_Controller {
     $hasil['status'] = 'success';
 		$this->output->set_content_type('application/json')->set_output(json_encode($hasil));
   }
+
+  public function konfigurasiPenyusutan()
+  {
+		$data['title']		  = 'Konfigurasi Penyusutan';
+		$data['subtitle']	  = 'Daftar';
+		$data['content']	  = 'Inventaris/konfigurasiPenyusutan/index';
+		$data				        = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+  }
 }
