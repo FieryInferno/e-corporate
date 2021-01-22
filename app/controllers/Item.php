@@ -1,17 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-/** 
-* =================================================
-* @package	CGC (CODEIGNITER GENERATE CRUD)
-* @author	isyanto.id@gmail.com
-* @link	https://isyanto.com
-* @since	Version 1.0.0
-* @filesource
-* ================================================= 
-*/
-
-
 class Item extends User_Controller {
 
 	private $id;
@@ -142,6 +131,8 @@ class Item extends User_Controller {
 
 	public function get()
 	{
+    // print_r($this->id);
+    // die();
 		$this->model->set('id', $this->id);
 		$data	= $this->model->get();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));

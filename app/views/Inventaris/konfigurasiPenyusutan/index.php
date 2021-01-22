@@ -53,6 +53,9 @@
         </div>
         <div class="col-12">         
           <div class="card">
+            <div class="card-header">
+              <a class="btn btn-success" href="<?= base_url(); ?>konfigurasi_penyusutan/tambah"><i class="fas fa-plus"></i> Tambah</a>
+            </div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-xs table-striped table-borderless table-hover index_datatable">

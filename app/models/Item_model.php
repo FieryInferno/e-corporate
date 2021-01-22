@@ -1,16 +1,6 @@
 <?php
 defined('BASEPATH') or exit('No direct script access allowed');
 
-/**
- * =================================================
- * @package    CGC (CODEIGNITER GENERATE CRUD)
- * @author    isyanto.id@gmail.com
- * @link    https://isyanto.com
- * @since    Version 1.0.0
- * @filesource
- * =================================================
- */
-
 class Item_model extends CI_Model
 {
 
@@ -136,14 +126,14 @@ class Item_model extends CI_Model
 		return $this->db->get('mitem')->result_array();
     }
     
-    public function get()
-    {
-        $this->db->select('mnoakun.namaakun, mnoakun.idakun, mitem.nama');
-        $this->db->join('mnoakun', 'mitem.noakunpersediaan = mnoakun.idakun');
-        return $this->db->get_where('mitem', [
-            'id'    => $this->id
-        ])->row_array();
-    }
+  public function get()
+  {
+    $this->db->select('mnoakun.namaakun, mnoakun.idakun, mitem.nama, mitem.kode');
+    $this->db->join('mnoakun', 'mitem.noakunpersediaan = mnoakun.idakun', 'left');
+    return $this->db->get_where('mitem', [
+        'id'    => $this->id
+    ])->row_array();
+  }
 
     public function set($jenis, $isi)
     {

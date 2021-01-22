@@ -250,4 +250,13 @@ class Inventaris extends User_Controller {
 		$data				        = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
   }
+
+  public function tambahKonfigurasiPenyusutan()
+  {
+		$data['title']		  = 'Konfigurasi Penyusutan';
+		$data['subtitle']	  = 'Tambah';
+		$data['content']	  = 'Inventaris/konfigurasiPenyusutan/tambah';
+		$data				        = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+  }
 }
