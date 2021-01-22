@@ -103,6 +103,7 @@
 			id	: '#barang',	
 			url	: '<?= base_url(); ?>item/select2',
     });
+  }
 
   function pilihBarang(elemen) {
     let barang  = $(elemen).val();
@@ -120,9 +121,8 @@
 
   function simpan(elemen) {
     let data  = new FormData($('#formKonfigurasiPenyusutan')[0]);
-    console.log(data);
     $.ajax({
-      url         : '{site_url}mutasi_aset/simpan',
+      url         : '{site_url}konfigurasi_penyusutan/simpan',
       data        : data,
       method      : 'post',
       dataType    : 'json',
@@ -137,7 +137,7 @@
       success : function(data) {
         if(data.status == 'success') {
             swal("Berhasil!", "Berhasil Menambah Data", "success");
-            redirect('{site_url}mutasi_aset');
+            redirect('{site_url}konfigurasi_penyusutan');
         } else {
             swal("Gagal!", "Gagal Menambah Data", "error");
         }

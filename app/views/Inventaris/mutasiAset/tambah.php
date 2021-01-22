@@ -271,7 +271,6 @@
 
   function simpan(elemen) {
     let data  = new FormData($('#formMutasi')[0]);
-    console.log(data);
     $.ajax({
       url         : '{site_url}mutasi_aset/simpan',
       data        : data,
