@@ -318,4 +318,13 @@ class Inventaris_model extends CI_Model {
     ]);
     return $insert;
   }
+
+  public function dataKonfigurasiPenyusutan($perusahaan = null)
+  {
+    $this->load->library('Datatables');
+		$this->datatables->select('konfigurasiPenyusutan.*, mitem.kode as kodeBarang, mitem.nama as namaBarang');
+		$this->datatables->from('konfigurasiPenyusutan');
+    $this->datatables->join('mitem', 'konfigurasiPenyusutan.barang = mitem.id');
+    return $this->datatables->generate();
+  }
 }

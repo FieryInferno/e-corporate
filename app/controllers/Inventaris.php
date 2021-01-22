@@ -284,4 +284,10 @@ class Inventaris extends User_Controller {
     $this->form_validation->set_rules('tambahanMasaManfaat', 'Tambahan Masa Manfaat', 'required');
     $this->form_validation->set_rules('prosentasiPenyusutan', 'Prosentasi Penyusutan', 'required');
   }
+
+  public function dataKonfigurasiPenyusutan()
+  {
+    $data = $this->model->dataKonfigurasiPenyusutan();
+    return print_r($data);
+  }
 }

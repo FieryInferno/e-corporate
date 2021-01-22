@@ -63,3 +63,4 @@ $route['sistem_penomoran/edit/(:any)']			= 'SistemPenomoran/edit/$1';
 $route['konfigurasi_penyusutan']			      = 'Inventaris/konfigurasiPenyusutan';
 $route['konfigurasi_penyusutan/tambah']			= 'Inventaris/tambahKonfigurasiPenyusutan';
 $route['konfigurasi_penyusutan/simpan']			= 'Inventaris/simpanKonfigurasiPenyusutan';
+$route['konfigurasi_penyusutan/data']			  = 'Inventaris/dataKonfigurasiPenyusutan';

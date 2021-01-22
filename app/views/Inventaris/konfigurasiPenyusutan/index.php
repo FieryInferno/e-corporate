@@ -89,5 +89,34 @@
   $(document).ready(function () {
     $('#konfigurasiUmur').select2();
     $('#konfigurasiPenyusutan').select2();
-  })
+  });
+  
+  let table   = $('.index_datatable').DataTable({
+    ajax  : {
+      url : '{site_url}konfigurasi_penyusutan/data'
+    },
+    columns : [
+      {data : 'kodeBarang'},
+      {data : 'namaBarang'},
+      {data : 'masaManfaat'},
+      {data : 'batasKapitalisasi'},
+      {data : 'tambahanMasaManfaat'},
+      {
+        data    : 'idKonfigurasiPenyusutan',
+        render  : function (data, type, row) {
+          let aksi  = `
+            <div class="list-icons"> 
+              <div class="dropdown"> 
+                <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+								<div class="dropdown-menu dropdown-menu-right">
+									<a href="{site_url}konfigurasi_penyusutan/edit/${data}" class="dropdown-item text-success"><i class="fas fa-pencil-alt"></i> Edit</a>
+									<a href="" class="dropdown-item delete text-danger"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+                </div> 
+              </div> 
+            </div>`;
+          return aksi;
+        }
+      },
+    ]
+  });   
 </script>
