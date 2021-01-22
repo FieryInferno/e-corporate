@@ -75,7 +75,7 @@
                       <div class="col-6">
                         <div class="form-group">
                           <label>Prosentasi Penyusutan</label>
-                          <input type="text" class="form-control" name="prosentasePenyusutan" id="prosentasePenyusutan">
+                          <input type="text" class="form-control" name="prosentasiPenyusutan" id="prosentasiPenyusutan">
                         </div>
                       </div>
                     </div>

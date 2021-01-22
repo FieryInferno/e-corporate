@@ -306,4 +306,16 @@ class Inventaris_model extends CI_Model {
     $this->db->where('idPemeliharaan', $idPemeliharaan);
     $this->db->delete('pemeliharaanAsetDetail');
   }
+
+  public function simpanKonfigurasiPenyusutan()
+  {
+    $insert = $this->db->insert('konfigurasiPenyusutan', [
+      'barang'                => $this->input->post('barang'),
+      'masaManfaat'           => $this->input->post('masaManfaat'),
+      'batasKapitalisasi'     => $this->input->post('batasKapitalisasi'),
+      'tambahanMasaManfaat'   => $this->input->post('tambahanMasaManfaat'),
+      'prosentasiPenyusutan'  => $this->input->post('prosentasiPenyusutan'),
+    ]);
+    return $insert;
+  }
 }

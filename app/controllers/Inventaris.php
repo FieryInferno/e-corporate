@@ -276,12 +276,12 @@ class Inventaris extends User_Controller {
 		$this->output->set_content_type('application/json')->set_output(json_encode($hasil));
   }
 
-  private function validationKonfigurasiPenyusuran()
+  private function validationKonfigurasiPenyusutan()
   {
     $this->form_validation->set_rules('barang', 'Barang', 'required');
     $this->form_validation->set_rules('masaManfaat', 'Masa Manfaat', 'required');
     $this->form_validation->set_rules('batasKapitalisasi', 'Batas Kapitalisasi', 'required');
-    $this->form_validation->set_rules('keterangan', 'Keterangan', 'required');
-    $this->form_validation->set_rules('kodeBarang[]', 'Kode Barang', 'required');
+    $this->form_validation->set_rules('tambahanMasaManfaat', 'Tambahan Masa Manfaat', 'required');
+    $this->form_validation->set_rules('prosentasiPenyusutan', 'Prosentasi Penyusutan', 'required');
   }
 }
