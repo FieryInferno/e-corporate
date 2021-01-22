@@ -103,7 +103,7 @@
 			id	: '#barang',	
 			url	: '<?= base_url(); ?>item/select2',
     });
-  }
+  });
 
   function pilihBarang(elemen) {
     let barang  = $(elemen).val();
