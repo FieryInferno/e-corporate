@@ -172,7 +172,22 @@
                             <th>Perusahaan Awal</th>
                           </tr>
                         </thead>
-                      <tbody></tbody>
+                      <tbody>
+                        <?php
+                          foreach ($detail as $key) { ?>
+                            <tr>
+                              <td><?= $key['kodeBarang']; ?><input type="hidden" name="kodeBarang[]" value="<?= $key['kodeBarang']; ?>"></td>
+                              <td><?= $key['noRegister']; ?></td>
+                              <td><?= $key['namaInventaris']; ?></td>
+                              <td><?= $key['tahunBeli']; ?></td>
+                              <td><?= number_format($key['hargaPerolehan'], 2, ',', '.'); ?><input type="hidden" name="harga[]" value="<?= number_format($key['hargaPerolehan'], 2, ',', '.'); ?>"></td>
+                              <td></td>
+                              <td></td>
+                              <td></td>
+                            </tr>
+                          <?php }
+                        ?>
+                      </tbody>
                     </table>
                   </div>
                 </div>

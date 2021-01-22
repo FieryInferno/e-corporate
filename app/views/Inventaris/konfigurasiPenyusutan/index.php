@@ -53,9 +53,6 @@
         </div>
         <div class="col-12">         
           <div class="card">
-            <div class="card-header">
-              <a class="btn btn-success" href="<?= base_url(); ?>mutasi_aset/tambah"><i class="fas fa-plus"></i> Tambah</a>
-            </div>
             <div class="card-body">
               <div class="table-responsive">
                 <table class="table table-xs table-striped table-borderless table-hover index_datatable">
@@ -64,6 +61,8 @@
                       <th>Kode Barang</th>
                       <th>Nama Barang</th>
                       <th>Masa Manfaat</th>
+                      <th>Batas Kapitalisasi</th>
+                      <th>Tambahan Masa Manfaat</th>
                       <th class="text-center">Aksi</th>
                     </tr>
                   </thead>

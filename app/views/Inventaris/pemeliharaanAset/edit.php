@@ -167,7 +167,7 @@
                               <td><?= $key['noRegister']; ?></td>
                               <td><?= $key['namaInventaris']; ?></td>
                               <td><?= $key['tahunBeli']; ?></td>
-                              <td><?= $key['hargaPerolehan']; ?></td>
+                              <td><?= number_format($key['hargaPerolehan'], 2, ',', '.'); ?></td>
                               <td><?= $key['nominalPemeliharaan']; ?></td>
                               <td></td>
                               <td></td>
