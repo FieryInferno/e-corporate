@@ -161,16 +161,15 @@ class Inventaris_model extends CI_Model {
     return $this->datatables->generate();
   }
 
-  public function simpanMutasiAset()
+  public function simpanMutasiAset($idMutasi = null)
   {
     $harga      = $this->input->post('harga');
     $totalHarga = 0;
     foreach ($harga as $key) {
       $totalHarga += $key;
     }
-    $idMutasi = uniqid('mutasi');
-    $insert   = $this->db->insert('mutasiAset', [
-      'idMutasi'              => $idMutasi,
+
+    $data = [
       'jenisInventaris'       => $this->input->post('jenisInventaris'),
       'noSuratKeputusan'      => $this->input->post('noSuratKeputusan'),
       'tanggalSuratKeputusan' => $this->input->post('tanggalSuratKeputusan'),
@@ -178,8 +177,22 @@ class Inventaris_model extends CI_Model {
       'perusahaanAsal'        => $this->input->post('perusahaanAsal'),
       'keterangan'            => $this->input->post('keterangan'),
       'nominalAsset'          => $totalHarga
-    ]);
+    ];
+
+    if ($idMutasi) {
+      $this->db->where('idMutasi', $idMutasi);
+      $insert = $this->db->update('mutasiAset', $data);
+    } else {
+      $idMutasi         = uniqid('mutasi');
+      $data['idMutasi'] = $idMutasi;
+      $insert           = $this->db->insert('mutasiAset', $data);
+    }
+    
     if ($insert) {
+      if ($idMutasi) {
+        $this->db->where('idMutasi', $idMutasi);
+        $this->db->delete('mutasiAsetDetail');
+      }
       $kodeBarang = $this->input->post('kodeBarang');
       foreach ($kodeBarang as $key) {
         $this->db->insert('mutasiAsetDetail', [

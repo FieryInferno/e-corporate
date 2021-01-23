@@ -163,11 +163,11 @@ class Inventaris extends User_Controller {
 		$this->parser->parse('template',$data);
 	}
   
-  public function simpanMutasiAset()
+  public function simpanMutasiAset($idMutasi = null)
   {
     $this->validationMutasi();
     if ($this->form_validation->run() !== false) {
-      $data = $this->model->simpanMutasiAset();
+      $data = $this->model->simpanMutasiAset($idMutasi);
       if ($data) {
         $hasil['status'] = 'success';
       } else {
