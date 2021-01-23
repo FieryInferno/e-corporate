@@ -76,7 +76,7 @@
                 <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
 								<div class="dropdown-menu dropdown-menu-right">
 									<a href="{site_url}mutasi_aset/edit/${data}" class="dropdown-item text-success"><i class="fas fa-pencil-alt"></i> Edit</a>
-									<a href="" class="dropdown-item delete text-danger"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+									<a href="javascript:hapus('${data}')" class="dropdown-item delete text-danger"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
                 </div> 
               </div> 
             </div>`;
@@ -85,4 +85,42 @@
       },
     ]
   });   
+  
+  function hapus(idMutasi) {
+    swal("Anda yakin akan menghapus data?", {
+      buttons : {
+        cancel  : "Batal",
+        catch   : {
+          text  : "Ya, Yakin",
+          value : "ya",
+        },
+      },
+    })
+    .then((value) => {
+      switch (value) {
+        case "ya":
+        $.ajax({
+          url         : '{site_url}mutasi_aset/hapus/' + idMutasi,
+          beforeSend  : function() {
+            pageBlock();
+          },
+          afterSend : function() {
+            unpageBlock();
+          },
+          success : function(data) {
+            if(data.status == 'success') {
+              swal("Berhasil!", "Data Berhasil Dihapus!", "success");
+              setTimeout(function() { table.ajax.reload() }, 100);
+            } else {
+              swal("Gagal!", "Pikachu was caught!", "error");
+            }
+          },
+          error: function() {
+          swal("Gagal!", "Internal Server Error!", "error");
+          }
+        })
+        break;
+      }
+    });
+  }
 </script>

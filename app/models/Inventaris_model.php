@@ -204,6 +204,14 @@ class Inventaris_model extends CI_Model {
     return $insert;
   }
 
+  public function hapusMutasiAset($idMutasi)
+  {
+    $this->db->where('idMutasi', $idMutasi);
+    $this->db->delete('mutasiAset');
+    $this->db->where('idMutasi', $idMutasi);
+    $this->db->delete('mutasiAsetDetail');
+  }
+
   public function dataPenghapusanAset()
   {
     $this->load->library('Datatables');

@@ -185,6 +185,13 @@ class Inventaris extends User_Controller {
     return print_r($data);
   }
 
+  public function hapusMutasiAset($idMutasi)
+  {
+    $this->model->hapusMutasiAset($idMutasi);
+    $hasil['status'] = 'success';
+		$this->output->set_content_type('application/json')->set_output(json_encode($hasil));
+  }
+
 	public function penghapusanAset()
 	{
 		$data['title']		= 'Penghapusan Aset';

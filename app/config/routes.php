@@ -64,3 +64,4 @@ $route['konfigurasi_penyusutan']			      = 'Inventaris/konfigurasiPenyusutan';
 $route['konfigurasi_penyusutan/tambah']			= 'Inventaris/tambahKonfigurasiPenyusutan';
 $route['konfigurasi_penyusutan/simpan']			= 'Inventaris/simpanKonfigurasiPenyusutan';
 $route['konfigurasi_penyusutan/data']			  = 'Inventaris/dataKonfigurasiPenyusutan';
+$route['mutasi_aset/hapus/(:any)']          = 'Inventaris/hapusMutasiAset/$1';
