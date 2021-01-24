@@ -24,7 +24,7 @@
         <div class="col-12">         
           <div class="card">
             <div class="card-header">
-              <a href="{site_url}noakun/create" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
+              <a href="{site_url}nomor_akun/tambah" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
               <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
                   + Import
               </button>

@@ -532,7 +532,7 @@
         </li>	
 
 				<li class="nav-item">
-					<a href="{site_url}noakun" class="nav-link <?php echo menu_is_active('noakun') ?>">
+					<a href="{site_url}nomor_akun" class="nav-link <?php echo menu_is_active('nomor_akun') ?>">
 						<i class="icon-database"></i>
 						<i class="nav-icon fas fa-file-invoice-dollar"></i><p> <?php echo lang('account_number') ?> </p>
 					</a>

@@ -9,10 +9,10 @@ class Noakun extends User_Controller {
 	}
 
 	public function index() {
-		$data['title'] = lang('account_number');
+		$data['title']    = lang('account_number');
 		$data['subtitle'] = lang('list');
-		$data['content'] = 'Noakun/index';
-		$data = array_merge($data,path_info());
+		$data['content']  = 'Noakun/index';
+		$data             = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 
@@ -28,11 +28,11 @@ class Noakun extends User_Controller {
 		return print_r($this->datatables->generate());
 	}
 
-	public function create() {
-		$data['title'] = lang('account_number');
+	public function tambah() {
+		$data['title']    = lang('account_number');
 		$data['subtitle'] = lang('add_new');
-		$data['content'] = 'Noakun/create';
-		$data = array_merge($data,path_info());
+		$data['content']  = 'Noakun/tambah';
+		$data             = array_merge($data,path_info());
 		$this->parser->parse('default',$data);
 	}
 
