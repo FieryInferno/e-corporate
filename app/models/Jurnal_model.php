@@ -11,8 +11,8 @@ class Jurnal_model extends CI_Model {
 
 	public function get()
 	{
-		$jurnalUmum	= [];
-		$formulir	= [];
+		$jurnalUmum = [];
+		$formulir   = [];
 		if ($this->tipe) {
 			array_push($formulir, $this->tipe);
 		} else {
@@ -309,54 +309,6 @@ class Jurnal_model extends CI_Model {
 					$this->db->where('mnoakun.akunno', $this->akunno);
 				}
         $data0	= $this->db->get('tkasbank')->result_array();
-				// if ($data0) {
-				// 	foreach ($data0 as $key) {
-				// 		$this->db->select('tJurnalFinansial.*');
-				// 		$this->db->join('tJurnalFinansial', 'tSetupJurnal.idSetupJurnal = tJurnalFinansial.idSetupJurnal');
-				// 		$this->db->like('tJurnalFinansial.elemen', $key['tipe']);
-				// 		$data1	= $this->db->get_where('tSetupJurnal', [
-				// 			'tSetupJurnal.idSetupJurnal'	=> $key['setupJurnal']
-				// 		])->result_array();
-				// 		if ($key['penerimaan'] !== '0') {
-				// 			$total	= $key['penerimaan'];
-				// 		} else {
-				// 			$total	= $key['pengeluaran'];
-				// 		}
-				// 		if ($data1) {
-				// 			foreach ($data1 as $value) {
-				// 				if (strpos($value['elemen'], 'sumberDana') !== FALSE) {
-				// 					$where	= ['kodeAkun'	=> $key['idakunRekening']];
-				// 				} else {
-				// 					$where	= ['kodeAkun'	=> $key['idakun']];
-				// 				}
-								
-				// 				$this->db->select('mnoakun.akunno, mnoakun.namaakun');
-				// 				if (strpos($value['elemen'], '1')) {
-				// 					$this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun1 = mnoakun.idakun');
-				// 				} elseif (strpos($value['elemen'], '2')) {
-				// 					$this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun2 = mnoakun.idakun');
-				// 				} elseif (strpos($value['elemen'], '3')) {
-				// 					$this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun3 = mnoakun.idakun');
-				// 				} else {
-				// 					$this->db->join('mnoakun', 'tPemetaanAkun.kodeAkun = mnoakun.idakun');
-				// 				}
-				// 				$metaAkun	= $this->db->get_where('tPemetaanAkun', $where)->row_array();
-				// 				array_push($jurnalUmum, [
-				// 					'tanggal'			=> $key['tanggal'],
-				// 					'formulir'			=> 'Kas Bank',
-				// 					'noTrans'			=> $key['nomor_kas_bank'],
-				// 					'departemen'		=> '',
-				// 					'nama_perusahaan' 	=> $key['nama_perusahaan'],
-				// 					'akunno'			=> $metaAkun['akunno'],
-				// 					'namaakun'			=> $metaAkun['namaakun'],
-				// 					'jenis'				=> $value['jenis'],
-				// 					'total'				=> $total
-				// 				]);
-				// 			}
-				// 		}
-				// 	}
-        // }
-        
         if ($data0) {
 					foreach ($data0 as $key) {
 						$this->db->select('tJurnalFinansial.elemen, tJurnalFinansial.jenis, tSetupJurnal.formulir');

@@ -67,3 +67,5 @@ $route['konfigurasi_penyusutan/tambah']			  = 'Inventaris/tambahKonfigurasiPenyu
 $route['konfigurasi_penyusutan/simpan']			  = 'Inventaris/simpanKonfigurasiPenyusutan';
 $route['konfigurasi_penyusutan/data']			    = 'Inventaris/dataKonfigurasiPenyusutan';
 $route['konfigurasi_penyusutan/edit/(:any)']  = 'Inventaris/editKonfigurasiPenyusutan/$1';
+
+$route['laporan_labarugi/standar']            = 'Laporan/labarugiStandar';

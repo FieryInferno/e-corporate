@@ -3,7 +3,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class LaporanModel extends CI_Model {
 
-    private $perusahaan;
+  private $perusahaan;
 	private $rekening;
     private $tanggal;
 	private $kasKecil;
@@ -149,14 +149,83 @@ class LaporanModel extends CI_Model {
         return $laporan;
     }
 
-    public function getProject()
-    {
-        $this->db->select('project.noEvent, project.deskripsi, project.region, mcabang.nama as cabang, project.totalPendapatan, project.totalHPP, project.kodeEvent, project.kelompokUmur, project.tanggalMulai, project.tanggalSelesai');
-        $this->db->join('mcabang', 'project.cabang = mcabang.id');
-        $this->db->where('tanggalMulai >= ', $this->tanggalAwal);
-        $this->db->where('tanggalselesai <= ', $this->tanggalAkhir);
-        return $this->db->get_where('project',[
-            'project.perusahaan'    => $this->perusahaan
-        ])->result_array();
+  public function getProject()
+  {
+    $this->db->select('project.noEvent, project.deskripsi, project.region, mcabang.nama as cabang, project.totalPendapatan, project.totalHPP, project.kodeEvent, project.kelompokUmur, project.tanggalMulai, project.tanggalSelesai');
+    $this->db->join('mcabang', 'project.cabang = mcabang.id');
+    $this->db->where('tanggalMulai >= ', $this->tanggalAwal);
+    $this->db->where('tanggalselesai <= ', $this->tanggalAkhir);
+    return $this->db->get_where('project',[
+        'project.perusahaan'    => $this->perusahaan
+    ])->result_array();
+  }
+
+  public function labarugiStandar()
+  {
+		$this->Jurnal_model->set('perusahaan', $this->perusahaan);
+		$this->Jurnal_model->set('tglMulai', $this->tanggalAwal);
+		$this->Jurnal_model->set('tglAkhir', $this->tanggalAkhir);
+    $jurnalUmum	= $this->Jurnal_model->get();
+
+    $data       = [];
+    $temp       = [];
+
+		for ($i=0; $i < count($jurnalUmum); $i++) { 
+			$key	= $jurnalUmum[$i];
+      $total;
+      switch (substr($key['akunno'], 0, 1)) {
+        case '4':
+        case '5':
+        case '6':
+        case '7':
+        case '8':
+        case '9':
+          if (in_array($key['akunno'], $temp)) {
+            $noTemp = array_keys($temp, $key['akunno']);
+            var_dump($key['jenis']);echo '<br/>';
+            print_r('bangsat');echo '<br/>';  
+            switch ($key['jenis']) {
+              case 'debit':
+                $data[$noTemp]['saldo']	+= $key['total'];
+                break;
+              case 'kredit':
+                $data[$noTemp]['saldo']	-= $key['total'];
+                break;
+              
+              default:
+                $data[$noTemp]['saldo']	+= $key['totalDebit'];
+                $data[$noTemp]['saldo']	-= $key['totalKredit'];
+                break;
+            }
+          } else {
+            $total	= 0;
+            switch ($key['jenis']) {
+              case 'debit':
+                $total	+= $key['total'];
+                break;
+              case 'kredit':
+                $total	-= $key['total'];
+                break;
+                
+              default:
+                $total  += $key['totalDebit'];
+                $total	-= $key['totalKredit'];
+                break;
+            }
+            array_push($data, [
+              'akunno'    => $key['akunno'],
+              'namaakun'  => $key['namaakun'],
+              'saldo'     => $total
+            ]);
+            array_push($temp, $key['akunno']);
+          }
+          break;
+        
+        default:
+          # code...
+          break;
+      }
     }
+		return $data;
+  }
 }
