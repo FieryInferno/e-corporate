@@ -103,7 +103,22 @@
           return formatRupiah(data) + ',00';
         }
       },
-      {data : 'idPenghapusan'},
+      {
+        data    : 'idPenghapusan',
+        render  : function (data, type, row) {
+          let aksi  = `
+            <div class="list-icons"> 
+              <div class="dropdown"> 
+                <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+								<div class="dropdown-menu dropdown-menu-right">
+									<a href="{site_url}penghapusan_aset/edit/${data}" class="dropdown-item text-success"><i class="fas fa-pencil-alt"></i> Edit</a>
+									<a href="javascript:hapus('${data}')" class="dropdown-item delete text-danger"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+                </div> 
+              </div> 
+            </div>`;
+          return aksi;
+        },
+      }
     ]
   });   
 

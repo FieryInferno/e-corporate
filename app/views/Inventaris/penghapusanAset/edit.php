@@ -19,7 +19,7 @@
 		</div><!-- /.container-fluid -->
   </section>
 
-  <form action="javascript:simpan(this)" id="formMutasi">
+  <form action="javascript:simpan(this)" id="formPenghapusan">
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -29,11 +29,37 @@
               <div class="card-body">
                 <div class="row">
                   <div class="col-6">
-                    <div class="form-group">
-                      <label>Jenis Inventaris</label>
-                      <select class="form-control" name="jenisInventaris" id="jenisInventaris" style="width:100%;">
-                        <option value=""></option>
-                      </select>
+                    <div class="row">
+                      <?php
+                        if ($this->session->userid == '1') { ?>
+                          <div class="col-4">
+                            <div class="form-group">
+                              <label>Kode Perusahaan</label>
+                              <input type="text" class="form-control" name="kodePerusahaan" disabled id="kodePerusahaan">
+                            </div>
+                          </div>
+                          <div class="col-8">
+                            <div class="form-group">
+                              <label>Nama Perusahaan</label>
+                              <select class="form-control" name="perusahaan" id="perusahaan" style="width:100%;"></select>
+                            </div>
+                          </div>
+                        <?php } else { ?>
+                          <div class="col-4">
+                            <div class="form-group">
+                              <label>Kode Perusahaan</label>
+                              <input type="text" class="form-control" name="kodePerusahaan" disabled id="kodePerusahaan" value="<?= $this->session->kodePerusahaan; ?>">
+                            </div>
+                          </div>
+                          <div class="col-8">
+                            <div class="form-group">
+                              <label>Nama Perusahaan</label>
+                              <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>">
+                              <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                            </div>
+                          </div>
+                        <?php }
+                      ?>
                     </div>
                   </div>
                 </div>
@@ -43,49 +69,13 @@
                       <div class="col-6">
                         <div class="form-group">
                           <label>No. Surat Keputusan</label>
-                          <input type="text" class="form-control" name="noSuratKeputusan" id="noSuratKeputusan" value="{noSuratKeputusan}">
+                          <input type="text" class="form-control" name="noSk" id="noSk">
                         </div>
                       </div>
                       <div class="col-6">
                         <div class="form-group">
                           <label>Tanggal Surat Keputusan</label>
-                          <input type="date" class="form-control" name="tanggalSuratKeputusan" id="tanggalSuratKeputusan" value="{tanggalSuratKeputusan}">
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                    <div class="row">
-                      <div class="col-4">
-                        <div class="form-group">
-                          <label>Kode Perusahaan Penerima</label>
-                          <input type="text" class="form-control" name="kodePerusahaanPenerima" disabled id="kodePerusahaanPenerima">
-                        </div>
-                      </div>
-                      <div class="col-8">
-                        <div class="form-group">
-                          <label>Nama Perusahaan Penerima</label>
-                          <select class="form-control perusahaan" name="perusahaanPenerima" id="perusahaanPenerima" style="width:100%;" onchange="pilihPerusahaan(this, 'penerima')"></select>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="row">
-                  <div class="col-6">
-                    <div class="row">
-                      <div class="col-4">
-                        <div class="form-group">
-                          <label>Kode Perusahaan Asal</label>
-                          <input type="text" class="form-control" name="kodePerusahaanAsal" disabled id="kodePerusahaanAsal">
-                        </div>
-                      </div>
-                      <div class="col-8">
-                        <div class="form-group">
-                          <label>Nama Perusahaan Asal</label>
-                          <select class="form-control perusahaan" name="perusahaanAsal" id="perusahaanAsal" style="width:100%;" onchange="pilihPerusahaan(this, 'asal')"></select>
+                          <input type="date" class="form-control" name="tanggalSk" id="tanggalSk">
                         </div>
                       </div>
                     </div>
@@ -95,7 +85,7 @@
                   <div class="col-6">
                     <div class="form-group">
                       <label>Keterangan</label>
-                      <textarea name="keterangan" id="keterangan" cols="30" rows="10" class="form-control">{keterangan}</textarea>
+                      <textarea name="keterangan" id="keterangan" cols="30" rows="10" class="form-control"></textarea>
                     </div>
                   </div>
                 </div>
@@ -167,27 +157,11 @@
                             <th>Nama Inventaris Barang</th>
                             <th>Tahun Beli</th>
                             <th>Harga Perolehan</th>
+                            <th>Nominal Penghapusan</th>
                             <th>Kondisi</th>
-                            <th>Asal Barang</th>
-                            <th>Perusahaan Awal</th>
                           </tr>
                         </thead>
-                      <tbody>
-                        <?php
-                          foreach ($detail as $key) { ?>
-                            <tr>
-                              <td><?= $key['kodeBarang']; ?><input type="hidden" name="kodeBarang[]" value="<?= $key['kodeBarang']; ?>"></td>
-                              <td><?= $key['noRegister']; ?></td>
-                              <td><?= $key['namaInventaris']; ?></td>
-                              <td><?= $key['tahunBeli']; ?></td>
-                              <td><?= number_format($key['hargaPerolehan'], 2, ',', '.'); ?><input type="hidden" name="harga[]" value="<?= number_format($key['hargaPerolehan'], 2, ',', '.'); ?>"></td>
-                              <td></td>
-                              <td></td>
-                              <td></td>
-                            </tr>
-                          <?php }
-                        ?>
-                      </tbody>
+                      <tbody></tbody>
                     </table>
                   </div>
                 </div>
@@ -218,19 +192,15 @@
   let tablePilihInventaris    = $('.pilihInventaris').DataTable();
 
   $(document).ready(function () {
-    ajax_select({
-			id	: '.perusahaan',	
-			url	: '<?= base_url(); ?>perusahaan/select2',
-    });
-
-    var newOption = new Option('{namaPerusahaanPenerima}', '{perusahaanPenerima}', true, true);
-    $('#perusahaanPenerima').append(newOption).trigger('change');
-
-    var newOption = new Option('{namaPerusahaanAsal}', '{perusahaanAsal}', true, true);
-    $('#perusahaanAsal').append(newOption).trigger('change');
-
-    $('#jenisInventaris').select2({
-      'placeholder'   : 'Pilih Jenis Inventaris',
+		if ('<?= $this->session->userid; ?>' == 1) {
+      ajax_select({
+        id	: '#perusahaan',	
+        url	: '<?= base_url(); ?>perusahaan/select2',
+      });	
+    }
+        
+    $('#jenisAset').select2({
+      'placeholder'   : 'Pilih Jenis Aset',
       'allowClear'    : true,
       'ajax'          : {
         'url'           : '{site_url}Noakun/jenisAset',
@@ -244,13 +214,15 @@
         cache   : false,
       },
     });
+
+    $('#jenisPemeliharaan').select2({
+      'placeholder'   : 'Pilih Jenis Pemeliharaan',
+      'allowClear'    : true
+    });
 	});
 
-  var newOption = new Option('{namaakun}', '{jenisInventaris}', true, true);
-  $('#jenisInventaris').append(newOption).trigger('change');
-
-  function pilihPerusahaan(elemen, jenis) {
-    let perusahaan  = $(elemen).val();
+  $('#perusahaan').change(function () {
+    let perusahaan  = $(this).val();
     $.ajax({
       'url'       : '<?= base_url(); ?>perusahaan/getPerusahaan',
       'method'    : 'get',
@@ -258,20 +230,10 @@
           'idPerusahaan'  : perusahaan
       },
       'success'   : function (data) {
-        switch (jenis) {
-          case 'penerima':
-            $('#kodePerusahaanPenerima').val(data.kode);
-            break;
-          case 'asal':
-            $('#kodePerusahaanAsal').val(data.kode);
-            break;
-        
-          default:
-            break;
-        }
+          $('#kodePerusahaan').val(data.kode);
       }
     })
-  }
+  })
 
   function pilihInventaris(elemen) {
     let kodeBarang      = $(elemen).attr('kodeBarang');
@@ -293,9 +255,10 @@
   }
 
   function simpan(elemen) {
-    let data  = new FormData($('#formMutasi')[0]);
+    let data  = new FormData($('#formPenghapusan')[0]);
+    console.log(data);
     $.ajax({
-      url         : '{site_url}mutasi_aset/simpan/<?= $this->uri->segment(3); ?>',
+      url         : '{site_url}penghapusan_aset/simpan',
       data        : data,
       method      : 'post',
       dataType    : 'json',
@@ -310,7 +273,7 @@
       success : function(data) {
         if(data.status == 'success') {
             swal("Berhasil!", "Berhasil Menambah Data", "success");
-            redirect('{site_url}mutasi_aset');
+            redirect('{site_url}penghapusan_aset');
         } else {
             swal("Gagal!", "Gagal Menambah Data", "error");
         }

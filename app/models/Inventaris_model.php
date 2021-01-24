@@ -149,6 +149,40 @@ class Inventaris_model extends CI_Model {
     if ($perusahaan) $this->datatables->where('perusahaan', $perusahaan);
     return $this->datatables->generate();
   }
+  
+  public function getPemeliharaan($idPemeliharaan)
+  {
+    $this->db->select('pemeliharaanAset.*, mnoakun.namaakun');
+    $this->db->join('mnoakun', 'pemeliharaanAset.jenisAset = mnoakun.idakun');
+    $data = $this->db->get_where('pemeliharaanAset', [
+      'idPemeliharaan'  => $idPemeliharaan
+    ])->row_array();
+
+    $data['detail'] = $this->db->get_where('pemeliharaanAsetDetail', [
+      'idPemeliharaan'  => $idPemeliharaan
+    ])->result_array();
+    for ($i=0; $i < count($data['detail']); $i++) { 
+      $key  = $data['detail'][$i];
+      $inventaris = $this->db->get_where('saldoAwalInventaris', [
+        'kodeInventaris'  => $key['kodeBarang'] 
+      ])->row_array();
+      if (!$inventaris) {
+        $inventaris = $this->db->get_where('tinventaris', [
+          'kode_barang' => $key['kodeBarang'] 
+        ])->row_array();
+        $data['detail'][$i]['noRegister']     = $inventaris['no_register'];
+        $data['detail'][$i]['namaInventaris'] = $inventaris['nama_barang'];
+        $data['detail'][$i]['tahunBeli']      = $inventaris['tanggal_perolehan'];
+        $data['detail'][$i]['hargaPerolehan'] = $inventaris['nominal_asset'];
+      } else {
+        $data['detail'][$i]['noRegister']     = $inventaris['noRegister'];
+        $data['detail'][$i]['namaInventaris'] = $inventaris['namaInventaris'];
+        $data['detail'][$i]['tahunBeli']      = $inventaris['tanggalPembelian'];
+        $data['detail'][$i]['hargaPerolehan'] = $inventaris['harga'];
+      }
+    }
+    return $data;
+  }
 
   public function dataMutasiAset()
   {
@@ -248,17 +282,16 @@ class Inventaris_model extends CI_Model {
     } 
     return $insert;
   }
-
-  public function getPemeliharaan($idPemeliharaan)
+  
+  public function getPenghapusan($idPenghapusan)
   {
-    $this->db->select('pemeliharaanAset.*, mnoakun.namaakun');
-    $this->db->join('mnoakun', 'pemeliharaanAset.jenisAset = mnoakun.idakun');
-    $data = $this->db->get_where('pemeliharaanAset', [
-      'idPemeliharaan'  => $idPemeliharaan
+    $this->db->select('penghapusanAset.*');
+    $data = $this->db->get_where('penghapusanAset', [
+      'idPenghapusan'  => $idPenghapusan
     ])->row_array();
 
-    $data['detail'] = $this->db->get_where('pemeliharaanAsetDetail', [
-      'idPemeliharaan'  => $idPemeliharaan
+    $data['detail'] = $this->db->get_where('penghapusanAsetDetail', [
+      'idPenghapusan'  => $idPenghapusan
     ])->result_array();
     for ($i=0; $i < count($data['detail']); $i++) { 
       $key  = $data['detail'][$i];
@@ -328,15 +361,21 @@ class Inventaris_model extends CI_Model {
     $this->db->delete('pemeliharaanAsetDetail');
   }
 
-  public function simpanKonfigurasiPenyusutan()
+  public function simpanKonfigurasiPenyusutan($idKonfigurasiPenyusutan)
   {
-    $insert = $this->db->insert('konfigurasiPenyusutan', [
+    $data = [
       'barang'                => $this->input->post('barang'),
       'masaManfaat'           => $this->input->post('masaManfaat'),
       'batasKapitalisasi'     => $this->input->post('batasKapitalisasi'),
       'tambahanMasaManfaat'   => $this->input->post('tambahanMasaManfaat'),
-      'prosentasiPenyusutan'  => $this->input->post('prosentasiPenyusutan'),
-    ]);
+      'prosentasiPenyusutan'  => $this->input->post('prosentasiPenyusutan')
+    ];
+    if ($idKonfigurasiPenyusutan) {
+      $this->db->where('idKonfigurasiPenyusutan', $idKonfigurasiPenyusutan);
+      $insert = $this->db->update('konfigurasiPenyusutan', $data);
+    } else {
+      $insert = $this->db->insert('konfigurasiPenyusutan', $data);
+    }
     return $insert;
   }
 
@@ -347,5 +386,14 @@ class Inventaris_model extends CI_Model {
 		$this->datatables->from('konfigurasiPenyusutan');
     $this->datatables->join('mitem', 'konfigurasiPenyusutan.barang = mitem.id');
     return $this->datatables->generate();
+  }
+  
+  public function getKonfigurasiPenyusutan($idKonfigurasiPenyusutan)
+  {
+    $this->db->select('konfigurasiPenyusutan.*, mitem.nama as namaBarang');
+    $this->db->join('mitem', 'konfigurasiPenyusutan.barang = mitem.id');
+    return $this->db->get_where('konfigurasiPenyusutan', [
+      'idKonfigurasiPenyusutan'  => $idKonfigurasiPenyusutan
+    ])->row_array();
   }
 }

@@ -83,17 +83,6 @@ class Inventaris extends User_Controller {
 		$this->parser->parse('template',$data);
 	}
 
-	public function editMutasiAset($idMutasi)
-	{
-    $data                 = $this->model->getMutasi($idMutasi);
-		$data['title']		    = 'Mutasi Aset';
-		$data['subtitle']	    = 'Edit';
-		$data['content']	    = 'Inventaris/mutasiAset/edit';
-    $data['inventaris']   = $this->model->get();
-		$data				          = array_merge($data,path_info());
-		$this->parser->parse('template',$data);
-	}
-
 	public function get()
 	{
 		$data	= $this->model->get();
@@ -153,6 +142,17 @@ class Inventaris extends User_Controller {
 		$this->parser->parse('template',$data);
 	}
 
+	public function editMutasiAset($idMutasi)
+	{
+    $data                 = $this->model->getMutasi($idMutasi);
+		$data['title']		    = 'Mutasi Aset';
+		$data['subtitle']	    = 'Edit';
+		$data['content']	    = 'Inventaris/mutasiAset/edit';
+    $data['inventaris']   = $this->model->get();
+		$data				          = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+
 	public function tambahMutasiAset()
 	{
 		$data['title']		  = 'Mutasi Aset';
@@ -198,6 +198,17 @@ class Inventaris extends User_Controller {
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Inventaris/penghapusanAset/index';
 		$data             = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
+
+	public function editPenghapusanAset($idPenghapusan)
+	{
+    $data                 = $this->model->getPenghapusan($idPenghapusan);
+		$data['title']		    = 'Penghapusan Aset';
+		$data['subtitle']	    = 'Edit';
+		$data['content']	    = 'Inventaris/penghapusanAset/edit';
+    $data['inventaris']   = $this->model->get();
+		$data				          = array_merge($data,path_info());
 		$this->parser->parse('template',$data);
 	}
 
@@ -267,11 +278,11 @@ class Inventaris extends User_Controller {
 		$this->parser->parse('template',$data);
   }
   
-  public function simpanKonfigurasiPenyusutan()
+  public function simpanKonfigurasiPenyusutan($idKonfigurasiPenyusutan = null)
   {
     $this->validationKonfigurasiPenyusutan();
     if ($this->form_validation->run() !== false) {
-      $data = $this->model->simpanKonfigurasiPenyusutan();
+      $data = $this->model->simpanKonfigurasiPenyusutan($idKonfigurasiPenyusutan);
       if ($data) {
         $hasil['status'] = 'success';
       } else {
@@ -297,4 +308,14 @@ class Inventaris extends User_Controller {
     $data = $this->model->dataKonfigurasiPenyusutan();
     return print_r($data);
   }
+
+	public function editKonfigurasiPenyusutan($idKonfigurasiPenyusutan)
+	{
+    $data                 = $this->model->getKonfigurasiPenyusutan($idKonfigurasiPenyusutan);
+		$data['title']		    = 'Konfigurasi Penyusutan Aset';
+		$data['subtitle']	    = 'Edit';
+		$data['content']	    = 'Inventaris/konfigurasiPenyusutan/edit';
+		$data				          = array_merge($data,path_info());
+		$this->parser->parse('template',$data);
+	}
 }
