@@ -129,8 +129,8 @@
               <div class="dropdown"> 
                 <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
                 <div class="dropdown-menu dropdown-menu-right">
-                  <a href="{site_url}nomor_akun/edit/${data}" class="dropdown-item"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>
-                  <a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+                  <a href="{site_url}nomor_akun/edit/${data}" class="dropdown-item text-success"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>
+                  <a href="javascript:deleteData(`+data+`)" class="dropdown-item delete text-danger"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
                 </div> 
               </div> 
             </div>`;

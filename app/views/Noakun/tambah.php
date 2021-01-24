@@ -174,22 +174,22 @@
     var form      = $('#form1')[0];
     var formData  = new FormData(form);
     $.ajax({
-      url       : base_url + 'save',
-      dataType  : 'json',
-      method: 'post',
-      data: formData,
-      contentType: false,
-      processData: false,
-      beforeSend: function() {
+      url         : base_url + 'save',
+      dataType    : 'json',
+      method      : 'post',
+      data        : formData,
+      contentType : false,
+      processData : false,
+      beforeSend  : function() {
         pageBlock();
       },
-          afterSend: function() {
-              unpageBlock();
-          },
-      success: function(data) {
+      afterSend : function() {
+        unpageBlock();
+      },
+      success : function(data) {
         if(data.status == 'success') {
           NotifySuccess(data.message)
-                  redirect(base_url);
+          redirect('{site_url}nomor_akun');
         } else {
           NotifyError(data.message)
         }
