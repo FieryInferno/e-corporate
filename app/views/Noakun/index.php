@@ -34,7 +34,6 @@
                 <table class="table table-xs table-striped table-borderless table-hover index_datatable">
                   <thead>
                     <tr class="table-active">
-                      <th>ID</th>
                       <th><?php echo lang('code') ?></th>
                       <th><?php echo lang('name') ?></th>
                       <th><?php echo lang('Kategori Akun') ?></th>
@@ -80,59 +79,65 @@
 </div>
 
 <script type="text/javascript">
-	var base_url = '{site_url}noakun/';
-	var table = $('.index_datatable').DataTable({
+	var base_url  = '{site_url}noakun/';
+	var table     = $('.index_datatable').DataTable({
 		ajax: {
-			url: base_url + 'index_datatable',
-			type: 'post',
+			url   : base_url + 'index_datatable',
+			type  : 'post',
 		},
-		stateSave: false,
-		order: [[5,'ASC']],
-        dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
-        language: {
-            search: '<span></span> _INPUT_',
-            searchPlaceholder: 'Type to filter...',
-        },
-        columns: [
-          {data: 'noakun', visible: false},
-          {
-            data: 'akunno', width: '100px',
-            render: function(data) {
-              return '<span class="btn btn-sm btn-info">'+data+'</span>';
-            }
-          },
-          {
-            data: 'namaakun',
-            render: function(data,type,row) {
-              return '<a href="'+base_url+'detail/'+row.idakun+'">'+data+'</a>';
-            }
-          },
-          {
-            data: 'kategoriakun'
-          },
-          {
-            data: 'saldoakun', width: '150px', className: 'text-right font-weight-semibold', orderable: false,
-            render: function(data) {
-              return numeral(data).format();
-            }
-          },
-          {
-            data: 'idakun', width: 100, orderable: false, className: 'text-center',
-            render: function(data,type,row) {
-              var aksi = `
-                <div class="list-icons"> 
-                  <div class="dropdown"> 
-                    <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
-                    <div class="dropdown-menu dropdown-menu-right">
-                      <a href="`+base_url+`edit/`+data+`" class="dropdown-item"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>
-                      <a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
-                    </div> 
-                  </div> 
-                </div>`;
-              return aksi;
-            }
-          }
-        ]
+		stateSave : false,
+		order     : [[0, 'asc']],
+    dom       : '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
+    language  : {
+      search: '<span></span> _INPUT_',
+      searchPlaceholder: 'Type to filter...',
+    },
+    columns: [
+      {
+        data    : 'akunno', 
+        width   : '100px',
+        render  : function(data) {
+          return '<span class="btn btn-sm btn-info">'+data+'</span>';
+        }
+      },
+      {
+        data    : 'namaakun',
+        render  : function(data,type,row) {
+          return '<a href="'+base_url+'detail/'+row.idakun+'">'+data+'</a>';
+        }
+      },
+      {
+        data  : 'kategoriakun'
+      },
+      {
+        data      : 'saldoakun', 
+        width     : '150px', 
+        className : 'text-right font-weight-semibold', 
+        orderable : false,
+        render    : function(data) {
+          return numeral(data).format();
+        }
+      },
+      {
+        data      : 'idakun', 
+        width     : 100, 
+        orderable : false, 
+        className : 'text-center',
+        render    : function(data,type,row) {
+          var aksi = `
+            <div class="list-icons"> 
+              <div class="dropdown"> 
+                <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                <div class="dropdown-menu dropdown-menu-right">
+                  <a href="{site_url}nomor_akun/edit/${data}" class="dropdown-item"><i class="fas fa-pencil-alt"></i> <?php echo lang('edit') ?></a>
+                  <a href="javascript:deleteData(`+data+`)" class="dropdown-item delete"><i class="fas fa-trash"></i> <?php echo lang('delete') ?></a>
+                </div> 
+              </div> 
+            </div>`;
+          return aksi;
+        }
+      }
+    ]
 	});
 
 	function deleteData(id) {

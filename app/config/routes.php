@@ -72,3 +72,4 @@ $route['laporan_labarugi/standar']            = 'Laporan/labarugiStandar';
 
 $route['nomor_akun']                          = 'noakun';
 $route['nomor_akun/tambah']                   = 'noakun/tambah';
+$route['nomor_akun/edit/(:any)']              = 'noakun/edit/$1';

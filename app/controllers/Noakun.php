@@ -43,7 +43,7 @@ class Noakun extends User_Controller {
 				$data['title']		= lang('account_number');
 				$data['subtitle']	= lang('edit');
 				$data['content']	= 'Noakun/edit';
-				$data				= array_merge($data,path_info());
+				$data				      = array_merge($data,path_info());
 				$this->parser->parse('template',$data);
 			} else {
 				show_404();
