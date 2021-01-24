@@ -30,19 +30,19 @@
                   <div class="col-md-2">
                     <div class="form-group">
                       <label><?php echo lang('Tipe') ?>:</label>
-                      <input type="number" class="form-control"onkeyup="sum();" name="tipe"id="tipe">
+                      <input type="number" class="form-control" onkeyup="sum();" name="tipe" id="tipe" value="{tipe}">
                     </div>
                   </div>
                   <div class="col-md-2">
                     <div class="form-group">
                       <label><?php echo lang('Kelompok') ?>:</label>
-                      <input type="number" class="form-control"onkeyup="sum();" name="noakunheader"id="noakunheader">
+                      <input type="number" class="form-control" onkeyup="sum();" name="noakunheader" id="noakunheader" value="{noakunheader}">
                     </div>                      
                   </div>
                   <div class="col-md-2">
                     <div class="form-group">
                       <label><?php echo lang('Jenis') ?>:</label>
-                      <input type="number" class="form-control"onkeyup="sum();" name="jenis" id="jenis">
+                      <input type="number" class="form-control" onkeyup="sum();" name="jenis" id="jenis" value="{jenis}">
                     </div>                    
                   </div>
                 </div>
@@ -50,13 +50,13 @@
                   <div class="col-md-3">
                     <div class="form-group">
                       <label><?php echo lang('Objek') ?>:</label>
-                      <input type="number" class="form-control"onkeyup="sum();" name="objek" id="objek" >
+                      <input type="number" class="form-control" onkeyup="sum();" name="objek" id="objek" value="{objek}">
                     </div>                      
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
                       <label><?php echo lang('Rincian') ?>:</label>
-                      <input type="number" class="form-control"onkeyup="sum();" name="rincian" id="rincian" >
+                      <input type="number" class="form-control" onkeyup="sum();" name="rincian" id="rincian" value="{rincian}">
                     </div>                      
                   </div>
                 </div>
@@ -64,8 +64,8 @@
                   <div class="col-md-6">
                     <div class="form-group">
                       <label><?php echo lang('name') ?>:</label>
-                      <input type="hidden" readonly class="form-control" name="akunno" onkeyup="sum();" id="akunno" >
-                      <input type="text" class="form-control" name="namaakun" required>
+                      <input type="hidden" readonly class="form-control" name="akunno" onkeyup="sum();" id="akunno" value="{akunno}">
+                      <input type="text" class="form-control" name="namaakun" required value="{namaakun}">
                     </div>
                   </div>
                 </div>
@@ -94,10 +94,10 @@
                     <div class="form-group">
                       <label><?php echo lang('Kategori Akun') ?>:</label>
                       <select class="form-control kategoriakun" name="kategoriakun" required>
-                        <option value="Cash/Bank">Cash/Bank</option>
-                        <option value="Other Asset">Other Asset</option>
-                        <option value="Account Receivable">Account Receivable</option>
-                        <option value="Revenue">Revenue</option>
+                        <option value="Cash/Bank" <?= $kategoriakun == 'Cash/Bank' ? 'selected' : '' ; ?>>Cash/Bank</option>
+                        <option value="Other Asset" <?= $kategoriakun == 'Other Asset' ? 'selected' : '' ; ?>>Other Asset</option>
+                        <option value="Account Receivable" <?= $kategoriakun == 'Account Receivable' ? 'selected' : '' ; ?>>Account Receivable</option>
+                        <option value="Revenue" <?= $kategoriakun == 'Revenue' ? 'selected' : '' ; ?>>Revenue</option>
                       </select>
                     </div>
                   </div>
@@ -132,7 +132,7 @@
         {id: '1', text: 'YA'},
         {id: '0', text: 'TIDAK'},
       ]
-    }).val('1').trigger('change');
+    }).val('{stbayar}').trigger('change');
 
     $('.stheader').select2({
       placeholder: 'Select an Option',
@@ -140,7 +140,7 @@
         {id: '1', text: 'YA'},
         {id: '0', text: 'TIDAK'},
       ]
-    }).val('0').trigger('change');
+    }).val('{stheader}').trigger('change');
     
     $('.stdebet').select2({
       placeholder: 'Select an Option',
@@ -148,7 +148,7 @@
         {id: '1', text: 'DEBET'},
         {id: '0', text: 'KREDIT'},
       ]
-    }).val('').trigger('change');
+    }).val('{stdebet}').trigger('change');
   })
 
   $(document).on('change','.stbayar', function() {
