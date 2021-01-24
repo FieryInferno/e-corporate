@@ -24,12 +24,6 @@
       <div class="row">
         <div class="col-12">         
           <div class="card">
-            <div class="card-header">
-              <a href="{site_url}nomor_akun/tambah" class="btn btn-primary">+ <?php echo lang('add_new') ?></a>
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                  + Import
-              </button>
-            </div>
             <div class="card-body">
               <form action="javascript:save()" id="form1">
                 <div class="row">
