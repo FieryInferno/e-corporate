@@ -167,65 +167,42 @@ class LaporanModel extends CI_Model {
 		$this->Jurnal_model->set('tglAkhir', $this->tanggalAkhir);
     $jurnalUmum	= $this->Jurnal_model->get();
 
-    $data       = [];
-    $temp       = [];
+    $this->db->like('akunno', '4', 'after');
+    $this->db->or_like('akunno', '5', 'after');
+    $this->db->or_like('akunno', '6', 'after');
+    $this->db->or_like('akunno', '7', 'after');
+    $this->db->or_like('akunno', '8', 'after');
+    $this->db->or_like('akunno', '9', 'after');
+    $this->db->order_by('akunno', 'asc');
+    $noakun     = $this->db->get('mnoakun')->result_array();
 
-		for ($i=0; $i < count($jurnalUmum); $i++) { 
-			$key	= $jurnalUmum[$i];
-      $total;
-      switch (substr($key['akunno'], 0, 1)) {
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-          if (in_array($key['akunno'], $temp)) {
-            $noTemp = array_keys($temp, $key['akunno']);
-            var_dump($key['jenis']);echo '<br/>';
-            print_r('bangsat');echo '<br/>';  
-            switch ($key['jenis']) {
-              case 'debit':
-                $data[$noTemp]['saldo']	+= $key['total'];
-                break;
-              case 'kredit':
-                $data[$noTemp]['saldo']	-= $key['total'];
-                break;
-              
-              default:
-                $data[$noTemp]['saldo']	+= $key['totalDebit'];
-                $data[$noTemp]['saldo']	-= $key['totalKredit'];
-                break;
-            }
-          } else {
-            $total	= 0;
-            switch ($key['jenis']) {
-              case 'debit':
-                $total	+= $key['total'];
-                break;
-              case 'kredit':
-                $total	-= $key['total'];
-                break;
-                
-              default:
-                $total  += $key['totalDebit'];
-                $total	-= $key['totalKredit'];
-                break;
-            }
-            array_push($data, [
-              'akunno'    => $key['akunno'],
-              'namaakun'  => $key['namaakun'],
-              'saldo'     => $total
-            ]);
-            array_push($temp, $key['akunno']);
+    $data       = [];
+
+    foreach ($noakun as $key) {
+      $total  = 0;
+      foreach ($jurnalUmum as $value) {
+        if (strpos($key['akunno'], $value['akunno']) !== FALSE) {
+          switch ($key['jenis']) {
+            case 'debit':
+              $total  += $value['total'];
+              break;
+            case 'kredit':
+              $total	-= $value['total'];
+              break;
+            
+            default:
+              $total	+= $value['totalDebit'];
+              $total	-= $value['totalKredit'];
+              break;
           }
-          break;
-        
-        default:
-          # code...
-          break;
+        }
       }
+      array_push($data, [
+        'akunno'    => $key['akunno'],
+        'namaAkun'  => $key['namaakun'],
+        'total'     => $total
+      ]);
     }
-		return $data;
+    return $data;
   }
 }

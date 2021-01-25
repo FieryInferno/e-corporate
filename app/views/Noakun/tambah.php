@@ -187,15 +187,15 @@
         unpageBlock();
       },
       success : function(data) {
-        if(data.status == 'success') {
-          NotifySuccess(data.message)
+        if (data.status == 'success') {
+					swal("Berhasil!", "Berhasil tambah data", "success");
           redirect('{site_url}nomor_akun');
-        } else {
-          NotifyError(data.message)
-        }
+				} else {
+					swal("Gagal!", "Gagal tambah data", "error");
+				}
       },
       error: function() {
-        NotifyError('<?php echo lang('internal_server_error') ?>');
+        swal("Gagal!", "Internal server error", "error");
       }
     })
   }
