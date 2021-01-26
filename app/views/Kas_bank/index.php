@@ -124,26 +124,26 @@
 			}
         ],
         footerCallback: function ( row, data, start, end, display ) {
-            let api = this.api(), data;
-            let intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[\Rp.]/g, '').replace(/,00/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
-            };
+          var api = this.api(), data;
+          let intVal = function ( i ) {
+              return typeof i === 'string' ?
+                  i.replace(/[\Rp.]/g, '').replace(/,00/g, '')*1 :
+                  typeof i === 'number' ?
+                      i : 0;
+          };
 
-            total_penerimaan = api.column(4).data().reduce( function (a, b) {
-                return intVal(a) + intVal(b); 
-            }, 0 );
-            total_pengeluaran = api.column(5).data().reduce( function (a, b) {
-                return intVal(a) + intVal(b); 
-            }, 0 );
-			$( api.column( 4 ).footer() ).html(
-				formatRupiah(String(total_penerimaan))+',00'
-			);
-			$( api.column( 5 ).footer() ).html(
-				formatRupiah(String(total_pengeluaran))+',00'
-			);
+          total_penerimaan = api.column(4).data().reduce( function (a, b) {
+              return intVal(a) + intVal(b); 
+          }, 0 );
+          total_pengeluaran = api.column(5).data().reduce( function (a, b) {
+              return intVal(a) + intVal(b); 
+          }, 0 );
+          $( api.column( 4 ).footer() ).html(
+            formatRupiah(String(total_penerimaan))+',00'
+          );
+          $( api.column( 5 ).footer() ).html(
+            formatRupiah(String(total_pengeluaran))+',00'
+          );
         }
 	});
 
