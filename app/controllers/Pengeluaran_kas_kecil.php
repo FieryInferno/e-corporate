@@ -219,27 +219,18 @@ class Pengeluaran_kas_kecil extends User_Controller {
 
 	public function select2_item($id = null, $iddepart=null, $text = null)
 	{
-		$query = $this->db->query("SELECT * FROM mdepartemen WHERE id='$iddepart'");
-		if ($query->num_rows() > 0){
-			foreach ($query->result() as $depart) {
-				$nama_departemen=$depart->nama;
-			}
-        }
 		$term = $this->input->get('q');
 		if ($text) {
-
 			$this->db->select('tanggaranbelanja.*, tanggaranbelanjadetail.id as id, tanggaranbelanjadetail.uraian as text');
-            $this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id=tanggaranbelanjadetail.idanggaran');
-            $data = $this->db->where('tanggaranbelanjadetail.id', $id)->get('tanggaranbelanjadetail')->row_array();
-            $this->output->set_content_type('application/json')->set_output(json_encode($data));
-
-			
+      $this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id=tanggaranbelanjadetail.idanggaran');
+      $data = $this->db->where('tanggaranbelanjadetail.id', $id)->get('tanggaranbelanjadetail')->row_array();
+      $this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('tanggaranbelanja.*, tanggaranbelanjadetail.id as id, mitem.nama as text');
 			$this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id=tanggaranbelanjadetail.idanggaran');
 			$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
 			$this->db->where('tanggaranbelanja.idperusahaan',$id);
-			$this->db->where('tanggaranbelanja.dept',$nama_departemen);
+			$this->db->where('tanggaranbelanja.dept',$iddepart);
 			$this->db->where('tanggaranbelanja.status','Validate');
 			$this->db->where('tanggaranbelanja.stdel','0');
 			if($term) $this->db->like('tanggaranbelanjadetail.uraian', $term);
