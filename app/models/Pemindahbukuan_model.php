@@ -34,6 +34,5 @@ class Pemindahbukuan_model extends CI_Model {
 			'tpemindahbukuankaskecil.id'	=> $this->idPemindahbukuan
 		])->row_array();
 	}
-
 }
 

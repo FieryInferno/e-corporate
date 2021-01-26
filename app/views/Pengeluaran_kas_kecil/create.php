@@ -330,6 +330,18 @@
             id: '#project',
             url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
         });
+
+        $.ajax({
+          url       : base_url + 'get_hitungsisakaskecil',
+          method    : 'post',
+          datatype  : 'json',
+          data      : { 
+            idper   : '<?= $this->session->idperusahaan; ?>' 
+          },
+          success: function(data){
+            $('input[id=sisa_kas_kecil]').val( formatRupiah(String(data.hasil)) + ',00' ); 
+          }
+      });
     }
   })
 
@@ -343,18 +355,20 @@
     })
 
     $('#kas').change(function(e) {
-        $.ajax({
-            url     : '{site_url}SetUpJurnal/get',
-            method  : 'post',
-            data    : {
-                jenis       : 'kas kecil',
-                formulir    : 'pengeluaranKasKecil'
-            },
-            success : function (response) {
-                $("#setupJurnal").val(response.kodeJurnal);
-                $("#idSetupJurnal").val(response.idSetupJurnal);
-            }
-        })
+      $.ajax({
+        url     : '{site_url}SetUpJurnal/get',
+        method  : 'post',
+        data    : {
+            jenis       : 'kas kecil',
+            formulir    : 'pengeluaranKasKecil'
+        },
+        success : function (response) {
+            $("#setupJurnal").val(response.kodeJurnal);
+            $("#idSetupJurnal").val(response.idSetupJurnal);
+        }
+      })
+
+
     })
     
     $('#perusahaan').change(function(){ 
