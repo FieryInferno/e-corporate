@@ -285,143 +285,161 @@
     });
 
     if ('<?= $this->session->userid; ?>' == '1') {
-        ajax_select({ 
-            id          : '.perusahaan', 
-            url         : '{site_url}perusahaan/select2', 
-            selected    : { 
-                id: '{perusahaanid}' 
-            } 
-        });
-        $('.perusahaan').change(function(e) {
-            var perusahaan  = $('.perusahaan').children('option:selected').val();
-            ajax_select({
-                id	        : `#cabang`,
-                url	        : '{site_url}cabang/select2/' + perusahaan,
-                selected    : { 
-                    id: '{cabang}' 
-                }
-            });
-            $("#departemen").val($("#departemen").data("default-value"));
-            $('input[name=pejabat]').val(''); 
-            $('input[id=sisa_kas_kecil]').val('0'); 
-            var peru = $('.perusahaan').children('option:selected').val();
-            ajax_select({
-                id: '#departemen',
-                url: base_url + 'select2_mdepartemen/' + peru,
-            });
-            ajax_select({
-                id  : '#project',
-                url : '{site_url}Project/select2/' + perusahaan,
-            });
-        })
-    } else {
-        ajax_select({ 
-            id          : '#cabang', 
-            url         : '{site_url}cabang/select2/<?= $this->session->idperusahaan; ?>', 
-            selected    : { 
-                id: '{cabang}' 
-            } 
-        });
-        ajax_select({
-            id: '#departemen',
-            url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
-        });
-        ajax_select({
-            id: '#project',
-            url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
-        });
+      ajax_select({ 
+        id          : '.perusahaan', 
+        url         : '{site_url}perusahaan/select2', 
+        selected    : { 
+          id: '{perusahaanid}' 
+        } 
+      });
 
-        $.ajax({
-          url       : base_url + 'get_hitungsisakaskecil',
-          method    : 'post',
-          datatype  : 'json',
-          data      : { 
-            idper   : '<?= $this->session->idperusahaan; ?>' 
-          },
-          success: function(data){
-            $('input[id=sisa_kas_kecil]').val( formatRupiah(String(data.hasil)) + ',00' ); 
+      $('.perusahaan').change(function(e) {
+        var perusahaan  = $('.perusahaan').children('option:selected').val();
+        ajax_select({
+          id	        : `#cabang`,
+          url	        : '{site_url}cabang/select2/' + perusahaan,
+          selected    : { 
+              id: '{cabang}' 
           }
+        });
+        $("#departemen").val($("#departemen").data("default-value"));
+        $('input[name=pejabat]').val(''); 
+        $('input[id=sisa_kas_kecil]').val('0'); 
+        var peru = $('.perusahaan').children('option:selected').val();
+        ajax_select({
+          id  : '#departemen',
+          url : base_url + 'select2_mdepartemen/' + peru,
+        });
+        ajax_select({
+          id  : '#project',
+          url : '{site_url}Project/select2/' + perusahaan,
+        });
+      })
+    } else {
+      ajax_select({ 
+        id          : '#cabang', 
+        url         : '{site_url}cabang/select2/<?= $this->session->idperusahaan; ?>', 
+        selected    : { 
+          id: '{cabang}' 
+        } 
+      });
+      ajax_select({
+        id: '#departemen',
+        url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
+      });
+      ajax_select({
+        id: '#project',
+        url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
+      });
+
+      $.ajax({
+        url       : base_url + 'get_hitungsisakaskecil',
+        method    : 'post',
+        datatype  : 'json',
+        data      : { 
+          idper   : '<?= $this->session->idperusahaan; ?>' 
+        },
+        success: function(data){
+          $('input[id=sisa_kas_kecil]').val( formatRupiah(String(data.hasil)) + ',00' ); 
+        }
       });
     }
   })
 
-    $('#departemen').change(function(e) {
-        $("#pejabat").val($("#pejabat").data("default-value"));
-        var deptId = $('#departemen').children('option:selected').val()
-        ajax_select({
-            id: '#pejabat',
-            url: base_url + 'select2_mdepartemen_pejabat/' + deptId,
-        });
-    })
-
-    $('#kas').change(function(e) {
-      $.ajax({
-        url     : '{site_url}SetUpJurnal/get',
-        method  : 'post',
-        data    : {
-            jenis       : 'kas kecil',
-            formulir    : 'pengeluaranKasKecil'
-        },
-        success : function (response) {
-            $("#setupJurnal").val(response.kodeJurnal);
-            $("#idSetupJurnal").val(response.idSetupJurnal);
-        }
-      })
-
-
-    })
-    
-    $('#perusahaan').change(function(){ 
-        var id=document.getElementById("form1").perusahaan.value;
-        //nomor kwitansi
-        $.ajax({
-            url : base_url + 'get_kode_perusahaan',
-            method : "POST",
-            data : {id: id},
-            async : true,
-            dataType : 'json',
-            success: function(data){
-                var kodeper = '';
-                var i;
-                for(i=0; i<data.length; i++){ kodeper += data[i].kode; }
-                        
-                var nomor = '{kode_otomatis}';
-                var tipe = 'KK';
-                var tahun = '{tahun}';
-                var kodeperusahaan = kodeper;
-                document.getElementById("form1").nokwitansi.value = nomor+'/'+kodeperusahaan+'/'+tipe+'/'+tahun;
-            }
-        });
-        //hitung sisa kas kecil
-        $.ajax({
-            url: base_url + 'get_hitungsisakaskecil',
-            method: 'post',
-            datatype: 'json',
-            data: { idper: $('select[name=perusahaan]').val() },
-            success: function(data){
-                $('input[id=sisa_kas_kecil]').val( formatRupiah(String(data.hasil)) + ',00' ); 
-            }
-        });
-        return false;
+  $('#departemen').change(function(e) {
+    $("#pejabat").val($("#pejabat").data("default-value"));
+    var deptId = $('#departemen').children('option:selected').val()
+    ajax_select({
+      id  : '#pejabat',
+      url : base_url + 'select2_mdepartemen_pejabat/' + deptId,
     });
+  })
+
+  $('#kas').change(function(e) {
+    $.ajax({
+      url     : '{site_url}SetUpJurnal/get',
+      method  : 'post',
+      data    : {
+        jenis     : 'kas kecil',
+        formulir  : 'pengeluaranKasKecil'
+      },
+      success : function (response) {
+        $("#setupJurnal").val(response.kodeJurnal);
+        $("#idSetupJurnal").val(response.idSetupJurnal);
+      }
+    })
+  })
+    
+  $('#perusahaan').change(function(){ 
+    var id=document.getElementById("form1").perusahaan.value;
+    //nomor kwitansi
+    $.ajax({
+      url       : base_url + 'get_kode_perusahaan',
+      method    : "POST",
+      data      : {id: id},
+      async     : true,
+      dataType  : 'json',
+      success   : function(data){
+        var kodeper = '';
+        var i;
+        for(i=0; i<data.length; i++){ kodeper += data[i].kode; }
+                
+        var nomor = '{kode_otomatis}';
+        var tipe = 'KK';
+        var tahun = '{tahun}';
+        var kodeperusahaan = kodeper;
+        document.getElementById("form1").nokwitansi.value = nomor+'/'+kodeperusahaan+'/'+tipe+'/'+tahun;
+      }
+    });
+    //hitung sisa kas kecil
+    $.ajax({
+      url       : base_url + 'get_hitungsisakaskecil',
+      method    : 'post',
+      datatype  : 'json',
+      data      : { 
+        idper : $('select[name=perusahaan]').val() 
+      },
+      success: function(data){
+        $('input[id=sisa_kas_kecil]').val( formatRupiah(String(data.hasil)) + ',00' ); 
+      }
+    });
+    return false;
+  });
 
     //menampilkan modal tambah biaya
-    $(document).on('click','.btn_add_detail',function(){
-        $('#modal_add_detail').modal('show');
-        $('.itemid').empty();
+  $(document).on('click','.btn_add_detail',function(){
+    $('#modal_add_detail').modal('show');
+    $('.itemid').empty();
+      if ('<?= $this->session->userid; ?>' == '1') {
         $.ajax({
-            url         : base_url + 'select2_item/' + $('select[name=perusahaan]').val()+'/'+$('select[name=departemen]').val(),
-            method      : 'post',
-            datatype    : 'json',
-            success: function(data) {
-                isi = "";
-                for (let index = 0; index < data.length; index++) {
-                    isi += `<option value="${data[index].id}">${data[index].text}</option>`
-                }
-                $('.itemid').append(isi);
+          url       : base_url + 'select2_item/' + $('select[name=perusahaan]').val()+'/'+$('select[name=departemen]').val(),
+          method    : 'post',
+          datatype  : 'json',
+          success   : function(data) {
+            isi = "";
+            for (let index = 0; index < data.length; index++) {
+                isi += `<option value="${data[index].id}">${data[index].text}</option>`
             }
+            $('.itemid').append(isi);
+          }
         })
         $('.itemid').select2();
+      } else {
+        $.ajax({
+          url       : base_url + 'select2_item/<?= $this->session->idperusahaan; ?>/'+$('select[name=departemen]').val(),
+          method    : 'post',
+          datatype  : 'json',
+          success   : function(data) {
+            isi = "";
+            for (let index = 0; index < data.length; index++) {
+                isi += `<option value="${data[index].id}">${data[index].text}</option>`
+            }
+            $('.itemid').append(isi);
+          }
+        })
+        $('.itemid').select2();
+      }
+        
     })
 
     //mengambil data detail item
