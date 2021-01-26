@@ -277,9 +277,9 @@ class Kas_bank extends User_Controller
         $this->db->join('mrekening','tpengajuankaskecil.rekening=mrekening.id'); 
         $this->db->where('tpengajuankaskecil.perusahaan', $idperusahaan);
         $this->db->where('tpengajuankaskecil.tanggal <=',$tgl);
-        if ($edit == null) {
-            $this->db->where('tpengajuankaskecil.status', '0');
-        }
+        // if ($edit == null) {
+        //     $this->db->where('tpengajuankaskecil.status', '0');
+        // }
         $this->db->where('tpengajuankaskecil.stdel', '0');
         $data = $this->db->get('tpengajuankaskecil')->result_array();
         $this->output->set_content_type('application/json')->set_output(json_encode($data));
