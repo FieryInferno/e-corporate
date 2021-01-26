@@ -259,79 +259,79 @@
 
 
 <script type="text/javascript">
-    var base_url = '{site_url}Pengeluaran_kas_kecil/';
-    var total_total     = [];
+  var base_url    = '{site_url}Pengeluaran_kas_kecil/';
+  var total_total = [];
 
-    $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
-        return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
-    })
+  $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
+    return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
+  })
 
-    //isi tabel biaya
-    var table_detail = $('#table_detail').DataTable({
-        sort: false,
-        info: false,
-        searching: false,
-        paging: false,
-        columnDefs: [
-            {targets: [0], visible: false},
-            {targets: [2,3,4,5,6,7,8,9], className: 'text-right'}
-        ],
-    })
+  //isi tabel biaya
+  var table_detail = $('#table_detail').DataTable({
+    sort: false,
+    info: false,
+    searching: false,
+    paging: false,
+    columnDefs: [
+      {targets: [0], visible: false},
+      {targets: [2,3,4,5,6,7,8,9], className: 'text-right'}
+    ],
+  })
 
-    $(document).ready(function(){  
-        //combobox kas/akunno
-        ajax_select({
-            id: '#kas',
-            url: '{site_url}pengajuan_kas_kecil/select2_mnoakun/',
+  $(document).ready(function(){  
+    ajax_select({
+      id: '#kas',
+      url: '{site_url}pengajuan_kas_kecil/select2_mnoakun/',
+    });
+
+    if ('<?= $this->session->userid; ?>' == '1') {
+        ajax_select({ 
+            id          : '.perusahaan', 
+            url         : '{site_url}perusahaan/select2', 
+            selected    : { 
+                id: '{perusahaanid}' 
+            } 
         });
-        if ('<?= $this->session->userid; ?>' == '1') {
-            ajax_select({ 
-                id          : '.perusahaan', 
-                url         : '{site_url}perusahaan/select2', 
-                selected    : { 
-                    id: '{perusahaanid}' 
-                } 
-            });
-            $('.perusahaan').change(function(e) {
-                var perusahaan  = $('.perusahaan').children('option:selected').val();
-                ajax_select({
-                    id	        : `#cabang`,
-                    url	        : '{site_url}cabang/select2/' + perusahaan,
-                    selected    : { 
-                        id: '{cabang}' 
-                    }
-                });
-                $("#departemen").val($("#departemen").data("default-value"));
-                $('input[name=pejabat]').val(''); 
-                $('input[id=sisa_kas_kecil]').val('0'); 
-                var peru = $('.perusahaan').children('option:selected').val();
-                ajax_select({
-                    id: '#departemen',
-                    url: base_url + 'select2_mdepartemen/' + peru,
-                });
-                ajax_select({
-                    id  : '#project',
-                    url : '{site_url}Project/select2/' + perusahaan,
-                });
-            })
-        } else {
-            ajax_select({ 
-                id          : '#cabang', 
-                url         : '{site_url}cabang/select2/<?= $this->session->idperusahaan; ?>', 
+        $('.perusahaan').change(function(e) {
+            var perusahaan  = $('.perusahaan').children('option:selected').val();
+            ajax_select({
+                id	        : `#cabang`,
+                url	        : '{site_url}cabang/select2/' + perusahaan,
                 selected    : { 
                     id: '{cabang}' 
-                } 
+                }
             });
+            $("#departemen").val($("#departemen").data("default-value"));
+            $('input[name=pejabat]').val(''); 
+            $('input[id=sisa_kas_kecil]').val('0'); 
+            var peru = $('.perusahaan').children('option:selected').val();
             ajax_select({
                 id: '#departemen',
-                url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
+                url: base_url + 'select2_mdepartemen/' + peru,
             });
             ajax_select({
-                id: '#project',
-                url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
+                id  : '#project',
+                url : '{site_url}Project/select2/' + perusahaan,
             });
-        }
-    })
+        })
+    } else {
+        ajax_select({ 
+            id          : '#cabang', 
+            url         : '{site_url}cabang/select2/<?= $this->session->idperusahaan; ?>', 
+            selected    : { 
+                id: '{cabang}' 
+            } 
+        });
+        ajax_select({
+            id: '#departemen',
+            url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
+        });
+        ajax_select({
+            id: '#project',
+            url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
+        });
+    }
+  })
 
     $('#departemen').change(function(e) {
         $("#pejabat").val($("#pejabat").data("default-value"));
@@ -629,7 +629,7 @@
         const stat          = $(elem).is(":checked");
         const table         = $('#isi_tbody_pajak'+id);
         const harga         = $('#harga' + id);
-        const nama_akun     = $(elem).attr('persen');
+        const persen        = $(elem).attr('persen');
 
         nominal             = harga * persen / 100;
         
