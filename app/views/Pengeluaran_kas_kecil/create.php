@@ -60,7 +60,7 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label>Project : </label>
-                                    <select id="project" class="form-control project" name="project" required style="width: 100%;"></select>
+                                    <select id="project" class="form-control project" name="project" style="width: 100%;"></select>
                                 </div>
                             </div>
                         </div>
