@@ -109,30 +109,23 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 
 	public function save() {
 		
-		$idper          = $this->input->post('perusahaan');
-		$iddep          = $this->input->post('departemen');
-		$nominal        = preg_replace("/[^0-9]/", "", $this->input->post('nominal'));
-		$sisa_kas_kecil = preg_replace("/[^0-9]/", "", $this->input->post('sisa_kas_kecil'));
-
-		$query_departemen = $this->db->query("SELECT * FROM mdepartemen WHERE id='$iddep'");
-		if ($query_departemen->num_rows() > 0){
-			foreach ($query_departemen->result() as $dep) {
-				$nama_departemen=$dep->nama;
-			}
-		}
-		$detail_array = $this->input->post('detail_array');
-		$detail_array = json_decode($detail_array);
-		$jumlah_item  = 0;
-		$jumlah_data_anggaran=0;
+		$idper                = $this->input->post('perusahaan');
+		$iddep                = $this->input->post('departemen');
+		$nominal              = preg_replace("/[^0-9]/", "", $this->input->post('nominal'));
+    $sisa_kas_kecil       = preg_replace("/[^0-9]/", "", $this->input->post('sisa_kas_kecil'));
+		$detail_array         = $this->input->post('detail_array');
+		$detail_array         = json_decode($detail_array);
+		$jumlah_item          = 0;
+		$jumlah_data_anggaran = 0;
 		foreach($detail_array as $row) {
-			$itemid=$row[0];
-			$query_detail = $this->db->query("SELECT tanggaranbelanja.id, tanggaranbelanjadetail.id FROM tanggaranbelanja INNER JOIN tanggaranbelanjadetail ON tanggaranbelanja.id = tanggaranbelanjadetail.idanggaran WHERE tanggaranbelanja.idperusahaan = '$idper' AND tanggaranbelanja.dept='$nama_departemen' AND tanggaranbelanjadetail.id='$itemid'");
+			$itemid       = $row[0];
+			$query_detail = $this->db->query("SELECT tanggaranbelanja.id, tanggaranbelanjadetail.id FROM tanggaranbelanja INNER JOIN tanggaranbelanjadetail ON tanggaranbelanja.id = tanggaranbelanjadetail.idanggaran WHERE tanggaranbelanja.idperusahaan = '$idper' AND tanggaranbelanja.dept='$iddep' AND tanggaranbelanjadetail.id='$itemid'");
 			if($query_detail->num_rows()>0){
 				foreach($query_detail->result() as $p){
 					$jumlah_data_anggaran=$jumlah_data_anggaran+1;
 				}
 			}
-			$jumlah_item = $jumlah_item + 1;
+			$jumlah_item  = $jumlah_item + 1;
 		}
 
 		if ($jumlah_item != $jumlah_data_anggaran){
