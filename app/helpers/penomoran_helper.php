@@ -62,7 +62,14 @@ function penomoran($formulir, $perusahaan = null, $departemen = null)
       for ($j=0; $j < $panjang; $j++) { 
         $nomor  = '0' . $nomor;
       }
-      $noTrans    .= $nomor;
+      $noTrans  .= $nomor;
+      if ($departemen) {
+        $departemen = $ci->db->get_where('mdepartemen', [
+          'id'  => $departemen
+        ])->row_array();
+        $noTrans  .= '/';
+        $noTrans  .= $departemen['nama'];
+      }
     } elseif (strrpos($key, 'kode_perusahaan')) {
       $data = $ci->db->get_where('mperusahaan', [
         'idperusahaan'  => $perusahaan
