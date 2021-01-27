@@ -182,7 +182,7 @@ class LaporanModel extends CI_Model {
       $total  = 0;
       foreach ($jurnalUmum as $value) {
         if (strpos($key['akunno'], $value['akunno']) !== FALSE) {
-          switch ($key['jenis']) {
+          switch ($value['jenis']) {
             case 'debit':
               $total  += $value['total'];
               break;
