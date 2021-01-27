@@ -50,8 +50,6 @@ class Setor_kas_kecil_model extends CI_Model {
     } else {
       $this->load->helper('penomoran');
       $penomoran  = penomoran('setorKasKecil', $this->input->post('perusahaan'));
-      print_r($penomoran);
-      die();
       foreach($this->input->post() as $key => $val) $this->db->set($key,strip_tags($val));
       $this->db->set('nomor', $penomoran['nomor']);
       $this->db->set('nokwitansi', $penomoran['notrans']);
