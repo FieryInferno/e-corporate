@@ -1381,41 +1381,42 @@
         });
     }
 
-    function getListSetorKasKecil() {
-        var table = $('#list_SetorKasKecil');
-        var idPerusahaan = $('#id_perusahaan').val();
-        var tgl = $('input[name=tanggal]').val();
-        $.ajax({
-            type: "get",
-            data : {idPerusahaan: idPerusahaan, tgl : tgl},
-            url: base_url + 'get_SetorKasKecil',
-            success: function(response) {
-                for (let i = 0; i < response.length; i++) {
-                    const element = response[i];
-
-                    if (i < 0) {
-                        tabelsetorkaskecil.row.add([
-                            `<input type="checkbox" name="" id=""  disabled>`,
-                            `${element.nokwitansi}`,
-                            `${element.keterangan}`,
-                            `${element.nama_departemen}`,
-                            `${element.tanggal}`,
-                            `${element.nominal}`,
-                        ]).draw();
-                    } else {
-                        tabelsetorkaskecil.row.add([
-                            `<input type="checkbox" id="checkbox_SKK${element.id}" data-id="${element.id}" data-tipe="Setor Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this);" idAkun="${element.idakun}" idRekening="${element.idRekening}" tabulasi="kasKecil">`,
-                            `${element.nokwitansi}`,
-                            `${element.keterangan}`,
-                            `${element.nama_departemen}`,
-                            `${element.tanggal}`,
-                            formatRupiah(String(`${element.nominal}`)) + ',00',
-                        ]).draw();
-                    }
-                }
-            }
-        });
-    }
+  function getListSetorKasKecil() {
+    let table         = $('#list_SetorKasKecil');
+    let idPerusahaan  = $('#id_perusahaan').val();
+    let tgl           = $('input[name=tanggal]').val();
+    $.ajax({
+      type    : "get",
+      data    : {
+        idPerusahaan  : idPerusahaan, 
+        tgl           : tgl},
+      url     : base_url + 'get_SetorKasKecil',
+      success : function(response) {
+        for (let i = 0; i < response.length; i++) {
+          const element = response[i];
+          if (i < 0) {
+            tabelsetorkaskecil.row.add([
+              `<input type="checkbox" name="" id=""  disabled>`,
+              `${element.nokwitansi}`,
+              `${element.keterangan}`,
+              `${element.nama_departemen}`,
+              `${element.tanggal}`,
+              `${element.nominal}`,
+            ]).draw();
+          } else {
+            tabelsetorkaskecil.row.add([
+              `<input type="checkbox" id="checkbox_SKK${element.id}" data-id="${element.id}" data-tipe="Setor Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" onchange="save_detail(this);" idAkun="${element.idakun}" idRekening="${element.idRekening}" tabulasi="kasKecil">`,
+              `${element.nokwitansi}`,
+              `${element.keterangan}`,
+              `${element.nama_departemen}`,
+              `${element.tanggal}`,
+              formatRupiah(String(`${element.nominal}`)) + ',00',
+            ]).draw();
+          }
+        }
+      }
+    });
+  }
 
     function getPiutang() {
         var idPerusahaan    = $('#id_perusahaan').val();
@@ -1515,258 +1516,261 @@
     }
 
     //save items
-    function save_detail(elem) {
-        const tipe              = $(elem).attr('data-tipe');
-        const id                = $(elem).attr('data-id');
-        const tgl               = $(elem).attr('data-tgl');
-        const nokwitansi        = $(elem).attr('data-kwitansi');
-        const nominal           = $(elem).attr('data-nominal');
-        const namaakun          = $(elem).attr('data-namaakun');
-        const noakun            = $(elem).attr('data-noakun');
-        const kodeperusahaan    = $(elem).attr('data-kodeperusahaan');
-        const namadepartemen    = $(elem).attr('data-namadepartemen');
-        const namabank          = $(elem).attr('data-namabank');
-        const norekening        = $(elem).attr('data-norekening');
-        const idRekening        = $(elem).attr('idRekening');
-        const idAkun            = $(elem).attr('idAkun');
-        const cara_pembayaran   = $(elem).attr('cara_pembayaran');
-        const tabulasi          = $(elem).attr('tabulasi');
-        var setupJurnal;
-        if (tipe == 'Saldo Awal Hutang' || tipe == 'Saldo Awal Piutang') {
-            var data    = {
-                tabulasi    : tabulasi
-            }
-        } else {
-            var data    = {
-                tabulasi        : tabulasi,
-                cara_pembayaran : cara_pembayaran
-            }
-        }
-        $.ajax({
-            url     : '{site_url}kas_bank/getSetupJurnal',
-            data    : data,
-            method  : 'get',
-            success : function (hasil) {
-                setupJurnal = hasil;
-            },
-            async   : false
-        })
-        for (let index = 0; index < saldoSumberDana.length; index++) {
-            const element = saldoSumberDana[index];
-            if (idRekening == element.id) {
-                row = index;
-                break;
-            }
-            row = index;
-        }
-        var data          = table_detail_SSD.row(row).data();
-        var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
-        var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;
-        if ( tipe == 'Penjualan'){
-            const stat = $(elem).is(":checked");
-            const table = $('#isitabel');     
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="button_JUAL${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String(nominal)) + ',00',
-                    formatRupiah(String('0')) + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun}/${noakun}`,
-                    `${kodeperusahaan}`,
-                    `${namadepartemen}`,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
-                    `${cara_pembayaran}`,
-                    `${setupJurnal}`,
-                ]).draw(false);
-                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
-            } else {
-                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
-                var rowindex=$('#button_JUAL'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }
-        }else if ( tipe == 'Pembelian'){
-            const stat = $(elem).is(":checked");
-            const table = $('#isitabel');       
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="button_BELI${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String('0')) + ',00',
-                    formatRupiah(String(nominal)) + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-                    `${kodeperusahaan}`,
-                    `${namadepartemen}`,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
-                    `${cara_pembayaran}`,
-                    `${setupJurnal}`,
-                ]).draw(false);
-                pengeluaran = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
-            } else {
-                pengeluaran = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
-                var rowindex=$('#button_BELI'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }
-        }else if ( tipe == 'Budget Event'){
-            const stat = $(elem).is(":checked");
-            const table = $('#isitabel');       
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="button_BE${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String('0')) + ',00',
-                    formatRupiah(String(nominal)) + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-                    `${kodeperusahaan}`,
-                    `${namadepartemen}`,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
-                ]).draw(false);
-            } else {
-                var rowindex=$('#button_BE'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }
-        }
-        else if ( tipe == 'Pengajuan Kas Kecil' ){
-            const stat = $(elem).is(":checked");
-            const table = $('#isitabel');       
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="button_PKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String(nominal)) + ',00',
-                    formatRupiah(String('0')) + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-                    `${kodeperusahaan}`,
-                    `${namadepartemen}`,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
-                ]).draw(false);
-                penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
-            } else {
-                penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
-                var rowindex=$('#button_PKK'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }         
-        }else if ( tipe == 'Setor Kas Kecil' ){
-            const stat = $(elem).is(":checked");
-            const table = $('#isitabel');       
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="button_SKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String(nominal)) + ',00',
-                    formatRupiah(String('0')) + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-                    `${kodeperusahaan}`,
-                    `${namadepartemen}`,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
-                ]).draw( false );
-            } else {
-                var rowindex=$('#button_SKK'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }
-        } else if (tipe == 'Saldo Awal Piutang') {
-            const stat = $(elem).is(":checked");
-            const table = $('#isitabel');  
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="buttonPiutang${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String(nominal))  + ',00',
-                    formatRupiah(String('0'))  + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-                    `${kodeperusahaan}`,
-                    ``,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`,
-                    `Credit`,
-                    `${setupJurnal}`,
-                ]).draw( false );
-                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
-            } else {
-                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
-                var rowindex=$('#button_PIUTANGI'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }
-        } else if (tipe == 'Saldo Awal Hutang') {
-            const stat = $(elem).is(":checked");
-            const table = $('#isitabel');  
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="buttonHutang${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String('0'))  + ',00',
-                    formatRupiah(String(nominal))  + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-                    `${kodeperusahaan}`,
-                    ``,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`,
-                    `Credit`,
-                    `${setupJurnal}`,
-                ]).draw( false );
-                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
-            } else {
-                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
-                var rowindex=$('#button_HUTANG'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }
-        } else if (tipe == 'Setor Pajak') {
-            const stat = $(elem).is(":checked");
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="buttonSetorPajak${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String('0'))  + ',00',
-                    formatRupiah(String(nominal))  + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-                    `${kodeperusahaan}`,
-                    ``,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}">${namabank} ${norekening}`
-                ]).draw( false );
-                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
-            } else {
-                pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
-                var rowindex=$('#button_SetorPajak'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }
-        }
-        saldoAkhir  = formatRupiah(String(parseInt(data[2].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(pengeluaran) + parseInt(penerimaan))) + ',00';
-        table_detail_SSD.row(row).data([
-            data[0],
-            data[1],
-            data[2],
-            formatRupiah(String(penerimaan)) + ',00',
-            formatRupiah(String(pengeluaran)) + ',00',
-            saldoAkhir
-        ]).draw();
-        detail_array();
-        hitungTotalPengeluaranPemindahbukuan();
-        ajax_select({
-            id  : '.pilihRekening',
-            url : '{site_url}rekening/select2/' + idPerusahaan,
-        });
+  function save_detail(elem) {
+    const tipe              = $(elem).attr('data-tipe');
+    const id                = $(elem).attr('data-id');
+    const tgl               = $(elem).attr('data-tgl');
+    const nokwitansi        = $(elem).attr('data-kwitansi');
+    const nominal           = $(elem).attr('data-nominal');
+    const namaakun          = $(elem).attr('data-namaakun');
+    const noakun            = $(elem).attr('data-noakun');
+    const kodeperusahaan    = $(elem).attr('data-kodeperusahaan');
+    const namadepartemen    = $(elem).attr('data-namadepartemen');
+    const namabank          = $(elem).attr('data-namabank');
+    const norekening        = $(elem).attr('data-norekening');
+    const idRekening        = $(elem).attr('idRekening');
+    const idAkun            = $(elem).attr('idAkun');
+    const cara_pembayaran   = $(elem).attr('cara_pembayaran');
+    const tabulasi          = $(elem).attr('tabulasi');
+    let setupJurnal;
+    if (tipe == 'Saldo Awal Hutang' || tipe == 'Saldo Awal Piutang') {
+      var data    = {
+        tabulasi    : tabulasi
+      }
+    } else {
+      var data    = {
+        tabulasi        : tabulasi,
+        cara_pembayaran : cara_pembayaran
+      }
     }
+
+    $.ajax({
+      url     : '{site_url}kas_bank/getSetupJurnal',
+      data    : data,
+      method  : 'get',
+      success : function (hasil) {
+        setupJurnal = hasil;
+      },
+      async   : false
+    })
+
+    for (let index = 0; index < saldoSumberDana.length; index++) {
+      const element = saldoSumberDana[index];
+      if (idRekening == element.id) {
+        row = index;
+        break;
+      }
+      row = index;
+    }
+    var data          = table_detail_SSD.row(row).data();
+    var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
+    var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;
+    if ( tipe == 'Penjualan'){
+      const stat = $(elem).is(":checked");
+      const table = $('#isitabel');     
+      if (stat) {
+        table_detail.row.add([
+          `${id}`,
+          `<button type="button" class="btn btn-danger delete_detail" id="button_JUAL${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
+          `${tipe}`,
+          `${tgl}`,
+          `${nokwitansi}`,
+          formatRupiah(String(nominal)) + ',00',
+          formatRupiah(String('0')) + ',00',
+          `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun}/${noakun}`,
+          `${kodeperusahaan}`,
+          `${namadepartemen}`,
+          `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
+          `${cara_pembayaran}`,
+          `${setupJurnal}`,
+        ]).draw(false);
+        penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+      } else {
+        penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+        var rowindex=$('#button_JUAL'+id).closest('tr').index();
+        table_detail.row(rowindex).remove().draw();
+      }
+    }else if ( tipe == 'Pembelian'){
+      const stat = $(elem).is(":checked");
+      const table = $('#isitabel');       
+      if (stat) {
+        table_detail.row.add([
+          `${id}`,
+          `<button type="button" class="btn btn-danger delete_detail" id="button_BELI${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
+          `${tipe}`,
+          `${tgl}`,
+          `${nokwitansi}`,
+          formatRupiah(String('0')) + ',00',
+          formatRupiah(String(nominal)) + ',00',
+          `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+          `${kodeperusahaan}`,
+          `${namadepartemen}`,
+          `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
+          `${cara_pembayaran}`,
+          `${setupJurnal}`,
+        ]).draw(false);
+        pengeluaran = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
+      } else {
+        pengeluaran = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+        var rowindex=$('#button_BELI'+id).closest('tr').index();
+        table_detail.row(rowindex).remove().draw();
+      }
+    } else if ( tipe == 'Budget Event'){
+      const stat  = $(elem).is(":checked");
+      const table = $('#isitabel');       
+      if (stat) {
+        table_detail.row.add([
+          `${id}`,
+          `<button type="button" class="btn btn-danger delete_detail" id="button_BE${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+          `${tipe}`,
+          `${tgl}`,
+          `${nokwitansi}`,
+          formatRupiah(String('0')) + ',00',
+          formatRupiah(String(nominal)) + ',00',
+          `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+          `${kodeperusahaan}`,
+          `${namadepartemen}`,
+          `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
+        ]).draw(false);
+      } else {
+        var rowindex  = $('#button_BE'+id).closest('tr').index();
+        table_detail.row(rowindex).remove().draw();
+      }
+    } else if ( tipe == 'Pengajuan Kas Kecil' ){
+      const stat  = $(elem).is(":checked");
+      const table = $('#isitabel');       
+      if (stat) {
+        table_detail.row.add([
+          `${id}`,
+          `<button type="button" class="btn btn-danger delete_detail" id="button_PKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+          `${tipe}`,
+          `${tgl}`,
+          `${nokwitansi}`,
+          formatRupiah(String(nominal)) + ',00',
+          formatRupiah(String('0')) + ',00',
+          `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+          `${kodeperusahaan}`,
+          `${namadepartemen}`,
+          `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
+        ]).draw(false);
+        penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+      } else {
+        penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+        var rowindex=$('#button_PKK'+id).closest('tr').index();
+        table_detail.row(rowindex).remove().draw();
+      }         
+    }else if ( tipe == 'Setor Kas Kecil' ){
+      const stat  = $(elem).is(":checked");
+      const table = $('#isitabel');       
+      if (stat) {
+        table_detail.row.add([
+          id,
+          `<button type="button" class="btn btn-danger delete_detail" id="button_SKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+          tipe,
+          tgl,
+          nokwitansi,
+          formatRupiah(String(nominal)) + ',00',
+          formatRupiah(String('0')) + ',00',
+          `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+          kodeperusahaan,
+          namadepartemen,
+          `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
+          ``,
+          setupJurnal
+        ]).draw( false );
+      } else {
+        var rowindex  = $('#button_SKK'+id).closest('tr').index();
+        table_detail.row(rowindex).remove().draw();
+      }
+    } else if (tipe == 'Saldo Awal Piutang') {
+          const stat = $(elem).is(":checked");
+          const table = $('#isitabel');  
+          if (stat) {
+              table_detail.row.add([
+                  `${id}`,
+                  `<button type="button" class="btn btn-danger delete_detail" id="buttonPiutang${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+                  `${tipe}`,
+                  `${tgl}`,
+                  `${nokwitansi}`,
+                  formatRupiah(String(nominal))  + ',00',
+                  formatRupiah(String('0'))  + ',00',
+                  `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+                  `${kodeperusahaan}`,
+                  ``,
+                  `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`,
+                  `Credit`,
+                  `${setupJurnal}`,
+              ]).draw( false );
+              penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal);
+          } else {
+              penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+              var rowindex=$('#button_PIUTANGI'+id).closest('tr').index();
+              table_detail.row(rowindex).remove().draw();
+          }
+      } else if (tipe == 'Saldo Awal Hutang') {
+          const stat = $(elem).is(":checked");
+          const table = $('#isitabel');  
+          if (stat) {
+              table_detail.row.add([
+                  `${id}`,
+                  `<button type="button" class="btn btn-danger delete_detail" id="buttonHutang${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+                  `${tipe}`,
+                  `${tgl}`,
+                  `${nokwitansi}`,
+                  formatRupiah(String('0'))  + ',00',
+                  formatRupiah(String(nominal))  + ',00',
+                  `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+                  `${kodeperusahaan}`,
+                  ``,
+                  `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}"><select onchange="pilihRekening(this, 'idRekening${id}')" class="form-control pilihRekening" required></select>`,
+                  `Credit`,
+                  `${setupJurnal}`,
+              ]).draw( false );
+              pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+          } else {
+              pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+              var rowindex=$('#button_HUTANG'+id).closest('tr').index();
+              table_detail.row(rowindex).remove().draw();
+          }
+      } else if (tipe == 'Setor Pajak') {
+          const stat = $(elem).is(":checked");
+          if (stat) {
+              table_detail.row.add([
+                  `${id}`,
+                  `<button type="button" class="btn btn-danger delete_detail" id="buttonSetorPajak${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+                  `${tipe}`,
+                  `${tgl}`,
+                  `${nokwitansi}`,
+                  formatRupiah(String('0'))  + ',00',
+                  formatRupiah(String(nominal))  + ',00',
+                  `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+                  `${kodeperusahaan}`,
+                  ``,
+                  `<input type="hidden" name="idRekening[]" value="${idRekening}" id="idRekening${id}">${namabank} ${norekening}`
+              ]).draw( false );
+              pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+          } else {
+              pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+              var rowindex=$('#button_SetorPajak'+id).closest('tr').index();
+              table_detail.row(rowindex).remove().draw();
+          }
+      }
+      saldoAkhir  = formatRupiah(String(parseInt(data[2].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(pengeluaran) + parseInt(penerimaan))) + ',00';
+      table_detail_SSD.row(row).data([
+          data[0],
+          data[1],
+          data[2],
+          formatRupiah(String(penerimaan)) + ',00',
+          formatRupiah(String(pengeluaran)) + ',00',
+          saldoAkhir
+      ]).draw();
+      detail_array();
+      hitungTotalPengeluaranPemindahbukuan();
+      ajax_select({
+          id  : '.pilihRekening',
+          url : '{site_url}rekening/select2/' + idPerusahaan,
+      });
+  }
 
     function pilihRekening(elemen, id) {
         $('#' + id).val($(elemen).val());
