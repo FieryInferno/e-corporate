@@ -12,7 +12,7 @@ class Pengeluaran_kas_kecil_model extends CI_Model {
 		$id = $this->uri->segment(3);
 		$this->db->where('id', $id);
 		$delete = $this->db->delete('tpengeluarankaskecil');
-		if($update) {
+		if($delete) {
       $this->db->where('idpengeluaran', $id);
       $this->db->delete('tpengeluarankaskecildetail');
 			$data['status'] = 'success';
