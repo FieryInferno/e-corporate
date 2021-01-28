@@ -99,11 +99,10 @@
 								<div class="dropdown-menu dropdown-menu-right">
 									<form action="{site_url}anggaran_belanja/edit" method="post">
 										<input type="hidden" value="${data}" name="idAnggaranBelanja">
-										<button class="dropdown-item" type="submit"><i class="fas fa-pencil-alt"></i> Edit</button>
-									</form>` + 
-									// <a class="btn btn-info btn-sm dropdown-item" href="`+base_url+`edit/`+data+`"><i class="fas fa-pencil-alt"></i> Edit</a>
-									`<a class="btn btn-danger btn-sm dropdown-item" href="javascript:deleteData('`+data+`')"><i class="fas fa-trash"></i> Hapus</a>
-									<a class="btn btn-success btn-sm dropdown-item" href="javascript:printData('`+data+`')"><i class="fas fa-print"></i> Cetak</a>
+										<button class="dropdown-item text-success" type="submit"><i class="fas fa-pencil-alt"></i> Edit</button>
+									</form>
+                  <a class="btn btn-danger btn-sm dropdown-item text-danger" href="javascript:deleteData('`+data+`')"><i class="fas fa-trash"></i> Hapus</a>
+									<a class="btn btn-success btn-sm dropdown-item text-warning" href="javascript:printData('`+data+`')"><i class="fas fa-print"></i> Cetak</a>
 								</div> 
 							</div> 
 						</div>`;

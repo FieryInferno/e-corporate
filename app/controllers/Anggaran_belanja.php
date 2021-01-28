@@ -247,7 +247,7 @@ class Anggaran_belanja extends User_Controller
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mdepartemen.pejabat as id, mdepartemen.pejabat as text');
-			$this->db->where('mdepartemen.nama', $dept);
+			$this->db->where('mdepartemen.id', $dept);
 			$this->db->limit(10);
 			$data = $this->db->get('mdepartemen')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));

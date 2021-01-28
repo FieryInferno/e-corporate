@@ -1,118 +1,108 @@
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?= $title; ?></h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('anggaran_belanja'); ?>">Anggaran Belanja</a></li>
-                        <li class="breadcrumb-item active"><? $title; ?></li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1><?= $title; ?></h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<?= base_url('anggaran_belanja'); ?>">Anggaran Belanja</a></li>
+            <li class="breadcrumb-item active"><? $title; ?></li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-            <!-- left column -->
-                <div class="col-md-12">
-                    <!-- jquery validation -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><?= $title; ?></h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form id="form1" action="javascript:save()">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label><?php echo lang('Nama Perusahaan') ?>:</label>
-                                            <select id="perusahaan" class="form-control" name="idperusahaan" required></select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Nama Department') ?>:</label>
-                                            <select id="department" class="form-control" name="dept" required></select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('PIC') ?>:</label>
-                                            <select id="pejabat" class="form-control" name="pejabat" required></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-group">
-                                            <label>Tahun Anggaran :</label>
-                                            <select class="form-control" name="thnanggaran" required>
-                                                <?php for ($i = 2020; $i > 2015; $i--) { ?>
-                                                    <option value="<?= $i ?>"><?= $i ?></option>
-                                                <?php } ?>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label>Tgl Pengajuan :</label>
-											<input type="hidden" name="idAnggaranBelanja" value="{id}">
-                                            <input type="date" class="form-control" name="tglpengajuan" required value="{tglpengajuan}"></select>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-sm-12">
-                                        <div class="text-left">
-                                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                                + Pilih Rekening
-                                            </button>
-                                        </div>
-                                        <br>
-                                        <div style="overflow-x:scroll; width:100%">
-											<div class="table-responsive">
-												<table class="table table-xs table-striped table-borderless table-hover" id="rekening">
-													<thead>
-														<tr class="table-active">
-															<th class="text-center"><?php echo lang('action') ?></th>
-															<th class="text-center">Kode Rekening</th>
-															<th class="text-center">Uraian</th>
-															<th class="text-center">Cabang</th>
-															<th class="text-center">Volume</th>
-															<th class="text-center">Satuan</th>
-															<th class="text-center">Tarif</th>
-															<th class="text-center">Jumlah</th>
-															<th class="text-center">Realisasi</th>
-														</tr>
-													</thead>
-													<tbody></tbody>
-												</table>
-											</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!-- /.card-body -->
-                                <div class="card-footer">
-                                    <div class="text-left">
-                                        <div class="btn-group">
-                                        <a href="{site_url}anggaran_belanja" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                                        <button type="submit" class="btn bg-success" form="form1" onclick="!this.form && document.getElementById('myform').submit()"><?php echo lang('save') ?></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </form>
-                            </div>
-                        <!-- /.card -->
-                        </div>
-                    <!--/.col (left) -->
-                <!--/.col (right) -->
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"><?= $title; ?></h3>
+            </div>
+            <form id="form1" action="javascript:save()">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label><?php echo lang('Nama Perusahaan') ?>:</label>
+                      <select id="perusahaan" class="form-control" name="idperusahaan" required></select>
+                    </div>
+                    <div class="form-group">
+                      <label><?php echo lang('Nama Department') ?>:</label>
+                      <select id="department" class="form-control" name="dept" required></select>
+                    </div>
+                    <div class="form-group">
+                      <label><?php echo lang('PIC') ?>:</label>
+                      <select id="pejabat" class="form-control" name="pejabat" required></select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Tahun Anggaran :</label>
+                      <select class="form-control" name="thnanggaran" required>
+                        <?php for ($i = 2020; $i > 2015; $i--) { ?>
+                          <option value="<?= $i ?>"><?= $i ?></option>
+                        <?php } ?>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label>Tgl Pengajuan :</label>
+                        <input type="hidden" name="idAnggaranBelanja" value="{id}">
+                        <input type="date" class="form-control" name="tglpengajuan" required value="{tglpengajuan}"></select>
+                      </div>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-sm-12">
+                  <div class="text-left">
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                      + Pilih Rekening
+                    </button>
+                  </div>
+                  <br>
+                  <div style="overflow-x:scroll; width:100%">
+                    <div class="table-responsive">
+                      <table class="table table-xs table-striped table-borderless table-hover" id="rekening">
+                        <thead>
+                          <tr class="table-active">
+                            <th class="text-center"><?php echo lang('action') ?></th>
+                            <th class="text-center">Kode Rekening</th>
+                            <th class="text-center">Uraian</th>
+                            <th class="text-center">Cabang</th>
+                            <th class="text-center">Volume</th>
+                            <th class="text-center">Satuan</th>
+                            <th class="text-center">Tarif</th>
+                            <th class="text-center">Jumlah</th>
+                            <th class="text-center">Realisasi</th>
+                          </tr>
+                        </thead>
+                        <tbody></tbody>
+                      </table>
+                    </div>
+                  </div>
                 </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+              </div>
+              <div class="card-footer">
+                <div class="text-left">
+                  <div class="btn-group">
+                    <a href="{site_url}anggaran_belanja" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                    <button type="submit" class="btn bg-success" form="form1" onclick="!this.form && document.getElementById('myform').submit()"><?php echo lang('save') ?></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 <!-- /.content-wrapper -->
 
@@ -130,11 +120,11 @@
 				<div class="table-responsive">
           <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="listRekening">
             <thead>
-                <tr class="table-active">
-                    <th>&nbsp;</th>
-                    <th>Kode Rekening</th>
-                    <th>Nama Rekening</th>
-                </tr>
+              <tr class="table-active">
+                <th>&nbsp;</th>
+                <th>Kode Rekening</th>
+                <th>Nama Rekening</th>
+              </tr>
             </thead>
             <tbody id='list_rekening'></tbody>
           </table>
@@ -176,15 +166,15 @@
 		})
 
 		$('#department').change(function(e) {
-			var deptName = $('#department').children('option:selected').text();
-			var deptId = $('#department').children('option:selected').val()
+			var deptName  = $('#department').children('option:selected').text();
+			var deptId    = $('#department').children('option:selected').val()
 			var num = deptId.toString().padStart(3, "0")
 			$('#deptCode').val(num);
 			ajax_select({
-				id			: '#pejabat',
-				url			: base_url + 'select2_mdepartemen_pejabat',
+				id			  : '#pejabat',
+				url			  : base_url + 'select2_mdepartemen_pejabat/' + deptId,
 				selected	: {
-					id	: '{dept}/{pejabat}'
+					id	: '{pejabat}'
 				}
 			});
 		})
