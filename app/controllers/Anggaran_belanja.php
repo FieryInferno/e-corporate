@@ -224,15 +224,15 @@ class Anggaran_belanja extends User_Controller
 	public function select2_mdepartemen($id = null, $text = null)
 	{
     $term = $this->input->get('term');
-		if ($term) {
+		if ($text) {
 			$this->db->select('mdepartemen.id as id, mdepartemen.nama as text');
-      $this->db->where('mdepartemen.id', $id);
-      $this->db->like('mdepartemen.nama', $term);
+      $this->db->where('mdepartemen.id', $text);
 			$data = $this->db->get('mdepartemen')->row_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mdepartemen.id as id, mdepartemen.nama as text');
 			$this->db->where('mdepartemen.id_perusahaan', $id);
+      if ($term) $this->db->like('mdepartemen.nama', $term);
 			$data = $this->db->get('mdepartemen')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
