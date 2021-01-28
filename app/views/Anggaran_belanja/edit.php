@@ -248,19 +248,19 @@
                       <td><select name="cabang[]" id="cabang${i}${j}${i}${j}" class="form-control" style="width: 100%"></select></td>
                       <td><input type="text" class="form-control" name="volume[]" id="volume${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${item.volume}"></td>
                       <td>
-                          <select type="text" class="form-control" name="satuan">
+                          <select type="text" class="form-control" name="satuan[]">
                               <option value="buah" ${buah}>buah</option>
                               <option value="pak" ${pak}>pak</option>
                           </select>
                       </td>
-                      <td><input type="text" class="form-control" name="harga[]" id="harga${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.tarif))}"></td>
+                      <td><input type="text" class="form-control" name="tarif[]" id="harga${i}${j}${i}${j}" onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.tarif))}"></td>
                       <td><input type="text" class="form-control" name="jumlah[]" id="jumlah${i}${j}${i}${j}" readonly onkeyup="sum('${i}${j}${i}${j}');" value="${formatRupiah(String(item.jumlah))}"></td>
-                      <td><input type="text" class="form-control" name="keterangan" value="${item.keterangan}"></td>
+                      <td><input type="text" class="form-control" name="keterangan[]" value="${item.keterangan}"></td>
                     </tr>`;
                   table.append(html);
                   ajax_select({
                     id	        : `#cabang${i}${j}${i}${j}`,
-                    url	        : `{site_url}cabang/select2/null`,
+                    url	        : `{site_url}cabang/select2/{idperusahaan}`,
                     selected    : {
                         id  : item.cabang
                     }

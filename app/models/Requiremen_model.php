@@ -128,17 +128,17 @@ class Requiremen_model extends CI_Model {
 			$angsuran['id']				= uniqid('PEM-ANG');
 			$angsuran['idpemesanan']	= $id_pemesanan;
 			if ($this->input->post('tum') !== '') {
-				$angsuran['uangmuka']	= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('um'));
+				$angsuran['uangmuka']   = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('um'));
 				$angsuran['jumlahterm']	= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('jtem'));
-				$angsuran['total']		= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('tum'));
-				$angsuran['a1']			= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a1'));
-				$angsuran['a2']			= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a2'));
-				$angsuran['a3']			= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a3'));
-				$angsuran['a4']			= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a4'));
-				$angsuran['a5']			= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a5'));
-				$angsuran['a6']			= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a6'));
-				$angsuran['a7']			= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a7'));
-				$angsuran['a8']			= preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a8'));
+				$angsuran['total']		  = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('tum'));
+				$angsuran['a1']			    = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a1'));
+				$angsuran['a2']			    = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a2'));
+				$angsuran['a3']			    = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a3'));
+				$angsuran['a4']			    = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a4'));
+				$angsuran['a5']			    = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a5'));
+				$angsuran['a6']			    = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a6'));
+				$angsuran['a7']			    = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a7'));
+				$angsuran['a8']			    = preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('a8'));
 			}
 			$this->db->insert('tpemesananangsuran', $angsuran);
 			$this->db->insert('tPenerimaan', [

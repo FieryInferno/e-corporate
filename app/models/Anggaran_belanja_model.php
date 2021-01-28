@@ -8,54 +8,57 @@ class Anggaran_belanja_model extends CI_Model
 
 	public function save()
 	{
-		// print_r($this->input->post());
-		// die();
-		$nominal		= 0;
+		$nominal  = 0;
 		for ($i=0; $i < count($this->input->post('jumlah')); $i++) { 
-			$nominal	+= $this->input->post('jumlah')[$i];
+			$nominal	+= (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('jumlah')[$i]);
 		}
 		
 		if ($this->input->post('idAnggaranBelanja')) {
 			$id_anggaran	= $this->input->post('idAnggaranBelanja');
 		} else {
 			$id_anggaran	= uniqid('AB');
-		}
+    }
+    
 		$data_anggaran	= [
-			'id'			=> $id_anggaran,
+			'id'			      => $id_anggaran,
 			'idperusahaan'	=> $this->input->post('idperusahaan'),
-			'dept'			=> $this->input->post('dept'),
-			'pejabat'		=> $this->input->post('pejabat'),
-			'thnanggaran'	=> $this->input->post('thnanggaran'),
+			'dept'			    => $this->input->post('dept'),
+			'pejabat'		    => $this->input->post('pejabat'),
+			'thnanggaran'	  => $this->input->post('thnanggaran'),
 			'tglpengajuan'	=> $this->input->post('tglpengajuan'),
-			'nominal'		=> $nominal,
-			'cby'			=> get_user('username'),
-			'cdate'			=> date('Y-m-d H:i:s')
-		];
+			'nominal'		    => $nominal,
+			'cby'			      => get_user('username'),
+			'cdate'			    => date('Y-m-d H:i:s')
+    ];
+    
 		if ($this->input->post('idAnggaranBelanja')) {
 			$this->db->where('tanggaranbelanja.id', $id_anggaran);
 			$insert	= $this->db->update('tanggaranbelanja', $data_anggaran);
 		} else {
 			$insert	= $this->db->insert('tanggaranbelanja', $data_anggaran);
-		}
+    }
+    
 		if ($insert) {
 			if ($this->input->post('idAnggaranBelanja')) {
 				$this->db->where('idanggaran', $id_anggaran);
 				$insert	= $this->db->delete('tanggaranbelanjadetail');
-			}
+      }
+      
 			for ($i=0; $i < count($this->input->post('kode_rekening')); $i++) { 
 				$this->db->insert('tanggaranbelanjadetail', [
-					'id'			=> uniqid('ABD'),
-					'idanggaran'	=> $id_anggaran,
-					'koderekening'	=> $this->input->post('kode_rekening')[$i],
-					'uraian'		=> $this->input->post('uraian')[$i],
-					'cabang'		=> $this->input->post('cabang')[$i],
-					'volume'		=> $this->input->post('volume')[$i],
-					'satuan'		=> $this->input->post('satuan')[$i],
-					'tarif'			=> $this->input->post('tarif')[$i],
-					'jumlah'		=> $this->input->post('jumlah')[$i],
-					'keterangan'	=> $this->input->post('keterangan')[$i]
+					'id'			      => uniqid('ABD'),
+					'idanggaran'	  => $id_anggaran,
+					'koderekening'  => $this->input->post('kode_rekening')[$i],
+					'uraian'		    => $this->input->post('uraian')[$i],
+					'cabang'		    => $this->input->post('cabang')[$i],
+					'volume'		    => $this->input->post('volume')[$i],
+					'satuan'		    => $this->input->post('satuan')[$i],
+					'tarif'			    => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('tarif')[$i]),
+					'jumlah'		    => (integer) preg_replace("/(Rp. |,00|[^0-9])/", "", $this->input->post('jumlah')[$i]),
+					'keterangan'	  => $this->input->post('keterangan')[$i]
 				]);
-			}
+      }
+      
 			$data['status'] = 'success';
 			$data['message'] = lang('save_success_message');
 		} else {
