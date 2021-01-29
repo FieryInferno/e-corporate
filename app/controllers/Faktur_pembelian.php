@@ -105,11 +105,9 @@ class Faktur_pembelian extends User_Controller {
 		if($id) {
 			$this->db->select('mkontak.id, mkontak.nama as text');
 			$data = $this->db->where('id', $id)->get('mkontak')->row_array();
-			$this->db->where('mkontak.tipe', '1');
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
 			$this->db->select('mkontak.id, mkontak.nama as text');
-			$this->db->where('mkontak.tipe', '1');
 			if($term) $this->db->like('mkontak', $term);
 			$data = $this->db->get('mkontak')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
