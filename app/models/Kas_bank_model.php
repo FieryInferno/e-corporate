@@ -272,7 +272,7 @@ class Kas_bank_model extends CI_Model {
 	{
 		return $this->db->get_where('tkasbank', [
 			'id'	=> $idKasBank
-		])->row_array();
+    ])->row_array();
 	}
 
 	public function getDetailKasBank()

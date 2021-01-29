@@ -81,6 +81,7 @@ class Kas_bank extends User_Controller
       $data['subtitle']   = 'Edit';
       $data['tanggal']    = date('Y-m-d');
       $data['content']    = 'Kas_bank/edit';
+      $this->model->set('idKasBank', $idKasBank);
       $data['kas_bank']   = $this->model->getKasBank($idKasBank);
       $data               = array_merge($data, path_info());
       $this->parser->parse('template', $data);

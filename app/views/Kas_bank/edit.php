@@ -147,7 +147,8 @@
                                 <th><?php echo lang('Saldo Akhir') ?></th>
                               </tr>
                             </thead>
-                            <tbody id="isitabel"></tbody>
+                            <tbody id="isitabel">
+                            </tbody>
                             <tfoot>
                               <tr class="table-active">
                                 <td> ID</td>
@@ -706,19 +707,6 @@
                     $("#idSetupJurnal").val(response.idSetupJurnal);
                 }
             })
-
-            $.ajax({
-                url : base_url + 'getDetailKasBank',
-                type    : 'post',
-                data    : {
-                    idKasBank   : '<?= $kas_bank["id"]; ?>'
-                },
-                success : function (response) {
-                    response.forEach(element => {
-                        save_detail(element, 'edit');
-                    });
-                }
-            })
         } else {
           ajax_select({
             id        : '#id_perusahaan',
@@ -737,20 +725,20 @@
             });
 
             getSaldoSumberDana('edit');
-
-            $.ajax({
-                url : base_url + 'getDetailKasBank',
-                type    : 'post',
-                data    : {
-                    idKasBank   : '<?= $kas_bank["id"]; ?>'
-                },
-                success : function (response) {
-                    response.forEach(element => {
-                        save_detail(element, 'edit');
-                    });
-                }
-            })
         }
+        
+      $.ajax({
+        url   : base_url + 'getDetailKasBank',
+        type  : 'post',
+        data  : {
+          idKasBank : '<?= $kas_bank["id"]; ?>'
+        },
+        success : function (response) {
+          response.forEach(element => {
+            save_detail(element, 'edit');
+          });
+        }
+      })
     })
 
     //combobox nama penerima/pejabat
