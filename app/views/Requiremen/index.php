@@ -1,7 +1,7 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
 		<div class="container-fluid">
 			<div class="row mb-2">
 				<div class="col-sm-6">
@@ -14,11 +14,11 @@
 					</ol>
 				</div>
 			</div>
-		</div><!-- /.container-fluid -->
-    </section>
+		</div>
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
+  <!-- Main content -->
+  <section class="content">
 		<div class="container-fluid">
 			<div class="row">
 				<div class="col-12">         
@@ -28,12 +28,11 @@
 						</div>
 						<div class="card-body">
 							<div class="table-responsive">
-                                <table class="table table-xs table-striped table-borderless table-hover index_datatable">
-                                    <thead>
-                                        <tr class="table-active">
+                <table class="table table-xs table-striped table-borderless table-hover index_datatable">
+                  <thead>
+                    <tr class="table-active">
 											<th>ID</th>
 											<th><?php echo lang('notrans') ?></th>
-											<!-- <th><?php echo lang('note') ?></th> -->
 											<th><?php echo lang('date') ?></th>
 											<th><?php echo lang('supplier') ?></th>
 											<th>Perusahaan</th>
@@ -42,10 +41,10 @@
 											<th><?php echo lang('warehouse') ?></th>
 											<th><?php echo lang('status') ?></th>
 											<th><?php echo lang('Action') ?></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody></tbody>
-                                    <tfoot>
+                      </tr>
+                  </thead>
+                  <tbody></tbody>
+                  <tfoot>
 										<tr>
 											<th colspan="6" style="text-align:right">Total:</th>
 											<th style="text-align:right"></th>
@@ -54,14 +53,13 @@
 											<th></th>
 										</tr>
 									</tfoot>
-                                </table>
-                            </div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-    </section>
+                </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
 <script type="text/javascript">
 	var base_url = '{site_url}requiremen/';
@@ -91,7 +89,7 @@
 			{data: 'tanggal'},
 			{data: 'supplier'},
 			{data: 'nama_perusahaan'},
-			{data: 'departemen'},
+			{data: 'namaDepartemen'},
 			{
 				data: 'total',
 				render: function(data,type,row) {

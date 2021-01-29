@@ -17,10 +17,11 @@ class Requiremen extends User_Controller {
 	}
 	public function index_datatable() {
 		$this->load->library('Datatables');
-		$this->datatables->select('tpemesanan.*, mkontak.nama as supplier, mgudang.nama as gudang, mperusahaan.nama_perusahaan');
+		$this->datatables->select('tpemesanan.*, mkontak.nama as supplier, mgudang.nama as gudang, mperusahaan.nama_perusahaan, mdepartemen.nama as namaDepartemen');
 		$this->datatables->join('mkontak','tpemesanan.kontakid = mkontak.id','left');
 		$this->datatables->join('mgudang','tpemesanan.gudangid = mgudang.id','left');
 		$this->datatables->join('mperusahaan','tpemesanan.idperusahaan = mperusahaan.idperusahaan','left');
+		$this->datatables->join('mdepartemen','tpemesanan.departemen = mdepartemen.id','left');
 		$this->datatables->from('tpemesanan');
 		return print_r($this->datatables->generate());
 	}
