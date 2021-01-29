@@ -1085,16 +1085,12 @@
         ],
     })
 
-    var tabelPiutang = $('#tabelPiutang').DataTable({
-        sort: false
+    var tabelPindahBuku = $('#tabelPindahBuku').DataTable({
+      sort: false
     });
 
     var tabelHutang = $('#tabelHutang').DataTable({
-        sort: false
-    });
-
-    var tabelPindahBuku = $('#tabelPindahBuku').DataTable({
-        sort: false
+      sort: false
     });
 
     function getListPenjualan() {
@@ -1419,32 +1415,53 @@
   }
 
     function getPiutang() {
-        var idPerusahaan    = $('#id_perusahaan').val();
-        var tgl             = $('input[name=tanggal]').val();
-        $.ajax({
-            type    : "get",
-            data    : {
-                perusahaanid    : idPerusahaan,
-                tanggal         : tgl
-            },
-            url     : '{site_url}piutang/get',
-            success : function (response) {
-                for (let i = 0; i < response.length; i++) {
-                    const piutang    = response[i];
-                    tabelPiutang.row.add([
-                        `<input type="checkbox" id="checkboxPiutang${piutang.idSaldoAwalPiutang}" data-id="${piutang.idSaldoAwalPiutang}" data-tipe="Saldo Awal Piutang" data-tgl="${piutang.tanggal}" data-kwitansi="${piutang.noInvoice}" data-nominal="${piutang.primeOwing}" data-namaakun="${piutang.namaakun}" data-noakun="${piutang.akunno}" idAkun="${piutang.idakun}" data-kodeperusahaan="${piutang.kode}" onchange="save_detail(this);" tabulasi="piutang">`,
-                        piutang.tanggal,
-                        piutang.tanggalTempo,
-                        piutang.noInvoice,
-                        piutang.deskripsi,
-                        piutang.namaPelanggan,
-                        formatRupiah(String(`${piutang.primeOwing}`)) + ',00',
-                        ``,
-                        ``
-                    ]).draw();
-                }
+      var idPerusahaan    = $('#id_perusahaan').val();
+      var tgl             = $('input[name=tanggal]').val();
+
+      $('#tabelPiutang').DataTable({
+        sort  : false,
+        ajax  : {
+          url   : '{site_url}piutang/get',
+          type  : 'post',
+          data    : {
+            perusahaanid  : idPerusahaan,
+            tanggal       : tgl
+          },
+        },
+        pageLength  : 100,
+        stateSave   : true,
+        autoWidth   : false,
+        dom         : '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
+        language    : {
+          search            : '<span></span> _INPUT_',
+          searchPlaceholder : 'Type to filter...',
+        },
+        columns : [
+          {
+            data    : 'id', 
+            render  : function (data, type, row) {
+              return `<input type="checkbox" id="checkboxPiutang${row.idSaldoAwalPiutang}" data-id="${row.idSaldoAwalPiutang}" data-tipe="Saldo Awal Piutang" data-tgl="${row.tanggal}" data-kwitansi="${row.noInvoice}" data-nominal="${row.primeOwing}" data-namaakun="${row.namaakun}" data-noakun="${row.akunno}" idAkun="${row.idakun}" data-kodeperusahaan="${row.kode}" onchange="save_detail(this);" tabulasi="piutang">`
             }
-        })
+          },
+          {data : 'tanggal'},
+          {data : 'tanggalTempo'},
+          {data : 'noInvoice'},
+          {data : 'deskripsi'},
+          {data : 'namaPelanggan'},
+          {
+            data    : 'prime',
+            render  : function(data,type,row) {
+              return formatRupiah(String(`${row.primeOwing}`)) + ',00'
+            }
+          },
+          {render : function (data, type, row) {
+            return '';
+          }},
+          {render : function (data, type, row) {
+            return '';
+          }},
+        ],
+      });
     }
 
     function getSaldoSumberDana() {
@@ -1481,6 +1498,55 @@
     function getHutang() {
         var idPerusahaan    = $('#id_perusahaan').val();
         var tgl             = $('input[name=tanggal]').val();
+
+      //   $('#tabelHutang').DataTable({
+      //   sort  : false,
+      //   ajax  : {
+      //     url   : '{site_url}utang/get',
+      //     type  : 'post',
+      //     data    : {
+      //       perusahaanid  : idPerusahaan,
+      //       tanggal       : tgl
+      //     },
+      //   },
+      //   pageLength  : 100,
+      //   stateSave   : true,
+      //   autoWidth   : false,
+      //   dom         : '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
+      //   language    : {
+      //     search            : '<span></span> _INPUT_',
+      //     searchPlaceholder : 'Type to filter...',
+      //   },
+      //   columns : [
+      //     {
+      //       data    : 'id', 
+      //       render  : function (data, type, row) {
+      //         return `<input type="checkbox" id="checkboxHutang${row.id}" data-id="${row.id}" data-tipe="Saldo Awal Hutang" data-tgl="${row.tanggal}" data-kwitansi="${row.notrans}" data-nominal="${row.total}" idAkun="${row.idakun}" data-namaakun="${row.namaakun}" data-noakun="${row.akunno}" data-kodeperusahaan="${row.kode}" onchange="save_detail(this);" tabulasi="hutang">`
+      //       }
+      //     },
+      //     {data : 'tanggal'},
+      //     {data : 'tanggaltempo'},
+      //     {data : 'notrans'},
+      //     {data : 'catatan'},
+      //     {data : 'rekanan'},
+      //     {
+      //       data    : 'prime',
+      //       render  : function(data,type,row) {
+      //         return formatRupiah(String(`${row.total}`)) + ',00'
+      //       }
+      //     },
+      //     {render : function (data, type, row) {
+      //       return '';
+      //     }},
+      //     {render : function (data, type, row) {
+      //       return '';
+      //     }},
+      //     {render : function (data, type, row) {
+      //       return '';
+      //     }},
+      //   ],
+      // });
+
         $.ajax({
             type    : 'get',
             data    : {

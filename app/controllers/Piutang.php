@@ -177,8 +177,9 @@ class Piutang extends User_Controller {
 	{
 		$this->model->set('perusahaan', $this->perusahaan);
 		$this->model->set('tanggal', $this->tanggal);
-		$data	= $this->model->get();
-		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+    $data	= $this->model->get();
+    return print_r($data);
+		// $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
 }
