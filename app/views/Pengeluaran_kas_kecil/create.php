@@ -955,37 +955,37 @@
     })
     //simpan data
     function save() {
-        var form = $('#form1')[0];
-        var formData = new FormData(form);
-        detail = formData.get('detail_array');
-        if(detail.length < 10) {
-            swal("Error!","Silahkan isi detail terlebih dulu!", "error");
-            return false;
-        }
+      var form      = $('#form1')[0];
+      var formData  = new FormData(form);
+      detail        = formData.get('detail_array');
+      if(detail.length < 10) {
+        swal("Error!","Silahkan isi detail terlebih dulu!", "error");
+      } else {
         $.ajax({
-            url: base_url + 'save',
-            dataType: 'json',
-            method: 'post',
-            data: formData,
-            contentType: false,
-            processData: false,
-            beforeSend: function() {
-                pageBlock();
-            },
-            afterSend: function() {
-                unpageBlock();
-            },
-            success: function(data) {
-                if(data.status == 'success') {
-                    swal("Berhasil!",data.message, "success");
-                    redirect(base_url);
-                } else {
-                    swal("Gagal!",data.message, "error");
-                }
-            },
-            error: function() {
-                swal("Gagal!", "Internal Server Error", "error");
+          url         : base_url + 'save',
+          dataType    : 'json',
+          method      : 'post',
+          data        : formData,
+          contentType : false,
+          processData : false,
+          beforeSend  : function() {
+            pageBlock();
+          },
+          afterSend : function() {
+            unpageBlock();
+          },
+          success : function(data) {
+            if(data.status == 'success') {
+              swal("Berhasil!",data.message, "success");
+              redirect(base_url);
+            } else {
+              swal("Gagal!",data.message, "error");
             }
+          },
+          error: function() {
+            swal("Gagal!", "Internal Server Error", "error");
+          }
         })
+      }
     }
 </script>
