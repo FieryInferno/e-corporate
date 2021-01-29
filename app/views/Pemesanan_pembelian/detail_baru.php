@@ -336,7 +336,7 @@
 
         function format(id) {
             var angka   = $('#'+id).val()
-            $('#'+id).val(formatRupiah(String(angka), 'Rp. '));
+            $('#'+id).val(formatRupiah(String(angka)));
         }
 
         function hitungtum() {
@@ -349,7 +349,7 @@
                 um = 0;
             }
             tum = um + jtem;
-            $('.tum').val(formatRupiah(String(tum), 'Rp. ') + ',00');
+            $('.tum').val(formatRupiah(String(tum)) + ',00');
             if (tum !== <?= $grandtotal; ?>) {
                 $('#alertjumlah').css('display', 'block');
             } else {
@@ -392,6 +392,6 @@
                 a8 = 0;
             }
             jtem    = a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8;
-            $('.jtem').val(formatRupiah(String(jtem), 'Rp. ') + ',00');
+            $('.jtem').val(formatRupiah(String(jtem)) + ',00');
         }
     </script>
