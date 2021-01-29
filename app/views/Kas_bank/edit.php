@@ -1470,40 +1470,90 @@
     }
 
     function getHutang() {
-        var idPerusahaan    = $('#id_perusahaan').val();
-        var tgl             = $('input[name=tanggal]').val();
-        $.ajax({
-            type    : 'get',
-            data    : {
-                perusahaanid    : idPerusahaan,
-                tanggal         : tgl
-            },
-            url     : '{site_url}utang/get',
-            beforeSend: function() {
-                pageBlock();
-            },
-            afterSend: function() {
-                unpageBlock();
-            },
-            success : function (response) {
-                response.forEach(element => {
-                    element.forEach(e => {
-                        tabelHutang.row.add([
-                            `<input type="checkbox" id="checkboxHutang${e.id}" data-id="${e.id}" data-tipe="Saldo Awal Hutang" data-tgl="${e.tanggal}" data-kwitansi="${e.notrans}" data-nominal="${e.total}" idAkun="${e.idakun}" data-namaakun="${e.namaakun}" data-noakun="${e.akunno}" data-kodeperusahaan="${e.kode}" onchange="save_detail(this);">`,
-                            `${e.tanggal}`,
-                            `${e.tanggaltempo}`,
-                            `${e.notrans}`,
-                            `${e.catatan}`,
-                            `${e.rekanan}`,
-                            formatRupiah(String(`${e.total}`)) + ',00',
-                            ``,
-                            ``,
-                            ``
-                        ]).draw();
-                    });
-                });
+      var idPerusahaan    = $('#id_perusahaan').val();
+      var tgl             = $('input[name=tanggal]').val();
+
+      tabelHutang.destroy();
+      $('#tabelHutang').DataTable({
+        sort  : false,
+        ajax  : {
+          url   : '{site_url}utang/get',
+          type  : 'get',
+          data  : {
+            perusahaanid  : idPerusahaan,
+            tanggal       : tgl
+          },
+        },
+        pageLength  : 100,
+        stateSave   : true,
+        autoWidth   : false,
+        dom         : '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"p>',
+        language    : {
+          search            : '<span></span> _INPUT_',
+          searchPlaceholder : 'Type to filter...',
+        },
+        columns : [
+          {
+            data    : 'id', 
+            render  : function (data, type, row) {
+              return `<input type="checkbox" id="checkboxHutang${row.id}" data-id="${row.id}" data-tipe="Saldo Awal Hutang" data-tgl="${row.tanggal}" data-kwitansi="${row.notrans}" data-nominal="${row.total}" idAkun="${row.idakun}" data-namaakun="${row.namaakun}" data-noakun="${row.akunno}" data-kodeperusahaan="${row.kode}" onchange="save_detail(this);" tabulasi="hutang">`
             }
-        })
+          },
+          {data : 'tanggal'},
+          {data : 'tanggaltempo'},
+          {data : 'notrans'},
+          {data : 'catatan'},
+          {data : 'rekanan'},
+          {
+            data    : 'prime',
+            render  : function(data,type,row) {
+              return formatRupiah(String(`${row.total}`)) + ',00'
+            }
+          },
+          {render : function (data, type, row) {
+            return '';
+          }},
+          {render : function (data, type, row) {
+            return '';
+          }},
+          {render : function (data, type, row) {
+            return '';
+          }},
+        ],
+      });
+
+      // $.ajax({
+      //     type    : 'get',
+      //     data    : {
+      //         perusahaanid    : idPerusahaan,
+      //         tanggal         : tgl
+      //     },
+      //     url     : '{site_url}utang/get',
+      //     beforeSend: function() {
+      //         pageBlock();
+      //     },
+      //     afterSend: function() {
+      //         unpageBlock();
+      //     },
+      //     success : function (response) {
+      //         response.forEach(element => {
+      //             element.forEach(e => {
+      //                 tabelHutang.row.add([
+      //                     `<input type="checkbox" id="checkboxHutang${e.id}" data-id="${e.id}" data-tipe="Saldo Awal Hutang" data-tgl="${e.tanggal}" data-kwitansi="${e.notrans}" data-nominal="${e.total}" idAkun="${e.idakun}" data-namaakun="${e.namaakun}" data-noakun="${e.akunno}" data-kodeperusahaan="${e.kode}" onchange="save_detail(this);">`,
+      //                     `${e.tanggal}`,
+      //                     `${e.tanggaltempo}`,
+      //                     `${e.notrans}`,
+      //                     `${e.catatan}`,
+      //                     `${e.rekanan}`,
+      //                     formatRupiah(String(`${e.total}`)) + ',00',
+      //                     ``,
+      //                     ``,
+      //                     ``
+      //                 ]).draw();
+      //             });
+      //         });
+      //     }
+      // })
     }
 
     //save items
