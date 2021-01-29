@@ -1,368 +1,348 @@
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1><?= $title; ?></h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
-                        <li class="breadcrumb-item"><a href="<?= base_url('pembelian'); ?>">Pembelian</a></li>
-                        <li class="breadcrumb-item active"><? $title; ?></li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid -->
-    </section>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1><?= $title; ?></h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="<?= base_url(); ?>">Home</a></li>
+            <li class="breadcrumb-item"><a href="<?= base_url('pembelian'); ?>">Pembelian</a></li>
+            <li class="breadcrumb-item active"><? $title; ?></li>
+          </ol>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <div class="row">
-            <!-- left column -->
-                <div class="col-md-12">
-                    <!-- jquery validation -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title"><?= $title; ?></h3>
-                        </div>
-                        <!-- /.card-header -->
-                        <!-- form start -->
-                        <form id="form1" action="javascript:save()">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label><?php echo lang('notrans') ?>:</label>
-                                            <input type="text" class="form-control"readonly name="notrans" placeholder="AUTO">
-                                        </div>
-                                        <div class="form-group" id="rekanan">
-                                            <label><?php echo lang('rekanan') ?>:</label>
-                                            <select class="form-control kontakid" name="kontakid" disabled></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label><?php echo lang('date') ?>:</label>
-                                            <div class="input-group"> 
-                                                <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
-                                            </div>
-                                        </div>
-                                        <div class="form-group" id="gudang">
-                                            <label><?php echo lang('gudang') ?>:</label>
-                                            <select class="form-control gudangid" name="gudangid"></select>
-                                        </div>
-                                        <div class="form-group" id="gudang">
-                                            <label>Project :</label>
-                                            <select class="form-control project" name="project"></select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label><?php echo lang('Perusahaan') ?>:</label>
-                                            <div class="input-group"> 
-                                                <?php
-                                                    if ($this->session->userid !== '1') { ?>
-                                                        <input type="hidden" name="idperusahaan" value="<?= $this->session->idperusahaan; ?>" id="perusahaan">
-                                                        <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
-                                                    <?php } else { ?>
-                                                        <select class="form-control perusahaan" name="idperusahaan" style="width: 100%;" id="perusahaan"></select>
-                                                    <?php }
-                                                ?>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Departemen') ?>:</label>
-                                            <div class="input-group"> 
-                                                <select id="department" class="form-control department" name="dept" required></select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('PIC') ?>:</label>
-                                            <div class="input-group"> 
-                                                <select id="pejabat" class="form-control pejabat" name="pejabat" required></select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-2">
-                                    <div class="form-group">
-                                            <label><?php echo lang('Jenis Pembelian') ?>:</label>
-                                            <select class="form-control jenis_pembelian" name="jenis_pembelian" required>
-                                                <option value="barang">Barang</option>                                   
-                                                <option value="jasa">Jasa</option>
-                                                <option value="barang_dan_jasa">Barang dan Jasa</option>
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Jenis Barang') ?>:</label>
-                                            <select class="form-control jenis_barang" name="jenis_barang" required>
-                                                    <option value="barang_dagangan">Barang Dagangan</option>
-                                                    <option value="inventaris">Inventaris</option>    
-                                                    <option value="barang_dan_jasa">Barang dan Jasa</option>                               
-                                            </select>
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Cara Pembayaran') ?>:</label>
-                                            <select class="form-control cara_pembayaran" name="cara_pembayaran" required>
-                                                    <option value="cash">Cash</option>
-                                                    <option value="credit">Credit</option>                                   
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                    </div>
-                                </div>
-                                <div class="mb-3 mt-3 table-responsive">
-                                    <div class="mt-3 mb-3">
-                                        <div class="row">
-                                            <div class="col-2">
-                                                <button type="button" class="btn btn-sm btn-primary btn_add_detail"><i class="fas fa-plus"></i> <?php echo lang('add_new') ?></button>
-                                            </div>
-                                            <div class="col-10">
-                                                <button type="button" class="btn btn-sm btn-primary" style="display:none;" id="tombol_jasa"><i class="fas fa-plus"></i> Tambah Jasa</button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="table-responsive">
-                                        <table class="table table-xs table-striped table-borderless table-hover index_datatable"  id="table_detail">
-                                            <thead>
-                                                <tr class="table-active">
-                                                    <th>ID</th>
-                                                    <th><?php echo lang('item') ?></th>
-                                                    <th class="text-right"><?php echo lang('price') ?></th>
-                                                    <th class="text-right" style="width:50px;"><?php echo lang('qty') ?></th>
-                                                    <th class="text-right"><?php echo lang('subtotal') ?></th>
-                                                    <th class="text-right" style="width:50px;"><?php echo lang('discount') ?></th>
-                                                    <th class="text-right" style="width:50px;">Pajak</th>
-                                                    <th class="text-right" style="width:50px;">Biaya Pengiriman</th>
-                                                    <th class="text-right" style="width:50px;"><?php echo lang('no akun') ?></th>
-                                                    <th class="text-right"><?php echo lang('total') ?></th>
-                                                    <th class="text-right"><?php echo lang('sisa pagu item') ?></th>
-                                                    <th class="text-center" style="width:50px;"><?php echo lang('action') ?></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody></tbody>
-                                            <tfoot class="bg-light">
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th colspan="7">&nbsp;</th>
-                                                    <th class="text-right"><?php echo lang('total') ?></th>
-                                                    <th class="text-center" id="total_total">
-                                                    <th></th>
-                                                    <th></th>
-                                                    </th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
-                                </div>
-                                <div class="row mb-3">
-                                    <div class="col-md-6">
-                                    <div class="form-group">
-                                            <label><?php echo lang('Uang Muka') ?>:</label>
-                                            <input class="form-control um" name="um" id="um" onkeyup="format('um'), hitungtum()">
-                                        </div>
-                                        <div class="row mb-3">                            
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
-                                                <div class="alert alert-danger alert-dismissible" style="display:none" id="alertjumlah">
-                                                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-                                                    Jumlah Total dan Jumlah Uang Muka tidak sama
-                                                </div>
-                                                <input type="hidden" name="grandtotal" readonly id="grandtotal">
-                                                <input class="form-control tum" name="tum" readonly>
-                                            </div>
-                                        </div> 
-                                        <div class="col-md-3">                       
-                                            <div class="form-group">
-                                                <label><?php echo lang('Jumlah Term') ?>:</label>
-                                                <input class="form-control jtem" name="jtem">
-                                            </div>
-                                        </div>
-                                        </div>
-                                        
-                                        <div class="form-group">
-                                            <label><?php echo lang('note') ?>:</label>
-                                            <textarea class="form-control catatan" name="catatan" rows="6"></textarea>
-                                        </div>                       
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label><?php echo lang('Term 1') ?>:</label>
-                                            <input type="text" class="form-control" name="a1" placeholder="Angsuran 1" id="a1" onkeyup="format('a1'), hitungterm(), hitungtum()">
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Term 2') ?>:</label>
-                                            <input type="text" class="form-control" name="a2" placeholder="Angsuran 2" id="a2" onkeyup="format('a2'), hitungterm(), hitungtum()">
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Term 3') ?>:</label>
-                                            <input type="text" class="form-control" name="a3" placeholder="Angsuran 3" id="a3" onkeyup="format('a3'), hitungterm(), hitungtum()">
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Term 4') ?>:</label>
-                                            <input type="text" class="form-control" name="a4" placeholder="Angsuran 4" id="a4" onkeyup="format('a4'), hitungterm(), hitungtum()">
-                                        </div>
-                                    </div>
-                                    <div class="col-md-3">
-                                        <div class="form-group">
-                                            <label><?php echo lang('Term 5') ?>:</label>
-                                            <input type="text" class="form-control" name="a5" placeholder="Angsuran 5" id="a5" onkeyup="format('a5'), hitungterm(), hitungtum()">
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Term 6') ?>:</label>
-                                            <input type="text" class="form-control" name="a6" placeholder="Angsuran 6" id="a6" onkeyup="format('a6'), hitungterm(), hitungtum()">
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Term 7') ?>:</label>
-                                            <input type="text" class="form-control" name="a7" placeholder="Angsuran 7" id="a7" onkeyup="format('a7'), hitungterm(), hitungtum()">
-                                        </div>
-                                        <div class="form-group">
-                                            <label><?php echo lang('Term 8') ?>:</label>
-                                            <input type="text" class="form-control" name="a8" placeholder="Angsuran 8" id="a8" onkeyup="format('a8'), hitungterm(), hitungtum()">
-                                        </div>
-                                    </div>
-                                </div>
-                                <input type="hidden" name="detail_array" id="detail_array">
-                                <div id="detailPajak"></div>
-                            </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                                <div class="text-left">
-                                    <div class="btn-group">
-                                        <a href="{site_url}requiremen" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                                        <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </form>
-                        </div>
-                    <!-- /.card -->
-                    </div>
-                <!--/.col (left) -->
-            <!--/.col (right) -->
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title"><?= $title; ?></h3>
             </div>
-            <!-- /.row -->
-        </div><!-- /.container-fluid -->
-    </section>
-    <!-- /.content -->
+            <form id="form1" action="javascript:save()">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label><?php echo lang('notrans') ?>:</label>
+                      <input type="text" class="form-control"readonly name="notrans" placeholder="AUTO">
+                    </div>
+                    <div class="form-group" id="rekanan">
+                      <label><?php echo lang('rekanan') ?>:</label>
+                      <select class="form-control kontakid" name="kontakid" disabled></select>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label><?php echo lang('date') ?>:</label>
+                      <div class="input-group"> 
+                        <input type="date" class="form-control datepicker" name="tanggal" required value="{tanggal}">
+                      </div>
+                    </div>
+                    <div class="form-group" id="gudang">
+                      <label><?php echo lang('gudang') ?>:</label>
+                      <select class="form-control gudangid" name="gudangid"></select>
+                    </div>
+                    <div class="form-group" id="gudang">
+                      <label>Project :</label>
+                      <select class="form-control project" name="project"></select>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label><?php echo lang('Perusahaan') ?>:</label>
+                      <div class="input-group"> 
+                        <?php
+                          if ($this->session->userid !== '1') { ?>
+                            <input type="hidden" name="idperusahaan" value="<?= $this->session->idperusahaan; ?>" id="perusahaan">
+                            <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                          <?php } else { ?>
+                            <select class="form-control perusahaan" name="idperusahaan" style="width: 100%;" id="perusahaan"></select>
+                          <?php }
+                        ?>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label><?php echo lang('Departemen') ?>:</label>
+                      <div class="input-group"> 
+                        <select id="department" class="form-control department" name="dept" required></select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label><?php echo lang('PIC') ?>:</label>
+                      <div class="input-group"> 
+                        <select id="pejabat" class="form-control pejabat" name="pejabat" required></select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <label><?php echo lang('Jenis Pembelian') ?>:</label>
+                      <select class="form-control jenis_pembelian" name="jenis_pembelian" required>
+                        <option value="barang">Barang</option>                                   
+                        <option value="jasa">Jasa</option>
+                        <option value="barang_dan_jasa">Barang dan Jasa</option>
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label><?php echo lang('Jenis Barang') ?>:</label>
+                      <select class="form-control jenis_barang" name="jenis_barang" required>
+                        <option value="barang_dagangan">Barang Dagangan</option>
+                        <option value="inventaris">Inventaris</option>    
+                        <option value="barang_dan_jasa">Barang dan Jasa</option>                               
+                      </select>
+                    </div>
+                    <div class="form-group">
+                      <label><?php echo lang('Cara Pembayaran') ?>:</label>
+                      <select class="form-control cara_pembayaran" name="cara_pembayaran" required>
+                        <option value="cash">Cash</option>
+                        <option value="credit">Credit</option>                                   
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                </div>
+              </div>
+              <div class="mb-3 mt-3 table-responsive">
+                <div class="mt-3 mb-3">
+                  <div class="row">
+                    <div class="col-2">
+                      <button type="button" class="btn btn-sm btn-primary btn_add_detail"><i class="fas fa-plus"></i> <?php echo lang('add_new') ?></button>
+                    </div>
+                    <div class="col-10">
+                      <button type="button" class="btn btn-sm btn-primary" style="display:none;" id="tombol_jasa"><i class="fas fa-plus"></i> Tambah Jasa</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="table-responsive">
+                  <table class="table table-xs table-striped table-borderless table-hover index_datatable"  id="table_detail">
+                    <thead>
+                      <tr class="table-active">
+                          <th>ID</th>
+                          <th><?php echo lang('item') ?></th>
+                          <th class="text-right"><?php echo lang('price') ?></th>
+                          <th class="text-right" style="width:50px;"><?php echo lang('qty') ?></th>
+                          <th class="text-right"><?php echo lang('subtotal') ?></th>
+                          <th class="text-right" style="width:50px;"><?php echo lang('discount') ?></th>
+                          <th class="text-right" style="width:50px;">Pajak</th>
+                          <th class="text-right" style="width:50px;">Biaya Pengiriman</th>
+                          <th class="text-right" style="width:50px;"><?php echo lang('no akun') ?></th>
+                          <th class="text-right"><?php echo lang('total') ?></th>
+                          <th class="text-right"><?php echo lang('sisa pagu item') ?></th>
+                          <th class="text-center" style="width:50px;"><?php echo lang('action') ?></th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                    <tfoot class="bg-light">
+                      <tr>
+                        <th>ID</th>
+                        <th colspan="7">&nbsp;</th>
+                        <th class="text-right"><?php echo lang('total') ?></th>
+                        <th class="text-center" id="total_total">
+                        <th></th>
+                        <th></th>
+                        </th>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <div class="form-group">
+                    <label><?php echo lang('Uang Muka') ?>:</label>
+                    <input class="form-control um" name="um" id="um" onkeyup="format('um'), hitungtum()">
+                  </div>
+                  <div class="row mb-3">                            
+                    <div class="col-md-6">
+                      <div class="form-group">
+                        <label><?php echo lang('Total Uang Muka + Term') ?>:</label>
+                        <div class="alert alert-danger alert-dismissible" style="display:none" id="alertjumlah">
+                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
+                          Jumlah Total dan Jumlah Uang Muka tidak sama
+                        </div>
+                        <input type="hidden" name="grandtotal" readonly id="grandtotal">
+                        <input class="form-control tum" name="tum" readonly>
+                      </div>
+                    </div> 
+                    <div class="col-md-3">                       
+                      <div class="form-group">
+                        <label><?php echo lang('Jumlah Term') ?>:</label>
+                        <input class="form-control jtem" name="jtem">
+                      </div>
+                    </div>
+                  </div>  
+                  <div class="form-group">
+                    <label><?php echo lang('note') ?>:</label>
+                    <textarea class="form-control catatan" name="catatan" rows="6"></textarea>
+                  </div>                       
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label><?php echo lang('Term 1') ?>:</label>
+                    <input type="text" class="form-control" name="a1" placeholder="Angsuran 1" id="a1" onkeyup="format('a1'), hitungterm(), hitungtum()">
+                  </div>
+                  <div class="form-group">
+                    <label><?php echo lang('Term 2') ?>:</label>
+                    <input type="text" class="form-control" name="a2" placeholder="Angsuran 2" id="a2" onkeyup="format('a2'), hitungterm(), hitungtum()">
+                  </div>
+                  <div class="form-group">
+                    <label><?php echo lang('Term 3') ?>:</label>
+                    <input type="text" class="form-control" name="a3" placeholder="Angsuran 3" id="a3" onkeyup="format('a3'), hitungterm(), hitungtum()">
+                  </div>
+                  <div class="form-group">
+                    <label><?php echo lang('Term 4') ?>:</label>
+                    <input type="text" class="form-control" name="a4" placeholder="Angsuran 4" id="a4" onkeyup="format('a4'), hitungterm(), hitungtum()">
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="form-group">
+                    <label><?php echo lang('Term 5') ?>:</label>
+                    <input type="text" class="form-control" name="a5" placeholder="Angsuran 5" id="a5" onkeyup="format('a5'), hitungterm(), hitungtum()">
+                  </div>
+                  <div class="form-group">
+                    <label><?php echo lang('Term 6') ?>:</label>
+                    <input type="text" class="form-control" name="a6" placeholder="Angsuran 6" id="a6" onkeyup="format('a6'), hitungterm(), hitungtum()">
+                  </div>
+                  <div class="form-group">
+                    <label><?php echo lang('Term 7') ?>:</label>
+                    <input type="text" class="form-control" name="a7" placeholder="Angsuran 7" id="a7" onkeyup="format('a7'), hitungterm(), hitungtum()">
+                  </div>
+                  <div class="form-group">
+                    <label><?php echo lang('Term 8') ?>:</label>
+                    <input type="text" class="form-control" name="a8" placeholder="Angsuran 8" id="a8" onkeyup="format('a8'), hitungterm(), hitungtum()">
+                    </div>
+                  </div>
+                </div>
+                <input type="hidden" name="detail_array" id="detail_array">
+                <div id="detailPajak"></div>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <div class="text-left">
+                  <div class="btn-group">
+                    <a href="{site_url}requiremen" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                    <button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
-<!-- /.content-wrapper -->
 
 <div id="modal_add_detail" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <form action="javascript:save_detail(0, 'barang')" id="form2">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title"><?php echo lang('add_new') ?></h5>
-                </div>
+  <div class="modal-dialog modal-lg">
+    <form action="javascript:save_detail(0, 'barang')" id="form2">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title"><?php echo lang('add_new') ?></h5>
+        </div>
 
-                <div class="modal-body">
-                    <input type="hidden" name="rowindex">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label><?php echo lang('item') ?>:</label>
-                                <select class="form-control itemid" name="itemid[]" required style="width:100%" multiple>
-                                </select>
-                            </div>
-                        </div>
-                        <table class="table">
-                            <tbody id='list_barang'>
-
-                            </tbody>
-                        </table>
-                        <div id="detail_barang"></div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
-                        <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
-                    </div>
-                </div>
+        <div class="modal-body">
+          <input type="hidden" name="rowindex">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                  <label><?php echo lang('item') ?>:</label>
+                  <select class="form-control itemid" name="itemid[]" required style="width:100%" multiple>
+                  </select>
+              </div>
             </div>
-        </form>
-    </div>
+            <table class="table">
+              <tbody id='list_barang'></tbody>
+            </table>
+            <div id="detail_barang"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group">
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
+            <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div id="modal_add_jasa" class="modal fade">
-    <div class="modal-dialog modal-lg">
-        <form action="javascript:save_detail(0, 'jasa1')" id="form_jasa">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Tambah Jasa</h5>
-                </div>
+  <div class="modal-dialog modal-lg">
+    <form action="javascript:save_detail(0, 'jasa1')" id="form_jasa">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Tambah Jasa</h5>
+        </div>
 
-                <div class="modal-body">
-                    <input type="hidden" name="rowindex">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Jasa :</label>
-                                <select class="form-control id_jasa" name="id_jasa[]" required style="width:100%" multiple>
-                                </select>
-                            </div>
-                        </div>
-                        <table class="table">
-                            <tbody id='list_jasa'>
-
-                            </tbody>
-                        </table>
-                        <div id="detail_jasa"></div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
-                        <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
-                    </div>
-                </div>
+        <div class="modal-body">
+          <input type="hidden" name="rowindex">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Jasa :</label>
+                <select class="form-control id_jasa" name="id_jasa[]" required style="width:100%" multiple>
+                </select>
+              </div>
             </div>
-        </form>
-    </div>
+            <table class="table">
+                <tbody id='list_jasa'></tbody>
+            </table>
+            <div id="detail_jasa"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group">
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
+            <button type="submit" class="btn btn-success"><?php echo lang('save') ?></button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div id="modal_edit_detail" class="modal fade">
-    <div class="modal-dialog">
-        <form action="javascript:edit_detail_barang()" id="form3" enctype="multipart/form-data" method="POST">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    <h5 class="modal-title">Edit Detail</h5>
-                </div>
-                <div class="modal-body">
-                    <input type="hidden" name="edit_rowindex">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label><?php echo lang('item') ?>:</label>
-                                <select class="form-control edit_itemid" name="edit_itemid[]" required style="width:100%">
-                                </select>
-                            </div>
-                        </div>
-                        <table class="table">
-                            <tbody id='edit_list_barang'>
-
-                            </tbody>
-                        </table>
-                        <div id="edit_detail_barang"></div>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
-                        <button type="submit" class="btn btn-success">Edit</button>
-                    </div>
-                </div>
+  <div class="modal-dialog">
+    <form action="javascript:edit_detail_barang()" id="form3" enctype="multipart/form-data" method="POST">
+      <div class="modal-content">
+        <div class="modal-header bg-primary">
+          <h5 class="modal-title">Edit Detail</h5>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" name="edit_rowindex">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label><?php echo lang('item') ?>:</label>
+                <select class="form-control edit_itemid" name="edit_itemid[]" required style="width:100%">
+                </select>
+              </div>
             </div>
-        </form>
-    </div>
+            <table class="table">
+              <tbody id='edit_list_barang'></tbody>
+            </table>
+            <div id="edit_detail_barang"></div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group">
+            <button type="button" class="btn btn-danger" data-dismiss="modal"><?php echo lang('cancel') ?></button>
+            <button type="submit" class="btn btn-success">Edit</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
 </div>
 
 <div id="tambah_modal_pajak"></div>
@@ -372,83 +352,81 @@
 <div id="tambah_modal_pilih_pengiriman"></div>
 
 <script>
-    var base_url        = '{site_url}requiremen/';
-    var total_total     = [];
+  var base_url        = '{site_url}requiremen/';
+  var total_total     = [];
 
-    function addPajak(elem, no, id) {
+  function addPajak(elem, no, id) {
 		const kode_pajak 	= $(elem).attr('kode_pajak');
-        const nama_pajak 	= $(elem).attr('nama_pajak');
-        const kode_akun 	= $(elem).attr('kode_akun');
-        const nama_akun 	= $(elem).attr('nama_akun');
-		const stat			= $(elem).is(":checked");
-        const table			= $('#isi_tbody_pajak'+id);
-        const idPajak       = $(elem).attr('idPajak');
-        const persen        = $(elem).attr('persen');
-        const harga         = parseInt($('#harga' + id).val().replace(/[.]/g, ''));
-        nominal             = harga * persen / 100;
-		// var no1				= 0;		
+    const nama_pajak 	= $(elem).attr('nama_pajak');
+    const kode_akun 	= $(elem).attr('kode_akun');
+    const nama_akun 	= $(elem).attr('nama_akun');
+		const stat			  = $(elem).is(":checked");
+    const table			  = $('#isi_tbody_pajak'+id);
+    const idPajak     = $(elem).attr('idPajak');
+    const persen      = $(elem).attr('persen');
+    const harga       = parseInt($('#harga' + id).val().replace(/[.]/g, ''));
+    nominal           = harga * persen / 100;
 		if (stat) {
 			html = `<tr no="${no}">
-                        <td><input type="hidden" name="idPajak" value="${idPajak}">${kode_pajak}</td>
-                        <td>${kode_akun}</td>
-                        <td>${nama_akun}</td>
-                        <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak" value="${formatRupiah(String(nominal))}"></td>
-                        <td><input type="checkbox" name="pengurangan" id="pengurangan${no}${id}"></td>
-                    </tr>`;
+                <td><input type="hidden" name="idPajak" value="${idPajak}">${kode_pajak}</td>
+                <td>${kode_akun}</td>
+                <td>${nama_akun}</td>
+                <td><input type="text" class="form-control pajak" id="nominal_pajak${no}${id}" onkeyup="nominalPajak('${no}${id}')" name="pajak" value="${formatRupiah(String(nominal))}"></td>
+                <td><input type="checkbox" name="pengurangan" id="pengurangan${no}${id}"></td>
+            </tr>`;
 			table.append(html);
 		} else {
-            // alert('a');
 			$(`tr[no="${no}"]`).remove();
 		}
 	}
 
-    function total_pajak(id, no) {
-        var formData    = new FormData($('#form_pajak'+id)[0]);
-        var pajak       = formData.getAll('pajak');
-        var pengurangan = formData.getAll('pengurangan');
-        var idPajak     = formData.getAll('idPajak');
-        var pajak_baru  = 0;
-        var index       = 0;
-        pajak.forEach(p => {
-            var stat    = $('#pengurangan' + index + id).is(':checked');
-            if (stat) {
-                pajak_baru  -= parseInt(p.replace(/[.]/g, ''));
-                stat        = 1;
-            } else {
-                pajak_baru  += parseInt(p.replace(/[.]/g, ''));
-                stat        = 0;
-            }
-            pengurangan[index]  = stat; 
-            index++;
-        });
-        var x   = $('#idPajak' + id);
-        if (x.length == 0) {
-            $('#detailPajak').append(
-                `<input type="hidden" name="idPajak[]" value="${idPajak}" id="idPajak${id}">
-                <input type="hidden" name="pajak[]" value="${pajak}" id="pajak${id}">
-                <input type="hidden" name="pengurangan[]" value="${pengurangan}" id="pengurangan${id}">`
-            );
-        } else {
-            $('#idPajak' + id).val(idPajak);
-            $('#pajak' + id).val(pajak);
-            $('#pengurangan' + id).val(pengurangan);
-        }
-        $('#total_pajak'+id).val(pajak_baru);
-        $('#modal_pajak'+id).modal('hide');
-        sum_total(id, no)
+  function total_pajak(id, no) {
+    var formData    = new FormData($('#form_pajak'+id)[0]);
+    var pajak       = formData.getAll('pajak');
+    var pengurangan = formData.getAll('pengurangan');
+    var idPajak     = formData.getAll('idPajak');
+    var pajak_baru  = 0;
+    var index       = 0;
+    pajak.forEach(p => {
+      var stat    = $('#pengurangan' + index + id).is(':checked');
+      if (stat) {
+          pajak_baru  -= parseInt(p.replace(/[.]/g, ''));
+          stat        = 1;
+      } else {
+          pajak_baru  += parseInt(p.replace(/[.]/g, ''));
+          stat        = 0;
+      }
+      pengurangan[index]  = stat; 
+      index++;
+    });
+    var x   = $('#idPajak' + id);
+    if (x.length == 0) {
+      $('#detailPajak').append(
+          `<input type="hidden" name="idPajak[]" value="${idPajak}" id="idPajak${id}">
+          <input type="hidden" name="pajak[]" value="${pajak}" id="pajak${id}">
+          <input type="hidden" name="pengurangan[]" value="${pengurangan}" id="pengurangan${id}">`
+      );
+    } else {
+      $('#idPajak' + id).val(idPajak);
+      $('#pajak' + id).val(pajak);
+      $('#pengurangan' + id).val(pengurangan);
     }
+    $('#total_pajak'+id).val(pajak_baru);
+    $('#modal_pajak'+id).modal('hide');
+    sum_total(id, no)
+  }
 
-    function total_pengiriman(id, no) {
-        var formData            = new FormData($('#form_pengiriman'+id)[0]);
-        var pengiriman          = formData.getAll('pengiriman');
-        var biaya_pengiriman    = 0;
-        pengiriman.forEach(p => {
-            biaya_pengiriman  += parseInt(p.replace(/[Rp.]/g, ''));
-        });
-        $('#biaya_pengiriman'+id).val(biaya_pengiriman);
-        $('#modal_pengiriman'+id).modal('hide');
-        sum_total(id, no)
-    }
+  function total_pengiriman(id, no) {
+    var formData            = new FormData($('#form_pengiriman'+id)[0]);
+    var pengiriman          = formData.getAll('pengiriman');
+    var biaya_pengiriman    = 0;
+    pengiriman.forEach(p => {
+      biaya_pengiriman  += parseInt(p.replace(/[Rp.]/g, ''));
+    });
+    $('#biaya_pengiriman'+id).val(biaya_pengiriman);
+    $('#modal_pengiriman'+id).modal('hide');
+    sum_total(id, no)
+  }
 
   function nominalPajak(no) {
     let nilai   = $('#nominal_pajak' + no).val();
@@ -456,7 +434,7 @@
     $('#nominal_pajak' + no).val(formatRupiah(String(nilai)));
   }
 
-    function getListPajak(id) {
+  function getListPajak(id) {
 		var table = $('#list_pajak'+id);
 		$.ajax({
 			type    : "get",
@@ -470,91 +448,114 @@
 								<td><input type="checkbox" name="" id=""  disabled></td>
 								<td>${element.kode_pajak}</td>
 								<td>${element.nama_pajak}</td>
-                                <td>${element.akunno}</td>
-                                <td>${element.namaakun}</td>
-                                <td>${element.persen}</td>
+                <td>${element.akunno}</td>
+                <td>${element.namaakun}</td>
+                <td>${element.persen}</td>
 							</tr>
 						`;
 						table.append(html);
 					} else {
-                        const html  = `
+            const html  = `
 							<tr>
 								<td><input type="checkbox" name="" kode_pajak="${element.kode_pajak}" nama_pajak="${element.nama_pajak}" kode_akun="${element.akunno}" nama_akun="${element.namaakun}" id="" idPajak="${element.id_pajak}" onchange="addPajak(this, `+i+`, '`+id+`')" persen="${element.persen}"></td>
 								<td>${element.kode_pajak}</td>
 								<td>${element.nama_pajak}</td>
-                                <td>${element.akunno}</td>
-                                <td>${element.namaakun}</td>
-                                <td>${element.persen}</td>
+                <td>${element.akunno}</td>
+                <td>${element.namaakun}</td>
+                <td>${element.persen}</td>
 							</tr>
 						`;
 						table.append(html);
 					}
-                }
+        }
 			}
 		});
 	}
 
-    $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
-        return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
-    })
-    var table_detail = $('#table_detail').DataTable({
-        sort: false,
-        info: false,
-        searching: false,
-        paging: false,
-        columnDefs: [
-            {targets: [0], visible: false},
-            {targets: [2,3,4,5,6,7,8,9], className: 'text-right'}
-        ],
-        footerCallback: function ( row, data, start, end, display ) {
-            var api = this.api(), data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[\Rp.]/g, '').replace(/,00/g)*1 :
-                    typeof i === 'number' ?
-                        i : 0;
-            };
+  $.fn.dataTable.Api.register( 'hasValue()' , function(value) {
+    return this .data() .toArray() .toString() .toLowerCase() .split(',') .indexOf(value.toString().toLowerCase())>-1
+  })
 
-            total = api.column( 9 ).data().reduce( function (a, b) {
-                return intVal(a) + intVal(b); 
-            }, 0 );
+  var table_detail = $('#table_detail').DataTable({
+    sort        : false,
+    info        : false,
+    searching   : false,
+    paging      : false,
+    columnDefs  : [
+      {
+        targets : [0], 
+        visible : false},
+      {
+        targets   : [2,3,4,5,6,7,8,9], 
+        className : 'text-right'
+      }
+    ],
+    footerCallback  : function ( row, data, start, end, display ) {
+      var api     = this.api(), data;
+      var intVal  = function ( i ) {
+        return typeof i === 'string' ?
+          i.replace(/[\Rp.]/g, '').replace(/,00/g)*1 :
+          typeof i === 'number' ?
+              i : 0;
+      };
 
-            $( api.column( 9 ).footer() ).html(
-                formatRupiah(String(total))+',00'
-            );
+      total = api.column( 9 ).data().reduce( function (a, b) {
+        return intVal(a) + intVal(b); 
+      }, 0 );
 
-            $('.subtotalhead').val( numeral(total).format() )
-            $('.totalhead').val( numeral(total).format() )
-        }
-    })
+      $( api.column( 9 ).footer() ).html(
+        formatRupiah(String(total))+',00'
+      );
 
-    $(document).ready(function(){
-        ajax_select({ id: '.gudangid', url: base_url + 'select2_gudang', selected: { id: null } });
-        if ('<?= $this->session->userid; ?>' == '1') {
-            ajax_select({id: '#perusahaan',	url: base_url + 'select2_mperusahaan', selected: { id: null } });			
-            $('#perusahaan').change(function(e) {
-                var perusahaanId = $('#perusahaan').children('option:selected').val();
-                var num = perusahaanId.toString().padStart(3, "0")
-                $('#corpCode').val(num);
-                ajax_select({
-                    id: '#department',
-                    url: base_url + 'select2_mdepartemen/' + perusahaanId,
-                });
-                ajax_select({
-                    id: '.project',
-                    url: '{site_url}Project/select2/' + perusahaanId,
-                });
-            })
-        } else {
-            ajax_select({
-                id: '#department',
-                url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
-            });
-            ajax_select({
-                id: '.project',
-                url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
-            });
-        }
+      $('.subtotalhead').val( numeral(total).format() )
+      $('.totalhead').val( numeral(total).format() )
+    }
+  })
+
+  $(document).ready(function(){
+    ajax_select({ 
+      id        : '.gudangid', 
+      url       : base_url + 'select2_gudang', 
+      selected  : { 
+        id  : null 
+      } 
+    });
+
+    if ('<?= $this->session->userid; ?>' == '1') {
+      ajax_select({
+        id        : '#perusahaan',	
+        url       : base_url + 'select2_mperusahaan', 
+        selected  : { 
+          id  : null 
+        } 
+      });
+      
+      $('#perusahaan').change(function(e) {
+        var perusahaanId  = $('#perusahaan').children('option:selected').val();
+        var num           = perusahaanId.toString().padStart(3, "0")
+
+        $('#corpCode').val(num);
+
+        ajax_select({
+          id: '#department',
+          url: base_url + 'select2_mdepartemen/' + perusahaanId,
+        });
+        
+        ajax_select({
+            id: '.project',
+            url: '{site_url}Project/select2/' + perusahaanId,
+        });
+      })
+      } else {
+          ajax_select({
+              id: '#department',
+              url: base_url + 'select2_mdepartemen/<?= $this->session->idperusahaan; ?>',
+          });
+          ajax_select({
+              id: '.project',
+              url: '{site_url}project/select2/<?= $this->session->idperusahaan; ?>',
+          });
+      }
 
 		$('#department').change(function(e) {
 			var deptName = $('#department').children('option:selected').text();

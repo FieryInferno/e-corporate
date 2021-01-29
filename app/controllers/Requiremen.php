@@ -206,16 +206,17 @@ class Requiremen extends User_Controller {
 
 	public function select2_mdepartemen($id = null, $text = null)
 	{
+    $term = $this->input->get('term');
 		if ($text) {
-			$this->db->select('tanggaranbelanja.dept as id, tanggaranbelanja.dept as text');
-			$this->db->where('tanggaranbelanja.idperusahaan', $id);
-			$this->db->where('tanggaranbelanja.dept', $text);
-			$data = $this->db->get('tanggaranbelanja')->row_array();
+			$this->db->select('mdepartemen.id as id, mdepartemen.nama as text');
+			$this->db->where('mdepartemen.id_perusahaan', $id);
+			$this->db->where('mdepartemen.nama', $text);
+			$data = $this->db->get('mdepartemen')->row_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		} else {
-			$this->db->select('mdepartemen.nama as id, mdepartemen.nama as text');
-			$this->db->where('mdepartemen.id_perusahaan', $id);
-			$this->db->limit(10);
+			$this->db->select('mdepartemen.id as id, mdepartemen.nama as text');
+      $this->db->where('mdepartemen.id_perusahaan', $id);
+      if ($term) $this->db->like('nama', $term);
 			$data = $this->db->get('mdepartemen')->result_array();
 			$this->output->set_content_type('application/json')->set_output(json_encode($data));
 		}
