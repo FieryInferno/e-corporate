@@ -1914,18 +1914,19 @@
     }
 
     function hitungTotalPengeluaranPemindahbukuan(){
-        var tbl= document.getElementById('table_detail_rincian_buku_kas_umum'), sumPengeluaranPemindahbukuan=0;
+        var tbl                       = document.getElementById('table_detail_rincian_buku_kas_umum'), 
+        sumPengeluaranPemindahbukuan  = 0;
         for (var i = 1; i < tbl.rows.length; i++) {
-            ubahpengeluaran = tbl.rows[i].cells[5].innerHTML.split('Rp. ').join('');
-            ubahpengeluaran1 = ubahpengeluaran.split('.').join('');
-            tipe = tbl.rows[i].cells[1].innerHTML;
+            ubahpengeluaran   = tbl.rows[i].cells[4].innerHTML.split(',00').join('');
+            ubahpengeluaran1  = ubahpengeluaran.split('.').join('');
+            tipe              = tbl.rows[i].cells[1].innerHTML;
             if ( tipe == 'Pengajuan Kas Kecil'){
                 sumPengeluaranPemindahbukuan = sumPengeluaranPemindahbukuan + parseInt(ubahpengeluaran1);
             }else{
                 sumPengeluaranPemindahbukuan = sumPengeluaranPemindahbukuan + 0;
             }
         }
-        document.getElementById('pengeluaran_pemindahbukuan').value=formatRupiah(String(sumPengeluaranPemindahbukuan)) + ',00';
+        $('#pengeluaran_pemindahbukuan').val(sumPengeluaranPemindahbukuan);
     }
     //simpan data
     function save() {

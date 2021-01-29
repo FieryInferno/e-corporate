@@ -42,13 +42,13 @@ class Kas_bank_model extends CI_Model {
 			$this->db->set('cby',get_user('username'));
 			$this->db->set('cdate',date('Y-m-d H:i:s'));
 			$this->db->set('setupJurnal', $this->input->post('idSetupJurnal'));
-			$insert_kasbank = $this->db->insert('tkasbank');
+      $insert_kasbank = $this->db->insert('tkasbank');
 			if($insert_kasbank)  {
 				$nomor_kas_bank = $this->db->insert_id();
 				$detail_array1 	= $this->input->post("detail_array");
 				$detail_array 	= json_decode($detail_array1);
-				$no				= 0;
-				$noIdakun		= 0;
+				$no				      = 0;
+				$noIdakun		    = 0;
 				foreach($detail_array as $row) {
 					$this->db->set('idkasbank',$nomor_kas_bank);
 					$this->db->set('idtipe',$row[0]);
