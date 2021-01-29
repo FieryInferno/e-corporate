@@ -680,10 +680,10 @@
                 id        : '#pejabat',
                 url       : base_url + 'select2_mdepartemen_pejabat/<?= $this->session->idperusahaan; ?>',
                 selected  : {
-                  id  : '{pejabat}'
+                  id  : '<?= $kas_bank['pejabat']; ?>'
                 }
             });
-            
+
             getListPenjualan();
             getListPembelian();
             getListBudgetEvent();
@@ -720,14 +720,13 @@
                 }
             })
         } else {
-            //combobox perusahaan
-            ajax_select({
-                id          : '#id_perusahaan',
-                url         : base_url + 'select2_mperusahaan',
-                selected    : {
-                    id  : '<?= $kas_bank["perusahaan"]; ?>'
-                }
-            });
+          ajax_select({
+            id        : '#id_perusahaan',
+            url       : base_url + 'select2_mperusahaan',
+            selected  : {
+              id  : '<?= $kas_bank["perusahaan"]; ?>'
+            }
+          });
 
             ajax_select({
                 id          : '#pejabat',
