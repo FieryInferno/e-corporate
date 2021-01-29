@@ -1711,17 +1711,19 @@
       const table = $('#isitabel');       
       if (stat) {
         table_detail.row.add([
-          `${id}`,
+          id,
           `<button type="button" class="btn btn-danger delete_detail" id="button_PKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
-          `${tipe}`,
-          `${tgl}`,
-          `${nokwitansi}`,
+          tipe,
+          tgl,
+          nokwitansi,
           formatRupiah(String(nominal)) + ',00',
           formatRupiah(String('0')) + ',00',
           `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-          `${kodeperusahaan}`,
-          `${namadepartemen}`,
-          `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
+          kodeperusahaan,
+          namadepartemen,
+          `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
+          ``,
+          setupJurnal
         ]).draw(false);
         penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
       } else {
