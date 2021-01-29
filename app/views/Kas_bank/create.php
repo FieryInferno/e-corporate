@@ -1093,6 +1093,10 @@
       sort: false
     });
 
+    var tabelPiutang = $('#tabelPiutang').DataTable({
+      sort: false
+    });
+
     function getListPenjualan() {
         var table           = $('#list_penjualan');
         var idPerusahaan    = $('#id_perusahaan').val();
@@ -1417,8 +1421,8 @@
     function getPiutang() {
       var idPerusahaan    = $('#id_perusahaan').val();
       var tgl             = $('input[name=tanggal]').val();
-
-      $('#tabelPiutang').DataTable({
+      tabelPiutang.destroy();
+      tabelPiutang  = $('#tabelPiutang').DataTable({
         sort  : false,
         ajax  : {
           url   : '{site_url}piutang/get',
