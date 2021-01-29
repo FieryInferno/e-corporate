@@ -1347,38 +1347,41 @@
     }
 
     function getListKasKecil() {
-        var table = $('#list_KasKecil');
-        var idPerusahaan = $('#id_perusahaan').val();
-        var tgl = $('input[name=tanggal]').val();
-        $.ajax({
-            type: "get",
-            data : {idPerusahaan: idPerusahaan, tgl : tgl},
-            url: base_url + 'get_KasKecil',
-            success: function(response) {
-                for (let i = 0; i < response.length; i++) {
-                    const element = response[i];
-                    if (i < 0) {
-                        tabelkaskecil.row.add([
-                            `<input type="checkbox" name="" id=""  disabled>`,
-                            `${element.nokwitansi}`,
-                            `${element.keterangan}`,
-                            `${element.nama_departemen}`,
-                            `${element.tanggal}`,
-                            `${element.nominal}`,
-                        ]).draw();
-                    } else {
-                        tabelkaskecil.row.add([
-                            `<input type="checkbox" id="checkbox_PKK${element.id}" name="" data-id="${element.id}" data-tipe="Pengajuan Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" idRekening="${element.idRekening}" onchange="save_detail(this)" idAkun="${element.idakun}" tabulasi="kasKecil">`,
-                            `${element.nokwitansi}`,
-                            `${element.keterangan}`,
-                            `${element.nama_departemen}`,
-                            `${element.tanggal}`,
-                            formatRupiah(String(`${element.nominal}`)) + ',00',
-                        ]).draw();
-                    }
-                }
+      var table         = $('#list_KasKecil');
+      var idPerusahaan  = $('#id_perusahaan').val();
+      var tgl           = $('input[name=tanggal]').val();
+      $.ajax({
+        type  : "get",
+        data  : {
+          idPerusahaan  : idPerusahaan, 
+          tgl           : tgl
+        },
+        url     : base_url + 'get_KasKecil',
+        success : function(response) {
+          for (let i = 0; i < response.length; i++) {
+            const element = response[i];
+            if (i < 0) {
+              tabelkaskecil.row.add([
+                `<input type="checkbox" name="" id=""  disabled>`,
+                `${element.nokwitansi}`,
+                `${element.keterangan}`,
+                `${element.nama_departemen}`,
+                `${element.tanggal}`,
+                `${element.nominal}`,
+              ]).draw();
+            } else {
+              tabelkaskecil.row.add([
+                `<input type="checkbox" id="checkbox_PKK${element.id}" name="" data-id="${element.id}" data-tipe="Pengajuan Kas Kecil" data-tgl="${element.tanggal}" data-kwitansi="${element.nokwitansi}" data-nominal="${element.nominal}" data-namaakun="${element.nama_akun}" data-noakun="${element.nomor_akun}" data-kodeperusahaan="${element.kode}" data-namadepartemen="${element.nama_departemen}" data-namabank="${element.nama_bank}" data-norekening="${element.nomor_rekening}" idRekening="${element.idRekening}" onchange="save_detail(this)" idAkun="${element.idakun}" tabulasi="kasKecil">`,
+                `${element.nokwitansi}`,
+                `${element.keterangan}`,
+                `${element.nama_departemen}`,
+                `${element.tanggal}`,
+                formatRupiah(String(`${element.nominal}`)) + ',00',
+              ]).draw();
             }
-        });
+          }
+        }
+      });
     }
 
   function getListSetorKasKecil() {

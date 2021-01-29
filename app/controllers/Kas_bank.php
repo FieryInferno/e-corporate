@@ -268,21 +268,19 @@ class Kas_bank extends User_Controller
 
     public function get_KasKecil($edit = null)
     {
-        $idperusahaan = $this->input->get('idPerusahaan');
-        $tgl = $this->input->get('tgl');
-        $this->db->select('tpengajuankaskecil.*, mperusahaan.kode, mdepartemen.nama as nama_departemen, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening, mrekening.id as idRekening, mnoakun.idakun');
-        $this->db->join('mperusahaan','tpengajuankaskecil.perusahaan=mperusahaan.idperusahaan');
-        $this->db->join('mdepartemen','tpengajuankaskecil.pejabat=mdepartemen.id');
-        $this->db->join('mnoakun','tpengajuankaskecil.kas=mnoakun.idakun');
-        $this->db->join('mrekening','tpengajuankaskecil.rekening=mrekening.id'); 
-        $this->db->where('tpengajuankaskecil.perusahaan', $idperusahaan);
-        $this->db->where('tpengajuankaskecil.tanggal <=',$tgl);
-        // if ($edit == null) {
-        //     $this->db->where('tpengajuankaskecil.status', '0');
-        // }
-        $this->db->where('tpengajuankaskecil.stdel', '0');
-        $data = $this->db->get('tpengajuankaskecil')->result_array();
-        $this->output->set_content_type('application/json')->set_output(json_encode($data));
+      $idperusahaan = $this->input->get('idPerusahaan');
+      $tgl          = $this->input->get('tgl');
+      $this->db->select('tpengajuankaskecil.*, mperusahaan.kode, mdepartemen.nama as nama_departemen, mnoakun.namaakun as nama_akun, mnoakun.akunno as nomor_akun, mrekening.nama as nama_bank, mrekening.norek as nomor_rekening, mrekening.id as idRekening, mnoakun.idakun');
+      $this->db->join('mperusahaan','tpengajuankaskecil.perusahaan=mperusahaan.idperusahaan');
+      $this->db->join('mdepartemen','tpengajuankaskecil.pejabat=mdepartemen.id');
+      $this->db->join('mnoakun','tpengajuankaskecil.kas=mnoakun.idakun');
+      $this->db->join('mrekening','tpengajuankaskecil.rekening=mrekening.id'); 
+      $this->db->where('tpengajuankaskecil.perusahaan', $idperusahaan);
+      $this->db->where('tpengajuankaskecil.tanggal <=',$tgl);
+      $this->db->where('tpengajuankaskecil.status', '0');
+      $this->db->where('tpengajuankaskecil.stdel', '0');
+      $data = $this->db->get('tpengajuankaskecil')->result_array();
+      $this->output->set_content_type('application/json')->set_output(json_encode($data));
     }
 
     public function get_SetorKasKecil($edit = null)
