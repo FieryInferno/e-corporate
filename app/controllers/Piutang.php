@@ -165,9 +165,7 @@ class Piutang extends User_Controller {
 	public function select2_kontak_piutang($idPerusahaan = null, $idKontak = null) {
 		$term = $this->input->get('q');
 		$this->db->select('mkontak.nama as id, mkontak.nama as text');
-		// $this->db->where('mkontak.tipe', '1');
 		$this->db->where('mkontak.perusahaan', $idPerusahaan);
-		// $this->db->limit(10);
 		if($term) $this->db->like('mkontak.nama', $term);
 		$data = $this->db->get('mkontak')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
@@ -179,7 +177,6 @@ class Piutang extends User_Controller {
 		$this->model->set('tanggal', $this->tanggal);
     $data	= $this->model->get();
     return print_r($data);
-		// $this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
 }

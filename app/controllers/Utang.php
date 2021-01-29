@@ -174,11 +174,14 @@ class Utang extends User_Controller {
 	public function get()
 	{
 		$this->model->set('perusahaan', $this->perusahaan);
-		$this->model->set('tanggal', $this->tanggal);
-		$data	= [];
-		array_push($data, $this->model->get('saldoAwal'));
-		array_push($data, $this->model->get('faktur'));
-		$this->output->set_content_type('application/json')->set_output(json_encode($data));
+    $this->model->set('tanggal', $this->tanggal);
+    $data                     = $this->model->getSaldoAwal();
+    $data0                    = $this->model->getFaktur();
+    $data                     = json_decode($data, true);
+    $data{'recordsTotal'}     += $data0['recordsTotal'];
+    $data{'recordsFiltered'}  += $data0['recordsFiltered']; 
+    $data{'data'}             = array_merge($data{'data'}, $data0['data']);
+    $data                     = json_encode($data);
+    return print_r($data);
 	}
-
 }

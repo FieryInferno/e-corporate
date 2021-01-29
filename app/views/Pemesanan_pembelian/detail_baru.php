@@ -335,63 +335,62 @@
         }
 
         function format(id) {
-            var angka   = $('#'+id).val()
-            $('#'+id).val(formatRupiah(String(angka)));
+          var angka   = $('#'+id).val()
+          $('#'+id).val(formatRupiah(String(angka)));
         }
 
         function hitungtum() {
-            var um      = parseInt($('#um').val().replace(/[Rp. ]/g, ''));
-            var jtem    = parseInt($('.jtem').val().replace(/[Rp. ]/g, ''));
-            if (isNaN(jtem)) {
-                jtem = 0;
-            }
-            if (isNaN(um)) {
-                um = 0;
-            }
-            tum = um + jtem;
-            $('.tum').val(formatRupiah(String(tum)) + ',00');
-            if (tum !== <?= $grandtotal; ?>) {
-                $('#alertjumlah').css('display', 'block');
-            } else {
-                $('#alertjumlah').css('display', 'none');
-            }
-            
+          var um      = parseInt($('#um').val().replace(/[Rp. ]/g, ''));
+          var jtem    = parseInt($('.jtem').val().replace(/[Rp. ]/g, ''));
+          if (isNaN(jtem)) {
+              jtem = 0;
+          }
+          if (isNaN(um)) {
+              um = 0;
+          }
+          tum = um + jtem;
+          $('.tum').val(formatRupiah(String(tum)) + ',00');
+          if (tum !== <?= $grandtotal; ?>) {
+              $('#alertjumlah').css('display', 'block');
+          } else {
+              $('#alertjumlah').css('display', 'none');
+          }
         }
 
         function hitungterm() {
-            var a1  = parseInt($('#a1').val().replace(/[Rp. ]/g, ''));
-            var a2  = parseInt($('#a2').val().replace(/[Rp. ]/g, ''));
-            var a3  = parseInt($('#a3').val().replace(/[Rp. ]/g, ''));
-            var a4  = parseInt($('#a4').val().replace(/[Rp. ]/g, ''));
-            var a5  = parseInt($('#a5').val().replace(/[Rp. ]/g, ''));
-            var a6  = parseInt($('#a6').val().replace(/[Rp. ]/g, ''));
-            var a7  = parseInt($('#a7').val().replace(/[Rp. ]/g, ''));
-            var a8  = parseInt($('#a8').val().replace(/[Rp. ]/g, ''));
-            if (isNaN(a1)) {
-                a1 = 0;
-            }
-            if (isNaN(a2)) {
-                a2 = 0;
-            }
-            if (isNaN(a3)) {
-                a3 = 0;
-            }
-            if (isNaN(a4)) {
-                a4 = 0;
-            }
-            if (isNaN(a5)) {
-                a5 = 0;
-            }
-            if (isNaN(a6)) {
-                a6 = 0;
-            }
-            if (isNaN(a7)) {
-                a7 = 0;
-            }
-            if (isNaN(a8)) {
-                a8 = 0;
-            }
-            jtem    = a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8;
-            $('.jtem').val(formatRupiah(String(jtem)) + ',00');
+          var a1  = parseInt($('#a1').val().replace(/[Rp. ]/g, ''));
+          var a2  = parseInt($('#a2').val().replace(/[Rp. ]/g, ''));
+          var a3  = parseInt($('#a3').val().replace(/[Rp. ]/g, ''));
+          var a4  = parseInt($('#a4').val().replace(/[Rp. ]/g, ''));
+          var a5  = parseInt($('#a5').val().replace(/[Rp. ]/g, ''));
+          var a6  = parseInt($('#a6').val().replace(/[Rp. ]/g, ''));
+          var a7  = parseInt($('#a7').val().replace(/[Rp. ]/g, ''));
+          var a8  = parseInt($('#a8').val().replace(/[Rp. ]/g, ''));
+          if (isNaN(a1)) {
+            a1 = 0;
+          }
+          if (isNaN(a2)) {
+            a2 = 0;
+          }
+          if (isNaN(a3)) {
+            a3 = 0;
+          }
+          if (isNaN(a4)) {
+            a4 = 0;
+          }
+          if (isNaN(a5)) {
+            a5 = 0;
+          }
+          if (isNaN(a6)) {
+            a6 = 0;
+          }
+          if (isNaN(a7)) {
+            a7 = 0;
+          }
+          if (isNaN(a8)) {
+            a8 = 0;
+          }
+          jtem  = a1 + a2 + a3 + a4 + a5 + a6 + a7 + a8;
+          $('.jtem').val(formatRupiah(String(jtem)) + ',00');
         }
     </script>

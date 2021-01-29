@@ -349,7 +349,7 @@
         $aaData[$row_key] =  ($this->check_cType())? $row_val : array_values($row_val);
         $aaData[$row_key]['nomor']  = $nomor;
         foreach($this->add_columns as $field => $val)
-         if($this->check_cType())
+          if($this->check_cType())
             $aaData[$row_key][$field] = $this->exec_replace($val, $aaData[$row_key]);
           else
             $aaData[$row_key][] = $this->exec_replace($val, $aaData[$row_key]);
