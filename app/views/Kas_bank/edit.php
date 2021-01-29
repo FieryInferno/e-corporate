@@ -692,7 +692,7 @@
             getListSetorKasKecil();
             getPiutang();
             getHutang();
-            getSaldoSumberDana();
+            getSaldoSumberDana('edit');
             getPindahBuku();
             getSetorPajak();
             $.ajax({
@@ -724,7 +724,7 @@
                 }
             });
 
-            getSaldoSumberDana('edit');
+            getSaldoSumberDana();
         }
         
       $.ajax({
@@ -908,42 +908,41 @@
 
     //datatable rincian SSD
     var table_detail_SSD = $('#table_detail_rincian_saldo_sumber_dana').DataTable({
-        sort: false,
-        info: false,
-        searching: false,
-        paging: false,
-        columnDefs: [
-            {targets: [0], visible:false},
-            {targets: [1], className: 'text-left'},
-            {targets: [2,3,4,5], className: 'text-right'}
-        ],
-        footerCallback: function ( row, data, start, end, display ) {
-            var api = this.api(), data;
-            var intVal = function ( i ) {
-                return typeof i === 'string' ?
-                    i.replace(/[\Rp.]/g, '').replace(/,00/g, '')*1 :
-                    typeof i === 'number' ?
-                        i : 0;
-            };
-            tot_saldo_awal = api.column(2).data().reduce( function (a, b) {
-                return intVal(a) + intVal(b); 
-            }, 0 );
-            tot_penerimaan = api.column(3).data().reduce( function (a, b) {
-                return intVal(a) + intVal(b); 
-            }, 0 );
-            tot_pengeluaran = api.column(4).data().reduce( function (a, b) {
-                return intVal(a) + intVal(b); 
-            }, 0 );
-            tot_saldo_akhir = api.column(5).data().reduce( function (a, b) {
-                return intVal(a) + intVal(b); 
-            }, 0 );
+      sort        : false,
+      info        : false,
+      searching   : false,
+      paging      : false,
+      columnDefs  : [
+        {targets: [0], visible:false},
+        {targets: [1], className: 'text-left'},
+        {targets: [2,3,4,5], className: 'text-right'}
+      ],
+      footerCallback  : function ( row, data, start, end, display ) {
+        var api = this.api(), data;
+        var intVal = function ( i ) {
+          return typeof i === 'string' ?
+            i.replace(/[\Rp.]/g, '').replace(/,00/g, '')*1 :
+            typeof i === 'number' ?
+              i : 0;
+        };
+        tot_saldo_awal = api.column(2).data().reduce( function (a, b) {
+            return intVal(a) + intVal(b); 
+        }, 0 );
+        tot_penerimaan = api.column(3).data().reduce( function (a, b) {
+            return intVal(a) + intVal(b); 
+        }, 0 );
+        tot_pengeluaran = api.column(4).data().reduce( function (a, b) {
+            return intVal(a) + intVal(b); 
+        }, 0 );
+        tot_saldo_akhir = api.column(5).data().reduce( function (a, b) {
+            return intVal(a) + intVal(b); 
+        }, 0 );
 
-            $('#tot_saldo_awal').html(formatRupiah(String(tot_saldo_awal)) + ',00');
-            $('#tot_penerimaan').html(formatRupiah(String(tot_penerimaan)) + ',00');
-            $('#tot_pengeluaran').html(formatRupiah(String(tot_pengeluaran)) + ',00');
-            $('#tot_saldo_akhir').html(formatRupiah(String(tot_saldo_akhir)) + ',00');
-            
-        }
+        $('#tot_saldo_awal').html(formatRupiah(String(tot_saldo_awal)) + ',00');
+        $('#tot_penerimaan').html(formatRupiah(String(tot_penerimaan)) + ',00');
+        $('#tot_pengeluaran').html(formatRupiah(String(tot_pengeluaran)) + ',00');
+        $('#tot_saldo_akhir').html(formatRupiah(String(tot_saldo_akhir)) + ',00');
+      }
     })
 
     //datatable penjualan
@@ -1433,40 +1432,42 @@
     }
 
     function getSaldoSumberDana(edit) {
-        if (edit) {
-            var idPerusahaan    = '<?= $kas_bank["perusahaan"]; ?>';
-        } else {
-            var idPerusahaan    = $('#id_perusahaan').val();
-        }
-        var tanggal         = $('input[name=tanggal]').val();
-        $.ajax({
-            type    : 'get',
-            data    : {
-                perusahaan  : idPerusahaan,
-                tanggal     : tanggal
-            },
-            url     : base_url  + '/getSaldoSumberDana',
-            beforeSend: function() {
-                pageBlock();
-            },
-            success : function (response) {
-                unpageBlock();
-                saldoSumberDana = response;
-                if (edit) {
-                    for (let index = 0; index < response.length; index++) {
-                        rek    = response[index];
-                        table_detail_SSD.row.add([
-                            rek.id,
-                            rek.nama,
-                            formatRupiah(String(rek.totalSaldo)) + ',00',
-                            `0,00`,
-                            `0,00`,
-                            formatRupiah(String(rek.totalSaldo)) + ',00'
-                        ]).draw();
-                    }
-                }
+      if (edit) {
+        var idPerusahaan    = '<?= $kas_bank["perusahaan"]; ?>';
+      } else {
+        var idPerusahaan    = $('#id_perusahaan').val();
+      }
+
+      var tanggal         = $('input[name=tanggal]').val();
+
+      $.ajax({
+        type  : 'get',
+        data  : {
+          perusahaan  : idPerusahaan,
+          tanggal     : tanggal
+        },
+        url : base_url  + '/getSaldoSumberDana',
+        beforeSend: function() {
+          pageBlock();
+        },
+        success : function (response) {
+          unpageBlock();
+          saldoSumberDana = response;
+          if (edit) {
+            for (let index = 0; index < response.length; index++) {
+              rek    = response[index];
+              table_detail_SSD.row.add([
+                rek.id,
+                rek.nama,
+                formatRupiah(String(rek.totalSaldo)) + ',00',
+                `0,00`,
+                `0,00`,
+                formatRupiah(String(rek.totalSaldo)) + ',00'
+              ]).draw();
             }
-        })
+          }
+        }
+      })
     }
 
     function getHutang() {
@@ -1521,89 +1522,57 @@
           }},
         ],
       });
-
-      // $.ajax({
-      //     type    : 'get',
-      //     data    : {
-      //         perusahaanid    : idPerusahaan,
-      //         tanggal         : tgl
-      //     },
-      //     url     : '{site_url}utang/get',
-      //     beforeSend: function() {
-      //         pageBlock();
-      //     },
-      //     afterSend: function() {
-      //         unpageBlock();
-      //     },
-      //     success : function (response) {
-      //         response.forEach(element => {
-      //             element.forEach(e => {
-      //                 tabelHutang.row.add([
-      //                     `<input type="checkbox" id="checkboxHutang${e.id}" data-id="${e.id}" data-tipe="Saldo Awal Hutang" data-tgl="${e.tanggal}" data-kwitansi="${e.notrans}" data-nominal="${e.total}" idAkun="${e.idakun}" data-namaakun="${e.namaakun}" data-noakun="${e.akunno}" data-kodeperusahaan="${e.kode}" onchange="save_detail(this);">`,
-      //                     `${e.tanggal}`,
-      //                     `${e.tanggaltempo}`,
-      //                     `${e.notrans}`,
-      //                     `${e.catatan}`,
-      //                     `${e.rekanan}`,
-      //                     formatRupiah(String(`${e.total}`)) + ',00',
-      //                     ``,
-      //                     ``,
-      //                     ``
-      //                 ]).draw();
-      //             });
-      //         });
-      //     }
-      // })
     }
 
     //save items
     function save_detail(elem, edit) {
-        if (edit) {
-            var tipe          = elem.tipe;
-            var id            = elem.idtipe;
-            var tgl           = elem.tanggal;
-            var nokwitansi    = elem.nokwitansi;
-            if (elem.penerimaan !== '0') {
-                var nominal   = elem.penerimaan;
-            } else {
-                var nominal   = elem.pengeluaran;
-            }
-            var namaakun          = elem.namaakun;
-            var noakun            = elem.akunno;
-            var kodeperusahaan    = elem.kodeunit;
-            var namadepartemen    = elem.departemen;
-            var namabank          = elem.namaRekening;
-            var norekening        = elem.norek;
-            var idRekening        = elem.idRekening;
-            var idAkun            = elem.idakun;
-            var stat              = 1;
+      if (edit) { 
+        var tipe          = elem.tipe;
+        var id            = elem.idtipe;
+        var tgl           = elem.tanggal;
+        var nokwitansi    = elem.nokwitansi;
+        if (elem.penerimaan !== '0') {
+          var nominal   = elem.penerimaan;
         } else {
-            const tipe              = $(elem).attr('data-tipe');
-            const id                = $(elem).attr('data-id');
-            const tgl               = $(elem).attr('data-tgl');
-            const nokwitansi        = $(elem).attr('data-kwitansi');
-            const nominal           = $(elem).attr('data-nominal');
-            const namaakun          = $(elem).attr('data-namaakun');
-            const noakun            = $(elem).attr('data-noakun');
-            const kodeperusahaan    = $(elem).attr('data-kodeperusahaan');
-            const namadepartemen    = $(elem).attr('data-namadepartemen');
-            const namabank          = $(elem).attr('data-namabank');
-            const norekening        = $(elem).attr('data-norekening');
-            const idRekening        = $(elem).attr('idRekening');
-            const idAkun            = $(elem).attr('idAkun');
-            const stat              = $(elem).is(":checked");
+          var nominal   = elem.pengeluaran;
         }
-        for (let index = 0; index < saldoSumberDana.length; index++) {
-            const element = saldoSumberDana[index];
-            if (idRekening == element.id) {
-                row = index;
-                break;
-            }
-            row = index;
+        var namaakun          = elem.namaakun;
+        var noakun            = elem.akunno;
+        var kodeperusahaan    = elem.kodeunit;
+        var namadepartemen    = elem.departemen;
+        var namabank          = elem.namaRekening;
+        var norekening        = elem.norek;
+        var idRekening        = elem.idRekening;
+        var idAkun            = elem.idakun;
+        var stat              = 1;
+      } else {
+        const tipe              = $(elem).attr('data-tipe');
+        const id                = $(elem).attr('data-id');
+        const tgl               = $(elem).attr('data-tgl');
+        const nokwitansi        = $(elem).attr('data-kwitansi');
+        const nominal           = $(elem).attr('data-nominal');
+        const namaakun          = $(elem).attr('data-namaakun');
+        const noakun            = $(elem).attr('data-noakun');
+        const kodeperusahaan    = $(elem).attr('data-kodeperusahaan');
+        const namadepartemen    = $(elem).attr('data-namadepartemen');
+        const namabank          = $(elem).attr('data-namabank');
+        const norekening        = $(elem).attr('data-norekening');
+        const idRekening        = $(elem).attr('idRekening');
+        const idAkun            = $(elem).attr('idAkun');
+        const stat              = $(elem).is(":checked");
+      }
+
+      for (let index = 0; index < saldoSumberDana.length; index++) {
+        const element = saldoSumberDana[index];
+        if (idRekening == element.id) {
+          row = index;
+          break;
         }
-        var data          = table_detail_SSD.row(row).data();
-        var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
-        var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;
+        row = index;
+      }
+      var data          = table_detail_SSD.row(row).data();
+      var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
+      var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;
 
         if ( tipe == 'Penjualan'){
             const table = $('#isitabel');     
