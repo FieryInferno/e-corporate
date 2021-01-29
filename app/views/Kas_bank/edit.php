@@ -1573,30 +1573,29 @@
       var data          = table_detail_SSD.row(row).data();
       var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
       var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;
-
-        if ( tipe == 'Penjualan'){
-            const table = $('#isitabel');     
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="button_JUAL${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String(nominal)) + ',00',
-                    formatRupiah(String('0')) + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun}/${noakun}`,
-                    `${kodeperusahaan}`,
-                    `${namadepartemen}`,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
-                ]).draw(false);
-                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
-            } else {
-                penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
-                var rowindex=$('#button_JUAL'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }
-        }else if ( tipe == 'Pembelian'){
+      if ( tipe == 'Penjualan'){
+          const table = $('#isitabel');     
+          if (stat) {
+              table_detail.row.add([
+                  `${id}`,
+                  `<button type="button" class="btn btn-danger delete_detail" id="button_JUAL${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
+                  `${tipe}`,
+                  `${tgl}`,
+                  `${nokwitansi}`,
+                  formatRupiah(String(nominal)) + ',00',
+                  formatRupiah(String('0')) + ',00',
+                  `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun}/${noakun}`,
+                  `${kodeperusahaan}`,
+                  `${namadepartemen}`,
+                  `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
+              ]).draw(false);
+              penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+          } else {
+              penerimaan = parseInt(data[3].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+              var rowindex=$('#button_JUAL'+id).closest('tr').index();
+              table_detail.row(rowindex).remove().draw();
+          }
+      }else if ( tipe == 'Pembelian'){
             const table = $('#isitabel');       
             if (stat) {
                 table_detail.row.add([
@@ -1618,7 +1617,7 @@
                 var rowindex=$('#button_BELI'+id).closest('tr').index();
                 table_detail.row(rowindex).remove().draw();
             }
-        }else if ( tipe == 'Budget Event'){
+      }else if ( tipe == 'Budget Event'){
             const table = $('#isitabel');       
             if (stat) {
                 table_detail.row.add([
@@ -1639,29 +1638,31 @@
                 table_detail.row(rowindex).remove().draw();
             }
         }
-        else if ( tipe == 'Pengajuan Kas Kecil' ){
-          const table = $('#isitabel');       
-          if (stat) {
-            table_detail.row.add([
-              id,
-              `<button type="button" class="btn btn-danger delete_detail" id="button_PKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
-              tipe,
-              tgl,
-              nokwitansi,
-              formatRupiah(String(nominal)) + ',00',
-              formatRupiah(String('0')) + ',00',
-              `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-              kodeperusahaan,
-              namadepartemen,
-              `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
-            ]).draw(false);
-            pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
-          } else {
-            pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
-            var rowindex=$('#button_PKK'+id).closest('tr').index();
-            table_detail.row(rowindex).remove().draw();
-          }         
-        }else if ( tipe == 'Setor Kas Kecil' ){
+      else if ( tipe == 'Pengajuan Kas Kecil' ){
+        const table = $('#isitabel');       
+        if (stat) {
+          table_detail.row.add([
+            id,
+            `<button type="button" class="btn btn-danger delete_detail" id="button_PKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);">-</button>`,
+            tipe,
+            tgl,
+            nokwitansi,
+            formatRupiah(String('0')) + ',00',
+            formatRupiah(String(nominal)) + ',00',
+            `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+            kodeperusahaan,
+            namadepartemen,
+            `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`,
+            ``,
+            setupJurnal
+          ]).draw(false);
+          pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+        } else {
+          pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+          var rowindex=$('#button_PKK'+id).closest('tr').index();
+          table_detail.row(rowindex).remove().draw();
+        }         
+      }else if ( tipe == 'Setor Kas Kecil' ){
             const table = $('#isitabel');       
             if (stat) {
                 table_detail.row.add([
