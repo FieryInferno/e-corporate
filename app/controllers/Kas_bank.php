@@ -77,13 +77,13 @@ class Kas_bank extends User_Controller
 
     public function edit($idKasBank)
     {   
-        $data['title']      = lang('bank_cash');
-        $data['subtitle']   = 'Edit';
-        $data['tanggal']    = date('Y-m-d');
-        $data['content']    = 'Kas_bank/edit';
-        $data['kas_bank']   = $this->model->getKasBank($idKasBank);
-        $data               = array_merge($data, path_info());
-        $this->parser->parse('template', $data);
+      $data['title']      = lang('bank_cash');
+      $data['subtitle']   = 'Edit';
+      $data['tanggal']    = date('Y-m-d');
+      $data['content']    = 'Kas_bank/edit';
+      $data['kas_bank']   = $this->model->getKasBank($idKasBank);
+      $data               = array_merge($data, path_info());
+      $this->parser->parse('template', $data);
     }
 
     public function select2_mperusahaan($id = null)

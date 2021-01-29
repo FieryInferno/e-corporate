@@ -1,210 +1,199 @@
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
-    <!-- Content Header (Page header) -->
-    <section class="content-header">
-        <div class="container-fluid">
-            <div class="row mb-2">
-                <div class="col-sm-6">
-                    <h1>{title}</h1>
-                </div>
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item"><a href="#">Home</a></li>
-                        <li class="breadcrumb-item active">{title}</li>
-                    </ol>
-                </div>
-            </div>
-        </div><!-- /.container-fluid --> 
-    </section>
-
-    <!-- Main content -->
-    <section class="content">
-        <div class="container-fluid">
-            <!-- SELECT2 EXAMPLE -->
-            <div class="card">
-                <div class="card-header">
-                    <h3 class="card-title">Tambah {title}</h3>
-                </div>
-                <!-- /.card-header -->
-                <div class="card-body">
-                    <form action="javascript:save()" id="form1">
-                        <div class="row">
-                            <div class="col-md-5">
-                                <div class="form-group">
-                                    <label><?php echo lang('number') ?>:</label>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <input type="text" class="form-control" name="nomor_kas_bank" id="nomor" placeholder="AUTO" readonly value="<?= $kas_bank['nomor_kas_bank']; ?>">
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <label><?php echo lang('date') ?>:</label>
-                                    <div class="input-group">
-                                        <input type="date" id="tanggal" class="form-control datepicker" name="tanggal" required value="<?= $kas_bank['tanggal']; ?>">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label><?php echo lang('company') ?>:</label>
-                                            <?php
-                                                if ($this->session->userid !== '1') { ?>
-                                                    <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>" id="id_perusahaan">
-                                                    <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
-                                                <?php } else { ?>
-                                                    <select class="form-control id_perusahaan" name="perusahaan" style="width: 100%;" id="id_perusahaan" required></select>
-                                                <?php }
-                                            ?>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-group">
-                                            <label>Setup Jurnal : </label>
-                                            <input type="hidden" name="idSetupJurnal" id="idSetupJurnal">
-                                            <input type="text" class="form-control" id="setupJurnal" disabled>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('PIC') ?>:</label>    
-                                    <select id="pejabat" class="form-control" name="pejabat" required></select>
-                                </div>
-                                <div class="form-group">
-                                    <label><?php echo lang('information') ?>:</label>
-                                    <textarea class="form-control" name="keterangan" rows="3"><?= $kas_bank['keterangan']; ?></textarea>
-                                </div>
-                                <input type="hidden" name="detail_array" id="detail_array">
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col-12">
-                                <div class="card card-primary card-outline card-outline-tabs">
-                                <div class="card-header p-0 border-bottom-0">
-                                    <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link active" id="custom-tabs-rincian-buku-kas-umum-tab" data-toggle="pill" href="#rincian_buku_kas_umum" role="tab" aria-controls="custom-tabs-RBKU" aria-selected="true"><?php echo lang('Rincian Buku Kas Umum') ?></a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" id="custom-saldo-sumber-dana-tab" data-toggle="pill" href="#saldo_sumber_dana" role="tab" aria-controls="custom-tabs-SSD" aria-selected="false"><?php echo lang('Saldo Sumber Dana') ?></a>
-                                    </li>
-                                    </ul>
-                                </div>
-                                <div class="card-body">
-                                    <div class="tab-content">
-                                    <div class="tab-pane fade active show" id="rincian_buku_kas_umum" role="tabpanel" aria-labelledby="custom-tabs-rincian-buku-kas-umump-tab">
-                                        <div class="text-center">
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#piutang">Piutang</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#hutang">Hutang</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Penjualan">Penjualan</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Pembelian">Pembelian</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#BudgetEvent">Budget Event</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#RewardSales">Reward Sales</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#SetorPajak">Setor Pajak</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#PengajuanKasKecil">Kas Kecil</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#SetorKasKecil">Stor Kas Kecil</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ReturJual">Retur Jual</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ReturBeli">Retur Beli</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Deposito">Deposito</button>
-                                            <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#pindahBuku">Pindah Buku</button>
-                                        </div>
-
-                                        <div class="mb-3 mt-3 table-responsive">
-                                            <div class="table-responsive">
-                                                <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail_rincian_buku_kas_umum">
-                                                    <thead>
-                                                        <tr class="table-active">
-                                                            <th><?php echo lang('ID') ?></th>
-                                                            <th><?php echo lang('') ?></th>
-                                                            <th><?php echo lang('Tipe') ?></th>
-                                                            <th><?php echo lang('date') ?></th>
-                                                            <th><?php echo lang('Nomor Aktivitas') ?></th>
-                                                            <th><?php echo lang('Penerimaan') ?></th>
-                                                            <th><?php echo lang('Pengeluaran') ?></th>
-                                                            <th><?php echo lang('Nomor Akun') ?></th>
-                                                            <th><?php echo lang('Kode Unit') ?></th>
-                                                            <th><?php echo lang('Nama Dapartemen') ?></th>
-                                                            <th><?php echo lang('Sumber Dana') ?></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="isitabel"> </tbody>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="tab-pane fade" id="saldo_sumber_dana" role="tabpanel" aria-labelledby="custom-saldo-sumber-dana-tab">
-                                        <div class="mb-3 mt-3 table-responsive">
-                                            <div class="table-responsive">
-                                                <table class="table table-xs table-striped table-borderless table-hover" id="table_detail_rincian_saldo_sumber_dana" width="100%">
-                                                    <thead id="atastabel" >
-                                                        <tr class="table-active">
-                                                            <th><?php echo lang('ID') ?></th>
-                                                            <th><?php echo lang('Nama Rekening Bank') ?></th>
-                                                            <th><?php echo lang('Saldo Awal') ?></th>
-                                                            <th><?php echo lang('Penerimaan') ?></th>
-                                                            <th><?php echo lang('Pengeluaran') ?></th>
-                                                            <th><?php echo lang('Saldo Akhir') ?></th>
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody id="isitabel"></tbody>
-                                                    <tfoot>
-                                                        <tr class="table-active">
-                                                            <td> ID</td>
-                                                            <td> Total</td>
-                                                            <td><div id="tot_saldo_awal"></div></td>
-                                                            <td><div id="tot_penerimaan"></div></td>
-                                                            <td><div id="tot_pengeluaran"></div></td>
-                                                            <td><div id="tot_saldo_akhir"></div></td>
-                                                        </tr>
-                                                    </tfoot>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
-                                </div>
-                                <!-- /.card -->
-                                </div>
-                            </div>
-                        </div>
-                                
-                        <br>
-                        <div class="row">
-                            <div class="col-md-2"></div>
-                            <div class="col-md-2 text-right" style="margin-top: 1%">Total Penerimaan</div>
-                            <div class="col-md-3">
-                                <input type="text" id="penerimaan" class="form-control decimalnumber text-right" name="penerimaan" readonly>
-                            </div>
-                            <div class="col-md-2 text-right" style="margin-top: 1%">Total Pengeluaran</div>
-                            <div class="col-md-3">
-                                <input type="text" id="pengeluaran" class="form-control decimalnumber text-right" name="pengeluaran" readonly>
-                            </div>
-                            <input type="hidden" id="pengeluaran_pemindahbukuan" class="form-control decimalnumber text-right" name="pengeluaran_pemindahbukuan" readonly>
-                            <div class="col-md-3">
-                            </div>
-                                    
-                        </div>
-
-                        <br>
-                        <div class="text-right">
-                            <div class="btn-group">
-                                <a href="{site_url}Kas_bank" class="btn bg-danger"><?php echo lang('cancel') ?></a>
-                                &nbsp;<button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
-                            </div>
-                        </div>
-                    
-                </form>
-            </div>
-            </div>
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>{title}</h1>
         </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">{title}</li>
+          </ol>
+        </div>
+      </div>
     </div>
+  </section>
 
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Tambah {title}</h3>
+        </div>
+        <div class="card-body">
+          <form action="javascript:save()" id="form1">
+            <div class="row">
+              <div class="col-md-5">
+                <div class="form-group">
+                  <label><?php echo lang('number') ?>:</label>
+                  <div class="row">
+                    <div class="col-md-6">
+                      <input type="text" class="form-control" name="nomor_kas_bank" id="nomor" placeholder="AUTO" readonly value="<?= $kas_bank['nomor_kas_bank']; ?>">
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="form-group">
+                  <label><?php echo lang('date') ?>:</label>
+                  <div class="input-group">
+                    <input type="date" id="tanggal" class="form-control datepicker" name="tanggal" required value="<?= $kas_bank['tanggal']; ?>">
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-8">
+                <div class="row">
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label><?php echo lang('company') ?>:</label>
+                      <?php
+                        if ($this->session->userid !== '1') { ?>
+                          <input type="hidden" name="perusahaan" value="<?= $this->session->idperusahaan; ?>" id="id_perusahaan">
+                          <input type="text" class="form-control" value="<?= $this->session->perusahaan; ?>" disabled>
+                        <?php } else { ?>
+                          <select class="form-control id_perusahaan" name="perusahaan" style="width: 100%;" id="id_perusahaan" required></select>
+                        <?php }
+                      ?>
+                    </div>
+                  </div>
+                  <div class="col-6">
+                    <div class="form-group">
+                      <label>Setup Jurnal : </label>
+                      <input type="hidden" name="idSetupJurnal" id="idSetupJurnal">
+                      <input type="text" class="form-control" id="setupJurnal" disabled>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>PIC :</label>    
+                  <select id="pejabat" class="form-control" name="pejabat" required></select>
+                </div>
+                <div class="form-group">
+                  <label><?php echo lang('information') ?>:</label>
+                  <textarea class="form-control" name="keterangan" rows="3"><?= $kas_bank['keterangan']; ?></textarea>
+                </div>
+                <input type="hidden" name="detail_array" id="detail_array">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="card card-primary card-outline card-outline-tabs">
+                <div class="card-header p-0 border-bottom-0">
+                  <ul class="nav nav-tabs" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="custom-tabs-rincian-buku-kas-umum-tab" data-toggle="pill" href="#rincian_buku_kas_umum" role="tab" aria-controls="custom-tabs-RBKU" aria-selected="true"><?php echo lang('Rincian Buku Kas Umum') ?></a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="custom-saldo-sumber-dana-tab" data-toggle="pill" href="#saldo_sumber_dana" role="tab" aria-controls="custom-tabs-SSD" aria-selected="false"><?php echo lang('Saldo Sumber Dana') ?></a>
+                    </li>
+                  </ul>
+                </div>
+                <div class="card-body">
+                  <div class="tab-content">
+                    <div class="tab-pane fade active show" id="rincian_buku_kas_umum" role="tabpanel" aria-labelledby="custom-tabs-rincian-buku-kas-umump-tab">
+                      <div class="text-center">
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#piutang">Piutang</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#hutang">Hutang</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Penjualan">Penjualan</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Pembelian">Pembelian</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#BudgetEvent">Budget Event</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#RewardSales">Reward Sales</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#SetorPajak">Setor Pajak</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#PengajuanKasKecil">Kas Kecil</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#SetorKasKecil">Stor Kas Kecil</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ReturJual">Retur Jual</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#ReturBeli">Retur Beli</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#Deposito">Deposito</button>
+                        <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#pindahBuku">Pindah Buku</button>
+                      </div>
+                      <div class="mb-3 mt-3 table-responsive">
+                        <div class="table-responsive">
+                          <table class="table table-xs table-striped table-borderless table-hover index_datatable" id="table_detail_rincian_buku_kas_umum">
+                            <thead>
+                              <tr class="table-active">
+                                <th><?php echo lang('ID') ?></th>
+                                <th><?php echo lang('') ?></th>
+                                <th><?php echo lang('Tipe') ?></th>
+                                <th><?php echo lang('date') ?></th>
+                                <th><?php echo lang('Nomor Aktivitas') ?></th>
+                                <th><?php echo lang('Penerimaan') ?></th>
+                                <th><?php echo lang('Pengeluaran') ?></th>
+                                <th><?php echo lang('Nomor Akun') ?></th>
+                                <th><?php echo lang('Kode Unit') ?></th>
+                                <th><?php echo lang('Nama Dapartemen') ?></th>
+                                <th><?php echo lang('Sumber Dana') ?></th>
+                              </tr>
+                            </thead>
+                            <tbody id="isitabel"></tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="tab-pane fade" id="saldo_sumber_dana" role="tabpanel" aria-labelledby="custom-saldo-sumber-dana-tab">
+                      <div class="mb-3 mt-3 table-responsive">
+                        <div class="table-responsive">
+                          <table class="table table-xs table-striped table-borderless table-hover" id="table_detail_rincian_saldo_sumber_dana" width="100%">
+                            <thead id="atastabel" >
+                              <tr class="table-active">
+                                <th><?php echo lang('ID') ?></th>
+                                <th><?php echo lang('Nama Rekening Bank') ?></th>
+                                <th><?php echo lang('Saldo Awal') ?></th>
+                                <th><?php echo lang('Penerimaan') ?></th>
+                                <th><?php echo lang('Pengeluaran') ?></th>
+                                <th><?php echo lang('Saldo Akhir') ?></th>
+                              </tr>
+                            </thead>
+                            <tbody id="isitabel"></tbody>
+                            <tfoot>
+                              <tr class="table-active">
+                                <td> ID</td>
+                                <td> Total</td>
+                                <td><div id="tot_saldo_awal"></div></td>
+                                <td><div id="tot_penerimaan"></div></td>
+                                <td><div id="tot_pengeluaran"></div></td>
+                                <td><div id="tot_saldo_akhir"></div></td>
+                              </tr>
+                            </tfoot>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                </div>
+              </div>
+            </div>
+            <br>
+            <div class="row">
+              <div class="col-md-2"></div>
+              <div class="col-md-2 text-right" style="margin-top: 1%">Total Penerimaan</div>
+              <div class="col-md-3">
+                <input type="text" id="penerimaan" class="form-control decimalnumber text-right" name="penerimaan" readonly>
+              </div>
+              <div class="col-md-2 text-right" style="margin-top: 1%">Total Pengeluaran</div>
+              <div class="col-md-3">
+                <input type="text" id="pengeluaran" class="form-control decimalnumber text-right" name="pengeluaran" readonly>
+              </div>
+              <input type="hidden" id="pengeluaran_pemindahbukuan" class="form-control decimalnumber text-right" name="pengeluaran_pemindahbukuan" readonly>
+              <div class="col-md-3"></div>
+            </div>
+            <br>
+            <div class="text-right">
+              <div class="btn-group">
+                <a href="{site_url}Kas_bank" class="btn bg-danger"><?php echo lang('cancel') ?></a>
+                &nbsp;<button type="submit" class="btn bg-success"><?php echo lang('save') ?></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
 
 <!-- Start: Modal Penjualan -->
 <div class="modal fade" id="Penjualan" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -688,9 +677,13 @@
     $(document).ready(function(){
         if ('<?= $this->session->userid; ?>' !== '1') {
             ajax_select({
-                id: '#pejabat',
-                url: base_url + 'select2_mdepartemen_pejabat/<?= $this->session->idperusahaan; ?>',
+                id        : '#pejabat',
+                url       : base_url + 'select2_mdepartemen_pejabat/<?= $this->session->idperusahaan; ?>',
+                selected  : {
+                  id  : '{pejabat}'
+                }
             });
+            
             getListPenjualan();
             getListPembelian();
             getListBudgetEvent();
@@ -1641,27 +1634,27 @@
             }
         }
         else if ( tipe == 'Pengajuan Kas Kecil' ){
-            const table = $('#isitabel');       
-            if (stat) {
-                table_detail.row.add([
-                    `${id}`,
-                    `<button type="button" class="btn btn-danger delete_detail" id="button_PKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
-                    `${tipe}`,
-                    `${tgl}`,
-                    `${nokwitansi}`,
-                    formatRupiah(String(nominal)) + ',00',
-                    formatRupiah(String('0')) + ',00',
-                    `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
-                    `${kodeperusahaan}`,
-                    `${namadepartemen}`,
-                    `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
-                ]).draw(false);
-                penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
-            } else {
-                penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
-                var rowindex=$('#button_PKK'+id).closest('tr').index();
-                table_detail.row(rowindex).remove().draw();
-            }         
+          const table = $('#isitabel');       
+          if (stat) {
+            table_detail.row.add([
+              id,
+              `<button type="button" class="btn btn-danger delete_detail" id="button_PKK${id}" data-id="${id}" data-tipe="${tipe}" onclick="hapus_data(this);" idRekening="${idRekening}" nominal="${nominal}">-</button>`,
+              tipe,
+              tgl,
+              nokwitansi,
+              formatRupiah(String(nominal)) + ',00',
+              formatRupiah(String('0')) + ',00',
+              `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
+              kodeperusahaan,
+              namadepartemen,
+              `<input type="hidden" name="idRekening[]" value="${idRekening}">${namabank} ${norekening}`
+            ]).draw(false);
+            pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+          } else {
+            pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+            var rowindex=$('#button_PKK'+id).closest('tr').index();
+            table_detail.row(rowindex).remove().draw();
+          }         
         }else if ( tipe == 'Setor Kas Kecil' ){
             const table = $('#isitabel');       
             if (stat) {
