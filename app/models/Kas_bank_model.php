@@ -13,7 +13,7 @@ class Kas_bank_model extends CI_Model {
     return $query;
   }
 
-    public function save() {
+  public function save() {
 		$id = $this->uri->segment(3);
 		if($id) {
 			foreach($this->input->post() as $key => $val) $this->db->set($key,strip_tags($val));

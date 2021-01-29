@@ -1687,8 +1687,8 @@
           tipe,
           tgl,
           nokwitansi,
-          formatRupiah(String(nominal)) + ',00',
           formatRupiah(String('0')) + ',00',
+          formatRupiah(String(nominal)) + ',00',
           `<input type="hidden" name="idakun[]" value="${idAkun}">${namaakun} ${noakun}`,
           kodeperusahaan,
           namadepartemen,
@@ -1696,9 +1696,9 @@
           ``,
           setupJurnal
         ]).draw(false);
-        penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
+        pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) + parseInt(nominal); 
       } else {
-        penerimaan = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
+        pengeluaran = parseInt(data[4].toString().replace(/([\.]|,00)/g, '')*1) - parseInt(nominal);
         var rowindex=$('#button_PKK'+id).closest('tr').index();
         table_detail.row(rowindex).remove().draw();
       }         
