@@ -145,12 +145,12 @@ class SetUpJurnal_model extends CI_Model {
 
     public function setupJurnalKasBank()
     {
-        $data   = $this->db->get_where($this->table, [
-            'formulir'          => 'kasBank',
-            'tabulasi'          => $this->tabulasi,
-            'cara_pembayaran'   => $this->caraPembayaran
-        ])->row_array();
-        return $data['kodeJurnal'];
+      $data   = $this->db->get_where($this->table, [
+        'formulir'          => 'kasBank',
+        'tabulasi'          => $this->tabulasi,
+        'cara_pembayaran'   => $this->caraPembayaran
+      ])->row_array();
+      return $data;
     }
 
     public function set($jenis, $isi)

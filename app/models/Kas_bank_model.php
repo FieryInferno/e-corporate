@@ -66,6 +66,8 @@ class Kas_bank_model extends CI_Model {
 					$this->db->set('kodeunit',$row[8]);
 					$this->db->set('departemen',$row[9]);
 					$this->db->set('sumberdana', $this->input->post('idRekening')[$no]);
+					$this->db->set('caraPembayaran', $this->input->post('caraPembayaran')[$no]);
+					$this->db->set('idSetupJurnal', $this->input->post('setupJurnal')[$no]);
 					$this->db->insert('tkasbankdetail');
 
 					$id=$row[0];
@@ -277,9 +279,10 @@ class Kas_bank_model extends CI_Model {
 
 	public function getDetailKasBank()
 	{
-		$this->db->select('tkasbankdetail.*, mnoakun.akunno, mnoakun.namaakun, mrekening.nama as namaRekening, mrekening.norek, mrekening.id as idRekening, mnoakun.idakun');
+		$this->db->select('tkasbankdetail.*, mnoakun.akunno, mnoakun.namaakun, mrekening.nama as namaRekening, mrekening.norek, mrekening.id as idRekening, mnoakun.idakun, tSetupJurnal.kodeJurnal');
 		$this->db->join('mnoakun', 'tkasbankdetail.noakun = mnoakun.idakun');
 		$this->db->join('mrekening', 'tkasbankdetail.sumberdana = mrekening.id');
+		$this->db->join('tSetupJurnal', 'tkasbankdetail.idSetupJurnal = tSetupJurnal.idSetupJurnal');
 		return $this->db->get_where('tkasbankdetail', [
 			'idkasbank'	=> $this->idKasBank
 		])->result_array();
