@@ -231,7 +231,7 @@ class Kas_bank extends User_Controller
     {
         $tgl = $this->input->get('tgl');
         $idperusahaan = $this->input->get('idPerusahaan');
-        $this->db->select('tpemesananangsuran.*, tfaktur.notrans, tfaktur.tanggal, tfaktur.total, tfaktur.id as idfaktur, mnoakun.akunno, mnoakun.namaakun, mnoakun.idakun, mperusahaan.kode, tpemesanan.departemen as namaDepartemen, mrekening.nama as namaBank, mrekening.norek, mkontak.nama as rekanan, mrekening.id as idRekening, tfaktur.cara_pembayaran');
+        $this->db->select('tpemesananangsuran.*, tfaktur.notrans, tfaktur.tanggal, tfaktur.total, tfaktur.id as idfaktur, mnoakun.akunno, mnoakun.namaakun, mnoakun.idakun, mperusahaan.kode, mdepartemen.nama as namaDepartemen, mrekening.nama as namaBank, mrekening.norek, mkontak.nama as rekanan, mrekening.id as idRekening, tfaktur.cara_pembayaran');
         $this->db->join('tfakturdetail', 'tfaktur.id = tfakturdetail.idfaktur');
         $this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
         $this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
@@ -241,6 +241,7 @@ class Kas_bank extends User_Controller
         $this->db->join('mperusahaan','tpemesanan.idperusahaan = mperusahaan.idperusahaan');
         $this->db->join('mrekening','tfaktur.bank = mrekening.id');
         $this->db->join('mkontak', 'tpemesanan.kontakid = mkontak.id');
+        $this->db->join('mdepartemen', 'tpemesanan.departemen = mdepartemen.id');
         $this->db->where('tfaktur.tanggal <=',$tgl);
         $this->db->where('tpemesanan.idperusahaan', $idperusahaan);
         $data = $this->db->get('tfaktur')->result_array();   
