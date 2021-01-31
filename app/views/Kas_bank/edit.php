@@ -1520,6 +1520,7 @@
 
     //save items
     function save_detail(elem, edit) {
+      let stat;
       if (edit) { 
         var tipe          = elem.tipe;
         var id            = elem.idtipe;
@@ -1538,27 +1539,27 @@
         var norekening        = elem.norek;
         var idRekening        = elem.idRekening;
         var idAkun            = elem.idakun;
-        var stat              = 1;
+        stat                  = 1;
         var cara_pembayaran   = elem.caraPembayaran;
         var idSetupJurnal     = elem.idSetupJurnal;
         var setupJurnal       = elem.kodeJurnal;
       } else {
-        const tipe              = $(elem).attr('data-tipe');
-        const id                = $(elem).attr('data-id');
-        const tgl               = $(elem).attr('data-tgl');
-        const nokwitansi        = $(elem).attr('data-kwitansi');
-        const nominal           = $(elem).attr('data-nominal');
-        const namaakun          = $(elem).attr('data-namaakun');
-        const noakun            = $(elem).attr('data-noakun');
-        const kodeperusahaan    = $(elem).attr('data-kodeperusahaan');
-        const namadepartemen    = $(elem).attr('data-namadepartemen');
-        const namabank          = $(elem).attr('data-namabank');
-        const norekening        = $(elem).attr('data-norekening');
-        const idRekening        = $(elem).attr('idRekening');
-        const idAkun            = $(elem).attr('idAkun');
-        const stat              = $(elem).is(":checked");
-        const cara_pembayaran   = $(elem).attr('cara_pembayaran');
-        const tabulasi          = $(elem).attr('tabulasi');
+        var tipe              = $(elem).attr('data-tipe');
+        var id                = $(elem).attr('data-id');
+        var tgl               = $(elem).attr('data-tgl');
+        var nokwitansi        = $(elem).attr('data-kwitansi');
+        var nominal           = $(elem).attr('data-nominal');
+        var namaakun          = $(elem).attr('data-namaakun');
+        var noakun            = $(elem).attr('data-noakun');
+        var kodeperusahaan    = $(elem).attr('data-kodeperusahaan');
+        var namadepartemen    = $(elem).attr('data-namadepartemen');
+        var namabank          = $(elem).attr('data-namabank');
+        var norekening        = $(elem).attr('data-norekening');
+        var idRekening        = $(elem).attr('idRekening');
+        var idAkun            = $(elem).attr('idAkun');
+        stat                    = $(elem).is(":checked");
+        var cara_pembayaran   = $(elem).attr('cara_pembayaran');
+        var tabulasi          = $(elem).attr('tabulasi');
         let idSetupjurnal;
         let setupJurnal;
         if (tipe == 'Saldo Awal Hutang' || tipe == 'Saldo Awal Piutang') {
@@ -1577,7 +1578,7 @@
           method  : 'get',
           success : function (hasil) {
             idSetupJurnal = hasil['idSetupJurnal'];
-            setupJurnal = hasil['kodeJurnal'];
+            setupJurnal   = hasil['kodeJurnal'];
           },
           async   : false
         })
@@ -1593,9 +1594,8 @@
       }
       var data          = table_detail_SSD.row(row).data();
       var penerimaan    = data[3].toString().replace(/([\.]|,00)/g, '')*1;
-      var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;
-      if ( tipe == 'Penjualan'){
-        const table = $('#isitabel');     
+      var pengeluaran   = data[4].toString().replace(/([\.]|,00)/g, '')*1;      
+      if (tipe == 'Penjualan'){  
         if (stat) {
           table_detail.row.add([
             `${id}`,
@@ -1618,8 +1618,7 @@
           var rowindex=$('#button_JUAL'+id).closest('tr').index();
           table_detail.row(rowindex).remove().draw();
         }
-      }else if ( tipe == 'Pembelian'){
-        const table = $('#isitabel');       
+      }else if ( tipe == 'Pembelian'){       
         if (stat) {
           table_detail.row.add([
             `${id}`,
@@ -1642,8 +1641,7 @@
           var rowindex=$('#button_BELI'+id).closest('tr').index();
           table_detail.row(rowindex).remove().draw();
         }
-      }else if ( tipe == 'Budget Event'){
-        const table = $('#isitabel');       
+      }else if ( tipe == 'Budget Event'){       
         if (stat) {
           table_detail.row.add([
             `${id}`,
@@ -1662,8 +1660,7 @@
           var rowindex  = $('#button_BE'+id).closest('tr').index();
           table_detail.row(rowindex).remove().draw();
         }
-      } else if ( tipe == 'Pengajuan Kas Kecil' ){
-        const table = $('#isitabel');       
+      } else if ( tipe == 'Pengajuan Kas Kecil' ){       
         if (stat) {
           table_detail.row.add([
             id,
@@ -1686,8 +1683,7 @@
           var rowindex=$('#button_PKK'+id).closest('tr').index();
           table_detail.row(rowindex).remove().draw();
         }        
-      } else if ( tipe == 'Setor Kas Kecil' ){
-        const table = $('#isitabel');       
+      } else if ( tipe == 'Setor Kas Kecil' ){       
         if (stat) {
           table_detail.row.add([
             id,
@@ -1708,8 +1704,7 @@
           var rowindex  = $('#button_SKK'+id).closest('tr').index();
           table_detail.row(rowindex).remove().draw();
         }
-      } else if (tipe == 'Saldo Awal Piutang') {
-        const table = $('#isitabel');  
+      } else if (tipe == 'Saldo Awal Piutang') {  
         if (stat) {
           table_detail.row.add([
             `${id}`,
@@ -1732,8 +1727,7 @@
           var rowindex=$('#button_PIUTANGI'+id).closest('tr').index();
           table_detail.row(rowindex).remove().draw();
         }
-      } else if (tipe == 'Saldo Awal Hutang') {
-        const table = $('#isitabel');  
+      } else if (tipe == 'Saldo Awal Hutang') {  
         if (stat) {
           table_detail.row.add([
             `${id}`,
@@ -1798,7 +1792,6 @@
   function hitungTotalPengeluaranPemindahbukuan(){
     var tbl                       = document.getElementById('table_detail_rincian_buku_kas_umum'), 
     sumPengeluaranPemindahbukuan  = 0;
-      console.log(tbl);
     for (var i = 1; i < tbl.rows.length; i++) {
       ubahpengeluaran   = tbl.rows[i].cells[4].innerHTML.split(',00').join('');
       ubahpengeluaran1  = ubahpengeluaran.split('.').join('');
