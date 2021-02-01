@@ -468,7 +468,7 @@
               <i class="far fa-circle nav-icon"></i><p>Profit & Loss (Compare Period)</p></a>
             </li>      
             <li class="nav-item">
-              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <a href="{site_url}laporan_labarugi/multi_period" class="nav-link <?php echo menu_is_active('laporan_labarugi') ?>">
               <i class="far fa-circle nav-icon"></i><p>Profit & Loss (Multi Period)</p></a>
             </li>      
             <li class="nav-item">

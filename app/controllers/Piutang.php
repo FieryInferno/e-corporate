@@ -29,7 +29,7 @@ class Piutang extends User_Controller {
 		$this->model->set('kontak', $this->kontak);
 		$this->model->set('tanggalAwal', $this->tanggalAwal);
 		$this->model->set('tanggalAkhir', $this->tanggalAkhir);
-		$dataPiutang	= $this->model->get();
+		$dataPiutang	= $this->model->getPiutang();
 
 		$this->Faktur_penjualan_model->set('perusahaan', $this->perusahaan);
 		$this->Faktur_penjualan_model->set('kontak', $this->kontak);
@@ -39,7 +39,9 @@ class Piutang extends User_Controller {
 
 		for ($i=0; $i < count($piutang); $i++) { 
 			array_push($dataPiutang, $piutang[$i]); 
-		}
+    }
+    // print_r($dataPiutang);
+    // die();
 
 		$dataPiutang1	= [];
 		for ($i=0; $i < count($dataPiutang); $i++) { 
@@ -52,40 +54,38 @@ class Piutang extends User_Controller {
 			$selisih1           = $tanggalSekarang->diff($tanggal)->days;
 			$key['usiaPiutang']	= $selisih1 - $selisih;
 			
-				switch ($this->usiaPiutang) {
-				case 'kurang30':
-					if ($key['usiaPiutang'] < 30) {
-						array_push($dataPiutang1, $key);
-					}
-					break;
+      switch ($this->usiaPiutang) {
+        case 'kurang30':
+          if ($key['usiaPiutang'] < 30) {
+            array_push($dataPiutang1, $key);
+          }
+          break;
 
-				case '0':
-					if ($key['usiaPiutang'] == 0) {
-						array_push($dataPiutang1, $key);
-					}
-					break;
-				case 'lebih30':
-					if ($key['usiaPiutang'] > 30) {
-						array_push($dataPiutang1, $key);
-					}
-					break;
-				
-				default:
-					# code...
-					break;
-			} 
-		}
-		
-
-		usort($dataPiutang1, [$this, 'date_compare']);
-
-
+        case '0':
+          if ($key['usiaPiutang'] == 0) {
+            array_push($dataPiutang1, $key);
+          }
+          break;
+        case 'lebih30':
+          if ($key['usiaPiutang'] > 30) {
+            array_push($dataPiutang1, $key);
+          }
+          break;
+        
+        default:
+          # code...
+          break;
+      } 
+    }
+    
+    usort($dataPiutang1, [$this, 'date_compare']);
+    
 		$data['title']		= lang('Piutang');
 		$data['subtitle']	= lang('list');
 		$data['content']	= 'Piutang/index';
 		$data['piutang']	= $dataPiutang1;
-		$data = array_merge($data,path_info());
-		$this->parser->parse('template',$data);
+		$data             = array_merge($data, path_info());
+		$this->parser->parse('template', $data);
 	}
 	
 	function date_compare($a, $b)
