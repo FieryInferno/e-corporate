@@ -205,4 +205,107 @@ class LaporanModel extends CI_Model {
     }
     return $data;
   }
+
+  public function labarugiMultiPeriod()
+  {
+    
+    // print_r($tahun . $bulan . '-01');
+    // die();
+
+    $this->db->like('akunno', '4', 'after');
+    $this->db->or_like('akunno', '5', 'after');
+    $this->db->or_like('akunno', '6', 'after');
+    $this->db->or_like('akunno', '7', 'after');
+    $this->db->or_like('akunno', '8', 'after');
+    $this->db->or_like('akunno', '9', 'after');
+    $this->db->order_by('akunno', 'asc');
+    $noakun = $this->db->get('mnoakun')->result_array();
+
+    $data       = [];
+
+    // for ($i=0; $i < $numBulan; $i++) { 
+    //   $this->Jurnal_model->set('perusahaan', $this->perusahaan);
+    //   $this->Jurnal_model->set('tglMulai', $tahun . '-' . $bulan . '-01');
+    //   $this->Jurnal_model->set('tglAkhir', $tahun . '-' . $bulan . '-30');
+    //   $jurnalUmum	= $this->Jurnal_model->get();
+    //   $bulan++;
+    //   if ($bulan > 12) {
+    //     $bulan  = 1;
+    //     $tahun++;
+    //   }
+    //   $data[$i]  = [];
+
+    //   foreach ($noakun as $key) {
+    //     $total  = 0;
+    //     foreach ($jurnalUmum as $value) {
+    //       if (strpos($key['akunno'], $value['akunno']) !== FALSE) {
+    //         switch ($value['jenis']) {
+    //           case 'debit':
+    //             $total  += $value['total'];
+    //             break;
+    //           case 'kredit':
+    //             $total	-= $value['total'];
+    //             break;
+              
+    //           default:
+    //             $total	+= $value['totalDebit'];
+    //             $total	-= $value['totalKredit'];
+    //             break;
+    //         }
+    //       }
+    //     }
+    //     array_push($data[$i], [
+    //       'akunno'    => $key['akunno'],
+    //       'namaAkun'  => $key['namaakun'],
+    //       'total'     => $total
+    //     ]);
+    //   }
+    // }
+    $no = 0;
+    foreach ($noakun as $key) {
+      $data[$no]['akunno']    = $key['akunno'];
+      $data[$no]['namaakun']  = $key['namaakun'];
+      $data[$no]['total']     = []; 
+
+      $tanggalAwal  = strtotime($this->tanggalAwal);
+      $tanggalAkhir = strtotime($this->tanggalAkhir);
+      $numBulan     = 1 + (date("Y", $tanggalAkhir) - date("Y", $tanggalAwal)) * 12;
+      $numBulan     += date("m", $tanggalAkhir) - date("m", $tanggalAwal);
+      $tahun        = substr($this->tanggalAwal, 0, 4);
+      $bulan        = substr($this->tanggalAwal, 5, 2);
+
+      for ($i=0; $i < $numBulan; $i++) { 
+        $this->Jurnal_model->set('perusahaan', $this->perusahaan);
+        $this->Jurnal_model->set('tglMulai', $tahun . '-' . $bulan . '-01');
+        $this->Jurnal_model->set('tglAkhir', $tahun . '-' . $bulan . '-30');
+        $jurnalUmum	= $this->Jurnal_model->get();
+        $total  = 0;
+        foreach ($jurnalUmum as $value) {
+          if (strpos($key['akunno'], $value['akunno']) !== FALSE) {
+            switch ($value['jenis']) {
+              case 'debit':
+                $total  += $value['total'];
+                break;
+              case 'kredit':
+                $total	-= $value['total'];
+                break;
+              
+              default:
+                $total	+= $value['totalDebit'];
+                $total	-= $value['totalKredit'];
+                break;
+            }
+          }
+        }
+        $data[$no]['total'][$bulan . '-' . $tahun] = $total;
+        $bulan++;
+        if ($bulan > 12) {
+          $bulan  = 1;
+          $tahun++;
+        }
+      }
+      $no++;
+    }
+    return $data;
+  }
 }

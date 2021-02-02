@@ -428,25 +428,44 @@ class Laporan extends User_Controller {
   {
     $data['title']		= 'Profit & Loss (Multi Period)';
     if ($this->perusahaan) {
-			$this->LaporanModel->set('perusahaan', $this->perusahaan);
-			$this->LaporanModel->set('tanggalAwal', $this->tanggalAwal);
-			$this->LaporanModel->set('tanggalAkhir', $this->tanggalAkhir);
-      $data['laporan']		  = $this->LaporanModel->labarugiStandar();
+      $this->LaporanModel->set('tanggalAwal', $this->tanggalAwal);
+      $this->LaporanModel->set('tanggalAkhir', $this->tanggalAkhir);
+      $this->LaporanModel->set('perusahaan', $this->perusahaan);
+      $data['laporan']  = $this->LaporanModel->labarugiMultiPeriod();
+      // print_r($data['laporan']);
+      // die();
+
+      // $tanggalAwal  = strtotime($this->tanggalAwal);
+      // $tanggalAkhir = strtotime($this->tanggalAkhir);
+      // $numBulan     = 1 + (date("Y", $tanggalAkhir) - date("Y", $tanggalAwal)) * 12;
+      // $numBulan     += date("m", $tanggalAkhir) - date("m", $tanggalAwal);
+      // $tahun        = substr($this->tanggalAwal, 0, 4);
+      // $bulan        = substr($this->tanggalAwal, 5, 2);
+      // for ($i=0; $i < $numBulan; $i++) { 
+      //   $this->LaporanModel->set('tanggalAwal', $tahun . $bulan . '-01');
+      //   $this->LaporanModel->set('perusahaan', $this->perusahaan);
+      //   $data['laporan'][$bulan . '-' . $tahun]    = $this->LaporanModel->labarugiStandar();
+      //   $bulan++;
+      //   if ($bulan > 12) {
+      //     $bulan  = 1;
+      //     $tahun++;
+      //   }
+      // }
 			$data['tanggalAwal']	= $this->tgl_indo($this->tanggalAwal);
-			$data['tanggalAkhir']	= $this->tgl_indo($this->tanggalAkhir);
-			$data['perusahaan']		= $this->Perusahaan_model->get_by_id($this->perusahaan);
+      $data['tanggalAkhir']	= $this->tgl_indo($this->tanggalAkhir);
+      $data['perusahaan'] = $this->Perusahaan_model->get_by_id($this->perusahaan);
 			switch ($this->input->get('jenis')) {
 				case 'pdf':
 					$this->load->library('pdf');
 					$pdf            = $this->pdf;
 					$data['css']	  = file_get_contents(FCPATH.'assets/css/print.min.css');
 					$data			      = array_merge($data,path_info());
-					$html 			    = $this->load->view('laporan/profit&Loss/print', $data, TRUE);
+					$html           = $this->load->view('laporan/profit&Loss/multiPeriod/print', $data, TRUE);
 					$pdf->loadHtml($html);
-					$pdf->setPaper('A4', 'portrait');
+					$pdf->setPaper('A4', 'landscape');
 					$pdf->render();
 					$time = time();
-					$pdf->stream("Profit & Loss (Standar)". $time, array("Attachment" => false));
+					$pdf->stream("Profit & Loss (Multi Period)". $time, array("Attachment" => false));
 					break;
 				case 'excel':
 					$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Project List.xlsx');
@@ -482,7 +501,7 @@ class Laporan extends User_Controller {
 					break;
 			}
 		} else {
-			$data['content']	= 'laporan/profit&Loss/index';
+			$data['content']	= 'laporan/profit&Loss/multiPeriod/index';
 			$data				      = array_merge($data,path_info());
 			$this->parser->parse('template',$data);
 		}
@@ -1156,9 +1175,7 @@ class Laporan extends User_Controller {
 			$data['title']		        = 'Balance Sheet(Compare Month)';
 			$data['title2']		        = 'Period '.$tanggal_a.' to '.$tanggal_b;
 			$data['getasetlancar']		= $this->Neraca_model->getasetlancar();
-			// $data['getasettetap'] = $this->model->getasettetap($data['tanggal']);
 			$data['getliabilitas']  = $this->Neraca_model->getliabilitas();
-			// $data['getmodal'] = $this->model->getmodal($data['tanggal']);
 			$data['gettotallabarugi'] = $this->Neraca_model->gettotallabarugi();
 			$data['ekuitas']          = $this->Neraca_model->getEkuitas();
 			$tanggalAwal_             = date('Y-m-d', strtotime('-1 month', strtotime($this->tanggalAwal))); 

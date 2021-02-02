@@ -33,45 +33,34 @@
             <?php 
             $totalOperatingRevenue  = 0;
             foreach ($laporan as $key) { 
-              if (substr($key['akunno'], 0, 1) == 4) {
-                $arrayNoAkun  = explode('.', $key['akunno']);
-                switch (count($arrayNoAkun)) {
-                  case '1': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '2': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '3':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '4':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  
-                  default:
-                    # code...
-                    break;
-                }
-                $totalOperatingRevenue  += $key['total'];
-              }
-            }?>
+              if (substr($key['akunno'], 0, 1) == 4) { ?>
+                <tr>
+                  <td><?= $key['akunno']; ?></td>
+                  <?php
+                    $arrayNoAkun  = explode('.', $key['akunno']);
+                    switch (count($arrayNoAkun)) {
+                      case '1': 
+                        $totalOperatingRevenue  += $key['total']; ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '2': ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '3':?>
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '4':?>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      
+                      default:
+                        # code...
+                        break;
+                    } ?>
+                  <td><?= $key['total']; ?></td>
+                </tr>
+              <?php }
+            } ?>
             <tr>
               <td></td>
               <td class="font-weight-bold">Total OPERATING REVENUE</td>
@@ -85,44 +74,33 @@
             <?php 
             $totalCost  = 0;
             foreach ($laporan as $key) { 
-              if (substr($key['akunno'], 0, 1) == 5) {
-                $arrayNoAkun  = explode('.', $key['akunno']);
-                switch (count($arrayNoAkun)) {
-                  case '1': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '2': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '3':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '4':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  
-                  default:
-                    # code...
-                    break;
-                }
-                $totalCost  += $key['total'];
-              }
+              if (substr($key['akunno'], 0, 1) == 5) { ?>
+                <tr>
+                  <td><?= $key['akunno']; ?></td>
+                  <?php
+                    $arrayNoAkun  = explode('.', $key['akunno']);
+                    switch (count($arrayNoAkun)) {
+                      case '1': 
+                        $totalCost  += $key['total']; ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '2': ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '3':?>
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '4':?>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      
+                      default:
+                        # code...
+                        break;
+                    } ?>
+                  <td><?= $key['total']; ?></td>
+                </tr>
+              <?php }
             }?>
             <tr>
               <td></td>
@@ -137,44 +115,33 @@
             <?php 
             $totalGross  = 0;
             foreach ($laporan as $key) { 
-              if (substr($key['akunno'], 0, 1) == 6) {
-                $arrayNoAkun  = explode('.', $key['akunno']);
-                switch (count($arrayNoAkun)) {
-                  case '1': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '2': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '3':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '4':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  
-                  default:
-                    # code...
-                    break;
-                }
-                $totalGross  += $key['total'];
-              }
+              if (substr($key['akunno'], 0, 1) == 6) { ?>
+                <tr>
+                  <td><?= $key['akunno']; ?></td>
+                  <?php
+                    $arrayNoAkun  = explode('.', $key['akunno']);
+                    switch (count($arrayNoAkun)) {
+                      case '1': 
+                        $totalGross  += $key['total']; ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '2': ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '3':?>
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '4':?>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      
+                      default:
+                        # code...
+                        break;
+                    } ?>
+                  <td><?= $key['total']; ?></td>
+                </tr>
+              <?php }
             }?>
             <tr>
               <td></td>
@@ -199,49 +166,38 @@
             <?php 
             $totalIncome  = 0;
             foreach ($laporan as $key) { 
-              if (substr($key['akunno'], 0, 1) == 7) {
-                $arrayNoAkun  = explode('.', $key['akunno']);
-                switch (count($arrayNoAkun)) {
-                  case '1': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '2': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '3':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '4':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  
-                  default:
-                    # code...
-                    break;
-                }
-                $totalIncome  += $key['total'];
-              }
+              if (substr($key['akunno'], 0, 1) == 7) { ?>
+                <tr>
+                  <td><?= $key['akunno']; ?></td>
+                  <?php
+                    $arrayNoAkun  = explode('.', $key['akunno']);
+                    switch (count($arrayNoAkun)) {
+                      case '1': 
+                        $totalIncome  += $key['total']; ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '2': ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '3':?>
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '4':?>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      
+                      default:
+                        # code...
+                        break;
+                    } ?>
+                  <td><?= $key['total']; ?></td>
+                </tr>
+              <?php }
             }?>
             <tr>
               <td></td>
-              <td class="font-weight-bold">Total Income</td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;<?= $totalIncome; ?></td>
+              <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;Total Income</td>
+              <td><?= $totalIncome; ?></td>
             </tr>
             <tr>
               <td></td>
@@ -251,54 +207,43 @@
             <?php 
             $totalExpenses  = 0;
             foreach ($laporan as $key) { 
-              if (substr($key['akunno'], 0, 1) == 8 ||substr($key['akunno'], 0, 1) == 9) {
-                $arrayNoAkun  = explode('.', $key['akunno']);
-                switch (count($arrayNoAkun)) {
-                  case '1': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '2': ?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '3':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  case '4':?>
-                    <tr>
-                      <td><?= $key['akunno']; ?></td>
-                      <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
-                      <td><?= $key['total']; ?></td>
-                    </tr>
-                    <?php break;
-                  
-                  default:
-                    # code...
-                    break;
-                }
-                $totalExpenses  += $key['total'];
-              }
+              if (substr($key['akunno'], 0, 1) == 8 || substr($key['akunno'], 0, 1) == 9) { ?>
+                <tr>
+                  <td><?= $key['akunno']; ?></td>
+                  <?php
+                    $arrayNoAkun  = explode('.', $key['akunno']);
+                    switch (count($arrayNoAkun)) {
+                      case '1': 
+                        $totalExpenses  += $key['total']; ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '2': ?>
+                        <td class="font-weight-bold"><?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '3':?>
+                        <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      case '4':?>
+                        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<?= $key['namaAkun']; ?></td>
+                        <?php break;
+                      
+                      default:
+                        # code...
+                        break;
+                    } ?>
+                  <td><?= $key['total']; ?></td>
+                </tr>
+              <?php }
             }?>
             <tr>
               <td></td>
-              <td class="font-weight-bold">Total Expenses</td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;<?= $totalExpenses; ?></td>
+              <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;Total Expenses</td>
+              <td><?= $totalExpenses; ?></td>
             </tr>
             <tr>
               <td></td>
-              <td class="font-weight-bold">Total Income and Expenses</td>
-              <td>&nbsp;&nbsp;&nbsp;&nbsp;<?= $totalIncome + $totalExpenses; ?></td>
+              <td class="font-weight-bold">&nbsp;&nbsp;&nbsp;&nbsp;Total Income and Expenses</td>
+              <td><?= $totalIncome + $totalExpenses; ?></td>
             </tr>
           <?php }
         ?>

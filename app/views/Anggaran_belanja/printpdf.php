@@ -2,7 +2,7 @@
 <html lang="en">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
-	<title><?= $title; ?></title>
+	<title>Anggaran Belanja</title>
 	<style type="text/css"> <?php echo $css ?> </style>
 </head>
 <body>
