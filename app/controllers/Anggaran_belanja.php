@@ -262,11 +262,11 @@ class Anggaran_belanja extends User_Controller
 		switch ($jenis) {
 			case 'pdf':
 				$this->load->library('pdf');
-				$pdf						          = $this->pdf;
-				$data['title'] 				    = lang('anggaran_belanja');
-				$data['css'] 				      = file_get_contents(FCPATH.'assets/css/print.min.css');
-				$data 						        = array_merge($data,path_info());
-				$html 						        = $this->load->view('Anggaran_belanja/printpdf', $data, TRUE);
+				$pdf						= $this->pdf;
+				$data['title']  = 'Anggaran Belanja';
+				$data['css'] 		= file_get_contents(FCPATH.'assets/css/print.min.css');
+				$data 					= array_merge($data,path_info());
+				$html 					= $this->load->view('Anggaran_belanja/printpdf', $data, TRUE);
 				$pdf->loadHtml($html);
 				$pdf->setPaper('A4', 'landscape');
 				$pdf->render();

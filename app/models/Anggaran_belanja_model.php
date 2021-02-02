@@ -118,19 +118,35 @@ class Anggaran_belanja_model extends CI_Model
 		$data = $this->db->get_where('tanggaranbelanja', [
       'tanggaranbelanja.id' => $id
     ])->result_array();
-		$no		= 0;
+    $no		    = 0;
+    $dataBaru = [];
 		for ($i=0; $i < count($data); $i++) {
-			$data[$i]['totalsemua']	= 0;
-			if ($i == 0 || ($data[$i]['koderekening'] !== $data[$no]['koderekening'])) {
+      $key        = $data[$i];
+      $totalsemua	= 0;
+      $detail     = [];
+			if ($i == 0 || ($key['koderekening'] !== $data[$no]['koderekening'])) {
 				for ($j=0; $j < count($data); $j++) { 
-					if ($data[$j]['koderekening'] == $data[$i]['koderekening']) {
-						$data[$i]['totalsemua']	+= $data[$j]['total'];
+					if ($data[$j]['koderekening'] == $key['koderekening']) {
+            $totalsemua += $data[$j]['total'];
+            array_push($detail, [
+              'namabarang'  => $data[$j]['namabarang'],
+              'volume'      => $data[$j]['volume'],
+              'tarif'       => $data[$j]['tarif'],
+              'satuan'      => $data[$j]['satuan'],
+              'total'       => $data[$j]['total']
+            ]);
 					}
-				}
+        }
+        array_push($dataBaru, [
+          'akunno'      => $key['akunno'],
+          'namaakun'    => $key['namaakun'],
+          'totalsemua'  => $totalsemua,
+          'detail'      => $detail
+        ]);
 				$no = $i;
 			}
 		}
-		return $data;
+		return $dataBaru;
 	}
 
 	public function setGet($jenis = null, $isi = null)

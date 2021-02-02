@@ -2,7 +2,7 @@
 <html lang="en">
 <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
 <head>
-	<title><?php echo $title ?></title>
+	<title><?= $title; ?></title>
 	<style type="text/css"> <?php echo $css ?> </style>
 </head>
 <body>
@@ -46,34 +46,29 @@
         <td></td>
       </tr>
       <?php
-
-        $no = 0;
-        for ($i=0; $i < count($anggaranbelanja); $i++) { ?> 
-          <?php if ($i == 0 || ($anggaranbelanja[$i]['koderekening'] !== $anggaranbelanja[$no]['koderekening'])) { ?>
+        for ($i=0; $i < count($anggaranbelanja); $i++) { 
+          $key  = $anggaranbelanja[$i]; ?> 
+          <tr>
+            <td><?= $key['akunno']; ?></td>
+            <td><?= $key['namaakun']; ?></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><?= number_format($key['totalsemua'],2,',','.'); ?></td>
+            <td></td>
+          </tr>
+          <?php for ($j=0; $j < count($key['detail']); $j++) { 
+            $value  = $key['detail'][$j]; ?>
             <tr>
-              <td><?= $anggaranbelanja[$i]['akunno']; ?></td>
-              <td><?= $anggaranbelanja[$i]['namaakun']; ?></td>
               <td></td>
-              <td></td>
-              <td></td>
-              <td><?= number_format($anggaranbelanja[$i]['totalsemua'],2,',','.'); ?></td>
+              <td><?= $value['namabarang']; ?></td>
+              <td><?= $value['volume']; ?></td>
+              <td><?= number_format($value['tarif'],2,',','.'); ?></td>
+              <td><?= $value['satuan']; ?></td>
+              <td><?= number_format($value['total'],2,',','.'); ?></td>
               <td></td>
             </tr>
-            <?php for ($j=0; $j < count($anggaranbelanja); $j++) { 
-              if ($anggaranbelanja[$j]['koderekening'] == $anggaranbelanja[$i]['koderekening']) { ?>
-                <tr>
-                  <td></td>
-                  <td><?= $anggaranbelanja[$j]['namabarang']; ?></td>
-                  <td><?= $anggaranbelanja[$j]['volume']; ?></td>
-                  <td><?= number_format($anggaranbelanja[$j]['tarif'],2,',','.'); ?></td>
-                  <td><?= $anggaranbelanja[$j]['satuan']; ?></td>
-                  <td><?= number_format($anggaranbelanja[$j]['total'],2,',','.'); ?></td>
-                  <td></td>
-                </tr>
-              <?php }
-            }
-            $no = $i;
-          }
+          <?php }
         }
       ?>
     </tbody>
