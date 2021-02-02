@@ -9,7 +9,7 @@
     <div class="float-left">
         <h3 class="m-1 font-weight-bold">ANGGARAN BELANJA</h3>
         <h3 class="m-1 font-weight-bold">DAFTAR KEBUTUHAN OPERATIONAL</h3>
-        <h3 class="m-1 font-weight-bold">TAHUN 2020</h3>
+        <h3 class="m-1 font-weight-bold">TAHUN 2021</h3>
         <h3 class="m-1 font-weight-bold">REKAPITULASI ANGGARAN ALL DIVISI</h3>
         <P class="m-1">(dalam ribuan rupiah)</P>
     </div>
