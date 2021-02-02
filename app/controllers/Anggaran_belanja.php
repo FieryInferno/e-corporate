@@ -270,8 +270,7 @@ class Anggaran_belanja extends User_Controller
 				$pdf->loadHtml($html);
 				$pdf->setPaper('A4', 'landscape');
 				$pdf->render();
-				$time = time();
-				$pdf->stream("anggaran-belanja-". $time, array("Attachment" => false));
+				$pdf->stream("Anggaran Belanja", array("Attachment" => false));
 				break;
 
 			case 'excel':
