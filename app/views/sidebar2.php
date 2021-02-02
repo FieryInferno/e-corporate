@@ -321,7 +321,7 @@
               <i class="nav-icon fas fa-tachometer-alt"></i><p><?php echo lang('Stock_Opname') ?></p></a>
           </li>
 
-        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank', 'laporan_buku_pembantu_kas_kecil', 'outstanding_invoice', 'outstanding_payable', 'project_list', 'laporan_neraca_multi_period', 'laporan_labarugi'); ?>
+        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank', 'laporan_buku_pembantu_kas_kecil', 'outstanding_invoice', 'outstanding_payable', 'project_list', 'laporan_neraca_multi_period', 'laporan_labarugi', 'sales_receipts_detail'); ?>
         <li class="nav-item has-treeview  <?php echo menu_is_open($menuLaporan) ?>">
           <a href="#" class="nav-link
           <?php
@@ -480,7 +480,7 @@
               <i class="far fa-circle nav-icon"></i><p>Purchase Payment Detail</p></a>
             </li>      
             <li class="nav-item">
-              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
+              <a href="{site_url}sales_receipts_detail" class="nav-link <?php echo menu_is_active('sales_receipts_detail') ?>">
               <i class="far fa-circle nav-icon"></i><p>Sales Receipts Detail</p></a>
             </li>      
             <li class="nav-item">

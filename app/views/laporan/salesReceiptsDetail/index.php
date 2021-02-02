@@ -17,7 +17,7 @@
       <div class="card">
         <div class="card-body">
           <div class="m-3">
-            <form action="{site_url}laporan_labarugi/multi_period" method="get">
+            <form action="{site_url}sales_receipts_detail" method="get">
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">

@@ -208,10 +208,6 @@ class LaporanModel extends CI_Model {
 
   public function labarugiMultiPeriod()
   {
-    
-    // print_r($tahun . $bulan . '-01');
-    // die();
-
     $this->db->like('akunno', '4', 'after');
     $this->db->or_like('akunno', '5', 'after');
     $this->db->or_like('akunno', '6', 'after');
@@ -222,45 +218,6 @@ class LaporanModel extends CI_Model {
     $noakun = $this->db->get('mnoakun')->result_array();
 
     $data       = [];
-
-    // for ($i=0; $i < $numBulan; $i++) { 
-    //   $this->Jurnal_model->set('perusahaan', $this->perusahaan);
-    //   $this->Jurnal_model->set('tglMulai', $tahun . '-' . $bulan . '-01');
-    //   $this->Jurnal_model->set('tglAkhir', $tahun . '-' . $bulan . '-30');
-    //   $jurnalUmum	= $this->Jurnal_model->get();
-    //   $bulan++;
-    //   if ($bulan > 12) {
-    //     $bulan  = 1;
-    //     $tahun++;
-    //   }
-    //   $data[$i]  = [];
-
-    //   foreach ($noakun as $key) {
-    //     $total  = 0;
-    //     foreach ($jurnalUmum as $value) {
-    //       if (strpos($key['akunno'], $value['akunno']) !== FALSE) {
-    //         switch ($value['jenis']) {
-    //           case 'debit':
-    //             $total  += $value['total'];
-    //             break;
-    //           case 'kredit':
-    //             $total	-= $value['total'];
-    //             break;
-              
-    //           default:
-    //             $total	+= $value['totalDebit'];
-    //             $total	-= $value['totalKredit'];
-    //             break;
-    //         }
-    //       }
-    //     }
-    //     array_push($data[$i], [
-    //       'akunno'    => $key['akunno'],
-    //       'namaAkun'  => $key['namaakun'],
-    //       'total'     => $total
-    //     ]);
-    //   }
-    // }
     $no = 0;
     foreach ($noakun as $key) {
       $data[$no]['akunno']    = $key['akunno'];
@@ -307,5 +264,17 @@ class LaporanModel extends CI_Model {
       $no++;
     }
     return $data;
+  }
+
+  public function salesReceiptsDetail()
+  {
+    $this->db->select('tpemesananpenjualan.notrans as formNo, tpemesananpenjualan.tanggal as recvDate, mkontak.nama as namaCustomer, tfakturpenjualan.notrans as invoiceNo, tfakturpenjualan.tanggal as invoiceDate, tfakturpenjualan.total');
+    $this->db->join('tpengirimanpenjualan', 'tfakturpenjualan.pengirimanid = tpengirimanpenjualan.id');
+    $this->db->join('tpemesananpenjualan', 'tpengirimanpenjualan.pemesananid = tpemesananpenjualan.id');
+    $this->db->join('mkontak', 'tpemesananpenjualan.kontakid = mkontak.id');
+    if ($this->perusahaan) $this->db->where('tfakturpenjualan.idperusahaan', $this->perusahaan);
+    if ($this->tanggalAwal) $this->db->where('tfakturpenjualan.tanggal >= ', $this->tanggalAwal);
+    if ($this->tanggalAkhir) $this->db->where('tfakturpenjualan.tanggal <= ', $this->tanggalAkhir);
+    return $this->db->get('tfakturpenjualan')->result_array();
   }
 }
