@@ -119,27 +119,25 @@
                       foreach ($piutang as $key) { 
                         $totalPiutang   += $key['primeOwing']; ?>
                         <tr>
-                            <td><?= $key['tanggal']; ?></td>
-                            <td><?= $key['tanggalTempo']; ?></td>
-                            <td><?= $key['usiaPiutang']; ?> Hari</td>
-                            <td><?= $key['noInvoice']; ?></td>
-                            <td><?= $key['nama_perusahaan']; ?></td>
-                            <td><?= $key['deskripsi']; ?></td>
-                            <td><?= $key['namaPelanggan']; ?></td>
-                            <td><?= number_format($key['primeOwing'],2,',','.'); ?></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td>
-                                <div class="list-icons"> 
-                                    <div class="dropdown"> 
-                                        <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
-                                        <div class="dropdown-menu dropdown-menu-right">
-
-                                        </div> 
-                                    </div> 
-                                </div>
-                            </td>
+                          <td><?= $key['tanggal']; ?></td>
+                          <td><?= $key['tanggalTempo']; ?></td>
+                          <td><?= $key['usiaPiutang']; ?> Hari</td>
+                          <td><?= $key['noInvoice']; ?></td>
+                          <td><?= $key['nama_perusahaan']; ?></td>
+                          <td><?= $key['deskripsi']; ?></td>
+                          <td><?= $key['namaPelanggan']; ?></td>
+                          <td><?= number_format($key['primeOwing'],2,',','.'); ?></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                            <div class="list-icons"> 
+                              <div class="dropdown"> 
+                                <a href="#" class="list-icons-item" data-toggle="dropdown"> <i class="fas fa-bars"></i> </a> 
+                                <div class="dropdown-menu dropdown-menu-right"></div> 
+                              </div> 
+                            </div>
+                          </td>
                         </tr>
                       <?php }
                     ?>
@@ -186,12 +184,30 @@
     })
   } else {
     ajax_select({ 
-        id        : '.kontakid', 
-        url       : base_url + 'select2_kontak_piutang/<?= $this->session->idperusahaan; ?>', 
-        selected  : { 
-          id: '{kontakid}' 
-        } 
+      id        : '.kontakid', 
+      url       : base_url + 'select2_kontak_piutang/<?= $this->session->idperusahaan; ?>', 
+      selected  : { 
+        id: '{kontakid}' 
+      } 
     });
+
+//     $('.kontakid').select2({
+//       'placeholder'   : 'Pilih Jenis Inventaris',
+//       'allowClear'    : true,
+//       'ajax'          : {
+//         'url'           : '{site_url}Noakun/jenisAset',
+//         dataType        : 'json',
+//         delay           : 250,
+//         processResults  : function (data) {
+//           return {
+//             results : data
+//           }
+//         },
+//         cache   : false,
+//       },
+//     })
+//           var newOption = new Option('semua', 'semua', false, false);
+// $('.kontakid').append(newOption).trigger('change');
   }
 
   $('#tabelPiutang').DataTable({

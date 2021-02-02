@@ -163,11 +163,18 @@ class Piutang extends User_Controller {
 	}
 
 	public function select2_kontak_piutang($idPerusahaan = null, $idKontak = null) {
+    $data = [
+      0 => [
+        'id'    => 'semua',
+        'text'  => 'Semua Kontak'
+      ]
+    ];
 		$term = $this->input->get('q');
-		$this->db->select('mkontak.nama as id, mkontak.nama as text');
+		$this->db->select('mkontak.id as id, mkontak.nama as text');
 		$this->db->where('mkontak.perusahaan', $idPerusahaan);
 		if($term) $this->db->like('mkontak.nama', $term);
-		$data = $this->db->get('mkontak')->result_array();
+    $data1  = $this->db->get('mkontak')->result_array();
+    $data   = array_merge($data, $data1);
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	}
 
