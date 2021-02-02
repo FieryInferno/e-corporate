@@ -40,8 +40,6 @@ class Piutang extends User_Controller {
 		for ($i=0; $i < count($piutang); $i++) { 
 			array_push($dataPiutang, $piutang[$i]); 
     }
-    // print_r($dataPiutang);
-    // die();
 
 		$dataPiutang1	= [];
 		for ($i=0; $i < count($dataPiutang); $i++) { 
@@ -170,7 +168,7 @@ class Piutang extends User_Controller {
       ]
     ];
 		$term = $this->input->get('q');
-		$this->db->select('mkontak.id as id, mkontak.nama as text');
+		$this->db->select('mkontak.nama as id, mkontak.nama as text');
 		$this->db->where('mkontak.perusahaan', $idPerusahaan);
 		if($term) $this->db->like('mkontak.nama', $term);
     $data1  = $this->db->get('mkontak')->result_array();

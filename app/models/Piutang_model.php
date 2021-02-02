@@ -35,7 +35,7 @@ class Piutang_model extends CI_Model {
 		if ($this->perusahaan) {
 			$this->db->where('perusahaan', $this->perusahaan);
 		}
-		if ($this->kontak) {
+		if ($this->kontak && $this->kontak !== 'semua') {
 			$this->db->like('namaPelanggan', $this->kontak);
 		}
 		if ($this->tanggalAwal) {

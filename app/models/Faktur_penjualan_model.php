@@ -374,7 +374,7 @@ class Faktur_penjualan_model extends CI_Model {
 		if ($this->perusahaan) {
 			$this->db->where('tfakturpenjualan.idperusahaan', $this->perusahaan);
 		}
-		if ($this->kontak) {
+		if ($this->kontak && $this->kontak !== 'semua') {
 			$this->db->like('mkontak.nama', $this->kontak);
 		}
 		if ($this->tanggalAwal) {
