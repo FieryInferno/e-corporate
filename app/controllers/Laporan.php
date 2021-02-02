@@ -368,8 +368,6 @@ class Laporan extends User_Controller {
 			$this->LaporanModel->set('tanggalAwal', $this->tanggalAwal);
 			$this->LaporanModel->set('tanggalAkhir', $this->tanggalAkhir);
       $data['laporan']		  = $this->LaporanModel->labarugiStandar();
-      // print_r($data['laporan']);
-      // die();
 			$data['tanggalAwal']	= $this->tgl_indo($this->tanggalAwal);
 			$data['tanggalAkhir']	= $this->tgl_indo($this->tanggalAkhir);
 			$data['perusahaan']		= $this->Perusahaan_model->get_by_id($this->perusahaan);

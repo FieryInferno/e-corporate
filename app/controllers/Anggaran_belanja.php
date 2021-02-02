@@ -153,10 +153,11 @@ class Anggaran_belanja extends User_Controller
 		$data=$this->db->get('mkategori')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
 	
-	}
+  }
+  
 	public function select2_satuan($id = null)
-    {
-        $term = $this->input->get('q');
+  {
+    $term = $this->input->get('q');
 		$this->db->select('mdepartemen.id, mdepartemen.nama as text');
 		$this->db->where('mdepartemen.sdel', '0');
 		$this->db->limit(100);
@@ -164,7 +165,8 @@ class Anggaran_belanja extends User_Controller
 		if($id) $data = $this->db->where('id', $id)->get('mdepartemen')->row_array();
 		else $data = $this->db->get('mdepartemen')->result_array();
 		$this->output->set_content_type('application/json')->set_output(json_encode($data));
-	}
+  }
+  
 	public function select_uraian($id = null) {
 		$term = $this->input->get('q');
 		if($id) {
@@ -260,12 +262,11 @@ class Anggaran_belanja extends User_Controller
 		switch ($jenis) {
 			case 'pdf':
 				$this->load->library('pdf');
-				$pdf						= $this->pdf;
-				$data['anggaranbelanja']	= $this->model->get_by_id($id);
-				$data['title'] 				= lang('anggaran_belanja');
-				$data['css'] 				= file_get_contents(FCPATH.'assets/css/print.min.css');
-				$data 						= array_merge($data,path_info());
-				$html 						= $this->load->view('Anggaran_belanja/printpdf', $data, TRUE);
+				$pdf						          = $this->pdf;
+				$data['title'] 				    = lang('anggaran_belanja');
+				$data['css'] 				      = file_get_contents(FCPATH.'assets/css/print.min.css');
+				$data 						        = array_merge($data,path_info());
+				$html 						        = $this->load->view('Anggaran_belanja/printpdf', $data, TRUE);
 				$pdf->loadHtml($html);
 				$pdf->setPaper('A4', 'landscape');
 				$pdf->render();
