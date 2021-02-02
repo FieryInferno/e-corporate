@@ -29,7 +29,7 @@ class Utang extends User_Controller {
 		$this->model->set('kontak', $this->kontak);
 		$this->model->set('tanggalAwal', $this->tanggalAwal);
 		$this->model->set('tanggalAkhir', $this->tanggalAkhir);
-		$saldoAwal			= $this->model->get('saldoAwal');
+		$saldoAwal			  = $this->model->get('saldoAwal');
 		$fakturPembelian	= $this->model->get('faktur');
 
 		for ($i=0; $i < count($fakturPembelian); $i++) { 

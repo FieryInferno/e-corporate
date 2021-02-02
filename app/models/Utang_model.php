@@ -40,12 +40,6 @@ class Utang_model extends CI_Model {
   
   public function getFaktur()
   {
-    // $search = preg_replace("/[^a-zA-Z0-9.]/", '', "{$_POST['search']['value']}");
-    // $limit  = preg_replace("/[^a-zA-Z0-9.]/", '', "{$_POST['length']}");
-    // $start  = preg_replace("/[^a-zA-Z0-9.]/", '', "{$_POST['start']}"); 
-    
-    // $this->db->select('tfaktur.tanggal, tfaktur.tanggaltempo, tfaktur.notrans, tfaktur.catatan, mkontak.nama as rekanan, tfaktur.total, tfaktur.totaldibayar, (tfaktur.total - tfaktur.totaldibayar) as sisaUtang, tfaktur.id, mperusahaan.nama_perusahaan, mnoakun.idakun, mnoakun.namaakun, mnoakun.akunno, mperusahaan.kode');
-    // $this->db->from('tfaktur');
     $this->db->join('mkontak', 'tfaktur.kontakid = mkontak.id');
     $this->db->join('mperusahaan', 'tfaktur.perusahaanid = mperusahaan.idperusahaan');
     $this->db->join('tfakturdetail', 'tfaktur.id = tfakturdetail.idfaktur');
@@ -93,6 +87,52 @@ class Utang_model extends CI_Model {
 	public function set($jenis = null, $isi = null)
 	{
 		$this->$jenis	= $isi;
-	}
+  }
+  
+  public function get($jenis)
+  {
+    switch ($jenis) {
+      case 'saldoAwal':
+        $this->db->select('SaldoAwalHutang.tanggal, ' . 'SaldoAwalHutang.tanggaltempo, ' . 'SaldoAwalHutang.noInvoice as notrans, ' . 'SaldoAwalHutang.deskripsi as catatan, ' . 'SaldoAwalHutang.namaPemasok as rekanan, ' . 'SaldoAwalHutang.primeOwing as total, ' . 'SaldoAwalHutang.idSaldoAwalHutang as id, mperusahaan.nama_perusahaan, mnoakun.idakun, mnoakun.namaakun, mnoakun.akunno, mperusahaan.kode');
+        $this->db->join('mperusahaan', 'SaldoAwalHutang.perusahaan = mperusahaan.idperusahaan');
+        $this->db->join('mnoakun', 'SaldoAwalHutang.akun = mnoakun.idakun');
+        if ($this->perusahaan) {
+          $this->db->where('SaldoAwalHutang.perusahaan', $this->perusahaan);
+        }
+        if ($this->tanggalAwal) {
+          $this->db->where('SaldoAwalHutang.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
+        }
+        if ($this->kontak && $this->kontak !== 'semua') {
+          $this->db->like('SaldoAwalHutang.namaPemasok', $this->kontak);
+        }
+        return $this->db->get('SaldoAwalHutang')->result_array();
+        break;
+      case 'faktur':
+        $this->db->join('mkontak', 'tfaktur.kontakid = mkontak.id');
+        $this->db->join('mperusahaan', 'tfaktur.perusahaanid = mperusahaan.idperusahaan');
+        $this->db->join('tfakturdetail', 'tfaktur.id = tfakturdetail.idfaktur');
+        $this->db->join('tpemesanandetail', 'tfakturdetail.itemid = tpemesanandetail.id');
+        $this->db->join('tanggaranbelanjadetail', 'tpemesanandetail.itemid = tanggaranbelanjadetail.id');
+        $this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
+        $this->db->join('tpemesanan', 'tpemesanandetail.idpemesanan = tpemesanan.id');
+        $this->db->where('tpemesanan.cara_pembayaran', 'credit');
+        $this->db->where('tfaktur.sisatagihan >', 0);
+        if ($this->perusahaan) {
+          $this->db->where('tfaktur.perusahaanid', $this->perusahaan);
+        }
+        if ($this->tanggalAwal) {
+          $this->db->where('tfaktur.tanggal BETWEEN "' . $this->tanggalAwal . '" AND "' . $this->tanggalAkhir . '"');
+        }
+        if ($this->kontak && $this->kontak !== 'semua') {
+          $this->db->like('mkontak.nama', $this->kontak);
+        }
+        return $this->db->get('tfaktur')->result_array();
+        break;
+      
+      default:
+        # code...
+        break;
+    }
+  }
 }
 
