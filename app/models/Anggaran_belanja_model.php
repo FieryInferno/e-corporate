@@ -111,11 +111,13 @@ class Anggaran_belanja_model extends CI_Model
 	
 	public function get_by_id($id)
 	{
-		$this->db->select('tanggaranbelanjadetail.koderekening, mnoakun.namaakun, mitem.nama as namabarang, tanggaranbelanjadetail.jumlah as total, tanggaranbelanjadetail.volume, tanggaranbelanjadetail.tarif, tanggaranbelanjadetail.satuan');
+		$this->db->select('tanggaranbelanjadetail.koderekening, mnoakun.namaakun, mitem.nama as namabarang, tanggaranbelanjadetail.jumlah as total, tanggaranbelanjadetail.volume, tanggaranbelanjadetail.tarif, tanggaranbelanjadetail.satuan, mnoakun.akunno');
 		$this->db->join('tanggaranbelanjadetail', 'tanggaranbelanja.id = tanggaranbelanjadetail.idanggaran');
 		$this->db->join('mnoakun', 'tanggaranbelanjadetail.koderekening = mnoakun.idakun');
 		$this->db->join('mitem', 'tanggaranbelanjadetail.uraian = mitem.id');
-		$data	= $this->db->get('tanggaranbelanja')->result_array();
+		$data = $this->db->get_where('tanggaranbelanja', [
+      'tanggaranbelanja.id' => $id
+    ])->result_array();
 		$no		= 0;
 		for ($i=0; $i < count($data); $i++) {
 			$data[$i]['totalsemua']	= 0;

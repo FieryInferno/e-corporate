@@ -258,7 +258,7 @@ class Anggaran_belanja extends User_Controller
 	}
 	
 	public function printpdf($jenis = null, $id = null) {
-		$data['anggaranbelanja']	= $this->model->get_by_id($id);
+    $data['anggaranbelanja']	= $this->model->get_by_id($id);
 		switch ($jenis) {
 			case 'pdf':
 				$this->load->library('pdf');
