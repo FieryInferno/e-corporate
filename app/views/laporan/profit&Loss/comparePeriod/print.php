@@ -17,12 +17,12 @@
     <table class="table table-xs">
       <thead>
         <tr class="table-active">
-          <th class="text-center">Nomor Akun</th>
-          <th class="text-center">Description</th>
-          <th class="text-center"><?= $tanggalAwal; ?></th>
-          <th class="text-center"><?= $tanggalAkhir; ?></th>
-          <th class="text-center">Variance</th>
-          <th class="text-center">% Var.</th>
+          <th class="text-center" style="width: 15%;">Nomor Akun</th>
+          <th class="text-center" style="width: 20%;">Description</th>
+          <th class="text-center" style="width: 20%;"><?= $tanggalAwal; ?></th>
+          <th class="text-center" style="width: 20%;"><?= $tanggalAkhir; ?></th>
+          <th class="text-center" style="width: 15%;">Variance</th>
+          <th class="text-center" style="width: 10%;">% Var.</th>
         </tr>
       </thead>
       <tbody>
@@ -118,7 +118,7 @@
           foreach ($laporan as $key) { 
             if (substr($key['akunno'], 0, 1) == 5) { 
               $variance = (integer) $key['total'][1] - (integer) $key['total'][0]; 
-              if ($key['total'][0] !== 0) {
+              if ($key['total'][0] != 0) {
                 $var  = $variance / (integer) $key['total'][0] * 100;
               } else {
                 $var  = 100;
@@ -424,7 +424,14 @@
           <td class="font-weight-bold"><?= $totalIncome0 + $totalExpenses0; ?></td>
           <td class="font-weight-bold"><?= $totalIncome1 + $totalExpenses1; ?></td>
           <td class="font-weight-bold"><?= ($totalIncome1 + $totalExpenses1) - ($totalIncome0 + $totalExpenses0); ?></td>
-          <td class="font-weight-bold"><?= ($totalIncome1 + $totalExpenses1) - ($totalIncome0 + $totalExpenses0) / ($totalIncome0 + $totalExpenses0) * 100; ?></td>
+          <td class="font-weight-bold">
+            <?php 
+              if (($totalIncome0 + $totalExpenses0) == 0) {
+                ($totalIncome1 + $totalExpenses1) - ($totalIncome0 + $totalExpenses0) / 1 * 100;
+              } else {
+                ($totalIncome1 + $totalExpenses1) - ($totalIncome0 + $totalExpenses0) / ($totalIncome0 + $totalExpenses0) * 100;
+              }
+                ?></td>
         </tr>
       </tbody>
     </table>
