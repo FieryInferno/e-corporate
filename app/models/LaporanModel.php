@@ -277,4 +277,14 @@ class LaporanModel extends CI_Model {
     if ($this->tanggalAkhir) $this->db->where('tfakturpenjualan.tanggal <= ', $this->tanggalAkhir);
     return $this->db->get('tfakturpenjualan')->result_array();
   }
+
+  public function purchasePaymentDetail()
+  {
+    $this->db->select('tpemesanan.notrans as formNo, tpemesanan.tanggal as recvDate, mkontak.nama as namaRekanan, tfaktur.notrans as invoiceNo, tfaktur.tanggal as invoiceDate, tfaktur.total, mrekening.nama as rekening, tpemesanan.diskon');
+    $this->db->join('tpengiriman', 'tfaktur.pengirimanid = tpengiriman.id');
+    $this->db->join('tpemesanan', 'tpengiriman.pemesanan = tpemesanan.id');
+    $this->db->join('mkontak', 'tpemesanan.kontakid = mkontak.id');
+    $this->db->join('mrekening', 'tfaktur.bank = mrekening.id');
+    return $this->db->get('tfaktur')->result_array();
+  }
 }

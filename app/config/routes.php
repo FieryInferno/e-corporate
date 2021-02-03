@@ -73,6 +73,8 @@ $route['laporan_labarugi/multi_period']       = 'Laporan/labarugiMultiPeriod';
 
 $route['sales_receipts_detail']               = 'Laporan/salesReceiptsDetail';
 
+$route['purchase_payment_detail']             = 'Laporan/purchasePaymentDetail';
+
 $route['nomor_akun']                          = 'noakun';
 $route['nomor_akun/tambah']                   = 'noakun/tambah';
 $route['nomor_akun/edit/(:any)']              = 'noakun/edit/$1';
