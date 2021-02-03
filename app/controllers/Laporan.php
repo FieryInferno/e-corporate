@@ -488,6 +488,67 @@ class Laporan extends User_Controller {
 		}
   }
 
+  public function labarugiComparePeriod()
+  {
+    $data['title']		= 'Profit & Loss (Compare Period)';
+    if ($this->perusahaan) {
+      $data['laporan']      = $this->LaporanModel->labarugiComparePeriod();
+			$data['tanggalAwal']	= $this->tgl_indo($this->input->get('tanggalAwalPeriodeAwal')) . ' - ' . $this->tgl_indo($this->input->get('tanggalAkhirPeriodeAwal'));
+			$data['tanggalAkhir']	= $this->tgl_indo($this->input->get('tanggalAwalPeriodeAkhir')) . ' - ' . $this->tgl_indo($this->input->get('tanggalAkhirPeriodeAkhir'));
+      $data['perusahaan']   = $this->Perusahaan_model->get_by_id($this->perusahaan);
+			switch ($this->input->get('jenis')) {
+				case 'pdf':
+					$this->load->library('pdf');
+					$pdf            = $this->pdf;
+					$data['css']	  = file_get_contents(FCPATH.'assets/css/print.min.css');
+					$data			      = array_merge($data,path_info());
+					$html           = $this->load->view('laporan/profit&Loss/comparePeriod/print', $data, TRUE);
+					$pdf->loadHtml($html);
+					$pdf->setPaper('A4', 'landscape');
+					$pdf->render();
+					$time = time();
+					$pdf->stream("Profit & Loss (Compare Period)". $time, array("Attachment" => false));
+					break;
+				case 'excel':
+					$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Project List.xlsx');
+					$worksheet		= $spreadsheet->getActiveSheet();
+					$worksheet->getCell('A1')->setValue($data['perusahaan']['nama_perusahaan']);
+					$worksheet->getCell('A3')->setValue('From ' . $data['tanggalAwal'] . ' to ' . $data['tanggalAkhir']);
+					$no = 0;
+					$x	= 6;
+					foreach ($data['laporan'] as $key) {
+						$worksheet->getCell('A' . $x)->setValue($key['noEvent']);
+						$worksheet->getCell('B' . $x)->setValue($key['deskripsi']);
+						$worksheet->getCell('C' . $x)->setValue($key['region']);
+						$worksheet->getCell('D' . $x)->setValue($key['cabang']);
+						$worksheet->getCell('E' . $x)->setValue(number_format($key['totalPendapatan'],2,',','.'));
+						$worksheet->getCell('F' . $x)->setValue(number_format($key['totalHPP'],2,',','.'));
+						$worksheet->getCell('G' . $x)->setValue($key['kodeEvent']);
+						$worksheet->getCell('H' . $x)->setValue($key['kelompokUmur']);
+						$worksheet->getCell('I' . $x)->setValue($this->tgl_indo($key['tanggalMulai']));
+						$worksheet->getCell('J' . $x)->setValue($this->tgl_indo($key['tanggalSelesai']));
+					} 
+					$writer = new Xlsx($spreadsheet);
+					$filename = 'ProjectList';
+					
+					header('Content-Type: application/vnd.ms-excel');
+					header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
+					header('Cache-Control: max-age=0');
+			
+					$writer->save('php://output');
+					break;
+				
+				default:
+					# code...
+					break;
+			}
+		} else {
+			$data['content']	= 'laporan/profit&Loss/comparePeriod/index';
+			$data				      = array_merge($data,path_info());
+			$this->parser->parse('template',$data);
+		}
+  }
+
   public function salesReceiptsDetail()
   {
     $data['title']  = 'Sales Receipts Detail';
@@ -574,7 +635,7 @@ class Laporan extends User_Controller {
 					$pdf->setPaper('A4', 'portrait');
 					$pdf->render();
 					$time = time();
-					$pdf->stream("Sales Receipts Detail)". $time, array("Attachment" => false));
+					$pdf->stream("Purchase Payment Detail)". $time, array("Attachment" => false));
 					break;
 				case 'excel':
 					$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Project List.xlsx');
@@ -610,7 +671,7 @@ class Laporan extends User_Controller {
 					break;
 			}
 		} else {
-			$data['content']	= 'laporan/salesReceiptsDetail/index';
+			$data['content']	= 'laporan/purchasePaymentDetail/index';
 			$data				      = array_merge($data,path_info());
 			$this->parser->parse('template',$data);
 		}

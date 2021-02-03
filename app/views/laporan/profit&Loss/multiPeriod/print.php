@@ -89,7 +89,6 @@
                       # code...
                       break;
                   }
-                  $periode  = 0;
                   foreach ($key['total'] as $value) { ?>
                     <td><?= $value; ?></td>
                   <?php }
@@ -150,7 +149,6 @@
                       # code...
                       break;
                   }
-                  $periode  = 0;
                   foreach ($key['total'] as $value) { ?>
                     <td><?= $value; ?></td>
                   <?php }
@@ -211,7 +209,6 @@
                       # code...
                       break;
                   }
-                  $periode  = 0;
                   foreach ($key['total'] as $value) { ?>
                     <td><?= $value; ?></td>
                   <?php }
@@ -290,7 +287,6 @@
                       # code...
                       break;
                   }
-                  $periode  = 0;
                   foreach ($key['total'] as $value) { ?>
                     <td><?= $value; ?></td>
                   <?php }
@@ -351,7 +347,6 @@
                       # code...
                       break;
                   }
-                  $periode  = 0;
                   foreach ($key['total'] as $value) { ?>
                     <td><?= $value; ?></td>
                   <?php }

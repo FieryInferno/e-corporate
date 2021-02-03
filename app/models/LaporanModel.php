@@ -287,4 +287,63 @@ class LaporanModel extends CI_Model {
     $this->db->join('mrekening', 'tfaktur.bank = mrekening.id');
     return $this->db->get('tfaktur')->result_array();
   }
+  
+  public function labarugiComparePeriod()
+  {
+    $this->db->like('akunno', '4', 'after');
+    $this->db->or_like('akunno', '5', 'after');
+    $this->db->or_like('akunno', '6', 'after');
+    $this->db->or_like('akunno', '7', 'after');
+    $this->db->or_like('akunno', '8', 'after');
+    $this->db->or_like('akunno', '9', 'after');
+    $this->db->order_by('akunno', 'asc');
+    $noakun   = $this->db->get('mnoakun')->result_array();
+
+    $data     = [];
+    $no       = 0;
+    $tanggal  = [
+      0 => [
+        'tanggalAwal'   => $this->input->get('tanggalAwalPeriodeAwal'),
+        'tanggalAkhir'  => $this->input->get('tanggalAkhirPeriodeAwal')
+      ],
+      1 => [
+        'tanggalAwal'   => $this->input->get('tanggalAwalPeriodeAkhir'),
+        'tanggalAkhir'  => $this->input->get('tanggalAkhirPeriodeAkhir')
+      ],
+    ];
+
+    foreach ($noakun as $key) {
+      $data[$no]['akunno']    = $key['akunno'];
+      $data[$no]['namaakun']  = $key['namaakun'];
+      $data[$no]['total']     = []; 
+
+      for ($i=0; $i < 2; $i++) { 
+        $this->Jurnal_model->set('perusahaan', $this->perusahaan);
+        $this->Jurnal_model->set('tglMulai', $tanggal[$i]['tanggalAwal']);
+        $this->Jurnal_model->set('tglAkhir', $tanggal[$i]['tanggalAkhir']);
+        $jurnalUmum	= $this->Jurnal_model->get();
+        $total  = 0;
+        foreach ($jurnalUmum as $value) {
+          if (strpos($key['akunno'], $value['akunno']) !== FALSE) {
+            switch ($value['jenis']) {
+              case 'debit':
+                $total  += $value['total'];
+                break;
+              case 'kredit':
+                $total	-= $value['total'];
+                break;
+              
+              default:
+                $total	+= $value['totalDebit'];
+                $total	-= $value['totalKredit'];
+                break;
+            }
+          }
+        }
+        $data[$no]['total'][$i] = $total;
+      }
+      $no++;
+    }
+    return $data;
+  }
 }

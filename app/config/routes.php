@@ -70,6 +70,7 @@ $route['konfigurasi_penyusutan/edit/(:any)']  = 'Inventaris/editKonfigurasiPenyu
 
 $route['laporan_labarugi/standar']            = 'Laporan/labarugiStandar';
 $route['laporan_labarugi/multi_period']       = 'Laporan/labarugiMultiPeriod';
+$route['laporan_labarugi/compare_period']     = 'Laporan/labarugiComparePeriod';
 
 $route['sales_receipts_detail']               = 'Laporan/salesReceiptsDetail';
 

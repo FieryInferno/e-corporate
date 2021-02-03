@@ -17,7 +17,7 @@
       <div class="card">
         <div class="card-body">
           <div class="m-3">
-            <form action="{site_url}laporan_labarugi/standar" method="get">
+            <form action="{site_url}laporan_labarugi/compare_period" method="get">
               <div class="row">
                 <div class="col-md-4">
                   <div class="form-group">
@@ -38,8 +38,8 @@
                   <div class="row">
                     <div class="col-5">
                       <div class="form-group">
-                        <label>Tanggal Awal</label>
-                        <input type="date" class="form-control" name="tanggalAwal" required>
+                        <label>Periode Awal</label>
+                        <input type="date" class="form-control" name="tanggalAwalPeriodeAwal" required>
                       </div>
                     </div>
                     <div class="col-2">
@@ -50,8 +50,32 @@
                     </div>
                     <div class="col-5">
                       <div class="form-group">
-                        <label>Tanggal Akhir</label>
-                        <input type="date" class="form-control" name="tanggalAkhir" required>
+                        <label>&nbsp;</label>
+                        <input type="date" class="form-control" name="tanggalAkhirPeriodeAwal" required>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <div class="row">
+                    <div class="col-5">
+                      <div class="form-group">
+                        <label>Periode Akhir</label>
+                        <input type="date" class="form-control" name="tanggalAwalPeriodeAkhir" required>
+                      </div>
+                    </div>
+                    <div class="col-2">
+                      <div class="form-group">
+                        <label>&nbsp;</label>
+                        <input type="text" class="form-control" value="s/d" disabled>
+                      </div>
+                    </div>
+                    <div class="col-5">
+                      <div class="form-group">
+                        <label>&nbsp;</label>
+                        <input type="date" class="form-control" name="tanggalAkhirPeriodeAkhir" required>
                       </div>
                     </div>
                   </div>
