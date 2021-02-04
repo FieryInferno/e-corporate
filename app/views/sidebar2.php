@@ -321,7 +321,7 @@
               <i class="nav-icon fas fa-tachometer-alt"></i><p><?php echo lang('Stock_Opname') ?></p></a>
           </li>
 
-        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank', 'laporan_buku_pembantu_kas_kecil', 'outstanding_invoice', 'outstanding_payable', 'project_list', 'laporan_neraca_multi_period', 'laporan_labarugi', 'sales_receipts_detail', 'purchase_payment_detail'); ?>
+        <?php $menuLaporan = array('laporan_pembelian', 'laporan_penjualan', 'laporan_retur_pembelian', 'laporan_retur_penjualan', 'laporan_stok', 'laporan_stok_akhir_barang', 'laporan_kas_bank', 'laporan_buku_pembantu_kas_kecil', 'outstanding_invoice', 'outstanding_payable', 'project_list', 'laporan_neraca_multi_period', 'laporan_labarugi_standar', 'laporan_labarugi_multi_period', 'laporan_labarugi_compare_period', 'sales_receipts_detail', 'purchase_payment_detail'); ?>
         <li class="nav-item has-treeview  <?php echo menu_is_open($menuLaporan) ?>">
           <a href="#" class="nav-link
           <?php
@@ -427,52 +427,36 @@
               <a href="{site_url}laporan_neraca_standar" class="nav-link <?php echo menu_is_active('laporan_neraca_standar') ?>">
               <i class="far fa-circle nav-icon"></i><p>Laporan Neraca (Standard)</p></a>
             </li>  
-            <li class="nav-item">
-              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
-              <i class="far fa-circle nav-icon"></i><p>Aging Payable Details</p></a>
-            </li>      
-            <li class="nav-item">
-              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
-              <i class="far fa-circle nav-icon"></i><p>Aging Receivable Details</p></a>
-            </li>      
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="" class="nav-link <?php echo menu_is_active('') ?>">
               <i class="far fa-circle nav-icon"></i><p>Audit Trails Detail</p></a>
-            </li>      
-            <li class="nav-item">
+            </li>       -->
+            <!-- <li class="nav-item">
               <a href="" class="nav-link <?php echo menu_is_active('') ?>">
               <i class="far fa-circle nav-icon"></i><p>Cash Flow by Account</p></a>
-            </li>      
-            <li class="nav-item">
+            </li>       -->
+            <!-- <li class="nav-item">
               <a href="" class="nav-link <?php echo menu_is_active('') ?>">
               <i class="far fa-circle nav-icon"></i><p>Fixed Asset List - by Fixed Asset Type</p></a>
-            </li>      
-            <li class="nav-item">
+            </li>       -->
+            <!-- <li class="nav-item">
               <a href="" class="nav-link <?php echo menu_is_active('') ?>">
               <i class="far fa-circle nav-icon"></i><p>General Ledger Detail</p></a>
-            </li>        
-            <li class="nav-item">
-              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
-              <i class="far fa-circle nav-icon"></i><p>Outstanding Invoice</p></a>
-            </li>         
-            <li class="nav-item">
-              <a href="" class="nav-link <?php echo menu_is_active('') ?>">
-              <i class="far fa-circle nav-icon"></i><p>Outstanding Payable</p></a>
-            </li>      
+            </li>        -->
             <li class="nav-item">
               <a href="" class="nav-link <?php echo menu_is_active('') ?>">
               <i class="far fa-circle nav-icon"></i><p>Profit & Loss by Department</p></a>
             </li>      
             <li class="nav-item">
-              <a href="{site_url}laporan_labarugi/compare_period" class="nav-link <?php echo menu_is_active('laporan_labarugi') ?>">
+              <a href="{site_url}laporan_labarugi/compare_period" class="nav-link <?php echo menu_is_active('laporan_labarugi_compare_period') ?>">
               <i class="far fa-circle nav-icon"></i><p>Profit & Loss (Compare Period)</p></a>
             </li>      
             <li class="nav-item">
-              <a href="{site_url}laporan_labarugi/multi_period" class="nav-link <?php echo menu_is_active('laporan_labarugi') ?>">
+              <a href="{site_url}laporan_labarugi/multi_period" class="nav-link <?php echo menu_is_active('laporan_labarugi_multi_period') ?>">
               <i class="far fa-circle nav-icon"></i><p>Profit & Loss (Multi Period)</p></a>
             </li>      
             <li class="nav-item">
-              <a href="{site_url}laporan_labarugi/standar" class="nav-link <?php echo menu_is_active('laporan_labarugi') ?>">
+              <a href="{site_url}laporan_labarugi/standar" class="nav-link <?php echo menu_is_active('laporan_labarugi_standar') ?>">
               <i class="far fa-circle nav-icon"></i><p>Profit & Loss (Standard)</p></a>
             </li>         
             <li class="nav-item">
@@ -483,10 +467,10 @@
               <a href="{site_url}sales_receipts_detail" class="nav-link <?php echo menu_is_active('sales_receipts_detail') ?>">
               <i class="far fa-circle nav-icon"></i><p>Sales Receipts Detail</p></a>
             </li>      
-            <li class="nav-item">
+            <!-- <li class="nav-item">
               <a href="" class="nav-link <?php echo menu_is_active('') ?>">
               <i class="far fa-circle nav-icon"></i><p>Trial Balance</p></a>
-            </li>      
+            </li>       -->
           </ul>
         </li>	
 
