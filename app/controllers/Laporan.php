@@ -574,26 +574,33 @@ class Laporan extends User_Controller {
 					$pdf->stream("Sales Receipts Detail)". $time, array("Attachment" => false));
 					break;
 				case 'excel':
-					$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Project List.xlsx');
+					$spreadsheet	= \PhpOffice\PhpSpreadsheet\IOFactory::load('assets/Sales Receipts Detail.xlsx');
 					$worksheet		= $spreadsheet->getActiveSheet();
 					$worksheet->getCell('A1')->setValue($data['perusahaan']['nama_perusahaan']);
 					$worksheet->getCell('A3')->setValue('From ' . $data['tanggalAwal'] . ' to ' . $data['tanggalAkhir']);
 					$no = 0;
-					$x	= 6;
-					foreach ($data['laporan'] as $key) {
-						$worksheet->getCell('A' . $x)->setValue($key['noEvent']);
-						$worksheet->getCell('B' . $x)->setValue($key['deskripsi']);
-						$worksheet->getCell('C' . $x)->setValue($key['region']);
-						$worksheet->getCell('D' . $x)->setValue($key['cabang']);
-						$worksheet->getCell('E' . $x)->setValue(number_format($key['totalPendapatan'],2,',','.'));
-						$worksheet->getCell('F' . $x)->setValue(number_format($key['totalHPP'],2,',','.'));
-						$worksheet->getCell('G' . $x)->setValue($key['kodeEvent']);
-						$worksheet->getCell('H' . $x)->setValue($key['kelompokUmur']);
-						$worksheet->getCell('I' . $x)->setValue($this->tgl_indo($key['tanggalMulai']));
-						$worksheet->getCell('J' . $x)->setValue($this->tgl_indo($key['tanggalSelesai']));
-					} 
-					$writer = new Xlsx($spreadsheet);
-					$filename = 'ProjectList';
+          $x	= 7;
+          $styleArray   = ['font' => ['bold'  => true]];
+          $styleArray0  = ['alignment' => ['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_RIGHT]];
+          foreach ($laporan as $key) {
+            $worksheet->getCell('A' . $x)->setValue('');
+            $x++;
+            $worksheet->getCell('A' . $x)->setValue($key['formNo']);
+            $worksheet->getCell('B' . $x)->setValue($key['recvDate']);
+            $worksheet->mergeCells('C' . $x . ':' . 'D' . $x);
+            $worksheet->getCell('C' . $x)->setValue($key['recvDate']);
+            $worksheet->getCell('E' . $x)->setValue($key['namaCustomer']);
+            $worksheet->getStyle('A' . $x . ':' . 'E' . $x)->applyFromArray($styleArray);
+            $x++;
+            $worksheet->getCell('A' . $x)->setValue($key['invoiceNo']);
+            $worksheet->getCell('B' . $x)->setValue($key['invoiceDate']);
+            $worksheet->getCell('C' . $x)->setValue($key['total']);
+            $worksheet->getCell('D' . $x)->setValue($key['total']);
+            $worksheet->getCell('E' . $x)->setValue($key['diskon']);
+            $worksheet->getStyle('A' . $x . ':' . 'E' . $x)->applyFromArray($styleArray0);
+          }
+					$writer   = new Xlsx($spreadsheet);
+					$filename = 'SalesReceiptsDetail';
 					
 					header('Content-Type: application/vnd.ms-excel');
 					header('Content-Disposition: attachment;filename="'. $filename .'.xlsx"'); 
