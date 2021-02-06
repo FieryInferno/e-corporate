@@ -47,14 +47,12 @@
               <td class="text-right"></td>
             </tr>
             <tr>
-              <td colspan="5">
-                <td class="text-right"></td>
-                <td class="text-right"></td>
-                <td class="text-right text-primary"><?= $key['total']; ?></td>
-                <td class="text-right text-primary"><?= $key['total']; ?></td>
-                <td class="text-right text-primary"><?= $key['diskon']; ?></td>
-                <td class="text-right"></td>
-              </td>
+              <td class="text-right"></td>
+              <td class="text-right"></td>
+              <td class="text-right text-primary"><?= $key['total']; ?></td>
+              <td class="text-right text-primary"><?= $key['total']; ?></td>
+              <td class="text-right text-primary"><?= $key['diskon']; ?></td>
+              <td class="text-right"></td>
             </tr>
           <?php }
         ?>
